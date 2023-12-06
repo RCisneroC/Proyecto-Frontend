@@ -1,0 +1,36 @@
+{
+  "HEADER":{
+    "SEARCH": {
+      "TEXT": "Buscar.."
+    }
+  },
+  "MENUITEMS": {
+    "USER":{
+      "POST": "Gerente"
+    },
+    "MAIN": {
+      "TEXT": "Principal"
+    },
+    "DASHBOARD": {
+      "TEXT": "Home",
+      "LIST": {
+        "DASHBOARD1": "Dashboard"
+      }
+    },
+    "ADMISSION": {
+      "TEXT": "Admisión"
+    },
+    "ENROLLMENT": {
+      "TEXT": "Matrícula"
+    },
+    "INTRANETACADEMICREGISTRATION": {
+      "TEXT": "Intranet y Registro Académico"
+    },
+    "TEACHINGMANAGEMENT": {
+      "TEXT": "Gestión Docente"
+    },
+    "VIRTUALLEARNING": {
+      "TEXT": "Aprendizaje Virtual"
+    }
+  }
+}
