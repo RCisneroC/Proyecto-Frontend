@@ -13,7 +13,7 @@ import { User } from '../models/user';
 
 const users: User[] = [
   {
-    id: 1,
+    id: "2",
     img: 'assets/images/user/admin.jpg',
     username: 'admin@software.com',
     password: 'admin@123',
@@ -66,7 +66,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // helper functions
 
     function ok(body?: {
-      id: number;
+      id: string;
       img: string;
       username: string;
       firstName: string;

@@ -4,11 +4,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { RoleListComponent } from './role/role-list/role-list.component';
 
 const routes: Routes = [
-  {
-    path: "",
-    redirectTo: "user-list",
-    pathMatch: "full",
-  },
+
   {
     path: "user-list",
     component: UserListComponent,

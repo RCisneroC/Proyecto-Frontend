@@ -1,16 +1,22 @@
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
+
+
+import { SelectionModel, DataSource } from '@angular/cdk/collections';
+
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Role } from 'app/security/models/role';
-import { RoleService } from './services/role.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 
+import { RoleService } from './services/role.service';
+import { Role } from 'app/security/models/role';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { Direction } from '@angular/cdk/bidi';
+import { RoleFormComponent } from '../role-form/role-form.component';
+
 
 
 @Component({
@@ -18,18 +24,19 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
   templateUrl: './role-list.component.html',
   styleUrls: ['./role-list.component.scss']
 })
-export class RoleListComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit {
+export class RoleListComponent  extends UnsubscribeOnDestroyAdapter
+implements OnInit{
 
   displayedColumns = [
     'select',
     'name',
     'actions',
   ];
-  dataRole?: RoleService;
+  
+  exampleDatabase?: RoleService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Role>(true, []);
-  id?: number;
+  id?: string;
   role?: Role;
 
   constructor(
@@ -53,72 +60,72 @@ implements OnInit {
     this.loadData();
   }
   addNew() {
-    //let tempDirection: Direction;
-    // if (localStorage.getItem('isRtl') === 'true') {
-    //   tempDirection = 'rtl';
-    // } else {
-    //   tempDirection = 'ltr';
-    // }
-    // const dialogRef = this.dialog.open(FormDialogComponent, {
-    //   data: {
-    //     advanceTable: this.advanceTable,
-    //     action: 'add',
-    //   },
-    //   direction: tempDirection,
-    // });
-    // this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-    //   if (result === 1) {
-    //     // After dialog is closed we're doing frontend updates
-    //     // For add we're just pushing a new row inside DataService
-    //     this.dataRole?.dataChange.value.unshift(
-    //       this.roleService.getDialogData()
-    //     );
-    //     this.refreshTable();
-    //     this.showNotification(
-    //       'snackbar-success',
-    //       'Add Record Successfully...!!!',
-    //       'bottom',
-    //       'center'
-    //     );
-    //   }
-    // });
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(RoleFormComponent, {
+      data: {
+        role: this.role,
+        action: 'add',
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.exampleDatabase?.dataChange.value.unshift(
+          this.roleService.getDialogData()
+        );
+        this.refreshTable();
+        this.showNotification(
+          'snackbar-success',
+          'Registro creado exitosamente...!!!',
+          'bottom',
+          'center'
+        );
+      }
+    });
   }
   editCall(row: Role) {
-     this.id = row.id;
-    // let tempDirection: Direction;
-    // if (localStorage.getItem('isRtl') === 'true') {
-    //   tempDirection = 'rtl';
-    // } else {
-    //   tempDirection = 'ltr';
-    // }
-    // const dialogRef = this.dialog.open(FormDialogComponent, {
-    //   data: {
-    //     advanceTable: row,
-    //     action: 'edit',
-    //   },
-    //   direction: tempDirection,
-    // });
-    // this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-    //   if (result === 1) {
-    //     // When using an edit things are little different, firstly we find record inside DataService by id
-    //     const foundIndex = this.dataRole?.dataChange.value.findIndex(
-    //       (x) => x.id === this.id
-    //     );
-    //     // Then you update that record using data from dialogData (values you enetered)
-    //     if (foundIndex != null && this.dataRole) {
-    //       this.dataRole.dataChange.value[foundIndex] =
-    //         this.roleService.getDialogData();
-    //       // And lastly refresh table
-    //       this.refreshTable();
-    //       this.showNotification(
-    //         'black',
-    //         'Edit Record Successfully...!!!',
-    //         'bottom',
-    //         'center'
-    //       );
-    //     }
-    //   }
-    // });
+    this.id = row.id;
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(RoleFormComponent, {
+      data: {
+        role: row,
+        action: 'edit',
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        // Then you update that record using data from dialogData (values you enetered)
+        if (foundIndex != null && this.exampleDatabase) {
+          this.exampleDatabase.dataChange.value[foundIndex] =
+            this.roleService.getDialogData();
+          // And lastly refresh table
+          this.refreshTable();
+          this.showNotification(
+            'black',
+            'Registro editado exitosamente...!!!',
+            'bottom',
+            'center'
+          );
+        }
+      }
+    });
   }
   deleteItem(row: Role) {
     this.id = row.id;
@@ -134,12 +141,12 @@ implements OnInit {
     // });
     // this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
     //   if (result === 1) {
-    //     const foundIndex = this.dataRole?.dataChange.value.findIndex(
+    //     const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
     //       (x) => x.id === this.id
     //     );
     //     // for delete we use splice in order to remove single object from DataService
-    //     if (foundIndex != null && this.dataRole) {
-    //       this.dataRole.dataChange.value.splice(foundIndex, 1);
+    //     if (foundIndex != null && this.exampleDatabase) {
+    //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
     //       this.refreshTable();
     //       this.showNotification(
     //         'snackbar-danger',
@@ -170,27 +177,27 @@ implements OnInit {
         );
   }
   removeSelectedRows() {
-    // const totalSelect = this.selection.selected.length;
-    // this.selection.selected.forEach((item) => {
-    //   const index: number = this.dataSource.renderedData.findIndex(
-    //     (d) => d === item
-    //   );
-    //   // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
-    //   this.dataRole?.dataChange.value.splice(index, 1);
-    //   this.refreshTable();
-    //   this.selection = new SelectionModel<Role>(true, []);
-    // });
-    // this.showNotification(
-    //   'snackbar-danger',
-    //   totalSelect + ' Record Delete Successfully...!!!',
-    //   'bottom',
-    //   'center'
-    // );
+    const totalSelect = this.selection.selected.length;
+    this.selection.selected.forEach((item) => {
+      const index: number = this.dataSource.renderedData.findIndex(
+        (d) => d === item
+      );
+      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      this.exampleDatabase?.dataChange.value.splice(index, 1);
+      this.refreshTable();
+      this.selection = new SelectionModel<Role>(true, []);
+    });
+    this.showNotification(
+      'snackbar-danger',
+      totalSelect + ' Record Delete Successfully...!!!',
+      'bottom',
+      'center'
+    );
   }
   public loadData() {
-    this.dataRole = new RoleService(this.httpClient);
+    this.exampleDatabase = new RoleService(this.httpClient);
     this.dataSource = new ExampleDataSource(
-      this.dataRole,
+      this.exampleDatabase,
       this.paginator,
       this.sort
     );
@@ -222,9 +229,8 @@ implements OnInit {
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-
-        'Role': x.name,
-      
+        'First Name': x.name,
+       
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -253,7 +259,7 @@ export class ExampleDataSource extends DataSource<Role> {
   filteredData: Role[] = [];
   renderedData: Role[] = [];
   constructor(
-    public dataRole:RoleService,
+    public exampleDatabase: RoleService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -265,22 +271,21 @@ export class ExampleDataSource extends DataSource<Role> {
   connect(): Observable<Role[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.dataRole.dataChange,
+      this.exampleDatabase.dataChange,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.dataRole.getAllAdvanceTables();
+    this.exampleDatabase.getAllAdvanceTables();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.dataRole.data
+        this.filteredData = this.exampleDatabase.data
           .slice()
           .filter((advanceTable: Role) => {
             const searchStr = (
-              advanceTable.id +
-              advanceTable.name
-             
+              advanceTable.name 
+              
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -314,7 +319,7 @@ export class ExampleDataSource extends DataSource<Role> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-       
+      
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
@@ -324,5 +329,3 @@ export class ExampleDataSource extends DataSource<Role> {
     });
   }
 }
-
-

@@ -1,0 +1,25 @@
+[
+  {
+    "id":"001",
+    "username":"rcisnerocoronado@gmail.com",
+    "firstName":"Ricardo",
+    "lastName":"Cisnero"
+
+  },
+  
+  {
+    "id":"002",
+    "username":"conrado@gmail.com",
+    "firstName":"conrado",
+    "lastName":"de la trinidad"
+
+  },
+  {
+    "id":"003",
+    "username":"rummi@gmail.com",
+    "firstName":"rummi",
+    "lastName":"de tobago"
+
+  }
+ 
+]
