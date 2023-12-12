@@ -8,9 +8,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgChartsModule } from 'ng2-charts';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { SharedModule } from '@shared';
+import {SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RoleService } from './role/role-list/services/role.service';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -29,6 +31,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-  ]
+    MatIconModule
+   
+  ],
+  providers: [RoleService]
 })
 export class SecurityModule { }
