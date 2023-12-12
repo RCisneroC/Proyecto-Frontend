@@ -28,6 +28,7 @@ implements OnInit {
     'username',
     'firstName',
     'lastName',
+    'rol',
     'actions'
   ];
   
@@ -98,7 +99,7 @@ implements OnInit {
     }
     const dialogRef = this.dialog.open(UserFormComponent, {
       data: {
-        role: row,
+        user: row,
         action: 'edit',
       },
       direction: tempDirection,

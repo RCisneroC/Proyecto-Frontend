@@ -22,14 +22,13 @@ export class UserFormComponent {
   constructor(
     public dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public roleService: UserService,
+    public userService: UserService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle =
-        data.user.username;
+      this.dialogTitle ="Editar usuario";
       this.user = data.user;
     } else {
       this.dialogTitle = 'Crear usuario';
@@ -65,7 +64,7 @@ export class UserFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.roleService.addAdvanceTable(
+    this.userService.addAdvanceTable(
       this.userForm.getRawValue()
     );
   }
