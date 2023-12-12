@@ -24,8 +24,10 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
+    // username="admin@admin.com";
+    // password= "Panama2023$";
     return this.http
-      .post<User>(`${environment.apiUrl}/authenticate`, {
+      .post<User>(`${environment.apiUrl}/account/Login`, {
         username,
         password,
       })
@@ -36,11 +38,13 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
           return user;
+          
         })
       );
   }
 
   logout() {
+    
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(this.currentUserValue);

@@ -41,6 +41,12 @@ const routes: Routes = [
         loadChildren: () =>
           import('./virtual-learning/virtual-learning.module').then((m) => m.VirtualLearningModule),
       },
+      
+      {
+        path: 'security',
+        loadChildren: () =>
+          import('./security/security-routing.module').then((m) => m.SecurityRoutingModule),
+      },
 
     ],
   },

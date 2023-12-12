@@ -26,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
         title: "MENUITEMS.DASHBOARD.LIST.DASHBOARD1",
         iconType: "",
         icon: "user-check",
-        class: "ml-menu",
+        class: "",
         groupTitle: false,
         badge: "",
         badgeClass: "",
@@ -58,17 +58,17 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     submenu: []
   },
-  {
-    path: "",
-    title: "MENUITEMS.INTRANETACADEMICREGISTRATION.TEXT",
-    iconType: "feather",
-    icon: "user-check",
-    class: "menu-toggle",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    submenu: []
-  },
+  // {
+  //   path: "",
+  //   title: "MENUITEMS.INTRANETACADEMICREGISTRATION.TEXT",
+  //   iconType: "feather",
+  //   icon: "user-check",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: []
+  // },
   {
     path: "",
     title: "MENUITEMS.TEACHINGMANAGEMENT.TEXT",
@@ -80,16 +80,51 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     submenu: []
   },
+  // {
+  //   path: "",
+  //   title: "MENUITEMS.VIRTUALLEARNING.TEXT",
+  //   iconType: "feather",
+  //   icon: "user-check",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: []
+  
+  // },
   {
     path: "",
-    title: "MENUITEMS.VIRTUALLEARNING.TEXT",
+    title: "Seguridad",
     iconType: "feather",
     icon: "user-check",
     class: "menu-toggle",
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    submenu: []
+    submenu: [
+      {
+        path: "security/user-list",
+        title: "Usuario",
+        iconType: "",
+        icon: "",
+        class: "",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: [],
+      },
+      {
+        path: "security/role-list",
+        title: "Rol",
+        iconType: "",
+        icon: "",
+        class: "",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: [],
+      },
+    ]
   
   }
 ];
