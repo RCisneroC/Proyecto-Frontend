@@ -2,14 +2,14 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Blank'" [items]="['Home','Extra']" [active_item]="'Blank'">
+      <app-breadcrumb [title]="'Usuario'" [items]="['Home','Seguridad']" [active_item]="'Usuario'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2><strong>Blank</strong> Page</h2>
+            <h2><strong>Listado de usuarios</strong></h2>
           </div>
           <div class="body">
               <div class="row">
@@ -19,11 +19,11 @@
                         <div class="left">
                           <ul class="header-buttons-left ms-0">
                             <li class="tbl-title">
-                              <h2>Listado de Usuarios</h2>
+                              <h2>Usuarios</h2>
                             </li>
                             <li class="tbl-search-box">
                               <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                              <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                              <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
                                 aria-label="Search box">
                             </li>
                           </ul>
@@ -78,29 +78,22 @@
                               </mat-cell>
                             </ng-container>
                             <!-- ID Column -->
-                            <ng-container matColumnDef="id">
+                            <!-- <ng-container matColumnDef="id">
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                              <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
-                            </ng-container>
+                              <mat-cell *matCellDef="let row">{{row.userId}}</mat-cell>
+                            </ng-container> -->
                           
-                            <ng-container matColumnDef="username">
+                            <ng-container matColumnDef="userName">
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Usuario
                               </mat-header-cell>
                               <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                                <span class="mobile-label">Uusario:</span>{{row.username}}</mat-cell>
+                                <span class="mobile-label">Uusario:</span>{{row.userName}}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="firstName">
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                               </mat-header-cell>
                               <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                                 <span class="mobile-label">Nombre:</span>{{row.firstName}}</mat-cell>
-                            </ng-container>
-                            
-                            <ng-container matColumnDef="rol">
-                              <mat-header-cell *matHeaderCellDef mat-sort-header>rol
-                              </mat-header-cell>
-                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                                <span class="mobile-label">rol:</span>{{row.rol}}</mat-cell>
                             </ng-container>
                            
                             <ng-container matColumnDef="lastName">
@@ -109,7 +102,47 @@
                               <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                                 <span class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
                             </ng-container>
+                            
+                            <ng-container matColumnDef="email">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Email
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                <span class="mobile-label">Email:</span>{{row.email}}</mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="phoneNumber">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                <span class="mobile-label">Telefono:</span>{{row.phoneNumber}}</mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="createdDate">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Creacion
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                <span class="mobile-label">Fecha de Creacion:</span>{{row.createdDate | date:'dd/M/yyyy'}}</mat-cell>
+                            </ng-container>
+                            
+                            
+                            <ng-container matColumnDef="roles">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Rol
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                            <ng-container *ngFor="let r of row.roles">
+                              <br> <mat-chip color="primary" selected>{{row.roles}}</mat-chip>
+                          
+                            </ng-container>
+                           </mat-cell>
+                            </ng-container>
                            
+                           
+                            <ng-container matColumnDef="status">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                <span class="mobile-label">Estatus:</span>{{row.status ===true?'Activo':'Inactivo'}}</mat-cell>
+                            </ng-container>
                            
                             <!-- actions -->
                             <ng-container matColumnDef="actions">

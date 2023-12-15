@@ -2,14 +2,14 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Blank'" [items]="['Home','Extra']" [active_item]="'Blank'">
+        <app-breadcrumb [title]="'Rol'" [items]="['Home','Seguridad']" [active_item]="'Rol'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Blank</strong> Page</h2>
+              <h2><strong>Listado de roles</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -19,11 +19,11 @@
                           <div class="left">
                             <ul class="header-buttons-left ms-0">
                               <li class="tbl-title">
-                                <h2>Listado de Roles</h2>
+                                <h2>Roles</h2>
                               </li>
                               <li class="tbl-search-box">
                                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                                <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                                <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
                                   aria-label="Search box">
                               </li>
                             </ul>
@@ -92,7 +92,7 @@
                              
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
-                                <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                                <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                   <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                                     class="tbl-action-btn">

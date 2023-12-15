@@ -13,15 +13,23 @@ import { User } from '../models/user';
 
 const users: User[] = [
   {
+
     id: "2",
     img: 'assets/images/user/admin.jpg',
-    username: 'admin@software.com',
-    password: 'admin@123',
+    userName: 'admin@admin.com',
+    password: 'Panama2023$',
     firstName: 'Sarah',
     lastName: 'Smith',
-    token: 'admin-token',
+    emailConfirm:false,
+    email:"rcisnero@gmail.com",
+    status:true,
+    phoneNumber:null,
+    createdDate:"2023-12-13T14:52:26.6536691",
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJleHAiOjE3MDI0OTY5MzMsImlzcyI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSIsImF1ZCI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSJ9.dE4avVEmXCL2AL3V0isQALnr2iQHt5GyuRxrX6okPJs',
+    roles: []
   },
 ];
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -46,9 +54,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // route functions
 
     function authenticate() {
-      const { username, password } = body;
+      const { userName, password } = body;
       const user = users.find(
-        (x) => x.username === username && x.password === password
+        (x) => x.userName === userName && x.password === password
       );
       if (!user) {
         return error('El nombre de usuario o la contraseña son incorrectos');
@@ -56,7 +64,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok({
         id: user.id,
         img: user.img,
-        username: user.username,
+        password: user.password,
+        userName: user.userName,
         firstName: user.firstName,
         lastName: user.lastName,
         token: user.token,
@@ -68,7 +77,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function ok(body?: {
       id: string;
       img: string;
-      username: string;
+      password: string,
+      userName: string;
       firstName: string;
       lastName: string;
       token: string;

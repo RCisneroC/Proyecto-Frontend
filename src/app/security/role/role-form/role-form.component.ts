@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Role } from 'app/security/models/role';
-import { RoleService } from '../role-list/services/role.service';
+import { RoleService } from '../services/role.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -68,7 +68,7 @@ export class RoleFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.roleService.addAdvanceTable(
+    this.roleService.addRole(
       this.roleForm.getRawValue()
     );
   }

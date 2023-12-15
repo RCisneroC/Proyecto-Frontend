@@ -11,7 +11,7 @@ import { MatSnackBar, MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition
 import { MatSort } from '@angular/material/sort';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 
-import { RoleService } from './services/role.service';
+import { RoleService } from '../services/role.service';
 import { Role } from 'app/security/models/role';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
@@ -276,17 +276,14 @@ export class ExampleDataSource extends DataSource<Role> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllAdvanceTables();
+    this.exampleDatabase.getAllRols();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
           .filter((advanceTable: Role) => {
-            const searchStr = (
-              advanceTable.name 
-              
-            ).toLowerCase();
+            const searchStr = (advanceTable.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

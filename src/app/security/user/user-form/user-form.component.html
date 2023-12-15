@@ -18,7 +18,7 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Usuario</mat-label>
-              <input matInput formControlName="username" >
+              <input matInput formControlName="userName" >
               <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             
             </mat-form-field>
@@ -48,7 +48,16 @@
                 </mat-form-field>
               </div>
               
-            
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Contraseña</mat-label>
+                  <input matInput formControlName="password">
+                  <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                  <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+                    La contraseña es requerida
+                  </mat-error>
+                </mat-form-field>
+              </div>
            
           </div>
           <div class=" col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -71,7 +80,7 @@
                 
               </mat-select>
               <mat-error *ngIf="userForm.get('rol')?.hasError('required')">
-                Country Name is required
+                el rol es requerido
               </mat-error>
             </mat-form-field>
           </div>
@@ -79,8 +88,8 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
               <div class="example-button-row">
                 <button mat-raised-button color="primary" [disabled]="!userForm.valid" [mat-dialog-close]="1"
-                  (click)="confirmAdd()">Save</button>
-                <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
+                  (click)="confirmAdd()">Guardar</button>
+                <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
               </div>
             </div>
           </div>

@@ -51,9 +51,11 @@ export class UserFormComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.user.id],
-      username: [this.user.username, [Validators.required]],
+      userName: [this.user.userName, [Validators.required]],
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName, [Validators.required]],
+      password:[this.user.password, [Validators.required]],
+      rol:[[], [Validators.required]],
       
     });
   }
@@ -64,7 +66,7 @@ export class UserFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.userService.addAdvanceTable(
+    this.userService.addUser(
       this.userForm.getRawValue()
     );
   }

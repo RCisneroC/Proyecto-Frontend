@@ -24,13 +24,26 @@ implements OnInit {
 
   displayedColumns = [
     'select',
-    'id',
-    'username',
+    'userName',
     'firstName',
     'lastName',
-    'rol',
+    'email',
+    'phoneNumber',
+    'roles',
+    'status',
+    'createdDate',
     'actions'
   ];
+  
+  // "userId": "97891a86-830d-4432-932f-6377618adfeb",
+  // "firstName": "test1",
+  // "lastName": "test1",
+  // "email": "test1@test1.com",
+  // "phoneNumber": null,
+  // "userName": "test1@test1.com",
+  // "emailConfirmed": false,
+  // "createdDate": "2023-12-13T14:52:26.6536691",
+  // "roles": []
   
   exampleDatabase?: UserService;
   dataSource!: ExampleDataSource;
@@ -228,7 +241,7 @@ implements OnInit {
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.username,
+        'Username': x.userName,
        
       }));
 
@@ -258,7 +271,7 @@ export class ExampleDataSource extends DataSource<User> {
   filteredData: User[] = [];
   renderedData: User[] = [];
   constructor(
-    public exampleDatabase: UserService,
+    public userService: UserService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -270,20 +283,20 @@ export class ExampleDataSource extends DataSource<User> {
   connect(): Observable<User[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChange,
+      this.userService.dataChange,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllAdvanceTables();
+    this.userService.getAllUsers();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.exampleDatabase.data
+        this.filteredData = this.userService.data
           .slice()
           .filter((user: User) => {
             const searchStr = (
-              user.username 
+              user.userName 
               
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -315,8 +328,8 @@ export class ExampleDataSource extends DataSource<User> {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'username':
-          [propertyA, propertyB] = [a.username, b.username];
+        case 'userName':
+          [propertyA, propertyB] = [a.userName, b.userName];
           break;
       
       }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1',
+  apiUrl:'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',
 };
 
 /*

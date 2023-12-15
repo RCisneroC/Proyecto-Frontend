@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.development';
+
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +24,12 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string) {
-    // username="admin@admin.com";
-    // password= "Panama2023$";
+  login(userName: string, password: string) {
+     userName="admin@admin.com";
+     password= "Panama2023$";
     return this.http
-      .post<User>(`${environment.apiUrl}/account/Login`, {
-        username,
+      .post<User>(`${environment.apiUrl+'Login'}`, {
+        userName,
         password,
       })
       .pipe(

@@ -1,25 +1,44 @@
 [
   {
-    "id":"001",
-    "username":"rcisnerocoronado@gmail.com",
-    "firstName":"Ricardo",
-    "lastName":"Cisnero"
+ 
+            "id": "97891a86-830d-4432-932f-6377618adfeb",
+            "firstName": "test1",
+            "lastName": "test1",
+            "email": "test1@test1.com",
+            "phoneNumber": "04248772488",
+            "userName": "test1@test1.com",
+            "emailConfirmed": false,
+            "status": true,
+            "createdDate": "2023-12-13T14:52:26.6536691",
+            "roles": ["estudiante","administrador"]
 
   },
   
   {
-    "id":"002",
-    "username":"conrado@gmail.com",
-    "firstName":"conrado",
-    "lastName":"de la trinidad"
-
+    "id": "97891a86-830d-4432-932f-6377618adfeb",
+    "firstName": "test1",
+    "lastName": "test1",
+    "email": "test1@test1.com",
+    "phoneNumber": null,
+    "userName": "test1@test1.com",
+    "emailConfirmed": false,
+    "status": true,
+    "createdDate": "2023-12-13T14:52:26.6536691",
+    "roles": []
   },
   {
-    "id":"003",
-    "username":"rummi@gmail.com",
-    "firstName":"rummi",
-    "lastName":"de tobago"
-
+    "id": "97891a86-830d-4432-932f-6377618adfeb",
+    "firstName": "test1",
+    "lastName": "test1",
+    "email": "test1@test1.com",
+    "phoneNumber": null,
+    "userName": "test1@test1.com",
+    "emailConfirmed": false,
+    "status": true,
+    "createdDate": "2023-12-13T14:52:26.6536691",
+    "roles": []
   }
  
 ]
+
+

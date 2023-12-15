@@ -2,6 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { environment } from 'environments/environment.development';
+
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -9,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService extends UnsubscribeOnDestroyAdapter {
 
-  private readonly API_URL = 'assets/data/dataUser.json';
+  //private readonly API_URL = 'assets/data/dataUser.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<User[]> = new BehaviorSubject<
     User[]
@@ -26,9 +28,9 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllAdvanceTables(): void {
+  getAllUsers(): void {
     this.subs.sink = this.httpClient
-      .get<User[]>(this.API_URL)
+      .get<User[]>(environment.apiUrl+'GetAllUsers')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -40,20 +42,20 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  addAdvanceTable(user: User): void {
+  addUser(user: User): void {
     this.dialogData = user;
 
-    // this.httpClient.post(this.API_URL, advanceTable)
+    // this.httpClient.post(environment.apiUrl+'Register', user)
     //   .subscribe({
     //     next: (data) => {
-    //       this.dialogData = advanceTable;
+    //       this.dialogData = user;
     //     },
     //     error: (error: HttpErrorResponse) => {
     //        // error code here
     //     },
     //   });
   }
-  updateAdvanceTable(user: User): void {
+  updateUser(user: User): void {
     this.dialogData = user;
 
     // this.httpClient.put(this.API_URL + advanceTable.id, advanceTable)
@@ -66,7 +68,7 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
     //       },
     //     });
   }
-  deleteAdvanceTable(id: number): void {
+  deleteUser(id: number): void {
     console.log(id);
 
     // this.httpClient.delete(this.API_URL + id)

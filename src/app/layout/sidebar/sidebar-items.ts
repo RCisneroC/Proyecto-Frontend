@@ -45,7 +45,42 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    submenu: []
+    submenu: [
+    {
+      path: "admission/",
+      title: "Cronograma de actividades",
+      iconType: "",
+      icon: "",
+      class: "",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: []
+    },
+    {
+      path: "admission/",
+      title: "Maestros",
+      iconType: "",
+      icon: "",
+      class: "",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/",
+          title: "Tipo Matricula",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        }
+      ]
+    }
+    ]
   },
   {
     path: "",
