@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Role } from 'app/security/models/role';
+
 import { fromEvent, BehaviorSubject, Observable, merge, map } from 'rxjs';
 import { UserFormComponent } from '../user-form/user-form.component';
 
@@ -23,7 +23,6 @@ export class UserListComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit {
 
   displayedColumns = [
-    'select',
     'userName',
     'firstName',
     'lastName',
@@ -34,16 +33,6 @@ implements OnInit {
     'createdDate',
     'actions'
   ];
-  
-  // "userId": "97891a86-830d-4432-932f-6377618adfeb",
-  // "firstName": "test1",
-  // "lastName": "test1",
-  // "email": "test1@test1.com",
-  // "phoneNumber": null,
-  // "userName": "test1@test1.com",
-  // "emailConfirmed": false,
-  // "createdDate": "2023-12-13T14:52:26.6536691",
-  // "roles": []
   
   exampleDatabase?: UserService;
   dataSource!: ExampleDataSource;
@@ -139,73 +128,11 @@ implements OnInit {
       }
     });
   }
-  deleteItem(row: Role) {
-    this.id = row.id;
-    // let tempDirection: Direction;
-    // if (localStorage.getItem('isRtl') === 'true') {
-    //   tempDirection = 'rtl';
-    // } else {
-    //   tempDirection = 'ltr';
-    // }
-    // const dialogRef = this.dialog.open(DeleteDialogComponent, {
-    //   data: row,
-    //   direction: tempDirection,
-    // });
-    // this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-    //   if (result === 1) {
-    //     const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-    //       (x) => x.id === this.id
-    //     );
-    //     // for delete we use splice in order to remove single object from DataService
-    //     if (foundIndex != null && this.exampleDatabase) {
-    //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-    //       this.refreshTable();
-    //       this.showNotification(
-    //         'snackbar-danger',
-    //         'Delete Record Successfully...!!!',
-    //         'bottom',
-    //         'center'
-    //       );
-    //     }
-    //   }
-    // });
-  }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.renderedData.length;
-    return numSelected === numRows;
-  }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.renderedData.forEach((row) =>
-          this.selection.select(row)
-        );
-  }
-  removeSelectedRows() {
-    const totalSelect = this.selection.selected.length;
-    this.selection.selected.forEach((item) => {
-      const index: number = this.dataSource.renderedData.findIndex(
-        (d) => d === item
-      );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
-      this.exampleDatabase?.dataChange.value.splice(index, 1);
-      this.refreshTable();
-      this.selection = new SelectionModel<User>(true, []);
-    });
-    this.showNotification(
-      'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
-      'bottom',
-      'center'
-    );
-  }
   public loadData() {
     this.exampleDatabase = new UserService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -248,17 +175,7 @@ implements OnInit {
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-  // context menu
-  onContextMenu(event: MouseEvent, item: Role) {
-    event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    if (this.contextMenu !== undefined && this.contextMenu.menu !== null) {
-      this.contextMenu.menuData = { item: item };
-      this.contextMenu.menu.focusFirstItem('mouse');
-      this.contextMenu.openMenu();
-    }
-  }
+
 }
 export class ExampleDataSource extends DataSource<User> {
   filterChange = new BehaviorSubject('');

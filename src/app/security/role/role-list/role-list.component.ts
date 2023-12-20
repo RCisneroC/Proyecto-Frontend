@@ -11,7 +11,7 @@ import { MatSnackBar, MatSnackBarVerticalPosition, MatSnackBarHorizontalPosition
 import { MatSort } from '@angular/material/sort';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 
-import { RoleService } from '../services/role.service';
+import { RoleService } from './services/role.service';
 import { Role } from 'app/security/models/role';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
@@ -28,7 +28,6 @@ export class RoleListComponent  extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
-    'select',
     'name',
     'actions',
   ];
@@ -127,73 +126,16 @@ implements OnInit{
       }
     });
   }
-  deleteItem(row: Role) {
-    this.id = row.id;
-    // let tempDirection: Direction;
-    // if (localStorage.getItem('isRtl') === 'true') {
-    //   tempDirection = 'rtl';
-    // } else {
-    //   tempDirection = 'ltr';
-    // }
-    // const dialogRef = this.dialog.open(DeleteDialogComponent, {
-    //   data: row,
-    //   direction: tempDirection,
-    // });
-    // this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-    //   if (result === 1) {
-    //     const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-    //       (x) => x.id === this.id
-    //     );
-    //     // for delete we use splice in order to remove single object from DataService
-    //     if (foundIndex != null && this.exampleDatabase) {
-    //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-    //       this.refreshTable();
-    //       this.showNotification(
-    //         'snackbar-danger',
-    //         'Delete Record Successfully...!!!',
-    //         'bottom',
-    //         'center'
-    //       );
-    //     }
-    //   }
-    // });
-  }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.renderedData.length;
-    return numSelected === numRows;
-  }
+
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.renderedData.forEach((row) =>
-          this.selection.select(row)
-        );
-  }
-  removeSelectedRows() {
-    const totalSelect = this.selection.selected.length;
-    this.selection.selected.forEach((item) => {
-      const index: number = this.dataSource.renderedData.findIndex(
-        (d) => d === item
-      );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
-      this.exampleDatabase?.dataChange.value.splice(index, 1);
-      this.refreshTable();
-      this.selection = new SelectionModel<Role>(true, []);
-    });
-    this.showNotification(
-      'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
-      'bottom',
-      'center'
-    );
-  }
+
+
   public loadData() {
     this.exampleDatabase = new RoleService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -236,17 +178,7 @@ implements OnInit{
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-  // context menu
-  onContextMenu(event: MouseEvent, item: Role) {
-    event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    if (this.contextMenu !== undefined && this.contextMenu.menu !== null) {
-      this.contextMenu.menuData = { item: item };
-      this.contextMenu.menu.focusFirstItem('mouse');
-      this.contextMenu.openMenu();
-    }
-  }
+
 }
 export class ExampleDataSource extends DataSource<Role> {
   filterChange = new BehaviorSubject('');
@@ -282,8 +214,8 @@ export class ExampleDataSource extends DataSource<Role> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((advanceTable: Role) => {
-            const searchStr = (advanceTable.name).toLowerCase();
+          .filter((role: Role) => {
+            const searchStr = (role.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Role } from 'app/security/models/role';
-import { RoleService } from '../services/role.service';
+import { RoleService } from '../role-list/services/role.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -34,8 +34,7 @@ export class RoleFormComponent {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle =
-        data.role.name;
+      this.dialogTitle ="Editar rol";
       this.role = data.role;
     } else {
       this.dialogTitle = 'Crear rol';
@@ -68,8 +67,16 @@ export class RoleFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.roleService.addRole(
+    if  (this.action==='edit'){
+    this.roleService.updateRole(
       this.roleForm.getRawValue()
-    );
+    ); }else{
+      this.roleService.addRole(
+        this.roleForm.getRawValue()
+      );
+    }
+    
+    
+    
   }
 }

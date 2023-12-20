@@ -47,43 +47,62 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Contraseña</mat-label>
-                  <input matInput formControlName="password">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email">
                   <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                  <mat-error *ngIf="userForm.get('password')?.hasError('required')">
-                    La contraseña es requerida
+                  <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                    El email es requerido
                   </mat-error>
                 </mat-form-field>
               </div>
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Telefono</mat-label>
+                  <input matInput formControlName="phoneNumber">
+                  <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                  <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
+                    El email es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+           
            
           </div>
-          <div class=" col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-            <mat-form-field class="example-full-width " appearance="outline">
-              <mat-label>Rol</mat-label>
-              <mat-select formControlName="rol" required multiple>
-                <mat-option [value]="'1'">
-                    Administrador
-                </mat-option>
-                <mat-option [value]="'2'">
-                    Postulante
-                </mat-option>
-                <mat-option [value]="'3'">
-                  judicial
-                </mat-option>
-                <mat-option [value]="'4'">
-                  Estudiante
-                </mat-option>
-           
-                
-              </mat-select>
-              <mat-error *ngIf="userForm.get('rol')?.hasError('required')">
-                el rol es requerido
-              </mat-error>
-            </mat-form-field>
+          <div  class="row">
+            <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+              <mat-form-field class="example-full-width " appearance="outline">
+                <mat-label>rol</mat-label>
+                <mat-select formControlName="rol" [multiple]="true" >
+                  <mat-option *ngFor="let line of roleList"  [value]="line.id">{{line.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('rol')?.hasError('required')">
+                  el rol es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+              <mat-form-field class="example-full-width " appearance="outline">
+                <mat-label>Estatus</mat-label>
+                <mat-select formControlName="state" >
+                  <mat-option [value]="1" [ariaSelected]="true">
+                      Activo
+                  </mat-option>
+                  <mat-option [value]="0">
+                      Inactivo
+                  </mat-option>
+               
+                  
+                </mat-select>
+                <mat-error *ngIf="userForm.get('state')?.hasError('required')">
+                  el estatus es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
+       
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
               <div class="example-button-row">

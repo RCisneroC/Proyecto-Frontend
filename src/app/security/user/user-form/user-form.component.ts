@@ -3,6 +3,11 @@ import { UserService } from '../service/user.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { User } from '@core';
+import { RoleService } from 'app/security/role/role-list/services/role.service';
+import { Role } from 'app/security/models/role';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 export interface DialogData {
   id: string;
   action: string;
@@ -19,7 +24,10 @@ export class UserFormComponent {
   dialogTitle: string;
   userForm: UntypedFormGroup;
   user: User;
+  roleList!: Role[];
+ 
   constructor(
+    private _roleService: RoleService,
     public dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public userService: UserService,
@@ -29,14 +37,24 @@ export class UserFormComponent {
     this.action = data.action;
     if (this.action === 'edit') {
       this.dialogTitle ="Editar usuario";
+      
       this.user = data.user;
     } else {
+      
       this.dialogTitle = 'Crear usuario';
       //const blankObject = {} as Role;
       this.user = new User();
+      //this.user.id="-1";
     }
     this.userForm = this.createContactForm();
+    this._roleService.getAllRols();
+    this.roleList =this._roleService.data.map((x)=>x
+    );
+   //this.loadRol();
+    
   }
+
+
   formControl = new UntypedFormControl('', [
     Validators.required,
     // Validators.email,
@@ -54,7 +72,9 @@ export class UserFormComponent {
       userName: [this.user.userName, [Validators.required]],
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName, [Validators.required]],
-      password:[this.user.password, [Validators.required]],
+      email: [this.user.email, [Validators.required]],
+      phoneNumber: [this.user.phoneNumber, [Validators.required]],
+      state:[this.user.state, [Validators.required]],
       rol:[[], [Validators.required]],
       
     });
@@ -66,8 +86,28 @@ export class UserFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.userService.addUser(
-      this.userForm.getRawValue()
-    );
+   
+    if  (this.action==='edit'){
+      this.userService.updateUser(
+        this.userForm.getRawValue()
+      ); }else{
+        this.userService.addUser(
+          this.userForm.getRawValue()
+        );
+      }
+      
   }
+  
+  loadRol() {
+    this._roleService.getAllRols2().subscribe({
+      next: (data) => {
+      this.roleList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+
 }

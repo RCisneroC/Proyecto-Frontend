@@ -45,40 +45,45 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
   addUser(user: User): void {
     this.dialogData = user;
 
-    // this.httpClient.post(environment.apiUrl+'Register', user)
-    //   .subscribe({
-    //     next: (data) => {
-    //       this.dialogData = user;
-    //     },
-    //     error: (error: HttpErrorResponse) => {
-    //        // error code here
-    //     },
-    //   });
+    this.httpClient.post(environment.apiUrl+'Register', user)
+      .subscribe({
+        next: () => {
+          this.dialogData = user;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
   }
   updateUser(user: User): void {
     this.dialogData = user;
 
-    // this.httpClient.put(this.API_URL + advanceTable.id, advanceTable)
-    //     .subscribe({
-    //       next: (data) => {
-    //         this.dialogData = advanceTable;
-    //       },
-    //       error: (error: HttpErrorResponse) => {
-    //          // error code here
-    //       },
-    //     });
+    this.httpClient.put(environment.apiUrl+'UpdateUser', user)
+        .subscribe({
+          next: () => {
+            this.dialogData = user;
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isTblLoading = false;
+            console.log(error.name + ' ' + error.message);
+          },
+        });
   }
-  deleteUser(id: number): void {
-    console.log(id);
+  
+  changePassword(user: User): void {
+    
 
-    // this.httpClient.delete(this.API_URL + id)
-    //     .subscribe({
-    //       next: (data) => {
-    //         console.log(id);
-    //       },
-    //       error: (error: HttpErrorResponse) => {
-    //          // error code here
-    //       },
-    //     });
+    this.httpClient.put(environment.apiUrl+'ChangePassword', user)
+        .subscribe({
+          next: () => {
+            this.dialogData = user;
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isTblLoading = false;
+            console.log(error.name + ' ' + error.message);
+          },
+        });
   }
+
 }

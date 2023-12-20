@@ -32,8 +32,8 @@ export class SigninComponent
 
   ngOnInit() {
     this.authForm = this.formBuilder.group({
-      username: ['admin@software.com', Validators.required],
-      password: ['admin@123', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
   get f() {
@@ -47,8 +47,8 @@ export class SigninComponent
       this.error = 'Username and Password not valid !';
       return;
     } else {
-      this.subs.sink = this.authService
-        .login(this.f['username'].value, this.f['password'].value)
+       this.authService
+        .login(this.f['email'].value, this.f['password'].value)
         .subscribe({
           next: (res) => {
             if (res) {

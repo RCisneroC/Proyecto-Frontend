@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
 import { ConfigService } from '@config';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { InConfiguration, AuthService, LanguageService } from '@core';
+import { Direction } from '@angular/cdk/bidi';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from '../../authentication/change-password/change-password.component';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 interface Notifications {
   message: string;
@@ -17,6 +21,12 @@ interface Notifications {
   icon: string;
   color: string;
   status: string;
+}
+
+interface ChangePassword {
+id:string,
+currentPassword:string;
+newPassword:string;
 }
 
 @Component({
@@ -39,7 +49,8 @@ export class HeaderComponent
   isOpenSidebar?: boolean;
   docElement?: HTMLElement;
   isFullScreen = false;
-
+  formPassword?: ChangePassword;
+  username?: string;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -47,7 +58,10 @@ export class HeaderComponent
     private configService: ConfigService,
     private authService: AuthService,
     private router: Router,
-    public languageService: LanguageService
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    public languageService: LanguageService,
+  
   ) {
     super();
   }
@@ -109,7 +123,10 @@ export class HeaderComponent
   ];
   ngOnInit() {
     this.config = this.configService.configData;
-    this.userImg = this.authService.currentUserValue.img;
+    
+    
+    this.username = this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName;
+    this.userImg = "https://ui-avatars.com/api/?name="+this.authService.currentUserValue.firstName+"+"+this.authService.currentUserValue.lastName+"&background=0D8ABC&color=fff&size=128";
     this.docElement = document.documentElement;
 
     this.homePage = 'dashboard/dashboard1';
@@ -180,4 +197,46 @@ export class HeaderComponent
       }
     });
   }
+
+changePassword() {
+  let tempDirection: Direction;
+  if (localStorage.getItem('isRtl') === 'true') {
+    tempDirection = 'rtl';
+  } else {
+    tempDirection = 'ltr';
+  }
+  const dialogRef = this.dialog.open(ChangePasswordComponent, {
+    data: {
+      formPassword: this.formPassword,
+      action: 'change',
+    },
+    direction: tempDirection,
+  });
+  this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+    if (result === 1) {
+      // After dialog is closed we're doing frontend updates
+      // For add we're just pushing a new row inside DataService
+      this.showNotification(
+        'snackbar-success',
+        'Registro creado exitosamente...!!!',
+        'bottom',
+        'center'
+      );
+    }
+  });
+}
+
+showNotification(
+  colorName: string,
+  text: string,
+  placementFrom: MatSnackBarVerticalPosition,
+  placementAlign: MatSnackBarHorizontalPosition
+) {
+  this.snackBar.open(text, '', {
+    duration: 2000,
+    verticalPosition: placementFrom,
+    horizontalPosition: placementAlign,
+    panelClass: colorName,
+  });
+}
 }

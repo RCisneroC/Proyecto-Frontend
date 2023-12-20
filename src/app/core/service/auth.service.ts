@@ -24,12 +24,19 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(userName: string, password: string) {
-     userName="admin@admin.com";
-     password= "Panama2023$";
+  login2( email: string, password: string ): Observable<User> {
+    //return this.http.post(`${environment.apiUrl+'Login'}`, data);
+    return this.http.post<User>(`${environment.apiUrl+'Login'}`, {
+      email,
+      password,
+    })
+  }
+
+  login(email: string, password: string) {
+     
     return this.http
       .post<User>(`${environment.apiUrl+'Login'}`, {
-        userName,
+        email,
         password,
       })
       .pipe(

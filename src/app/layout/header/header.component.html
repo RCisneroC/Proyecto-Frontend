@@ -131,19 +131,20 @@
         <!-- #END# Notifications-->
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">
-            <div class="chip dropdown-toggle" ngbDropdownToggle class="">
-              <span>Ricardo Cisnero</span>
-              <img src="{{userImg}}" class="user_img" width="25" height="25" alt="User">
+            <div class="chip dropdown-toggle" ngbDropdownToggle >
+            
+              <span>{{username}}</span>
+              <img src="{{userImg}}" class="user_img" width="35" height="35" alt="User">
             </div>
           </button>
           <mat-menu #profilemenu="matMenu" class="profile-menu">
             <div class="noti-list">
               <div class="menu ">
                 <div class="user_dw_menu">
-                  <!-- <button mat-menu-item class="user-item-list">
-                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Account
+                   <button mat-menu-item (click)="changePassword()" class="user-item-list">
+                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Cambiar contraseña
                   </button>
-                  <button mat-menu-item class="user-item-list">
+                <!--  <button mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox
                   </button>
                   <button mat-menu-item class="user-item-list">

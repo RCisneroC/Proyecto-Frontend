@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Role } from 'app/security/models/role';
 import { environment } from 'environments/environment.development';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -27,7 +27,7 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllRols():void {
+  getAllRols() {
     this.subs.sink = this.httpClient
       .get<Role[]>(environment.apiUrl+'GetAllRoles')
       .subscribe({
@@ -41,8 +41,14 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+  
+  getAllRols2(): Observable<Role[]> {
+    //return this.http.post(`${environment.apiUrl+'Login'}`, data);
+    return this.httpClient.get<Role[]>(`${environment.apiUrl + 'GetAllRoles'}`);
+  }
+  
   addRole(role: Role): void {
-    //this.dialogData = role;
+    this.dialogData = role;
 
     this.httpClient.post(environment.apiUrl+'CreateRole', role)
       .subscribe({
@@ -58,7 +64,7 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
   updateRole(role: Role): void {
     this.dialogData = role;
 
-    this.httpClient.put(environment.apiUrl+'UpdateRole' + role.id, role)
+    this.httpClient.put(environment.apiUrl+'UpdateRole', role)
         .subscribe({
           next: () => {
             this.dialogData = role;
@@ -69,17 +75,5 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
           },
         });
   }
-  deleteRole(id: number): void {
-    console.log(id);
 
-    // this.httpClient.delete(this.API_URL + id)
-    //     .subscribe({
-    //       next: (data) => {
-    //         console.log(id);
-    //       },
-    //       error: (error: HttpErrorResponse) => {
-    //          // error code here
-    //       },
-    //     });
-  }
 }
