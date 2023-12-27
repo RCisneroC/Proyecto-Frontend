@@ -2,14 +2,14 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Actividad'" [items]="['Home','Admisión','Maestros']" [active_item]="'Actividad'">
+        <app-breadcrumb [title]="'Cronograma de actividades'" [items]="['Home','Admisión']" [active_item]="'Cronograma de actividades'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Listado de Actividades</strong></h2>
+              <h2><strong>Listado de cronogramas</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -19,7 +19,7 @@
                           <div class="left">
                             <ul class="header-buttons-left ms-0">
                               <li class="tbl-title">
-                                <h2>Actividades</h2>
+                                <h2>cronogramas</h2>
                               </li>
                               <li class="tbl-search-box">
                                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -57,23 +57,41 @@
                           <div class="responsive_table">
                             <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
                           
-                              <!-- ID Column -->
-                             
+                          
+                            
                               <ng-container matColumnDef="name">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
                               </ng-container>
+                              
+                              <ng-container matColumnDef="description">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                              </ng-container>
                              
-                              <ng-container matColumnDef="statusId">
+                              <ng-container matColumnDef="year">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Año
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Año:</span>{{row.year}}</mat-cell>
+                              </ng-container>
+                              
+                              
+                    
+                              <ng-container matColumnDef="curriculumDesignStatusId" >
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                    <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 0 }">
-                                        <span class="mobile-label ">Estatus:</span>{{row.statusId === 1?'Activo':'Inactivo'}}  </div>
-                                </mat-cell>
+                                <div [ngClass]="{'badge badge-solid-green': row.curriculumDesignStatusId === 1,'badge badge-solid-red' : row.curriculumDesignStatusId === 2 }">
+                                  <span class="mobile-label ">Estatus:</span>{{row.curriculumDesignStatusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
+                              
+                                  
                               </ng-container>
+                           
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
@@ -82,6 +100,7 @@
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
+                                  <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Detalle</button>
                                 
                                 </mat-cell>
                               </ng-container>
@@ -106,10 +125,15 @@
                                 <mat-icon>add_box</mat-icon>
                                 <span>Add Record</span>
                               </button>
-                              <button mat-menu-item (click)="editCall(item)">
+                              
+                              <!-- <button mat-menu-item (click)="editCall(item)">
                                 <mat-icon>create</mat-icon>
                                 <span>Edit Record</span>
-                              </button>
+                              </button> -->
+                              
+                          
+                              
+                              
                              
                               <button mat-menu-item (click)="refresh()">
                                 <mat-icon>refresh</mat-icon>
@@ -151,9 +175,12 @@
                       </div>
                     </div>
                   </div>
+                  
+    
             </div>
           </div>
         </div>
       </div>
     </div>
+    
   </section>

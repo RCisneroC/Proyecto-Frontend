@@ -42,15 +42,14 @@ export class UserFormComponent {
     } else {
       
       this.dialogTitle = 'Crear usuario';
-      //const blankObject = {} as Role;
       this.user = new User();
-      //this.user.id="-1";
+      this.user.userStatusId=1;
     }
     this.userForm = this.createContactForm();
-    this._roleService.getAllRols();
-    this.roleList =this._roleService.data.map((x)=>x
-    );
-   //this.loadRol();
+    // this._roleService.getAllRols();
+    // this.roleList =this._roleService.data.map((x)=>x
+    // );
+   this.loadRol();
     
   }
 
@@ -74,11 +73,14 @@ export class UserFormComponent {
       lastName: [this.user.lastName, [Validators.required]],
       email: [this.user.email, [Validators.required]],
       phoneNumber: [this.user.phoneNumber, [Validators.required]],
-      state:[this.user.state, [Validators.required]],
-      rol:[[], [Validators.required]],
+      userStatusId:[this.user.userStatusId, [Validators.required]],
+      gender:["M", [Validators.required]],
+      roles:[this.user.roles, [Validators.required]],
       
     });
   }
+  
+
   submit() {
     // emppty stuff
   }

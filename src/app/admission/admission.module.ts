@@ -11,6 +11,12 @@ import { LoungeFormComponent } from './maestros/lounge-form/lounge-form.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
+import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule-activity-form.component';
+import { ScheduleActivitiesListComponent } from './schedule-activities-list/schedule-activities-list.component';
+import { ActivityFormComponent } from './maestros/activity-form/activity-form.component';
+import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
+import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-form/schedule-activity-detail-form.component';
+
 
 
 @NgModule({
@@ -20,7 +26,13 @@ import { SharedModule } from '@shared';
     ReasonListComponent,
     TypeActivityListComponent,
     ModalityListComponent,
-    LoungeFormComponent
+    LoungeFormComponent,
+    ScheduleActivityFormComponent,
+    ScheduleActivitiesListComponent,
+    ActivityFormComponent,
+    ScheduleActivityDetailComponent,
+    ScheduleActivityDetailFormComponent,
+    
   ],
   imports: [
     CommonModule,

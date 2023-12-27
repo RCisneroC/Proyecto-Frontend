@@ -85,6 +85,14 @@
                                 <span class="mobile-label">Email:</span>{{row.email}}</mat-cell>
                             </ng-container>
                             
+                            <ng-container matColumnDef="gender">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Genero
+                              </mat-header-cell>
+                              <mat-cell *matCellDef="let row" >
+                                <span class="mobile-label">Genero:</span>{{row.gender}}</mat-cell>
+                            </ng-container>
+                            
+                            
                             <ng-container matColumnDef="phoneNumber">
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono
                               </mat-header-cell>
@@ -105,19 +113,23 @@
                               </mat-header-cell>
                               <mat-cell *matCellDef="let row">
                             <ng-container *ngFor="let r of row.roles">
-                              <br> <mat-chip color="primary" selected>{{row.roles}}</mat-chip>
+                              
+                              <div class="badge badge-solid-blue">
+                                {{row.roles}}
+                              </div>
+                               <!-- <mat-chip color="primary" class="badge badge-solid-green" ></mat-chip> -->
                           
                             </ng-container>
                            </mat-cell>
                             </ng-container>
                            
                            
-                            <ng-container matColumnDef="status" >
+                            <ng-container matColumnDef="userStatusId" >
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                               </mat-header-cell>
                               <mat-cell *matCellDef="let row" >
-                              <div [ngClass]="{'badge badge-solid-green': row.status === 1,'badge badge-solid-red' : row.status === 0 }">
-                                <span class="mobile-label ">Estatus:</span>{{row.status ===true?'Activo':'Inactivo'}}  </div></mat-cell>
+                              <div [ngClass]="{'badge badge-solid-green': row.userStatusId === 1,'badge badge-solid-red' : row.userStatusId === 2 }">
+                                <span class="mobile-label ">Estatus:</span>{{row.userStatusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
                             
                                 
                             </ng-container>

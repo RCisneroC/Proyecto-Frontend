@@ -1,0 +1,22 @@
+[
+    {   "id":55,
+        "name": "cronograma1",
+        "description": "Judicial",
+        "year": 2023,
+        "curriculumDesignStatusId":1
+      },
+      {
+        "id":52,
+        "name": "cronograma2",
+        "description": "Judicial2",
+        "year": 2024,
+        "curriculumDesignStatusId":2
+      },
+      {
+        "id":53,
+        "name": "cronograma1",
+        "description": "Judicial",
+        "year": 2025,
+        "curriculumDesignStatusId":2
+      }
+      ]

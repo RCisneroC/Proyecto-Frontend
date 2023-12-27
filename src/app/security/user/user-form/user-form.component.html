@@ -63,7 +63,7 @@
                   <input matInput formControlName="phoneNumber">
                   <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
                   <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
-                    El email es requerido
+                    El telefono es requerido
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -75,10 +75,10 @@
             <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
               <mat-form-field class="example-full-width " appearance="outline">
                 <mat-label>rol</mat-label>
-                <mat-select formControlName="rol" [multiple]="true" >
-                  <mat-option *ngFor="let line of roleList"  [value]="line.id">{{line.name}}</mat-option>
+                <mat-select formControlName="roles" [multiple]="true" >
+                  <mat-option *ngFor="let line of roleList"  [value]="line.name">{{line.name}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="userForm.get('rol')?.hasError('required')">
+                <mat-error *ngIf="userForm.get('roles')?.hasError('required')">
                   el rol es requerido
                 </mat-error>
               </mat-form-field>
@@ -86,11 +86,11 @@
             <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
               <mat-form-field class="example-full-width " appearance="outline">
                 <mat-label>Estatus</mat-label>
-                <mat-select formControlName="state" >
-                  <mat-option [value]="1" [ariaSelected]="true">
+                <mat-select formControlName="userStatusId" >
+                  <mat-option [value]="1">
                       Activo
                   </mat-option>
-                  <mat-option [value]="0">
+                  <mat-option [value]="2">
                       Inactivo
                   </mat-option>
                

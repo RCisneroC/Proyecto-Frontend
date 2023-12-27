@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 
 import { MaterialModule } from "./material.module";
 import { FeatherIconsModule } from "./components/feather-icons/feather-icons.module";
+
 @NgModule({
   declarations: [],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
@@ -15,6 +16,7 @@ import { FeatherIconsModule } from "./components/feather-icons/feather-icons.mod
     RouterModule,
     MaterialModule,
     FeatherIconsModule,
+    
   ],
 })
 export class SharedModule {}

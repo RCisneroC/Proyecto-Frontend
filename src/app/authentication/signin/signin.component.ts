@@ -57,12 +57,19 @@ export class SigninComponent
              
                 if (token) {
                   this.router.navigate(['/dashboard/dashboard1']);
+                }else { this.error = 'Login invalido';
+                this.submitted = false;
+            this.loading = false;
                 }
               } else {
-                this.error = 'Invalid Login';
+                this.error = 'Login invalido';
+                this.submitted = false;
+            this.loading = false;
               }
             } else {
               this.error = 'Invalid Login';
+              this.submitted = false;
+            this.loading = false;
             }
           },
           error: (error) => {

@@ -16,22 +16,22 @@ export const ROUTES: RouteInfo[] = [
     title: "MENUITEMS.DASHBOARD.TEXT",
     iconType: "feather",
     icon: "home",
-    class: "menu-toggle",
+    class: "",
     groupTitle: false,
     badge: "",
     badgeClass: "",
     submenu: [
-      {
-        path: "dashboard/dashboard1",
-        title: "MENUITEMS.DASHBOARD.LIST.DASHBOARD1",
-        iconType: "",
-        icon: "user-check",
-        class: "",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        submenu: [],
-      }
+      // {
+      //   path: "dashboard/dashboard1",
+      //   title: "MENUITEMS.DASHBOARD.LIST.DASHBOARD1",
+      //   iconType: "",
+      //   icon: "user-check",
+      //   class: "",
+      //   groupTitle: false,
+      //   badge: "",
+      //   badgeClass: "",
+      //   submenu: [],
+      // }
     ],
   },
   // Common Modules
@@ -47,7 +47,7 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     submenu: [
     {
-      path: "admission/",
+      path: "admission/schedule-activities-list",
       title: "Cronograma de actividades",
       iconType: "",
       icon: "",
@@ -57,50 +57,50 @@ export const ROUTES: RouteInfo[] = [
       badgeClass: "",
       submenu: []
     },
-    {
-      path: "admission/",
-      title: "Inscripción",
-      iconType: "",
-      icon: "",
-      class: "",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    },
-    {
-      path: "admission/",
-      title: "Admisión",
-      iconType: "",
-      icon: "",
-      class: "",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    },
-    {
-      path: "admission/",
-      title: "Notificaciones",
-      iconType: "",
-      icon: "",
-      class: "",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    },
-    {
-      path: "admission/",
-      title: "Convocatorias",
-      iconType: "",
-      icon: "",
-      class: "",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    },
+    // {
+    //   path: "admission/",
+    //   title: "Inscripción",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Admisión",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Notificaciones",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Convocatorias",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
     {
       path: "admission/",
       title: "Maestros",
@@ -170,17 +170,17 @@ export const ROUTES: RouteInfo[] = [
     }
     ]
   },
-  {
-    path: "",
-    title: "MENUITEMS.ENROLLMENT.TEXT",
-    iconType: "feather",
-    icon: "user-check",
-    class: "menu-toggle",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    submenu: []
-  },
+  // {
+  //   path: "",
+  //   title: "MENUITEMS.ENROLLMENT.TEXT",
+  //   iconType: "feather",
+  //   icon: "user-check",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: []
+  // },
   // {
   //   path: "",
   //   title: "MENUITEMS.INTRANETACADEMICREGISTRATION.TEXT",
@@ -192,17 +192,17 @@ export const ROUTES: RouteInfo[] = [
   //   badgeClass: "",
   //   submenu: []
   // },
-  {
-    path: "",
-    title: "MENUITEMS.TEACHINGMANAGEMENT.TEXT",
-    iconType: "feather",
-    icon: "user-check",
-    class: "menu-toggle",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    submenu: []
-  },
+  // {
+  //   path: "",
+  //   title: "MENUITEMS.TEACHINGMANAGEMENT.TEXT",
+  //   iconType: "feather",
+  //   icon: "user-check",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: []
+  // },
   // {
   //   path: "",
   //   title: "MENUITEMS.VIRTUALLEARNING.TEXT",

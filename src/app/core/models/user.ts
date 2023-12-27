@@ -7,7 +7,8 @@ export class User {
    lastName!: string;
    emailConfirm!:boolean;
    email!:string;
-   state!:boolean;
+   userStatusId!:number;
+   gender!:string;
    phoneNumber!:null;
    createdDate!:string;
    token!: string;

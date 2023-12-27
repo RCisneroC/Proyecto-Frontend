@@ -29,7 +29,8 @@ implements OnInit {
     'email',
     'phoneNumber',
     'roles',
-    'status',
+    'gender',
+    'userStatusId',
     'createdDate',
     'actions'
   ];

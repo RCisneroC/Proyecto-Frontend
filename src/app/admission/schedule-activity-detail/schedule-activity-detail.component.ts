@@ -1,42 +1,65 @@
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Lounge } from 'app/admission/models/lounge';
-import { MasterService } from '../services/master.service';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { ScheduleActivityDetail } from '../models/scheduleActivity';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Direction } from '@angular/cdk/bidi';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { LoungeFormComponent } from '../lounge-form/lounge-form.component';
+import { Direction } from '@angular/cdk/bidi';
+import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
+import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 
 @Component({
-  selector: 'app-lounge-list',
-  templateUrl: './lounge-list.component.html',
-  styleUrls: ['./lounge-list.component.scss']
+  selector: 'app-schedule-activity-detail',
+  templateUrl: './schedule-activity-detail.component.html',
+  styleUrls: ['./schedule-activity-detail.component.scss']
 })
-export class LoungeListComponent extends UnsubscribeOnDestroyAdapter
+export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
-    'name',
-    'status',
-    'actions',
+         'planningDate',
+         'activityMode',
+         'activityType',
+         'activityName',
+         'activityLocation',
+         'assignedCoordinator',
+         'startDate',
+         'plannedEndDate',
+         'effectiveEndDate',
+         'isExecuted',
+         'activityReason',
+         'activityFundsSource',
+         'numOfAssignedTeachers',
+         'hasDataSheet',
+         'dataSheetDeliveryDate',
+         'isEvaluation',
+         'digitalReportDeliveryDate',
+         'physicalReportDeliveryDate',
+         'enrolledStudentsDiplomat',
+         'retiredStudentsDiplomat',
+         'participants',
+         'male',
+         'female',
+         'certificatesReceived',
+         'observations',
+         'actions',
   ];
   
-  exampleDatabase?: MasterService;
+  exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<Lounge>(true, []);
+  selection = new SelectionModel<ScheduleActivityDetail>(true, []);
   id?: string;
-  lounge?: Lounge;
+  activityDetail?: ScheduleActivityDetail;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public masterService: MasterService,
+    public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -54,15 +77,15 @@ implements OnInit{
     this.loadData();
   }
   addNew() {
-    let tempDirection: Direction;
+   let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(LoungeFormComponent, {
+    const dialogRef = this.dialog.open(ScheduleActivityDetailFormComponent, {
       data: {
-        role: this.lounge,
+        activity: this.activityDetail,
         action: 'add',
       },
       direction: tempDirection,
@@ -71,8 +94,8 @@ implements OnInit{
       if (result === 1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
-        this.exampleDatabase?.dataChange.value.unshift(
-          this.masterService.getDialogData()
+        this.exampleDatabase?.dataChange2.value.unshift(
+          this.activityDetailService.getDialogDataDetail()
         );
         this.refreshTable();
         this.showNotification(
@@ -84,17 +107,18 @@ implements OnInit{
       }
     });
   }
-  editCall(row: Lounge) {
-    this.id = row.id;
+  editCall(row: ScheduleActivityDetail) {
+  
+    this.id = row.curriculumDesignId;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(LoungeFormComponent, {
+    const dialogRef = this.dialog.open(ScheduleActivityDetailFormComponent, {
       data: {
-        role: row,
+        scheduleActivity : row,
         action: 'edit',
       },
       direction: tempDirection,
@@ -102,13 +126,13 @@ implements OnInit{
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-          (x) => x.id === this.id
+        const foundIndex = this.exampleDatabase?.dataChange2.value.findIndex(
+          (x) => x.curriculumDesignId === this.id
         );
         // Then you update that record using data from dialogData (values you enetered)
         if (foundIndex != null && this.exampleDatabase) {
-          this.exampleDatabase.dataChange.value[foundIndex] =
-            this.masterService.getDialogData();
+          this.exampleDatabase.dataChange2.value[foundIndex] =
+            this.activityDetailService.getDialogDataDetail();
           // And lastly refresh table
           this.refreshTable();
           this.showNotification(
@@ -132,7 +156,7 @@ implements OnInit{
 
 
   public loadData() {
-    this.exampleDatabase = new MasterService(this.httpClient);
+    this.exampleDatabase = new ScheduleActivitiesService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -166,16 +190,15 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.name,
+        'First Name': x.curriculumDesignId,
        
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-
 }
-export class ExampleDataSource extends DataSource<Lounge> {
+export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -183,10 +206,10 @@ export class ExampleDataSource extends DataSource<Lounge> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Lounge[] = [];
-  renderedData: Lounge[] = [];
+  filteredData: ScheduleActivityDetail[] = [];
+  renderedData: ScheduleActivityDetail[] = [];
   constructor(
-    public exampleDatabase: MasterService,
+    public exampleDatabase: ScheduleActivitiesService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -195,22 +218,22 @@ export class ExampleDataSource extends DataSource<Lounge> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Lounge[]> {
+  connect(): Observable<ScheduleActivityDetail[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChange,
+      this.exampleDatabase.dataChange2,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllLounge();
+    this.exampleDatabase.getAllActivityDetail();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.exampleDatabase.data
+        this.filteredData = this.exampleDatabase.data2
           .slice()
-          .filter((lounge: Lounge) => {
-            const searchStr = (lounge.name).toLowerCase();
+          .filter((activity: ScheduleActivityDetail) => {
+            const searchStr = (activity.dataSheetDeliveryDate).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -229,7 +252,7 @@ export class ExampleDataSource extends DataSource<Lounge> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: Lounge[]): Lounge[] {
+  sortData(data: ScheduleActivityDetail[]): ScheduleActivityDetail[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -237,11 +260,8 @@ export class ExampleDataSource extends DataSource<Lounge> {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
       switch (this._sort.active) {
-        case 'id':
-          [propertyA, propertyB] = [a.id, b.id];
-          break;
-        case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+        case 'curriculumDesignId':
+          [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
           break;
       
       }
@@ -253,3 +273,4 @@ export class ExampleDataSource extends DataSource<Lounge> {
     });
   }
 }
+

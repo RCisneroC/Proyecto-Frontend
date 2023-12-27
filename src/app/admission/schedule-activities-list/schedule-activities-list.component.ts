@@ -1,43 +1,47 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Lounge } from 'app/admission/models/lounge';
-import { MasterService } from '../services/master.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
+import { ScheduleActivityFormComponent } from '../schedule-activity-form/schedule-activity-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { LoungeFormComponent } from '../lounge-form/lounge-form.component';
+import { ScheduleActivity } from '../models/scheduleActivity';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-lounge-list',
-  templateUrl: './lounge-list.component.html',
-  styleUrls: ['./lounge-list.component.scss']
+  selector: 'app-schedule-activities-list',
+  templateUrl: './schedule-activities-list.component.html',
+  styleUrls: ['./schedule-activities-list.component.scss']
 })
-export class LoungeListComponent extends UnsubscribeOnDestroyAdapter
+export class ScheduleActivitiesListComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
     'name',
-    'status',
+    'description',
+    'year',
+    'curriculumDesignStatusId',
     'actions',
   ];
   
-  exampleDatabase?: MasterService;
+  exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<Lounge>(true, []);
-  id?: string;
-  lounge?: Lounge;
+  selection = new SelectionModel<ScheduleActivity>(true, []);
+  id?: number;
+  schedule?: ScheduleActivity;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public masterService: MasterService,
-    private snackBar: MatSnackBar
+    public scheduleActivitiesService:ScheduleActivitiesService ,
+    private snackBar: MatSnackBar,
+    private router: Router,
   ) {
     super();
   }
@@ -60,9 +64,9 @@ implements OnInit{
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(LoungeFormComponent, {
+    const dialogRef = this.dialog.open(ScheduleActivityFormComponent, {
       data: {
-        role: this.lounge,
+        schedule: this.schedule,
         action: 'add',
       },
       direction: tempDirection,
@@ -72,7 +76,7 @@ implements OnInit{
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
         this.exampleDatabase?.dataChange.value.unshift(
-          this.masterService.getDialogData()
+          this.scheduleActivitiesService.getDialogData()
         );
         this.refreshTable();
         this.showNotification(
@@ -84,7 +88,10 @@ implements OnInit{
       }
     });
   }
-  editCall(row: Lounge) {
+  ViewDetail(row:ScheduleActivity) {
+    this.router.navigate(['/admission/schedule-activity-detail',row.id]);
+  }
+  editCall(row: ScheduleActivity) {
     this.id = row.id;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -92,9 +99,9 @@ implements OnInit{
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(LoungeFormComponent, {
+    const dialogRef = this.dialog.open(ScheduleActivityFormComponent, {
       data: {
-        role: row,
+        schedule : row,
         action: 'edit',
       },
       direction: tempDirection,
@@ -108,7 +115,7 @@ implements OnInit{
         // Then you update that record using data from dialogData (values you enetered)
         if (foundIndex != null && this.exampleDatabase) {
           this.exampleDatabase.dataChange.value[foundIndex] =
-            this.masterService.getDialogData();
+            this.scheduleActivitiesService.getDialogData();
           // And lastly refresh table
           this.refreshTable();
           this.showNotification(
@@ -132,7 +139,7 @@ implements OnInit{
 
 
   public loadData() {
-    this.exampleDatabase = new MasterService(this.httpClient);
+    this.exampleDatabase = new ScheduleActivitiesService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -175,7 +182,7 @@ implements OnInit{
 
 
 }
-export class ExampleDataSource extends DataSource<Lounge> {
+export class ExampleDataSource extends DataSource<ScheduleActivity> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -183,10 +190,10 @@ export class ExampleDataSource extends DataSource<Lounge> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Lounge[] = [];
-  renderedData: Lounge[] = [];
+  filteredData: ScheduleActivity[] = [];
+  renderedData: ScheduleActivity[] = [];
   constructor(
-    public exampleDatabase: MasterService,
+    public exampleDatabase: ScheduleActivitiesService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -195,7 +202,7 @@ export class ExampleDataSource extends DataSource<Lounge> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Lounge[]> {
+  connect(): Observable<ScheduleActivity[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -203,14 +210,14 @@ export class ExampleDataSource extends DataSource<Lounge> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllLounge();
+    this.exampleDatabase.getAllSchedule();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((lounge: Lounge) => {
-            const searchStr = (lounge.name).toLowerCase();
+          .filter((role: ScheduleActivity) => {
+            const searchStr = (role.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -229,7 +236,7 @@ export class ExampleDataSource extends DataSource<Lounge> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: Lounge[]): Lounge[] {
+  sortData(data: ScheduleActivity[]): ScheduleActivity[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }

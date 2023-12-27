@@ -71,21 +71,6 @@
             <app-feather-icons [icon]="'maximize'" [class]="'header-icon'"></app-feather-icons>
           </button>
         </li>
-        <!-- #END# Full Screen Button -->
-        <li class="nav-item">
-          <button mat-icon-button [matMenuTriggerFor]="languagemenu" class="lang-dropdown nav-notification-icons"> <img
-              *ngIf="flagvalue !== undefined" src="{{flagvalue}}" height="16">
-            <img *ngIf="flagvalue === undefined" src="{{defaultFlag}}" height="16"></button>
-          <mat-menu #languagemenu="matMenu" class="lang-item-menu">
-            <div *ngFor="let item of listLang" class="lang-item">
-              <button mat-menu-item class="dropdown-item lang-item-list"
-                (click)="setLanguage(item.text, item.lang, item.flag)"
-                [ngClass]="{'active': langStoreValue === item.lang}">
-                <img src="{{item.flag}}" class="flag-img" height="12"> <span class="align-middle">{{item.text}}</span>
-              </button>
-            </div>
-          </mat-menu>
-        </li>
         <!-- #START# Notifications-->
         <li>
           <button mat-icon-button [matMenuTriggerFor]="notificationMenu" class="nav-notification-icons">
@@ -151,7 +136,7 @@
                     <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Settings
                   </button> -->
                   <button mat-menu-item (click)="logout()" class="user-item-list">
-                    <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Logout
+                    <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Cerrar sesión
                   </button>
                 </div>
               </div>
