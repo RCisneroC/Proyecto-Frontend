@@ -17,6 +17,11 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path: 'security',
+        loadChildren: () =>
+          import('./security/security.module').then((m) => m.SecurityModule),
+      },
+      {
         path: 'admission',
         loadChildren: () =>
           import('./admission/admission.module').then((m) => m.AdmissionModule),
@@ -41,6 +46,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./virtual-learning/virtual-learning.module').then((m) => m.VirtualLearningModule),
       },
+    
 
     ],
   },

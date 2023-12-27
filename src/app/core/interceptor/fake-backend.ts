@@ -11,15 +11,21 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { User } from '../models/user';
 
-const users: User[] = [
+const users: User[] = [  
   {
-    id: 1,
+    id: "1",
     img: 'assets/images/user/admin.jpg',
-    username: 'admin@software.com',
-    password: 'admin@123',
+    userName: 'admin@admin.com',
+    password: 'Panama2023$',
     firstName: 'Sarah',
     lastName: 'Smith',
     token: 'admin-token',
+    phoneNumber: null,
+    emailConfirm: false,
+    email:"sds",
+    state:true,
+    createdDate:"sds",
+    roles: ["estudiante","administrador"]
   },
 ];
 
@@ -48,15 +54,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function authenticate() {
       const { username, password } = body;
       const user = users.find(
-        (x) => x.username === username && x.password === password
+        (x) => x.userName === username && x.password === password
       );
       if (!user) {
-        return error('El nombre de usuario o la contraseña son incorrectos');
+        return error('Username or password is incorrect');
       }
       return ok({
         id: user.id,
         img: user.img,
-        username: user.username,
+        username: user.userName,
         firstName: user.firstName,
         lastName: user.lastName,
         token: user.token,
@@ -66,7 +72,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // helper functions
 
     function ok(body?: {
-      id: number;
+      id: string;
       img: string;
       username: string;
       firstName: string;

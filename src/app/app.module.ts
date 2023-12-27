@@ -13,7 +13,6 @@ import { SidebarComponent } from "./layout/sidebar/sidebar.component";
 import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.component";
 import { AuthLayoutComponent } from "./layout/app-layout/auth-layout/auth-layout.component";
 import { MainLayoutComponent } from "./layout/app-layout/main-layout/main-layout.component";
-import { fakeBackendProvider } from "./core/interceptor/fake-backend";
 import { ErrorInterceptor } from "./core/interceptor/error.interceptor";
 import { JwtInterceptor } from "./core/interceptor/jwt.interceptor";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
@@ -28,6 +27,7 @@ import {
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { NgScrollbarModule } from "ngx-scrollbar";
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
@@ -41,6 +41,8 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    
+
   ],
   imports: [
     BrowserModule,
@@ -63,8 +65,9 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  
+   
   ],
   bootstrap: [AppComponent],
 })

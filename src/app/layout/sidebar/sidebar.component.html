@@ -3,18 +3,19 @@
   <aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover()" (mouseleave)="mouseOut()">
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">
-        <li class="nav-item logo">
-          <a class="navbar-brand" routerLink="dashboard/dashboard1">
-            <img src="assets/images/logo.png" alt="" />
-            <span class="logo-name">Escuela Judicial</span>
-          </a>
-        </li>
+     
         <li class="nav-item nav-toggle">
           <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
             <mat-icon [ngStyle]="{'color':'#8F8C91'}" class="menuIcon">{{menuIcon}}</mat-icon>
           </button>
         </li>
       </ul>
+    </div>
+    <div>
+      <a class="navbar-brand" routerLink="dashboard/dashboard1">
+        <img src="assets/images/ISJUP.png"  style="height: inherit;" />
+      
+      </a>
     </div>
     <!-- Menu -->
     <div class="menu">

@@ -32,8 +32,8 @@ export class SigninComponent
 
   ngOnInit() {
     this.authForm = this.formBuilder.group({
-      username: ['admin@software.com', Validators.required],
-      password: ['admin@123', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
   get f() {
@@ -47,21 +47,29 @@ export class SigninComponent
       this.error = 'Username and Password not valid !';
       return;
     } else {
-      this.subs.sink = this.authService
-        .login(this.f['username'].value, this.f['password'].value)
+       this.authService
+        .login(this.f['email'].value, this.f['password'].value)
         .subscribe({
           next: (res) => {
             if (res) {
               if (res) {
-                const token = this.authService.currentUserValue.token;
+                const token = this.authService.currentUserValue.token
+             
                 if (token) {
                   this.router.navigate(['/dashboard/dashboard1']);
+                }else { this.error = 'Login invalido';
+                this.submitted = false;
+            this.loading = false;
                 }
               } else {
-                this.error = 'Invalid Login';
+                this.error = 'Login invalido';
+                this.submitted = false;
+            this.loading = false;
               }
             } else {
               this.error = 'Invalid Login';
+              this.submitted = false;
+            this.loading = false;
             }
           },
           error: (error) => {

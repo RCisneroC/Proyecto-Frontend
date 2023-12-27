@@ -1,6 +1,8 @@
 <div class="auth-container">
+  
   <div class="row auth-main">
-    <div class="col-sm-6 px-0 d-none d-sm-block">
+    <div class="col-sm-6 px-4 d-none d-sm-block" style="background-color: #DADADA;">
+      
       
         <div>
           <img class="left-img" src="assets/images/pages/LOGOOJ.png" />
@@ -12,18 +14,15 @@
       <div class="form-section">
         <div class="auth-wrapper">
           <h2 class="welcome-msg"> Bienvenido </h2>
-          <p class="auth-signup-text text-muted">Necesitas una cuenta?<a routerLink="/authentication/signup"
-              class="sign-up-link">Registrarse
-            </a></p>
           <h2 class="login-title">Iniciar sesión</h2>
           <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
             <div class="row">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Nombre de usuario</mat-label>
-                  <input matInput formControlName="username" />
+                  <input matInput formControlName="email" />
                   <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                  <mat-error *ngIf="authForm.get('username')?.hasError('required')">
+                  <mat-error *ngIf="authForm.get('email')?.hasError('required')">
                     Usuario requerido
                   </mat-error>
                 </mat-form-field>
@@ -34,7 +33,7 @@
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Contraseña</mat-label>
                   <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                  <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                  <a href="" onClick="return false;" matSuffix (click)="hide = !hide"
                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                     <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
                       {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

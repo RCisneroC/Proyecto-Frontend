@@ -1,9 +1,20 @@
 export class User {
-  id!: number;
-  img!: string;
-  username!: string;
-  password!: string;
-  firstName!: string;
-  lastName!: string;
-  token!: string;
+   id!: string;
+   img!: string;
+   userName!: string;
+   password!: string;
+   firstName!: string; 
+   lastName!: string;
+   emailConfirm!:boolean;
+   email!:string;
+   userStatusId!:number;
+   gender!:string;
+   phoneNumber!:null;
+   createdDate!:string;
+   token!: string;
+   roles!: string[];
+ 
+  
 }
+
+
