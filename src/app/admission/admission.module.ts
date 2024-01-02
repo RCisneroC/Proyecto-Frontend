@@ -16,6 +16,11 @@ import { ScheduleActivitiesListComponent } from './schedule-activities-list/sche
 import { ActivityFormComponent } from './maestros/activity-form/activity-form.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
 import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-form/schedule-activity-detail-form.component';
+import { ModalityFormComponent } from './maestros/modality-form/modality-form.component';
+import { TypeActivityFormComponent } from './maestros/type-activity-form/type-activity-form.component';
+import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
+import { SourceFundsFormComponent } from './maestros/source-funds-form/source-funds-form.component';
+import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
 
 
 
@@ -32,6 +37,11 @@ import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-
     ActivityFormComponent,
     ScheduleActivityDetailComponent,
     ScheduleActivityDetailFormComponent,
+    ModalityFormComponent,
+    TypeActivityFormComponent,
+    ReasonFormComponent,
+    SourceFundsFormComponent,
+    SourceFundsListComponent,
     
   ],
   imports: [

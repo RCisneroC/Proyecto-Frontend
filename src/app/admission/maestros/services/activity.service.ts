@@ -34,7 +34,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllActivity(): void {
     this.subs.sink = this.httpClient
-      .get<Activity[]>(this.API_URL2)
+      .get<Activity[]>(environment.apiUrlSchedule+'Activity/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -49,14 +49,14 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   
   getAllActivity2 () {
     return this.httpClient
-      .get<Activity[]>(this.API_URL2);
+      .get<Activity[]>(environment.apiUrlSchedule+'Activity/GetAll');
       
   }
 
   addActivity(activity: Activity): void {
     this.dialogData = activity;
 
-    this.httpClient.post(environment.apiUrlSchedule+'Create', activity)
+    this.httpClient.post(environment.apiUrlSchedule+'Activity/Create', activity)
       .subscribe({
         next: () => {
           this.dialogData = activity;
@@ -70,7 +70,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   updateActivity(activity: Activity): void {
     this.dialogData = activity;
 
-    this.httpClient.put(environment.apiUrlSchedule+'Update', activity)
+    this.httpClient.put(environment.apiUrlSchedule+'Activity/Update', activity)
         .subscribe({
           next: () => {
             this.dialogData = activity;

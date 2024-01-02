@@ -5,6 +5,10 @@ import { ScheduleActivitiesListComponent } from './schedule-activities-list/sche
 import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule-activity-form.component';
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
+import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
+import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
+import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
+import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
 
 const routes: Routes = [
 
@@ -27,6 +31,22 @@ const routes: Routes = [
   {
     path: "activity-list",
     component: ActivityListComponent,
+  },
+  {
+    path: "modality-list",
+    component: ModalityListComponent,
+  },
+  {
+    path: "type-activity-list",
+    component: TypeActivityListComponent,
+  },
+  {
+    path: "reason-list",
+    component: ReasonListComponent,
+  },
+  {
+    path: "source-funds-list",
+    component: SourceFundsListComponent,
   }
 
 ];

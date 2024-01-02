@@ -1,5 +1,6 @@
 export class Lounge {
-    id!: string;
+    id!: number;
     name!: string;
-    status!:number;
+    description!:string
+    statusId!:number;
  }

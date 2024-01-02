@@ -42,7 +42,7 @@ export class ScheduleActivityFormComponent {
       this.dialogTitle = 'Añadir cronograma';
      
       this.schedule = new ScheduleActivity();
-      this.schedule.curriculumDesignStatusId=1;
+      this.schedule.statusId=1;
      
     }
     this.scheduleForm = this.createContactForm();
@@ -68,11 +68,11 @@ export class ScheduleActivityFormComponent {
   }
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      id: new FormControl(this.schedule.id, Validators.required),
+      id: new FormControl(this.schedule.id),
       name: new FormControl(this.schedule.name, Validators.required),
-      description: new FormControl(this.schedule.description),
+      description: new FormControl(this.schedule.description, Validators.required),
       year: new FormControl(this.schedule.year, Validators.required),
-      curriculumDesignStatusId: new FormControl(this.schedule.curriculumDesignStatusId, [Validators.required, Validators.min(1)])
+      statusId: new FormControl(this.schedule.statusId, [Validators.required, Validators.min(1)])
       
     });
     
@@ -88,27 +88,18 @@ export class ScheduleActivityFormComponent {
   }
   public confirmAdd(): void {
    
-    // if  (this.action==='edit'){
-    //   this.userService.updateUser(
-    //     this.userForm.getRawValue()
-    //   ); }else{
-    //     this.userService.addUser(
-    //       this.userForm.getRawValue()
-    //     );
-    //   }
+    if  (this.action==='edit'){
+      this.scheduleActivitiesService.updateScheduleActivity(
+        this.scheduleForm.getRawValue()
+      ); }else{
+        this.scheduleActivitiesService.addScheduleActivity(
+          this.scheduleForm.getRawValue()
+        );
+      }
       
   }
   
-  loadRol() {
-    // this._roleService.getAllRols2().subscribe({
-    //   next: (data) => {
-    //   this.roleList=data;
-    //   },
-    //   error: (error: HttpErrorResponse) => {
-    //     console.log(error.message);
-    //   },
-    // });
-  }
+
   
 
 }

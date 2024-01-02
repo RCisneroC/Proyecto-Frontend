@@ -11,29 +11,29 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     submenu: [],
   },
-  {
-    path: "",
-    title: "MENUITEMS.DASHBOARD.TEXT",
-    iconType: "feather",
-    icon: "home",
-    class: "",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    submenu: [
-      // {
-      //   path: "dashboard/dashboard1",
-      //   title: "MENUITEMS.DASHBOARD.LIST.DASHBOARD1",
-      //   iconType: "",
-      //   icon: "user-check",
-      //   class: "",
-      //   groupTitle: false,
-      //   badge: "",
-      //   badgeClass: "",
-      //   submenu: [],
-      // }
-    ],
-  },
+  // {
+  //   path: "",
+  //   title: "MENUITEMS.DASHBOARD.TEXT",
+  //   iconType: "feather",
+  //   icon: "home",
+  //   class: "",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: [
+  //     // {
+  //     //   path: "dashboard/dashboard1",
+  //     //   title: "MENUITEMS.DASHBOARD.LIST.DASHBOARD1",
+  //     //   iconType: "",
+  //     //   icon: "user-check",
+  //     //   class: "",
+  //     //   groupTitle: false,
+  //     //   badge: "",
+  //     //   badgeClass: "",
+  //     //   submenu: [],
+  //     // }
+  //   ],
+  // },
   // Common Modules
   
   {
@@ -134,6 +134,17 @@ export const ROUTES: RouteInfo[] = [
           submenu: []
         },
         {
+          path: "admission/",
+          title: "Insumos",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
           path: "admission/reason-list",
           title: "Motivo",
           iconType: "",
@@ -165,7 +176,19 @@ export const ROUTES: RouteInfo[] = [
           badge: "",
           badgeClass: "",
           submenu: []
-        }
+        },
+        {
+          path: "admission/source-funds-list",
+          title: "Origen de fondos",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        
       ]
     }
     ]
