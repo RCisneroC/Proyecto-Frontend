@@ -67,12 +67,19 @@
                                   <span class="mobile-label">Salón:</span>{{row.name}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="status">
+                              <ng-container matColumnDef="description">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="statusId">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                    <div [ngClass]="{'badge badge-solid-green': row.status === 1,'badge badge-solid-red' : row.status === 0 }">
-                                        <span class="mobile-label ">Estatus:</span>{{row.status === 1?'Activo':'Inactivo'}}  </div>
+                                    <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
+                                        <span class="mobile-label ">Estatus:</span>{{row.statusId === 1?'Activo':'Inactivo'}}  </div>
                                 </mat-cell>
                               </ng-container>
                              
@@ -84,6 +91,7 @@
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
+                                  <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button>
                                 
                                 </mat-cell>
                               </ng-container>

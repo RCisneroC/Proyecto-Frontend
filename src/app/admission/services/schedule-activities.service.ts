@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ScheduleActivity, ScheduleActivityDetail } from '../models/scheduleActivity';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
   private readonly API_URL = 'assets/data/cronograma.json';
   private readonly API_URL1 = 'assets/data/activityDetail.json';
+  
   isTblLoading = true;
   dataChange: BehaviorSubject<ScheduleActivity[]> = new BehaviorSubject<
   ScheduleActivity[]
@@ -41,7 +43,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllSchedule(): void {
     this.subs.sink = this.httpClient
-      .get<ScheduleActivity[]>(this.API_URL)
+      .get<ScheduleActivity[]>(environment.apiUrlSchedule+'CurriculumDesign/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -54,9 +56,9 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       });
   }
   
-  getAllActivityDetail(): void {
+  getAllActivityDetail(id:number): void {
     this.subs.sink = this.httpClient
-      .get<ScheduleActivityDetail[]>(this.API_URL1)
+      .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule+'CurriculumDesign/GetActivitiesBy?CurriculumDesignId='+id)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -73,7 +75,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   addActivityDetail(activityDetail: ScheduleActivityDetail): void {
     this.dialogDataDetail = activityDetail;
 
-    this.httpClient.post(this.API_URL1, activityDetail)
+    this.httpClient.post(environment.apiUrlSchedule+'CurriculumDesign/CreateActivity', activityDetail)
       .subscribe({
         next: () => {
           this.dialogDataDetail  = activityDetail;
@@ -84,10 +86,38 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+  
+  addScheduleActivity(scheduleActivity: ScheduleActivity): void {
+    this.dialogData = scheduleActivity;
+    this.httpClient.post(environment.apiUrlSchedule+'CurriculumDesign/Create', scheduleActivity)
+      .subscribe({
+        next: () => {
+          this.dialogData  = scheduleActivity;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+  updateScheduleActivity(scheduleActivity: ScheduleActivity): void {
+    this.dialogData = scheduleActivity;
+    this.httpClient.put(environment.apiUrlSchedule+'CurriculumDesign/Update', scheduleActivity)
+      .subscribe({
+        next: () => {
+          this.dialogData  = scheduleActivity;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+  
   updateActivityDetail(activityDetail: ScheduleActivityDetail): void {
     this.dialogDataDetail = activityDetail;
 
-    this.httpClient.put(this.API_URL1, activityDetail)
+    this.httpClient.put(environment.apiUrlSchedule+'CurriculumDesign/UpdateActivity', activityDetail)
         .subscribe({
           next: () => {
             this.dialogDataDetail = activityDetail;

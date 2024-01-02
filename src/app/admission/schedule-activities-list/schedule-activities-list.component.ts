@@ -26,7 +26,7 @@ implements OnInit{
     'name',
     'description',
     'year',
-    'curriculumDesignStatusId',
+    'statusId',
     'actions',
   ];
   

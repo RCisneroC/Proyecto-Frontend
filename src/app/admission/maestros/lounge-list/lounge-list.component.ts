@@ -23,14 +23,15 @@ implements OnInit{
 
   displayedColumns = [
     'name',
-    'status',
+    'description',
+    'statusId',
     'actions',
   ];
   
   exampleDatabase?: MasterService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Lounge>(true, []);
-  id?: string;
+  id?: number;
   lounge?: Lounge;
 
   constructor(
@@ -62,7 +63,7 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(LoungeFormComponent, {
       data: {
-        role: this.lounge,
+        lounge: this.lounge,
         action: 'add',
       },
       direction: tempDirection,
@@ -94,7 +95,7 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(LoungeFormComponent, {
       data: {
-        role: row,
+        lounge: row,
         action: 'edit',
       },
       direction: tempDirection,

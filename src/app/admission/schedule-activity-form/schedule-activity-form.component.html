@@ -20,7 +20,9 @@
               <mat-label>Nombre</mat-label>
               <input matInput formControlName="name" >
               <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            
+              <mat-error *ngIf="scheduleForm.get('name')?.hasError('required')">
+                El nombre es requerido
+              </mat-error>
             </mat-form-field>
           </div>
           
@@ -63,7 +65,7 @@
             <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
               <mat-form-field class="example-full-width " appearance="outline">
                 <mat-label>Estatus</mat-label>
-                <mat-select formControlName="curriculumDesignStatusId" >
+                <mat-select formControlName="statusId" >
                   <mat-option [value]="1" >
                       Activo
                   </mat-option>
@@ -73,7 +75,7 @@
                
                   
                 </mat-select>
-                <mat-error *ngIf="scheduleForm.get('curriculumDesignStatusId')?.hasError('required')">
+                <mat-error *ngIf="scheduleForm.get('statusId')?.hasError('required')">
                   el estatus es requerido
                 </mat-error>
               </mat-form-field>

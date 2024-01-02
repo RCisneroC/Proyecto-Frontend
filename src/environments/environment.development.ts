@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl:'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',
-  apiUrlSchedule:"https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/"
+  apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/"
+  
 };
 
 /*
