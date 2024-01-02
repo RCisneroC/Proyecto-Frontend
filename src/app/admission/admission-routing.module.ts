@@ -5,6 +5,9 @@ import { ScheduleActivitiesListComponent } from './schedule-activities-list/sche
 import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule-activity-form.component';
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
+import {BackofficeComponent} from './inscription/backoffice/backoffice.component'
+import {InternalUserComponent} from './inscription/internal-user/internal-user.component'
+import { ExternalUserComponent } from './inscription/external-user/external-user.component';
 import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
 import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
 import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
@@ -33,6 +36,19 @@ const routes: Routes = [
     component: ActivityListComponent,
   },
   {
+    path: "backoffice",
+    component: BackofficeComponent,
+  },
+  {
+    path: "internal-user",
+    component: InternalUserComponent,
+  },
+  {
+    path: "external-user",
+    component: ExternalUserComponent,
+  },
+  {
+
     path: "modality-list",
     component: ModalityListComponent,
   },
