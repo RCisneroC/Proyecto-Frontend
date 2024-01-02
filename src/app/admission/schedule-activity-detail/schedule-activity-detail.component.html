@@ -76,17 +76,17 @@
                               
                     
                               
-                              <ng-container matColumnDef="activityMode">
+                              <ng-container matColumnDef="activityModeName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Modalidad:</span>{{row.activityMode}}</mat-cell>
+                                  <span class="mobile-label">Modalidad:</span>{{row.activityModeName}}</mat-cell>
                               </ng-container>
-                              <ng-container matColumnDef="activityType">
+                              <ng-container matColumnDef="activityTypeName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de actividad
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Tipo de actividad:</span>{{row.activityType}}</mat-cell>
+                                  <span class="mobile-label">Tipo de actividad:</span>{{row.activityTypeName}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="activityName">
@@ -96,19 +96,19 @@
                                   <span class="mobile-label">Nombre de la actividad:</span>{{row.activityName}}</mat-cell>
                               </ng-container>
                               
-                              
-                              <ng-container matColumnDef="activityLocation">
+                             
+                              <ng-container matColumnDef="activityLocationName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Lugar:</span>{{row.activityLocation}}</mat-cell>
+                                  <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="assignedCoordinator">
+                              <ng-container matColumnDef="assignedCoordinatorName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Coord.Responsable
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Coord.Responsable:</span>{{row.assignedCoordinator}}</mat-cell>
+                                  <span class="mobile-label">Coord.Responsable:</span>{{row.assignedCoordinatorName}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="startDate">
@@ -141,18 +141,18 @@
                                   <span class="mobile-label">Ejecutado:</span>{{row.isExecuted===true?"SÍ":"No"}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="activityReason">
+                              <ng-container matColumnDef="activityReasonName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo de cambio/cancelación de la actividad
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Motivo de cambio/cancelación de la actividad:</span>{{row.activityReason}}</mat-cell>
+                                  <span class="mobile-label">Motivo de cambio/cancelación de la actividad:</span>{{row.activityReasonName}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="activityFundsSource">
+                              <ng-container matColumnDef="activityFundsSourceName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Origen de los fondos
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Origen de los fondos:</span>{{row.activityFundsSource}}</mat-cell>
+                                  <span class="mobile-label">Origen de los fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="numOfAssignedTeachers">
@@ -199,18 +199,18 @@
                                   <span class="mobile-label">Fecha entrega informe físico:</span>{{row.physicalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="enrolledStudentsDiplomat">
+                              <ng-container matColumnDef="enrolledStudentsDiploma">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes matriculados diplomado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes matriculados diplomado:</span>{{row.enrolledStudentsDiplomat}}</mat-cell>
+                                  <span class="mobile-label">Estuadiantes matriculados diplomado:</span>{{row.enrolledStudentsDiploma}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="retiredStudentsDiplomat">
+                              <ng-container matColumnDef="retiredStudentsDiploma">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes retirados diplomado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes retirados diplomado:</span>{{row.retiredStudentsDiplomat}}</mat-cell>
+                                  <span class="mobile-label">Estuadiantes retirados diplomado:</span>{{row.retiredStudentsDiploma}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="participants">
@@ -324,6 +324,7 @@
                        
                       </div>
                       <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-activities-list']" >Regresar</button>
+                      <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-activities-list']" >Aprobar</button>
                     </div>
                   </div>
             </div>

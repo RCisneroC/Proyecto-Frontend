@@ -82,12 +82,12 @@
                               
                               
                     
-                              <ng-container matColumnDef="curriculumDesignStatusId" >
+                              <ng-container matColumnDef="statusId" >
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                <div [ngClass]="{'badge badge-solid-green': row.curriculumDesignStatusId === 1,'badge badge-solid-red' : row.curriculumDesignStatusId === 2 }">
-                                  <span class="mobile-label ">Estatus:</span>{{row.curriculumDesignStatusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
+                                <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
+                                  <span class="mobile-label ">Estatus:</span>{{row.statusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
                               
                                   
                               </ng-container>
@@ -100,8 +100,9 @@
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
+                                  
                                   <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Detalle</button>
-                                
+                                  <button  mat-stroked-button color="primary" (click)="ViewDetail(row)">Aprobar</button>
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

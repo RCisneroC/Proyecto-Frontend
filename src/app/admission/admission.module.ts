@@ -19,6 +19,11 @@ import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-
 import { BackofficeComponent } from './inscription/backoffice/backoffice.component';
 import { ExternalUserComponent } from './inscription/external-user/external-user.component';
 import { InternalUserComponent } from './inscription/internal-user/internal-user.component';
+import { ModalityFormComponent } from './maestros/modality-form/modality-form.component';
+import { TypeActivityFormComponent } from './maestros/type-activity-form/type-activity-form.component';
+import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
+import { SourceFundsFormComponent } from './maestros/source-funds-form/source-funds-form.component';
+import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
 
 
 
@@ -37,8 +42,13 @@ import { InternalUserComponent } from './inscription/internal-user/internal-user
     ScheduleActivityDetailFormComponent,
     BackofficeComponent,
     ExternalUserComponent,
-    InternalUserComponent
+    InternalUserComponent,
     
+    ModalityFormComponent,
+    TypeActivityFormComponent,
+    ReasonFormComponent,
+    SourceFundsFormComponent,
+    SourceFundsListComponent,
     
   ],
   imports: [

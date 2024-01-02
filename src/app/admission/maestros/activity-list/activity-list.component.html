@@ -65,6 +65,34 @@
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
                               </ng-container>
+                              
+                              <ng-container matColumnDef="enrollmentFee">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Monto de matrícula
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Monto de matrícula:</span>{{row.enrollmentFee}}</mat-cell>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="numOfHours">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Horas de curso
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Horas de curso:</span>{{row.numOfHours}}</mat-cell>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="numOfVacancies">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Número de vacantes
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Número de vacantes:</span>{{row.numOfVacancies}}</mat-cell>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="profileType">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de perfil
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Número de vacantes:</span>{{row.profileType}}</mat-cell>
+                              </ng-container>
                              
                               <ng-container matColumnDef="statusId">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus

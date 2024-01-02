@@ -8,6 +8,11 @@ import { ScheduleActivityDetailComponent } from './schedule-activity-detail/sche
 import {BackofficeComponent} from './inscription/backoffice/backoffice.component'
 import {InternalUserComponent} from './inscription/internal-user/internal-user.component'
 import { ExternalUserComponent } from './inscription/external-user/external-user.component';
+import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
+import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
+import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
+import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
+
 const routes: Routes = [
 
   {
@@ -42,7 +47,23 @@ const routes: Routes = [
     path: "external-user",
     component: ExternalUserComponent,
   },
+  {
 
+    path: "modality-list",
+    component: ModalityListComponent,
+  },
+  {
+    path: "type-activity-list",
+    component: TypeActivityListComponent,
+  },
+  {
+    path: "reason-list",
+    component: ReasonListComponent,
+  },
+  {
+    path: "source-funds-list",
+    component: SourceFundsListComponent,
+  }
 
 ];
 

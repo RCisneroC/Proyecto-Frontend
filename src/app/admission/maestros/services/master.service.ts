@@ -29,7 +29,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllLounge(): void {
     this.subs.sink = this.httpClient
-      .get<Lounge[]>(this.API_URL)
+      .get<Lounge[]>(environment.apiUrlSchedule+'Room/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -44,7 +44,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   addLounge(lounge: Lounge): void {
     this.dialogData = lounge;
 
-    this.httpClient.post(environment.apiUrl+'Register', lounge)
+    this.httpClient.post(environment.apiUrlSchedule+'Room/Create', lounge)
       .subscribe({
         next: () => {
           this.dialogData = lounge;
@@ -58,7 +58,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   updateLounge(lounge: Lounge): void {
     this.dialogData = lounge;
 
-    this.httpClient.put(environment.apiUrl+'UpdateUser', lounge)
+    this.httpClient.put(environment.apiUrlSchedule+'Room/Update', lounge)
         .subscribe({
           next: () => {
             this.dialogData = lounge;

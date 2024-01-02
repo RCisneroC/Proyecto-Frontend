@@ -3,18 +3,19 @@ export class ScheduleActivity {
     name!: string;
     description!:string;
     year!:number;
-    curriculumDesignStatusId!: number;
+    statusId!: number;
+    curriculumDesignActivities!:ScheduleActivityDetail[];
  }
  
  export class ScheduleActivityDetail {
-   curriculumDesignId!:string
-   idDetail!:string
+   curriculumDesignId!:number
+   id!:number
    planningDate!: string
    activityModeId!: number
    activityTypeId!: number
-   activityNameId!: number
+   activityId!: number
    activityLocationId!: number
-   assignedCoordinatorId!: number
+   assignedCoordinatorId!: string
    startDate!: string
    plannedEndDate!: string
    effectiveEndDate!: string

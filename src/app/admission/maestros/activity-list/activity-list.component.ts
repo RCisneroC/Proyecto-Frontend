@@ -23,14 +23,18 @@ implements OnInit{
 
   displayedColumns = [
         'name',
-       'statusId',
-         'actions',
+        'enrollmentFee',
+        'numOfHours',
+        'numOfVacancies',
+        'profileType',
+        'statusId',
+        'actions',
   ];
   
   exampleDatabase?: ActivityService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Activity>(true, []);
-  name?: string;
+  id?: number;
   activity?: Activity;
 
   constructor(
@@ -85,7 +89,7 @@ implements OnInit{
     });
   }
   editCall(row: Activity) {
-    this.name = row.name;
+    this.id = row.id;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -94,7 +98,7 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(ActivityFormComponent, {
       data: {
-        role: row,
+        activity: row,
         action: 'edit',
       },
       direction: tempDirection,
@@ -103,7 +107,7 @@ implements OnInit{
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-          (x) => x.name === this.name
+          (x) => x.id === this.id
         );
         // Then you update that record using data from dialogData (values you enetered)
         if (foundIndex != null && this.exampleDatabase) {

@@ -6,9 +6,20 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Activity } from '../models/activity';
 import { ActivityService } from '../maestros/services/activity.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalityService } from '../maestros/services/modality.service';
+import { Modality } from '../models/modality';
+import { TypeActivityService } from '../maestros/services/type-activity.service';
+import { TypeActivity } from '../models/type-activity';
+import { UserService } from 'app/security/user/service/user.service';
+import { User } from '@core/models/user';
+import { Reason } from '../models/reason';
+import { ReasonService } from '../maestros/services/reason.service';
+import { SourceFunds } from '../models/source -funds';
+import { SourceFundsService } from '../maestros/services/source-funds.service';
+
 
 export interface DialogData {
-  id: string;
+  id: number;
   action: string;
   scheduleActivity: ScheduleActivityDetail;
 }
@@ -24,9 +35,21 @@ export class ScheduleActivityDetailFormComponent {
   scheduleForm!: UntypedFormGroup;
   schedule!:ScheduleActivityDetail;
   activityList!: Activity[];
+  modalityList!: Modality[];
+  typeActivityList!: TypeActivity[];
+  userList!: User [];
+  reasonList!: Reason [];
+  sourceFundsList!: SourceFunds [];
+  
+  id!:number;
  
   constructor(
     private _activityService: ActivityService,
+    private _modalityService: ModalityService,
+    private _typeActivityService: TypeActivityService,
+    private _userService: UserService,
+    private _reasonService: ReasonService,
+    private _sourceFundsService: SourceFundsService,
     public dialogRef: MatDialogRef<ScheduleActivityDetailFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public scheduleActivitiesService: ScheduleActivitiesService,
@@ -42,16 +65,17 @@ export class ScheduleActivityDetailFormComponent {
     } else {
       
       this.dialogTitle = 'Añadir actividad';
-      //const blankObject = {} as Role;
+      this.id=data.id;
       this.schedule = new ScheduleActivityDetail();
-      //this.user.id="-1";
+   
     }
     this.scheduleForm = this.createContactForm();
-     this._activityService.getAllActivity();
-    // this.roleList =this._roleService.data.map((x)=>x
-    // );
-  
     this.loadActivities();
+    this.loadModality();
+    this.loadTypeActivity();
+    this.loadUser();
+    this.loadReason();
+    this.loadSourceFunds();
   }
 
 
@@ -68,11 +92,12 @@ export class ScheduleActivityDetailFormComponent {
   }
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      curriculumDesignId: new FormControl(this.schedule.curriculumDesignId, Validators.required),
+      curriculumDesignId: new FormControl(this.action=="edit"?this.schedule.curriculumDesignId:this.id, Validators.required),
+      id: new FormControl(this.schedule.id, Validators.required),
       planningDate: new FormControl(this.schedule.planningDate, Validators.required),
       activityModeId: new FormControl(this.schedule.activityModeId, Validators.required),
       activityTypeId: new FormControl(this.schedule.activityTypeId, Validators.required),
-      activityNameId: new FormControl(this.schedule.activityNameId, Validators.required),
+      activityId: new FormControl(this.schedule.activityId, Validators.required),
       activityLocationId: new FormControl(this.schedule.activityLocationId, Validators.required),
       assignedCoordinatorId: new FormControl(this.schedule.assignedCoordinatorId, Validators.required),
       startDate: new FormControl(this.schedule.startDate, Validators.required),
@@ -81,18 +106,11 @@ export class ScheduleActivityDetailFormComponent {
       isExecuted: new FormControl(this.schedule.isExecuted, Validators.required),
       activityReasonId: new FormControl(this.schedule.activityReasonId, Validators.required),
       activityFundsSourceId: new FormControl(this.schedule.activityFundsSourceId, Validators.required),
-      numOfAssignedTeachers: new FormControl(this.schedule.numOfAssignedTeachers, Validators.min(0)),
       hasDataSheet: new FormControl(this.schedule.hasDataSheet),
       dataSheetDeliveryDate: new FormControl(this.schedule.dataSheetDeliveryDate),
       isEvaluation: new FormControl(this.schedule.isEvaluation),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
-      enrolledStudentsDiplomat: new FormControl(this.schedule.enrolledStudentsDiplomat, Validators.min(0)),
-      retiredStudentsDiplomat: new FormControl(this.schedule.retiredStudentsDiplomat, Validators.min(0)),
-      participants: new FormControl(this.schedule.participants, Validators.min(0)),
-      male: new FormControl(this.schedule.male, Validators.min(0)),
-      female: new FormControl(this.schedule.female, Validators.min(0)),
-      certificatesReceived: new FormControl(this.schedule.certificatesReceived, Validators.min(0)),
       observations: new FormControl(this.schedule.observations)
     });
     
@@ -129,6 +147,64 @@ export class ScheduleActivityDetailFormComponent {
       },
     });
   }
+  
+  loadModality() {
+    this._modalityService.getAllModality2().subscribe({
+      next: (data) => {
+      this.modalityList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+  loadTypeActivity() {
+    this._typeActivityService.getAllTypeActivity2().subscribe({
+      next: (data) => {
+      this.typeActivityList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+  loadUser() {
+    this._userService.getAllUsers2().subscribe({
+      next: (data) => {
+      this.userList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+  loadReason() {
+    this._reasonService.getAllReason2().subscribe({
+      next: (data) => {
+      this.reasonList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+    
+  loadSourceFunds() {
+    this._sourceFundsService.getAllSourceFunds2().subscribe({
+      next: (data) => {
+      this.sourceFundsList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+  
+  
   
 
 }

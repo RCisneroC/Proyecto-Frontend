@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
 import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-activity-detail',
@@ -23,25 +24,25 @@ implements OnInit{
 
   displayedColumns = [
          'planningDate',
-         'activityMode',
-         'activityType',
+         'activityModeName',
+         'activityTypeName',
          'activityName',
-         'activityLocation',
-         'assignedCoordinator',
+         'activityLocationName',
+         'assignedCoordinatorName',
          'startDate',
          'plannedEndDate',
          'effectiveEndDate',
          'isExecuted',
-         'activityReason',
-         'activityFundsSource',
+         'activityReasonName',
+         'activityFundsSourceName',
          'numOfAssignedTeachers',
          'hasDataSheet',
          'dataSheetDeliveryDate',
          'isEvaluation',
          'digitalReportDeliveryDate',
          'physicalReportDeliveryDate',
-         'enrolledStudentsDiplomat',
-         'retiredStudentsDiplomat',
+         'enrolledStudentsDiploma',
+         'retiredStudentsDiploma',
          'participants',
          'male',
          'female',
@@ -53,14 +54,15 @@ implements OnInit{
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivityDetail>(true, []);
-  id?: string;
+  id?: number;
   activityDetail?: ScheduleActivityDetail;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public activityDetailService: ScheduleActivitiesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) {
     super();
   }
@@ -72,11 +74,19 @@ implements OnInit{
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+   
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+  
+     
+  })
+   
   }
   refresh() {
     this.loadData();
   }
   addNew() {
+  
    let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -87,6 +97,7 @@ implements OnInit{
       data: {
         activity: this.activityDetail,
         action: 'add',
+        id: this.id,
       },
       direction: tempDirection,
     });
@@ -160,7 +171,8 @@ implements OnInit{
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
-      this.sort
+      this.sort,
+      this.activatedRoute
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -200,6 +212,7 @@ implements OnInit{
 }
 export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   filterChange = new BehaviorSubject('');
+  id!: number;
   get filter(): string {
     return this.filterChange.value;
   }
@@ -211,7 +224,8 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   constructor(
     public exampleDatabase: ScheduleActivitiesService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    public activatedRoute: ActivatedRoute
   ) {
     super();
     // Reset to the first page when the user changes the filter.
@@ -226,14 +240,18 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllActivityDetail();
+    
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id']; 
+    });
+    this.exampleDatabase.getAllActivityDetail(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-            const searchStr = (activity.dataSheetDeliveryDate).toLowerCase();
+            const searchStr = (activity.observations).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

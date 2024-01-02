@@ -30,8 +30,13 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Modalidad</mat-label>
-            <input matInput formControlName="activityModeId" >
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-select formControlName="activityModeId" >
+              <mat-option *ngFor="let row of modalityList"  [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityModeId')?.hasError('required')">
+              la modalidad es requerida
+            </mat-error>
+          
           
           </mat-form-field>
         
@@ -39,9 +44,12 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Tipo de actividad</mat-label>
-            <input matInput formControlName="activityTypeId" >
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-          
+            <mat-select formControlName="activityTypeId" >
+              <mat-option *ngFor="let row of typeActivityList"  [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityTypeId')?.hasError('required')">
+              el tipo de actividad es requerida
+            </mat-error>
           </mat-form-field>
           
         
@@ -49,10 +57,10 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Nombre de la actividad</mat-label>
-            <mat-select formControlName="activityNameId" >
+            <mat-select formControlName="activityId" >
               <mat-option *ngFor="let row of activityList"  [value]="row.id">{{row.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="scheduleForm.get('activityNameId')?.hasError('required')">
+            <mat-error *ngIf="scheduleForm.get('activityId')?.hasError('required')">
               la actividad es requerida
             </mat-error>
           </mat-form-field>
@@ -74,47 +82,46 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Coord.Asignado</mat-label>
-            <input matInput formControlName="assignedCoordinatorId" >
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-          
-          </mat-form-field>
-        
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-       
-          
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Fecha de inicio</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="startDate">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-            <mat-error *ngIf="scheduleForm.get('startDate')?.hasError('required')">
-               Selecciones una fecha
+            <mat-select formControlName="assignedCoordinatorId" >
+              <mat-option *ngFor="let row of userList"  [value]="row.id">{{row.firstName+" "+row.lastName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('assignedCoordinatorId')?.hasError('required')">
+              el coordinador es requerido
             </mat-error>
           </mat-form-field>
         
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-         
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Fecha final programada</mat-label>
-            <input matInput [matDatepicker]="picker2" formControlName="plannedEndDate">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
-            <mat-error *ngIf="scheduleForm.get('plannedEndDate')?.hasError('required')">
-               Selecciones una fecha
+            <mat-label>Motivo</mat-label>
+            <mat-select formControlName="activityReasonId" >
+              <mat-option *ngFor="let row of reasonList"  [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityReasonId')?.hasError('required')">
+              el motivo es requerido
             </mat-error>
           </mat-form-field>
         
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Origen de los fondos</mat-label>
+            <mat-select formControlName="activityFundsSourceId" >
+              <mat-option *ngFor="let row of sourceFundsList"  [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityFundsSourceId')?.hasError('required')">
+              el origen es requerido
+            </mat-error>
+          </mat-form-field>
         
         </div>
-          
+
 
          
          
         </div>
         <div  class="row">
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
            
             
             <mat-form-field class="example-full-width" appearance="outline">
@@ -129,163 +136,80 @@
           
           
           </div>
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Ejecutado</mat-label>
-              <input matInput formControlName="isExecuted" >
-              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            
-            </mat-form-field>
-          
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Motivo</mat-label>
-              <input matInput formControlName="activityReasonId" >
-              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            
-            </mat-form-field>
-          
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Origen de los fondos</mat-label>
-              <input matInput formControlName="activityFundsSourceId" >
-              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            
-            </mat-form-field>
-          
-          </div>
-        </div>
-     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Docente/s seleccionado/s</mat-label>
-          <input matInput formControlName="numOfAssignedTeachers" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
         
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Ficha técnica de la actividad</mat-label>
-          <input matInput formControlName="hasDataSheet" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+       
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+       
+          
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha de inicio</mat-label>
+              <input matInput [matDatepicker]="picker1" formControlName="startDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="scheduleForm.get('startDate')?.hasError('required')">
+                 Selecciones una fecha
+              </mat-error>
+            </mat-form-field>
+          
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+           
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha final programada</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="plannedEndDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+              <mat-error *ngIf="scheduleForm.get('plannedEndDate')?.hasError('required')">
+                 Selecciones una fecha
+              </mat-error>
+            </mat-form-field>
+          
+          
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
      
         
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Fecha entrega ficha técnica</mat-label>
-          <input matInput [matDatepicker]="picker4" formControlName="dataSheetDeliveryDate">
-          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-          <mat-datepicker #picker4></mat-datepicker>
-          <mat-error *ngIf="scheduleForm.get('dataSheetDeliveryDate')?.hasError('required')">
-             Selecciones una fecha
-          </mat-error>
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Evaluación</mat-label>
-          <input matInput formControlName="isEvaluation" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha entrega ficha técnica</mat-label>
+              <input matInput [matDatepicker]="picker4" formControlName="dataSheetDeliveryDate">
+              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+              <mat-datepicker #picker4></mat-datepicker>
+              <mat-error *ngIf="scheduleForm.get('dataSheetDeliveryDate')?.hasError('required')">
+                 Selecciones una fecha
+              </mat-error>
+            </mat-form-field>
+          
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
        
         
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Fecha entrega de informe digital</mat-label>
-          <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate">
-          <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-          <mat-datepicker #picker5></mat-datepicker>
-          <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
-             Selecciones una fecha
-          </mat-error>
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-       
-        
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Fecha entrega de informe físico</mat-label>
-          <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate">
-          <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
-          <mat-datepicker #picker6></mat-datepicker>
-          <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
-             Selecciones una fecha
-          </mat-error>
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Estudiantes matriculados diplomado</mat-label>
-          <input matInput formControlName="enrolledStudentsDiplomat" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Estudiantes retirados diplomado</mat-label>
-          <input matInput formControlName="retiredStudentsDiplomat" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Participantes</mat-label>
-          <input matInput formControlName="participants" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Masculino</mat-label>
-          <input matInput formControlName="male" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Femenino</mat-label>
-          <input matInput formControlName="female" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Certificados recibidos</mat-label>
-          <input matInput formControlName="certificatesReceived" >
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
-        </mat-form-field>
-      
-      </div>
-     </div>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha entrega de informe digital</mat-label>
+              <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate">
+              <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+              <mat-datepicker #picker5></mat-datepicker>
+              <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
+                 Selecciones una fecha
+              </mat-error>
+            </mat-form-field>
+          
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+           
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha entrega de informe físico</mat-label>
+              <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate">
+              <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+              <mat-datepicker #picker6></mat-datepicker>
+              <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
+                 Selecciones una fecha
+              </mat-error>
+            </mat-form-field>
+          
+          </div>
+            
+        </div>
+
      <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
         <mat-form-field class="example-full-width" appearance="outline">
@@ -296,7 +220,10 @@
         </mat-form-field>
       
       </div>
+      
+      
      </div>
+   
       <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
