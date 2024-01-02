@@ -57,6 +57,51 @@ export const ROUTES: RouteInfo[] = [
       badgeClass: "",
       submenu: []
     },
+    {
+      path: "admission/",
+      title: "Inscripciones",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/backoffice",
+          title: "BackOffice",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/external-user",
+          title: "Usuario externo",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/internal-user",
+          title: "Usuario interno",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+      ]
+    },
     // {
     //   path: "admission/",
     //   title: "Inscripción",
