@@ -2,7 +2,7 @@ import { RouteInfo } from "./sidebar.metadata";
 export const ROUTES: RouteInfo[] = [
   {
     path: "",
-    title: "MENUITEMS.MAIN.TEXT",
+    title: "MENU",
     iconType: "",
     icon: "",
     class: "",
@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "",
-    title: "Adminisión",
+    title: "Admisión",
     iconType: "feather",
     icon: "calendar",
     class: "menu-toggle",

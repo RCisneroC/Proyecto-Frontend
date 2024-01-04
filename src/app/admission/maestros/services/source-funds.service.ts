@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { SourceFunds } from 'app/admission/models/source -funds';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
@@ -29,7 +30,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllSourceFunds(): void {
     this.subs.sink = this.httpClient
-      .get<SourceFunds[]>(this.API_URL)
+      .get<SourceFunds[]>(environment.apiUrlSchedule+'ActivityFundsSource/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -44,35 +45,36 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   getAllSourceFunds2() {
    return this.httpClient
       .get<SourceFunds[]>(this.API_URL);
-     
   }
-  addSourceFunds(sourceFunds: SourceFunds): void {
-    this.dialogData = sourceFunds;
 
-    this.httpClient.post(environment.apiUrl+'Register', sourceFunds)
+  addSourceFunds(sourceFunds: SourceFunds): void {
+    this.httpClient.post<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Create', sourceFunds)
       .subscribe({
-        next: () => {
-          this.dialogData = sourceFunds;
+        next: (res:ResponseGenerica) => {
         },
         error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
         },
       });
   }
-  updateSourceFunds(sourceFunds: SourceFunds): void {
-    this.dialogData = sourceFunds;
 
-    this.httpClient.put(environment.apiUrl+'UpdateUser', sourceFunds)
+  updateSourceFunds(sourceFunds: SourceFunds): void {
+    this.httpClient.put<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Update', sourceFunds)
         .subscribe({
-          next: () => {
-            this.dialogData = sourceFunds;
+          next: (res:ResponseGenerica) => {
           },
           error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
           },
         });
   }
-  
+
+  // DeleteSourceFunds(sourceFunds: SourceFunds): void {
+  // this.httpClient.delete<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Delete', sourceFunds)
+  //     .subscribe({
+  //       next: (res:ResponseGenerica) => {
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //       },
+  //     });
+  // }
+
 }
