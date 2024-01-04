@@ -16,11 +16,11 @@
         <div class="row">
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>name</mat-label>
+              <mat-label>Nombre</mat-label>
               <input matInput formControlName="name">
               <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
               <mat-error *ngIf="loungeForm.get('name')?.hasError('required')">
-                El name es requerido
+                El Nombre es requerido
               </mat-error>
             </mat-form-field>
           </div>
@@ -38,7 +38,7 @@
          
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                 <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Estatus</mat-label>
+                    <mat-label>Estado</mat-label>
                     <mat-select formControlName="statusId" >
                       <mat-option [value]="1">
                           Activo
@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
               <div class="example-button-row">
-                <button mat-raised-button color="primary" [disabled]="!loungeForm.valid" [mat-dialog-close]="1"
+                <button mat-raised-button color="primary" [disabled]="!loungeForm.valid"
                   (click)="confirmAdd()">Guardar</button>
                 <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
               </div>
@@ -67,6 +67,5 @@
       </form>
     </div>
   </div>
-  
 
 

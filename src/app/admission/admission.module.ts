@@ -24,6 +24,14 @@ import { TypeActivityFormComponent } from './maestros/type-activity-form/type-ac
 import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
 import { SourceFundsFormComponent } from './maestros/source-funds-form/source-funds-form.component';
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
+import { ActivityUbicationListComponent } from './maestros/activity-ubication-list/activity-ubication-list.component';
+import { ActivityUbicationFormComponent } from './maestros/activity-ubication-form/activity-ubication-form.component';
+import { SuppliesListComponent } from './maestros/supplies-list/supplies-list.component';
+import { SuppliesListFormComponent } from './maestros/supplies-list-form/supplies-list-form.component';
+import { DocumentRequiredFormComponent } from './maestros/document-required-form/document-required-form.component';
+import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
+import { StatusListComponent } from './maestros/status-list/status-list.component';
+import { StatusFormComponent } from './maestros/status-form/status-form.component';
 
 
 
@@ -43,12 +51,19 @@ import { SourceFundsListComponent } from './maestros/source-funds-list/source-fu
     BackofficeComponent,
     ExternalUserComponent,
     InternalUserComponent,
-    
     ModalityFormComponent,
     TypeActivityFormComponent,
     ReasonFormComponent,
     SourceFundsFormComponent,
     SourceFundsListComponent,
+    ActivityUbicationListComponent,
+    ActivityUbicationFormComponent,
+    SuppliesListComponent,
+    SuppliesListFormComponent,
+    DocumentRequiredFormComponent,
+    DocumentRequiredListComponent,
+    StatusListComponent,
+    StatusFormComponent,
     
   ],
   imports: [

@@ -24,12 +24,12 @@
           <!-- Top Most level menu -->
           <li *ngFor="let sidebarItem of sidebarItems"
             [routerLinkActive]="sidebarItem.submenu.length !== 0 ? 'active' : 'active-top'">
-            <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title | translate}}</div>
+            <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title}}</div>
             <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;"
               [ngClass]="[sidebarItem.class]" (click)="callToggleMenu($event, sidebarItem.submenu.length)"
               class="menu-top">
               <i-feather [name]="sidebarItem.icon" class="sidebarIcon"></i-feather>
-              <span class="hide-menu">{{sidebarItem.title | translate}}
+              <span class="hide-menu">{{sidebarItem.title}}
               </span>
               <span *ngIf="sidebarItem.badge !== '' " [ngClass]="[sidebarItem.badgeClass]">{{sidebarItem.badge}}</span>
             </a>
@@ -39,7 +39,7 @@
                 [routerLinkActive]="sidebarSubItem1.submenu.length > 0 ? '' : 'active'">
                 <a [routerLink]="sidebarSubItem1.submenu.length > 0 ? null : [sidebarSubItem1.path]"
                   (click)="callToggleMenu($event,sidebarSubItem1.submenu.length)" [ngClass]="[sidebarSubItem1.class]">
-                  {{sidebarSubItem1.title | translate}}
+                  {{sidebarSubItem1.title}}
                 </a>
                 <!-- Second level menu -->
                 <ul class="ml-menu-2" *ngIf="sidebarSubItem1.submenu.length > 0">
@@ -48,7 +48,7 @@
                     <a [routerLink]="sidebarSubItem2.submenu.length > 0 ? null : [sidebarSubItem2.path]"
                       (click)="callToggleMenu($event,sidebarSubItem2.submenu.length)"
                       [ngClass]="[sidebarSubItem2.class]">
-                      {{sidebarSubItem2.title | translate}}
+                      {{sidebarSubItem2.title}}
                     </a>
                     <!-- Third level menu -->
                     <ul class="ml-menu-3" *ngIf="sidebarSubItem2.submenu.length > 0">
@@ -57,7 +57,7 @@
                         <a [routerLink]="sidebarSubItem3.submenu.length > 0 ? null : [sidebarSubItem3.path]"
                           (click)="callToggleMenu($event,sidebarSubItem3.submenu.length)"
                           [ngClass]="[sidebarSubItem3.class]">
-                          {{sidebarSubItem3.title | translate}}
+                          {{sidebarSubItem3.title}}
                         </a>
                       </li>
                     </ul>

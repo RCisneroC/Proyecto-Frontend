@@ -12,6 +12,10 @@ import { ModalityListComponent } from './maestros/modality-list/modality-list.co
 import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
 import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
+import { ActivityUbicationListComponent } from './maestros/activity-ubication-list/activity-ubication-list.component';
+import { SuppliesListComponent } from './maestros/supplies-list/supplies-list.component';
+import { DocumentRequiredFormComponent } from './maestros/document-required-form/document-required-form.component';
+import { StatusListComponent } from './maestros/status-list/status-list.component';
 
 const routes: Routes = [
 
@@ -27,13 +31,44 @@ const routes: Routes = [
     path: "schedule-activity-detail/:id",
     component: ScheduleActivityDetailComponent,
   },
+
+  //maestras
+   {
+    path: "source-funds-list",
+    component: SourceFundsListComponent,
+  },
+  {
+    path: "activity-ubication-list",
+    component: ActivityUbicationListComponent,
+  },
+  {
+    path: "modality-list",
+    component: ModalityListComponent,
+  },
+  {
+    path: "reason-list",
+    component: ReasonListComponent,
+  },
+  {
+    path: "type-activity-list",
+    component: TypeActivityListComponent,
+  },
+  {
+    path: "supplies-list",
+    component: SuppliesListComponent
+    ,
+  },
   {
     path: "lounge-list",
     component: LoungeListComponent,
   },
   {
-    path: "activity-list",
-    component: ActivityListComponent,
+    path: "documentation-required-list",
+    component: DocumentRequiredFormComponent,
+  },
+  {
+    path: "status-list",
+    component: StatusListComponent,
   },
   {
     path: "backoffice",
@@ -47,23 +82,8 @@ const routes: Routes = [
     path: "external-user",
     component: ExternalUserComponent,
   },
-  {
-
-    path: "modality-list",
-    component: ModalityListComponent,
-  },
-  {
-    path: "type-activity-list",
-    component: TypeActivityListComponent,
-  },
-  {
-    path: "reason-list",
-    component: ReasonListComponent,
-  },
-  {
-    path: "source-funds-list",
-    component: SourceFundsListComponent,
-  }
+  
+ 
 
 ];
 

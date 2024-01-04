@@ -12,7 +12,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { LoungeFormComponent } from '../lounge-form/lounge-form.component';
-
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-lounge-list',
   templateUrl: './lounge-list.component.html',
@@ -68,20 +69,23 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result.CodError == 200) {
         this.exampleDatabase?.dataChange.value.unshift(
           this.masterService.getDialogData()
         );
         this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Registro creado exitosamente...!!!',
-          'bottom',
-          'center'
-        );
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
   }
@@ -93,6 +97,7 @@ implements OnInit{
     } else {
       tempDirection = 'ltr';
     }
+
     const dialogRef = this.dialog.open(LoungeFormComponent, {
       data: {
         lounge: row,
@@ -100,25 +105,37 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        if (foundIndex != null && this.exampleDatabase) {
-          this.exampleDatabase.dataChange.value[foundIndex] =
-            this.masterService.getDialogData();
-          // And lastly refresh table
-          this.refreshTable();
-          this.showNotification(
-            'black',
-            'Registro editado exitosamente...!!!',
-            'bottom',
-            'center'
-          );
-        }
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result.CodError === 200) {
+        // const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
+        //   (x) => x.id === this.id
+        // );
+        // console.log(foundIndex);
+        
+        // if (foundIndex != null && this.exampleDatabase) {
+        //   this.exampleDatabase.dataChange.value[foundIndex] =
+        //     this.masterService.getDialogData();
+        //   // And lastly refresh table
+        //   this.refreshTable();
+        //   Swal.fire({
+        //     title: "Escuela Judicial",
+        //     text: result.Message,
+        //     icon: "success"
+        //   });
+        // }
+         Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "success"
+         });
+        this.loadData();
+      } else {
+         Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
   }
@@ -126,11 +143,6 @@ implements OnInit{
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  /** Whether the number of selected elements matches the total number of rows. */
-
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-
 
   public loadData() {
     this.exampleDatabase = new MasterService(this.httpClient);
@@ -167,14 +179,13 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.name,
+        'Nombre Salón': x.name,
+        'Descripción': x.description,
        
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
-
-
 }
 export class ExampleDataSource extends DataSource<Lounge> {
   filterChange = new BehaviorSubject('');
@@ -244,7 +255,6 @@ export class ExampleDataSource extends DataSource<Lounge> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

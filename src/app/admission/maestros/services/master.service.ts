@@ -17,6 +17,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: Lounge;
+  IsError: boolean = false;
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -26,6 +27,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   getDialogData() {
     return this.dialogData;
   }
+
   /** CRUD METHODS */
   getAllLounge(): void {
     this.subs.sink = this.httpClient
@@ -41,33 +43,13 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  addLounge(lounge: Lounge): void {
+  addLounge(lounge: Lounge){
     this.dialogData = lounge;
-
-    this.httpClient.post(environment.apiUrlSchedule+'Room/Create', lounge)
-      .subscribe({
-        next: () => {
-          this.dialogData = lounge;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/Create', lounge);
   }
-  updateLounge(lounge: Lounge): void {
+  updateLounge(lounge: Lounge) {
     this.dialogData = lounge;
-
-    this.httpClient.put(environment.apiUrlSchedule+'Room/Update', lounge)
-        .subscribe({
-          next: () => {
-            this.dialogData = lounge;
-          },
-          error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
-          },
-        });
+    return this.httpClient.put(environment.apiUrlSchedule + 'Room/Update', lounge);
   }
   
 
