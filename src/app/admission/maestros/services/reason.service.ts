@@ -1,6 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { Reason } from 'app/admission/models/reason';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
@@ -29,7 +30,7 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllReason(): void {
     this.subs.sink = this.httpClient
-      .get<Reason[]>(this.API_URL)
+      .get<Reason[]>(environment.apiUrlSchedule+'ActivityReason/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,36 +44,46 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
   }
   getAllReason2() {
    return this.httpClient
-      .get<Reason[]>(this.API_URL);
+      .get<Reason[]>(environment.apiUrlSchedule+'ActivityReason/GetAll');
      
   }
   addReason(reason: Reason): void {
-    this.dialogData = reason;
-
-    this.httpClient.post(environment.apiUrl+'Register', reason)
+    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Create', reason)
       .subscribe({
-        next: () => {
-          this.dialogData = reason;
+        next: (res:ResponseGenerica) => {
         },
         error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
         },
       });
   }
-  updateReason(reason: Reason): void {
-    this.dialogData = reason;
 
-    this.httpClient.put(environment.apiUrl+'UpdateUser', reason)
+  updateReason(reason: Reason): void {
+    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Update', reason)
         .subscribe({
-          next: () => {
-            this.dialogData = reason;
+          next: (res:ResponseGenerica) => {
           },
           error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
           },
         });
   }
-  
+
+  DeleteReason(Id: number): void {
+    let data = {
+      id: Id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    
+  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Delete',options)
+      .subscribe({
+        next: (res:ResponseGenerica) => {
+        },
+        error: (error: HttpErrorResponse) => {
+        },
+      });
+  }
 }

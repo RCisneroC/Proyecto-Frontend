@@ -9,3 +9,9 @@ export interface ResponseGenerica {
   Details: string;
   StatusCode: number;
 }
+
+export interface DataModal {
+   id: string;
+    action: string;
+    data: any;
+}

@@ -1,10 +1,228 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivityLocationService } from '../services/activity-location.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { Direction } from '@angular/cdk/bidi';
+import { ActivityUbicationFormComponent } from '../activity-ubication-form/activity-ubication-form.component';
+import { LocationActivity } from 'app/admission/models/LocationActivity';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 
 @Component({
   selector: 'app-activity-ubication-list',
   templateUrl: './activity-ubication-list.component.html',
   styleUrls: ['./activity-ubication-list.component.scss']
 })
-export class ActivityUbicationListComponent {
+export class ActivityUbicationListComponent extends UnsubscribeOnDestroyAdapter
+implements OnInit{
 
+  displayedColumns = [
+    'name',
+    'description',
+    'statusId',
+    'actions',
+  ];
+  
+  exampleDatabase?: ActivityLocationService;
+  dataSource!: ExampleActivityLocation;
+  selection = new SelectionModel<LocationActivity>(true, []);
+  id?: number;
+  locationActivity?: LocationActivity;
+
+  constructor(
+    public httpClient: HttpClient,
+    public dialog: MatDialog,
+    public activityLocationService: ActivityLocationService,
+    private snackBar: MatSnackBar
+  ) {
+    super();
+  }
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild('filter', { static: true }) filter!: ElementRef;
+  @ViewChild(MatMenuTrigger)
+  contextMenu?: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  ngOnInit() {
+    this.loadData();
+  }
+  refresh() {
+    this.loadData();
+  }
+
+  //crear maestra.
+  addNew() {
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(ActivityUbicationFormComponent, {
+      data: {
+        locationActivity: this.locationActivity,
+        action: 'add',
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result.CodError === 200) {
+       
+      }
+    });
+  }
+  //editar maestra.
+  editCall(row: LocationActivity) {
+    this.id = row.id;
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(ActivityUbicationFormComponent, {
+      data: {
+        reason: row,
+        action: 'edit',
+      },
+      direction: tempDirection,
+    });
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result.CodError === 200) {
+      }
+    });
+  }
+
+  private refreshTable() {
+    this.paginator._changePageSize(this.paginator.pageSize);
+  }
+ 
+  public loadData() {
+    this.exampleDatabase = new ActivityLocationService(this.httpClient);
+    this.dataSource = new ExampleActivityLocation(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
+      () => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
+  showNotification(
+    colorName: string,
+    text: string,
+    placementFrom: MatSnackBarVerticalPosition,
+    placementAlign: MatSnackBarHorizontalPosition
+  ) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+
+  // export table data in excel file
+  exportExcel() {
+    // key name with space add in brackets
+    const exportData: Partial<TableElement>[] =
+      this.dataSource.filteredData.map((x) => ({
+        'Nombre': x.name,
+        'Descripción': x.description,
+      }));
+
+    TableExportUtil.exportToExcel(exportData, 'excel');
+  }
+}
+
+export class ExampleActivityLocation extends DataSource<LocationActivity> {
+  filterChange = new BehaviorSubject('');
+  get filter(): string {
+    return this.filterChange.value;
+  }
+  set filter(filter: string) {
+    this.filterChange.next(filter);
+  }
+  filteredData: LocationActivity[] = [];
+  renderedData: LocationActivity[] = [];
+  
+  constructor(
+    public exampleDatabase: ActivityLocationService,
+    public paginator: MatPaginator,
+    public _sort: MatSort
+  ) {
+    super();
+    // Reset to the first page when the user changes the filter.
+    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+  }
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<LocationActivity[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
+    const displayDataChanges = [
+      this.exampleDatabase.dataChange,
+      this._sort.sortChange,
+      this.filterChange,
+      this.paginator.page,
+    ];
+    this.exampleDatabase.getAllLocationActivity();
+    return merge(...displayDataChanges).pipe(
+      map(() => {
+        // Filter data
+        this.filteredData = this.exampleDatabase.data
+          .slice()
+          .filter((locationActivity: LocationActivity) => {
+            const searchStr = (locationActivity.name).toLowerCase();
+            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+          });
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
+        // Grab the page's slice of the filtered sorted data.
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        this.renderedData = sortedData.splice(
+          startIndex,
+          this.paginator.pageSize
+        );
+        return this.renderedData;
+      })
+    );
+  }
+  disconnect() {
+    //disconnect
+  }
+  /** Returns a sorted copy of the database data. */
+  sortData(data: LocationActivity[]): LocationActivity[] {
+    if (!this._sort.active || this._sort.direction === '') {
+      return data;
+    }
+    return data.sort((a, b) => {
+      let propertyA: number | string = '';
+      let propertyB: number | string = '';
+      switch (this._sort.active) {
+        case 'id':
+          [propertyA, propertyB] = [a.id, b.id];
+          break;
+        case 'name':
+          [propertyA, propertyB] = [a.name, b.name];
+          break;
+      
+      }
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+      return (
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+      );
+    });
+  }
 }

@@ -1,36 +1,36 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { LocationActivity } from 'app/admission/models/LocationActivity';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
-import { TypeActivity } from 'app/admission/models/type-activity';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
+export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
 
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
-  dataChange: BehaviorSubject<TypeActivity[]> = new BehaviorSubject<
-  TypeActivity[]
+  dataChange: BehaviorSubject<LocationActivity[]> = new BehaviorSubject<
+  LocationActivity[]
   >([]);
   // Temporarily stores data from dialogs
-  dialogData!: TypeActivity;
+  dialogData!: LocationActivity;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): TypeActivity[] {
+  get data(): LocationActivity[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllTypeActivity(): void {
+  getAllLocationActivity(): void {
     this.subs.sink = this.httpClient
-      .get<TypeActivity[]>(environment.apiUrlSchedule+'ActivityType/GetAll')
+      .get<LocationActivity[]>(environment.apiUrlSchedule+'ActivityLocation/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -42,14 +42,13 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllTypeActivity2() {
+  getAllLocationActivity2() {
    return this.httpClient
-      .get<TypeActivity[]>(environment.apiUrlSchedule+'ActivityType/GetAll');
-     
+      .get<LocationActivity[]>(environment.apiUrlSchedule+'ActivityLocation/GetAll');
   }
 
-    addTypeActivity(typeActivity: TypeActivity): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Create', typeActivity)
+  addLocationActivity(locationActivity: LocationActivity): void {
+    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Create', locationActivity)
       .subscribe({
         next: (res:ResponseGenerica) => {
         },
@@ -58,8 +57,8 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  updateTypeActivity(typeActivity: TypeActivity): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Update', typeActivity)
+  updateLocationActivity(locationActivity: LocationActivity): void {
+    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Update', locationActivity)
         .subscribe({
           next: (res:ResponseGenerica) => {
           },
@@ -68,7 +67,7 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
         });
   }
 
-  DeleteTypeActivity(Id: number): void {
+  DeleteLocationActivity(Id: number): void {
     let data = {
       id: Id
     };
@@ -79,7 +78,7 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Delete',options)
+  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Delete',options)
       .subscribe({
         next: (res:ResponseGenerica) => {
         },
@@ -87,5 +86,5 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  
+
 }

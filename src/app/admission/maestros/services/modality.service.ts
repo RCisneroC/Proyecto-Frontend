@@ -1,6 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { Modality } from 'app/admission/models/modality';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
@@ -29,7 +30,7 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllModality(): void {
     this.subs.sink = this.httpClient
-      .get<Modality[]>(this.API_URL)
+      .get<Modality[]>(environment.apiUrlSchedule+'ActivityMode/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,36 +44,47 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
   }
   getAllModality2() {
    return this.httpClient
-      .get<Modality[]>(this.API_URL);
+      .get<Modality[]>(environment.apiUrlSchedule+'ActivityMode/GetAll');
      
   }
-  addModality(modality: Modality): void {
-    this.dialogData = modality;
-
-    this.httpClient.post(environment.apiUrl+'Register', modality)
+  addActivityMode(modality: Modality): void {
+    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Create', modality)
       .subscribe({
-        next: () => {
-          this.dialogData = modality;
+        next: (res:ResponseGenerica) => {
         },
         error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
         },
       });
   }
-  updateModality(modality: Modality): void {
-    this.dialogData = modality;
 
-    this.httpClient.put(environment.apiUrl+'UpdateUser', modality)
+  updateActivityMode(modality: Modality): void {
+    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Update', modality)
         .subscribe({
-          next: () => {
-            this.dialogData = modality;
+          next: (res:ResponseGenerica) => {
           },
           error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
           },
         });
+  }
+
+  DeleteActivityMode(Id: number): void {
+    let data = {
+      id: Id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    
+  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Delete',options)
+      .subscribe({
+        next: (res:ResponseGenerica) => {
+        },
+        error: (error: HttpErrorResponse) => {
+        },
+      });
   }
   
 

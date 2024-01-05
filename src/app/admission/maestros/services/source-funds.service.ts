@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
@@ -48,7 +48,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   }
 
   addSourceFunds(sourceFunds: SourceFunds): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Create', sourceFunds)
+    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Create', sourceFunds)
       .subscribe({
         next: (res:ResponseGenerica) => {
         },
@@ -58,7 +58,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   }
 
   updateSourceFunds(sourceFunds: SourceFunds): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Update', sourceFunds)
+    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Update', sourceFunds)
         .subscribe({
           next: (res:ResponseGenerica) => {
           },
@@ -67,14 +67,24 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
         });
   }
 
-  // DeleteSourceFunds(sourceFunds: SourceFunds): void {
-  // this.httpClient.delete<ResponseGenerica>(environment.apiUrl+'ActivityFundsSource/Delete', sourceFunds)
-  //     .subscribe({
-  //       next: (res:ResponseGenerica) => {
-  //       },
-  //       error: (error: HttpErrorResponse) => {
-  //       },
-  //     });
-  // }
+  DeleteSourceFunds(Id: number): void {
+    let data = {
+      id: Id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    
+  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Delete',options)
+      .subscribe({
+        next: (res:ResponseGenerica) => {
+        },
+        error: (error: HttpErrorResponse) => {
+        },
+      });
+  }
 
 }
