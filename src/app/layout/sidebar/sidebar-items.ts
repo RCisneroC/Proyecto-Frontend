@@ -43,7 +43,18 @@ export const ROUTES: RouteInfo[] = [
       groupTitle: false,
       badge: "",
       badgeClass: "",
-      submenu: [
+    submenu: [
+       {
+          path: "admission/activity-list",
+          title: "Actividad",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
         {
           path: "/admission/source-funds-list",
           title: "Origen de fondos",

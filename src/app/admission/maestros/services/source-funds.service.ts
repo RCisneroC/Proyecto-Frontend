@@ -47,27 +47,15 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
       .get<SourceFunds[]>(this.API_URL);
   }
 
-  addSourceFunds(sourceFunds: SourceFunds): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Create', sourceFunds)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  addSourceFunds(sourceFunds: SourceFunds){
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Create', sourceFunds);
   }
 
-  updateSourceFunds(sourceFunds: SourceFunds): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Update', sourceFunds)
-        .subscribe({
-          next: (res:ResponseGenerica) => {
-          },
-          error: (error: HttpErrorResponse) => {
-          },
-        });
+  updateSourceFunds(sourceFunds: SourceFunds){
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Update', sourceFunds);
   }
 
-  DeleteSourceFunds(Id: number): void {
+  DeleteSourceFunds(Id: number){
     let data = {
       id: Id
     };
@@ -78,13 +66,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityFundsSource/Delete',options)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Delete', options);
   }
 
 }

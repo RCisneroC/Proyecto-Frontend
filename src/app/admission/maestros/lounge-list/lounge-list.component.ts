@@ -108,22 +108,6 @@ implements OnInit{
 
     this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
       if (result.CodError === 200) {
-        // const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-        //   (x) => x.id === this.id
-        // );
-        // console.log(foundIndex);
-        
-        // if (foundIndex != null && this.exampleDatabase) {
-        //   this.exampleDatabase.dataChange.value[foundIndex] =
-        //     this.masterService.getDialogData();
-        //   // And lastly refresh table
-        //   this.refreshTable();
-        //   Swal.fire({
-        //     title: "Escuela Judicial",
-        //     text: result.Message,
-        //     icon: "success"
-        //   });
-        // }
          Swal.fire({
             title: "Escuela Judicial",
             text: result.Message,

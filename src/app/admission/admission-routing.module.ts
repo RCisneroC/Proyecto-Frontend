@@ -33,6 +33,11 @@ const routes: Routes = [
   },
 
   //maestras
+  //    {
+  //   path: "activity-list",
+  //   component: ActivityListComponent,
+  // },
+
    {
     path: "source-funds-list",
     component: SourceFundsListComponent,

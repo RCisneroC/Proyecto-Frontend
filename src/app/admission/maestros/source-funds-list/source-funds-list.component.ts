@@ -12,6 +12,8 @@ import { SourceFunds } from 'app/admission/models/source -funds';
 import { SourceFundsService } from '../services/source-funds.service';
 import { SourceFundsFormComponent } from '../source-funds-form/source-funds-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-source-funds-list',
@@ -26,7 +28,7 @@ implements OnInit{
     'statusId',
     'actions',
   ];
-  
+   
   exampleDatabase?: SourceFundsService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<SourceFunds>(true, []);
@@ -51,7 +53,7 @@ implements OnInit{
     this.loadData();
   }
   refresh() {
-    this.loadData();
+    this.loadData(); 
   }
 
   //crear maestra.
@@ -69,9 +71,23 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-       
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+       if (result.CodError == 200) {
+         Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "success"
+         });
+        this.loadData();
+      } else {
+         Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
   }
@@ -86,16 +102,37 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(SourceFundsFormComponent, {
       data: {
-        reason: row,
+        source: row,
         action: 'edit',
       },
       direction: tempDirection,
     });
 
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+         Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "success"
+         });
+        this.loadData();
+      } else {
+         Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
+  }
+
+  delete(row: SourceFunds) {
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
   }
 
   private refreshTable() {
