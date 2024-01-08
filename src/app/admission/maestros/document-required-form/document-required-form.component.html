@@ -1,19 +1,67 @@
-<section class="content">
-    <div class="content-block">
-        <div class="block-header">
-            <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Documentación Requerida'" [items]="['Home','Admisión','Documentación']"
-                [active_item]="'Documentación'">
-            </app-breadcrumb>
-        </div>
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header">
-                        <h2><strong>Documentación Requerida</strong></h2>
-                    </div>
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
                 </div>
             </div>
         </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
-</section>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="requirementForm" (ngSubmit)="submit">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="requirementForm.get('name')?.hasError('required')">
+                            El Nombre es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                        <mat-label>Estado</mat-label>
+                        <mat-select formControlName="statusId">
+                            <mat-option [value]="1">
+                                Activo
+                            </mat-option>
+                            <mat-option [value]="2">
+                                Inactivo
+                            </mat-option>
+
+                        </mat-select>
+                        <mat-error *ngIf="requirementForm.get('statusId')?.hasError('required')">
+                            el estatus es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="description">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [disabled]="!requirementForm.valid"
+                            (click)="confirmAdd()">Guardar</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

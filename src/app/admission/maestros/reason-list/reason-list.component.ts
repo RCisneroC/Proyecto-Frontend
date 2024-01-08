@@ -12,6 +12,8 @@ import { ReasonFormComponent } from '../reason-form/reason-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { ReasonService } from '../services/reason.service';
+import Swal from 'sweetalert2';
+import { ResponseGenerica } from '../../models/ResponseMessage';
 
 @Component({
   selector: 'app-reason-list',
@@ -31,7 +33,7 @@ implements OnInit{
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Reason>(true, []);
   id?: number;
-  typeActivity?: Reason;
+  reason?: Reason;
 
   constructor(
     public httpClient: HttpClient,
@@ -62,26 +64,29 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(ReasonFormComponent, {
       data: {
-        typeActivity: this.typeActivity,
+        reason: this.reason,
         action: 'add',
       },
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.exampleDatabase?.dataChange.value.unshift(
-          this.reasonService.getDialogData()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Registro creado exitosamente...!!!',
-          'bottom',
-          'center'
-        );
-      }
+      if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
     });
   }
   editCall(row: Reason) {
@@ -100,27 +105,61 @@ implements OnInit{
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        if (foundIndex != null && this.exampleDatabase) {
-          this.exampleDatabase.dataChange.value[foundIndex] =
-            this.reasonService.getDialogData();
-          // And lastly refresh table
-          this.refreshTable();
-          this.showNotification(
-            'black',
-            'Registro editado exitosamente...!!!',
-            'bottom',
-            'center'
-          );
+        if (result == undefined) {
+        return;
         }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+    });
+  }
+
+
+    delete(row:Reason) {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara "+row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.reasonService.DeleteReason(row.id).subscribe({
+        next:(res:ResponseGenerica)=>{
+             Swal.fire({
+              title: "Eliminado!",
+              text: row.name+" fue eliminado.",
+              icon: "success"
+            });
+            this.loadData();
+          },
+          error: (err:any) => {
+            console.log(err);
+             Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name+" no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+      })
+      } else {
       }
     });
   }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);

@@ -12,7 +12,8 @@ import { LocationActivity } from 'app/admission/models/LocationActivity';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-activity-ubication-list',
@@ -71,9 +72,24 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result.CodError === 200) {
-       
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+       if (result == undefined) {
+        return;
+      }
+      
+      if (result.CodError == 200) {
+         Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "success"
+         });
+        this.loadData();
+      } else {
+         Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
   }
@@ -88,17 +104,67 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(ActivityUbicationFormComponent, {
       data: {
-        reason: row,
+        locationActivity: row,
         action: 'edit',
       },
       direction: tempDirection,
     });
 
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result.CodError === 200) {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+        if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+        });
+  }
+
+    delete(row: LocationActivity) {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara "+row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.activityLocationService.DeleteLocationActivity(row.id).subscribe({
+        next:(res:ResponseGenerica)=>{
+             Swal.fire({
+              title: "Eliminado!",
+              text: row.name+" fue eliminado.",
+              icon: "success"
+            });
+            this.loadData();
+          },
+          error: (err:any) => {
+            console.log(err);
+             Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name+" no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+      })
+      } else {
       }
     });
   }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);

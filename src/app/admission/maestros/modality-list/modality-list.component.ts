@@ -12,6 +12,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
 import { ModalityFormComponent } from '../modality-form/modality-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modality-list',
@@ -67,22 +69,25 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.exampleDatabase?.dataChange.value.unshift(
-          this.modalityService.getDialogData()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Registro creado exitosamente...!!!',
-          'bottom',
-          'center'
-        );
-      }
-    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+       if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+        }); 
   }
   editCall(row: Modality) {
     this.id = row.id;
@@ -99,25 +104,57 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase?.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        if (foundIndex != null && this.exampleDatabase) {
-          this.exampleDatabase.dataChange.value[foundIndex] =
-            this.modalityService.getDialogData();
-          // And lastly refresh table
-          this.refreshTable();
-          this.showNotification(
-            'black',
-            'Registro editado exitosamente...!!!',
-            'bottom',
-            'center'
-          );
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+       if (result == undefined) {
+        return;
         }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+        });
+  }
+
+  delete(row:Modality) {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara "+row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.modalityService.DeleteActivityMode(row.id).subscribe({
+        next:(res:ResponseGenerica)=>{
+             Swal.fire({
+              title: "Eliminado!",
+              text: row.name+" fue eliminado.",
+              icon: "success"
+            });
+            this.loadData();
+          },
+          error: (err:any) => {
+            console.log(err);
+             Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name+" no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+      })
+      } else {
       }
     });
   }

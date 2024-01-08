@@ -1,9 +1,15 @@
 import { Component, Inject } from '@angular/core';
-import { DataModal, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { DataModal, ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivityLocationService } from '../services/activity-location.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LocationActivity } from 'app/admission/models/LocationActivity';
+
+export interface DialogData {
+  id: string;
+  action: string;
+  locationActivity : LocationActivity;
+}
 
 @Component({
   selector: 'app-activity-ubication-form',
@@ -23,19 +29,18 @@ public ResponseMessage: ResponseMessageMaestra = {
     id: 0,
     description: '',
     name: '',
-    statusId:0
+    statusId:1
   }
   constructor(
     public dialogRef: MatDialogRef<ActivityUbicationFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DataModal,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public acitivityLocationService: ActivityLocationService,
     private fb: UntypedFormBuilder
   ) {
-
     this.action = data.action;
     if (this.action === 'edit') {
       this.dialogTitle ="Editar Ubicación de actividad";
-      this.locationActivity = data.data;
+      this.locationActivity = data.locationActivity;
     } else {
       this.dialogTitle = 'Nueva Ubicación de actividad';
     }
@@ -47,7 +52,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     return this.fb.group({
       id: [this.locationActivity.id],
       name: [this.locationActivity.name, [Validators.required]],
-      description: [this.locationActivity.description, [Validators.required]],
+      description: [this.locationActivity.description],
       statusId: [this.locationActivity.statusId, [Validators.required]],
     });
   }
@@ -60,11 +65,34 @@ public ResponseMessage: ResponseMessageMaestra = {
 
     public confirmAdd(): void {
     if  (this.action==='edit'){
-          this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Salón editado correctamente.';
+      this.acitivityLocationService.updateLocationActivity(this.locationActivityForm.getRawValue())
+        .subscribe({
+          next: (res:ResponseGenerica) => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Editado correctamente.';
+           this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (err:any) => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          }
+      });
+          
     } else {
-          this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Salón editado correctamente.';
+      this.acitivityLocationService.addLocationActivity(this.locationActivityForm.getRawValue())
+      .subscribe({
+          next: (res:ResponseGenerica) => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Creado correctamente.';
+           this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (err:any) => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          }
+      });
     }
   }
 }

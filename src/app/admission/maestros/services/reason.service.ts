@@ -47,27 +47,15 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
       .get<Reason[]>(environment.apiUrlSchedule+'ActivityReason/GetAll');
      
   }
-  addReason(reason: Reason): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Create', reason)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  addReason(reason: Reason) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityReason/Create', reason);
   }
 
-  updateReason(reason: Reason): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Update', reason)
-        .subscribe({
-          next: (res:ResponseGenerica) => {
-          },
-          error: (error: HttpErrorResponse) => {
-          },
-        });
+  updateReason(reason: Reason) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityReason/Update', reason);
   }
 
-  DeleteReason(Id: number): void {
+  DeleteReason(Id: number) {
     let data = {
       id: Id
     };
@@ -78,12 +66,6 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityReason/Delete',options)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityReason/Delete', options);
   }
 }

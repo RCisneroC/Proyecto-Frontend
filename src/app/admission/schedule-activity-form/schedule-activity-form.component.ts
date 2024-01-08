@@ -4,6 +4,8 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { ScheduleActivity } from '../models/scheduleActivity';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ResponseMessageMaestra } from '../models/ResponseMessage';
 
 
 export interface DialogData {
@@ -17,7 +19,10 @@ export interface DialogData {
   styleUrls: ['./schedule-activity-form.component.scss']
 })
 export class ScheduleActivityFormComponent {
-
+public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+  }
   action: string;
   dialogTitle: string;
   scheduleForm!: UntypedFormGroup;
@@ -89,12 +94,27 @@ export class ScheduleActivityFormComponent {
   public confirmAdd(): void {
    
     if  (this.action==='edit'){
-      this.scheduleActivitiesService.updateScheduleActivity(
-        this.scheduleForm.getRawValue()
-      ); }else{
-        this.scheduleActivitiesService.addScheduleActivity(
-          this.scheduleForm.getRawValue()
-        );
+      this.scheduleActivitiesService.updateScheduleActivity(this.scheduleForm.getRawValue())
+      .subscribe({
+          next: () => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Creado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (error: HttpErrorResponse) => { 
+          },
+        });
+    } else {
+        this.scheduleActivitiesService.addScheduleActivity(this.scheduleForm.getRawValue())
+        .subscribe({
+          next: () => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Creado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (error: HttpErrorResponse) => { 
+          },
+        });
       }
       
   }

@@ -47,27 +47,15 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
       .get<Modality[]>(environment.apiUrlSchedule+'ActivityMode/GetAll');
      
   }
-  addActivityMode(modality: Modality): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Create', modality)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  addActivityMode(modality: Modality){
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Create', modality);
   }
 
-  updateActivityMode(modality: Modality): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Update', modality)
-        .subscribe({
-          next: (res:ResponseGenerica) => {
-          },
-          error: (error: HttpErrorResponse) => {
-          },
-        });
+  updateActivityMode(modality: Modality){
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityMode/Update', modality);
   }
 
-  DeleteActivityMode(Id: number): void {
+  DeleteActivityMode(Id: number){
     let data = {
       id: Id
     };
@@ -78,13 +66,7 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Delete',options)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Delete',options);
   }
   
 

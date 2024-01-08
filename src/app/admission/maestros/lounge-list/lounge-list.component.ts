@@ -12,15 +12,14 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { LoungeFormComponent } from '../lounge-form/lounge-form.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2'
 @Component({
   selector: 'app-lounge-list',
   templateUrl: './lounge-list.component.html',
   styleUrls: ['./lounge-list.component.scss']
 })
-export class LoungeListComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements OnInit{
 
   displayedColumns = [
     'name',
@@ -123,6 +122,41 @@ implements OnInit{
       }
     });
   }
+
+    delete(row:Lounge) {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara "+row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.masterService.DeleteLounge(row.id).subscribe({
+        next:(res:ResponseGenerica)=>{
+             Swal.fire({
+              title: "Eliminado!",
+              text: row.name+" fue eliminado.",
+              icon: "success"
+            });
+            this.loadData();
+          },
+          error: (err:any) => {
+            console.log(err);
+             Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name+" no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+      })
+      } else {
+      }
+    });
+  }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);

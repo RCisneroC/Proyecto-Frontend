@@ -2,37 +2,32 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
-import { Lounge } from 'app/admission/models/lounge';
+import { Supplies } from 'app/admission/models/supplies';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
-export class MasterService extends UnsubscribeOnDestroyAdapter {
+export class SuppliesService extends UnsubscribeOnDestroyAdapter {
 
-  private readonly API_URL = 'assets/data/data-master.json';
+  private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
-  dataChange: BehaviorSubject<Lounge[]> = new BehaviorSubject<
-  Lounge[]
-  >([]);
+  dataChange: BehaviorSubject<Supplies[]> = new BehaviorSubject<Supplies[]>([]);
   // Temporarily stores data from dialogs
-  dialogData!: Lounge;
-  IsError: boolean = false;
+  dialogData!: Supplies;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): Lounge[] {
+  get data(): Supplies[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
-
   /** CRUD METHODS */
-  getAllLounge(): void {
+  getAllSupplies(): void {
     this.subs.sink = this.httpClient
-      .get<Lounge[]>(environment.apiUrlSchedule+'Room/GetAll')
+      .get<Supplies[]>(environment.apiUrlSchedule+'RoomRequirement/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -44,16 +39,20 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  addLounge(lounge: Lounge){
-    this.dialogData = lounge;
-    return this.httpClient.post(environment.apiUrlSchedule + 'Room/Create', lounge);
+  getAllSuppli2() {
+   return this.httpClient
+      .get<Supplies[]>(environment.apiUrlSchedule+'RoomRequirement/GetAll');
   }
-  updateLounge(lounge: Lounge) {
-    this.dialogData = lounge;
-    return this.httpClient.put(environment.apiUrlSchedule + 'Room/Update', lounge);
+
+  addSupplies(supplies: Supplies) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'RoomRequirement/Create', supplies);
   }
-  
-    DeleteLounge(Id: number) {
+
+  updateSupplies(supplies: Supplies) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'RoomRequirement/Update', supplies);
+  }
+
+  DeleteSupplies(Id: number) {
     let data = {
       id: Id
     };
@@ -63,11 +62,8 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
-    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Room/Delete', options);
+  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'RoomRequirement/Delete',options);
   }
-
-
 
 }
 

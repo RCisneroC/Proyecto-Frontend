@@ -16,6 +16,7 @@ import { ActivityUbicationListComponent } from './maestros/activity-ubication-li
 import { SuppliesListComponent } from './maestros/supplies-list/supplies-list.component';
 import { DocumentRequiredFormComponent } from './maestros/document-required-form/document-required-form.component';
 import { StatusListComponent } from './maestros/status-list/status-list.component';
+import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
 
 const routes: Routes = [
 
@@ -69,7 +70,7 @@ const routes: Routes = [
   },
   {
     path: "documentation-required-list",
-    component: DocumentRequiredFormComponent,
+    component: DocumentRequiredListComponent,
   },
   {
     path: "status-list",

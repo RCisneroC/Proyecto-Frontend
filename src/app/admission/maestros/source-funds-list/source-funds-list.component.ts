@@ -12,7 +12,7 @@ import { SourceFunds } from 'app/admission/models/source -funds';
 import { SourceFundsService } from '../services/source-funds.service';
 import { SourceFundsFormComponent } from '../source-funds-form/source-funds-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -53,7 +53,7 @@ implements OnInit{
     this.loadData();
   }
   refresh() {
-    this.loadData(); 
+    this.loadData();
   }
 
   //crear maestra.
@@ -130,9 +130,37 @@ implements OnInit{
   }
 
   delete(row: SourceFunds) {
-    console.log('====================================');
-    console.log(row);
-    console.log('====================================');
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara "+row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sourceFundsService.DeleteSourceFunds(row.id).subscribe({
+        next:(res:ResponseGenerica)=>{
+             Swal.fire({
+              title: "Eliminado!",
+              text: row.name+" fue eliminado.",
+              icon: "success"
+            });
+            this.loadData();
+          },
+          error: (err:any) => {
+            console.log(err);
+             Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name+" no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+      })
+      } else {
+      }
+    });
   }
 
   private refreshTable() {

@@ -101,12 +101,16 @@
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
                                   
-                                  <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Detalle</button>
-                                  <button  mat-stroked-button color="primary" (click)="ViewDetail(row)">Aprobar</button>
+                                  <button mat-stroked-button color="primary" (click)="ViewDetail(row)">
+                                        <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                  </button>
+                                  <button  mat-stroked-button color="check" (click)="ViewDetail(row)">Aprobar
+                                    <app-feather-icons [icon]="'check'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                  </button>
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                              <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"
                                 [style.cursor]="'pointer'" matRipple>
                               </mat-row>
                             </table>

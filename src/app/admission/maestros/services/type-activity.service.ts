@@ -48,27 +48,15 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
      
   }
 
-    addTypeActivity(typeActivity: TypeActivity): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Create', typeActivity)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  addTypeActivity(typeActivity: TypeActivity) {
+      return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Create', typeActivity);
   }
 
-  updateTypeActivity(typeActivity: TypeActivity): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Update', typeActivity)
-        .subscribe({
-          next: (res:ResponseGenerica) => {
-          },
-          error: (error: HttpErrorResponse) => {
-          },
-        });
+  updateTypeActivity(typeActivity: TypeActivity) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Update', typeActivity);
   }
 
-  DeleteTypeActivity(Id: number): void {
+  DeleteTypeActivity(Id: number) {
     let data = {
       id: Id
     };
@@ -79,13 +67,7 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityType/Delete',options)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Delete', options);
   }
   
 }

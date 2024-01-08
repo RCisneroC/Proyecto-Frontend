@@ -87,31 +87,13 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       });
   }
   
-  addScheduleActivity(scheduleActivity: ScheduleActivity): void {
+  addScheduleActivity(scheduleActivity: ScheduleActivity) {
     this.dialogData = scheduleActivity;
-    this.httpClient.post(environment.apiUrlSchedule+'CurriculumDesign/Create', scheduleActivity)
-      .subscribe({
-        next: () => {
-          this.dialogData  = scheduleActivity;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.post(environment.apiUrlSchedule + 'CurriculumDesign/Create', scheduleActivity);
   }
-  updateScheduleActivity(scheduleActivity: ScheduleActivity): void {
+  updateScheduleActivity(scheduleActivity: ScheduleActivity) {
     this.dialogData = scheduleActivity;
-    this.httpClient.put(environment.apiUrlSchedule+'CurriculumDesign/Update', scheduleActivity)
-      .subscribe({
-        next: () => {
-          this.dialogData  = scheduleActivity;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/Update', scheduleActivity);
   }
   
   updateActivityDetail(activityDetail: ScheduleActivityDetail): void {

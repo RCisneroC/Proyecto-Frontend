@@ -47,27 +47,15 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
       .get<LocationActivity[]>(environment.apiUrlSchedule+'ActivityLocation/GetAll');
   }
 
-  addLocationActivity(locationActivity: LocationActivity): void {
-    this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Create', locationActivity)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  addLocationActivity(locationActivity: LocationActivity) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Create', locationActivity);
   }
 
-  updateLocationActivity(locationActivity: LocationActivity): void {
-    this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Update', locationActivity)
-        .subscribe({
-          next: (res:ResponseGenerica) => {
-          },
-          error: (error: HttpErrorResponse) => {
-          },
-        });
+  updateLocationActivity(locationActivity: LocationActivity) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityLocation/Update', locationActivity);
   }
 
-  DeleteLocationActivity(Id: number): void {
+  DeleteLocationActivity(Id: number) {
     let data = {
       id: Id
     };
@@ -77,14 +65,7 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
-  this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Delete',options)
-      .subscribe({
-        next: (res:ResponseGenerica) => {
-        },
-        error: (error: HttpErrorResponse) => {
-        },
-      });
+  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Delete',options);
   }
 
 }
