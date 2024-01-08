@@ -1,15 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { Observable , of} from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
-export class InscriptionService {
-  //private myAppUrl: string = 'assets/data/data-person.json';
-  //private apiUrl: string = '/api/index.php?wsdl=1&ui=X8JBJ6SD30A219910S81A03U12OL6CA22657B70658A787&wsn=getTEciudadana&param=';
-  //private apiUrl: string = '/api/index.php?wsdl=1&ui=X8JBJ6SD30A219910S81A03U12OL6CA22657B70658A787&wsn=getTEciudadana&param=';
+export class ExternalInscriptionService {
   baseApiUrl = "https://file.io"
   constructor( private httpClient: HttpClient) { }
 
@@ -48,5 +44,4 @@ export class InscriptionService {
 //   return this.http.put(url, participantData);
 // }
 
- 
 }

@@ -24,7 +24,7 @@ import { TypeActivityFormComponent } from './maestros/type-activity-form/type-ac
 import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
 import { SourceFundsFormComponent } from './maestros/source-funds-form/source-funds-form.component';
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
-
+import { MatFileUploadModule } from 'angular-material-fileupload';
 
 
 @NgModule({

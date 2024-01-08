@@ -43,11 +43,11 @@ export class InternalUserComponent {
     })
 
   }
-  getPersonData(){
+  getPersonData(cedula:string){
     
     this.loading=true;
     setTimeout(() => {
-      this._inscriptionService.getDataPerson().subscribe({
+      this._inscriptionService.getDataPerson(cedula).subscribe({
         next:(data)=>{
           
           this.loading=false;

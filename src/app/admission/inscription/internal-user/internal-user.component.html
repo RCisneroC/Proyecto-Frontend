@@ -25,7 +25,7 @@
                                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
                                 <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
                                   aria-label="Search box">
-                                  <button mat-mini-fab class="material-icons search-icon" color="primary" (click)="getPersonData()">
+                                  <button mat-mini-fab class="material-icons search-icon" color="primary" (click)="getPersonData(filter.value)">
                                     <mat-icon >search</mat-icon>
                                   </button>
                               </li>

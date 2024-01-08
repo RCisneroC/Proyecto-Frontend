@@ -36,6 +36,7 @@ const routes: Routes = [
     path: "page500",
     component: Page500Component,
   },
+  
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
