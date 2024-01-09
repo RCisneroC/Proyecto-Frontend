@@ -11,7 +11,7 @@ export class ExternalInscriptionService {
 
   getDataPerson(cedula:string){
     return this.httpClient
-    .get<any>(environment.apiTE+cedula);
+    .get<any>(environment.consultaEstudiante+cedula);
   }
 
   getActivities(id:string){

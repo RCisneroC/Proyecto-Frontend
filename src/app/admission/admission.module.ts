@@ -17,15 +17,14 @@ import { ActivityFormComponent } from './maestros/activity-form/activity-form.co
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
 import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { BackofficeComponent } from './inscription/backoffice/backoffice.component';
-import { ExternalUserComponent } from './inscription/external-user/external-user.component';
-import { InternalUserComponent } from './inscription/internal-user/internal-user.component';
 import { ModalityFormComponent } from './maestros/modality-form/modality-form.component';
 import { TypeActivityFormComponent } from './maestros/type-activity-form/type-activity-form.component';
 import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
 import { SourceFundsFormComponent } from './maestros/source-funds-form/source-funds-form.component';
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
 import { MatFileUploadModule } from 'angular-material-fileupload';
-
+import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
+import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
 
 @NgModule({
   declarations: [
@@ -41,14 +40,15 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
     ScheduleActivityDetailComponent,
     ScheduleActivityDetailFormComponent,
     BackofficeComponent,
-    ExternalUserComponent,
-    InternalUserComponent,
+ 
+    ActivityListInscriptionComponent,
     
     ModalityFormComponent,
     TypeActivityFormComponent,
     ReasonFormComponent,
     SourceFundsFormComponent,
     SourceFundsListComponent,
+    ScheduleListComponent,
     
   ],
   imports: [

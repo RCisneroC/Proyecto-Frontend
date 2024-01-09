@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InscriptionService } from '../services/inscription.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from "@angular/common/http";
 import { throwError } from "rxjs";
-
-
+import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-backoffice',
   templateUrl: './backoffice.component.html',
   styleUrls: ['./backoffice.component.scss']
 })
-export class BackofficeComponent {
+export class BackofficeComponent implements OnInit {
     shortLink: string = ""; 
     loadingFile: boolean = false; // Flag variable 
     files: File[] =[]; 
@@ -40,27 +40,30 @@ export class BackofficeComponent {
   errorMessage: string = '';
   infoMessage: string = '';
   selectedActivity: any;
-  status: "initial" | "uploading" | "success" | "fail" = "initial"
+  status: "initial" | "uploading" | "success" | "fail" = "initial";
+  idActivity?:number;
 
-
-  constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _inscriptionService:InscriptionService ,private http: HttpClient){
+  constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _inscriptionService:InscriptionService ,private http: HttpClient ,  private activatedRoute: ActivatedRoute,){
     // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
     this.form=this.fb.group({
-      name:['', Validators.required],
-      surname:['', Validators.required],
+      firstName:['', Validators.required],
+      lastName:['', Validators.required],
       secondSurname:['', Validators.required],
-      identificationCard:['', Validators.required],
       gender:['', Validators.required],
-      province:['', Validators.required],
-      judicialDistrict:['', Validators.required],
-
-      university:['',Validators.required],
+      cedula:['', Validators.required],
       institution:['',Validators.required],
+      email:['', [Validators.required, Validators.email]],
+      university:['',Validators.required],
       dependency:['',Validators.required],
       cooperatingEntity:['',Validators.required],
       position:['',Validators.required],
-      email:['', [Validators.required, Validators.email]],
-      description:['', Validators.required],
+      province:['', Validators.required],
+      judicialDistrict:['', Validators.required],
+
+      invitationDate: new Date().toISOString(),
+      UsersId: "0",
+      activityDateId: " ",
+      observation:['', Validators.required],
   
 
     })
@@ -77,6 +80,14 @@ export class BackofficeComponent {
           error:(e)=>this.loading=false,
           complete:()=> console.info('Complete')
       })
+
+      this.activatedRoute.params.subscribe((params) => {
+        this.idActivity = params['id'];
+        this.form.patchValue({
+          activityDateId: this.idActivity
+        });
+       
+    })
    
      
  
@@ -87,8 +98,11 @@ export class BackofficeComponent {
     this.disabled=true;
     
    if(!cedula){
-    this._snackBar.open('Por favor, ingrese una cédula', 'Cerrar', {
-      duration: 4000,
+   
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: 'Por favor, ingrese una cédula',
+      icon: "warning"
     });
 
    }else{
@@ -120,7 +134,6 @@ export class BackofficeComponent {
         
         // Actualiza las opciones de actividades
         this.filteredActivities = data;
-        console.log('Actividadesssssss:',this.filteredActivities);
       },
       error: (e) => this.loading = false,
       complete: () => console.info('Complete')
@@ -171,7 +184,6 @@ getSchedule(){
         schedule.name.toLowerCase().includes(selectedSchedule.name.toLowerCase())
       );
       this.getActivities(String(selectedSchedule.id))
-      console.log("DATOSSSSS", selectedSchedule.id, this.activities);
     }
     
   }
@@ -213,9 +225,6 @@ getSchedule(){
       this._snackBar.open('Se agrego con éxito el participante ', 'Cerrar', {
         duration: 4000,
       });
-      setTimeout(() => {
-         window.location.reload();
-      }, 4000);
      
     }else{
       this._snackBar.open('Algunos archivos son requisito!!', 'Cerrar', {
@@ -224,24 +233,20 @@ getSchedule(){
     }
     
     // POR ACA VA EL SERVICIO QUE HACE LA CONSULTA A ADDPARTICIPANT
-    // Update the method name accordingly
-  //   this._inscriptionService.updateParticipant(this.form.value).subscribe({
-  //     next: (data) => {
-  //       // Handle success response
-  //       console.log('Participant added successfully:', data);
-  //     },
-  //     error: (error) => {
-  //       // Handle error response
-  //       console.error('Error adding participant:', error);
-  //     },
-  //   });
+    this._inscriptionService.updateParticipant(this.form.value).subscribe({
+      next: (data) => {
+        console.log('Participant added successfully:', data);
+      },
+      error: (error) => {
+        console.error('Error adding participant:', error);
+      },
+    });
  }
 
   onFileSelected(event: any) {
     const fileInput = event.target;
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      // Puedes hacer algo con el archivo, por ejemplo, guardarlo en una variable
       this.form.get('file')?.setValue(file);
     }
   }

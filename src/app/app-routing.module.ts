@@ -4,7 +4,7 @@ import { Page404Component } from './authentication/page404/page404.component';
 import { AuthGuard } from './core/guard/auth.guard';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
-import { InscriptionExternalComponent } from './external/inscription-external/inscription-external.component';
+
 const routes: Routes = [
   {
     path: '',

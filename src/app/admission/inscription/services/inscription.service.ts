@@ -11,11 +11,14 @@ export class InscriptionService {
   //private apiUrl: string = '/api/index.php?wsdl=1&ui=X8JBJ6SD30A219910S81A03U12OL6CA22657B70658A787&wsn=getTEciudadana&param=';
   //private apiUrl: string = '/api/index.php?wsdl=1&ui=X8JBJ6SD30A219910S81A03U12OL6CA22657B70658A787&wsn=getTEciudadana&param=';
   baseApiUrl = "https://file.io"
+
+ 
   constructor( private httpClient: HttpClient) { }
 
   getDataPerson(cedula:string){
+    console.log(cedula)
     return this.httpClient
-    .get<any>(environment.apiTE+cedula);
+    .get<any>(environment.consultaEstudiante+cedula);
   }
 
   getActivities(id:string){
@@ -28,25 +31,19 @@ export class InscriptionService {
 
   upload(file:any):Observable<any> { 
   
-    // Create form data 
     const formData = new FormData();  
       
-    // Store form name as "file" with file data 
     formData.append("file", file, file.name); 
       
-    // Make http post request over api 
-    // with formData as req 
+  
     return this.httpClient.post(this.baseApiUrl, formData) 
 } 
 
-// updateParticipant(participantData: any): Observable<any> {
-//   // Replace ':id' with the actual participant ID if needed
-//   const participantId = participantData.id;
-//   const url = `${this.apiUrl}/participants/${participantId}`;
-
-//   // Make the PUT request
-//   return this.http.put(url, participantData);
-// }
+updateParticipant(participantData: any): Observable<any> {
+ 
+  const url = `${environment.apiEC}`;
+  return this.httpClient.post(url, participantData);
+}
 
  
 }

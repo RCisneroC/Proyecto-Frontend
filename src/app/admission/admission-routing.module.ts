@@ -6,13 +6,12 @@ import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
 import {BackofficeComponent} from './inscription/backoffice/backoffice.component'
-import {InternalUserComponent} from './inscription/internal-user/internal-user.component'
-import { ExternalUserComponent } from './inscription/external-user/external-user.component';
 import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
 import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
 import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
-
+import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
+import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
 const routes: Routes = [
 
   {
@@ -36,16 +35,8 @@ const routes: Routes = [
     component: ActivityListComponent,
   },
   {
-    path: "backoffice",
+    path: "backoffice/:id",
     component: BackofficeComponent,
-  },
-  {
-    path: "internal-user",
-    component: InternalUserComponent,
-  },
-  {
-    path: "external-user",
-    component: ExternalUserComponent,
   },
   {
 
@@ -63,6 +54,14 @@ const routes: Routes = [
   {
     path: "source-funds-list",
     component: SourceFundsListComponent,
+  },
+  {
+    path: "activity-list-inscription/:id",
+    component: ActivityListInscriptionComponent,
+  },
+  {
+    path: "schedule-list",
+    component: ScheduleListComponent,
   }
 
 ];

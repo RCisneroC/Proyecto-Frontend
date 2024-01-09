@@ -68,7 +68,7 @@ export const ROUTES: RouteInfo[] = [
       badgeClass: "",
       submenu: [
         {
-          path: "admission/backoffice",
+          path: "admission/schedule-list",
           title: "BackOffice",
           iconType: "",
           icon: "",
