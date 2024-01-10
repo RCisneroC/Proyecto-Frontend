@@ -19,7 +19,7 @@
                           <div class="left">
                             <ul class="header-buttons-left ms-0">
                               <li class="tbl-title">
-                                <h2>cronogramas</h2>
+                                <h2>Cronogramas</h2>
                               </li>
                               <li class="tbl-search-box">
                                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -86,8 +86,17 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                  <span class="mobile-label ">Estatus:</span>{{row.statusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
+                                <div>
+                                  <span class="mobile-label ">Estatus:</span>
+                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 1" >Activo</span>
+                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 2" >Inactivo</span>
+                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 3" >Pendiente</span>
+                                  <span class="badge badge-solid-danger" *ngIf="row.statusId == 4" >Rechazado</span>
+                                  <span class="badge badge-solid-blue" *ngIf="row.statusId == 5" >Aprobado</span>
+                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 6" >Terminado</span>
+                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 7" >Borrador</span>
+                                </div>
+                              </mat-cell>
                               
                                   
                               </ng-container>
@@ -104,9 +113,9 @@
                                   <button mat-stroked-button color="primary" (click)="ViewDetail(row)">
                                         <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
-                                  <button  mat-stroked-button color="check" (click)="ViewDetail(row)">Aprobar
+                                  <!-- <button  mat-stroked-button color="check" (click)="ViewDetail(row)">
                                     <app-feather-icons [icon]="'check'" [class]="'tbl-fav-edit'"></app-feather-icons>
-                                  </button>
+                                  </button> -->
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -116,7 +125,7 @@
                             </table>
                           </div>
                           <!-- Loading spinner -->
-                          <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
+                          <div  *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
                             <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                             </mat-progress-spinner>
                           </div>

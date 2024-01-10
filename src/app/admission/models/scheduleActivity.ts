@@ -13,7 +13,7 @@ export class ScheduleActivity {
    planningDate!: string
    activityModeId!: number
    activityTypeId!: number
-   activityId!: number
+   name!: string
    activityLocationId!: number
    assignedCoordinatorId!: string
    startDate!: string
@@ -34,7 +34,7 @@ export class ScheduleActivity {
    male!: number
    female!: number
    certificatesReceived!: number
-   observations!: string
+   observations!: string;
  }
  
  

@@ -6,4 +6,12 @@ export class Activity {
     numOfVacancies!:number
     profileType!:string
     statusId!:number
-  }
+}
+  
+export class UbicationsActivity {
+    id!: number;
+    name!: string;
+    description!: string;
+    statusId!:number;
+}
+  

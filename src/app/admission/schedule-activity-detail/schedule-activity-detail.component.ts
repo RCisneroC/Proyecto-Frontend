@@ -13,6 +13,9 @@ import { Direction } from '@angular/cdk/bidi';
 import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { ActivatedRoute } from '@angular/router';
+import { ResponseMessageMaestra } from '../models/ResponseMessage';
+import Swal from 'sweetalert2';
+import { ApprovalCurriculumComponent } from '../approval-curriculum/approval-curriculum.component';
 
 @Component({
   selector: 'app-schedule-activity-detail',
@@ -28,7 +31,7 @@ implements OnInit{
          'activityTypeName',
          'activityName',
          'activityLocationName',
-         'assignedCoordinatorName',
+        //  'assignedCoordinatorName',
          'startDate',
          'plannedEndDate',
          'effectiveEndDate',
@@ -38,16 +41,16 @@ implements OnInit{
          'numOfAssignedTeachers',
          'hasDataSheet',
          'dataSheetDeliveryDate',
-         'isEvaluation',
+        //  'isEvaluation',
          'digitalReportDeliveryDate',
          'physicalReportDeliveryDate',
-         'enrolledStudentsDiploma',
-         'retiredStudentsDiploma',
-         'participants',
-         'male',
-         'female',
-         'certificatesReceived',
-         'observations',
+        //  'enrolledStudentsDiploma',
+        //  'retiredStudentsDiploma',
+        //  'participants',
+        //  'male',
+        //  'female',
+        //  'certificatesReceived',
+        //  'observations',
          'actions',
   ];
   
@@ -101,21 +104,24 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.exampleDatabase?.dataChange2.value.unshift(
-          this.activityDetailService.getDialogDataDetail()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Registro creado exitosamente...!!!',
-          'bottom',
-          'center'
-        );
-      }
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+       if (result == undefined) {
+          return;
+          }
+          if (result.CodError == 200) {
+              Swal.fire({
+                  title: "Escuela Judicial",
+                  text: result.Message,
+                  icon: "success"
+              });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
     });
   }
   editCall(row: ScheduleActivityDetail) {
@@ -134,28 +140,66 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase?.dataChange2.value.findIndex(
-          (x) => x.curriculumDesignId === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        if (foundIndex != null && this.exampleDatabase) {
-          this.exampleDatabase.dataChange2.value[foundIndex] =
-            this.activityDetailService.getDialogDataDetail();
-          // And lastly refresh table
-          this.refreshTable();
-          this.showNotification(
-            'black',
-            'Registro editado exitosamente...!!!',
-            'bottom',
-            'center'
-          );
-        }
-      }
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+          if (result == undefined) {
+          return;
+          }
+          if (result.CodError == 200) {
+              Swal.fire({
+                  title: "Escuela Judicial",
+                  text: result.Message,
+                  icon: "success"
+              });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+        }); 
+  }
+
+  approvalCurriculum(id:any) {
+  console.log('====================================');
+  console.log(id);
+  console.log('====================================');
+   let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(ApprovalCurriculumComponent, {
+      data: {
+        curriculumId:id,
+        action: 'add',
+        id: this.id,
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+       if (result == undefined) {
+          return;
+          }
+          if (result.CodError == 200) {
+              Swal.fire({
+                  title: "Escuela Judicial",
+                  text: result.Message,
+                  icon: "success"
+              });
+            this.loadData();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
     });
   }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -251,7 +295,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-            const searchStr = (activity.observations).toLowerCase();
+            const searchStr = (activity.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

@@ -57,10 +57,9 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Nombre de la actividad</mat-label>
-            <mat-select formControlName="activityId" >
-              <mat-option *ngFor="let row of activityList"  [value]="row.id">{{row.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="scheduleForm.get('activityId')?.hasError('required')">
+          <input matInput formControlName="name">
+          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="scheduleForm.get('name')?.hasError('required')">
               la actividad es requerida
             </mat-error>
           </mat-form-field>
@@ -72,16 +71,19 @@
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Lugar</mat-label>
-            <input matInput formControlName="activityLocationId" >
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-          
+            <mat-select formControlName="activityLocationId">
+              <mat-option *ngFor="let row of ubicationsList" [value]="row.id">{{ row.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityLocationId')?.hasError('required')">
+              el Lugar es requerido
+            </mat-error>
           </mat-form-field>
         
         </div>
         
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Coord.Asignado</mat-label>
+            <mat-label>Coordinador Asignado</mat-label>
             <mat-select formControlName="assignedCoordinatorId" >
               <mat-option *ngFor="let row of userList"  [value]="row.id">{{row.firstName+" "+row.lastName}}</mat-option>
             </mat-select>
@@ -209,25 +211,21 @@
           </div>
             
         </div>
-
-     <div class="row">
+    <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Observaciones</mat-label>
-          <input matInput formControlName="observations" >
+          <input matInput formControlName="observations">
           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        
         </mat-form-field>
-      
       </div>
-      
-      
-     </div>
-   
+    </div>
+
+
       <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
-              <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid" [mat-dialog-close]="1"
+              <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid"
                 (click)="confirmAdd()">Guardar</button>
               <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
             </div>

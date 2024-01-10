@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { ScheduleActivityDetail } from '../models/scheduleActivity';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Activity } from '../models/activity';
+import { Activity, UbicationsActivity } from '../models/activity';
 import { ActivityService } from '../maestros/services/activity.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalityService } from '../maestros/services/modality.service';
@@ -16,6 +16,8 @@ import { Reason } from '../models/reason';
 import { ReasonService } from '../maestros/services/reason.service';
 import { SourceFunds } from '../models/source -funds';
 import { SourceFundsService } from '../maestros/services/source-funds.service';
+import { ResponseMessageMaestra } from '../models/ResponseMessage';
+import { ActivityLocationService } from '../maestros/services/activity-location.service';
 
 
 export interface DialogData {
@@ -29,12 +31,16 @@ export interface DialogData {
   styleUrls: ['./schedule-activity-detail-form.component.scss']
 })
 export class ScheduleActivityDetailFormComponent {
-
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+  }
   action: string;
   dialogTitle: string;
   scheduleForm!: UntypedFormGroup;
   schedule!:ScheduleActivityDetail;
   activityList!: Activity[];
+  ubicationsList!: UbicationsActivity[];
   modalityList!: Modality[];
   typeActivityList!: TypeActivity[];
   userList!: User [];
@@ -45,6 +51,7 @@ export class ScheduleActivityDetailFormComponent {
  
   constructor(
     private _activityService: ActivityService,
+    private _activityLocationService:ActivityLocationService,
     private _modalityService: ModalityService,
     private _typeActivityService: TypeActivityService,
     private _userService: UserService,
@@ -76,6 +83,7 @@ export class ScheduleActivityDetailFormComponent {
     this.loadUser();
     this.loadReason();
     this.loadSourceFunds();
+    this.loadLocationActividad();
   }
 
 
@@ -93,25 +101,26 @@ export class ScheduleActivityDetailFormComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       curriculumDesignId: new FormControl(this.action=="edit"?this.schedule.curriculumDesignId:this.id, Validators.required),
-      id: new FormControl(this.schedule.id, Validators.required),
+      id: new FormControl(this.schedule.id),
       planningDate: new FormControl(this.schedule.planningDate, Validators.required),
       activityModeId: new FormControl(this.schedule.activityModeId, Validators.required),
       activityTypeId: new FormControl(this.schedule.activityTypeId, Validators.required),
-      activityId: new FormControl(this.schedule.activityId, Validators.required),
+      name: new FormControl(this.schedule.name, Validators.required),
       activityLocationId: new FormControl(this.schedule.activityLocationId, Validators.required),
       assignedCoordinatorId: new FormControl(this.schedule.assignedCoordinatorId, Validators.required),
       startDate: new FormControl(this.schedule.startDate, Validators.required),
       plannedEndDate: new FormControl(this.schedule.plannedEndDate, Validators.required),
       effectiveEndDate: new FormControl(this.schedule.effectiveEndDate, Validators.required),
-      isExecuted: new FormControl(this.schedule.isExecuted, Validators.required),
+      isExecuted: new FormControl(false),
       activityReasonId: new FormControl(this.schedule.activityReasonId, Validators.required),
       activityFundsSourceId: new FormControl(this.schedule.activityFundsSourceId, Validators.required),
-      hasDataSheet: new FormControl(this.schedule.hasDataSheet),
+      hasDataSheet: new FormControl(false),
       dataSheetDeliveryDate: new FormControl(this.schedule.dataSheetDeliveryDate),
-      isEvaluation: new FormControl(this.schedule.isEvaluation),
+      isEvaluation: new FormControl(false),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
       observations: new FormControl(this.schedule.observations)
+
     });
     
   
@@ -125,18 +134,48 @@ export class ScheduleActivityDetailFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
+   console.log(this.scheduleForm);
    
-    if  (this.action==='edit'){
-      this.scheduleActivitiesService.updateActivityDetail(
-        this.scheduleForm.getRawValue()
-      ); }else{
-        this.scheduleActivitiesService.addActivityDetail(
-          this.scheduleForm.getRawValue()
-        );
+      if(this.action==='edit'){
+        this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({
+          next:() => {
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Creado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+          },
+          error:(err:any) => {
+              this.ResponseMessage.CodError = 500;
+              this.ResponseMessage.Message = 'Intente Nuevamente.';
+              this.dialogRef.close(this.ResponseMessage);
+          }
+        });
+      } else {
+        this.scheduleActivitiesService.addActivityDetail(this.scheduleForm.getRawValue()).subscribe({
+          next:() => {
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Creado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+          },
+          error:(err:any) => {
+              this.ResponseMessage.CodError = 500;
+              this.ResponseMessage.Message = 'Intente Nuevamente.';
+              this.dialogRef.close(this.ResponseMessage);
+          }
+        });
       }
       
   }
-  
+    loadLocationActividad() {
+    this._activityLocationService.getAllLocationActivity2().subscribe({
+      next: (data) => {
+      this.ubicationsList=data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+
   loadActivities() {
     this._activityService.getAllActivity2().subscribe({
       next: (data) => {

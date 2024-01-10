@@ -61,6 +61,8 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule+'CurriculumDesign/GetActivitiesBy?CurriculumDesignId='+id)
       .subscribe({
         next: (data) => {
+          console.log(data);
+          
           this.isTblLoading = false;
           this.dataChange2.next(data);
         },
@@ -72,19 +74,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   }
   
   
-  addActivityDetail(activityDetail: ScheduleActivityDetail): void {
+  addActivityDetail(activityDetail: ScheduleActivityDetail) {
     this.dialogDataDetail = activityDetail;
 
-    this.httpClient.post(environment.apiUrlSchedule+'CurriculumDesign/CreateActivity', activityDetail)
-      .subscribe({
-        next: () => {
-          this.dialogDataDetail  = activityDetail;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.post(environment.apiUrlSchedule + 'CurriculumDesign/CreateActivity', activityDetail);
   }
   
   addScheduleActivity(scheduleActivity: ScheduleActivity) {
@@ -96,19 +89,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/Update', scheduleActivity);
   }
   
-  updateActivityDetail(activityDetail: ScheduleActivityDetail): void {
+  updateActivityDetail(activityDetail: ScheduleActivityDetail) {
     this.dialogDataDetail = activityDetail;
 
-    this.httpClient.put(environment.apiUrlSchedule+'CurriculumDesign/UpdateActivity', activityDetail)
-        .subscribe({
-          next: () => {
-            this.dialogDataDetail = activityDetail;
-          },
-          error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
-          },
-        });
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
   }
   
 

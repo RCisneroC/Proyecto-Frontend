@@ -32,6 +32,7 @@ import { DocumentRequiredFormComponent } from './maestros/document-required-form
 import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { StatusFormComponent } from './maestros/status-form/status-form.component';
+import { ApprovalCurriculumComponent } from './approval-curriculum/approval-curriculum.component';
 
 
 
@@ -64,6 +65,7 @@ import { StatusFormComponent } from './maestros/status-form/status-form.componen
     DocumentRequiredListComponent,
     StatusListComponent,
     StatusFormComponent,
+    ApprovalCurriculumComponent,
     
   ],
   imports: [

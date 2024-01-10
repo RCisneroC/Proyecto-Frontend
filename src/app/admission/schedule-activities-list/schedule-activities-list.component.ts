@@ -176,7 +176,9 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.name,
+        'Nombre': x.name,
+        'Despcrión': x.description,
+        'Año': x.year,
        
       }));
 

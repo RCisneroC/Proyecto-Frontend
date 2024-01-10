@@ -2,7 +2,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Actividad'" [items]="['Home','Admisión','Maestros']" [active_item]="'Actividad'">
+        <app-breadcrumb [title]="'Actividad'" [items]="['Inicio','Admisión','Registro Actividad']" [active_item]="'Actividad'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
@@ -93,7 +93,7 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de la actividad
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Nombre de la actividad:</span>{{row.activityName}}</mat-cell>
+                                  <span class="mobile-label">Nombre de la actividad:</span>{{row.name}}</mat-cell>
                               </ng-container>
                               
                              
@@ -104,12 +104,12 @@
                                   <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="assignedCoordinatorName">
+                              <!-- <ng-container matColumnDef="assignedCoordinatorName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Coord.Responsable
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Coord.Responsable:</span>{{row.assignedCoordinatorName}}</mat-cell>
-                              </ng-container>
+                              </ng-container> -->
                               
                               <ng-container matColumnDef="startDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio
@@ -176,12 +176,12 @@
                                   <span class="mobile-label">Ficha Tecnica:</span>{{row.dataSheetDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="isEvaluation">
+                              <!-- <ng-container matColumnDef="isEvaluation">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Evaluación:</span>{{row.isEvaluation===true?"SÍ":"NO"}}</mat-cell>
-                              </ng-container>
+                              </ng-container> -->
                           
                               
                               <ng-container matColumnDef="digitalReportDeliveryDate">
@@ -199,7 +199,7 @@
                                   <span class="mobile-label">Fecha entrega informe físico:</span>{{row.physicalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="enrolledStudentsDiploma">
+                              <!-- <ng-container matColumnDef="enrolledStudentsDiploma">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes matriculados diplomado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
@@ -238,7 +238,7 @@
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                   <span class="mobile-label">Certificados recibidos:</span>{{row.certificatesReceived}}</mat-cell>
-                              </ng-container>
+                              </ng-container> -->
                               
                               <ng-container matColumnDef="observations">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones
@@ -255,11 +255,17 @@
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
+
+                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                    class="tbl-action-btn">
+                                    <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                  </button>
+
                                 
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                              <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"
                                 [style.cursor]="'pointer'" matRipple>
                               </mat-row>
                             </table>
@@ -323,8 +329,11 @@
                         </div>
                        
                       </div>
-                      <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-activities-list']" >Regresar</button>
-                      <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-activities-list']" >Aprobar</button>
+                      
+                      <mat-button-toggle-group >
+                        <mat-button-toggle color="accent" [routerLink]="['/admission/schedule-activities-list']" >Regresar</mat-button-toggle>
+                        <mat-button-toggle color="primary" (click)="approvalCurriculum(id)">Enviar para Aprobación</mat-button-toggle>
+                      </mat-button-toggle-group>
                     </div>
                   </div>
             </div>

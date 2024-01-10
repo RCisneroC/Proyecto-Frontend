@@ -44,7 +44,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   }
   getAllSourceFunds2() {
    return this.httpClient
-      .get<SourceFunds[]>(this.API_URL);
+      .get<SourceFunds[]>(environment.apiUrlSchedule+'ActivityFundsSource/GetAll');
   }
 
   addSourceFunds(sourceFunds: SourceFunds){
