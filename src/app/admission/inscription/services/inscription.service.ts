@@ -61,13 +61,13 @@ updateParticipant(participantData: any): Observable<any> {
 
 getParticipants(): void {
   this.subs.sink = this.httpClient
-    .get<ApiResponse>(environment.apiEC + "GetData/GetDetail")
+    .get<ApiResponse>(environment.apiEC + "GetData/GetParticipants")
     .subscribe({
       next: (data) => {
         this.isTblLoading = false;
-        console.log("mis datos",data)
+
         // Verifica si 'participants' existe en 'data'
-        if ('detailsResponse' in data) {
+        if ('participants' in data) {
           const participantsArray = data.participants || [];
           this.dataChange.next(participantsArray);
         } else {

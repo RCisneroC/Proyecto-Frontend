@@ -22,9 +22,8 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
   implements OnInit{
     displayedColumns = [
       'name',
-      'description',
-      'year',
-      'statusId',
+      'lastName',
+      'cedula',
       'actions',
     ];
     

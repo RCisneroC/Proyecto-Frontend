@@ -53,32 +53,20 @@
                                   <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="description">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                              <ng-container matColumnDef="lastName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                                  <span class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
                               </ng-container>
                              
-                              <ng-container matColumnDef="year">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Año
+                              <ng-container matColumnDef="cedula">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cedula
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Año:</span>{{row.year}}</mat-cell>
+                                  <span class="mobile-label">Cedula:</span>{{row.cedula}}</mat-cell>
                               </ng-container>
-                              
-                              
-                    
-                              <ng-container matColumnDef="statusId" >
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                  <span class="mobile-label ">Estatus:</span>{{row.statusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
-                              
-                                  
-                              </ng-container>
-                           
+  
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
