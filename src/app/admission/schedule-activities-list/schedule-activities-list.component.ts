@@ -213,6 +213,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
     this.exampleDatabase.getAllSchedule();
     return merge(...displayDataChanges).pipe(
       map(() => {
+       
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()

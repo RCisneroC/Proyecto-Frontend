@@ -34,6 +34,16 @@ export class ExternalInscriptionService {
     // with formData as req 
     return this.httpClient.post(this.baseApiUrl, formData) 
 } 
+getActivity(id:string){
+  return this.httpClient.get<any>(environment.apiUrlSchedule+"Activity/GetBy?Id="+id)
+
+}
+
+updateParticipant(participantData: any): Observable<any> {
+ 
+  const url = `${environment.apiEC}`;
+  return this.httpClient.post(url+"EJcontinuingEducation/Addparticipant", participantData);
+}
 
 // updateParticipant(participantData: any): Observable<any> {
 //   // Replace ':id' with the actual participant ID if needed

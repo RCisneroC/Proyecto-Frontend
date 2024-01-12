@@ -25,6 +25,7 @@ import { SourceFundsListComponent } from './maestros/source-funds-list/source-fu
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
+import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {ActivityListInscriptionComponent} from './inscription/activity-list-insc
     SourceFundsFormComponent,
     SourceFundsListComponent,
     ScheduleListComponent,
+    ActivityParticipantsListComponent,
     
   ],
   imports: [

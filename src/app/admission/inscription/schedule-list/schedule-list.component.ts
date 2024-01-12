@@ -83,6 +83,7 @@ implements OnInit{
       this.paginator,
       this.sort
     );
+    console.log(this.dataSource)
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
         if (!this.dataSource) {

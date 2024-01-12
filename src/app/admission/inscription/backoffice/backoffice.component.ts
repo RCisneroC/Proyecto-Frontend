@@ -15,7 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 export class BackofficeComponent implements OnInit {
     shortLink: string = ""; 
     loadingFile: boolean = false; // Flag variable 
-    files: File[] =[]; 
+    files:{[key:number]:File[]}={};
+    showFileSection=false;
 
 
 
@@ -26,7 +27,8 @@ export class BackofficeComponent implements OnInit {
   loading:boolean=false;
   personData : any;
   activities:any[]=[];
-  schedule:any[]=[]
+  schedule:any[]=[];
+  activityRequirements:any[]=[];
   disabled:boolean = false;
   mostrarActividad:boolean=true;
   mostrarCronograma:boolean=true;
@@ -42,6 +44,7 @@ export class BackofficeComponent implements OnInit {
   selectedActivity: any;
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   idActivity?:number;
+  cedulaParticipant:string="";
 
   constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _inscriptionService:InscriptionService ,private http: HttpClient ,  private activatedRoute: ActivatedRoute,){
     // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
@@ -59,10 +62,8 @@ export class BackofficeComponent implements OnInit {
       position:['',Validators.required],
       province:['', Validators.required],
       judicialDistrict:['', Validators.required],
-
       invitationDate: new Date().toISOString(),
-      UsersId: "0",
-      activityDateId: " ",
+      activityId: [null, Validators.required],
       observation:['', Validators.required],
   
 
@@ -84,7 +85,7 @@ export class BackofficeComponent implements OnInit {
       this.activatedRoute.params.subscribe((params) => {
         this.idActivity = params['id'];
         this.form.patchValue({
-          activityDateId: this.idActivity
+          activityId: this.idActivity,
         });
        
     })
@@ -107,7 +108,7 @@ export class BackofficeComponent implements OnInit {
 
    }else{
     this.loading=true;
-   
+    this.cedulaParticipant=cedula;
       this._inscriptionService.getDataPerson(cedula).subscribe({
         next:(data)=>{
           
@@ -219,20 +220,20 @@ getSchedule(){
     return schedule && schedule.name ? schedule.name : '';
   }
 
+  
+ 
 
   addParticipant() {
-    if(this.fileSelected){
-      this._snackBar.open('Se agrego con éxito el participante ', 'Cerrar', {
-        duration: 4000,
-      });
-     
-    }else{
-      this._snackBar.open('Algunos archivos son requisito!!', 'Cerrar', {
-        duration: 4000,
-      });
-    }
-    
-    // POR ACA VA EL SERVICIO QUE HACE LA CONSULTA A ADDPARTICIPANT
+    if(!this.showFileSection){
+      this._inscriptionService.getActivity(String(this.idActivity)).subscribe({
+        next:(data)=>{
+          this.activityRequirements=data.activityActivityRequirements ;
+          console.log('REQUERIMINETOS :', this.activityRequirements);
+        },
+        error:(e)=>this.loading=false,
+        complete:()=> console.info('Complete')
+    })
+
     this._inscriptionService.updateParticipant(this.form.value).subscribe({
       next: (data) => {
         console.log('Participant added successfully:', data);
@@ -241,6 +242,12 @@ getSchedule(){
         console.error('Error adding participant:', error);
       },
     });
+
+      this.showFileSection=true;
+      
+     
+    }
+    
  }
 
   onFileSelected(event: any) {
@@ -250,24 +257,27 @@ getSchedule(){
       this.form.get('file')?.setValue(file);
     }
   }
-  onChangeFile(event: any) {
-    const files = event.target.files;
+  onChangeFile(event: any, requerimentId: number) {
+    const files:FileList = event.target.files;
 
     if (files.length) {
       this.status = "initial";
-      this.files = files;
+      this.files[requerimentId] = Array.from(files);
     }
   }
   onUpload() {
     this.fileSelected=true
-    if (this.files.length) {
+    if (Object.keys(this.files).length) {
       const formData = new FormData();
-
-      [...this.files].forEach((file) => {
-        formData.append("file", file, file.name);
+      formData.append("cedula", this.cedulaParticipant);
+      Object.values(this.files).forEach((fileArray) => {
+        fileArray.forEach((file)=>{
+          formData.append("File", file, file.name);
+        })
+       
       });
 
-      const upload$ = this.http.post("https://httpbin.com/post", formData);
+      const upload$ = this.http.post("https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/EFInscription/AddDoc", formData);
 
       this.status = "uploading";
 

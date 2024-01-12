@@ -2,14 +2,14 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Cronograma de actividades'" [items]="['Home','Admisión']" [active_item]="'Cronograma de actividades'">
+      <app-breadcrumb [title]="'Inscripción Backoffice'" [items]="['Home','Admisión','Inscripciones' ]" [active_item]="'Backoffice'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2><strong>Listado de cronogramas</strong></h2>
+            <h2><strong>Selecione un cronograma</strong></h2>
           </div>
           <div class="body">
               <div class="row">
@@ -31,23 +31,10 @@
                         <div class="right">
                           <ul class="tbl-export-btn">
                             <li class="tbl-header-btn">
-                              <div class="m-l-10" matTooltip="ADD">
-                                <button mat-mini-fab color="primary" (click)="addNew()">
-                                  <mat-icon class="col-white">add</mat-icon>
-                                </button>
-                              </div>
-                            </li>
-                            <li class="tbl-header-btn">
                               <div class="m-l-10" matTooltip="REFRESH">
                                 <button mat-mini-fab color="primary" (click)="refresh()">
                                   <mat-icon class="col-white">refresh</mat-icon>
                                 </button>
-                              </div>
-                            </li>
-                         
-                            <li>
-                              <div class="export-button m-l-10" matTooltip="XLSX">
-                                <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
                               </div>
                             </li>
                           </ul>

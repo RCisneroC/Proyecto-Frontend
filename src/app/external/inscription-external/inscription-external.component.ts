@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExternalInscriptionService } from '../services/external-inscription.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from "@angular/common/http";
 import { throwError } from "rxjs";
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inscription-external',
   templateUrl: './inscription-external.component.html',
   styleUrls: ['./inscription-external.component.scss']
 })
-export class InscriptionExternalComponent {
-  
+export class InscriptionExternalComponent implements OnInit {
   shortLink: string = ""; 
   loadingFile: boolean = false; // Flag variable 
-  files: File[] =[]; 
+  files:{[key:number]:File[]}={};
+  showFileSection=false;
 
 
 
@@ -25,7 +27,8 @@ displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'accion
 loading:boolean=false;
 personData : any;
 activities:any[]=[];
-schedule:any[]=[]
+schedule:any[]=[];
+activityRequirements:any[]=[];
 disabled:boolean = false;
 mostrarActividad:boolean=true;
 mostrarCronograma:boolean=true;
@@ -39,36 +42,37 @@ messageType: 'error' | 'info' = 'info';
 errorMessage: string = '';
 infoMessage: string = '';
 selectedActivity: any;
-status: "initial" | "uploading" | "success" | "fail" = "initial"
+status: "initial" | "uploading" | "success" | "fail" = "initial";
+idActivity?:number;
+cedulaParticipant:string="";
 
-
-constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _inscriptionService:ExternalInscriptionService ,private http: HttpClient){
+constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _externalInscriptionService:ExternalInscriptionService ,private http: HttpClient ,  private activatedRoute: ActivatedRoute,){
   // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
   this.form=this.fb.group({
-    name:['', Validators.required],
-    surname:['', Validators.required],
+    firstName:['', Validators.required],
+    lastName:['', Validators.required],
     secondSurname:['', Validators.required],
-    identificationCard:['', Validators.required],
     gender:['', Validators.required],
-    province:['', Validators.required],
-    judicialDistrict:['', Validators.required],
-
-    university:['',Validators.required],
+    cedula:['', Validators.required],
     institution:['',Validators.required],
+    email:['', [Validators.required, Validators.email]],
+    university:['',Validators.required],
     dependency:['',Validators.required],
     cooperatingEntity:['',Validators.required],
     position:['',Validators.required],
-    email:['', [Validators.required, Validators.email]],
-    description:['', Validators.required],
-  
-    
+    province:['', Validators.required],
+    judicialDistrict:['', Validators.required],
+    invitationDate: new Date().toISOString(),
+    activityId: [null, Validators.required],
+    observation:['', Validators.required],
+
 
   })
 
 }
 ngOnInit():void{
    
-    this._inscriptionService.getShedule().subscribe({
+    this._externalInscriptionService.getShedule().subscribe({
         next:(data)=>{
           this.schedule=data;
           this.filteredSchedule=data;
@@ -77,6 +81,14 @@ ngOnInit():void{
         error:(e)=>this.loading=false,
         complete:()=> console.info('Complete')
     })
+
+    this.activatedRoute.params.subscribe((params) => {
+      this.idActivity = params['id'];
+      this.form.patchValue({
+        activityId: this.idActivity,
+      });
+     
+  })
  
    
 
@@ -87,14 +99,17 @@ getPersonData(cedula: string){
   this.disabled=true;
   
  if(!cedula){
-  this._snackBar.open('Por favor, ingrese una cédula', 'Cerrar', {
-    duration: 4000,
+ 
+  Swal.fire({
+    title: "Escuela Judicial",
+    text: 'Por favor, ingrese una cédula',
+    icon: "warning"
   });
 
  }else{
   this.loading=true;
- 
-    this._inscriptionService.getDataPerson(cedula).subscribe({
+  this.cedulaParticipant=cedula;
+    this._externalInscriptionService.getDataPerson(cedula).subscribe({
       next:(data)=>{
         
         this.loading=false;
@@ -114,13 +129,12 @@ getPersonData(cedula: string){
 getActivities(idSchedule: string) {
   this.showMessage = false;
   this.mostrarActividad = false;
-  this._inscriptionService.getActivities(idSchedule).subscribe({
+  this._externalInscriptionService.getActivities(idSchedule).subscribe({
     next: (data) => {
       this.activities = data;
       
       // Actualiza las opciones de actividades
       this.filteredActivities = data;
-      console.log('Actividadesssssss:',this.filteredActivities);
     },
     error: (e) => this.loading = false,
     complete: () => console.info('Complete')
@@ -134,7 +148,7 @@ if(this.selectedSchedule==''){
 }else{
 this.showMessage=false;
 this.mostrarCronograma=false;
-this._inscriptionService.getShedule().subscribe({
+this._externalInscriptionService.getShedule().subscribe({
     next:(data)=>{
       this.schedule=data;
       this.getActivities(data.id)
@@ -171,7 +185,6 @@ onScheduleChange(selectedSchedule:any): void{
       schedule.name.toLowerCase().includes(selectedSchedule.name.toLowerCase())
     );
     this.getActivities(String(selectedSchedule.id))
-    console.log("DATOSSSSS", selectedSchedule.id, this.activities);
   }
   
 }
@@ -208,61 +221,63 @@ displayFn(schedule: any): string {
 }
 
 
+
+
 addParticipant() {
-  if(this.fileSelected){
-    this._snackBar.open('Se agrego con éxito el participante ', 'Cerrar', {
-      duration: 4000,
-    });
-    setTimeout(() => {
-       window.location.reload();
-    }, 4000);
+  if(!this.showFileSection){
+    this._externalInscriptionService.getActivity(String(this.idActivity)).subscribe({
+      next:(data)=>{
+        this.activityRequirements=data.activityActivityRequirements ;
+        console.log('REQUERIMINETOS :', this.activityRequirements);
+      },
+      error:(e)=>this.loading=false,
+      complete:()=> console.info('Complete')
+  })
+
+  this._externalInscriptionService.updateParticipant(this.form.value).subscribe({
+    next: (data) => {
+      console.log('Participant added successfully:', data);
+    },
+    error: (error) => {
+      console.error('Error adding participant:', error);
+    },
+  });
+
+    this.showFileSection=true;
+    
    
-  }else{
-    this._snackBar.open('Algunos archivos son requisito!!', 'Cerrar', {
-      duration: 4000,
-    });
   }
   
-  //
-  // Update the method name accordingly
-//   this._inscriptionService.updateParticipant(this.form.value).subscribe({
-//     next: (data) => {
-//       // Handle success response
-//       console.log('Participant added successfully:', data);
-//     },
-//     error: (error) => {
-//       // Handle error response
-//       console.error('Error adding participant:', error);
-//     },
-//   });
 }
 
 onFileSelected(event: any) {
   const fileInput = event.target;
   if (fileInput.files.length > 0) {
     const file = fileInput.files[0];
-    // Puedes hacer algo con el archivo, por ejemplo, guardarlo en una variable
     this.form.get('file')?.setValue(file);
   }
 }
-onChangeFile(event: any) {
-  const files = event.target.files;
+onChangeFile(event: any, requerimentId: number) {
+  const files:FileList = event.target.files;
 
   if (files.length) {
     this.status = "initial";
-    this.files = files;
+    this.files[requerimentId] = Array.from(files);
   }
 }
 onUpload() {
   this.fileSelected=true
-  if (this.files.length) {
+  if (Object.keys(this.files).length) {
     const formData = new FormData();
-
-    [...this.files].forEach((file) => {
-      formData.append("file", file, file.name);
+    formData.append("cedula", this.cedulaParticipant);
+    Object.values(this.files).forEach((fileArray) => {
+      fileArray.forEach((file)=>{
+        formData.append("File", file, file.name);
+      })
+     
     });
 
-    const upload$ = this.http.post("https://httpbin.com/post", formData);
+    const upload$ = this.http.post("https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/EFInscription/AddDoc", formData);
 
     this.status = "uploading";
 
@@ -277,5 +292,6 @@ onUpload() {
     });
   }
 } 
+
 
 } 

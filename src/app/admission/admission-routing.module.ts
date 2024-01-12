@@ -12,6 +12,7 @@ import { ReasonListComponent } from './maestros/reason-list/reason-list.componen
 import { SourceFundsListComponent } from './maestros/source-funds-list/source-funds-list.component';
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
 import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
+import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
 const routes: Routes = [
 
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: "schedule-list",
     component: ScheduleListComponent,
+  },
+  {
+    path: "activity-participants-list",
+    component: ActivityParticipantsListComponent,
   }
 
 ];

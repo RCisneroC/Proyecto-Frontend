@@ -79,8 +79,8 @@ export const ROUTES: RouteInfo[] = [
           submenu: []
         },
         {
-          path: "admission/external-user",
-          title: "Usuario externo",
+          path: "admission/activity-participants-list",
+          title: "Participantes",
           iconType: "",
           icon: "",
           class: "",

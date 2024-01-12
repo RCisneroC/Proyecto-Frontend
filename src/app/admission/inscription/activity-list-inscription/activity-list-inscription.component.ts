@@ -84,6 +84,9 @@ implements OnInit{
   
    
   }
+  generateLink(row:ScheduleActivity){
+    
+  }
   /** Whether the number of selected elements matches the total number of rows. */
 
 
@@ -176,9 +179,11 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-            const searchStr = (activity.observations).toLowerCase();
+            const observations = activity.observations || '';
+            const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
+
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.

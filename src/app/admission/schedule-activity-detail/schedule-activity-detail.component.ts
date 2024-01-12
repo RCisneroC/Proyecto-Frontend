@@ -251,7 +251,8 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-            const searchStr = (activity.observations).toLowerCase();
+            const observations = activity.observations || '';
+            const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
