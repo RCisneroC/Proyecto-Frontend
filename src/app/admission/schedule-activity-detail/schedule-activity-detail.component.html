@@ -104,13 +104,6 @@
                                   <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
                               </ng-container>
                               
-                              <!-- <ng-container matColumnDef="assignedCoordinatorName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Coord.Responsable
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Coord.Responsable:</span>{{row.assignedCoordinatorName}}</mat-cell>
-                              </ng-container> -->
-                              
                               <ng-container matColumnDef="startDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio
                                 </mat-header-cell>
@@ -134,13 +127,6 @@
                                   <span class="mobile-label">Fecha final efectiva:</span>{{row.effectiveEndDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="isExecuted">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ejecutado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ejecutado:</span>{{row.isExecuted===true?"SÍ":"No"}}</mat-cell>
-                              </ng-container>
-                              
                               <ng-container matColumnDef="activityReasonName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo de cambio/cancelación de la actividad
                                 </mat-header-cell>
@@ -155,20 +141,6 @@
                                   <span class="mobile-label">Origen de los fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="numOfAssignedTeachers">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Docente/s seleccionado/s
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Docentes seleccionados:</span>{{row.numOfAssignedTeachers}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="hasDataSheet">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ficha técnica de la actividad
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ficha técnica de la actividad:</span>{{row.hasDataSheet===true?"SÍ":"NO"}}</mat-cell>
-                              </ng-container>
-                              
                               <ng-container matColumnDef="dataSheetDeliveryDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega fiche técnica
                                 </mat-header-cell>
@@ -176,13 +148,6 @@
                                   <span class="mobile-label">Ficha Tecnica:</span>{{row.dataSheetDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <!-- <ng-container matColumnDef="isEvaluation">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Evaluación:</span>{{row.isEvaluation===true?"SÍ":"NO"}}</mat-cell>
-                              </ng-container> -->
-                          
                               
                               <ng-container matColumnDef="digitalReportDeliveryDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega informe digital
@@ -198,47 +163,6 @@
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Fecha entrega informe físico:</span>{{row.physicalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
-                              
-                              <!-- <ng-container matColumnDef="enrolledStudentsDiploma">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes matriculados diplomado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes matriculados diplomado:</span>{{row.enrolledStudentsDiploma}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="retiredStudentsDiploma">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes retirados diplomado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes retirados diplomado:</span>{{row.retiredStudentsDiploma}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="participants">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Participantes
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Participantes:</span>{{row.participants}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="male">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Masculino
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Masculino:</span>{{row.male}}</mat-cell>
-                              </ng-container>
-                              <ng-container matColumnDef="female">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Femenino
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Femenino:</span>{{row.female}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="certificatesReceived">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Certificados recibidos
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Certificados recibidos:</span>{{row.certificatesReceived}}</mat-cell>
-                              </ng-container> -->
                               
                               <ng-container matColumnDef="observations">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones
@@ -331,8 +255,8 @@
                       </div>
                       
                       <mat-button-toggle-group >
-                        <mat-button-toggle color="accent" [routerLink]="['/admission/schedule-activities-list']" >Regresar</mat-button-toggle>
-                        <mat-button-toggle color="primary" (click)="approvalCurriculum(id)">Enviar para Aprobación</mat-button-toggle>
+                        <mat-button-toggle  matTooltip="Regresar" color="accent" [routerLink]="['/admission/schedule-activities-list']" >Regresar</mat-button-toggle>
+                        <mat-button-toggle  matTooltip="Enviar para aprobación" color="primary" (click)="approvalCurriculum(id)">Enviar para Aprobación</mat-button-toggle>
                       </mat-button-toggle-group>
                     </div>
                   </div>
