@@ -5,6 +5,13 @@
         <app-breadcrumb [title]="'Actividad'" [items]="['Inicio','Admisión','Registro Actividad']" [active_item]="'Actividad'">
         </app-breadcrumb>
       </div>
+      <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+        <div class="">
+          <button matTooltip="Regresar" mat-raised-button color="accent" [routerLink]="['/admission/schedule-activities-list']">
+              <mat-icon>keyboard_backspace</mat-icon> Regresar
+          </button>
+        </div>
+      </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
@@ -128,10 +135,10 @@
                               </ng-container>
                               
                               <ng-container matColumnDef="activityReasonName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo de cambio/cancelación de la actividad
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Motivo de cambio/cancelación de la actividad:</span>{{row.activityReasonName}}</mat-cell>
+                                  <span class="mobile-label">Motivo:</span>{{row.activityReasonName}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="activityFundsSourceName">
@@ -140,30 +147,20 @@
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Origen de los fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
                               </ng-container>
-                              
-                              <ng-container matColumnDef="dataSheetDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega fiche técnica
+                              <ng-container matColumnDef="startTime">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Inicio de Incripción
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ficha Tecnica:</span>{{row.dataSheetDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Inicio de Incripción:</span>{{row.startTime | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
                               
-                              <ng-container matColumnDef="digitalReportDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega informe digital
+                              <ng-container matColumnDef="endTime">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fin de Incripción
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha entrega informe digital:</span>{{row.digitalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Fin de Incripción:</span>{{row.endTime | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
-                          
-                          
-                              <ng-container matColumnDef="physicalReportDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega informe físico
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha entrega informe físico:</span>{{row.physicalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
                               <ng-container matColumnDef="observations">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones
                                 </mat-header-cell>
@@ -180,7 +177,7 @@
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
 
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
@@ -251,13 +248,7 @@
                             [pageSizeOptions]="[5, 10, 25, 100]">
                           </mat-paginator>
                         </div>
-                       
                       </div>
-                      
-                      <mat-button-toggle-group >
-                        <mat-button-toggle  matTooltip="Regresar" color="accent" [routerLink]="['/admission/schedule-activities-list']" >Regresar</mat-button-toggle>
-                        <mat-button-toggle  matTooltip="Enviar para aprobación" color="primary" (click)="approvalCurriculum(id)">Enviar para Aprobación</mat-button-toggle>
-                      </mat-button-toggle-group>
                     </div>
                   </div>
             </div>

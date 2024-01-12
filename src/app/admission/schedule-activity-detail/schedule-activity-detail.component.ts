@@ -12,7 +12,7 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
 import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ApprovalCurriculumComponent } from '../approval-curriculum/approval-curriculum.component';
@@ -35,22 +35,10 @@ implements OnInit{
          'startDate',
          'plannedEndDate',
          'effectiveEndDate',
-        //  'isExecuted',
          'activityReasonName',
          'activityFundsSourceName',
-        //  'numOfAssignedTeachers',
-        //  'hasDataSheet',
-         'dataSheetDeliveryDate',
-        //  'isEvaluation',
-         'digitalReportDeliveryDate',
-         'physicalReportDeliveryDate',
-        //  'enrolledStudentsDiploma',
-        //  'retiredStudentsDiploma',
-        //  'participants',
-        //  'male',
-        //  'female',
-        //  'certificatesReceived',
-        //  'observations',
+         'startTime',
+         'endTime',
          'actions',
   ];
   
@@ -65,7 +53,8 @@ implements OnInit{
     public dialog: MatDialog,
     public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _nav:Router
   ) {
     super();
   }
@@ -80,10 +69,8 @@ implements OnInit{
    
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-  
-     
   })
-   
+  
   }
   refresh() {
     this.loadData();
@@ -159,6 +146,10 @@ implements OnInit{
             });
           }
         }); 
+  }
+
+  Detail(row: ScheduleActivityDetail) {
+    this._nav.navigate(['/admission/activity-detail/' + row.id]);
   }
 
   approvalCurriculum(id:any) {

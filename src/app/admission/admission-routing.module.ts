@@ -17,6 +17,7 @@ import { SuppliesListComponent } from './maestros/supplies-list/supplies-list.co
 import { DocumentRequiredFormComponent } from './maestros/document-required-form/document-required-form.component';
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
+import { ActivitydetailComponent } from './activitydetail/activitydetail.component';
 
 const routes: Routes = [
 
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "schedule-activity-detail/:id",
     component: ScheduleActivityDetailComponent,
+  },
+  {
+    path: "activity-detail/:id",
+    component: ActivitydetailComponent,
   },
 
   //maestras

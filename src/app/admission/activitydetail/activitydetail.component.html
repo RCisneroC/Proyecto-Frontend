@@ -1,0 +1,125 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Actividad'" [items]="['Inicio','Admisión','Cronograma']"
+                [active_item]="'Detalle Actividad'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent"
+                    [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false" >
+                        <h2 class="text-uppercase">Detalle de la actividad<strong> {{ _ActivityService._GetOneActivity.name }}</strong> / Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Nombre de Actividad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.name }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Origen de Fondos</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityFundsSourceName }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Ubicación</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityLocationName }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Modalidad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityModeName }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Razón de actividad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityReasonName }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Tipo de Actividad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityTypeName }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Nombre del coordinador</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.assignedCoordinatorName }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Modalidad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.activityLocationName }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha de Inicio</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.startDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha Final programada</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.plannedEndDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Estudiantes matriculados</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.planningDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha Final Efectiva</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.effectiveEndDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha de Inicio de Incripción</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.startTime|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha Final de Incripción</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.endTime|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha de entrega de Ficha Técnica</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.dataSheetDeliveryDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Fecha Entrada Físico / Digital</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.digitalReportDeliveryDate|date:'dd/M/yyyy' }} - {{ _ActivityService._GetOneActivity.physicalReportDeliveryDate|date:'dd/M/yyyy' }}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Duración</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.duration }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Total de Horas</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.totalHours }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Horas Presenciales</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.onSiteHours }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Observación</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.observations }}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

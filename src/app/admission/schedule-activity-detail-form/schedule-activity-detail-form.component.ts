@@ -62,13 +62,15 @@ export class ScheduleActivityDetailFormComponent {
     public scheduleActivitiesService: ScheduleActivitiesService,
     private fb: UntypedFormBuilder
   ) {
+    
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-    
+      
       this.dialogTitle ="Editar actividad";
       
       this.schedule = data.scheduleActivity;
+      // console.log(this.schedule.endTime);
     } else {
       
       this.dialogTitle = 'Añadir actividad';
@@ -98,7 +100,7 @@ export class ScheduleActivityDetailFormComponent {
       ? 'Not a valid email'
       : '';
   }
-  createContactForm(): UntypedFormGroup {
+  createContactForm(): UntypedFormGroup{
     return this.fb.group({
       curriculumDesignId: new FormControl(this.action=="edit"?this.schedule.curriculumDesignId:this.id, Validators.required),
       id: new FormControl(this.schedule.id),
@@ -108,6 +110,8 @@ export class ScheduleActivityDetailFormComponent {
       name: new FormControl(this.schedule.name, Validators.required),
       activityLocationId: new FormControl(this.schedule.activityLocationId, Validators.required),
       assignedCoordinatorId: new FormControl(this.schedule.assignedCoordinatorId, Validators.required),
+      startTime: new FormControl(this.schedule.startTime, Validators.required),
+      endTime: new FormControl(this.schedule.endTime, Validators.required),
       startDate: new FormControl(this.schedule.startDate, Validators.required),
       plannedEndDate: new FormControl(this.schedule.plannedEndDate, Validators.required),
       effectiveEndDate: new FormControl(this.schedule.effectiveEndDate, Validators.required),
@@ -122,10 +126,7 @@ export class ScheduleActivityDetailFormComponent {
       observations: new FormControl(this.schedule.observations)
 
     });
-    
-  
   }
-  
 
   submit() {
     // emppty stuff
