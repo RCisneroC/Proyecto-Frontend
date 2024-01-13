@@ -32,8 +32,10 @@ import { DocumentRequiredFormComponent } from './maestros/document-required-form
 import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { StatusFormComponent } from './maestros/status-form/status-form.component';
-import { ApprovalCurriculumComponent } from './approval-curriculum/approval-curriculum.component';
 import { ActivitydetailComponent } from './activitydetail/activitydetail.component';
+import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
+import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-design/list-curriculum-design.component';
+import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
 
 
@@ -66,9 +68,10 @@ import { ActivitydetailComponent } from './activitydetail/activitydetail.compone
     DocumentRequiredListComponent,
     StatusListComponent,
     StatusFormComponent,
-    ApprovalCurriculumComponent,
     ActivitydetailComponent,
-    
+    StatusPipePipe,
+    ListCurriculumDesignComponent,
+    DeatilActivityCurriculumDesignComponent
   ],
   imports: [
     CommonModule,

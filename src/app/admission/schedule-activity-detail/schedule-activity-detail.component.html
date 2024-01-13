@@ -16,7 +16,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Listado de Actividades</strong></h2>
+              <h2>Listado de Actividades <strong> ({{ activityDetailService.DetailCurriculum.name }}) (<span class="badge badge-solid-green">{{ activityDetailService.DetailCurriculum.statusId|statusPipe }}</span>)</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -38,7 +38,7 @@
                           <div class="right">
                             <ul class="tbl-export-btn">
                               <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="ADD">
+                                <div class="m-l-10" matTooltip="Nuevo">
                                   <button mat-mini-fab color="primary" (click)="addNew()">
                                     <mat-icon class="col-white">add</mat-icon>
                                   </button>
@@ -161,18 +161,18 @@
                                 <mat-cell *matCellDef="let row">
                                   <span class="mobile-label">Fin de Incripción:</span>{{row.endTime | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
-                              <ng-container matColumnDef="observations">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones
+                              <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Observaciones:</span>{{row.observations}}</mat-cell>
+                                  <span class="mobile-label">Estado:</span><span class="badge badge-solid-green">{{row.statusId|statusPipe}}</span></mat-cell>
                               </ng-container>
                         
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                  <button *ngIf="row.statusId!=3"  mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
@@ -249,6 +249,12 @@
                           </mat-paginator>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="example-button-row" *ngIf="activityDetailService.DetailCurriculum.statusId!=3">
+                    <div class="col-12">
+                      <button (click)="SendApproval()" matTooltip="Enviar para Aprobación de Plan Anual" mat-raised-button color="primary"><mat-icon>send</mat-icon> Enviar Aprobación</button>
                     </div>
                   </div>
             </div>

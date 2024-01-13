@@ -18,7 +18,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false" >
-                        <h2 class="text-uppercase">Detalle de la actividad<strong> {{ _ActivityService._GetOneActivity.name }}</strong> / Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
+                        <h2 class="text-uppercase">Detalle de la actividad<strong> {{ _ActivityService._GetOneActivity.name }}</strong>  <span class="badge badge-solid-green">{{ _ActivityService._GetOneActivity.statusId|statusPipe }}</span>   <br> Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
                         <div class="row">
@@ -115,11 +115,57 @@
                                 <label for="">{{ _ActivityService._GetOneActivity.observations }}</label>
                             </div>
                         </div>
-
+                        <div class="example-button-row">
+                            <div class="col-12">
+                                <button matTooltip="Gestionar Salones" mat-raised-button color="primary"
+                                [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
+                                <mat-icon>add</mat-icon> Gestión de Salones
+                                </button>
+                                <button *ngIf="_ActivityService._GetOneActivity.statusId != 3 && _ActivityService._GetOneActivity.statusId != 5"  matTooltip="Editar Actividad" mat-raised-button color="accent"
+                                    [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
+                                    <mat-icon>edit</mat-icon> Editar Actividad.
+                                </button> 
+                            </div>
+                        </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase"><strong>Documentos Requeridos</strong></h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase"><strong>Afiches</strong></h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase"><strong>Docentes, Facilitadores, Moderadores.</strong></h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 </section>

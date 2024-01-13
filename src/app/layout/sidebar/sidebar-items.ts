@@ -35,6 +35,51 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
   {
+    path: "",
+    title: "Aprobaciones",
+    iconType: "feather",
+    icon: "check-circle",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    submenu: [
+      {
+        path: "#",
+        title: "Cronograma de actividades",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+      path: "#",
+      title: "Solicitud de Salones",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: []
+      },
+      {
+      path: "#",
+      title: "Solicitud de Afiche",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: []
+    }
+    ]
+  },
+  {
       path: "",
       title: "Maestros",
       iconType: "",
@@ -44,17 +89,6 @@ export const ROUTES: RouteInfo[] = [
       badge: "",
       badgeClass: "",
     submenu: [
-      //  {
-      //     path: "admission/activity-list",
-      //     title: "Actividad",
-      //     iconType: "",
-      //     icon: "",
-      //     class: "",
-      //     groupTitle: false,
-      //     badge: "",
-      //     badgeClass: "",
-      //     submenu: []
-      //   },
         {
           path: "/admission/source-funds-list",
           title: "Origen de fondos",

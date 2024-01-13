@@ -26,6 +26,7 @@ import {
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { NgScrollbarModule } from "ngx-scrollbar";
+import { StatusPipePipe } from './pipes/status-pipe.pipe';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -40,11 +41,7 @@ export function createTranslateLoader(http: HttpClient) {
     SidebarComponent,
     RightSidebarComponent,
     AuthLayoutComponent,
-    MainLayoutComponent,
-   
-   
-    
-
+    MainLayoutComponent
   ],
   imports: [
     BrowserModule,

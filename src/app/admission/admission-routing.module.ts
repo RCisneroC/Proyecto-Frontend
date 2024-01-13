@@ -18,6 +18,8 @@ import { DocumentRequiredFormComponent } from './maestros/document-required-form
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
 import { ActivitydetailComponent } from './activitydetail/activitydetail.component';
+import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-design/list-curriculum-design.component';
+import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
 const routes: Routes = [
 
@@ -37,12 +39,16 @@ const routes: Routes = [
     path: "activity-detail/:id",
     component: ActivitydetailComponent,
   },
-
-  //maestras
-  //    {
-  //   path: "activity-list",
-  //   component: ActivityListComponent,
-  // },
+  // aprobaciones.
+  // maestras
+  {
+    path: "list-curriculum",
+    component: ListCurriculumDesignComponent,
+  },
+  {
+    path: "detalle-curriculum-activity",
+    component: DeatilActivityCurriculumDesignComponent,
+  },
 
    {
     path: "source-funds-list",
