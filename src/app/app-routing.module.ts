@@ -4,6 +4,7 @@ import { Page404Component } from './authentication/page404/page404.component';
 import { AuthGuard } from './core/guard/auth.guard';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -58,6 +59,17 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+
+  //Colocar el path aca 
+  {
+    path: 'student',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./external/inscription-external.module').then(
+        (m) => m.InscriptionExternalModule
+      ),
+  },
+
   { path: '**', component: Page404Component },
 ];
 @NgModule({

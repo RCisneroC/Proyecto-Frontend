@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { ScheduleActivityDetail } from '../models/scheduleActivity';
+import { ScheduleActivityDetail } from '../../models/scheduleActivity';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -10,18 +10,17 @@ import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
-import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
-import { ScheduleActivitiesService } from '../services/schedule-activities.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseMessageMaestra } from '../models/ResponseMessage';
-import Swal from 'sweetalert2';
-
+//import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
+import { ScheduleActivitiesService } from '../../services/schedule-activities.service';
+import { ActivatedRoute } from '@angular/router';
+import { ScheduleActivity } from '../../models/scheduleActivity';
+import { Router } from '@angular/router';
 @Component({
-  selector: 'app-schedule-activity-detail',
-  templateUrl: './schedule-activity-detail.component.html',
-  styleUrls: ['./schedule-activity-detail.component.scss']
+  selector: 'app-activity-list',
+  templateUrl: './activity-list-inscription.component.html',
+  styleUrls: ['./activity-list-inscription.component.scss']
 })
-export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
+export class ActivityListInscriptionComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
@@ -30,15 +29,7 @@ implements OnInit{
          'activityTypeName',
          'activityName',
          'activityLocationName',
-        //  'assignedCoordinatorName',
          'startDate',
-         'plannedEndDate',
-         'effectiveEndDate',
-         'activityReasonName',
-         'activityFundsSourceName',
-         'startTime',
-         'endTime',
-         'status',
          'actions',
   ];
   
@@ -54,7 +45,7 @@ implements OnInit{
     public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private _nav:Router
+    private router: Router,
   ) {
     super();
   }
@@ -65,145 +56,36 @@ implements OnInit{
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
-    this.activityDetailService.init_DetailCurriculum();
     this.loadData();
    
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-      this.getOne();
-  })
   
+     
+  })
+   
   }
   refresh() {
     this.loadData();
   }
 
-  getOne() {
-    this.activityDetailService.getDetailCurriculum(this.id).subscribe({
-      next: (res) => {
-        this.activityDetailService.DetailCurriculum = res;
-      }
-    })
+  ViewDetail(row:ScheduleActivity) {
+    this.router.navigate(['/admission/backoffice',row.id]);
   }
-  addNew() {
-  
-   let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(ScheduleActivityDetailFormComponent, {
-      data: {
-        activity: this.activityDetail,
-        action: 'add',
-        id: this.id,
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-       if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-            this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
-    });
-  }
-  editCall(row: ScheduleActivityDetail) {
-  
-    this.id = row.curriculumDesignId;
-    let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(ScheduleActivityDetailFormComponent, {
-      data: {
-        scheduleActivity : row,
-        action: 'edit',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-          if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-            this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
-        }); 
-  }
-
-  Detail(row: ScheduleActivityDetail) {
-    this._nav.navigate(['/admission/activity-detail/' + row.id]);
-  }
-
-  // approvalCurriculum(id:any) {
-  // console.log('====================================');
-  // console.log(id);
-  // console.log('====================================');
-  //  let tempDirection: Direction;
-  //   if (localStorage.getItem('isRtl') === 'true') {
-  //     tempDirection = 'rtl';
-  //   } else {
-  //     tempDirection = 'ltr';
-  //   }
-  //   const dialogRef = this.dialog.open(ApprovalCurriculumComponent, {
-  //     data: {
-  //       curriculumId:id,
-  //       action: 'add',
-  //       id: this.id,
-  //     },
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-  //      if (result == undefined) {
-  //         return;
-  //         }
-  //         if (result.CodError == 200) {
-  //             Swal.fire({
-  //                 title: "Escuela Judicial",
-  //                 text: result.Message,
-  //                 icon: "success"
-  //             });
-  //           this.loadData();
-  //         } else {
-  //           Swal.fire({
-  //             title: "Escuela Judicial",
-  //             text: result.Message,
-  //             icon: "warning"
-  //           });
-  //         }
-  //   });
-  // }
-
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
+  }
+
+  addNew(){
+
+  }
+  editCall(row: ScheduleActivityDetail) {
+  
+   
+  }
+  generateLink(row:ScheduleActivity){
+    
   }
   /** Whether the number of selected elements matches the total number of rows. */
 
@@ -254,33 +136,8 @@ implements OnInit{
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-  SendApproval() {
-    Swal.fire({
-      title: "¿Estas seguro?",
-      text: "Se enviara el calendario anual para aprobación",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Enviar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-         Swal.fire({
-              title: "Escuela Judicial!",
-              text: "Enviado correctamente.",
-              icon: "success"
-            });
-      } else {
-        Swal.fire({
-              title: "Escuela Judicial!",
-              text: "No fue enviado.",
-              icon: "warning"
-            });
-      }
-    });
-  }
-
 }
+
 export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   filterChange = new BehaviorSubject('');
   id!: number;
@@ -322,14 +179,11 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-<<<<<<< HEAD
-            const searchStr = (activity.name).toLowerCase();
-=======
             const observations = activity.observations || '';
             const searchStr = observations.toLowerCase();
->>>>>>> ab4a687a17ef972829eeb486a49f04fb2af1f096
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
+
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.
@@ -367,4 +221,5 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
     });
   }
 }
+
 

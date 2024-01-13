@@ -17,8 +17,6 @@ import { ActivityFormComponent } from './maestros/activity-form/activity-form.co
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
 import { ScheduleActivityDetailFormComponent } from './schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { BackofficeComponent } from './inscription/backoffice/backoffice.component';
-import { ExternalUserComponent } from './inscription/external-user/external-user.component';
-import { InternalUserComponent } from './inscription/internal-user/internal-user.component';
 import { ModalityFormComponent } from './maestros/modality-form/modality-form.component';
 import { TypeActivityFormComponent } from './maestros/type-activity-form/type-activity-form.component';
 import { ReasonFormComponent } from './maestros/reason-form/reason-form.component';
@@ -38,6 +36,10 @@ import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-desig
 import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
 
+import { MatFileUploadModule } from 'angular-material-fileupload';
+import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
+import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
+import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
 
 @NgModule({
   declarations: [
@@ -53,8 +55,11 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
     ScheduleActivityDetailComponent,
     ScheduleActivityDetailFormComponent,
     BackofficeComponent,
-    ExternalUserComponent,
-    InternalUserComponent,
+    // ExternalUserComponent,
+    // InternalUserComponent,
+ 
+    ActivityListInscriptionComponent,
+    
     ModalityFormComponent,
     TypeActivityFormComponent,
     ReasonFormComponent,
@@ -72,6 +77,9 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
     StatusPipePipe,
     ListCurriculumDesignComponent,
     DeatilActivityCurriculumDesignComponent
+    ScheduleListComponent,
+    ActivityParticipantsListComponent,
+    
   ],
   imports: [
     CommonModule,

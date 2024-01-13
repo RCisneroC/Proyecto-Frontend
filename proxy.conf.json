@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://ojpanama.organojudicial.gob.pa",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

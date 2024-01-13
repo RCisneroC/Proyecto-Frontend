@@ -31,6 +31,185 @@ export const ROUTES: RouteInfo[] = [
       badge: "",
       badgeClass: "",
       submenu: []
+    },
+    {
+      path: "admission/",
+      title: "Inscripciones",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/schedule-list",
+          title: "BackOffice",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/activity-participants-list",
+          title: "Participantes",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/internal-user",
+          title: "Usuario interno",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+      ]
+    },
+    // {
+    //   path: "admission/",
+    //   title: "Inscripción",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Admisión",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Notificaciones",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    // {
+    //   path: "admission/",
+    //   title: "Convocatorias",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   submenu: []
+    // },
+    {
+      path: "admission/",
+      title: "Maestros",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/activity-list",
+          title: "Actividad",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/lounge-list",
+          title: "Salón",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/",
+          title: "Insumos",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/reason-list",
+          title: "Motivo",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/type-activity-list",
+          title: "Tipo de actividad",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/modality-list",
+          title: "Modalidad",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/source-funds-list",
+          title: "Origen de fondos",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        
+      ]
     }
     ]
   },

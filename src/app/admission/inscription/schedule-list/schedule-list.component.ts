@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { ScheduleActivitiesService } from '../services/schedule-activities.service';
+import { ScheduleActivitiesService } from '../../services/schedule-activities.service';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,21 +9,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
-import { ScheduleActivityFormComponent } from '../schedule-activity-form/schedule-activity-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { ScheduleActivity } from '../models/scheduleActivity';
+import { ScheduleActivity } from '../../models/scheduleActivity';
 import { Router } from '@angular/router';
-import { ResponseMessageMaestra } from '../models/ResponseMessage';
-import Swal from 'sweetalert2';
-
 @Component({
-  selector: 'app-schedule-activities-list',
-  templateUrl: './schedule-activities-list.component.html',
-  styleUrls: ['./schedule-activities-list.component.scss']
+  selector: 'app-schedule-list',
+  templateUrl: './schedule-list.component.html',
+  styleUrls: ['./schedule-list.component.scss']
 })
-export class ScheduleActivitiesListComponent extends UnsubscribeOnDestroyAdapter
+export class ScheduleListComponent  extends UnsubscribeOnDestroyAdapter
 implements OnInit{
-
   displayedColumns = [
     'name',
     'description',
@@ -59,78 +54,18 @@ implements OnInit{
   refresh() {
     this.loadData();
   }
-  addNew() {
-    let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(ScheduleActivityFormComponent, {
-      data: {
-        schedule: this.schedule,
-        action: 'add',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-     if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        this.loadData();
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
   ViewDetail(row:ScheduleActivity) {
-    this.router.navigate(['/admission/schedule-activity-detail',row.id]);
+    this.router.navigate(['/admission/activity-list-inscription',row.id]);
   }
   editCall(row: ScheduleActivity) {
     this.id = row.id;
-    let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(ScheduleActivityFormComponent, {
-      data: {
-        schedule : row,
-        action: 'edit',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        this.loadData();
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
+   
   }
+  addNew() {
+    let tempDirection: Direction;
+  
+  }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -148,6 +83,7 @@ implements OnInit{
       this.paginator,
       this.sort
     );
+    console.log(this.dataSource)
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
         if (!this.dataSource) {
@@ -176,15 +112,14 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.name,
-        'Despcrión': x.description,
-        'Año': x.year,
+        'First Name': x.name,
        
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
+  
 
 }
 export class ExampleDataSource extends DataSource<ScheduleActivity> {
@@ -218,7 +153,6 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
     this.exampleDatabase.getAllSchedule();
     return merge(...displayDataChanges).pipe(
       map(() => {
-       
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
