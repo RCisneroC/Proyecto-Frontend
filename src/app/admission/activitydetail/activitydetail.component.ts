@@ -1,4 +1,4 @@
-import { ActivityRequirement, PosterRequest } from './../models/GetOneActivity';
+import { ActivityRequirement, ActivityTeachers, PosterRequest } from './../models/GetOneActivity';
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from '../services/activity-detail.service';
@@ -44,7 +44,6 @@ export class ActivitydetailComponent {
   ];
 
   DisplayNameTeachers: string[] = [
-    'Id',
     'Nombre',
     'cedula',
     'accion'
@@ -105,6 +104,7 @@ export class ActivitydetailComponent {
           this._ActivityService._GetOneActivity = res;
           this.getDocumentos(res.activityActivityRequirements);
           this.dataPoster = new MatTableDataSource<PosterRequest>(res.posterRequests);
+          this.dataTeacher = new MatTableDataSource<ActivityTeachers>(res.activityTeachers);
           this.dataPoster.paginator = this.paginator;
           // this.getPoster(res.posterRequests);
           // this.getTeachers();
@@ -127,8 +127,65 @@ export class ActivitydetailComponent {
     this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
     this.dataDocuments.paginator = this.paginator;
   }
-  detalle(row:any) {
+  delete(row: ActivityRequirement) {
+    this._ActivityService.DeleteDocumentRequirement(row.id, this.paramsId).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getOneActivity();
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
+  }
+
+  deleteAfiche(row: PosterRequest) {
     console.log(row);
+    
+    this._ActivityService.DeletePoster(row.id).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getOneActivity();
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
+  }
+  deleteDocente(row:ActivityTeachers) {
+    this._ActivityService.DeleteTeacherRequirement(this.paramsId,row.teacherCedula).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getOneActivity();
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
   }
   volverAtras() {
     let url = localStorage.getItem('url') ||'' ;
@@ -183,7 +240,7 @@ export class ActivitydetailComponent {
                 text: result.Message,
                 icon: "success"
             });
-            this.getOneActivity()
+          this.getOneActivity();
           } else {
             Swal.fire({
               title: "Escuela Judicial",

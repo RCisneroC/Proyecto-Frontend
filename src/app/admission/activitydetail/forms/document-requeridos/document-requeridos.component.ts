@@ -3,8 +3,10 @@ import { FormArray, FormControl, UntypedFormArray, UntypedFormBuilder, UntypedFo
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RequirementService } from 'app/admission/maestros/services/requirement.service';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 export interface DialogData {
-  id: string;
+  id_actividad: string;
   accion: string;
 }
 @Component({
@@ -13,6 +15,10 @@ export interface DialogData {
   styleUrls: ['./document-requeridos.component.scss']
 })
 export class DocumentRequeridosComponent {
+   public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+  }
     displayedColumns: string[] = [
     'id',
     'name',
@@ -28,6 +34,7 @@ export class DocumentRequeridosComponent {
     public dialogRef: MatDialogRef<DocumentRequeridosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _RequirementService:RequirementService,
+    public _ActivityDetailService:ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
@@ -36,11 +43,12 @@ export class DocumentRequeridosComponent {
     
     if (this.action === 'add-document') {
       this.dialogTitle ="Agregar Requerimientos";
-      this.id_actividad = data.id;
+      this.id_actividad = data.id_actividad;
     }
     this.LoadDocumentRequirement();
     this.requiremetForm =this.fb.group({
-        documentos: this.fb.array([])
+      activityRequirementsIds: this.fb.array([]),
+      activityId:[data.id_actividad,Validators.required]
     });
   }
      applyFilter(event: Event) {
@@ -56,14 +64,21 @@ export class DocumentRequeridosComponent {
     });
   }
   submit() {
-    console.log('====================================');
-    console.log(this.requiremetForm.getRawValue());
-    console.log('====================================');
+    this._ActivityDetailService.AddDocumentRequirement(this.requiremetForm.getRawValue()).subscribe({
+      next: (res: any) => {
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Cargado correctamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err: any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
   }
   get checkboxesFormArray(): UntypedFormArray {
-    console.log("hola");
-    
-    return this.requiremetForm.get('documentos') as UntypedFormArray;
+    return this.requiremetForm.get('activityRequirementsIds') as UntypedFormArray;
   }
 
     checkboxChange(event: any, checkboxId: any): void {

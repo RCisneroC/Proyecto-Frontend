@@ -136,7 +136,7 @@
                                 [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
                                 <mat-icon>add</mat-icon> Gestión de Salones
                                 </button>
-                                <button *ngIf="_ActivityService._GetOneActivity.statusId != 3 && _ActivityService._GetOneActivity.statusId != 5"  matTooltip="Editar Actividad" mat-raised-button color="accent"
+                                <button *ngIf="_ActivityService._GetOneActivity.statusId != 3"  matTooltip="Editar Actividad" mat-raised-button color="accent"
                                     [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
                                     <mat-icon>edit</mat-icon> Editar Actividad.
                                 </button> 
@@ -174,7 +174,7 @@
                                 <ng-container matColumnDef="accion">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">  
-                                        <button (click)="detalle(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                        <button (click)="delete(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                             <mat-icon>restore_from_trash</mat-icon>
                                         </button>
                                     </td>
@@ -228,7 +228,7 @@
                                 <ng-container matColumnDef="accion">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">
-                                        <button (click)="detalle(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                        <button (click)="deleteAfiche(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                             <mat-icon>restore_from_trash</mat-icon>
                                         </button>
                                     </td>
@@ -255,25 +255,20 @@
                     <div class="body" *ngIf="_ActivityService.loading==false">
                         <div class="body table-responsive">
                             <table mat-table [dataSource]="dataTeacher" class="w-100">
-                                <!-- No Column -->
-                                <ng-container matColumnDef="Id">
-                                    <th mat-header-cell *matHeaderCellDef> Id. </th>
-                                    <td mat-cell *matCellDef="let element"></td>
-                                </ng-container>
                                 <!-- Name Column -->
                                 <ng-container matColumnDef="Nombre">
                                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                    <td mat-cell *matCellDef="let element"> </td>
+                                    <td mat-cell *matCellDef="let element"> {{ element.teacherFullName }}................ </td>
                                 </ng-container>
                                 <!-- Gender Column -->
                                 <ng-container matColumnDef="cedula">
                                     <th mat-header-cell *matHeaderCellDef> Cédula </th>
-                                    <td mat-cell *matCellDef="let element"> </td>
+                                    <td mat-cell *matCellDef="let element"> {{ element.teacherCedula }} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="accion">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">
-                                        <button mat-mini-fab color="accent" matTooltip="Eliminar">
+                                        <button mat-mini-fab color="accent" (click)="deleteDocente(element)" matTooltip="Eliminar">
                                             <mat-icon>restore_from_trash</mat-icon>
                                         </button>
                                     </td>

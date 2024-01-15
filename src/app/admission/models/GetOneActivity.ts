@@ -49,6 +49,7 @@ export interface GetOneActivity {
     roomRequests:                 RoomRequest[];
     posterRequests:               PosterRequest[];
     activityActivityRequirements: ActivityActivityRequirement[];
+    activityTeachers: ActivityTeachers[];
 }
 
 export interface ActivityActivityRequirement {
@@ -113,4 +114,10 @@ export interface RoomRequestRoom {
     statusId: number;
     id:       number;
     room:     ActivityRequirement;
+}
+
+export interface ActivityTeachers {
+    statusId:        number;
+    teacherCedula:   string;
+    teacherFullName: string;
 }

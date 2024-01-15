@@ -56,7 +56,8 @@ import { DetailsRequestPosterComponent } from './Approvals/details-request-poste
 import { ApprovedCurriculumComponent } from './Approvals/form/approved-curriculum/approved-curriculum.component';
 import { ApprovedActivityComponent } from './Approvals/form/approved-activity/approved-activity.component';
 import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
-
+import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
+import { FormCooperatingOrganizationComponent } from './maestros/form-cooperating-organization/form-cooperating-organization.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -111,6 +112,8 @@ import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approv
     ApprovedCurriculumComponent,
     ApprovedActivityComponent,
     ApprovedPosterComponent,
+    ListCooperatingOrganizationComponent,
+    FormCooperatingOrganizationComponent,
     
   ],
   providers: [

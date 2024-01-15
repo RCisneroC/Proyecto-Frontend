@@ -1,10 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { DetalleDocente } from 'app/admission/models/docentes';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 export interface DialogData {
-  id: string;
+  id_actividad: string;
   accion: string;
 }
 @Component({
@@ -13,81 +15,14 @@ export interface DialogData {
   styleUrls: ['./asignar-docentes.component.scss']
 })
 export class AsignarDocentesComponent {
+    public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+  }
 displayedColumns: string[] = [
     'id',
     'name',
     'cedula',
-    ];
-  public resultado = [
-    {
-      "cedula": 21324340,
-      "name": "rummi",
-      "lastName": "chino",
-      "applicationDate": "2024-01-10T14:06:57.959",
-      "selected": true,
-      "dischargeDate": "2024-01-10T14:06:57.959",
-      "placeResidence": "string",
-      "jobTitle": "string",
-      "graduateDegree": "string",
-      "professionalExperience": "string",
-      "teachingExperience": "string",
-      "listCourse": [
-        {
-          "courseId": 1,
-          "year": 2022
-        }
-      ],
-      "listTraining": [
-        {
-          "trainingId": 2,
-          "year": 0,
-          "typeId": 2022
-        }
-      ],
-      "listSpecialty": [
-        {
-          "specialtyId": 1
-        }
-      ],
-      "process": 0,
-      "topics": 0
-    },
-    {
-      "cedula": 21324339,
-      "name": "Conrado",
-      "lastName": "arquer",
-      "applicationDate": "2024-01-10T14:06:57.959",
-      "selected": true,
-      "dischargeDate": "2024-01-10T14:06:57.959",
-      "placeResidence": "string",
-      "jobTitle": "string",
-      "graduateDegree": "string",
-      "professionalExperience": "string",
-      "teachingExperience": "string",
-      "listCourse": [],
-      "listTraining": [],
-      "listSpecialty": [],
-      "process": 0,
-      "topics": 0
-    },
-    {
-      "cedula": 213232321,
-      "name": "ricardo",
-      "lastName": "cisnero",
-      "applicationDate": "2024-01-09T22:22:30.735",
-      "selected": true,
-      "dischargeDate": "2024-01-09T22:22:30.735",
-      "placeResidence": "string",
-      "jobTitle": "string",
-      "graduateDegree": "string",
-      "professionalExperience": "string",
-      "teachingExperience": "string",
-      "listCourse": [],
-      "listTraining": [],
-      "listSpecialty": [],
-      "process": 0,
-      "topics": 0
-    }
   ];
   action: string;
   dialogTitle: string='';
@@ -106,11 +41,12 @@ displayedColumns: string[] = [
     
     if (this.action === 'add-teachers') {
       this.dialogTitle ="Agregar Docentes";
-      this.id_actividad = data.id;
+      this.id_actividad = data.id_actividad;
     }
     this.LoadDocumentRequirement();
-    this.AsignarDocentesForm =this.fb.group({
-        docentes: this.fb.array([])
+    this.AsignarDocentesForm = this.fb.group({
+      activityId:[data.id_actividad,[Validators.required]],
+      teacherCedulas: this.fb.array([])
     });
   }
      applyFilter(event: Event) {
@@ -119,28 +55,37 @@ displayedColumns: string[] = [
   }
 
   LoadDocumentRequirement() {
-    this.ListadoDocentes = new MatTableDataSource(this.resultado);
-    console.log(this.ListadoDocentes);
-    // this._ActivityDetailService.GetAllTeacher().subscribe({
-    //   next: (res) => {
-        
-    //   }
-    // });
+    this._ActivityDetailService.GetAllTeacher().subscribe({
+      next: (res: DetalleDocente[]) => {
+        this._ActivityDetailService._ListadoDocentes = res;
+         this.ListadoDocentes = new MatTableDataSource(this._ActivityDetailService._ListadoDocentes);
+      }
+    });
   }
   submit() {
-    console.log('====================================');
-    console.log(this.AsignarDocentesForm.getRawValue());
-    console.log('====================================');
+    // AddTeachers
+    this._ActivityDetailService.AddTeachers(this.AsignarDocentesForm.getRawValue()).subscribe({
+      next: (res: any) => {
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Cargado correctamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err: any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
   }
   get checkboxesFormArray(): UntypedFormArray {
     console.log("hola");
     
-    return this.AsignarDocentesForm.get('docentes') as UntypedFormArray;
+    return this.AsignarDocentesForm.get('teacherCedulas') as UntypedFormArray;
   }
 
     checkboxChange(event: any, checkboxId: any): void {
     if (event.checked) {
-      this.checkboxesFormArray.push(this.fb.control(checkboxId));
+      this.checkboxesFormArray.push(this.fb.control(checkboxId.toString()));
     } else {
       const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
       if (index !== -1) {

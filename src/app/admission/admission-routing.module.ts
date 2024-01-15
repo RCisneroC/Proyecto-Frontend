@@ -24,6 +24,7 @@ import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.
 import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
 import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
 import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
+import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
 const routes: Routes = [
 
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: "modality-list",
     component: ModalityListComponent,
+  },
+  {
+    path: "cooperating-organization",
+    component: ListCooperatingOrganizationComponent,
   },
   {
     path: "reason-list",
