@@ -29,7 +29,6 @@ import {
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { NgScrollbarModule } from "ngx-scrollbar";
-import { StatusPipePipe } from './pipes/status-pipe.pipe';
 import { InscriptionExternalComponent } from './external/inscription-external/inscription-external.component';
 
 
@@ -48,9 +47,8 @@ export function createTranslateLoader(http: HttpClient) {
     SidebarComponent,
     RightSidebarComponent,
     AuthLayoutComponent,
-    MainLayoutComponent
     MainLayoutComponent,
-    InscriptionExternalComponent,
+    InscriptionExternalComponent
    
    
    

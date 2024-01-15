@@ -160,6 +160,7 @@ implements OnInit{
 
   Detail(row: ScheduleActivityDetail) {
     this._nav.navigate(['/admission/activity-detail/' + row.id]);
+    localStorage.setItem('url','/admission/schedule-activity-detail/' + this.id)
   }
 
   // approvalCurriculum(id:any) {
@@ -322,12 +323,9 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-<<<<<<< HEAD
             const searchStr = (activity.name).toLowerCase();
-=======
-            const observations = activity.observations || '';
-            const searchStr = observations.toLowerCase();
->>>>>>> ab4a687a17ef972829eeb486a49f04fb2af1f096
+            // const observations = activity.observations || '';
+            // const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

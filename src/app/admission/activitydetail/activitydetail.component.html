@@ -9,7 +9,7 @@
         <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
             <div class="">
                 <button matTooltip="Regresar" mat-raised-button color="accent"
-                    [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
+                     (click)="volverAtras()" >
                     <mat-icon>keyboard_backspace</mat-icon> Regresar
                 </button>
             </div>
@@ -17,7 +17,7 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
-                    <div class="header" *ngIf="_ActivityService.loading==false" >
+                    <div #imageElement class="header" *ngIf="_ActivityService.loading==false" >
                         <h2 class="text-uppercase">Detalle de la actividad<strong> {{ _ActivityService._GetOneActivity.name }}</strong>  <span class="badge badge-solid-green">{{ _ActivityService._GetOneActivity.statusId|statusPipe }}</span>   <br> Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
@@ -115,6 +115,21 @@
                                 <label for="">{{ _ActivityService._GetOneActivity.observations }}</label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <h6>Competencias</h6>
+                                <label for="">.....</label>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <h6>Contenido</h6>
+                                <label for="">.....</label>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <h6>Actividades de Aprendizajes</h6>
+                                <label for="">.....</label>
+                            </div>
+                        </div>
+
                         <div class="example-button-row">
                             <div class="col-12">
                                 <button matTooltip="Gestionar Salones" mat-raised-button color="primary"
@@ -135,9 +150,40 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Documentos Requeridos</strong></h2>
+                        <h2 class="text-uppercase"><strong>Documentos Requeridos</strong>
+
+                        <button (click)="AddDocumentos()"  matTooltip="Agregar Documentos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataDocuments" class="w-100">
+                                <!-- Id Column -->
+                                <ng-container matColumnDef="Id">
+                                    <th mat-header-cell *matHeaderCellDef> Id</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.id+1 }}</td>
+                                </ng-container>
+                                <!-- Nombre Documento Column -->
+                                <ng-container matColumnDef="nombre">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <!-- Acción Column -->
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">  
+                                        <button (click)="detalle(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameDocument"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameDocument;"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>
@@ -145,9 +191,53 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Afiches</strong></h2>
+                        <h2 class="text-uppercase"><strong>Afiches</strong>
+                        <button (click)="AddPoster()"  matTooltip="Agregar Afiche" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataPoster" class="w-100">
+                                <!-- Id Column -->
+                                <ng-container matColumnDef="Id">
+                                    <th mat-header-cell *matHeaderCellDef> Id. </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.id }} </td>
+                                </ng-container>
+                                <!-- Formato Column -->
+                                <ng-container matColumnDef="Formato">
+                                    <th mat-header-cell *matHeaderCellDef> Formato </th>
+                                    <td mat-cell *matCellDef="let element"> <span class="text-uppercase" >{{ element.poster.fileContents|verificarBS64 }}</span></td>
+                                </ng-container>
+                                <!-- Documentos Column -->
+                                <ng-container matColumnDef="Documentos">
+                                    <th mat-header-cell *matHeaderCellDef> Documento </th>
+                                    <td mat-cell *matCellDef="let element">
+                                    <button (click)="viewDocumento(element)" matTooltip="Ver Documento" mat-mini-fab color="primary">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                    </td>
+                                </ng-container>
+                                <!-- Documentos Column -->
+                                <ng-container matColumnDef="Estado">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element"> <span class="badge badge-solid-green">{{ element.statusId|statusPipe }}</span> </td>
+                                </ng-container>
+                                <!-- Documentos Acción -->
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="detalle(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNamePoster"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNamePoster;"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>
@@ -156,9 +246,89 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Docentes, Facilitadores, Moderadores.</strong></h2>
+                        <h2 class="text-uppercase"><strong>Docentes, Facilitadores, Moderadores</strong>
+                        <button  (click)="AddTeachers()" matTooltip="Agregar Docentes" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataTeacher" class="w-100">
+                                <!-- No Column -->
+                                <ng-container matColumnDef="Id">
+                                    <th mat-header-cell *matHeaderCellDef> Id. </th>
+                                    <td mat-cell *matCellDef="let element"></td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="Nombre">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element"> </td>
+                                </ng-container>
+                                <!-- Gender Column -->
+                                <ng-container matColumnDef="cedula">
+                                    <th mat-header-cell *matHeaderCellDef> Cédula </th>
+                                    <td mat-cell *matCellDef="let element"> </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="accent" matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameTeachers"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameTeachers;"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase"><strong>organismos cooperantes</strong>
+                            <button (click)="AddCooperantes()" matTooltip="Agregar organismos cooperantes" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab
+                                color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataOrganismos" class="w-100">
+                                <!-- No Column -->
+                                <ng-container matColumnDef="Id">
+                                    <th mat-header-cell *matHeaderCellDef> Id. </th>
+                                    <td mat-cell *matCellDef="let element"></td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="logo">
+                                    <th mat-header-cell *matHeaderCellDef> Logo </th>
+                                    <td mat-cell *matCellDef="let element"></td>
+                                </ng-container>
+                                <!-- Gender Column -->
+                                <ng-container matColumnDef="nombre">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element"></td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="accent" matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameOrganization"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameOrganization;"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivityActivityRequirement, ActivityRequirement, GetOneActivity, Poster, PosterComment, PosterRequest, RoomRequest, RoomRequestRoom, RoomRequestRoomRequirement } from '../models/GetOneActivity';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
+import { ResponseGenerica } from '../models/ResponseMessage';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +44,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       approvedBy:'',
       approvalDate:new Date(),
       approvalMessage:'',
-      activityId:0,
+      activityId: 0,
+      activityName:'',
       poster:this._Poster,
       posterComments: [
         this._PosterComment
@@ -137,14 +140,56 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       ],
     };
   public loading: boolean = false;
+   isTblLoading = true;
+  dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<
+  PosterRequest[]
+  >([]);
   constructor(private httpClient: HttpClient) {
     super();
     // this.initService()
   }
-
+  get data(): PosterRequest[] {
+    return this.dataChange.value;
+  }
   GetOneActivity(id:string) {
     return this.httpClient.get<GetOneActivity>(environment.apiUrlSchedule + 'Activity/GetBy?Id=' + id);
   }
+  SavePoster(data:any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'PosterRequest/Create',data);
+  }
+ 
+  GetAllTeacher() {
+    return this.httpClient.get<[]>(environment.ConsultaDocentes + 'TeacherControllers/GetAll');
+  }
+
+  ApproveCurilculum(data:any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/Approve',data);
+  }
+
+   ApprovedPoster(data:any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'PosterRequest/Approve',data);
+  }
+
+    getPosterRequest(id:number) {
+    return this.httpClient.get<PosterRequest>(environment.apiUrlSchedule + 'PosterRequest/GetBy?Id='+id);
+  }
+
+
+  
+  getRequestPoster(id:any) {
+    return this.httpClient.get<PosterRequest[]>(environment.apiUrlSchedule + 'PosterRequest/GetAll?StatusId='+id).subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log('====================================');
+          console.log(error);
+          console.log('====================================');
+        },
+      });
+  }
+
 
   initService() {
     this._GetOneActivity = {
@@ -223,7 +268,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       approvalDate:new Date(),
       approvalMessage:'',
       activityId:0,
-      poster:this._Poster,
+      poster: this._Poster,
+      activityName:'',
       posterComments: [
         this._PosterComment
       ]

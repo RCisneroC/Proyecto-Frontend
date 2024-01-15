@@ -22,6 +22,8 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
 import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
 import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
+import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
+import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
 const routes: Routes = [
 
   {
@@ -93,16 +95,6 @@ const routes: Routes = [
     component: BackofficeComponent,
   },
   {
-    path: "internal-user",
-    component: InternalUserComponent,
-  },
-  {
-    path: "external-user",
-    component: ExternalUserComponent,
-  },
-  
- 
-
     path: "modality-list",
     component: ModalityListComponent,
   },
@@ -129,8 +121,23 @@ const routes: Routes = [
   {
     path: "activity-participants-list",
     component: ActivityParticipantsListComponent,
-  }
-
+  },
+  {
+    path: "list-curriculum-approve",
+    component: ListCurriculumDesignComponent,
+  },
+  {
+    path: "list-curriculum-approve/:id",
+    component: DeatilActivityCurriculumDesignComponent,
+  },
+  {
+    path: "list-post-approve",
+    component: ListRequestPosterComponent,
+  },
+  {
+    path: "list-rooms-approve",
+    component: ListRequestRoomsComponent,
+  } 
 ];
 
 @NgModule({

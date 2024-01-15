@@ -6,6 +6,7 @@ import { ScheduleActivitiesService } from '../services/schedule-activities.servi
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
+import { ErrorGenerico } from '../models/ErrorGenerico';
 
 
 export interface DialogData {
@@ -54,7 +55,6 @@ public ResponseMessage: ResponseMessageMaestra = {
     
     for (let i = 0; i < this.years.length; i++) {
       this.years[i] = new Date().getFullYear() + i;
-      console.log(this.years[i])
     }
     
   }
@@ -101,7 +101,10 @@ public ResponseMessage: ResponseMessageMaestra = {
             this.ResponseMessage.Message = 'Creado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
-          error: (error: HttpErrorResponse) => { 
+        error: (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
           },
         });
     } else {
@@ -112,7 +115,10 @@ public ResponseMessage: ResponseMessageMaestra = {
             this.ResponseMessage.Message = 'Creado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
-          error: (error: HttpErrorResponse) => { 
+          error: (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
           },
         });
       }

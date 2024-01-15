@@ -252,7 +252,7 @@
                     </div>
                   </div>
 
-                  <div class="example-button-row" *ngIf="activityDetailService.DetailCurriculum.statusId!=3">
+                  <div class="example-button-row" *ngIf="activityDetailService.DetailCurriculum.statusId!=3 && activityDetailService.DetailCurriculum.statusId!=5">
                     <div class="col-12">
                       <button (click)="SendApproval()" matTooltip="Enviar para Aprobación de Plan Anual" mat-raised-button color="primary"><mat-icon>send</mat-icon> Enviar Aprobación</button>
                     </div>

@@ -57,6 +57,22 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  getAllScheduleId(id:string): void {
+    this.subs.sink = this.httpClient
+      .get<ScheduleActivity[]>(environment.apiUrlSchedule+'CurriculumDesign/GetAll?StatusId='+id)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
   
   getAllActivityDetail(id:number): void {
     this.subs.sink = this.httpClient
@@ -100,6 +116,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
   }
+ 
   init_DetailCurriculum(){
     this.DetailCurriculum = {
       statusId: 0,

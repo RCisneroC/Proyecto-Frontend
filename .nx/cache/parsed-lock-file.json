@@ -9127,6 +9127,15 @@
         "hash": "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
       }
     },
+    "npm:lodash.deburr": {
+      "type": "npm",
+      "name": "npm:lodash.deburr",
+      "data": {
+        "version": "4.1.0",
+        "packageName": "lodash.deburr",
+        "hash": "sha512-m/M1U1f3ddMCs6Hq2tAsYThTBDaAKFDX3dwDo97GEYzamXi9SqUpjWi/Rrj/gf3X2n8ktwgZrlP1z6E3v/IExQ=="
+      }
+    },
     "npm:lodash.isfinite": {
       "type": "npm",
       "name": "npm:lodash.isfinite",
@@ -9521,6 +9530,15 @@
         "version": "16.2.0",
         "packageName": "ngx-echarts",
         "hash": "sha512-yhuDbp6qdkmR4kRVLS06Z0Iumod7xOj5n/Z++clRiKM24OQ4sM8WuOTicdfWy6eeYDNywdGSrri4Y5SUGRD8bg=="
+      }
+    },
+    "npm:ngx-extended-pdf-viewer": {
+      "type": "npm",
+      "name": "npm:ngx-extended-pdf-viewer",
+      "data": {
+        "version": "19.0.4",
+        "packageName": "ngx-extended-pdf-viewer",
+        "hash": "sha512-y8qk2sI2E77uLOphw21IhmMelGmsRS1Xpm3+utXXYXlxj6D7Bcyc8Y6gPN0TrUQ0tlVwqwrTZ3iqDILXq2P/EA=="
       }
     },
     "npm:ngx-gauge": {
@@ -25732,6 +25750,28 @@
       },
       {
         "source": "npm:ngx-echarts",
+        "target": "npm:tslib",
+        "type": "static"
+      }
+    ],
+    "npm:ngx-extended-pdf-viewer": [
+      {
+        "source": "npm:ngx-extended-pdf-viewer",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-extended-pdf-viewer",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-extended-pdf-viewer",
+        "target": "npm:lodash.deburr",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-extended-pdf-viewer",
         "target": "npm:tslib",
         "type": "static"
       }

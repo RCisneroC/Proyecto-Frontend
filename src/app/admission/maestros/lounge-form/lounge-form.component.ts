@@ -79,7 +79,7 @@ export class LoungeFormComponent {
           error: (error: any) => {
             this.loungeService.isTblLoading = false;
             this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = 'No se pudo editar el Salón.';
+            this.ResponseMessage.Message = error;
             this.dialogRef.close(this.ResponseMessage);
           },
         });

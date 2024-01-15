@@ -53,6 +53,7 @@
     "ng2-file-upload": "^5.0.0",
     "ngx-dropzone-wrapper": "^14.0.0",
     "ngx-echarts": "^16.0.0",
+    "ngx-extended-pdf-viewer": "^19.0.4",
     "ngx-gauge": "^8.0.0",
     "ngx-mask": "^16.2.5",
     "ngx-scrollbar": "^13.0.3",

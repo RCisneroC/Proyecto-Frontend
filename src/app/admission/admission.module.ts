@@ -36,10 +36,26 @@ import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-desig
 import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
 
-import { MatFileUploadModule } from 'angular-material-fileupload';
+// import { MatFileUploadModule } from 'angular-material-fileupload';
 import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
 import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
+import { RequestRoomComponent } from './request-room/request-room.component';
+import { DocumentRequeridosComponent } from './activitydetail/forms/document-requeridos/document-requeridos.component';
+import { PosterRequeridosComponent } from './activitydetail/forms/poster-requeridos/poster-requeridos.component';
+import { RoomRequestsComponent } from './activitydetail/forms/room-requests/room-requests.component';
+import { AsignarDocentesComponent } from './activitydetail/forms/asignar-docentes/asignar-docentes.component';
+import { AsignarCooperantesComponent } from './activitydetail/forms/asignar-cooperantes/asignar-cooperantes.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ViewPosterComponent } from './activitydetail/forms/view-poster/view-poster.component';
+import { ViewPosterPDFComponent } from './activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
+import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
+import { DetailsRequestRoomsComponent } from './Approvals/details-request-rooms/details-request-rooms.component';
+import { DetailsRequestPosterComponent } from './Approvals/details-request-poster/details-request-poster.component';
+import { ApprovedCurriculumComponent } from './Approvals/form/approved-curriculum/approved-curriculum.component';
+import { ApprovedActivityComponent } from './Approvals/form/approved-activity/approved-activity.component';
+import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +74,7 @@ import { ActivityParticipantsListComponent } from './inscription/activity-partic
     // ExternalUserComponent,
     // InternalUserComponent,
  
-    ActivityListInscriptionComponent,
+  ActivityListInscriptionComponent,
     
     ModalityFormComponent,
     TypeActivityFormComponent,
@@ -75,11 +91,30 @@ import { ActivityParticipantsListComponent } from './inscription/activity-partic
     StatusFormComponent,
     ActivitydetailComponent,
     StatusPipePipe,
+    VerificarBS64Pipe,
     ListCurriculumDesignComponent,
-    DeatilActivityCurriculumDesignComponent
+    DeatilActivityCurriculumDesignComponent,
     ScheduleListComponent,
     ActivityParticipantsListComponent,
+    RequestRoomComponent,
+    DocumentRequeridosComponent,
+    PosterRequeridosComponent,
+    RoomRequestsComponent,
+    AsignarDocentesComponent,
+    AsignarCooperantesComponent,
+    ViewPosterComponent,
+    ViewPosterPDFComponent,
+    ListRequestPosterComponent,
+    ListRequestRoomsComponent,
+    DetailsRequestRoomsComponent,
+    DetailsRequestPosterComponent,
+    ApprovedCurriculumComponent,
+    ApprovedActivityComponent,
+    ApprovedPosterComponent,
     
+  ],
+  providers: [
+    VerificarBS64Pipe
   ],
   imports: [
     CommonModule,
@@ -87,7 +122,8 @@ import { ActivityParticipantsListComponent } from './inscription/activity-partic
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    SharedModule
+    SharedModule,
+    
   ]
 })
 export class AdmissionModule { }
