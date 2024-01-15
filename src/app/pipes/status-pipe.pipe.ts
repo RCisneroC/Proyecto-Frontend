@@ -18,7 +18,7 @@ export class StatusPipePipe implements PipeTransform {
       return 'Aprobado.';
     }else if (value == 6) {
       return 'Terminado.';
-    }else if (value == 7) {
+    }else if (value == 7) { // borrador -
       return 'Borrador.';
     }
     return '';

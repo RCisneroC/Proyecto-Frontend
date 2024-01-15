@@ -53,7 +53,7 @@ public ResponseMessage: ResponseMessageMaestra = {
       this.ApprovedForm.controls['isApproved'].setValue(false);
     }
     
-    this._ActivityService.ApproveCurilculumActivity(this.ApprovedForm.getRawValue()).subscribe({
+    this._ActivityService.ApproveCurilculum(this.ApprovedForm.getRawValue()).subscribe({
       next: (res) => {
         console.log(res);
         this.ResponseMessage.CodError = 200;

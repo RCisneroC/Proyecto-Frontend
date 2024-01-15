@@ -46,9 +46,25 @@ public ResponseMessage: ResponseMessageMaestra = {
   }
   submit() {
     console.log(this.ApprovedForm.getRawValue());
-    this.ResponseMessage.CodError = 200;
+    if (this.ApprovedForm.controls['isApproved'].value == "1") {
+      this.ApprovedForm.controls['isApproved'].setValue(true);
+    } else if(this.ApprovedForm.controls['isApproved'].value == "2") {
+      this.ApprovedForm.controls['isApproved'].setValue(false);
+    }
+    
+    this._ActivityService.ApproveCurilculumActivity(this.ApprovedForm.getRawValue()).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Aprobado correctamente.';
         this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
   }
 
 }
