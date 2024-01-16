@@ -80,8 +80,6 @@ implements OnInit{
    
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-  
-     
   })
    
   }
