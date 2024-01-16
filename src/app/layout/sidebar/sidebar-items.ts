@@ -31,6 +31,96 @@ export const ROUTES: RouteInfo[] = [
       badge: "",
       badgeClass: "",
       submenu: []
+    },
+    ]
+  },
+  {
+      path: "admission/",
+      title: "Inscripciones",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/schedule-list",
+          title: "BackOffice",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/activity-participants-list",
+          title: "Participantes",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "admission/internal-user",
+          title: "Usuario interno",
+          iconType: "",
+          icon: "",
+          class: "",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+      ]
+    },
+  {
+    path: "",
+    title: "Aprobaciones",
+    iconType: "feather",
+    icon: "check-circle",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    submenu: [
+      {
+        path: "admission/list-curriculum-approve",
+        title: "Cronograma de actividades",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+      path: "admission/list-rooms-approve",
+      title: "Solicitud de Salones",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: []
+      },
+      {
+      path: "admission/list-post-approve",
+      title: "Solicitud de Afiche",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: []
     }
     ]
   },
@@ -44,17 +134,6 @@ export const ROUTES: RouteInfo[] = [
       badge: "",
       badgeClass: "",
     submenu: [
-      //  {
-      //     path: "admission/activity-list",
-      //     title: "Actividad",
-      //     iconType: "",
-      //     icon: "",
-      //     class: "",
-      //     groupTitle: false,
-      //     badge: "",
-      //     badgeClass: "",
-      //     submenu: []
-      //   },
         {
           path: "/admission/source-funds-list",
           title: "Origen de fondos",
@@ -152,56 +231,23 @@ export const ROUTES: RouteInfo[] = [
           badge: "",
           badgeClass: "",
           submenu: []
+        },
+        {
+          path: "/admission/cooperating-organization",
+          title: "Organización cooperativa",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
         }
         
       ]
   },
   //inscripcion
-  {
-      path: "",
-      title: "Inscripciones",
-      iconType: "",
-      icon: "cast",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "/admission/backoffice",
-          title: "BackOffice",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/external-user",
-          title: "Usuario externo",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/internal-user",
-          title: "Usuario interno",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-      ]
-  },
+
   //Seguridad
   {
     path: "",

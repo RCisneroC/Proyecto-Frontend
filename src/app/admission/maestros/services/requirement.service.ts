@@ -45,6 +45,11 @@ export class RequirementService extends UnsubscribeOnDestroyAdapter {
       .get<Requirement[]>(environment.apiUrlSchedule+'ActivityRequirement/GetAll');
   }
 
+   getAllDocumentFiltro(id:number) {
+   return this.httpClient
+      .get<Requirement[]>(environment.apiUrlSchedule+'ActivityRequirement/GetAll?StatusId='+id);
+  }
+
   addRequirement(requirement: Requirement) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityRequirement/Create', requirement);
   }

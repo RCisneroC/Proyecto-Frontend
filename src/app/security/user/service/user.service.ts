@@ -35,6 +35,7 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
         next: (data) => {
           this.isTblLoading = false;
           this.dataChange.next(data);
+          console.log("exito")
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -47,33 +48,15 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<User[]>(environment.apiUrl+'GetAllUsers');  
   }
-  addUser(user: User): void {
+  addUser(user: User) {
     this.dialogData = user;
 
-    this.httpClient.post(environment.apiUrl+'Register', user)
-      .subscribe({
-        next: () => {
-          this.dialogData = user;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.post(environment.apiUrl + 'Register', user);
   }
-  updateUser(user: User): void {
+  updateUser(user: User) {
     this.dialogData = user;
 
-    this.httpClient.put(environment.apiUrl+'UpdateUser', user)
-        .subscribe({
-          next: () => {
-            this.dialogData = user;
-          },
-          error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
-          },
-        });
+    return this.httpClient.put(environment.apiUrl + 'UpdateUser', user);
   }
   
   changePassword(user: User): void {

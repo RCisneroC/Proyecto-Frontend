@@ -6,8 +6,6 @@ import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
 import {BackofficeComponent} from './inscription/backoffice/backoffice.component'
-import {InternalUserComponent} from './inscription/internal-user/internal-user.component'
-import { ExternalUserComponent } from './inscription/external-user/external-user.component';
 import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
 import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
 import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
@@ -17,7 +15,16 @@ import { SuppliesListComponent } from './maestros/supplies-list/supplies-list.co
 import { DocumentRequiredFormComponent } from './maestros/document-required-form/document-required-form.component';
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { DocumentRequiredListComponent } from './maestros/document-required-list/document-required-list.component';
+import { ActivitydetailComponent } from './activitydetail/activitydetail.component';
+import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-design/list-curriculum-design.component';
+import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
+import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
+import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
+import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
+import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
+import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
+import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
 const routes: Routes = [
 
   {
@@ -32,12 +39,20 @@ const routes: Routes = [
     path: "schedule-activity-detail/:id",
     component: ScheduleActivityDetailComponent,
   },
-
-  //maestras
-  //    {
-  //   path: "activity-list",
-  //   component: ActivityListComponent,
-  // },
+  {
+    path: "activity-detail/:id",
+    component: ActivitydetailComponent,
+  },
+  // aprobaciones.
+  // maestras
+  {
+    path: "list-curriculum",
+    component: ListCurriculumDesignComponent,
+  },
+  {
+    path: "detalle-curriculum-activity",
+    component: DeatilActivityCurriculumDesignComponent,
+  },
 
    {
     path: "source-funds-list",
@@ -50,6 +65,10 @@ const routes: Routes = [
   {
     path: "modality-list",
     component: ModalityListComponent,
+  },
+  {
+    path: "cooperating-organization",
+    component: ListCooperatingOrganizationComponent,
   },
   {
     path: "reason-list",
@@ -77,20 +96,53 @@ const routes: Routes = [
     component: StatusListComponent,
   },
   {
-    path: "backoffice",
+    path: "backoffice/:id",
     component: BackofficeComponent,
   },
   {
-    path: "internal-user",
-    component: InternalUserComponent,
+    path: "modality-list",
+    component: ModalityListComponent,
   },
   {
-    path: "external-user",
-    component: ExternalUserComponent,
+    path: "type-activity-list",
+    component: TypeActivityListComponent,
   },
-  
- 
-
+  {
+    path: "reason-list",
+    component: ReasonListComponent,
+  },
+  {
+    path: "source-funds-list",
+    component: SourceFundsListComponent,
+  },
+  {
+    path: "activity-list-inscription/:id",
+    component: ActivityListInscriptionComponent,
+  },
+  {
+    path: "schedule-list",
+    component: ScheduleListComponent,
+  },
+  {
+    path: "activity-participants-list",
+    component: ActivityParticipantsListComponent,
+  },
+  {
+    path: "list-curriculum-approve",
+    component: ListCurriculumDesignComponent,
+  },
+  {
+    path: "list-curriculum-approve/:id",
+    component: DeatilActivityCurriculumDesignComponent,
+  },
+  {
+    path: "list-post-approve",
+    component: ListRequestPosterComponent,
+  },
+  {
+    path: "list-rooms-approve",
+    component: ListRequestRoomsComponent,
+  } 
 ];
 
 @NgModule({

@@ -88,13 +88,7 @@
                                 <mat-cell *matCellDef="let row" >
                                 <div>
                                   <span class="mobile-label ">Estatus:</span>
-                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 1" >Activo</span>
-                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 2" >Inactivo</span>
-                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 3" >Pendiente</span>
-                                  <span class="badge badge-solid-danger" *ngIf="row.statusId == 4" >Rechazado</span>
-                                  <span class="badge badge-solid-blue" *ngIf="row.statusId == 5" >Aprobado</span>
-                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 6" >Terminado</span>
-                                  <span class="badge badge-solid-green" *ngIf="row.statusId == 7" >Borrador</span>
+                                  <span class="badge badge-solid-green">{{ row.statusId|statusPipe }}</span>
                                 </div>
                               </mat-cell>
                               

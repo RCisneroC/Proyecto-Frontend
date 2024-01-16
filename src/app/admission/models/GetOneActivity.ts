@@ -1,4 +1,4 @@
-export interface GetActivity {
+export interface GetOneActivity {
     statusId:                     number;
     id:                           number;
     name:                         string;
@@ -21,6 +21,8 @@ export interface GetActivity {
     startDate:                    Date;
     plannedEndDate:               Date;
     effectiveEndDate:             Date;
+    startTime:                    Date;
+    endTime:                      Date;
     isExecuted:                   boolean;
     numOfAssignedTeachers:        number;
     hasDataSheet:                 boolean;
@@ -29,6 +31,15 @@ export interface GetActivity {
     physicalReportDeliveryDate:   Date;
     isEvaluation:                 boolean;
     observations:                 string;
+    duration:                     number;
+    totalHours:                   number;
+    onSiteHours:                  number;
+    synchronousHours:             number;
+    asynchronousHours:            number;
+    competencies:                 string;
+    content:                      string;
+    learningActivities:           string;
+    electronicEvaluation:         boolean;
     enrolledStudentsDiploma:      number;
     retiredStudentsDiploma:       number;
     participants:                 number;
@@ -38,6 +49,7 @@ export interface GetActivity {
     roomRequests:                 RoomRequest[];
     posterRequests:               PosterRequest[];
     activityActivityRequirements: ActivityActivityRequirement[];
+    activityTeachers: ActivityTeachers[];
 }
 
 export interface ActivityActivityRequirement {
@@ -60,8 +72,9 @@ export interface PosterRequest {
     approvalDate:    Date;
     approvalMessage: string;
     activityId:      number;
-    poster:          Poster;
-    posterComments:  any[];
+    poster: Poster;
+    activityName: string;
+    posterComments:  PosterComment[];
 }
 
 export interface Poster {
@@ -73,14 +86,19 @@ export interface Poster {
     enableRangeProcessing: boolean;
 }
 
+export interface PosterComment {
+    text:   string;
+    userId: string;
+}
+
 export interface RoomRequest {
     statusId:                    number;
     id:                          number;
     startDate:                   Date;
     endDate:                     Date;
-    approvedBy:                  string | string;
-    approvalDate:                Date | null;
-    approvalMessage:             string | string;
+    approvedBy:                  string;
+    approvalDate:                Date;
+    approvalMessage:             string;
     activityId:                  number;
     roomRequestRooms:            RoomRequestRoom[];
     roomRequestRoomRequirements: RoomRequestRoomRequirement[];
@@ -96,4 +114,10 @@ export interface RoomRequestRoom {
     statusId: number;
     id:       number;
     room:     ActivityRequirement;
+}
+
+export interface ActivityTeachers {
+    statusId:        number;
+    teacherCedula:   string;
+    teacherFullName: string;
 }

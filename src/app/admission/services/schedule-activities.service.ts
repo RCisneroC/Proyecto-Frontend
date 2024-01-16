@@ -4,6 +4,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ScheduleActivity, ScheduleActivityDetail } from '../models/scheduleActivity';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'environments/environment.development';
+import { CurriculumClass } from '../models/CurriculumClass';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   // Temporarily stores data from dialogs
   dialogData!: ScheduleActivity;
   dialogDataDetail!: ScheduleActivityDetail;
+  DetailCurriculum!: CurriculumClass;
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -55,6 +57,22 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  getAllScheduleId(id:string): void {
+    this.subs.sink = this.httpClient
+      .get<ScheduleActivity[]>(environment.apiUrlSchedule+'CurriculumDesign/GetAll?StatusId='+id)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
   
   getAllActivityDetail(id:number): void {
     this.subs.sink = this.httpClient
@@ -74,6 +92,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   }
   
   
+  getDetailCurriculum(id:any) {
+   return this.httpClient
+      .get<CurriculumClass>(environment.apiUrlSchedule+'CurriculumDesign/GetBy?Id='+id)
+  }
   addActivityDetail(activityDetail: ScheduleActivityDetail) {
     this.dialogDataDetail = activityDetail;
 
@@ -94,7 +116,19 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
   }
-  
+ 
+  init_DetailCurriculum(){
+    this.DetailCurriculum = {
+      statusId: 0,
+      id: 0,
+      name: '',
+      description: '',
+      year: 0,
+      approvedBy: '',
+      approvalDate: new Date(),
+      activities:[]
+    }
+  }
 
 
 }

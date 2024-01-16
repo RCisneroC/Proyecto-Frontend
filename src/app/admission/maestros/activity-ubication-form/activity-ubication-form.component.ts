@@ -74,7 +74,7 @@ public ResponseMessage: ResponseMessageMaestra = {
           },
           error: (err:any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.ResponseMessage.Message = err;
             this.dialogRef.close(this.ResponseMessage);
           }
       });
@@ -89,7 +89,7 @@ public ResponseMessage: ResponseMessageMaestra = {
           },
           error: (err:any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.ResponseMessage.Message = err;
             this.dialogRef.close(this.ResponseMessage);
           }
       });

@@ -6,6 +6,7 @@ import { User } from '@core';
 import { RoleService } from 'app/security/role/role-list/services/role.service';
 import { Role } from 'app/security/models/role';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 
 
 export interface DialogData {
@@ -19,7 +20,10 @@ export interface DialogData {
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent {
-
+public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+}
   action: string;
   dialogTitle: string;
   userForm: UntypedFormGroup;
@@ -43,7 +47,7 @@ export class UserFormComponent {
       
       this.dialogTitle = 'Crear usuario';
       this.user = new User();
-      this.user.userStatusId=1;
+      this.user.statusId=1;
     }
     this.userForm = this.createContactForm();
     // this._roleService.getAllRols();
@@ -66,6 +70,10 @@ export class UserFormComponent {
       : '';
   }
   createContactForm(): UntypedFormGroup {
+      console.log('====================================');
+      console.log(this.user.roles[0]);
+      console.log('====================================');
+    let rol = this.user.roles[0];
     return this.fb.group({
       id: [this.user.id],
       userName: [this.user.userName, [Validators.required]],
@@ -73,10 +81,9 @@ export class UserFormComponent {
       lastName: [this.user.lastName, [Validators.required]],
       email: [this.user.email, [Validators.required]],
       phoneNumber: [this.user.phoneNumber, [Validators.required]],
-      userStatusId:[this.user.userStatusId, [Validators.required]],
+      userStatusId:[this.user.statusId, [Validators.required]],
       gender:["M", [Validators.required]],
-      roles:[this.user.roles, [Validators.required]],
-      
+      roles:[rol, [Validators.required]],
     });
   }
   
@@ -88,14 +95,38 @@ export class UserFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-   
+   this.userForm.controls['roles'].setValue([this.userForm.controls['roles'].value])
     if  (this.action==='edit'){
       this.userService.updateUser(
-        this.userForm.getRawValue()
-      ); }else{
+        this.userForm.getRawValue())
+        .subscribe({
+          next: () => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Editado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.userService.isTblLoading = false;
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = 'Intente nuevamente..';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+        });
+    } else {
         this.userService.addUser(
-          this.userForm.getRawValue()
-        );
+          this.userForm.getRawValue()).subscribe({
+          next: () => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Editado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.userService.isTblLoading = false;
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = 'Intente nuevamente..';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+        });
       }
       
   }

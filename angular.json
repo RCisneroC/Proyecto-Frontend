@@ -103,7 +103,7 @@
               "browserTarget": "spire:build:production"
             },
             "development": {
-              "browserTarget": "spire:build:development"
+              "browserTarget": "spire:build:development"         
             }
           },
           "defaultConfiguration": "development"

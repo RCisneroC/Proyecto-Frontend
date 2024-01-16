@@ -12,10 +12,9 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
 import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
 import Swal from 'sweetalert2';
-import { ApprovalCurriculumComponent } from '../approval-curriculum/approval-curriculum.component';
 
 @Component({
   selector: 'app-schedule-activity-detail',
@@ -35,22 +34,11 @@ implements OnInit{
          'startDate',
          'plannedEndDate',
          'effectiveEndDate',
-        //  'isExecuted',
          'activityReasonName',
          'activityFundsSourceName',
-        //  'numOfAssignedTeachers',
-        //  'hasDataSheet',
-         'dataSheetDeliveryDate',
-        //  'isEvaluation',
-         'digitalReportDeliveryDate',
-         'physicalReportDeliveryDate',
-        //  'enrolledStudentsDiploma',
-        //  'retiredStudentsDiploma',
-        //  'participants',
-        //  'male',
-        //  'female',
-        //  'certificatesReceived',
-        //  'observations',
+         'startTime',
+         'endTime',
+         'status',
          'actions',
   ];
   
@@ -65,7 +53,8 @@ implements OnInit{
     public dialog: MatDialog,
     public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _nav:Router
   ) {
     super();
   }
@@ -76,15 +65,25 @@ implements OnInit{
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    this.activityDetailService.init_DetailCurriculum();
     this.loadData();
    
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
+      this.getOne();
   })
-   
+  
   }
   refresh() {
     this.loadData();
+  }
+
+  getOne() {
+    this.activityDetailService.getDetailCurriculum(this.id).subscribe({
+      next: (res) => {
+        this.activityDetailService.DetailCurriculum = res;
+      }
+    })
   }
   addNew() {
   
@@ -159,44 +158,49 @@ implements OnInit{
         }); 
   }
 
-  approvalCurriculum(id:any) {
-  console.log('====================================');
-  console.log(id);
-  console.log('====================================');
-   let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(ApprovalCurriculumComponent, {
-      data: {
-        curriculumId:id,
-        action: 'add',
-        id: this.id,
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-       if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-            this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
-    });
+  Detail(row: ScheduleActivityDetail) {
+    this._nav.navigate(['/admission/activity-detail/' + row.id]);
+    localStorage.setItem('url','/admission/schedule-activity-detail/' + this.id)
   }
+
+  // approvalCurriculum(id:any) {
+  // console.log('====================================');
+  // console.log(id);
+  // console.log('====================================');
+  //  let tempDirection: Direction;
+  //   if (localStorage.getItem('isRtl') === 'true') {
+  //     tempDirection = 'rtl';
+  //   } else {
+  //     tempDirection = 'ltr';
+  //   }
+  //   const dialogRef = this.dialog.open(ApprovalCurriculumComponent, {
+  //     data: {
+  //       curriculumId:id,
+  //       action: 'add',
+  //       id: this.id,
+  //     },
+  //     direction: tempDirection,
+  //   });
+  //   this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+  //      if (result == undefined) {
+  //         return;
+  //         }
+  //         if (result.CodError == 200) {
+  //             Swal.fire({
+  //                 title: "Escuela Judicial",
+  //                 text: result.Message,
+  //                 icon: "success"
+  //             });
+  //           this.loadData();
+  //         } else {
+  //           Swal.fire({
+  //             title: "Escuela Judicial",
+  //             text: result.Message,
+  //             icon: "warning"
+  //           });
+  //         }
+  //   });
+  // }
 
 
   private refreshTable() {
@@ -251,6 +255,32 @@ implements OnInit{
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
+  SendApproval() {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Se enviara el calendario anual para aprobación",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+         Swal.fire({
+              title: "Escuela Judicial!",
+              text: "Enviado correctamente.",
+              icon: "success"
+            });
+      } else {
+        Swal.fire({
+              title: "Escuela Judicial!",
+              text: "No fue enviado.",
+              icon: "warning"
+            });
+      }
+    });
+  }
+
 }
 export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   filterChange = new BehaviorSubject('');
@@ -294,6 +324,8 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
             const searchStr = (activity.name).toLowerCase();
+            // const observations = activity.observations || '';
+            // const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data

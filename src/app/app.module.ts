@@ -18,6 +18,9 @@ import { JwtInterceptor } from "./core/interceptor/jwt.interceptor";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+
+
+
 import {
   HttpClientModule,
   HTTP_INTERCEPTORS,
@@ -26,6 +29,10 @@ import {
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { NgScrollbarModule } from "ngx-scrollbar";
+import { InscriptionExternalComponent } from './external/inscription-external/inscription-external.component';
+
+
+
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -41,6 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    InscriptionExternalComponent
+   
    
    
     
