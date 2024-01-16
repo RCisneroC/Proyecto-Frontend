@@ -12,7 +12,7 @@
         </button>
     </div>
     <div mat-dialog-content>
-        <form class="register-form m-4" [formGroup]="requiremetForm" (ngSubmit)="submit">
+        <form class="register-form m-4" [formGroup]="requiremetForm" (ngSubmit)="submit" >
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="card">
@@ -26,7 +26,8 @@
                                     <mat-label>Filtro</mat-label>
                                     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
                                 </mat-form-field>
-                                <table mat-table [dataSource]="ListadoDocumentos" class="w-100">
+                                <mat-progress-bar mode="indeterminate"*ngIf="IsLoading"></mat-progress-bar>
+                                <table  *ngIf="!IsLoading" mat-table [dataSource]="ListadoDocumentos" class="w-100">
                                     <!-- id Column -->
                                     <ng-container matColumnDef="id">
                                         <th mat-header-cell *matHeaderCellDef>Id </th>
@@ -47,6 +48,7 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                 </table>
+                                <mat-paginator #paginatorPoster [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                             </div>
                         </div>
                     </div>

@@ -38,6 +38,7 @@ export class PosterRequeridosComponent {
     }
     this.PosterForm = this.fb.group({
       Poster: ['',[Validators.required]],
+      PosterType:['',[Validators.required]],
       Comment:['',[Validators.required]],
       ActivityId:[data.id_actividad,[Validators.required]]
     });
@@ -49,6 +50,7 @@ export class PosterRequeridosComponent {
     _Form_Data.append('ActivityId', this.PosterForm.get('ActivityId')?.value);
     _Form_Data.append('Comment', this.PosterForm.get('Comment')?.value);
     _Form_Data.append('Poster', this.PosterForm.get('Poster')?.value);
+    _Form_Data.append('PosterType', this.PosterForm.get('PosterType')?.value);
     this._ActivityService.SavePoster(_Form_Data).subscribe({
       next: (res:ResponseGenerica) => {
         this.ResponseMessage.CodError = 200;

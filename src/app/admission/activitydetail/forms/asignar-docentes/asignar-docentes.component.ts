@@ -1,7 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivityTeachers } from 'app/admission/models/GetOneActivity';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { DetalleDocente } from 'app/admission/models/docentes';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
@@ -14,7 +16,7 @@ export interface DialogData {
   templateUrl: './asignar-docentes.component.html',
   styleUrls: ['./asignar-docentes.component.scss']
 })
-export class AsignarDocentesComponent {
+export class AsignarDocentesComponent implements OnInit {
     public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message:''
@@ -27,8 +29,20 @@ displayedColumns: string[] = [
   action: string;
   dialogTitle: string='';
   AsignarDocentesForm: UntypedFormGroup;
-  id_actividad: string = '';
-  ListadoDocentes: any;
+  id_actividad: string = ''; 
+  dataSourceActivityTeachers: DetalleDocente[] = [
+    this._ActivityDetailService._DetalleDocente
+  ];
+  ListadoDocentes = new MatTableDataSource<DetalleDocente>(this.dataSourceActivityTeachers);
+  public IsLoading: boolean = true;
+   @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
+      console.log(value);
+     setTimeout(() => {
+       this.ListadoDocentes.paginator = value;
+       this.IsLoading = false;
+     }, 3000);
+  }
+  
   constructor(
     public dialogRef: MatDialogRef<AsignarDocentesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -49,6 +63,12 @@ displayedColumns: string[] = [
       teacherCedulas: this.fb.array([])
     });
   }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+     this.ListadoDocentes.paginator = this.paginator;
+  } 
+
      applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoDocentes.filter = filterValue.trim().toLowerCase();
@@ -58,7 +78,8 @@ displayedColumns: string[] = [
     this._ActivityDetailService.GetAllTeacher().subscribe({
       next: (res: DetalleDocente[]) => {
         this._ActivityDetailService._ListadoDocentes = res;
-         this.ListadoDocentes = new MatTableDataSource(this._ActivityDetailService._ListadoDocentes);
+        // this.ListadoDocentes = new MatTableDataSource(this._ActivityDetailService._ListadoDocentes);
+        this.ListadoDocentes =new MatTableDataSource<DetalleDocente>(this._ActivityDetailService._ListadoDocentes);
       }
     });
   }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivityActivityRequirement, ActivityRequirement, ActivityTeachers, GetOneActivity, Poster, PosterComment, PosterRequest, RoomRequest, RoomRequestRoom, RoomRequestRoomRequirement } from '../models/GetOneActivity';
+import { ActivityActivityRequirement, ActivityCooperatingOrganization, ActivityRequirement, ActivityTeachers, GetOneActivity, Poster, PosterComment, PosterRequest, RoomRequest, RoomRequestRoom, RoomRequestRoomRequirement } from '../models/GetOneActivity';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { ResponseGenerica } from '../models/ResponseMessage';
 import { BehaviorSubject } from 'rxjs';
-import { DetalleDocente } from '../models/docentes';
+import { DetalleDocente, ListCourse, ListSpecialty, ListTraining } from '../models/docentes';
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +81,17 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       this._RoomRequestRoomRequirement
     ]
   };
-  
+  public _ActivityCooperatingOrganization: ActivityCooperatingOrganization = {
+    statusId: 0,
+    id: 0,
+    cooperatingOrganization: {
+        statusId:0,
+        id:0,
+        name:'',
+        logo:'',
+        description:'',
+    }
+  }
   public _ActivityTeachers: ActivityTeachers = {
     statusId: 0,
     teacherCedula: '',
@@ -147,9 +157,53 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       ],
       activityTeachers: [
         this._ActivityTeachers
+      ],
+      activityCooperatingOrganizations: [
+        this._ActivityCooperatingOrganization
       ]
   };
-  public _ListadoDocentes!: DetalleDocente[];
+    public _ListCourse:ListCourse={
+      courseId: 0,
+      year:0
+    }
+    public _ListSpecialty:ListSpecialty={
+      specialtyId:0
+    }
+    public _ListTraining:ListTraining={
+      trainingId: 0,
+      typeId: 0,
+      year:0
+    }
+ 
+
+  public _DetalleDocente: DetalleDocente = {
+    cedula:                 0,
+    name:                   '',
+    lastName:               '',
+    applicationDate:        new Date(),
+    selected:               false,
+    dischargeDate:          new Date(),
+    placeResidence:         '',
+    jobTitle:               '',
+    graduateDegree:         '',
+    professionalExperience: '',
+    teachingExperience:     '',
+    listCourse:             
+    [
+      this._ListCourse
+    ],
+    listTraining:           
+    [
+      this._ListTraining
+    ],
+    listSpecialty:          
+      [
+        this._ListSpecialty
+    ],
+    process:                0,
+    topics:                 0,
+  };
+   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
    isTblLoading = true;
   dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<
@@ -176,6 +230,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   AddTeachers(data:any) {
     return this.httpClient.post(environment.apiUrlSchedule + 'Activity/CreateActivityTeacher',data);
   }
+
+  AddCooperating(data:any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/CreateCooperatingOrganization',data);
+  }
+
   
   DeleteTeacherRequirement(id_actividad:any,teacherCedula:any) {
     let data = {
@@ -190,6 +249,20 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     };
     return this.httpClient.delete(environment.apiUrlSchedule + 'Activity/DeleteActivityTeacher',options);
   }
+    DeleteCooperating(id_actividad:any,cooperatingOrganizationId:any) {
+    let data = {
+      activityId: id_actividad,
+      cooperatingOrganizationId: cooperatingOrganizationId
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Activity/DeleteCooperatingOrganization',options);
+  }
+
 
 
   ApproveCurilculum(data:any) {
@@ -316,6 +389,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       ],
       activityTeachers: [
         this._ActivityTeachers
+      ],
+      activityCooperatingOrganizations: [
+        this._ActivityCooperatingOrganization
       ]
     };
     this._ActivityRequirement={

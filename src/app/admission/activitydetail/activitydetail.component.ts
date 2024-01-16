@@ -1,5 +1,5 @@
-import { ActivityRequirement, ActivityTeachers, PosterRequest } from './../models/GetOneActivity';
-import { Component, ViewChild } from '@angular/core';
+import { ActivityCooperatingOrganization, ActivityRequirement, ActivityTeachers, PosterRequest } from './../models/GetOneActivity';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from '../services/activity-detail.service';
 import { ActivityActivityRequirement, GetOneActivity } from '../models/GetOneActivity';
@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ViewPosterComponent } from './forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from './forms/view-poster-pdf/view-poster-pdf.component';
+import { Cooperating } from '../models/Cooperating';
+import { CooperationgOrganizationService } from '../maestros/services/cooperationg-organization.service';
+import { ViewLogoComponent } from './forms/view-logo/view-logo.component';
 
 export class PeriodicElement {
   name!: string;
@@ -27,7 +30,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   templateUrl: './activitydetail.component.html',
   styleUrls: ['./activitydetail.component.scss']
 })
-export class ActivitydetailComponent {
+export class ActivitydetailComponent implements OnInit {
 
   DisplayNameDocument: string[] = [
     'Id',
@@ -63,13 +66,51 @@ export class ActivitydetailComponent {
       statusId: 0
     }
   ];
+
+  dataSourcePosterRequest: PosterRequest[] = [
+    this._ActivityService._PosterRequest
+  ];
+
+  dataSourceActivityTeachers: ActivityTeachers[] = [
+    this._ActivityService._ActivityTeachers
+  ];
+
+  dataSourceActivityCooperatingOrganization: ActivityCooperatingOrganization[] = [
+    this._ActivityService._ActivityCooperatingOrganization
+  ];
   dataSource = ELEMENT_DATA;
-  dataDocuments: any;
-  dataPoster: any;
-  dataTeacher: any;
-  dataOrganismos: any;
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
   
+  dataDocuments= new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
+  dataPoster= new MatTableDataSource<PosterRequest>(this.dataSourcePosterRequest);
+  dataTeacher= new MatTableDataSource<ActivityTeachers>(this.dataSourceActivityTeachers);
+  dataOrganismos= new MatTableDataSource<ActivityCooperatingOrganization>(this.dataSourceActivityCooperatingOrganization);
+  // @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+    @ViewChild(MatPaginator) 
+  set paginator(value: MatPaginator) {
+      this.dataDocuments.paginator = value;
+      
+  }
+
+
+  @ViewChild('paginatorPoster') 
+  set paginatorPoster(value: MatPaginator) {
+      this.dataPoster.paginator = value;
+      
+  }
+
+  @ViewChild('paginatorTeachers') 
+  set paginatorTeacher(value: MatPaginator) {
+      this.dataTeacher.paginator = value;
+      
+  }
+
+  @ViewChild('paginatorCooperating') 
+  set paginatorOrganismos(value: MatPaginator) {
+      this.dataOrganismos.paginator = value;
+      
+  }
+
   dataSource3 = new MatTableDataSource(ELEMENT_DATA);
 
 
@@ -80,22 +121,26 @@ export class ActivitydetailComponent {
     public _router: Router,
     public _ActivityService: ActivityDetailService,
     public _dialog: MatDialog,
-    public _verificarBS64: VerificarBS64Pipe
+    public _verificarBS64: VerificarBS64Pipe,
+    public _CooperatingOrganizationService:CooperationgOrganizationService
   ) {
-    console.log('====================================');
-    console.log(Path);
-    console.log('====================================');
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       this.getOneActivity();
-      this.dataTeacher = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-      this.dataOrganismos = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+      // this.dataTeacher = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+      // this.dataOrganismos = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
       
     } else {
       this._router.navigate(['/admission/schedule-activities-list']);
     }
   }
 
+  ngOnInit(): void {
+    this.dataDocuments.paginator = this.paginator;
+    this.dataPoster.paginator = this.paginatorPoster;
+    this.dataTeacher.paginator = this.paginatorTeacher;
+    this.dataOrganismos.paginator = this.paginatorOrganismos;
+  }
   getOneActivity() {
     this._ActivityService.loading = true;
     this._ActivityService.GetOneActivity(this.paramsId).
@@ -105,7 +150,12 @@ export class ActivitydetailComponent {
           this.getDocumentos(res.activityActivityRequirements);
           this.dataPoster = new MatTableDataSource<PosterRequest>(res.posterRequests);
           this.dataTeacher = new MatTableDataSource<ActivityTeachers>(res.activityTeachers);
+          this.dataOrganismos = new MatTableDataSource<ActivityCooperatingOrganization>(res.activityCooperatingOrganizations);
+
+          
           this.dataPoster.paginator = this.paginator;
+          this.dataTeacher.paginator = this.paginator;
+          this.dataOrganismos.paginator = this.paginator;
           // this.getPoster(res.posterRequests);
           // this.getTeachers();
           // this.getOrganismos();
@@ -147,6 +197,34 @@ export class ActivitydetailComponent {
      })
   }
 
+  viewLogo(row:Cooperating) {
+    this._CooperatingOrganizationService.getByIdLogo(row.id).subscribe({
+      next: (logo) => {
+        if (logo.logo == null) {
+         Swal.fire({
+              title: "Escuela Judicial!",
+              text: "No mantiene logo cargado.",
+              icon: "warning"
+            });
+          return;
+       }
+
+        if (this._verificarBS64.transform(logo.logo.fileContents) != "pdf") {
+              const dialogRef = this._dialog.open(ViewLogoComponent, {
+              data: {
+                type: this._verificarBS64.transform(logo.logo.fileContents),
+                accion: 'view-logo',
+                logofile: logo.logo.fileContents,
+                logo: logo,
+              },
+              disableClose: true,
+            });
+            }
+      }, error: () => {
+        
+      }
+    })
+  }
   deleteAfiche(row: PosterRequest) {
     console.log(row);
     
@@ -168,6 +246,27 @@ export class ActivitydetailComponent {
       }
      })
   }
+
+    deleteCooperating(row:Cooperating) {
+    this._ActivityService.DeleteCooperating(this.paramsId,row.id).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getOneActivity();
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
+  }
+
   deleteDocente(row:ActivityTeachers) {
     this._ActivityService.DeleteTeacherRequirement(this.paramsId,row.teacherCedula).subscribe({
       next: () => {

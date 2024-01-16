@@ -1,10 +1,16 @@
 import { Component, Inject } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
+import { CooperationgOrganizationService } from '../../../maestros/services/cooperationg-organization.service';
+import { ViewLogoComponent } from '../view-logo/view-logo.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { Cooperating } from 'app/admission/models/Cooperating';
+import Swal from 'sweetalert2';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
-  id: string;
+  id_actividad: string;
   accion: string;
 }
 @Component({
@@ -13,33 +19,16 @@ export interface DialogData {
   styleUrls: ['./asignar-cooperantes.component.scss']
 })
 export class AsignarCooperantesComponent {
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+  }
 displayedColumns: string[] = [
     'id',
     'name',
     'descipcion',
     'logo',
 ];
-  
-  public resultado = [
-    {
-      "id": 1,
-      "name": "MIVIOT",
-      "description": "MIVIOT",
-      "image": "https://www.miviot.gob.pa/wp-content/uploads/2022/04/log-vertical-nuevo-para-gorras-01-678x381.jpg",
-    },
-    {
-      "id": 2,
-      "name": "MIVIOT",
-      "description": "MIVIOT",
-      "image": "https://www.miviot.gob.pa/wp-content/uploads/2022/04/log-vertical-nuevo-para-gorras-01-678x381.jpg",
-    },
-    {
-      "id": 3,
-      "name": "MIVIOT",
-      "description": "MIVIOT",
-      "image": "https://www.miviot.gob.pa/wp-content/uploads/2022/04/log-vertical-nuevo-para-gorras-01-678x381.jpg",
-    }
-  ];
 
   action: string;
   dialogTitle: string='';
@@ -49,7 +38,11 @@ displayedColumns: string[] = [
   constructor(
     public dialogRef: MatDialogRef<AsignarCooperantesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
+    public _dialog: MatDialog,
+    private _CooperationgOrganizationService: CooperationgOrganizationService,
+     public _ActivityDetailService:ActivityDetailService,
+    public _verificarBS64:VerificarBS64Pipe
   ) {
     // Set the defaults
     this.action = data.accion;
@@ -57,11 +50,12 @@ displayedColumns: string[] = [
     
     if (this.action === 'add-cooperantes') {
       this.dialogTitle ="Agregar Docentes";
-      this.id_actividad = data.id;
+      this.id_actividad = data.id_actividad;
     }
     this.LoadCooperantes();
     this.AsignarCooperantesForm =this.fb.group({
-        cooperantes: this.fb.array([])
+      cooperatingOrganizationsIds: this.fb.array([]),
+      activityId:[data.id_actividad,[Validators.required]]
     });
   }
      applyFilter(event: Event) {
@@ -70,23 +64,61 @@ displayedColumns: string[] = [
   }
 
   LoadCooperantes() {
-    this.ListadoCooperantes = new MatTableDataSource(this.resultado);
+  
     console.log(this.ListadoCooperantes);
-    // this._ActivityDetailService.GetAllTeacher().subscribe({
-    //   next: (res) => {
+    this._CooperationgOrganizationService.getAllCooperatingFiltro(1).subscribe({
+      next: (res) => {
+         this.ListadoCooperantes = new MatTableDataSource(res);
+      }
+    });
+  }
+    viewLogo(row:Cooperating) {
+    this._CooperationgOrganizationService.getByIdLogo(row.id).subscribe({
+      next: (logo) => {
+        if (logo.logo == null) {
+         Swal.fire({
+              title: "Escuela Judicial!",
+              text: "No mantiene logo cargado.",
+              icon: "warning"
+            });
+          return;
+       }
+
+        if (this._verificarBS64.transform(logo.logo.fileContents) != "pdf") {
+              const dialogRef = this._dialog.open(ViewLogoComponent, {
+              data: {
+                type: this._verificarBS64.transform(logo.logo.fileContents),
+                accion: 'view-logo',
+                logofile: logo.logo.fileContents,
+                logo: logo,
+              },
+              disableClose: true,
+            });
+            }
+      }, error: () => {
         
-    //   }
-    // });
+      }
+    })
   }
   submit() {
-    console.log('====================================');
-    console.log(this.AsignarCooperantesForm.getRawValue());
-    console.log('====================================');
+    this._ActivityDetailService.AddCooperating(this.AsignarCooperantesForm.getRawValue()).subscribe({
+      next: (res: any) => {
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Cargado correctamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err: any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
+
   }
   get checkboxesFormArray(): UntypedFormArray {
     console.log("hola");
     
-    return this.AsignarCooperantesForm.get('cooperantes') as UntypedFormArray;
+    return this.AsignarCooperantesForm.get('cooperatingOrganizationsIds') as UntypedFormArray;
   }
 
     checkboxChange(event: any, checkboxId: any): void {

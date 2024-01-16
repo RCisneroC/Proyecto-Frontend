@@ -18,10 +18,23 @@
                     <div class="card">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <mat-label>Cargar Afiche/Documento</mat-label>
+                            <mat-label>Cargar Afiche/Documentos/Imagenes</mat-label>
                             <app-file-upload  formControlName="Poster"></app-file-upload>
                         </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Tipo de Documento</mat-label>
+                                <mat-select formControlName="PosterType">
+                                    <mat-option value="">.........</mat-option>
+                                    <mat-option value="1">Afiche principal</mat-option>
+                                    <mat-option value="2">Documentos secundario</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="PosterForm.get('PosterType')?.hasError('required')">
+                                    la tipo es requerido
+                                </mat-error>
+                            </mat-form-field>
 
+                        </div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                         <mat-form-field class="example-full-width" appearance="fill">
                             <mat-label>Comentario</mat-label>

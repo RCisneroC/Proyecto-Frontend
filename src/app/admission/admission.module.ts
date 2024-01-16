@@ -58,6 +58,7 @@ import { ApprovedActivityComponent } from './Approvals/form/approved-activity/ap
 import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
 import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
 import { FormCooperatingOrganizationComponent } from './maestros/form-cooperating-organization/form-cooperating-organization.component';
+import { ViewLogoComponent } from './activitydetail/forms/view-logo/view-logo.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -114,6 +115,7 @@ import { FormCooperatingOrganizationComponent } from './maestros/form-cooperatin
     ApprovedPosterComponent,
     ListCooperatingOrganizationComponent,
     FormCooperatingOrganizationComponent,
+    ViewLogoComponent,
     
   ],
   providers: [

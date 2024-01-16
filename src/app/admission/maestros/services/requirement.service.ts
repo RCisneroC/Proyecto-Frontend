@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ActivityRequirement } from 'app/admission/models/GetOneActivity';
 import { Requirement } from 'app/admission/models/Requeriminet';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { environment } from 'environments/environment.development';
@@ -47,7 +48,7 @@ export class RequirementService extends UnsubscribeOnDestroyAdapter {
 
    getAllDocumentFiltro(id:number) {
    return this.httpClient
-      .get<Requirement[]>(environment.apiUrlSchedule+'ActivityRequirement/GetAll?StatusId='+id);
+      .get<ActivityRequirement[]>(environment.apiUrlSchedule+'ActivityRequirement/GetAll?StatusId='+id);
   }
 
   addRequirement(requirement: Requirement) {

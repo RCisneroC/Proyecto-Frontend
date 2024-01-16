@@ -49,7 +49,9 @@
                                 <ng-container matColumnDef="logo">
                                     <th mat-header-cell *matHeaderCellDef> Logo </th>
                                     <td mat-cell *matCellDef="let element"> 
-                                    <img src="{{element.image}}" style="width: 15%;" alt="" srcset="">
+                                    <button (click)="viewLogo(element)" matTooltip="Ver Documento" mat-mini-fab color="primary">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
                                     </td>
                                 </ng-container>
 

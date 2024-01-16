@@ -1,3 +1,5 @@
+import { Cooperating } from "./Cooperating";
+
 export interface GetOneActivity {
     statusId:                     number;
     id:                           number;
@@ -50,7 +52,14 @@ export interface GetOneActivity {
     posterRequests:               PosterRequest[];
     activityActivityRequirements: ActivityActivityRequirement[];
     activityTeachers: ActivityTeachers[];
+    activityCooperatingOrganizations: ActivityCooperatingOrganization[];
 }
+export interface ActivityCooperatingOrganization {
+    statusId:                number;
+    id:                      number;
+    cooperatingOrganization: Cooperating;
+}
+
 
 export interface ActivityActivityRequirement {
     statusId:            number;
