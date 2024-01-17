@@ -179,6 +179,7 @@ export class ActivitydetailComponent implements OnInit {
     this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
     this.dataDocuments.paginator = this.paginator;
   }
+  
   delete(row: ActivityRequirement) {
     this._ActivityService.DeleteDocumentRequirement(row.id, this.paramsId).subscribe({
       next: () => {
@@ -290,8 +291,6 @@ export class ActivitydetailComponent implements OnInit {
   }
   volverAtras() {
     let url = localStorage.getItem('url') ||'' ;
-
-    // if
     this._router.navigate([url]);
   }
   viewDocumento(row: PosterRequest) {
@@ -520,5 +519,10 @@ export class ActivitydetailComponent implements OnInit {
                 html: '<p>URL para la convocatoria</p><a target="_blank" href="http://'+this.urlConvocatoria+'">Ir</a>',
                 icon: "success"
             });
+  }
+  gestionarSalon() {
+    localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);
+    this._router.navigate(['/admission/reservar-salones/' + this.paramsId]);
+    // [routerLink]="['/admission/reservar-salones/'+_ActivityService._GetOneActivity.id]"
   }
 }

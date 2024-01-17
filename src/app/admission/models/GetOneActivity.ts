@@ -113,7 +113,8 @@ export interface RoomRequest {
     approvedBy:                  string;
     approvalDate:                Date;
     approvalMessage:             string;
-    activityId:                  number;
+    activityId: number;
+    activityName: string;
     roomRequestRooms:            RoomRequestRoom[];
     roomRequestRoomRequirements: RoomRequestRoomRequirement[];
 }

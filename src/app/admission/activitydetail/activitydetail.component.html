@@ -133,7 +133,7 @@
                         <div class="example-button-row">
                             <div class="col-12">
                                 <button matTooltip="Gestionar Salones" mat-raised-button color="primary"
-                                [routerLink]="['/admission/schedule-activity-detail/'+_ActivityService._GetOneActivity.curriculumDesignId]">
+                                (click)="gestionarSalon()"   >
                                 <mat-icon>add</mat-icon> Gestión de Salones
                                 </button>
                                 <button *ngIf="_ActivityService._GetOneActivity.statusId != 3"  matTooltip="Editar Actividad" mat-raised-button color="accent" (click)="editarActividad(_ActivityService._GetOneActivity)">

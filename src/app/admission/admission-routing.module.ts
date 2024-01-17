@@ -25,6 +25,7 @@ import { ActivityParticipantsListComponent } from './inscription/activity-partic
 import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
 import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
 import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
+import { RoomRequestsComponent } from './activitydetail/forms/room-requests/room-requests.component';
 const routes: Routes = [
 
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: "schedule-activity-detail/:id",
     component: ScheduleActivityDetailComponent,
+  },
+   {
+    path: "reservar-salones/:id",
+    component: RoomRequestsComponent,
   },
   {
     path: "activity-detail/:id",

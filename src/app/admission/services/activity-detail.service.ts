@@ -77,6 +77,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     approvalDate: new Date(),
     approvalMessage: '',
     activityId: 0,
+    activityName:'',
     roomRequestRooms: [
       this._RoomRequestRoom
     ],
@@ -489,7 +490,8 @@ decryptData(encryptedData: string, secretKey: string): string {
       approvedBy:'',
       approvalDate:new Date(),
       approvalMessage:'',
-      activityId:0,
+      activityId: 0,
+      activityName:'',
       roomRequestRooms:[
         this._RoomRequestRoom
       ],

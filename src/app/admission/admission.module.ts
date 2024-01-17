@@ -60,6 +60,8 @@ import { ListCooperatingOrganizationComponent } from './maestros/list-cooperatin
 import { FormCooperatingOrganizationComponent } from './maestros/form-cooperating-organization/form-cooperating-organization.component';
 import { ViewLogoComponent } from './activitydetail/forms/view-logo/view-logo.component';
 import { EditActivityFormsComponent } from './activitydetail/forms/edit-activity-forms/edit-activity-forms.component';
+import { ReservaSalonesComponent } from './activitydetail/forms/room-requests/forms/reserva-salones/reserva-salones.component';
+import { RequerimientoSalonesComponent } from './activitydetail/forms/room-requests/forms/requerimiento-salones/requerimiento-salones.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -118,6 +120,8 @@ import { EditActivityFormsComponent } from './activitydetail/forms/edit-activity
     FormCooperatingOrganizationComponent,
     ViewLogoComponent,
     EditActivityFormsComponent,
+    ReservaSalonesComponent,
+    RequerimientoSalonesComponent,
     
   ],
   providers: [
