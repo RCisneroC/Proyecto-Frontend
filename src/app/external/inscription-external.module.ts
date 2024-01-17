@@ -11,8 +11,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 @NgModule({
   declarations: [
-    ViewActivityExternalComponent,
-     VerificarBS64Pipe
+    ViewActivityExternalComponent
   ],
   providers: [
      VerificarBS64Pipe
