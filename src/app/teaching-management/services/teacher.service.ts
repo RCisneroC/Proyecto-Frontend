@@ -34,7 +34,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
         next: (data) => {
           this.isTblLoading = false;
           this.dataChange.next(data);
-          console.log("exito")
+       
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -44,14 +44,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   
 
-  addTeacher(teacher: Teacher) {
+  addUpdateTeacher(teacher: Teacher) {
     this.dialogData = teacher;
 
-    return this.httpClient.post(environment.apiUrlTeacher + 'Register', teacher);
+    return this.httpClient.post(environment.apiUrlTeacher + 'Save', teacher);
   }
-  updateTeacher(teacher: Teacher) {
-    this.dialogData = teacher;
-
-    return this.httpClient.put(environment.apiUrlTeacher + 'UpdateUser', teacher);
+  getTeacherByCedula(cedula :string) {
+ 
+    return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula);
   }
 }

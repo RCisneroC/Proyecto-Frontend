@@ -14,6 +14,7 @@ import { TeacherDetailComponent } from '../teacher-detail/teacher-detail.compone
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-list',
@@ -50,7 +51,8 @@ implements OnInit {
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public TeacherService: TeacherService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private _nav:Router
   ) {
     super();
   }
@@ -67,39 +69,40 @@ implements OnInit {
     this.loadData();
   }
   addNew() {
-    let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(TeacherDetailComponent, {
-      data: {
-        teacher: this.teacher,
-        action: 'add',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-       if (result == undefined) {
-        return;
-      }
+    this._nav.navigate(['/teaching-management/teacher-detail/',"-1"]);
+    // let tempDirection: Direction;
+    // if (localStorage.getItem('isRtl') === 'true') {
+    //   tempDirection = 'rtl';
+    // } else {
+    //   tempDirection = 'ltr';
+    // }
+    // const dialogRef = this.dialog.open(TeacherDetailComponent, {
+    //   data: {
+    //     teacher: this.teacher,
+    //     action: 'add',
+    //   },
+    //   direction: tempDirection,
+    // });
+    // this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+    //    if (result == undefined) {
+    //     return;
+    //   }
       
-      if (result.CodError == 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
-        this.loadData();
-      } else {
-         Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
+    //   if (result.CodError == 200) {
+    //      Swal.fire({
+    //         title: "Escuela Judicial",
+    //         text: result.Message,
+    //         icon: "success"
+    //      });
+    //     this.loadData();
+    //   } else {
+    //      Swal.fire({
+    //       title: "Escuela Judicial",
+    //       text: result.Message,
+    //       icon: "warning"
+    //     });
+    //   }
+    // });
   }
   editCall(row: Teacher) {
     this.teacherId = row.teacherId;
@@ -142,6 +145,10 @@ implements OnInit {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
+  Detail(row: Teacher) {
+  
+    this._nav.navigate(['/teaching-management/teacher-detail/',row.cedula]);
+  }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
     this.dataSource = new ExampleDataSource(
