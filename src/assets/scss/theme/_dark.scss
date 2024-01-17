@@ -3,7 +3,7 @@
  *  Author     : RedStar Template
  *  Description: This scss file for dark theme style classes
  */
- .dark {
+.dark {
   background-color: #232b3e;
   color: #96a2b4;
   padding-top: 1px;
@@ -1306,7 +1306,7 @@
   }
 
   .mat-button[disabled],
-  .mat-icon-button[disabled],
+  .mat-mini-fab[disabled],
   .mat-stroked-button[disabled],
   .mat-flat-button[disabled],
   .mat-raised-button[disabled],

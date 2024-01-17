@@ -43,7 +43,7 @@
                                         <div class="right">
                                             <ul class="tbl-export-btn">
                                                 <li class="tbl-header-btn">
-                                                    <div class="m-l-10" matTooltip="REFRESH">
+                                                    <div class="m-l-10" matTooltip="Recargar">
                                                         <button mat-mini-fab color="primary" (click)="refresh()">
                                                             <mat-icon class="col-white">refresh</mat-icon>
                                                         </button>
@@ -136,23 +136,23 @@
                                                         <span class="mobile-label">Origen de los
                                                             fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
                                                 </ng-container>
-                                                <ng-container matColumnDef="startTime">
+                                                <ng-container matColumnDef="inscriptionStartDate">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Inicio de
                                                         Incripción
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Inicio de
-                                                            Incripción:</span>{{row.startTime |
+                                                            Incripción:</span>{{row.inscriptionStartDate |
                                                         date:'dd/M/yyyy'}}</mat-cell>
                                                 </ng-container>
 
 
-                                                <ng-container matColumnDef="endTime">
+                                                <ng-container matColumnDef="inscriptionEndDate">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fin de Incripción
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Fin de
-                                                            Incripción:</span>{{row.endTime |
+                                                            Incripción:</span>{{row.inscriptionEndDate |
                                                         date:'dd/M/yyyy'}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="status">

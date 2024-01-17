@@ -35,8 +35,8 @@ export class ScheduleActivity {
    female!: number;
    certificatesReceived!: number;
    observations!: string;
-   endTime!: string;
-   startTime!: string;
+   inscriptionStartDate!: string;
+   inscriptionEndDate!: string;
  }
  
  

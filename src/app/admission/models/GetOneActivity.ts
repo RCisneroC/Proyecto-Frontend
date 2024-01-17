@@ -19,12 +19,13 @@ export interface GetOneActivity {
     activityLocationName:         string;
     assignedCoordinatorId:        string;
     assignedCoordinatorName:      string;
-    planningDate:                 Date;
+    planningDate: Date;
+    studentWithdrawalEndDate:                 Date;
     startDate:                    Date;
     plannedEndDate:               Date;
     effectiveEndDate:             Date;
-    startTime:                    Date;
-    endTime:                      Date;
+    inscriptionStartDate:                    Date;
+    inscriptionEndDate:                      Date;
     isExecuted:                   boolean;
     numOfAssignedTeachers:        number;
     hasDataSheet:                 boolean;
@@ -47,7 +48,10 @@ export interface GetOneActivity {
     participants:                 number;
     male:                         number;
     female:                       number;
-    certificatesReceived:         number;
+    certificatesReceived: number;
+    studentQuota:number;
+    participationProfile:number;
+    activityTarget:number;
     roomRequests:                 RoomRequest[];
     posterRequests:               PosterRequest[];
     activityActivityRequirements: ActivityActivityRequirement[];
@@ -83,6 +87,7 @@ export interface PosterRequest {
     activityId:      number;
     poster: Poster;
     activityName: string;
+    posterType: number;
     posterComments:  PosterComment[];
 }
 

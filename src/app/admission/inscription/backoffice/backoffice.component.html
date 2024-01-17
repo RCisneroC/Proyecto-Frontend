@@ -5,18 +5,22 @@
       <app-breadcrumb
         [title]="'Inscripción Directa'"
         [items]="['Home', 'Admisión']"
-        [active_item]="'Formulario de Inscripcion'"
+        [active_item]="'Formulario de Inscripción'"
       >
       </app-breadcrumb>
+    </div>
+    <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+      <div class="">
+        <button matTooltip="Regresar" mat-raised-button color="accent" (click)="regresar()">
+          <mat-icon>keyboard_backspace</mat-icon> Regresar
+        </button>
+      </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-          <div class="header">
-            <h2><strong>Formulario de Inscripcion</strong></h2>
-          </div>
           <div class="body">
-            <div *ngIf="!showFileSection">
+            <div *ngIf="showFileSection">
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="card">
@@ -40,8 +44,8 @@
                               aria-label="Search box"
                             />
                             <button
-                              mat-mini-fab
-                              class="material-icons search-icon"
+                            mat-mini-fab
+                              class=""
                               color="primary"
                               (click)="getPersonData(filter.value)"
                             >
@@ -346,62 +350,58 @@
                         </button>
 
                         <button
+                        (click)="regresar()"
                           mat-raised-button
-                          routerLink="/admission/backoffice"
+                          color="accent"
                         >
                           Volver
                         </button>
                       </mat-grid-tile>
                     </mat-grid-list>
                   </form>
+                  <p>{{ showFileSection }}</p>
                 </mat-card>
               </div>
             </div>
-            <div *ngIf="showFileSection">
+            <div *ngIf="!showFileSection">
               <div class="container">
                 <mat-card class="card">
-                  <mat-card-subtitle> Ingrese los archivos requeridos </mat-card-subtitle>
+                  <p style="font-weight: bold;text-transform: uppercase; text-align: center;">Ingrese los archivos requeridos</p>
                 <mat-grid-list cols="2" rowHeight="2:1">
-                  <mat-grid-tile *ngFor="let requerimiento of activityRequirements">
+                  <mat-grid-tile *ngFor="let requerimiento of activityRequirements?.activityActivityRequirements;let i=index">
                     <div class="file-section">
 
-                    <p>{{ requerimiento.activityRequirement.name }} <br></p>
-                    
+                    <p style="font-weight: bold;text-transform: uppercase;" >{{ requerimiento.activityRequirement.name }} <br></p>
                     <input
+                      id="archivo_{{ requerimiento.activityRequirement.id }}"
                       type="file"
                       class="file-input"
-                      multiple
-                      (change)="onChangeFile($event, requerimiento.id)"
+                      (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"
                     />
-                    <div *ngIf="files[requerimiento.id]" class="file-section">
-                      <section *ngFor="let file of files[requerimiento.id]">
-                        <ul>
-                          <li>Nombre: {{ file.name }}</li>
-                          <li>Tipo: {{ file.type }}</li>
-                          <li>Tamaño: {{ file.size }} bytes</li>
-                        </ul>
-                      </section>
-                      <!-- Agrega más detalles del archivo según sea necesario -->
-                      <button (click)="onUpload()" class="upload-button">
-                        Subir archivos
-                      </button>
-                      <section [ngSwitch]="status">
-                        <p *ngSwitchCase="'uploading'">⏳ Uploading...</p>
-                        <p *ngSwitchCase="'success'">✅ Done!</p>
-                        <p *ngSwitchCase="'fail'">❌ Archivos no subidos...</p>
-                        <p *ngSwitchDefault>😶 En espera por subir...</p>
-                      </section>
-                      
+                    <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ requerimiento.activityRequirement.id }}"></p>
+                    <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
                     </div>
-                    </div>
-                    
                   </mat-grid-tile>
                 </mat-grid-list>
               </mat-card>
+              <h4 *ngIf="IsError" style="text-transform: uppercase;font-weight: bold;">
+                Documentos Incompletos
+              </h4>
+              <h4 *ngIf="!IsError" style="text-transform: uppercase;font-weight: bold;">
+                Documentos Completos
+                <br>
+                <button *ngIf="!IsError"  (click)="nuevaIn()"
+                  matTooltip="Nueva Inscripción" mat-raised-button color="primary">
+                  <mat-icon>keyboard_backspace</mat-icon> Nueva Inscripción.
+                </button>
+              </h4>
+                <div class="text-center">
+                  <button [disabled]="loadingFile"  (click)="verificarDocumentacion()" matTooltip="Verificar si hace falta alguna documentación" mat-raised-button color="primary">
+                    <mat-icon>check</mat-icon> Verificar Documentación requerida.
+                  </button>
+                </div>
               </div>
             </div>
-
-            <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-list']" >Regresar</button>
           </div>
          
         </div>

@@ -116,6 +116,14 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
   }
+
+    sendApproved(id: any) {
+    let params = {
+        id
+      }
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/SetPendingApproval', params);
+  }
+
  
   init_DetailCurriculum(){
     this.DetailCurriculum = {

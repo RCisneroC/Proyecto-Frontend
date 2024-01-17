@@ -15,3 +15,9 @@ export interface DataModal {
     action: string;
     data: any;
 }
+
+export interface ResponseEF{
+   isError: number;
+  message: string;
+  statusCode: number;
+}

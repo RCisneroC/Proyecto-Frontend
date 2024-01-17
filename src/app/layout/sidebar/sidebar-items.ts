@@ -65,18 +65,7 @@ export const ROUTES: RouteInfo[] = [
           badge: "",
           badgeClass: "",
           submenu: []
-        },
-        {
-          path: "admission/internal-user",
-          title: "Usuario interno",
-          iconType: "",
-          icon: "",
-          class: "",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
+        }
       ]
     },
   {

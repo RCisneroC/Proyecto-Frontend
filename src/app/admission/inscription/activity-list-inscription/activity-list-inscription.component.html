@@ -5,11 +5,19 @@
         <app-breadcrumb [title]="'Inscripción Backoffice'" [items]="['Home','Admisión','Maestros']" [active_item]="'Actividad'">
         </app-breadcrumb>
       </div>
+      <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+        <div class="">
+          <button matTooltip="Regresar" mat-raised-button color="accent"
+            [routerLink]="['/admission/schedule-list']">
+            <mat-icon>keyboard_backspace</mat-icon> Regresar
+          </button>
+        </div>
+      </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Selecione una Actividad</strong></h2>
+              <h2><strong>Listado de actividades</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -32,7 +40,7 @@
                             <ul class="tbl-export-btn">
                              
                               <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="REFRESH">
+                                <div class="m-l-10" matTooltip="Recargar">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
                                     <mat-icon class="col-white">refresh</mat-icon>
                                   </button>
@@ -44,26 +52,12 @@
                         <div class="body overflow-auto">
                           <div class="responsive_table">
                             <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                          
-                              <!-- ID Column -->
-                              
                               <ng-container matColumnDef="planningDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de planificación
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Fecha de planificación:</span>{{row.planningDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
-                             
-                              
-                              <ng-container matColumnDef="description">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>http://localhost:4200/#/dashboard/dashboard1
-                              </ng-container>
-                              
-                    
-                              
                               <ng-container matColumnDef="activityModeName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad
                                 </mat-header-cell>
@@ -81,7 +75,7 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de la actividad
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Nombre de la actividad:</span>{{row.activityName}}</mat-cell>
+                                  <span class="mobile-label">Nombre de la actividad:</span>{{row.name}}</mat-cell>
                               </ng-container>
                               
                              
@@ -91,156 +85,25 @@
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
                               </ng-container>
-                              
-                              <ng-container matColumnDef="assignedCoordinatorName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Coord.Responsable
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Coord.Responsable:</span>{{row.assignedCoordinatorName}}</mat-cell>
-                              </ng-container>
-                              
                               <ng-container matColumnDef="startDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                   <span class="mobile-label">Fecha inicio:</span>{{row.startDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
-                              
-                              <ng-container matColumnDef="plannedEndDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha final Programada
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha final Programada:</span>{{row.plannedEndDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
-                        
-                              
-                              <ng-container matColumnDef="effectiveEndDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha final efectiva
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha final efectiva:</span>{{row.effectiveEndDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="isExecuted">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ejecutado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ejecutado:</span>{{row.isExecuted===true?"SÍ":"No"}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="activityReasonName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo de cambio/cancelación de la actividad
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Motivo de cambio/cancelación de la actividad:</span>{{row.activityReasonName}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="activityFundsSourceName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Origen de los fondos
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Origen de los fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="numOfAssignedTeachers">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Docente/s seleccionado/s
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Docentes seleccionados:</span>{{row.numOfAssignedTeachers}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="hasDataSheet">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ficha técnica de la actividad
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ficha técnica de la actividad:</span>{{row.hasDataSheet===true?"SÍ":"NO"}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="dataSheetDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega fiche técnica
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Ficha Tecnica:</span>{{row.dataSheetDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="isEvaluation">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Evaluación:</span>{{row.isEvaluation===true?"SÍ":"NO"}}</mat-cell>
-                              </ng-container>
-                          
-                              
-                              <ng-container matColumnDef="digitalReportDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega informe digital
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha entrega informe digital:</span>{{row.digitalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                          
-                          
-                              <ng-container matColumnDef="physicalReportDeliveryDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha entrega informe físico
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha entrega informe físico:</span>{{row.physicalReportDeliveryDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="enrolledStudentsDiploma">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes matriculados diplomado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes matriculados diplomado:</span>{{row.enrolledStudentsDiploma}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="retiredStudentsDiploma">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estuadiantes retirados diplomado
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Estuadiantes retirados diplomado:</span>{{row.retiredStudentsDiploma}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="participants">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Participantes
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Participantes:</span>{{row.participants}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="male">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Masculino
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Masculino:</span>{{row.male}}</mat-cell>
-                              </ng-container>
-                              <ng-container matColumnDef="female">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Femenino
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Femenino:</span>{{row.female}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="certificatesReceived">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Certificados recibidos
+                              <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Certificados recibidos:</span>{{row.certificatesReceived}}</mat-cell>
+                                  <span class="mobile-label">Estado:</span><span
+                                    class="badge badge-solid-green">{{row.statusId|statusPipe}}</span></mat-cell>
                               </ng-container>
-                              
-                              <ng-container matColumnDef="observations">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Observaciones:</span>{{row.observations}}</mat-cell>
-                              </ng-container>
-                        
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                  <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Inscribir</button>
-                                  <button mat-stroked-button color="accent" (click)="generateLink(row)">Generar Link</button>
+                                  <button *ngIf="row.statusId == 5" matTooltip="Inscribir Usuario" mat-raised-button  color="primary" (click)="ViewDetail(row)"><mat-icon>send</mat-icon>Inscribir</button>
+                                  <button *ngIf="row.statusId != 5" mat-raised-button  color="accent"><mat-icon>close</mat-icon>Incompleto</button>
                                 
                                 </mat-cell>
                               </ng-container>
@@ -309,7 +172,6 @@
                         </div>
                        
                       </div>
-                      <button mat-stroked-button color="primary" [routerLink]="['/admission/schedule-list']" >Regresar</button>
                     </div>
                   </div>
             </div>

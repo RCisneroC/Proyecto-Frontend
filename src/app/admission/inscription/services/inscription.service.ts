@@ -5,6 +5,9 @@ import { Observable , of} from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Participant, ApiResponse } from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
+import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
+import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +17,8 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   //private apiUrl: string = '/api/index.php?wsdl=1&ui=X8JBJ6SD30A219910S81A03U12OL6CA22657B70658A787&wsn=getTEciudadana&param=';
   baseApiUrl = "https://file.io"
   isTblLoading = true;
+  public _ResponseInscripcion!: ResponseInscripcion;
+  public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
   get data(): Participant[] {
     return this.dataChange.value || [];
@@ -52,8 +57,19 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 updateParticipant(participantData: any): Observable<any> {
  
   const url = `${environment.apiEC}`;
-  return this.httpClient.post(url+"ContinuingEducation/Addparticipant", participantData);
+  return this.httpClient.post<ResponseInscripcion>(url+"ContinuingEducation/Addparticipant", participantData);
+  }
+
+  CargaDocumentoRequirement(data: any): Observable<any> {
+  const url = `${environment.apiEC}`;
+  return this.httpClient.post<ResponseEF>(url+"EFInscription/AddDoc", data);
 }
+
+  ValidationDocumentRequirement(id:any){
+    const url = `${environment.apiEC}`;
+    return this.httpClient.get<VerificarDocumentacion>(url+"GetData/GetValidateFile?EJInscriptionId="+id)
+  }
+
 
 // getParticipants(): Observable<any>{
 //   return this.httpClient.get<any>(environment.apiEC+"ContinuingEducation/GetParticipants")
@@ -81,5 +97,45 @@ getParticipants(): void {
     });
 }
 
- 
+  init_ResponseInscripcion() {
+    this._ResponseInscripcion = {
+      backOffice:0,
+      firstName:'',
+      lastName:'',
+      secondsurname:'',
+      gender:'',
+      id:'',
+      cedula:'',
+      institution:'',
+      email:'',
+      university:'',
+      dependency:'',
+      cooperatingEntity:'',
+      position:'',
+      province:'',
+      judicialDistrict:'',
+      invitationDate:new Date(),
+      observation:'',
+      activityId:0,
+      inscriptionId:0,
+      createdBy:'',
+      message:'',
+      isError:false,
+      statusCode:0,
+    }
+  }
+  init_VerificarDocumentacion() {
+    this._VerificarDocumentacion = {
+      message:'',
+      validateFileResponse: [
+        {
+          id: 0,
+          mss: '',
+          name:''
+        }
+      ],
+      isError:false,
+      statusCode:0
+    }
+  }
 }

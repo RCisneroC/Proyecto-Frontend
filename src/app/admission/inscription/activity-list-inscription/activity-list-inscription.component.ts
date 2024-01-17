@@ -30,6 +30,7 @@ implements OnInit{
          'activityName',
          'activityLocationName',
          'startDate',
+         'status',
          'actions',
   ];
   
@@ -69,7 +70,8 @@ implements OnInit{
     this.loadData();
   }
 
-  ViewDetail(row:ScheduleActivity) {
+  ViewDetail(row: ScheduleActivity) {
+    localStorage.setItem('ruta_local','/admission/activity-list-inscription/'+this.id)
     this.router.navigate(['/admission/backoffice',row.id]);
   }
 
@@ -81,12 +83,9 @@ implements OnInit{
 
   }
   editCall(row: ScheduleActivityDetail) {
+
+  }
   
-   
-  }
-  generateLink(row:ScheduleActivity){
-    
-  }
   /** Whether the number of selected elements matches the total number of rows. */
 
 

@@ -158,6 +158,8 @@ implements OnInit{
         }); 
   }
 
+
+
   Detail(row: ScheduleActivityDetail) {
     this._nav.navigate(['/admission/activity-detail/' + row.id]);
     localStorage.setItem('url','/admission/schedule-activity-detail/' + this.id)
@@ -266,11 +268,23 @@ implements OnInit{
       confirmButtonText: "Si, Enviar"
     }).then((result) => {
       if (result.isConfirmed) {
-         Swal.fire({
+        this.activityDetailService.sendApproved(this.id).subscribe({
+          next: (res) => {
+            Swal.fire({
               title: "Escuela Judicial!",
               text: "Enviado correctamente.",
               icon: "success"
             });
+            this._nav.navigate(['/admission/schedule-activities-list']);
+          },
+          error: (err) => {
+               Swal.fire({
+              title: "Escuela Judicial!",
+              text: "No fue enviado.",
+              icon: "warning"
+            });
+          }
+        })
       } else {
         Swal.fire({
               title: "Escuela Judicial!",

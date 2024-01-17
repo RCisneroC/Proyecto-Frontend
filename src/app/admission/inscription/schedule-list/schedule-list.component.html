@@ -19,7 +19,7 @@
                         <div class="left">
                           <ul class="header-buttons-left ms-0">
                             <li class="tbl-title">
-                              <h2>cronogramas</h2>
+                              <h2>Cronogramas</h2>
                             </li>
                             <li class="tbl-search-box">
                               <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -31,7 +31,7 @@
                         <div class="right">
                           <ul class="tbl-export-btn">
                             <li class="tbl-header-btn">
-                              <div class="m-l-10" matTooltip="REFRESH">
+                              <div class="m-l-10" matTooltip="Recargar">
                                 <button mat-mini-fab color="primary" (click)="refresh()">
                                   <mat-icon class="col-white">refresh</mat-icon>
                                 </button>
@@ -73,8 +73,8 @@
                               <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                               </mat-header-cell>
                               <mat-cell *matCellDef="let row" >
-                              <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                <span class="mobile-label ">Estatus:</span>{{row.statusId ===1?'Activo':'Inactivo'}}  </div></mat-cell>
+                              <span class="badge badge-solid-green">{{ row.statusId|statusPipe }}</span>
+                              </mat-cell>
                             
                                 
                             </ng-container>
@@ -85,7 +85,9 @@
                               <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                               
                                 
-                                <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Actividades</button>
+                                <button mat-mini-fab color="primary" matTooltip="Ver actividades" (click)="ViewDetail(row)">
+                                  <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                </button>
                              
                               </mat-cell>
                             </ng-container>

@@ -116,20 +116,16 @@
             </mat-error>
           </mat-form-field>
         </div>
-
-
-         
-         
-        </div>
+      </div>
         <div  class="row">
 
           <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Fecha de inicio de inscripción</mat-label>
-              <input matInput [matDatepicker]="pickerStart" formControlName="startTime">
+              <input matInput [matDatepicker]="pickerStart" formControlName="inscriptionStartDate">
               <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
               <mat-datepicker #pickerStart></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('startTime')?.hasError('required')">
+              <mat-error *ngIf="scheduleForm.get('inscriptionStartDate')?.hasError('required')">
                 Selecciones una fecha
               </mat-error>
             </mat-form-field>
@@ -138,10 +134,10 @@
           <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Fecha de final de inscripción</mat-label>
-              <input matInput [matDatepicker]="pickerEnd" formControlName="endTime">
+              <input matInput [matDatepicker]="pickerEnd" formControlName="inscriptionEndDate">
               <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
               <mat-datepicker #pickerEnd></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('endTime')?.hasError('required')">
+              <mat-error *ngIf="scheduleForm.get('inscriptionEndDate')?.hasError('required')">
                 Selecciones una fecha
               </mat-error>
             </mat-form-field>

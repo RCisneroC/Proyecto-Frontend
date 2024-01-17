@@ -38,7 +38,7 @@
                                 </div>
                               </li>
                               <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="REFRESH">
+                                <div class="m-l-10" matTooltip="Recargar">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
                                     <mat-icon class="col-white">refresh</mat-icon>
                                   </button>
@@ -80,11 +80,11 @@
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                  <button mat-mini-fab color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
                                     class="tbl-action-btn">
-                                    <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                    <app-feather-icons [icon]="'edit'"  ></app-feather-icons>
                                   </button>
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="delete(row)" class="tbl-action-btn">
+                                  <button mat-mini-fab color="accent" (click)="$event.stopPropagation()" (click)="delete(row)" class="tbl-action-btn">
                                     <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                   </button>
                                 

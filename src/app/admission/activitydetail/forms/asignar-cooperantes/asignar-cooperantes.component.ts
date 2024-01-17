@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { Cooperating } from 'app/admission/models/Cooperating';
 import Swal from 'sweetalert2';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { MatPaginator } from '@angular/material/paginator';
 export interface DialogData {
   id_actividad: string;
   accion: string;
@@ -18,7 +19,7 @@ export interface DialogData {
   templateUrl: './asignar-cooperantes.component.html',
   styleUrls: ['./asignar-cooperantes.component.scss']
 })
-export class AsignarCooperantesComponent {
+export class AsignarCooperantesComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message:''
@@ -33,8 +34,23 @@ displayedColumns: string[] = [
   action: string;
   dialogTitle: string='';
   AsignarCooperantesForm: UntypedFormGroup;
-  id_actividad: string = '';
-  ListadoCooperantes: any;
+  id_actividad: string = ''; 
+
+ 
+  dataSourceCooperating: Cooperating[] = [
+    this._ActivityDetailService._Cooperating
+  ];
+  ListadoCooperantes = new MatTableDataSource<Cooperating>(this.dataSourceCooperating);
+  public IsLoading: boolean = true;
+
+  @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
+      console.log(value);
+     setTimeout(() => {
+       this.ListadoCooperantes.paginator = value;
+       this.IsLoading = false;
+     }, 3000);
+  }
+
   constructor(
     public dialogRef: MatDialogRef<AsignarCooperantesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -49,7 +65,7 @@ displayedColumns: string[] = [
     console.log(data);
     
     if (this.action === 'add-cooperantes') {
-      this.dialogTitle ="Agregar Docentes";
+      this.dialogTitle ="Agregar Organizaciones Cooperantes";
       this.id_actividad = data.id_actividad;
     }
     this.LoadCooperantes();
@@ -58,6 +74,13 @@ displayedColumns: string[] = [
       activityId:[data.id_actividad,[Validators.required]]
     });
   }
+
+   ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+     this.ListadoCooperantes.paginator = this.paginator;
+  } 
+
      applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoCooperantes.filter = filterValue.trim().toLowerCase();
@@ -68,7 +91,7 @@ displayedColumns: string[] = [
     console.log(this.ListadoCooperantes);
     this._CooperationgOrganizationService.getAllCooperatingFiltro(1).subscribe({
       next: (res) => {
-         this.ListadoCooperantes = new MatTableDataSource(res);
+         this.ListadoCooperantes =new MatTableDataSource<Cooperating>(res);
       }
     });
   }
