@@ -11,7 +11,7 @@ import { environment } from 'environments/environment.development';
 export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   //private readonly API_URL = 'assets/data/dataUser.json';
-  isTblLoading = true;
+  public isTblLoading = true;
   dataChange: BehaviorSubject<Teacher[]> = new BehaviorSubject<
   Teacher[]
   >([]);
@@ -45,9 +45,8 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   
 
   addUpdateTeacher(teacher: Teacher) {
-    this.dialogData = teacher;
 
-    return this.httpClient.post(environment.apiUrlTeacher + 'Save', teacher);
+    return this.httpClient.post(environment.apiUrlTeacher+'Save', teacher);
   }
   getTeacherByCedula(cedula :string) {
  

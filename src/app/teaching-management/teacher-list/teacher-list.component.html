@@ -91,7 +91,7 @@
                               </ng-container>
                               
                               <ng-container matColumnDef="selected">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Seleccionado
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Aprobado
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
                                 <div *ngIf="row.selected===true">
@@ -102,8 +102,34 @@
                                 </div>
                                 </mat-cell> 
                               </ng-container>
+                              <ng-container matColumnDef="createdDate">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Fecha de alta:</span>{{row.createdDate | date:'dd/M/yyyy'}}</mat-cell>
+                              </ng-container>
                               
+                              <ng-container matColumnDef="createdBy">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Creado por
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Modificado por:</span>{{row.createdBy}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="lastModifiedDate">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de modificación
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Fecha de alta:</span>{{row.lastModifiedDate | date:'dd/M/yyyy'}}</mat-cell>
+                              </ng-container>
                               
+                              <ng-container matColumnDef="lastModifiedBy">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Modificado por
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Modificado por:</span>{{row.lastModifiedBy}}</mat-cell>
+                              </ng-container>
+   
+
                               <ng-container matColumnDef="dischargeDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de alta
                                 </mat-header-cell>
@@ -153,7 +179,7 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Proceso:</span>{{row.process}}</mat-cell>
+                                  <span class="mobile-label">Proceso:</span>{{row.process|statusProcess}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="topics">
@@ -170,7 +196,11 @@
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                
+                                  <button *ngIf="!row.selected"matTooltip="Aprobar docente" mat-mini-fab color="warn">
+                                    <app-feather-icons [icon]="'check-square'" ></app-feather-icons>
+                                </button>
+                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
@@ -180,10 +210,11 @@
                                   <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                 </button>
                                
+                               
                                 </mat-cell>
                               </ng-container>
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                              <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"
                                 [style.cursor]="'pointer'" matRipple>
                               </mat-row>
                             </table>

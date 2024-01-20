@@ -7,12 +7,16 @@ import { TeacherDetailComponent } from './teacher-detail/teacher-detail.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
+import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
+import { AddCourseComponent } from './add-course/add-course.component';
 
 
 @NgModule({
   declarations: [
     TeacherListComponent,
-    TeacherDetailComponent
+    TeacherDetailComponent,
+    StatusProcessPipe,
+    AddCourseComponent
   ],
   imports: [
     CommonModule,

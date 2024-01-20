@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { Teacher } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
+import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material/expansion';
+import { AddCourseComponent } from '../add-course/add-course.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -22,53 +27,102 @@ implements OnInit{
     { id: 3, name: 'Ambos procesos' }
   ];
 
-  displayedColumnsCourses = [
+  displayedColumnsCourse = [
     'courseId',
-    //'name',
+    'name',
     'year',
     'actions'
   ];
-DataTeacher!: Teacher;
-cedula!:string;
-dataCourses!: any;
-dataTraining!: any;
-
-
   
+  displayedColumnsTraining = [
+    'trainingId',
+    'name',
+    'year',
+    'typeId',
+    'actions'
+  ];
+  
+  displayedColumnsSpecialty = [
+    'specialtyId',
+    'name',
+    'actions'
+  ];
+DataTeacher!:Teacher;
+cedula!:string;
+fechaActual!: string;
+fechaA: string | undefined;
+  header!: string;
+
+
+
+
+
 constructor( private activatedRoute: ActivatedRoute,
 public _ActivityService: ActivityDetailService,
 public _teacherService: TeacherService,
+public _dialog: MatDialog,
 private _nav:Router,
 private fb: UntypedFormBuilder
 ){
   super();
-  this.teacherForm = this.createTeacherForm();
-}
-
-  ngOnInit() {
   
-     this.activatedRoute.queryParams.subscribe((params) => {
-     console.log(params);
-      this.DataTeacher = params['data'] ;
-     
-      this.DataTeacher=this.activatedRoute.snapshot.queryParams["cedula"];
-      console.log(this.DataTeacher);
-    });
+}
+@ViewChild(MatAccordion) accordion?: MatAccordion;
+  async ngOnInit() {
+    //this.DataTeacher=this.activatedRoute.snapshot.queryParams["cedula"];
     this.cedula=this.activatedRoute.snapshot.params["cedula"];
-   this.getTeacherByCedula();
-
+    this.DataTeacher=new Teacher();
+    const fechaActual = new Date();
+    this.fechaA=fechaActual.toLocaleDateString('es-PA');
+    this.teacherForm = this.createTeacherForm();
+    this.header="Crear docente";
+    if(this.cedula!="-1"){
+     this.header="Editar docente";
+     await this.getTeacherByCedula();
+    }
+    
    
-   //this.dataCourses= new MatTableDataSource<Course>([]);
   }
   
-  getTeacherByCedula() {
-    this._teacherService.getTeacherByCedula(this.cedula).subscribe({
+  async getTeacherByCedula() {
+   this._teacherService.getTeacherByCedula(this.cedula).subscribe({
       next: (res) => {
+
         this.DataTeacher = res;
-        this.dataCourses=res.listCourse;
-           console.log(this.DataTeacher);
+        this.fechaA=res.applicationDate;
+        this.teacherForm = this.createTeacherForm();
+        this._teacherService.isTblLoading = false;
       }
     })
+  }
+  
+  AddCourse(){
+    const dialogRef = this._dialog.open(AddCourseComponent, {
+      data: {
+        id: 4,
+        accion: 'add-course'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+           
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+    });
   }
   Regresar(){
     this._nav.navigate(['/teaching-management/teacher-list/']);
@@ -77,26 +131,45 @@ private fb: UntypedFormBuilder
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: new FormControl('21324339', [Validators.required]),
-      name: new FormControl('Conrado', [Validators.required]),
-      lastName: new FormControl('arquer', [Validators.required]),
-      applicationDate: new FormControl('2024-01-10T14:06:57.959'),
-      selected: new FormControl(true),
-      dischargeDate: new FormControl('2024-01-10T14:06:57.959'),
-      placeResidence: new FormControl('Guatamare calle 8'),
-      jobTitle: new FormControl('Lic.Educacion Integral'),
-      graduateDegree: new FormControl('string'),
-      professionalExperience: new FormControl('10'),
-      teachingExperience: new FormControl('8'),
-      listCourse: new FormControl(this.dataCourses),
-      listTraining: new FormControl([]),
-      listSpecialty: new FormControl([]),
-      process: new FormControl(1),
-      topics: new FormControl(0)
+      cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
+      name: new FormControl(this.DataTeacher?.name, [Validators.required]),
+      lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
+      selected: new FormControl(this.DataTeacher?.selected),
+      dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
+      placeResidence: new FormControl(this.DataTeacher?.placeResidence),
+      jobTitle: new FormControl(this.DataTeacher?.jobTitle),
+      graduateDegree: new FormControl(this.DataTeacher?.graduateDegree),
+      professionalExperience: new FormControl(this.DataTeacher?.professionalExperience),
+      teachingExperience: new FormControl(this.DataTeacher?.teachingExperience),
+      listCourse: new FormControl(this.DataTeacher?.listCourse||[]),
+      listTraining: new FormControl(this.DataTeacher?.listTraining||[]),
+      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty||[]),
+      process: new FormControl(this.DataTeacher?.process),
+      topics: new FormControl(this.DataTeacher?.topics)
     });
   }
   
   submit() {
+  if(this.teacherForm.valid)
+  this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
+    next: () => {
+      Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Guardado correctamente.',
+              icon: "success"
+          }); 
+    
+    },
+    error: () => {
+      Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Intente nuevamente.',
+            icon: "warning"
+          });
+    }
+   })
+   
+   this._nav.navigate(['/teaching-management/teacher-list/']);
     // emppty stuff
   }
   
