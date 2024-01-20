@@ -30,6 +30,7 @@ import { RoomRequestsComponent } from './activitydetail/forms/room-requests/room
 import { ListscheduleComponent } from './inscription/approval/listschedule/listschedule.component';
 import { ListActivityComponent } from './inscription/approval/list-activity/list-activity.component';
 import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
+import { DetalleParticipanteComponent } from './inscription/approval/activity-participants-list/detalle/detalle-participante/detalle-participante.component';
 const routes: Routes = [
 
   {
@@ -139,6 +140,10 @@ const routes: Routes = [
   {
     path: "listado-participans/:id", //listo.
     component:ActivityParticipantsListComponent,
+  },
+   {
+    path: "detalle-participans/:id", //listo.
+    component:DetalleParticipanteComponent,
   },
     {
     path: "activity-inscription/:id",

@@ -10,7 +10,7 @@ import { Cooperating } from '../models/Cooperating';
 import { EditActivity } from '../models/EditActivity';
 import * as CryptoJS from 'crypto-js';
 import { RequestRooms } from '../models/RequestRooms';
-import { ApiResponse, ApiResponseOne, Participant } from '../models/participant';
+import { ApiResponse, ApiResponseOne, DetailsParticipante, DetailsResponse, Participant } from '../models/participant';
 @Injectable({
   providedIn: 'root'
 })
@@ -227,6 +227,50 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     id: 0,
     statusId:0,
   }
+  public _DetailsParticipante: DetailsParticipante = {
+    isError: false,
+    message: '',
+    statusCode: 0,
+    detailsResponse: [
+      {
+        firstName:         '',
+        lastName:          '',
+        gender:            '',
+        dependency:        '',
+        cooperatingEntity: '',
+        position:          '',
+        province:          '',
+        judicialDistrict:  '',
+        activityName:      '',
+        startDate:         new Date(),
+        duration:          0,
+        totalHours:        0,
+        activityMode:      '',
+        activityType:      '',
+        activityLocation:  '',
+        name:              '',
+      }
+    ]
+  }
+  public _DetailsResponse: DetailsResponse = {
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dependency: '',
+    cooperatingEntity: '',
+    position: '',
+    province: '',
+    judicialDistrict: '',
+    activityName: '',
+    startDate: new Date(),
+    duration: 0,
+    totalHours: 0,
+    activityMode: '',
+    activityType: '',
+    activityLocation: '',
+    name: '',
+  };
+  
    public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
    isTblLoading = true;
@@ -402,10 +446,14 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula='+cedula);
   }
 
-    ApproveParticipant(data:any) {
+  ApproveParticipant(data:any) {
     return this.httpClient.post(environment.apiEC + 'ContinuingEducation/AddAR',data);
   }
   
+  GetDetailsCedula(cedula:any) {
+    return this.httpClient.get<DetailsParticipante>(environment.apiEC + 'GetData/GetDetail?cedula='+cedula);
+  }
+
   encryptData(data: string, secretKey: string): string {
     try {
       let cadena = CryptoJS.AES.encrypt(data, secretKey).toString();

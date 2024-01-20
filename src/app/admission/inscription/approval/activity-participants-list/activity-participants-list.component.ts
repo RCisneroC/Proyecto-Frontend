@@ -64,8 +64,9 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     refresh() {
       this.loadData();
     }
-    ViewDetail(row:Participant) {
-      this.router.navigate(['/admission/activity-list-inscription',row.id]);
+  ViewDetail(row: Participant) {
+      localStorage.setItem('url','/admission/listado-participans/'+this.id)
+      this.router.navigate(['/admission/detalle-participans',row.cedula]);
     }
     editCall(row: Participant) {
      
