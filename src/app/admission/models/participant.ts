@@ -65,4 +65,5 @@ export interface DetailsResponse {
     activityType:      string;
     activityLocation:  string;
     name:              string;
+    cedula:              string;
 }

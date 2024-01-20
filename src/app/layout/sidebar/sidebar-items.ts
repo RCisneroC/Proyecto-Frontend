@@ -256,6 +256,17 @@ export const ROUTES: RouteInfo[] = [
           badge: "",
           badgeClass: "",
           submenu: []
+        },
+        {
+          path: "/admission/cooperating-organization",
+          title: "Crear Programa",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
         }
         
       ]

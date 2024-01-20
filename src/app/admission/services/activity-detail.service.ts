@@ -248,7 +248,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         activityMode:      '',
         activityType:      '',
         activityLocation:  '',
-        name:              '',
+        name: '',
+        cedula:''
       }
     ]
   }
@@ -269,6 +270,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     activityType: '',
     activityLocation: '',
     name: '',
+    cedula: '',
   };
   
    public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];

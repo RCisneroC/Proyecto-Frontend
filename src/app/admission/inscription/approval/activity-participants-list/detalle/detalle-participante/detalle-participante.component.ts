@@ -58,7 +58,7 @@ export class DetalleParticipanteComponent {
   }
 
   aprobar() {
-    // this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.ce; //cedula
+    this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.cedula; //cedula
     // this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.
     const dialogRef = this._dialog.open(ApproveParticipantComponent, {
           data: {
