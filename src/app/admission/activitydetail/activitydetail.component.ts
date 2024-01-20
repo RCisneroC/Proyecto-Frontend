@@ -509,16 +509,26 @@ export class ActivitydetailComponent implements OnInit {
   }
 
   generarConvocatoria(row: GetOneActivity) {
-    console.log('====================================');
-    console.log(row.id);
-    console.log('====================================');
-    var encrip = this._ActivityService.encryptData(row.id.toString(), 'Panama2019$');
-    this.urlConvocatoria = `${environment.base}details-inscription/${encrip}`;
-     Swal.fire({
-                title: "<strong>Escuela Judicial</strong>",
-                html: '<p>URL para la convocatoria</p><a target="_blank" href="http://'+this.urlConvocatoria+'">Ir</a>',
-                icon: "success"
-            });
+
+    this._ActivityService.VerificarDisponibilidadActividad(row.id).subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          var encrip = this._ActivityService.encryptData(row.id.toString(), 'Panama2019$');
+          this.urlConvocatoria = `${environment.base}details-inscription/${encrip}`;
+          Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL para la convocatoria</p><a target="_blank" href="' + this.urlConvocatoria + '">Ir</a>',
+            icon: "success"
+          });
+        } else {
+          Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL no está disponible, faltan datos requeridos para poder generar la convocatoria.</p>',
+            icon: "warning"
+          });
+        }
+      }
+    });
   }
   gestionarSalon() {
     localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);

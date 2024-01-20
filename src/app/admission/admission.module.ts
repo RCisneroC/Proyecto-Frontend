@@ -62,6 +62,8 @@ import { ViewLogoComponent } from './activitydetail/forms/view-logo/view-logo.co
 import { EditActivityFormsComponent } from './activitydetail/forms/edit-activity-forms/edit-activity-forms.component';
 import { ReservaSalonesComponent } from './activitydetail/forms/room-requests/forms/reserva-salones/reserva-salones.component';
 import { RequerimientoSalonesComponent } from './activitydetail/forms/room-requests/forms/requerimiento-salones/requerimiento-salones.component';
+import { NuevaSolicitudComponent } from './activitydetail/forms/room-requests/forms/nueva-solicitud/nueva-solicitud.component';
+import { ApprovedRoomsComponent } from './Approvals/form/approved-rooms/approved-rooms.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -122,6 +124,8 @@ import { RequerimientoSalonesComponent } from './activitydetail/forms/room-reque
     EditActivityFormsComponent,
     ReservaSalonesComponent,
     RequerimientoSalonesComponent,
+    NuevaSolicitudComponent,
+    ApprovedRoomsComponent,
     
   ],
   providers: [

@@ -133,20 +133,12 @@ implements OnInit{
         
       }
     })
-    console.log('====================================');
-    console.log(row);
-    console.log('====================================');
     
   }
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  /** Whether the number of selected elements matches the total number of rows. */
-
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-
- 
+  
   public loadData() {
     console.log("Cargando...");
     

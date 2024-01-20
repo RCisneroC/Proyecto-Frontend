@@ -6,6 +6,7 @@ import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-pos
 import { GetOneActivity, PosterRequest } from 'app/admission/models/GetOneActivity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-activity-external',
@@ -48,49 +49,63 @@ public paramsId: any;
   getOneActivity() {
     this.ArrayPrincipalPoster = [];
     this._ActivityService.loading = true;
-    this._ActivityService.GetOneActivity(this.converId).
-      subscribe({
-        next: (res: GetOneActivity) => {
-
-          console.log(res);
-
-          this._ActivityService._GetOneActivity = res;
-           this._ActivityService.loading = false;
-           res.posterRequests.forEach((element:PosterRequest) => {
-             if (element.posterType == 1 && element.statusId==5) {
-               this.PrincipalPoster = element;
-               this.ext = element.poster.contentType.split('/');
-               console.log('====================================');
-               console.log(this.ext);
-               console.log('====================================');
-               if (this.ext.length > 1) {
-                 if (this.ext[0] == 'image') {
-                   this.IsImage = true;
-                   this.RenderImage();
-                 } else {
-                   this.IsImage = false;
-                   this.renderPDF(element.poster.fileContents);
-                 }
-               }
-             } else {
-               if (element.statusId ==5) {
-                 console.log('====================================');
-                 console.log(element);
-                 console.log('====================================');
-                 this.ArrayPrincipalPoster.push(element);
-               }
-            }
-           });
-          console.log(this.ArrayPrincipalPoster);
-          
-        }, error: (err) => {
-          console.log(err);
-          this._router.navigate(['/']);
-        },
-        complete: () => {
-           this._ActivityService.loading = false;
+    this._ActivityService.VerificarDisponibilidadActividad(this.converId).subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          this._ActivityService.GetOneActivity(this.converId).
+            subscribe({
+              next: (res: GetOneActivity) => {
+      
+                console.log(res);
+      
+                this._ActivityService._GetOneActivity = res;
+                this._ActivityService.loading = false;
+                res.posterRequests.forEach((element: PosterRequest) => {
+                  if (element.posterType == 1 && element.statusId == 5) {
+                    this.PrincipalPoster = element;
+                    this.ext = element.poster.contentType.split('/');
+                    console.log('====================================');
+                    console.log(this.ext);
+                    console.log('====================================');
+                    if (this.ext.length > 1) {
+                      if (this.ext[0] == 'image') {
+                        this.IsImage = true;
+                        this.RenderImage();
+                      } else {
+                        this.IsImage = false;
+                        this.renderPDF(element.poster.fileContents);
+                      }
+                    }
+                  } else {
+                    if (element.statusId == 5) {
+                      console.log('====================================');
+                      console.log(element);
+                      console.log('====================================');
+                      this.ArrayPrincipalPoster.push(element);
+                    }
+                  }
+                });
+                console.log(this.ArrayPrincipalPoster);
+                
+              }, error: (err) => {
+                console.log(err);
+                this._router.navigate(['/']);
+              },
+              complete: () => {
+                this._ActivityService.loading = false;
+              }
+            });
+           
+        } else {
+            Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL no está disponible.</p>',
+            icon: "warning"
+          });
+           this._router.navigate(['/']);
         }
-      })
+      }
+    });
   }
 
   RenderImage() {

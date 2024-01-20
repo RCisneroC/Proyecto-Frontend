@@ -219,7 +219,7 @@ export class ExampleDataSource extends DataSource<User> {
           .slice()
           .filter((user: User) => {
             const searchStr = (
-              user.userName 
+              user.email 
               
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;

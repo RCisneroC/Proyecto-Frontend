@@ -100,6 +100,19 @@ ngOnInit():void{
     }
   }
 
+  validar() {
+    this._ActivityDetailService.VerificarDisponibilidadActividad(this.converId).subscribe({
+      next: (res: boolean) => {
+        if (!res) {
+         Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL no está disponible.</p>',
+            icon: "warning"
+          }); 
+        }
+      }
+    });
+  }
   regresar() {
     location.reload();
   }

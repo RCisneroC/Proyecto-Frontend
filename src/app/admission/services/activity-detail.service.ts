@@ -9,6 +9,7 @@ import { DetalleDocente, ListCourse, ListSpecialty, ListTraining } from '../mode
 import { Cooperating } from '../models/Cooperating';
 import { EditActivity } from '../models/EditActivity';
 import * as CryptoJS from 'crypto-js';
+import { RequestRooms } from '../models/RequestRooms';
 @Injectable({
   providedIn: 'root'
 })
@@ -218,12 +219,18 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     process:0,
     topics:0,
   };
+  public _RequestRooms: RequestRooms = {
+    activityId: 0,
+    endDate: new Date(),
+    startDate: new Date(),
+    id: 0,
+    statusId:0,
+  }
    public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
    isTblLoading = true;
-  dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<
-  PosterRequest[]
-    >([]);
+  dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<PosterRequest[]>([]);
+  dataChangeRooms: BehaviorSubject<RoomRequest[]> = new BehaviorSubject<RoomRequest[]>([]);
   public _EditActivity!: EditActivity;
   constructor(private httpClient: HttpClient) {
     super();
@@ -232,6 +239,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   get data(): PosterRequest[] {
     return this.dataChange.value;
   }
+
+    get dataRooms(): RoomRequest[] {
+    return this.dataChangeRooms.value;
+  }
+
   GetOneActivity(id:string) {
     return this.httpClient.get<GetOneActivity>(environment.apiUrlSchedule + 'Activity/GetBy?Id=' + id);
   }
@@ -296,6 +308,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrlSchedule + 'PosterRequest/Approve',data);
   }
 
+  ApprovedRooms(data:any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'Room/ApproveRequest',data);
+  }
+
   getPosterRequest(id:number) {
     return this.httpClient.get<PosterRequest>(environment.apiUrlSchedule + 'PosterRequest/GetBy?Id='+id);
   }
@@ -308,12 +324,21 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
           this.dataChange.next(data);
         },
         error: (error: HttpErrorResponse) => {
-          console.log('====================================');
-          console.log(error);
-          console.log('====================================');
         },
       });
   }
+
+    getRoomsRequest(id:any) {
+    return this.httpClient.get<RoomRequest[]>(environment.apiUrlSchedule + 'Room/GetAllRequest?StatusId='+id).subscribe({
+      next: (data) => {
+          this.isTblLoading = false;
+          this.dataChangeRooms.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+        },
+      });
+  }
+  
 
   // API GUARDAR DOCUMENTO.
 
@@ -347,13 +372,32 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     };
     return this.httpClient.delete(environment.apiUrlSchedule + 'PosterRequest/Delete',options);
   }
+  saveRequestRooms(data:RequestRooms) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Room/CreateRequest',data);
+  }
+   EditRequestRooms(data:RequestRooms) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'Room/UpdateRequest',data);
+  }
 
+    DeleteRequestRooms(id_request:any) {
+    let data = {
+      id:id_request
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Room/DeleteRequest',options);
+  }
 
+  VerificarDisponibilidadActividad(id:any) {
+    return this.httpClient.get<boolean>(environment.apiUrlSchedule + '/Activity/CheckConditionsBy?ActivityId='+id);
+  }
   encryptData(data: string, secretKey: string): string {
     try {
       let cadena = CryptoJS.AES.encrypt(data, secretKey).toString();
-      console.log(cadena);
-      
       const cadenaModificada = cadena.replace(/\//g, '~').replace(/\+/g, '_');
       return cadenaModificada;
   } catch (e) {
@@ -558,5 +602,14 @@ decryptData(encryptedData: string, secretKey: string): string {
       participationProfile:0,
       activityTarget:0,
     }
+  }
+  init_RequestRooms() {
+    this._RequestRooms = {
+    activityId: 0,
+    endDate: new Date(),
+    startDate: new Date(),
+    id: 0,
+    statusId:0,
+  }
   }
 }

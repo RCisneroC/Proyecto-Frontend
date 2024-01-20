@@ -14,7 +14,12 @@ export class SuppliesService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   dataChange: BehaviorSubject<Supplies[]> = new BehaviorSubject<Supplies[]>([]);
   // Temporarily stores data from dialogs
-  dialogData!: Supplies;
+  dialogData: Supplies = {
+    description: '',
+    id: 0,
+    name: '',
+    statusId:0
+  }
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -44,6 +49,12 @@ export class SuppliesService extends UnsubscribeOnDestroyAdapter {
       .get<Supplies[]>(environment.apiUrlSchedule+'RoomRequirement/GetAll');
   }
 
+   getAllSuppli2Filter(id:any) {
+   return this.httpClient
+      .get<Supplies[]>(environment.apiUrlSchedule+'RoomRequirement/GetAll?StatusId='+id);
+  }
+
+
   addSupplies(supplies: Supplies) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'RoomRequirement/Create', supplies);
   }
@@ -51,6 +62,25 @@ export class SuppliesService extends UnsubscribeOnDestroyAdapter {
   updateSupplies(supplies: Supplies) {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'RoomRequirement/Update', supplies);
   }
+
+  addSuppliesRequirement(data:any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRequirement',data);
+  }
+  
+    DeleteSuppliesRequirement(id_supplies:any,id_request:any) {
+    let data = {
+      roomRequestId: id_request,
+      roomRequirementId: id_supplies
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRequirement',options);
+  }
+
 
   DeleteSupplies(Id: number) {
     let data = {
