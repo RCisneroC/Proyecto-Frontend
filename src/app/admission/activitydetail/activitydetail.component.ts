@@ -91,7 +91,6 @@ export class ActivitydetailComponent implements OnInit {
     @ViewChild(MatPaginator) 
   set paginator(value: MatPaginator) {
       this.dataDocuments.paginator = value;
-      
   }
 
 

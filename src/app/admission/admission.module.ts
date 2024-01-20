@@ -39,7 +39,7 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
 // import { MatFileUploadModule } from 'angular-material-fileupload';
 import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
-import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
+import { ActivityParticipantsListComponent } from './inscription/approval/activity-participants-list/activity-participants-list.component';
 import { RequestRoomComponent } from './request-room/request-room.component';
 import { DocumentRequeridosComponent } from './activitydetail/forms/document-requeridos/document-requeridos.component';
 import { PosterRequeridosComponent } from './activitydetail/forms/poster-requeridos/poster-requeridos.component';
@@ -64,6 +64,14 @@ import { ReservaSalonesComponent } from './activitydetail/forms/room-requests/fo
 import { RequerimientoSalonesComponent } from './activitydetail/forms/room-requests/forms/requerimiento-salones/requerimiento-salones.component';
 import { NuevaSolicitudComponent } from './activitydetail/forms/room-requests/forms/nueva-solicitud/nueva-solicitud.component';
 import { ApprovedRoomsComponent } from './Approvals/form/approved-rooms/approved-rooms.component';
+import { ListscheduleComponent } from './inscription/approval/listschedule/listschedule.component';
+import { ListActivityComponent } from './inscription/approval/list-activity/list-activity.component';
+import { DetalleParticipanteComponent } from './inscription/approval/activity-participants-list/detalle/detalle-participante/detalle-participante.component';
+import { ApproveParticipantComponent } from './inscription/approval/activity-participants-list/detalle/approve-participant/approve-participant.component';
+import { ApprovalIncriptionComponent } from './inscription/educacionformal/approval/approval-incription/approval-incription.component';
+import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
+import { InfoAcademicaComponent } from './inscription/educacionformal/forms/info-academica/info-academica.component';
+import { InfoExperienciaComponent } from './inscription/educacionformal/forms/info-experiencia/info-experiencia.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -126,6 +134,14 @@ import { ApprovedRoomsComponent } from './Approvals/form/approved-rooms/approved
     RequerimientoSalonesComponent,
     NuevaSolicitudComponent,
     ApprovedRoomsComponent,
+    ListscheduleComponent,
+    ListActivityComponent,
+    DetalleParticipanteComponent,
+    ApproveParticipantComponent,
+    ApprovalIncriptionComponent,
+    BackofficeEFComponent,
+    InfoAcademicaComponent,
+    InfoExperienciaComponent,
     
   ],
   providers: [

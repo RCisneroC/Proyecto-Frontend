@@ -1,3 +1,4 @@
+ 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoungeListComponent } from './maestros/lounge-list/lounge-list.component';
@@ -21,11 +22,14 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
 
 import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
 import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
-import { ActivityParticipantsListComponent } from './inscription/activity-participants-list/activity-participants-list.component';
+import { ActivityParticipantsListComponent } from './inscription/approval/activity-participants-list/activity-participants-list.component';
 import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
 import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
 import { ListCooperatingOrganizationComponent } from './maestros/list-cooperating-organization/list-cooperating-organization.component';
 import { RoomRequestsComponent } from './activitydetail/forms/room-requests/room-requests.component';
+import { ListscheduleComponent } from './inscription/approval/listschedule/listschedule.component';
+import { ListActivityComponent } from './inscription/approval/list-activity/list-activity.component';
+import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
 const routes: Routes = [
 
   {
@@ -130,7 +134,15 @@ const routes: Routes = [
   },
   {
     path: "activity-participants-list",
-    component: ActivityParticipantsListComponent,
+    component: ListscheduleComponent,
+  },
+  {
+    path: "listado-participans/:id", //listo.
+    component:ActivityParticipantsListComponent,
+  },
+    {
+    path: "activity-inscription/:id",
+    component: ListActivityComponent,
   },
   {
     path: "list-curriculum-approve",
@@ -147,7 +159,11 @@ const routes: Routes = [
   {
     path: "list-rooms-approve",
     component: ListRequestRoomsComponent,
-  } 
+  },
+  {
+    path: "form-ef",
+    component:BackofficeEFComponent
+  }
 ];
 
 @NgModule({

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.development';
 import { Observable , of} from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Participant, ApiResponse } from '../../models/participant';
+import { Participant, ApiResponse, ParticipantActivity, GetDataResultResponse } from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
@@ -20,9 +20,15 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   public _ResponseInscripcion!: ResponseInscripcion;
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
+  dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
+
   get data(): Participant[] {
     return this.dataChange.value || [];
   }
+   get dataParticipantActivity(): GetDataResultResponse[] {
+    return this.dataChangeParticipant.value || [];
+  }
+
   constructor( private httpClient: HttpClient) {super(); }
 
   getDataPerson(cedula:string){
@@ -95,7 +101,25 @@ getParticipants(): void {
         console.log(error.name + ' ' + error.message);
       },
     });
-}
+  }
+  
+    getParticipanteActividad(id:any): void {
+    this.subs.sink = this.httpClient
+      .get<ParticipantActivity>(environment.apiEC+'GetData/Getinscritos?ActivityId='+id)
+      .subscribe({
+        next: (data) => {
+          console.log(data.getDataResultResponse);
+          
+          this.isTblLoading = false;
+          this.dataChangeParticipant.next(data.getDataResultResponse);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
 
   init_ResponseInscripcion() {
     this._ResponseInscripcion = {

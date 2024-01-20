@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
           title: "BackOffice",
           iconType: "",
           icon: "",
-          class: "",
+          class: "ml-menu",
           groupTitle: false,
           badge: "",
           badgeClass: "",
@@ -60,14 +60,39 @@ export const ROUTES: RouteInfo[] = [
           title: "Participantes",
           iconType: "",
           icon: "",
-          class: "",
+          class: "ml-menu",
           groupTitle: false,
           badge: "",
           badgeClass: "",
           submenu: []
         }
       ]
-    },
+  },
+    
+  {
+      path: "admission/",
+      title: "Inscripciones EF",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/form-ef",
+          title: "BackOffice",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        }
+      ]
+  },
+    
   {
     path: "",
     title: "Aprobaciones",

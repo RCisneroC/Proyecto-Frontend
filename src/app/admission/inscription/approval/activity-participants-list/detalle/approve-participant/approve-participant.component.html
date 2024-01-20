@@ -17,24 +17,22 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                                <mat-form-field class="example-full-width" appearance="fill">
-                                    <mat-label>Comentario</mat-label>
-                                    <textarea matInput formControlName="approvalMessage"></textarea>
-                                    <mat-error *ngIf="ApprovedForm.get('approvalMessage')?.hasError('required')">
-                                        El comentario es requerido
-                                    </mat-error>
-                                </mat-form-field>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <p><strong>Nombre:</strong> {{ data.participant.firstName }} {{ data.participant.lastName }}</p>
+                                <p><strong>Cédula:</strong> {{ data.participant.cedula }}</p>
+                                <p><strong>Actividad:</strong> {{ data.participant.activityName }}</p>
                             </div>
+
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Estado</mat-label>
-                                    <mat-select formControlName="isApproved">
+                                    <mat-select formControlName="statusId">
                                         <mat-option value="">.........</mat-option>
-                                        <mat-option value="4">Aprobar</mat-option>
-                                        <mat-option value="5">Rechazar</mat-option>
+                                        <mat-option value="1">Aprobar</mat-option>
+                                        <mat-option value="2">Rechazar</mat-option>
                                     </mat-select>
-                                    <mat-error *ngIf="ApprovedForm.get('isApproved')?.hasError('required')">
+                                    <mat-error *ngIf="ApprovedForm.get('statusId')?.hasError('required')">
                                         la Estado es requerido
                                     </mat-error>
                                 </mat-form-field>

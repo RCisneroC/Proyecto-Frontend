@@ -10,6 +10,7 @@ import { Cooperating } from '../models/Cooperating';
 import { EditActivity } from '../models/EditActivity';
 import * as CryptoJS from 'crypto-js';
 import { RequestRooms } from '../models/RequestRooms';
+import { ApiResponse, ApiResponseOne, Participant } from '../models/participant';
 @Injectable({
   providedIn: 'root'
 })
@@ -300,6 +301,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   ApproveCurilculum(data:any) {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/Approve',data);
   }
+
   ApproveCurilculumActivity(data:any) {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/ApproveActivity',data);
   }
@@ -395,6 +397,15 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   VerificarDisponibilidadActividad(id:any) {
     return this.httpClient.get<boolean>(environment.apiUrlSchedule + '/Activity/CheckConditionsBy?ActivityId='+id);
   }
+
+  GetParticipanteCedula(cedula:any) {
+    return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula='+cedula);
+  }
+
+    ApproveParticipant(data:any) {
+    return this.httpClient.post(environment.apiEC + 'ContinuingEducation/AddAR',data);
+  }
+  
   encryptData(data: string, secretKey: string): string {
     try {
       let cadena = CryptoJS.AES.encrypt(data, secretKey).toString();

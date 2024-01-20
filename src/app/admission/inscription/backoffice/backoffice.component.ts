@@ -22,7 +22,7 @@ export class BackofficeComponent implements OnInit {
     shortLink: string = ""; 
     files:{[key:number]:File[]}={};
     showFileSection=true;
-    form:FormGroup
+    form: FormGroup;
     displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
     loading:boolean=false;
     personData : any;
