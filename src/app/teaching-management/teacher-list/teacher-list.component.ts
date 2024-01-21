@@ -54,7 +54,7 @@ implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public TeacherService: TeacherService,
+    public _teacherService: TeacherService,
     private snackBar: MatSnackBar,
     private _nav:Router
   ) {
@@ -152,6 +152,27 @@ implements OnInit {
   Detail(row: Teacher) {
   
     this._nav.navigate(['/teaching-management/teacher-detail/',row.cedula]);
+  }
+  
+  Aproved(row: Teacher){
+   const ids: number[] = [row.teacherId];
+    this._teacherService.aprovedTeacher(ids).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Solicitud de aprobacion enviada.',
+                icon: "success"
+            });
+       this.loadData(); 
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
   }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);

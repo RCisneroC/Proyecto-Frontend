@@ -91,13 +91,13 @@
                               </ng-container>
                               
                               <ng-container matColumnDef="selected">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Aprobado
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                <div *ngIf="row.selected===true">
+                                <div *ngIf="row.selected">
                                     <mat-icon style="color: green;">check_circle_outline</mat-icon>
                                 </div>
-                                <div *ngIf="row.selected===false">
+                                <div *ngIf="!row.selected">
                                     <mat-icon style="color: red;">highlight_off</mat-icon>
                                 </div>
                                 </mat-cell> 
@@ -197,8 +197,8 @@
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                 
-                                  <button *ngIf="!row.selected"matTooltip="Aprobar docente" mat-mini-fab color="warn">
-                                    <app-feather-icons [icon]="'check-square'" ></app-feather-icons>
+                                  <button *ngIf="!row.selected" Tooltip="Aprobar docente" mat-icon-button color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
+                                    <app-feather-icons [icon]="'check-square'"  ></app-feather-icons>
                                 </button>
                                   <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                     class="tbl-action-btn">

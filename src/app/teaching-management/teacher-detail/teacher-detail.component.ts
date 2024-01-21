@@ -134,18 +134,15 @@ private fb: UntypedFormBuilder
       cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
+      email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
       selected: new FormControl(this.DataTeacher?.selected),
       dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
-      jobTitle: new FormControl(this.DataTeacher?.jobTitle),
-      graduateDegree: new FormControl(this.DataTeacher?.graduateDegree),
-      professionalExperience: new FormControl(this.DataTeacher?.professionalExperience),
-      teachingExperience: new FormControl(this.DataTeacher?.teachingExperience),
       listCourse: new FormControl(this.DataTeacher?.listCourse||[]),
       listTraining: new FormControl(this.DataTeacher?.listTraining||[]),
       listSpecialty: new FormControl(this.DataTeacher?.listSpecialty||[]),
-      process: new FormControl(this.DataTeacher?.process),
-      topics: new FormControl(this.DataTeacher?.topics)
+      process: new FormControl(this.DataTeacher?.process,[Validators.required]),
+     
     });
   }
   

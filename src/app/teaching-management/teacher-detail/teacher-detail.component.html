@@ -106,6 +106,18 @@
                                 </mat-form-field>
                               
                               </div>
+                              
+                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <mat-form-field class="example-full-width " appearance="outline">
+                                  <mat-label>Email</mat-label>
+                                <input matInput formControlName="email">
+                                
+                                  <mat-error *ngIf="teacherForm.get('email')?.hasError('required')">
+                                    el email es requerido
+                                  </mat-error>
+                                </mat-form-field>
+                              
+                              </div>
                               <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <mat-form-field class="example-full-width " appearance="outline">
                                   <mat-label>Título profesional</mat-label>
@@ -129,7 +141,7 @@
                               
                               </div> -->
                         </div>
-
+<!-- 
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <mat-form-field class="example-full-width " appearance="outline">
@@ -165,7 +177,7 @@
                               
                               </div>
                           
-                        </div>
+                        </div> -->
                         <div class="example-button-row">
                             <div class="col-6">
                              
