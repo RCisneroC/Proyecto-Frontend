@@ -17,7 +17,7 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
-                    <div #imageElement class="header" *ngIf="_ActivityService.loading==false" >
+                    <div #imageElement class="header" *ngIf="_ActivityService.loading===false" >
                         <h2 class="text-uppercase">Detalle de la actividad<strong> {{ _ActivityService._GetOneActivity.name }}</strong>  <span class="badge badge-solid-green">{{ _ActivityService._GetOneActivity.statusId|statusPipe }}</span>   <br> Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">

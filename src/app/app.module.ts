@@ -48,8 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    InscriptionExternalComponent
-   
+    InscriptionExternalComponent,
+    
    
    
     

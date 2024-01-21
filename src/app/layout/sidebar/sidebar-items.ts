@@ -272,7 +272,30 @@ export const ROUTES: RouteInfo[] = [
       ]
   },
   //inscripcion
-
+  {
+    path: "",
+    title: "Gestión Docente",
+    iconType: "feather",
+    icon: "lock",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    submenu: [
+      {
+        path: "/teaching-management/teacher-list",
+        title: "Docentes",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: [],
+      }
+    ]
+  
+  },
   //Seguridad
   {
     path: "",
