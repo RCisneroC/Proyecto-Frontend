@@ -6,7 +6,11 @@ import { environment } from 'environments/environment.development';
 import { ResponseGenerica } from '../models/ResponseMessage';
 import { BehaviorSubject } from 'rxjs';
 import { DetalleDocente, ListCourse, ListSpecialty, ListTraining } from '../models/docentes';
-
+import { Cooperating } from '../models/Cooperating';
+import { EditActivity } from '../models/EditActivity';
+import * as CryptoJS from 'crypto-js';
+import { RequestRooms } from '../models/RequestRooms';
+import { ApiResponse, ApiResponseOne, DetailsParticipante, DetailsResponse, Participant } from '../models/participant';
 @Injectable({
   providedIn: 'root'
 })
@@ -48,6 +52,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     activityId: 0,
     activityName: '',
     poster: this._Poster,
+    posterType:0,
     posterComments: [
       this._PosterComment
     ]
@@ -74,6 +79,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     approvalDate: new Date(),
     approvalMessage: '',
     activityId: 0,
+    activityName:'',
     roomRequestRooms: [
       this._RoomRequestRoom
     ],
@@ -121,14 +127,15 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       startDate: new Date(),
       plannedEndDate: new Date(),
       effectiveEndDate: new Date(),
-      startTime: new Date(),
-      endTime: new Date(),
+      inscriptionStartDate: new Date(),
+      inscriptionEndDate: new Date(),
       isExecuted: false,
       numOfAssignedTeachers: 0,
       hasDataSheet: false,
       dataSheetDeliveryDate: new Date(),
       digitalReportDeliveryDate: new Date(),
       physicalReportDeliveryDate: new Date(),
+      studentWithdrawalEndDate: new Date(),
       isEvaluation: false,
       observations: '',
       duration: 0,
@@ -145,6 +152,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       participants: 0,
       male: 0,
       female: 0,
+      activityTarget: 0,
+      participationProfile: 0,
+      studentQuota:0,
       certificatesReceived: 0,
       roomRequests: [
         this._RoomRequest
@@ -162,6 +172,13 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         this._ActivityCooperatingOrganization
       ]
   };
+  public _Cooperating: Cooperating = {
+    statusId:0,
+    id:0,
+    name:'',
+    logo:'',
+    description:'',
+  }
     public _ListCourse:ListCourse={
       courseId: 0,
       year:0
@@ -200,15 +217,66 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       [
         this._ListSpecialty
     ],
-    process:                0,
-    topics:                 0,
+    process:0,
+    topics:0,
   };
+  public _RequestRooms: RequestRooms = {
+    activityId: 0,
+    endDate: new Date(),
+    startDate: new Date(),
+    id: 0,
+    statusId:0,
+  }
+  public _DetailsParticipante: DetailsParticipante = {
+    isError: false,
+    message: '',
+    statusCode: 0,
+    detailsResponse: [
+      {
+        firstName:         '',
+        lastName:          '',
+        gender:            '',
+        dependency:        '',
+        cooperatingEntity: '',
+        position:          '',
+        province:          '',
+        judicialDistrict:  '',
+        activityName:      '',
+        startDate:         new Date(),
+        duration:          0,
+        totalHours:        0,
+        activityMode:      '',
+        activityType:      '',
+        activityLocation:  '',
+        name:              '',
+      }
+    ]
+  }
+  public _DetailsResponse: DetailsResponse = {
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dependency: '',
+    cooperatingEntity: '',
+    position: '',
+    province: '',
+    judicialDistrict: '',
+    activityName: '',
+    startDate: new Date(),
+    duration: 0,
+    totalHours: 0,
+    activityMode: '',
+    activityType: '',
+    activityLocation: '',
+    name: '',
+  };
+  
    public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
    isTblLoading = true;
-  dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<
-  PosterRequest[]
-  >([]);
+  dataChange: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<PosterRequest[]>([]);
+  dataChangeRooms: BehaviorSubject<RoomRequest[]> = new BehaviorSubject<RoomRequest[]>([]);
+  public _EditActivity!: EditActivity;
   constructor(private httpClient: HttpClient) {
     super();
     // this.initService()
@@ -216,9 +284,18 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   get data(): PosterRequest[] {
     return this.dataChange.value;
   }
+
+    get dataRooms(): RoomRequest[] {
+    return this.dataChangeRooms.value;
+  }
+
   GetOneActivity(id:string) {
     return this.httpClient.get<GetOneActivity>(environment.apiUrlSchedule + 'Activity/GetBy?Id=' + id);
   }
+  UpdateActivity(data:EditActivity) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity',data);
+  }
+
   SavePoster(data:any) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'PosterRequest/Create',data);
   }
@@ -268,6 +345,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   ApproveCurilculum(data:any) {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/Approve',data);
   }
+
   ApproveCurilculumActivity(data:any) {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/ApproveActivity',data);
   }
@@ -276,12 +354,15 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrlSchedule + 'PosterRequest/Approve',data);
   }
 
-    getPosterRequest(id:number) {
+  ApprovedRooms(data:any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'Room/ApproveRequest',data);
+  }
+
+  getPosterRequest(id:number) {
     return this.httpClient.get<PosterRequest>(environment.apiUrlSchedule + 'PosterRequest/GetBy?Id='+id);
   }
 
-
-  
+ 
   getRequestPoster(id:any) {
     return this.httpClient.get<PosterRequest[]>(environment.apiUrlSchedule + 'PosterRequest/GetAll?StatusId='+id).subscribe({
         next: (data) => {
@@ -289,12 +370,21 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
           this.dataChange.next(data);
         },
         error: (error: HttpErrorResponse) => {
-          console.log('====================================');
-          console.log(error);
-          console.log('====================================');
         },
       });
   }
+
+    getRoomsRequest(id:any) {
+    return this.httpClient.get<RoomRequest[]>(environment.apiUrlSchedule + 'Room/GetAllRequest?StatusId='+id).subscribe({
+      next: (data) => {
+          this.isTblLoading = false;
+          this.dataChangeRooms.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+        },
+      });
+  }
+  
 
   // API GUARDAR DOCUMENTO.
 
@@ -328,7 +418,67 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     };
     return this.httpClient.delete(environment.apiUrlSchedule + 'PosterRequest/Delete',options);
   }
+  saveRequestRooms(data:RequestRooms) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Room/CreateRequest',data);
+  }
+   EditRequestRooms(data:RequestRooms) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'Room/UpdateRequest',data);
+  }
 
+    DeleteRequestRooms(id_request:any) {
+    let data = {
+      id:id_request
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Room/DeleteRequest',options);
+  }
+
+  VerificarDisponibilidadActividad(id:any) {
+    return this.httpClient.get<boolean>(environment.apiUrlSchedule + '/Activity/CheckConditionsBy?ActivityId='+id);
+  }
+
+  GetParticipanteCedula(cedula:any) {
+    return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula='+cedula);
+  }
+
+  ApproveParticipant(data:any) {
+    return this.httpClient.post(environment.apiEC + 'ContinuingEducation/AddAR',data);
+  }
+  
+  GetDetailsCedula(cedula:any) {
+    return this.httpClient.get<DetailsParticipante>(environment.apiEC + 'GetData/GetDetail?cedula='+cedula);
+  }
+
+  encryptData(data: string, secretKey: string): string {
+    try {
+      let cadena = CryptoJS.AES.encrypt(data, secretKey).toString();
+      const cadenaModificada = cadena.replace(/\//g, '~').replace(/\+/g, '_');
+      return cadenaModificada;
+  } catch (e) {
+    console.error('Error during encryption', e);
+    return '';
+  }
+}
+decryptData(encryptedData: string, secretKey: string): string {
+  try {
+    const cadenaModificada = encryptedData.replace(/~/g, '/').replace(/_/g, '+');
+    
+    const bytes = CryptoJS.AES.decrypt(cadenaModificada, secretKey);
+    if (bytes.toString()) {
+      let cadena = bytes.toString(CryptoJS.enc.Utf8);
+      return cadena;
+    }
+    return '';
+  } catch (e) {
+    console.error('Error during decryption', e);
+    return '';
+  }
+}
   initService() {
     this._GetOneActivity = {
       statusId: 0,
@@ -353,17 +503,21 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       startDate: new Date(),
       plannedEndDate: new Date(),
       effectiveEndDate: new Date(),
-      startTime: new Date(),
-      endTime: new Date(),
+      inscriptionStartDate: new Date(),
+      inscriptionEndDate: new Date(),
       isExecuted: false,
       numOfAssignedTeachers: 0,
       hasDataSheet: false,
       dataSheetDeliveryDate: new Date(),
       digitalReportDeliveryDate: new Date(),
       physicalReportDeliveryDate: new Date(),
+      studentWithdrawalEndDate: new Date(),
       isEvaluation: false,
       observations: '',
       duration: 0,
+      activityTarget: 0,
+      participationProfile: 0,
+      studentQuota:0,
       totalHours: 0,
       onSiteHours: 0,
       synchronousHours: 0,
@@ -413,7 +567,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       approvalMessage:'',
       activityId:0,
       poster: this._Poster,
-      activityName:'',
+      activityName: '',
+      posterType:0,
       posterComments: [
         this._PosterComment
       ]
@@ -438,7 +593,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       approvedBy:'',
       approvalDate:new Date(),
       approvalMessage:'',
-      activityId:0,
+      activityId: 0,
+      activityName:'',
       roomRequestRooms:[
         this._RoomRequestRoom
       ],
@@ -462,5 +618,57 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       id:0,
       room:this._ActivityRequirement,
     }
+  }
+
+  init_EditActivity() {
+    this._EditActivity = {
+      statusId:0,
+      name:'',
+      description:'',
+      id: 0,
+      activityModeId:0,
+      activityTypeId:0,
+      activityLocationId:0,
+      activityFundsSourceId:0,
+      activityReasonId:0,
+      curriculumDesignId:0,
+      assignedCoordinatorId:'',
+      numOfAssignedTeachers:0,
+      studentQuota:0,
+      planningDate:new Date(),
+      startDate:new Date(),
+      plannedEndDate:new Date(),
+      effectiveEndDate:new Date(),
+      inscriptionStartDate:new Date(),
+      inscriptionEndDate:new Date(),
+      studentWithdrawalEndDate:new Date(),
+      dataSheetDeliveryDate:new Date(),
+      digitalReportDeliveryDate:new Date(),
+      physicalReportDeliveryDate:new Date(),
+      isExecuted:false,
+      hasDataSheet:false,
+      isEvaluation:false,
+      observations:'',
+      duration:0,
+      totalHours:0,
+      onSiteHours:0,
+      synchronousHours:0,
+      asynchronousHours:0,
+      competencies:'',
+      content:'',
+      learningActivities:'',
+      electronicEvaluation:false,
+      participationProfile:0,
+      activityTarget:0,
+    }
+  }
+  init_RequestRooms() {
+    this._RequestRooms = {
+    activityId: 0,
+    endDate: new Date(),
+    startDate: new Date(),
+    id: 0,
+    statusId:0,
+  }
   }
 }

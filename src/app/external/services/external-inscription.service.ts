@@ -44,14 +44,4 @@ updateParticipant(participantData: any): Observable<any> {
   const url = `${environment.apiEC}`;
   return this.httpClient.post(url+"EJcontinuingEducation/Addparticipant", participantData);
 }
-
-// updateParticipant(participantData: any): Observable<any> {
-//   // Replace ':id' with the actual participant ID if needed
-//   const participantId = participantData.id;
-//   const url = `${this.apiUrl}/participants/${participantId}`;
-
-//   // Make the PUT request
-//   return this.http.put(url, participantData);
-// }
-
 }

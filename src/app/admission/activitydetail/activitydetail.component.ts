@@ -18,6 +18,8 @@ import { ViewPosterPDFComponent } from './forms/view-poster-pdf/view-poster-pdf.
 import { Cooperating } from '../models/Cooperating';
 import { CooperationgOrganizationService } from '../maestros/services/cooperationg-organization.service';
 import { ViewLogoComponent } from './forms/view-logo/view-logo.component';
+import { EditActivityFormsComponent } from './forms/edit-activity-forms/edit-activity-forms.component';
+import { environment } from 'environments/environment.development';
 
 export class PeriodicElement {
   name!: string;
@@ -31,7 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   styleUrls: ['./activitydetail.component.scss']
 })
 export class ActivitydetailComponent implements OnInit {
-
+  public urlConvocatoria: string = '';
   DisplayNameDocument: string[] = [
     'Id',
     'nombre',
@@ -89,7 +91,6 @@ export class ActivitydetailComponent implements OnInit {
     @ViewChild(MatPaginator) 
   set paginator(value: MatPaginator) {
       this.dataDocuments.paginator = value;
-      
   }
 
 
@@ -177,6 +178,7 @@ export class ActivitydetailComponent implements OnInit {
     this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
     this.dataDocuments.paginator = this.paginator;
   }
+  
   delete(row: ActivityRequirement) {
     this._ActivityService.DeleteDocumentRequirement(row.id, this.paramsId).subscribe({
       next: () => {
@@ -288,8 +290,6 @@ export class ActivitydetailComponent implements OnInit {
   }
   volverAtras() {
     let url = localStorage.getItem('url') ||'' ;
-
-    // if
     this._router.navigate([url]);
   }
   viewDocumento(row: PosterRequest) {
@@ -435,4 +435,103 @@ export class ActivitydetailComponent implements OnInit {
     });
   }
 
+  editarActividad(row: GetOneActivity) {
+    
+    this._ActivityService._EditActivity = {
+      statusId:row.statusId,
+      name:row.name,
+      description:row.description,
+      id:row.id,
+      activityModeId:row.activityModeId,
+      activityTypeId:row.activityTypeId,
+      activityLocationId:row.activityLocationId,
+      activityFundsSourceId:row.activityFundsSourceId,
+      activityReasonId:row.activityReasonId,
+      curriculumDesignId:row.curriculumDesignId,
+      assignedCoordinatorId:row.assignedCoordinatorId,
+      numOfAssignedTeachers:row.numOfAssignedTeachers,
+      studentQuota:row.studentQuota,
+      planningDate:row.planningDate,
+      startDate:row.startDate,
+      plannedEndDate:row.plannedEndDate,
+      effectiveEndDate:row.effectiveEndDate,
+      inscriptionStartDate:row.inscriptionStartDate,
+      inscriptionEndDate:row.inscriptionEndDate,
+      studentWithdrawalEndDate:row.studentWithdrawalEndDate,
+      dataSheetDeliveryDate:row.dataSheetDeliveryDate,
+      digitalReportDeliveryDate:row.digitalReportDeliveryDate,
+      physicalReportDeliveryDate:row.physicalReportDeliveryDate,
+      isExecuted:row.isExecuted,
+      hasDataSheet:row.hasDataSheet,
+      isEvaluation:row.isEvaluation,
+      observations:row.observations,
+      duration:row.duration,
+      totalHours:row.totalHours,
+      onSiteHours:row.onSiteHours,
+      synchronousHours:row.synchronousHours,
+      asynchronousHours:row.asynchronousHours,
+      competencies:row.competencies,
+      content:row.content,
+      learningActivities:row.learningActivities,
+      electronicEvaluation:row.electronicEvaluation,
+      participationProfile:row.participationProfile,
+      activityTarget:row.activityTarget
+    }
+    console.log(this._ActivityService._EditActivity);
+     const dialogRef = this._dialog.open(EditActivityFormsComponent, {
+      data: {
+        actividad: this._ActivityService._EditActivity,
+        accion: 'editar-actividad'
+      },
+      disableClose: true,
+     });
+    
+     dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+            this.getOneActivity()
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+     });
+  }
+
+  generarConvocatoria(row: GetOneActivity) {
+
+    this._ActivityService.VerificarDisponibilidadActividad(row.id).subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          var encrip = this._ActivityService.encryptData(row.id.toString(), 'Panama2019$');
+          this.urlConvocatoria = `${environment.base}details-inscription/${encrip}`;
+          Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL para la convocatoria</p><a target="_blank" href="' + this.urlConvocatoria + '">Ir</a>',
+            icon: "success"
+          });
+        } else {
+          Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL no está disponible, faltan datos requeridos para poder generar la convocatoria.</p>',
+            icon: "warning"
+          });
+        }
+      }
+    });
+  }
+  gestionarSalon() {
+    localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);
+    this._router.navigate(['/admission/reservar-salones/' + this.paramsId]);
+    // [routerLink]="['/admission/reservar-salones/'+_ActivityService._GetOneActivity.id]"
+  }
 }

@@ -32,8 +32,8 @@ implements OnInit{
         //  'assignedCoordinatorName',
          'activityReasonName',
          'activityFundsSourceName',
-         'startTime',
-         'endTime',
+         'inscriptionStartDate',
+         'inscriptionEndDate',
          'status',
          'actions',
   ];

@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExternalInscriptionService } from '../services/external-inscription.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from "@angular/common/http";
 import { throwError } from "rxjs";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
+import { GetOneActivity } from 'app/admission/models/GetOneActivity';
+import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
+import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
+import { Requirement } from 'app/admission/models/Requeriminet';
+import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import { ValidateFileResponse, VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 
 @Component({
   selector: 'app-inscription-external',
@@ -13,65 +20,68 @@ import Swal from 'sweetalert2';
   styleUrls: ['./inscription-external.component.scss']
 })
 export class InscriptionExternalComponent implements OnInit {
-  shortLink: string = ""; 
-  loadingFile: boolean = false; // Flag variable 
-  files:{[key:number]:File[]}={};
-  showFileSection=false;
-
-
-
-
-
-form:FormGroup
-displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
-loading:boolean=false;
-personData : any;
-activities:any[]=[];
-schedule:any[]=[];
-activityRequirements:any[]=[];
-disabled:boolean = false;
-mostrarActividad:boolean=true;
-mostrarCronograma:boolean=true;
-fileSelected:boolean=false
-selected = '';
-selectedSchedule:any = {};
-filteredActivities: any[] = [];
-filteredSchedule:any[]=[];
-showMessage: boolean = false;
-messageType: 'error' | 'info' = 'info';
-errorMessage: string = '';
-infoMessage: string = '';
-selectedActivity: any;
-status: "initial" | "uploading" | "success" | "fail" = "initial";
-idActivity?:number;
-cedulaParticipant:string="";
-
-constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private _externalInscriptionService:ExternalInscriptionService ,private http: HttpClient ,  private activatedRoute: ActivatedRoute,){
+    shortLink: string = ""; 
+    files:{[key:number]:File[]}={};
+    showFileSection=true;
+    form:FormGroup
+    displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
+    loading:boolean=false;
+    personData : any;
+    activities:any[]=[];
+    schedule:any[]=[];
+    activityRequirements!:GetOneActivity;
+    disabled:boolean = false;
+    mostrarActividad:boolean=true;
+    mostrarCronograma:boolean=true;
+    fileSelected:boolean=false
+    selected = '';
+    selectedSchedule:any = {};
+    filteredActivities: any[] = [];
+    filteredSchedule:any[]=[];
+    showMessage: boolean = false;
+    messageType: 'error' | 'info' = 'info';
+    errorMessage: string = '';
+    infoMessage: string = '';
+    selectedActivity: any;
+    status: "initial" | "uploading" | "success" | "fail" = "initial";
+    idActivity: any;
+    cedulaParticipant:string="";
+    loadingFile: boolean = false;
+  IsError: boolean = false;
+   public converId: any;
+  constructor(private fb:
+    FormBuilder,
+    private Path: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    private _externalInscriptionService: ExternalInscriptionService,
+    private http: HttpClient,
+    public _ActivityDetailService: ActivityDetailService,
+    private _inscriptionService: InscriptionService,
+    public _router: Router,
+    public elm: ElementRef
+  ) {
   // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
-  this.form=this.fb.group({
-    firstName:['', Validators.required],
-    lastName:['', Validators.required],
-    secondSurname:['', Validators.required],
-    gender:['', Validators.required],
-    cedula:['', Validators.required],
-    institution:['',Validators.required],
-    email:['', [Validators.required, Validators.email]],
-    university:['',Validators.required],
-    dependency:['',Validators.required],
-    cooperatingEntity:['',Validators.required],
-    position:['',Validators.required],
-    province:['', Validators.required],
-    judicialDistrict:['', Validators.required],
-    invitationDate: new Date().toISOString(),
-    activityId: [null, Validators.required],
-    observation:['', Validators.required],
-
-
-  })
+this.form=this.fb.group({
+      firstName:['', Validators.required],
+      lastName:['', Validators.required],
+      secondSurname:['', Validators.required],
+      gender:['', Validators.required],
+      cedula:['', Validators.required],
+      institution:['',Validators.required],
+      email:['', [Validators.required, Validators.email]],
+      university:['',Validators.required],
+      dependency:['',Validators.required],
+      cooperatingEntity:['',Validators.required],
+      position:['',Validators.required],
+      province:['', Validators.required],
+      judicialDistrict:['', Validators.required],
+      invitationDate: new Date().toISOString(),
+      activityId: [this.converId],
+      observation:['...............', Validators.required],
+    })
 
 }
 ngOnInit():void{
-   
     this._externalInscriptionService.getShedule().subscribe({
         next:(data)=>{
           this.schedule=data;
@@ -82,216 +92,295 @@ ngOnInit():void{
         complete:()=> console.info('Complete')
     })
 
-    this.activatedRoute.params.subscribe((params) => {
-      this.idActivity = params['id'];
-      this.form.patchValue({
-        activityId: this.idActivity,
-      });
-     
-  })
- 
+    this.idActivity = this.Path.snapshot.params['id'];
+    if (this.idActivity != null) {
+      this.converId = this._ActivityDetailService.decryptData(this.idActivity, 'Panama2019$');
+    } else {
+      this._router.navigate(['/']);
+    }
+  }
+
+  validar() {
+    this._ActivityDetailService.VerificarDisponibilidadActividad(this.converId).subscribe({
+      next: (res: boolean) => {
+        if (!res) {
+         Swal.fire({
+            title: "<strong>Escuela Judicial</strong>",
+            html: '<p>URL no está disponible.</p>',
+            icon: "warning"
+          }); 
+        }
+      }
+    });
+  }
+  regresar() {
+    location.reload();
+  }
+  getPersonData(cedula: string){
+    this.loading=false;
+    this.disabled=true;
+    
+   if(!cedula){
    
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: 'Por favor, ingrese una cédula',
+      icon: "warning"
+    });
 
-}
+   }else{
+    this.loading=true;
+    this.cedulaParticipant=cedula;
+      this._inscriptionService.getDataPerson(cedula).subscribe({
+        next:(data)=>{
+          
+          this.loading=false;
+          this.disabled=true;
+          this.personData=data;
+          console.log('Datos de la persona:', data[0]?.datasetPersona);
+        },
+        error:(e)=>this.loading=false,
+        complete:()=> console.info('Complete')
+      })
 
-getPersonData(cedula: string){
-  this.loading=false;
-  this.disabled=true;
-  
- if(!cedula){
- 
-  Swal.fire({
-    title: "Escuela Judicial",
-    text: 'Por favor, ingrese una cédula',
-    icon: "warning"
-  });
+   }
+    
 
- }else{
-  this.loading=true;
-  this.cedulaParticipant=cedula;
-    this._externalInscriptionService.getDataPerson(cedula).subscribe({
-      next:(data)=>{
+  }
+
+  getActivities(idSchedule: string) {
+    this.showMessage = false;
+    this.mostrarActividad = false;
+    this._inscriptionService.getActivities(idSchedule).subscribe({
+      next: (data) => {
+        this.activities = data;
         
-        this.loading=false;
-        this.disabled=true;
-        this.personData=data;
-        console.log('Datos de la persona:', data[0]?.datasetPersona);
+        // Actualiza las opciones de actividades
+        this.filteredActivities = data;
       },
-      error:(e)=>this.loading=false,
-      complete:()=> console.info('Complete')
-    })
-
- }
-  
-
-}
-
-getActivities(idSchedule: string) {
-  this.showMessage = false;
-  this.mostrarActividad = false;
-  this._externalInscriptionService.getActivities(idSchedule).subscribe({
-    next: (data) => {
-      this.activities = data;
-      
-      // Actualiza las opciones de actividades
-      this.filteredActivities = data;
-    },
-    error: (e) => this.loading = false,
-    complete: () => console.info('Complete')
-  });
-}
+      error: (e) => this.loading = false,
+      complete: () => console.info('Complete')
+    });
+  }
 
 
 getSchedule(){
-if(this.selectedSchedule==''){
-  this.showMessage=true;
-}else{
-this.showMessage=false;
-this.mostrarCronograma=false;
-this._externalInscriptionService.getShedule().subscribe({
-    next:(data)=>{
-      this.schedule=data;
-      this.getActivities(data.id)
-      console.log('Cronogrmas :', data, this.activities);
-    },
-    error:(e)=>this.loading=false,
-    complete:()=> console.info('Complete')
-})
-
-}
-
-}
-
-onActivityChange(value: string): void{
-  if(this.selected==''){
+  if(this.selectedSchedule==''){
     this.showMessage=true;
-}else{
+  }else{
   this.showMessage=false;
-  this.filteredActivities = this.activities.filter(activity =>
-    activity.name.toLowerCase().includes(value.toLowerCase())
-  );
-
-
-}
-  
-}
-
-onScheduleChange(selectedSchedule:any): void{
-  if (!selectedSchedule) {
-    this.showMessage = true;
-  } else {
-    this.showMessage = false;
-    this.filteredSchedule = this.schedule.filter(schedule =>
-      schedule.name.toLowerCase().includes(selectedSchedule.name.toLowerCase())
-    );
-    this.getActivities(String(selectedSchedule.id))
-  }
-  
-}
-
-cambiarAIInscripcion(){
-  this.mostrarActividad=false;
-}
-
-generateId(): string {
-  const timestamp = Date.now();
-  const randomNumber = Math.floor(Math.random() * 1000000);
-
-  return `${timestamp}-${randomNumber}`;
-}
-
-isActivityDisabled(activity: any): boolean {
-  
-  const effectiveEndDate = new Date(activity.effectiveEndDate);
-  const currentDate = new Date();
-  console.log(effectiveEndDate, currentDate)
-  if (currentDate > effectiveEndDate) {
-   
-    this.errorMessage = '';
-    this.infoMessage = 'Inscripción permitida.';
-    return false; 
-  } else {
-    this.errorMessage = 'Inscripción no permitida. La fecha de inscripción ha expirado.';
-    this.infoMessage = '';
-    return true; 
-  }
-}
-displayFn(schedule: any): string {
-  return schedule && schedule.name ? schedule.name : '';
-}
-
-
-
-
-addParticipant() {
-  if(!this.showFileSection){
-    this._externalInscriptionService.getActivity(String(this.idActivity)).subscribe({
+  this.mostrarCronograma=false;
+  this._inscriptionService.getShedule().subscribe({
       next:(data)=>{
-        this.activityRequirements=data.activityActivityRequirements ;
-        console.log('REQUERIMINETOS :', this.activityRequirements);
+        this.schedule=data;
+        this.getActivities(data.id)
+        console.log('Cronogrmas :', data, this.activities);
       },
       error:(e)=>this.loading=false,
       complete:()=> console.info('Complete')
   })
 
-  this._externalInscriptionService.updateParticipant(this.form.value).subscribe({
-    next: (data) => {
-      console.log('Participant added successfully:', data);
-    },
-    error: (error) => {
-      console.error('Error adding participant:', error);
-    },
-  });
+}
 
-    this.showFileSection=true;
-    
-   
+}
+
+  onActivityChange(value: string): void{
+    if(this.selected==''){
+      this.showMessage=true;
+  }else{
+    this.showMessage=false;
+    this.filteredActivities = this.activities.filter(activity =>
+      activity.name.toLowerCase().includes(value.toLowerCase())
+    );
+
+
   }
+    
+  }
+
+  onScheduleChange(selectedSchedule:any): void{
+    if (!selectedSchedule) {
+      this.showMessage = true;
+    } else {
+      this.showMessage = false;
+      this.filteredSchedule = this.schedule.filter(schedule =>
+        schedule.name.toLowerCase().includes(selectedSchedule.name.toLowerCase())
+      );
+      this.getActivities(String(selectedSchedule.id))
+    }
+    
+  }
+
+  cambiarAIInscripcion(){
+    this.mostrarActividad=false;
+  }
+
+  generateId(): string {
+    const timestamp = Date.now();
+    const randomNumber = Math.floor(Math.random() * 1000000);
+
+    return `${timestamp}-${randomNumber}`;
+  }
+
+  isActivityDisabled(activity: any): boolean {
+    
+    const effectiveEndDate = new Date(activity.effectiveEndDate);
+    const currentDate = new Date();
+    console.log(effectiveEndDate, currentDate)
+    if (currentDate > effectiveEndDate) {
+     
+      this.errorMessage = '';
+      this.infoMessage = 'Inscripción permitida.';
+      return false; 
+    } else {
+      this.errorMessage = 'Inscripción no permitida. La fecha de inscripción ha expirado.';
+      this.infoMessage = '';
+      return true; 
+    }
+  }
+  displayFn(schedule: any): string {
+    return schedule && schedule.name ? schedule.name : '';
+  }
+
+  
+ 
+  getActividad() {
+  this._ActivityDetailService.GetOneActivity(this.idActivity?.toString()).
+      subscribe({
+        next: (res: GetOneActivity) => {
+          this._ActivityDetailService._GetOneActivity = res;
+          this.activityRequirements = res;
+          console.log(this.activityRequirements);
+          // this.showFileSection = true;
+        },
+        error: (err:any) => {
+        },
+        complete: () => {
+           this._ActivityDetailService.loading = false;
+        }
+      })
+  }
+  addParticipant() {
+    this.form.controls['activityId'].setValue(this.converId);
+    this._inscriptionService.init_ResponseInscripcion();
+      this._ActivityDetailService.GetOneActivity(this.converId?.toString()).
+      subscribe({
+        next: (res: GetOneActivity) => {
+          this._ActivityDetailService._GetOneActivity = res;
+          this.activityRequirements = res;
+          console.log(this.activityRequirements);
+          
+        },
+        error: (err:any) => {
+        },
+        complete: () => {
+           this._ActivityDetailService.loading = false;
+        }
+      })
+
+
+    this._inscriptionService.updateParticipant(this.form.value).subscribe({
+      next: (data: ResponseInscripcion) => {
+        this._inscriptionService._ResponseInscripcion = data;
+         Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Creado correctamente, siguiente paso: cargar los documentos requeridos por la actividad.',
+                icon: "success"
+         });
+        this.verificarDocumentacion();
+        this.showFileSection=false;
+      },
+      error: (error) => {
+         this.showFileSection=true;
+         Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Intente nuevamente..',
+                icon: "warning"
+            });
+      },
+    });
+ }
+
+  onFileSelected(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      this.form.get('file')?.setValue(file);
+    }
+  }
+  onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
+    console.log(name);
+    this.loadingFile = true;
+    const files:FileList = event.target.files;
+    console.log(requirement.name);
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+    if (files.length > 0) {
+      var formdata = new FormData();
+      formdata.append('cedula', this._inscriptionService._ResponseInscripcion.cedula);
+      formdata.append('FileType', requerimentId.toString());
+      formdata.append('InscriptionId', this._inscriptionService._ResponseInscripcion.inscriptionId.toString());
+      formdata.append('File', files[0]);
+      this._inscriptionService.CargaDocumentoRequirement(formdata).subscribe({
+        next: (res:ResponseEF) => {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: '('+requirement.name+') '+res.message,
+                icon: "success"
+            });
+          
+          elementImg.value = '';
+          elementText.innerHTML  = '('+requirement.name+') '+'Cargado Correctamente.';
+          this.loadingFile = false;
+          // this.verificarDocumentacion();
+        }, error: (err) => {
+          elementImg.value = '';
+          Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Intente nuevamente..',
+                icon: "warning"
+          });
+           this.loadingFile = false;
+        }
+      })
+    }
+  }
+  verificarDocumentacion() {
+    this.loadingFile = true;
+    this._inscriptionService.init_VerificarDocumentacion();
+    this._inscriptionService.ValidationDocumentRequirement(this._inscriptionService._ResponseInscripcion.inscriptionId).subscribe({
+      next: (res: VerificarDocumentacion) => {
+         const encontrado = res.validateFileResponse.some(item => item.mss === "Falta");
+         if(encontrado) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: `Faltan documentos requeridos`,
+                icon: "warning"
+            });
+          this.IsError = true;
+        } else {
+           Swal.fire({
+                title: "Escuela Judicial",
+                text: `Documentos Cargados correctamente.`,
+                icon: "success"
+            });
+          this.IsError = false;
+        }
+      },
+      error: () => {
+        this.loadingFile = false;
+         Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Intente nuevamente..',
+                icon: "warning"
+          });
+      },
+      complete: () => {
+        this.loadingFile = false;
+      }
+    })
+  }
+
   
 }
-
-onFileSelected(event: any) {
-  const fileInput = event.target;
-  if (fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    this.form.get('file')?.setValue(file);
-  }
-}
-onChangeFile(event: any, requerimentId: number) {
-  const files:FileList = event.target.files;
-
-  if (files.length) {
-    this.status = "initial";
-    this.files[requerimentId] = Array.from(files);
-  }
-}
-onUpload() {
-  this.fileSelected=true
-  if (Object.keys(this.files).length) {
-    const formData = new FormData();
-    formData.append("cedula", this.cedulaParticipant);
-    Object.values(this.files).forEach((fileArray) => {
-      fileArray.forEach((file)=>{
-        formData.append("File", file, file.name);
-      })
-     
-    });
-
-    const upload$ = this.http.post("https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/EFInscription/AddDoc", formData);
-
-    this.status = "uploading";
-
-    upload$.subscribe({
-      next: () => {
-        this.status = "success";
-      },
-      error: (error: any) => {
-        this.status = "fail";
-        return throwError(() => error);
-      },
-    });
-  }
-} 
-
-
-} 

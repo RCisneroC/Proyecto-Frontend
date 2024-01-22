@@ -150,7 +150,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllSchedule();
+    this.exampleDatabase.getAllScheduleId('5');
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

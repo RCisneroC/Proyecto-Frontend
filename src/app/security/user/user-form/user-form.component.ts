@@ -49,7 +49,7 @@ public ResponseMessage: ResponseMessageMaestra = {
       this.user = new User();
       this.user.statusId=1;
     }
-    this.userForm = this.createContactForm();
+    this.userForm = this.createContactForm(this.action);
     // this._roleService.getAllRols();
     // this.roleList =this._roleService.data.map((x)=>x
     // );
@@ -69,11 +69,14 @@ public ResponseMessage: ResponseMessageMaestra = {
       ? 'Not a valid email'
       : '';
   }
-  createContactForm(): UntypedFormGroup {
-      console.log('====================================');
-      console.log(this.user.roles[0]);
-      console.log('====================================');
-    let rol = this.user.roles[0];
+  createContactForm(acc:string): UntypedFormGroup {
+    let rol = '';
+    if (acc != 'edit') {
+      rol = '';
+    } else {
+      
+      rol = this.user.roles[0];
+    }
     return this.fb.group({
       id: [this.user.id],
       userName: [this.user.userName, [Validators.required]],

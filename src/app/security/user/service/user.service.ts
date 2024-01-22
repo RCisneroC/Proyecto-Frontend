@@ -48,6 +48,12 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<User[]>(environment.apiUrl+'GetAllUsers');  
   }
+
+  getAllUsersRol() {
+    return this.httpClient
+      .get<User[]>(environment.apiUrl+'GetAllUsers');  
+  }
+
   addUser(user: User) {
     this.dialogData = user;
 

@@ -3727,6 +3727,15 @@
         "hash": "sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA=="
       }
     },
+    "npm:@types/crypto-js": {
+      "type": "npm",
+      "name": "npm:@types/crypto-js",
+      "data": {
+        "version": "4.2.1",
+        "packageName": "@types/crypto-js",
+        "hash": "sha512-FSPGd9+OcSok3RsM0UZ/9fcvMOXJ1ENE/ZbLfOPlBWj7BgXtEAM8VYfTtT760GiLbQIMoVozwVuisjvsVwqYWw=="
+      }
+    },
     "npm:@types/d3": {
       "type": "npm",
       "name": "npm:@types/d3",
@@ -5993,6 +6002,15 @@
         "version": "7.0.3",
         "packageName": "cross-spawn",
         "hash": "sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w=="
+      }
+    },
+    "npm:crypto-js": {
+      "type": "npm",
+      "name": "npm:crypto-js",
+      "data": {
+        "version": "4.2.0",
+        "packageName": "crypto-js",
+        "hash": "sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q=="
       }
     },
     "npm:css-loader": {

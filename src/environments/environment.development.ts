@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  base:'http://erp.organo-judicial.com/#/student/',
   apiUrlTeacher:'http://localhost:5059/api/v1/Teacher/',
   apiUrl:'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',
   apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/",

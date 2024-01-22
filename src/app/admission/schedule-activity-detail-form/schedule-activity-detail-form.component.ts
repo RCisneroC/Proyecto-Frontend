@@ -70,7 +70,6 @@ export class ScheduleActivityDetailFormComponent {
       this.dialogTitle ="Editar actividad";
       
       this.schedule = data.scheduleActivity;
-      // console.log(this.schedule.endTime);
     } else {
       
       this.dialogTitle = 'Añadir actividad';
@@ -110,8 +109,8 @@ export class ScheduleActivityDetailFormComponent {
       name: new FormControl(this.schedule.name, Validators.required),
       activityLocationId: new FormControl(this.schedule.activityLocationId, Validators.required),
       assignedCoordinatorId: new FormControl(this.schedule.assignedCoordinatorId, Validators.required),
-      startTime: new FormControl(this.schedule.startTime, Validators.required),
-      endTime: new FormControl(this.schedule.endTime, Validators.required),
+      inscriptionStartDate: new FormControl(this.schedule.inscriptionStartDate, Validators.required),
+      inscriptionEndDate: new FormControl(this.schedule.inscriptionEndDate, Validators.required),
       startDate: new FormControl(this.schedule.startDate, Validators.required),
       plannedEndDate: new FormControl(this.schedule.plannedEndDate, Validators.required),
       effectiveEndDate: new FormControl(this.schedule.effectiveEndDate, Validators.required),

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { InscriptionService } from '../services/inscription.service';
+import { InscriptionService } from '../../services/inscription.service';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,9 +10,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { Participant } from '../../models/participant';
+import { GetDataResultResponse, Participant } from '../../../models/participant';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApproveParticipantComponent } from './detalle/approve-participant/approve-participant.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-activity-participants-list',
   templateUrl: './activity-participants-list.component.html',
@@ -24,13 +27,16 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       'name',
       'lastName',
       'cedula',
+      'activdad',
+      'estado',
+      'fecha_inscrito',
       'actions',
     ];
     
     exampleDatabase?: InscriptionService;
     dataSource!: ExampleDataSource;
     selection = new SelectionModel<Participant>(true, []);
-    id?: number;
+    id?: any;
     schedule?: Participant;
   
     constructor(
@@ -39,6 +45,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       public scheduleActivitiesService:InscriptionService ,
       private snackBar: MatSnackBar,
       private router: Router,
+      private activatedRoute:ActivatedRoute
     ) {
       super();
     }
@@ -48,14 +55,18 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     @ViewChild(MatMenuTrigger)
     contextMenu?: MatMenuTrigger;
     contextMenuPosition = { x: '0px', y: '0px' };
-    ngOnInit() {
+  ngOnInit() {
+       this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+  })
       this.loadData();
     }
     refresh() {
       this.loadData();
     }
-    ViewDetail(row:Participant) {
-      this.router.navigate(['/admission/activity-list-inscription',row.id]);
+  ViewDetail(row: Participant) {
+      localStorage.setItem('url','/admission/listado-participans/'+this.id)
+      this.router.navigate(['/admission/detalle-participans',row.cedula]);
     }
     editCall(row: Participant) {
      
@@ -65,7 +76,35 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     
     }
   
-  
+    aprobar(row:GetDataResultResponse) {
+      const dialogRef = this.dialog.open(ApproveParticipantComponent, {
+          data: {
+            participant : row,
+            accion: 'approved',
+          },
+          disableClose:true
+        });
+
+        dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+          if (result == undefined) {
+            return;
+            }
+            if (result.CodError == 200) {
+                Swal.fire({
+                    title: "Escuela Judicial",
+                    text: result.Message,
+                    icon: "success"
+                });
+              this.loadData();
+              } else {
+                Swal.fire({
+                  title: "Escuela Judicial",
+                  text: result.Message,
+                  icon: "warning"
+                });
+              }
+        });
+    }
     private refreshTable() {
       this.paginator._changePageSize(this.paginator.pageSize);
     }
@@ -80,7 +119,8 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       this.dataSource = new ExampleDataSource(
         this.exampleDatabase,
         this.paginator,
-        this.sort
+        this.sort,
+         this.activatedRoute
       );
       console.log(this.dataSource)
       this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
@@ -111,17 +151,18 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       // key name with space add in brackets
       const exportData: Partial<TableElement>[] =
         this.dataSource.filteredData.map((x) => ({
-          'First Name': x.name,
-         
+          'Nombre': x.firstName.toString(),
+          'Apellido': x.lastName.toString(),
+          'Cedula': x.cedula.toString(),
+          'Actividad': x.activityName.toString(),
+          'Estado': x.statusName.toString(),
+          'Fecha': x.fechaInscrito.toString()
         }));
   
       TableExportUtil.exportToExcel(exportData, 'excel');
     }
-  
-    
-  
   }
-  export class ExampleDataSource extends DataSource<Participant> {
+  export class ExampleDataSource extends DataSource<GetDataResultResponse> {
     filterChange = new BehaviorSubject('');
     get filter(): string {
       return this.filterChange.value;
@@ -129,35 +170,38 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     set filter(filter: string) {
       this.filterChange.next(filter);
     }
-    filteredData: Participant[] = [];
-    renderedData: Participant[] = [];
+     id!: any;
+    filteredData: GetDataResultResponse[] = [];
+    renderedData: GetDataResultResponse[] = [];
     constructor(
       public exampleDatabase: InscriptionService,
       public paginator: MatPaginator,
-      public _sort: MatSort
+      public _sort: MatSort,
+      public activatedRoute: ActivatedRoute
     ) {
       super();
       // Reset to the first page when the user changes the filter.
       this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
     }
     /** Connect function called by the table to retrieve one stream containing the data to render. */
-    connect(): Observable<Participant[]> {
+    connect(): Observable<GetDataResultResponse[]> {
+      this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+  })
       // Listen for any changes in the base data, sorting, filtering, or pagination
       const displayDataChanges = [
-        this.exampleDatabase.dataChange,
+        this.exampleDatabase.dataChangeParticipant,
         this._sort.sortChange,
         this.filterChange,
         this.paginator.page,
       ];
-      this.exampleDatabase.getParticipants();
+      this.exampleDatabase.getParticipanteActividad(this.id);
       return merge(...displayDataChanges).pipe(
-        map(() => {
-          // Filter data
-          console.log("dataaaa",this.exampleDatabase.data)
-          this.filteredData = this.exampleDatabase.data
+        map(() => { 
+          this.filteredData = this.exampleDatabase.dataParticipantActivity
             .slice()
-            .filter((role: Participant) => {
-              const searchStr = (role.name).toLowerCase();
+            .filter((role: GetDataResultResponse) => {
+              const searchStr = (role.firstName).toLowerCase();
               return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
             });
           // Sort filtered data
@@ -176,7 +220,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       //disconnect
     }
     /** Returns a sorted copy of the database data. */
-    sortData(data: Participant[]): Participant[] {
+    sortData(data: GetDataResultResponse[]): GetDataResultResponse[] {
       if (!this._sort.active || this._sort.direction === '') {
         return data;
       }
@@ -185,10 +229,10 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
         let propertyB: number | string = '';
         switch (this._sort.active) {
           case 'id':
-            [propertyA, propertyB] = [a.id, b.id];
+            [propertyA, propertyB] = [a.cedula, b.cedula];
             break;
           case 'name':
-            [propertyA, propertyB] = [a.name, b.name];
+            [propertyA, propertyB] = [a.firstName, b.firstName];
             break;
         
         }

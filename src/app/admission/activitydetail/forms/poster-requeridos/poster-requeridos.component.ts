@@ -31,7 +31,6 @@ export class PosterRequeridosComponent {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
-    
     if (this.action === 'add-poster') {
       this.dialogTitle ="Agregar Afiche";
       this.id_actividad = data.id_actividad;

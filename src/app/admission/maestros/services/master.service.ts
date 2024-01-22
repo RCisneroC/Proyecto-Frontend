@@ -29,6 +29,11 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
 
+    getRoomsFilter(id:any) {
+   return this.httpClient
+      .get<Lounge[]>(environment.apiUrlSchedule+'Room/GetAll?StatusId='+id);
+  }
+
   /** CRUD METHODS */
   getAllLounge(): void {
     this.subs.sink = this.httpClient
@@ -53,6 +58,10 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrlSchedule + 'Room/Update', lounge);
   }
   
+  addRoomsRequestRooms(data:any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoom',data);
+  }
+
     DeleteLounge(Id: number) {
     let data = {
       id: Id
@@ -67,6 +76,21 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Room/Delete', options);
   }
 
+
+     DeleteRoomsRequirement(id_rooms:any,id_request:any) {
+    let data = {
+      roomRequestId: id_request,
+      roomId: id_rooms
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoom',options);
+  }
+  
 
 
 }

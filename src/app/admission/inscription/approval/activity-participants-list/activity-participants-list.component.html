@@ -2,14 +2,21 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Inscripción Backoffice'" [items]="['Home','Admisión','Participantes' ]" [active_item]="'Backoffice'">
+        <app-breadcrumb [title]="'Listado de participantes'" [items]="['Home','Admisión','Participantes' ]" [active_item]="'Backoffice'">
         </app-breadcrumb>
       </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+          <div class="">
+            <button matTooltip="Regresar" mat-raised-button color="accent" [routerLink]="['/admission/activity-participants-list']">
+              <mat-icon>keyboard_backspace</mat-icon> Regresar
+            </button>
+          </div>
+        </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Selecione un Participante</strong></h2>
+              <h2><strong>Listado de participantes</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -31,10 +38,15 @@
                           <div class="right">
                             <ul class="tbl-export-btn">
                               <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="REFRESH">
+                                <div class="m-l-10" matTooltip="Recargar">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
                                     <mat-icon class="col-white">refresh</mat-icon> 
                                   </button>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="export-button m-l-10" matTooltip="XLSX">
+                                  <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
                                 </div>
                               </li>
                             </ul>
@@ -43,37 +55,63 @@
                         <div class="body overflow-auto">
                           <div class="responsive_table">
                             <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                          
-                          
-                            
+                        
                               <ng-container matColumnDef="name">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                                  <span class="mobile-label">Nombre:</span>{{ row.firstName }}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="lastName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
+                                  <span class="mobile-label">Apellido:</span>{{ row.lastName }}</mat-cell>
                               </ng-container>
                              
                               <ng-container matColumnDef="cedula">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Cedula
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Cedula:</span>{{row.cedula}}</mat-cell>
+                                  <span class="mobile-label">Cedula:</span>{{ row.cedula }}</mat-cell>
                               </ng-container>
   
+                              <ng-container matColumnDef="activdad">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actividad
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Actividad:</span>{{ row.activityName }}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="estado">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Estado:</span>
+                                <span class="badge badge-solid-green">{{ row.statusName }}</span>
+                                </mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="fecha_inscrito">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inscrito
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Fecha Inscrito:</span>{{ row.fechaInscrito | date:'dd/M/yyyy' }}</mat-cell>
+                              </ng-container>
+
                               <!-- actions -->
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                 
                                   
-                                  <button mat-stroked-button color="primary" (click)="ViewDetail(row)">Ver datalle</button>
+                                  <button matTooltip="Ver Detalle" mat-mini-fab color="primary" (click)="ViewDetail(row)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                  </button>
+                                  <button matTooltip="Aprobar estudiante" mat-mini-fab color="warn" (click)="aprobar(row)">
+                                    <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                                  </button>
                                
                                 </mat-cell>
                               </ng-container>
@@ -99,10 +137,11 @@
                                 <span>Add Record</span>
                               </button>
                               
-                              <!-- <button mat-menu-item (click)="editCall(item)">
-                                <mat-icon>create</mat-icon>
-                                <span>Edit Record</span>
-                              </button> -->
+                               <li>
+                                <div class="export-button m-l-10" matTooltip="XLSX">
+                                  <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                                </div>
+                              </li>
                               
                           
                               
