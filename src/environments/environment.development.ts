@@ -1,6 +1,6 @@
 
 export const environment = {
-  base:'http://localhost:3001/#/student/',
+  base:'http://erp.organo-judicial.com/#/student/',
   production: false,
   apiUrlTeacher:'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl:'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',

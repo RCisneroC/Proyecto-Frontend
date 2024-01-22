@@ -2,8 +2,8 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Detalle del Parcipante'" [items]="['Inicio','Admisión','Cronograma']"
-                [active_item]="'Detalle del Parcipante'">
+            <app-breadcrumb [title]="'Detalle del Participante'" [items]="['Inicio','Admisión','Cronograma']"
+                [active_item]="'Detalle del Participante'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -17,7 +17,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div #imageElement class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase">Detalle del participante</h2>
+                        <h2 class="text-uppercase">Detalle del Participante</h2>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
                         <div class="row">
