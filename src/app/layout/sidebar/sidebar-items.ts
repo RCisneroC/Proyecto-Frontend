@@ -69,29 +69,29 @@ export const ROUTES: RouteInfo[] = [
       ]
   },
     
-  {
-      path: "admission/",
-      title: "Inscripciones EF",
-      iconType: "",
-      icon: "user-check",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "admission/form-ef",
-          title: "BackOffice",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        }
-      ]
-  },
+  // {
+  //     path: "admission/",
+  //     title: "Inscripciones EF",
+  //     iconType: "",
+  //     icon: "user-check",
+  //     class: "menu-toggle",
+  //     groupTitle: false,
+  //     badge: "",
+  //     badgeClass: "",
+  //     submenu: [
+  //       {
+  //         path: "admission/form-ef",
+  //         title: "BackOffice",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       }
+  //     ]
+  // },
     
   {
     path: "",
@@ -140,7 +140,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
       path: "",
-      title: "Maestros",
+      title: "Ajustes",
       iconType: "",
       icon: "database",
       class: "menu-toggle",
@@ -271,31 +271,31 @@ export const ROUTES: RouteInfo[] = [
         
       ]
   },
-  //inscripcion
-  {
-    path: "",
-    title: "Gestión Docente",
-    iconType: "feather",
-    icon: "lock",
-    class: "menu-toggle",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    submenu: [
-      {
-        path: "/teaching-management/teacher-list",
-        title: "Docentes",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        submenu: [],
-      }
-    ]
+  // //inscripcion
+  // {
+  //   path: "",
+  //   title: "Gestión Docente",
+  //   iconType: "feather",
+  //   icon: "lock",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: [
+  //     {
+  //       path: "/teaching-management/teacher-list",
+  //       title: "Docentes",
+  //       iconType: "",
+  //       icon: "",
+  //       class: "ml-menu",
+  //       groupTitle: false,
+  //       badge: "",
+  //       badgeClass: "",
+  //       submenu: [],
+  //     }
+  //   ]
   
-  },
+  // },
   //Seguridad
   {
     path: "",

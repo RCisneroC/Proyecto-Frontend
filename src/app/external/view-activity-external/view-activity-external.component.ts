@@ -64,9 +64,6 @@ public paramsId: any;
                   if (element.posterType == 1 && element.statusId == 5) {
                     this.PrincipalPoster = element;
                     this.ext = element.poster.contentType.split('/');
-                    console.log('====================================');
-                    console.log(this.ext);
-                    console.log('====================================');
                     if (this.ext.length > 1) {
                       if (this.ext[0] == 'image') {
                         this.IsImage = true;

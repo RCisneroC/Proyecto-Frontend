@@ -37,7 +37,7 @@
                               ></label
                             >
                             <input
-                              placeholder="Buscar"
+                              placeholder="Ejemplo: 9-999-999"
                               type="text"
                               #filter
                               class="browser-default search-field"
@@ -153,7 +153,7 @@
                             formControlName="gender"
                             matInput
                             autocomplete="off"
-                            [readonly]="disabled"
+                          
                             [ngModel]="
                               personData[0]?.datasetPersona?.personaPublica
                                 ?.sexo
@@ -171,7 +171,6 @@
                             formControlName="province"
                             matInput
                             autocomplete="off"
-                            [readonly]="disabled"
                             [ngModel]="
                               personData[0]?.datasetPersona?.personaPublica
                                 ?.provincia
@@ -189,7 +188,6 @@
                             formControlName="judicialDistrict"
                             matInput
                             autocomplete="off"
-                            [readonly]="disabled"
                             [ngModel]="
                               personData[0]?.datasetPersona?.personaPublica
                                 ?.distrito
@@ -359,7 +357,6 @@
                       </mat-grid-tile>
                     </mat-grid-list>
                   </form>
-                  <p>{{ showFileSection }}</p>
                 </mat-card>
               </div>
             </div>

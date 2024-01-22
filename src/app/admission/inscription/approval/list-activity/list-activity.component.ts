@@ -66,7 +66,8 @@ implements OnInit{
   }
 
   ViewDetail(row: ScheduleActivityDetail) {
-    localStorage.setItem('ruta_local','/admission/activity-participants-list')
+    localStorage.setItem('ruta_local', '/admission/activity-participants-list');
+    localStorage.setItem('name_actividad', row.name);
     this.router.navigate(['/admission/listado-participans/'+row.id]);
     console.log('====================================');
     console.log(row);

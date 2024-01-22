@@ -154,7 +154,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Documentos Requeridos</strong>
+                        <h2 class="text-uppercase"><strong>Documentos Requeridos ( <span class="badge badge-solid-red">REQUERIDO</span> )</strong>
 
                         <button (click)="AddDocumentos()"  matTooltip="Agregar Documentos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                             <mat-icon>add</mat-icon>
@@ -165,10 +165,10 @@
                         <div class="body table-responsive">
                             <table mat-table [dataSource]="dataDocuments" class="w-100">
                                 <!-- Id Column -->
-                                <ng-container matColumnDef="Id">
+                                <!-- <ng-container matColumnDef="Id">
                                     <th mat-header-cell *matHeaderCellDef> Id</th>
                                     <td mat-cell *matCellDef="let element"> {{ element.id+1 }}</td>
-                                </ng-container>
+                                </ng-container> -->
                                 <!-- Nombre Documento Column -->
                                 <ng-container matColumnDef="nombre">
                                     <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
@@ -195,7 +195,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Afiches</strong>
+                        <h2 class="text-uppercase"><strong>Afiches ( <span class="badge badge-solid-red">REQUERIDO</span> ) </strong>
                         <button (click)="AddPoster()"  matTooltip="Agregar Afiche" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                             <mat-icon>add</mat-icon>
                         </button>
@@ -205,14 +205,28 @@
                         <div class="body table-responsive">
                             <table mat-table [dataSource]="dataPoster" class="w-100">
                                 <!-- Id Column -->
-                                <ng-container matColumnDef="Id">
+                                <!-- <ng-container matColumnDef="Id">
                                     <th mat-header-cell *matHeaderCellDef> Id. </th>
                                     <td mat-cell *matCellDef="let element">{{ element.id }} </td>
-                                </ng-container>
+                                </ng-container> -->
                                 <!-- Formato Column -->
                                 <ng-container matColumnDef="Formato">
                                     <th mat-header-cell *matHeaderCellDef> Formato </th>
                                     <td mat-cell *matCellDef="let element"> <span class="text-uppercase" >{{ element.poster.fileContents|verificarBS64 }}</span></td>
+                                </ng-container>
+                                 <ng-container matColumnDef="tipo">
+                                    <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                                    <td mat-cell *matCellDef="let element"> <span class="text-uppercase" >
+
+                                        <ng-container *ngIf=" element.posterType == 1; else elseTemplate">
+                                            Principal
+                                        </ng-container>
+                                        <ng-template #elseTemplate>
+                                            Secundario
+                                        </ng-template>
+                                        
+
+                                    </span></td>
                                 </ng-container>
                                 <!-- Documentos Column -->
                                 <ng-container matColumnDef="Documentos">
@@ -250,7 +264,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Docentes, Facilitadores, Moderadores</strong>
+                        <h2 class="text-uppercase"><strong>Docentes, Facilitadores, Moderadores ( <span class="badge badge-solid-red">REQUERIDO</span> )</strong>
                         <button  (click)="AddTeachers()" matTooltip="Agregar Docentes" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                             <mat-icon>add</mat-icon>
                         </button>
@@ -290,7 +304,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>organismos cooperantes</strong>
+                        <h2 class="text-uppercase"><strong>organismos cooperantes ( <span class="badge badge-solid-green">OPCIONAL</span> ) </strong>
                             <button (click)="AddCooperantes()" matTooltip="Agregar organismos cooperantes" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab
                                 color="primary">
                                 <mat-icon>add</mat-icon>
@@ -301,10 +315,10 @@
                         <div class="body table-responsive">
                             <table mat-table [dataSource]="dataOrganismos" class="w-100">
                                 <!-- No Column -->
-                                <ng-container matColumnDef="Id">
+                                <!-- <ng-container matColumnDef="Id">
                                     <th mat-header-cell *matHeaderCellDef> Id. </th>
                                     <td mat-cell *matCellDef="let element">{{ element.cooperatingOrganization.id }}</td>
-                                </ng-container>
+                                </ng-container> -->
                                 <!-- Name Column -->
                                 <ng-container matColumnDef="nombre">
                                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
