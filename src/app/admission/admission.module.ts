@@ -72,6 +72,19 @@ import { ApprovalIncriptionComponent } from './inscription/educacionformal/appro
 import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
 import { InfoAcademicaComponent } from './inscription/educacionformal/forms/info-academica/info-academica.component';
 import { InfoExperienciaComponent } from './inscription/educacionformal/forms/info-experiencia/info-experiencia.component';
+import { DegreeComponent } from './FormalEducations/Maestros/degree/degree.component';
+import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component'
+import { DegreeCompetenceComponent } from './FormalEducations/Maestros/degree-competence/degree-competence.component';
+import { RoomsComponent } from './FormalEducations/Maestros/rooms/rooms.component';
+import { StatusComponent } from './FormalEducations/Maestros/status/status.component';
+import { StudyModeComponent } from './FormalEducations/Maestros/study-mode/study-mode.component';
+import { SubjectComponent } from './FormalEducations/Maestros/subject/subject.component';
+import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
+import { CurriculumDesignComponent } from './FormalEducations/Gestions/curriculum-design/curriculum-design.component';
+import { CurriculumSubjectComponent } from './FormalEducations/Gestions/curriculum-subject/curriculum-subject.component';
+import { EditAddFormsComponent } from './FormalEducations/Gestions/AnnualPlan/edit-add-forms/edit-add-forms.component';
+import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
+import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -142,6 +155,19 @@ import { InfoExperienciaComponent } from './inscription/educacionformal/forms/in
     BackofficeEFComponent,
     InfoAcademicaComponent,
     InfoExperienciaComponent,
+    DegreeComponent,
+    DegreeAdmissionRequirementComponent,
+    DegreeCompetenceComponent,
+    RoomsComponent,
+    StatusComponent,
+    StudyModeComponent,
+    SubjectComponent,
+    AnnualPlanComponent,
+    CurriculumDesignComponent,
+    CurriculumSubjectComponent,
+    EditAddFormsComponent,
+    DegreeAdminissionRequirementComponent,
+    DeggreeCompetenceComponent,
     
   ],
   providers: [
