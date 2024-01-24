@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
-  action: string;
+  accion: string;
   subject : Subject;
 }
 @Component({
@@ -32,7 +32,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     
     _SubjectService.init_Subject()
     this._SubjectModal = _SubjectService._Subject;
-    this.action = data.action;
+    this.action = data.accion;
     console.log(this.action);
     
     if (this.action == 'add-asignaturas') {
@@ -44,17 +44,27 @@ public ResponseMessage: ResponseMessageMaestra = {
     }
     this._SubjectModalForms = this.createContactForm();
   }
-    createContactForm(): UntypedFormGroup{
+  createContactForm(): UntypedFormGroup{
+    if (this.data.subject.hasLaboratory) {
+      this.data.subject.hasLaboratory = '1';
+    } else {
+      this.data.subject.hasLaboratory = '2';
+    }
+    console.log('====================================');
+    console.log(this.data.subject.hasLaboratory);
+    console.log('====================================');
     return this.fb.group({
-      name:['',[Validators.required]],
-      description:[''],
-      acronym:['',[Validators.required]],
-      code:['',[Validators.required]],
-      numOfCredits:['',[Validators.required]],
-      numOfHours:['',[Validators.required]],
-      numOfClasses:['',[Validators.required]],
-      hasLaboratory:[false,[Validators.required]],
-      evaluationCriteria:[''],
+      id:[this.data.subject.id],
+      name:[this.data.subject.name,[Validators.required]],
+      description:[this.data.subject.description],
+      acronym:[this.data.subject.acronym,[Validators.required]],
+      code:[this.data.subject.code,[Validators.required]],
+      numOfCredits:[this.data.subject.numOfCredits,[Validators.required]],
+      numOfHours:[this.data.subject.numOfHours,[Validators.required]],
+      numOfClasses:[this.data.subject.numOfClasses,[Validators.required]],
+      hasLaboratory:[this.data.subject.hasLaboratory,[Validators.required]],
+      evaluationCriteria:[this.data.subject.evaluationCriteria],
+      statusId:[this.data.subject.statusId],
 
     });
   }
@@ -62,10 +72,48 @@ public ResponseMessage: ResponseMessageMaestra = {
       
   }
   submit() {
-    
+   
   }
-  confirmAdd(){
-
+  confirmAdd() {
+    if (this._SubjectModalForms.controls['hasLaboratory'].value == "1") {
+      this._SubjectModalForms.controls['hasLaboratory'].setValue(true);
+    } else {
+      this._SubjectModalForms.controls['hasLaboratory'].setValue(false);
+    }
+    if (this.action == 'add-asignaturas') {
+      let valor = this._SubjectModalForms.controls['code'].value;
+      this._SubjectModalForms.controls['code'].setValue(valor.toString())
+      this._SubjectService.addSubject(this._SubjectModalForms.getRawValue())
+        .subscribe({
+          next:(res)=>{
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Guardado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (err) => {
+             this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = err;
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        });
+    } else {
+       this._SubjectService.updateSubject(this._SubjectModalForms.getRawValue())
+        .subscribe({
+          next:(res)=>{
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Editado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (err) => {
+             this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = err;
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        });
+    }
+    console.log('====================================');
+    console.log(this._SubjectModalForms.getRawValue());
+    console.log('====================================');
   }
   onNoClick(){
 

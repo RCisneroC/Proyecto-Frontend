@@ -9,6 +9,6 @@ export interface Subject {
     numOfCredits:       number;
     numOfHours:         number;
     numOfClasses:       number;
-    hasLaboratory:      boolean;
+    hasLaboratory:      boolean | string;
     evaluationCriteria: string;
 }

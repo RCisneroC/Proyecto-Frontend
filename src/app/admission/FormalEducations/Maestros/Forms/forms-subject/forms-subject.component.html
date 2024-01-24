@@ -18,7 +18,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Nombre</mat-label>
                         <input matInput formControlName="name">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('name')?.hasError('required')">
                             El Nombre es requerido
                         </mat-error>
@@ -29,7 +28,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Acrónimo</mat-label>
                         <input matInput formControlName="acronym">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('acronym')?.hasError('required')">
                             El Acrónimo es requerido
                         </mat-error>
@@ -40,7 +38,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Código</mat-label>
                         <input type="number" matInput formControlName="code">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('code')?.hasError('required')">
                             El Código es requerido
                         </mat-error>
@@ -53,7 +50,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>cantidad de créditos</mat-label>
                         <input matInput type="number" formControlName="numOfCredits">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('numOfCredits')?.hasError('required')">
                             la cantidad de créditos es requerido
                         </mat-error>
@@ -64,7 +60,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>cantidad de horas</mat-label>
                         <input matInput type="number" formControlName="numOfHours">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('numOfHours')?.hasError('required')">
                             El cantidad de horas es requerido
                         </mat-error>
@@ -75,7 +70,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>número de clases </mat-label>
                         <input matInput formControlName="numOfClasses">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         <mat-error *ngIf="_SubjectModalForms.get('numOfClasses')?.hasError('required')">
                             El Código es requerido
                         </mat-error>
@@ -102,7 +96,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Descripción</mat-label>
                         <textarea matInput formControlName="description" cols="30" rows="2"></textarea>
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                     </mat-form-field>
                 </div>
             
@@ -110,7 +103,24 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Criterios de Evaluación</mat-label>
                         <textarea matInput formControlName="evaluationCriteria" cols="30" rows="2"></textarea>
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2" *ngIf="data.accion=='edit-asignaturas'">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                        <mat-label>Estado</mat-label>
+                        <mat-select formControlName="statusId">
+                            <mat-option [value]="1">
+                                Activo
+                            </mat-option>
+                            <mat-option [value]="2">
+                                Inactivo
+                            </mat-option>
+                
+                        </mat-select>
+                        <mat-error *ngIf="_SubjectModalForms.get('statusId')?.hasError('required')">
+                            el estatus es requerido
+                        </mat-error>
                     </mat-form-field>
                 </div>
             </div>

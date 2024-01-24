@@ -10,13 +10,12 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
   providedIn: 'root'
 })
 export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
-
-  isTblLoading = true;
   public _RequirementAdmision!: RequirementAdmision;
+  isTblLoading = true; 
   dataChange: BehaviorSubject<RequirementAdmision[]> = new BehaviorSubject<RequirementAdmision[]
   >([]);
   // Temporarily stores data from dialogs
-  dialogData!: Subject;
+  dialogData!: RequirementAdmision;
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -71,5 +70,14 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
     };
     
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'DegreeAdmissionRequirement/Delete', options);
+  }
+
+  init_RequirementAdmision() {
+    this._RequirementAdmision = {
+      description: '',
+      id: 0,
+      name: '',
+      statusId:0
+    }
   }
 }

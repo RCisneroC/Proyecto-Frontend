@@ -32,6 +32,8 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
+          console.log(data);
+          
           this.dataChange.next(data);
         },
         error: (error: HttpErrorResponse) => {
