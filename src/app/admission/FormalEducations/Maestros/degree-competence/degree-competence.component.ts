@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./degree-competence.component.scss']
 })
 export class DegreeCompetenceComponent {
+  constructor() {
+  }
 
+  addNew(){
+    console.log("..............");
+  }
+  refresh(){
+    console.log("..............");
+  }
+  exportExcel(){
+    console.log("..............");
+  }
 }

@@ -84,6 +84,13 @@ import { CurriculumDesignComponent } from './FormalEducations/Gestions/curriculu
 import { CurriculumSubjectComponent } from './FormalEducations/Gestions/curriculum-subject/curriculum-subject.component';
 import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
 import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
+import { FormsDegreeComponent } from './FormalEducations/Maestros/Forms/forms-degree/forms-degree.component';
+import { FormsRequirementDegreeComponent } from './FormalEducations/Maestros/Forms/forms-requirement-degree/forms-requirement-degree.component';
+import { FormsDregreeCompetenceComponent } from './FormalEducations/Maestros/Forms/forms-dregree-competence/forms-dregree-competence.component';
+import { FormsRoomsComponent } from './FormalEducations/Maestros/Forms/forms-rooms/forms-rooms.component';
+import { FormsStatusComponent } from './FormalEducations/Maestros/Forms/forms-status/forms-status.component';
+import { FormsStudyModeComponent } from './FormalEducations/Maestros/Forms/forms-study-mode/forms-study-mode.component';
+import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-subject/forms-subject.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -166,6 +173,13 @@ import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curricul
     CurriculumSubjectComponent,
     DegreeAdminissionRequirementComponent,
     DeggreeCompetenceComponent,
+    FormsDegreeComponent,
+    FormsRequirementDegreeComponent,
+    FormsDregreeCompetenceComponent,
+    FormsRoomsComponent,
+    FormsStatusComponent,
+    FormsStudyModeComponent,
+    FormsSubjectComponent
     
   ],
   providers: [

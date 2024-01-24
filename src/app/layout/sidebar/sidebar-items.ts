@@ -69,29 +69,29 @@ export const ROUTES: RouteInfo[] = [
       ]
   },
     
-  // {
-  //     path: "admission/",
-  //     title: "Inscripciones EF",
-  //     iconType: "",
-  //     icon: "user-check",
-  //     class: "menu-toggle",
-  //     groupTitle: false,
-  //     badge: "",
-  //     badgeClass: "",
-  //     submenu: [
-  //       {
-  //         path: "admission/form-ef",
-  //         title: "BackOffice",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       }
-  //     ]
-  // },
+  {
+      path: "admission/",
+      title: "Inscripciones EF",
+      iconType: "",
+      icon: "user-check",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "admission/form-ef",
+          title: "BackOffice",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        }
+      ]
+  },
     
   {
     path: "",
@@ -271,96 +271,96 @@ export const ROUTES: RouteInfo[] = [
         
       ]
   },
-  // {
-  //     path: "",
-  //     title: "Ajustes EF",
-  //     iconType: "",
-  //     icon: "database",
-  //     class: "menu-toggle",
-  //     groupTitle: false,
-  //     badge: "",
-  //     badgeClass: "",
-  //     submenu: [
-  //       {
-  //         path: "/admission/source-funds-list",
-  //         title: "Carreras",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Asignaturas",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Documentos requeridos",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Competencias",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Modo de estudios",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Salones",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
-  //       {
-  //         path: "/admission/activity-ubication-list",
-  //         title: "Estados",
-  //         iconType: "",
-  //         icon: "",
-  //         class: "ml-menu",
-  //         groupTitle: false,
-  //         badge: "",
-  //         badgeClass: "",
-  //         submenu: []
-  //       },
+  {
+      path: "",
+      title: "Ajustes EF",
+      iconType: "",
+      icon: "database",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "/admission/carreras",
+          title: "Carreras",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/asignaturas",
+          title: "Asignaturas",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/documentos-requeridos",
+          title: "Documentos requeridos",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/competencias",
+          title: "Competencias",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/modo-estudios",
+          title: "Modo de estudios",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/salones",
+          title: "Salones",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/estado",
+          title: "Estados",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
 
-  //     ]
-  // },
+      ]
+  },
   // //inscripcion
   // {
   //   path: "",

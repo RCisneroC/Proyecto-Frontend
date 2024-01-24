@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./study-mode.component.scss']
 })
 export class StudyModeComponent {
+  constructor() {
+  }
 
+  addNew(){
+    console.log("..............");
+  }
+  refresh(){
+    console.log("..............");
+  }
+  exportExcel(){
+    console.log("..............");
+  }
 }

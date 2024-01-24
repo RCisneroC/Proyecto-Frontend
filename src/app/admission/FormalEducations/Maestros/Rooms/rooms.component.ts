@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent {
+constructor() {
+  }
 
+  addNew(){
+    console.log("..............");
+  }
+  refresh(){
+    console.log("..............");
+  }
+  exportExcel(){
+    console.log("..............");
+  }
 }

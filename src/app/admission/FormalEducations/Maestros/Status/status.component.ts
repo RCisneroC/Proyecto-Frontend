@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./status.component.scss']
 })
 export class StatusComponent {
+  constructor() {
+  }
 
+  addNew(){
+    console.log("..............");
+  }
+  refresh(){
+    console.log("..............");
+  }
+  exportExcel(){
+    console.log("..............");
+  }
 }
