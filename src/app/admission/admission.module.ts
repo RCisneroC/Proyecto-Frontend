@@ -82,7 +82,6 @@ import { SubjectComponent } from './FormalEducations/Maestros/subject/subject.co
 import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
 import { CurriculumDesignComponent } from './FormalEducations/Gestions/curriculum-design/curriculum-design.component';
 import { CurriculumSubjectComponent } from './FormalEducations/Gestions/curriculum-subject/curriculum-subject.component';
-import { EditAddFormsComponent } from './FormalEducations/Gestions/AnnualPlan/edit-add-forms/edit-add-forms.component';
 import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
 import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
 @NgModule({
@@ -165,7 +164,6 @@ import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curricul
     AnnualPlanComponent,
     CurriculumDesignComponent,
     CurriculumSubjectComponent,
-    EditAddFormsComponent,
     DegreeAdminissionRequirementComponent,
     DeggreeCompetenceComponent,
     

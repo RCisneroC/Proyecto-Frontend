@@ -147,7 +147,7 @@ export const ROUTES: RouteInfo[] = [
       groupTitle: false,
       badge: "",
       badgeClass: "",
-    submenu: [
+      submenu: [
         {
           path: "/admission/source-funds-list",
           title: "Origen de fondos",
@@ -271,6 +271,96 @@ export const ROUTES: RouteInfo[] = [
         
       ]
   },
+  // {
+  //     path: "",
+  //     title: "Ajustes EF",
+  //     iconType: "",
+  //     icon: "database",
+  //     class: "menu-toggle",
+  //     groupTitle: false,
+  //     badge: "",
+  //     badgeClass: "",
+  //     submenu: [
+  //       {
+  //         path: "/admission/source-funds-list",
+  //         title: "Carreras",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Asignaturas",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Documentos requeridos",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Competencias",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Modo de estudios",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Salones",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+  //       {
+  //         path: "/admission/activity-ubication-list",
+  //         title: "Estados",
+  //         iconType: "",
+  //         icon: "",
+  //         class: "ml-menu",
+  //         groupTitle: false,
+  //         badge: "",
+  //         badgeClass: "",
+  //         submenu: []
+  //       },
+
+  //     ]
+  // },
   // //inscripcion
   // {
   //   path: "",
