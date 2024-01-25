@@ -90,16 +90,20 @@
                                   <span class="mobile-label">Fecha Aplicación:</span>{{row.applicationDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="selected">
+                              <ng-container matColumnDef="statusId">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                <div *ngIf="row.selected">
-                                    <mat-icon style="color: green;">check_circle_outline</mat-icon>
+                                <div *ngIf="row.statusId===1" class="badge badge-solid-green">
+                                    Aprobado
                                 </div>
-                                <div *ngIf="!row.selected">
-                                    <mat-icon style="color: red;">highlight_off</mat-icon>
+                                <div *ngIf="row.statusId===2" class="badge badge-solid-red" >
+                                     Rechazado 
                                 </div>
+                                <div *ngIf="row.statusId===0" class="badge badge-solid-blue">
+                                   Pendiente
+                                  
+                              </div>
                                 </mat-cell> 
                               </ng-container>
                               <ng-container matColumnDef="createdDate">
@@ -197,15 +201,15 @@
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                 
-                                  <button *ngIf="!row.selected" Tooltip="Aprobar docente" mat-icon-button color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
+                                  <button *ngIf="row.statusId===0" Tooltip="Aprobar docente" mat-icon-button color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
                                     <app-feather-icons [icon]="'check-square'"  ></app-feather-icons>
                                 </button>
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                                  <button *ngIf="true!==true" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
                                   
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                                  <button *ngIf="row.statusId>=0" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                   class="tbl-action-btn">
                                   <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                 </button>

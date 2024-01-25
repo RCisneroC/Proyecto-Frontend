@@ -1,25 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { Experience, Teacher, Training } from '../models/Teacher';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { Experience, Teacher, Training, fileDetails } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
-import Swal from 'sweetalert2';
-import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
 import { AddTrainingComponent } from '../add-training/add-training.component';
-
-
-
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-teacher-detail',
-  templateUrl: './teacher-detail.component.html',
-  styleUrls: ['./teacher-detail.component.scss']
+  selector: 'app-teaching-admission-external',
+  templateUrl: './teaching-admission-external.component.html',
+  styleUrls: ['./teaching-admission-external.component.scss']
 })
-export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
+export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
   
   teacherForm!: UntypedFormGroup;
@@ -68,14 +64,14 @@ implements OnInit{
 DataTeacher!:Teacher;
 DataExperience:Experience[]= [];
 DataTraining:Training[]= [];
-cedula!:string;
 fechaActual!: string;
 fechaA: string | undefined;
 header!: string;
 experience?: Experience;
 training?: Training;
 _Form_Data = new FormData();
-  docForm!: UntypedFormGroup;
+  FormsEF!: UntypedFormGroup;
+  FormsEFDocument!: UntypedFormGroup;
 
 
 
@@ -92,51 +88,35 @@ private fb: UntypedFormBuilder,
   
 }
 
-//@ViewChild(MatTable) DataTeacher:MatTable<Teacher>
-@ViewChild(MatAccordion) accordion?: MatAccordion;
-  async ngOnInit() {
-    //this.DataTeacher=this.activatedRoute.snapshot.queryParams["cedula"];
-    this.cedula=this.activatedRoute.snapshot.params["cedula"];
+
+  ngOnInit() {
     this.DataTeacher=new Teacher();
     const fechaActual = new Date();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
-    this.documentForm = this.createDocumentForm();
-    this.header="Crear docente";
-    if(this.cedula!="-1"){
-     this.header="Editar docente";
-     await this.getTeacherByCedula();
-    }
-    this.documentForm= this.fb.group({
+  
+    this.FormsEFDocument= this.fb.group({
       Photo:new FormControl([]),
       CIP:new FormControl([]),
       Title:new FormControl([]),
       CV:new FormControl([]),
-      LetterAval:new FormControl([]),
+      
     });
    
-    this.docForm= this.fb.group({
-      FileDetails:new FormControl([]),
-      FileType:new FormControl([]),
-    });
    
-  }
-  
-  
-  async getTeacherByCedula() {
-   this._teacherService.getTeacherByCedula(this.cedula).subscribe({
-      next: (res) => {
-
-        this.DataTeacher = res;
-        this.fechaA=res.applicationDate;
-        this.teacherForm = this.createTeacherForm();
-        this.documentForm = this.createDocumentForm();
-        this._teacherService.isTblLoading = false;
-      }
+    this.FormsEF=this.fb.group({
+      cedula:['',[Validators.required]],
+      name:['',[Validators.required]],
+      lastName:['',[Validators.required]],
+      placeOfBirth:['',[Validators.required]],
+      dateOfBirth:['',[Validators.required]],
+      residentialAddress:['',[Validators.required]],
+      email:['',[Validators.required]],
+      telephoneNumber:['',[Validators.required]],
+      carreraId:['',[Validators.required]],
     })
   }
   
- 
   AddExperience(){
     const dialogRef = this._dialog.open(AddExperienceComponent, {
       data: {
@@ -240,27 +220,25 @@ private fb: UntypedFormBuilder,
   }
   
   onFileSelected(event: any) {
-
-    
-     const file = event.target.files[0];
-  //   console.log(this.documentForm.getRawValue());
-    const formdata=new FormData();
-  //  const list: fileDetails[]=[];
-  //   list[0].fileDetails=File1;
-  //   list[0].fileType=1
-   formdata.append('FileDetails', file);
+    // const File1 = event.target.files[0];
+    //  console.log(this.documentForm.getRawValue());
+    // var formdata=new FormData();
+   
+    // this.docForm.get('FileType')?.setValue("1");
+    // formdata.append('FileDetails', this.docForm.get('FileDetails')?.value);
+    // formdata.append('FileType', "1");
  
    
   
     
- this._teacherService.archivo(formdata).subscribe({
-  next: () => {
-   console.log("guardado");
-  },
-  error: () => {
+//  this._teacherService.archivo(formdata).subscribe({
+//   next: () => {
+//    console.log("guardado");
+//   },
+//   error: () => {
   
-  }
-})
+//   }
+// })
   }
   
   submit() {
@@ -301,15 +279,6 @@ private fb: UntypedFormBuilder,
     
   }
   
-  createDocumentForm(): UntypedFormGroup {
-    return this.fb.group({
-      Photo:new FormControl([]),
-      CIP:new FormControl([]),
-      Title:new FormControl([]),
-      CV:new FormControl([]),
-      LetterAval:new FormControl([]),
-    });
-  }
-
 
 }
+

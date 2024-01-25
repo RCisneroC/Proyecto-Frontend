@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Teacher } from '../models/Teacher';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +50,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post(environment.apiUrlTeacher+'Save', teacher);
   }
   
-  aprovedTeacher(ids: number[]) {
+ archivo(data :any):Observable<any> {
 
-    return this.httpClient.put(environment.apiUrlTeacher+'Aproved', ids);
+    return this.httpClient.post(environment.apiUrlTeacher + 'archivo',data);
+  }
+  
+  aprovedTeacher(data:UntypedFormGroup) {
+
+    return this.httpClient.post(environment.apiUrlTeacher+'Aproved', data);
   }
   getTeacherByCedula(cedula :string) {
  
