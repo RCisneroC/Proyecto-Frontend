@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DetalleAcademico } from 'app/admission/models/DetalleAcademico';
 import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
 import { ValidateFileResponse } from '../../../../models/VerificacionDocumentacion';
+import { InscriptionService } from '../../../services/inscription.service';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-backoffice-ef',
@@ -71,21 +73,25 @@ export class BackofficeEFComponent {
       time: "string"
     }
   ];
+  loading:boolean=false;
+  personData : any;
+  disabled:boolean = false;
+  cedulaParticipant:string="";
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
  public FormsEF: FormGroup;
   public FormsEFDocument: FormGroup;
-  @ViewChild(MatPaginator) 
+  @ViewChild(MatPaginator)
       set paginator(value: MatPaginator) {
           this.SourceAcademico.paginator = value;
   }
-  @ViewChild('paginatorExperiencia') 
+  @ViewChild('paginatorExperiencia')
       set paginatorExperiencia(value: MatPaginator) {
           this.SourceExperiencia.paginator = value;
-  } 
-  
+  }
+
  constructor(private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
+    private _snackBar: MatSnackBar, private _inscriptionService: InscriptionService,
     private activatedRoute: ActivatedRoute,
     public elm: ElementRef,
     public _nav: Router) {
@@ -101,9 +107,9 @@ export class BackofficeEFComponent {
       telephoneNumber:['',[Validators.required]],
       carreraId:['',[Validators.required]],
     })
-   
-      
-   
+
+
+
    this.FormsEFDocument=this.fb.group({
       Photo:[''],
       CIP:[''],
@@ -121,7 +127,39 @@ ngOnInit(): void {
      this.SourceExperiencia.paginator = this.paginatorExperiencia;
 }
 
+  getPersonData(cedula: string){
+    this.loading=false;
+    this.disabled=true;
+
+    if(!cedula){
+
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Por favor, ingrese una cédula',
+        icon: "warning"
+      });
+
+    }else{
+      this.loading=true;
+      this.cedulaParticipant=cedula;
+      this._inscriptionService.getDataPerson(cedula).subscribe({
+        next:(data)=>{
+
+          this.loading=false;
+          this.disabled=true;
+          this.personData=data;
+          console.log('Datos de la persona:', data[0]?.datasetPersona);
+        },
+        error:(e)=>this.loading=false,
+        complete:()=> console.info('Complete')
+      })
+
+    }
+
+
+  }
+
   submit() {
-    
+
   }
 }
