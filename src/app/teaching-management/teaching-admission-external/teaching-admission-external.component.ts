@@ -115,7 +115,7 @@ private fb: UntypedFormBuilder,
       placeResidence:['',[Validators.required]],
       email:['',[Validators.required]],
       telephoneNumber:['',[Validators.required]],
-      carreraId:['',[Validators.required]],
+      carreraId:[true,[Validators.required]],
       selected: new FormControl(false),
       listCourse: new FormControl([]),
       listTraining: new FormControl([]),
@@ -280,7 +280,7 @@ private fb: UntypedFormBuilder,
               text: 'Guardado correctamente.',
               icon: "success"
           }); 
-          this._nav.navigate(['/teacher/teacher-admission-external/']);
+         
     },
     error: () => {
       Swal.fire({
