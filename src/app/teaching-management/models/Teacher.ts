@@ -53,6 +53,7 @@ export class Experience {
     export class Document  {
         documentId: number=-1;
         doc: string="";
+        docResult :string="";
         extension: string="";
         docType: number=1;
         description: string | null="";

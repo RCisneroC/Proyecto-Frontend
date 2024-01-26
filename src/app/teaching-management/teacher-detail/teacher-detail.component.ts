@@ -105,9 +105,9 @@ private fb: UntypedFormBuilder,
      await this.getTeacherByCedula();
     }
     this.documentForm= this.fb.group({
-      Photo:new FormControl([]),
-      CIP:new FormControl([]),
-      Title:new FormControl([]),
+      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
       CV:new FormControl([]),
     });
    
@@ -127,6 +127,8 @@ private fb: UntypedFormBuilder,
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
+        console.log(this.documentForm.get("Photo")?.value);
+        
         this._teacherService.isTblLoading = false;
       }
     })
@@ -299,11 +301,10 @@ private fb: UntypedFormBuilder,
   
   createDocumentForm(): UntypedFormGroup {
     return this.fb.group({
-      Photo:new FormControl([]),
-      CIP:new FormControl([]),
-      Title:new FormControl([]),
-      CV:new FormControl([]),
-      LetterAval:new FormControl([]),
+      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
+      CV:new FormControl([])
     });
   }
 
