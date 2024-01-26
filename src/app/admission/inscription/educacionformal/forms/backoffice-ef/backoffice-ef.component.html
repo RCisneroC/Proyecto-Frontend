@@ -14,7 +14,64 @@
                         <h5><strong>Formulario de Inscripción de Formación Especializada</strong></h5>
                         <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
                         <div class="body">
-                            <mat-horizontal-stepper *ngIf="showTable" [linear]="false" #stepper>
+                          <div *ngIf="showTable" class="responsive_table">
+                            <table mat-table [dataSource]="SourceAcademico" matSort class="mat-cell advance-table">
+
+                              <!-- ID Column -->
+
+
+                              <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="description">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="statusId">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
+                                    <span class="mobile-label ">Estatus:</span>{{row.statusId === 1?'Activo':'Inactivo'}}  </div>
+                                </mat-cell>
+                              </ng-container>
+
+                              <!-- actions -->
+                              <ng-container matColumnDef="actions">
+                                <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                                <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                                 <button mat-mini-fab color="accent" title="Editar" (click)="$event.stopPropagation()" (click)="changestatus()"
+                                          class="tbl-action-btn">
+                                    <app-feather-icons [icon]="'edit'"   ></app-feather-icons>
+                                  </button>
+                                  <!--  &lt;!&ndash; <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> &ndash;&gt;
+                                    <button mat-mini-fab color="primary" title="Detalle Salón" (click)="$event.stopPropagation()" class="tbl-action-btn">
+                                      <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                    </button>
+                                    <button mat-mini-fab color="accent" title="Eliminar" (click)="$event.stopPropagation()" (click)="delete(row)" class="tbl-action-btn">
+                                      <app-feather-icons [icon]="'trash'"></app-feather-icons>
+                                    </button>-->
+                                </mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                       [style.cursor]="'pointer'" matRipple>
+                              </mat-row>
+
+                            </table>
+                            <mat-paginator #paginator [length]="2" [pageIndex]="0" [pageSize]="5"
+                                           [pageSizeOptions]="[5, 10, 25, 100]">
+                            </mat-paginator>
+
+                          </div>
+                            <mat-horizontal-stepper *ngIf="!showTable" [linear]="false" #stepper>
                                 <mat-step [stepControl]="FormsEF!">
                                     <form [formGroup]="FormsEF!">
                                         <ng-template matStepLabel>Datos Personales</ng-template>

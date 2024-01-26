@@ -40,6 +40,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     .get<any>(environment.consultaEstudiante+cedula);
   }
 
+  getPlanesAprobados(){
+    return this.httpClient
+      .get<any>(environment.consultaPlanesAprobados);
+  }
+
   getActivities(id:string){
     return this.httpClient.get<any>(environment.apiUrlSchedule+"CurriculumDesign/GetActivitiesBy?CurriculumDesignId="+id)
   }
@@ -57,18 +62,18 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlSchedule+"CurriculumDesign/GetAll")
   }
 
-  upload(file:any):Observable<any> { 
-  
-    const formData = new FormData();  
-      
-    formData.append("file", file, file.name); 
-      
-  
-    return this.httpClient.post(this.baseApiUrl, formData) 
-} 
+  upload(file:any):Observable<any> {
+
+    const formData = new FormData();
+
+    formData.append("file", file, file.name);
+
+
+    return this.httpClient.post(this.baseApiUrl, formData)
+}
 
 updateParticipant(participantData: any): Observable<any> {
- 
+
   const url = `${environment.apiEC}`;
   return this.httpClient.post<ResponseInscripcion>(url+"ContinuingEducation/Addparticipant", participantData);
   }
@@ -109,14 +114,14 @@ getParticipants(): void {
       },
     });
   }
-  
+
     getParticipanteActividad(id:any): void {
     this.subs.sink = this.httpClient
       .get<ParticipantActivity>(environment.apiEC+'GetData/Getinscritos?ActivityId='+id)
       .subscribe({
         next: (data) => {
           console.log(data.getDataResultResponse);
-          
+
           this.isTblLoading = false;
           this.dataChangeParticipant.next(data.getDataResultResponse);
         },

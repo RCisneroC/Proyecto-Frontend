@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,14 @@ import Swal from "sweetalert2";
   templateUrl: './backoffice-ef.component.html',
   styleUrls: ['./backoffice-ef.component.scss']
 })
-export class BackofficeEFComponent {
+export class BackofficeEFComponent  {
+
+  displayedColumns = [
+    'name',
+    'description',
+    'statusId',
+    'actions',
+  ];
 
   InformacionAcademica:string[] = [
     'nivel',
@@ -135,11 +142,26 @@ export class BackofficeEFComponent {
       LetterAval:[''],
    })
   }
-ngOnInit(): void {
+ ngOnInit(): void {
   //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
   //Add 'implements OnInit' to the class.
+     this.loadPlans();
+     this.showTable = true;
      this.SourceAcademico.paginator = this.paginator;
      this.SourceExperiencia.paginator = this.paginatorExperiencia;
+}
+
+loadPlans(){
+    this._inscriptionService.getPlanesAprobados().subscribe({
+      next:(data) =>{
+this.SourceAcademico = data;
+        console.log('Datos de los planes:',data);
+      }
+    })
+}
+
+changestatus(){
+    this.showTable = false;
 }
 
   getPersonData(cedula: string){
