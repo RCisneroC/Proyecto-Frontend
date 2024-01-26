@@ -280,7 +280,7 @@ private fb: UntypedFormBuilder,
               text: 'Guardado correctamente.',
               icon: "success"
           }); 
-         
+          this._nav.navigate(['/teacher/teacher-admission-external/']);
     },
     error: () => {
       Swal.fire({
@@ -291,7 +291,7 @@ private fb: UntypedFormBuilder,
     }
    })
    
-   //this._nav.navigate(['/teaching-management/teacher-list/']);
+
     // emppty stuff
   }
   
