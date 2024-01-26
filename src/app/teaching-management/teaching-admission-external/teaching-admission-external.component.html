@@ -18,8 +18,8 @@
                                     <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
                                     <div class="body">
                                         <mat-horizontal-stepper [linear]="false" #stepper>
-                                            <mat-step [stepControl]="FormsEF!">
-                                                <form [formGroup]="FormsEF!">
+                                            <mat-step [stepControl]="teacherForm!">
+                                                <form [formGroup]="teacherForm!">
                                                     <ng-template matStepLabel>Datos Personales</ng-template>
                                                     <div class="row">
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
@@ -27,7 +27,7 @@
                                                                 <mat-label>Documento de Identidad (Unico)</mat-label>
                                                                 <input matInput formControlName="cedula">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('cedula')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -36,9 +36,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Nombre</mat-label>
-                                                                <input matInput formControlName="name" [readonly]="true">
+                                                                <input matInput formControlName="name">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('name')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('name')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -46,9 +46,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Apellido</mat-label>
-                                                                <input matInput formControlName="lastName" [readonly]="true">
+                                                                <input matInput formControlName="lastName" >
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('lastName')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -59,9 +59,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Lugar de nacimiento</mat-label>
-                                                                <input matInput formControlName="placeOfBirth" [readonly]="true">
+                                                                <input matInput formControlName="placeOfBirth" >
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('placeOfBirth')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -73,7 +73,7 @@
                                                                 <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
                                                                 <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
                                                                 <mat-datepicker #fechaNacimiento></mat-datepicker>
-                                                                 <mat-error *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('fechaNacimiento')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -82,9 +82,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Dirección residencial</mat-label>
-                                                                <input matInput formControlName="residentialAddress" [readonly]="true">
+                                                                <input matInput formControlName="placeResidence">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('placeResidence')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -95,9 +95,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Correo electrónico</mat-label>
-                                                                <input matInput formControlName="email" [readonly]="true">
+                                                                <input matInput formControlName="email" >
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('email')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -106,9 +106,9 @@
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
                                                                 <mat-label>Número telefónico</mat-label>
-                                                                <input matInput formControlName="telephoneNumber" [readonly]="true">
+                                                                <input matInput formControlName="telephoneNumber" >
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                                 <mat-error *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('telephoneNumber')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -124,7 +124,7 @@
                                                                 <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
                                                                     la modalidad es requerida
                                                                 </mat-error> -->
-                                                                 <mat-error *ngIf="FormsEF.get('planningDate')?.hasError('required')">
+                                                                 <mat-error *ngIf="teacherForm.get('planningDate')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                             </mat-form-field>
@@ -139,7 +139,7 @@
                                             <mat-step>
                                                 <form>
                                                     <ng-template matStepLabel>Información Académico</ng-template>
-                                                    <button (click)="AddTraining()" mat-raised-button matStepperPrevious color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
+                                                    <button (click)="AddTraining()" mat-raised-button  color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
                                                     <div class="body">
                                                         <div class="body table-responsive">
                                                             <table mat-table [dataSource]="DataTeacher.listTraining" class="w-100">
@@ -198,7 +198,7 @@
                                             <mat-step>
                                                 <form>
                                                     <ng-template matStepLabel>Información Laboral</ng-template>
-                                                    <button mat-raised-button matStepperPrevious color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Labral</button>
+                                                    <button mat-raised-button (click)="AddExperience()" color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Labral</button>
             
                                                     <div class="body">
                                                         <div class="body table-responsive">

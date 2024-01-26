@@ -13,6 +13,7 @@ import { AddExperienceComponent } from './add-experience/add-experience.componen
 import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.component';
 import { AddTrainingComponent } from './add-training/add-training.component';
 import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
+import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { TeachingAdmissionExternalComponent } from './teaching-admission-externa
     AddExperienceComponent,
     AprovedTeacherComponent,
     AddTrainingComponent,
-    TeachingAdmissionExternalComponent
+    TeachingAdmissionExternalComponent,
+    TeachingHistoryListComponent
   ],
   imports: [
     CommonModule,

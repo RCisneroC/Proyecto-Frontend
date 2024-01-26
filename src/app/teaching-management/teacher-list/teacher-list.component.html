@@ -30,13 +30,7 @@
                           </div>
                           <div class="right">
                             <ul class="tbl-export-btn">
-                              <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="Nuevo">
-                                  <button mat-mini-fab color="primary" (click)="addNew()">
-                                    <mat-icon class="col-white">add</mat-icon>
-                                  </button>
-                                </div>
-                              </li>
+                          
                               <li class="tbl-header-btn">
                                 <div class="m-l-10" matTooltip="REFRESH">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
@@ -201,7 +195,7 @@
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                 
-                                  <button *ngIf="row.statusId===0" Tooltip="Aprobar docente" mat-icon-button color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
+                                  <button *ngIf="row.statusId>=0" Tooltip="Aprobar docente" mat-mini-fab color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
                                     <app-feather-icons [icon]="'check-square'"  ></app-feather-icons>
                                 </button>
                                   <button *ngIf="true!==true" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
@@ -209,9 +203,16 @@
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
                                   
-                                  <button *ngIf="row.statusId>=0" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                                  <!-- <button matTooltip="Ver Detalle" mat-mini-fab color="primary" (click)="ViewDetail(row)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                  </button>
+                                  <button matTooltip="Aprobar estudiante" mat-mini-fab color="warn" (click)="aprobar(row)">
+                                    <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                                  </button> -->
+                                  <button *ngIf="row.statusId>=0" mat-mini-fab color="primary" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                   class="tbl-action-btn">
-                                  <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                  <mat-icon>remove_red_eye</mat-icon>
+                                  <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
                                 </button>
                                
                                

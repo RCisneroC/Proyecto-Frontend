@@ -16,7 +16,9 @@
                         <h2 class="text-uppercase">{{header}}</h2>
                       </div>
                       <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" style="text-align: left;">
-                        <span class="badge badge-solid-green">{{DataTeacher.selected?"Seleccionado":"Pre-seleccionado" }}</span>
+                        <span *ngIf="DataTeacher.statusId===0" class="badge badge-solid-blue">Pendiente</span>
+                        <span *ngIf="DataTeacher.statusId===1" class="badge badge-solid-green">Aprobado</span>
+                        <span *ngIf="DataTeacher.statusId===2" class="badge badge-solid-red">Rechazado</span>
                        </div>
                       
                       <div class="col-lg-7 col-md-7 col-sm-7 col-7" style="text-align: right;"> 
@@ -24,7 +26,57 @@
                       </div>
                     
                     </div>
-                        <form class="register-form m-4" [formGroup]="teacherForm" (ngSubmit)="submit()">
+                    <div class="body">
+                      <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Documento de identidad</h6>
+                              <label for="">{{ DataTeacher.cedula }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Nombre</h6>
+                              <label for="">{{ DataTeacher.name }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Apellido</h6>
+                              <label for="">{{ DataTeacher.lastName }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Lugar de nacimiento</h6>
+                              <label for="">Panama</label>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Fecha de nacimiento</h6>
+                              <label for="">{{ DataTeacher.applicationDate| date:'dd/M/yyyy' }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Dirección residencial</h6>
+                              <label for="">{{ DataTeacher.placeResidence }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Correo electrónico</h6>
+                              <label for="">{{ DataTeacher.email }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Número telefonico</h6>
+                              <label for="">+5078748952</label>
+                          </div>
+                      </div>
+
+              
+                      <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+                        <div class="">
+                            <button matTooltip="Regresar" mat-raised-button color="accent"
+                                 (click)="Regresar()" >
+                                <mat-icon>keyboard_backspace</mat-icon> Regresar
+                            </button>
+                        </div>
+                    </div>
+                  </div>
+                    
+                        <!-- <form class="register-form m-4" [formGroup]="teacherForm" (ngSubmit)="submit()">
                         <div class="row">
                           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                             <mat-form-field class="example-full-width " appearance="outline">
@@ -107,7 +159,7 @@
                             
                         </div>
 
-                        </form>
+                        </form> -->
                     <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
                 </div>
             </div>
@@ -117,9 +169,9 @@
                   <div class="header">
                       <h2 class="text-uppercase"><strong>Experiencia Profesional</strong>
 
-                      <button (click)="AddExperience()"  matTooltip="Agregar experiencia" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                      <!-- <button (click)="AddExperience()"  matTooltip="Agregar experiencia" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                           <mat-icon>add</mat-icon>
-                      </button>
+                      </button> -->
                   </h2>
                   </div>
                   <div class="body" >
@@ -152,9 +204,9 @@
                               <ng-container matColumnDef="actions">
                                   <th mat-header-cell *matHeaderCellDef> Acción </th>
                                   <td mat-cell *matCellDef="let element">  
-                                      <button (click)="RemoveExperience(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                      <!-- <button (click)="RemoveExperience(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                           <mat-icon>restore_from_trash</mat-icon>
-                                      </button>
+                                      </button> -->
                                   </td>
                               </ng-container>
                               <tr mat-header-row *matHeaderRowDef="displayedColumnsExperience"></tr>
@@ -173,9 +225,9 @@
                     <div class="header">
                         <h2 class="text-uppercase"><strong>Formaciones</strong>
 
-                        <button (click)="AddTraining()"  matTooltip="Agregar formación" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                        <!-- <button (click)="AddTraining()"  matTooltip="Agregar formación" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                             <mat-icon>add</mat-icon>
-                        </button>
+                        </button> -->
                     </h2>
                     </div>
                     <div class="body">
@@ -215,9 +267,9 @@
                                 <ng-container matColumnDef="actions">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">  
-                                        <button (click)="removeTraining(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                        <!-- <button (click)="removeTraining(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                             <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
+                                        </button> -->
                                     </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsTraining"></tr>
@@ -235,9 +287,7 @@
                   <div class="header">
                       <h2 class="text-uppercase"><strong>Documentos</strong>
 
-                      <button (click)="AddTraining()"  matTooltip="Agregar formación" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                          <mat-icon>add</mat-icon>
-                      </button>
+                    
                   </h2>
                   </div>
                   <div class="body">
@@ -265,10 +315,7 @@
                             <app-file-upload   formControlName="CV" ></app-file-upload>
                         </div>
                         
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                            <mat-label style="font-weight: bold;">Carta Aval</mat-label>
-                            <app-file-upload formControlName="LetterAval" ></app-file-upload>
-                        </div>
+                   
                     </div>
                     </form>
                   </div>

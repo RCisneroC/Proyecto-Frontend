@@ -281,6 +281,17 @@ export const ROUTES: RouteInfo[] = [
         badge: "",
         badgeClass: "",
         submenu: [],
+      }, 
+      {
+        path: "/teaching-management/teacher-history-list",
+        title: "Historial docente",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: [],
       }
     ]
   

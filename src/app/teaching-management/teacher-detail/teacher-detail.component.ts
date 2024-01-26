@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { Experience, Teacher, Training, fileDetails } from '../models/Teacher';
+import { Experience, Teacher, Training } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import Swal from 'sweetalert2';
 import { MatAccordion } from '@angular/material/expansion';
@@ -75,10 +75,7 @@ header!: string;
 experience?: Experience;
 training?: Training;
 _Form_Data = new FormData();
-  docForm!: UntypedFormGroup;
-
-
-
+docForm!: UntypedFormGroup;
 
 
 constructor( private activatedRoute: ActivatedRoute,
@@ -104,7 +101,7 @@ private fb: UntypedFormBuilder,
     this.documentForm = this.createDocumentForm();
     this.header="Crear docente";
     if(this.cedula!="-1"){
-     this.header="Editar docente";
+     this.header="Detalle docente";
      await this.getTeacherByCedula();
     }
     this.documentForm= this.fb.group({
@@ -112,7 +109,6 @@ private fb: UntypedFormBuilder,
       CIP:new FormControl([]),
       Title:new FormControl([]),
       CV:new FormControl([]),
-      LetterAval:new FormControl([]),
     });
    
     this.docForm= this.fb.group({

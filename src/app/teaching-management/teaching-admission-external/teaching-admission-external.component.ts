@@ -70,7 +70,7 @@ header!: string;
 experience?: Experience;
 training?: Training;
 _Form_Data = new FormData();
-  FormsEF!: UntypedFormGroup;
+
   FormsEFDocument!: UntypedFormGroup;
 
 
@@ -104,16 +104,25 @@ private fb: UntypedFormBuilder,
     });
    
    
-    this.FormsEF=this.fb.group({
+    this.teacherForm=this.fb.group({
+      teacherId :new FormControl(0),
       cedula:['',[Validators.required]],
       name:['',[Validators.required]],
       lastName:['',[Validators.required]],
       placeOfBirth:['',[Validators.required]],
       dateOfBirth:['',[Validators.required]],
-      residentialAddress:['',[Validators.required]],
+      placeResidence:['',[Validators.required]],
       email:['',[Validators.required]],
       telephoneNumber:['',[Validators.required]],
       carreraId:['',[Validators.required]],
+      selected: new FormControl(false),
+      listCourse: new FormControl([]),
+      listTraining: new FormControl([]),
+      listSpecialty: new FormControl([]),
+      listExperience: new FormControl([]),
+      listDocument: new FormControl([]),
+      process: new FormControl(1),
+      createdBy: new FormControl("")
     })
   }
   
@@ -242,8 +251,8 @@ private fb: UntypedFormBuilder,
   }
   
   submit() {
-    //const file=this.documentForm.get('CIP')?.value;
-    console.log(this._Form_Data);
+ 
+  console.log(this._Form_Data);
  
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
@@ -268,7 +277,7 @@ private fb: UntypedFormBuilder,
     }
    })
    
-   this._nav.navigate(['/teaching-management/teacher-list/']);
+   //this._nav.navigate(['/teaching-management/teacher-list/']);
     // emppty stuff
   }
   

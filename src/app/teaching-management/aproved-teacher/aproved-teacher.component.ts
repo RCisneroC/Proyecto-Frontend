@@ -5,7 +5,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { Teacher } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import { UserService } from 'app/security/user/service/user.service';
-import { map, switchMap } from 'rxjs';
+
 
 
 export interface DialogData {
@@ -45,6 +45,7 @@ export class AprovedTeacherComponent {
         this.dialogTitle ="Aprobar Cronograma";
         //this.id_cronograma = data.scheduleActivity.id;
       }
+      this.dialogTitle="Aprobar solicitud de docente"
       this.ApprovedForm = this.fb.group({
         teacherId: [data.teacher.teacherId,[Validators.required]],
         statusId:['',[Validators.required]],
@@ -63,37 +64,44 @@ export class AprovedTeacherComponent {
       });
     }
     
-    async login(): Promise<void> {
-      // Realiza la solicitud HTTP
-      const usuario = await this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue());
+   
+    submit() {
+      const status=this.ApprovedForm.get("statusId")?.value;
+     this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
+      () => {
+      if (status!=2){
       
-      if (!usuario) {
-         this._userService.addUser(this.UserForm.value).subscribe({
-
-          next: () => {
+     
+        this._userService.addUser(this.UserForm.value).subscribe(
+          (data) => {
+            console.log(data)
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Aprobado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+                   this.ResponseMessage.Message = error;
+                   this.dialogRef.close(this.ResponseMessage);
+          })
+        }else{
           this.ResponseMessage.CodError = 200;
           this.ResponseMessage.Message = 'Aprobado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
-        },
-            error: (err) => {
-              this.ResponseMessage.CodError = 500;
-              this.ResponseMessage.Message = err;
-              this.dialogRef.close(this.ResponseMessage);
-            }
-        });
-      }else{
-        
-           
-              this.ResponseMessage.CodError = 500;
-             
-              this.dialogRef.close(this.ResponseMessage);
-          
+        }
+      },
+      (error) => {
+        this.ResponseMessage.CodError = 500;
+               this.ResponseMessage.Message = error;
+               this.dialogRef.close(this.ResponseMessage);
+      },
+      () => {
+        // this.ResponseMessage.CodError = 200;
+        //    this.ResponseMessage.Message = 'Aprobado correctamente.';
+        //    this.dialogRef.close(this.ResponseMessage);
+        // La promesa se resolvió correctamente.
       }
-    }
-    submit() {
-     //this.login();
-
-    
+    );
       
     }
   }
