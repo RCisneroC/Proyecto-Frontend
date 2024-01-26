@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
+import { Persona } from 'app/admission/models/persona';
+import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,10 +20,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   baseApiUrl = "https://file.io"
   isTblLoading = true;
   public _ResponseInscripcion!: ResponseInscripcion;
+  public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
-
+  public _documentosIncripcion!: documentosIncripcion;
   get data(): Participant[] {
     return this.dataChange.value || [];
   }
@@ -44,6 +47,10 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   getActivity(id:string){
     return this.httpClient.get<any>(environment.apiUrlSchedule+"Activity/GetBy?Id="+id)
 
+  }
+
+   getDocumentos(InscriptionId:string,FileType:string){
+    return this.httpClient.get<documentosIncripcion>(environment.apiEC+"EFInscription/EFGetDoc?InscriptionId="+InscriptionId+"&FileType="+FileType)
   }
 
   getShedule(){
@@ -160,6 +167,70 @@ getParticipants(): void {
       ],
       isError:false,
       statusCode:0
+    }
+  }
+    init_Persona() {
+      this._Persona = [
+      {
+      datasetPersona:
+        {
+          imagenes: {
+          urlFirma: '',
+          urlFoto:''
+        },
+        personaConfidencial: {
+          primer_nombre_madre:'',
+          apellido_paterno_madre:'',
+          apellido_materno_madre:'',
+          primer_nombre_padre:'',
+          apellido_paterno_padre:'',
+          apellido_materno_padre:'',
+          nombre_centro:'',
+          provincia_nombre:'',
+          distrito_nombre:'',
+          corregimiento_nombre:'',
+          cedula_madre:'',
+          cedula_padre:'',
+        },
+        personaPublica: {
+          provincia:                '',
+          tomo:                     '',
+          asiento:                  '',
+          cedula:                   '',
+          primer_nombre:            '',
+          segundo_nombre:           '',
+          apellido_paterno:         '',
+          apellido_materno:         '',
+          fecha_nacimiento:         new Date(),
+          sexo:                     '',
+          estado_civil:             '',
+          pais:                     '',
+          prov:                     '',
+          distrito:                 '',
+          corregimiento:            '',
+          fecha_vencimiento_cedula: new Date(),
+          lugarnacimientope:        '',
+          lugarDeNacimiento:        '',
+          barrio_residencia:        '',
+          calle_residencia:         '',
+          edificio_casa:            '',
+          nombreCedula:             '',
+        }
+      }
+    }
+    ]
+  }
+  init_documentosIncripcion() {
+    this._documentosIncripcion = {
+      getDocResp: [
+        {
+          docFile: '',
+          fileType:''
+        }
+      ],
+      isError: false,
+      message: '',
+      statusCode:'0'
     }
   }
 }

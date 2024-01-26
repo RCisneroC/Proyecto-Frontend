@@ -140,14 +140,14 @@ export const ROUTES: RouteInfo[] = [
   },
   {
       path: "",
-      title: "Maestros",
+      title: "Ajustes",
       iconType: "",
       icon: "database",
       class: "menu-toggle",
       groupTitle: false,
       badge: "",
       badgeClass: "",
-    submenu: [
+      submenu: [
         {
           path: "/admission/source-funds-list",
           title: "Origen de fondos",
@@ -256,11 +256,21 @@ export const ROUTES: RouteInfo[] = [
           badge: "",
           badgeClass: "",
           submenu: []
+        },
+        {
+          path: "/admission/cooperating-organization",
+          title: "Crear Programa",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
         }
         
       ]
   },
-  //inscripcion
   {
     path: "",
     title: "Gestión Docente",
@@ -294,8 +304,122 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       }
     ]
-  
   },
+  {
+      path: "",
+      title: "Ajustes EF",
+      iconType: "",
+      icon: "database",
+      class: "menu-toggle",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      submenu: [
+        {
+          path: "/admission/carreras",
+          title: "Carreras",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/asignaturas",
+          title: "Asignaturas",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/documentos-requeridos",
+          title: "Documentos requeridos",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/competencias",
+          title: "Competencias",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/modo-estudios",
+          title: "Modo de estudios",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/salones",
+          title: "Salones",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+        {
+          path: "/admission/estado",
+          title: "Estados",
+          iconType: "",
+          icon: "",
+          class: "ml-menu",
+          groupTitle: false,
+          badge: "",
+          badgeClass: "",
+          submenu: []
+        },
+
+      ]
+  },
+  // //inscripcion
+  // {
+  //   path: "",
+  //   title: "Gestión Docente",
+  //   iconType: "feather",
+  //   icon: "lock",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   submenu: [
+  //     {
+  //       path: "/teaching-management/teacher-list",
+  //       title: "Docentes",
+  //       iconType: "",
+  //       icon: "",
+  //       class: "ml-menu",
+  //       groupTitle: false,
+  //       badge: "",
+  //       badgeClass: "",
+  //       submenu: [],
+  //     }
+  //   ]
+  
+  // },
   //Seguridad
   {
     path: "",

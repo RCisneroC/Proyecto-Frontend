@@ -38,7 +38,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     selection = new SelectionModel<Participant>(true, []);
     id?: any;
     schedule?: Participant;
-  
+  nameActivity: string='';
     constructor(
       public httpClient: HttpClient,
       public dialog: MatDialog,
@@ -57,7 +57,8 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
     contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
        this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
+         this.id = params['id'];
+         this.nameActivity = localStorage.getItem('name_actividad') || '';
   })
       this.loadData();
     }
@@ -65,6 +66,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       this.loadData();
     }
   ViewDetail(row: Participant) {
+    localStorage.setItem('id_activida', this.id);
       localStorage.setItem('url','/admission/listado-participans/'+this.id)
       this.router.navigate(['/admission/detalle-participans',row.cedula]);
     }

@@ -49,9 +49,15 @@ export interface GetDataResultResponse {
 }
 
 export interface DetailsResponse {
+    inscriptionId:     number;
     firstName:         string;
     lastName:          string;
+    secondsurname:     string;
     gender:            string;
+    cedula:            string;
+    email:             string;
+    institution:       string;
+    university:        string;
     dependency:        string;
     cooperatingEntity: string;
     position:          string;
@@ -59,10 +65,13 @@ export interface DetailsResponse {
     judicialDistrict:  string;
     activityName:      string;
     startDate:         Date;
+    inviationDate:     Date;
     duration:          number;
     totalHours:        number;
     activityMode:      string;
     activityType:      string;
     activityLocation:  string;
+    observation:       string;
+    createDate:        Date;
     name:              string;
 }

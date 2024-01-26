@@ -35,14 +35,14 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 export class ActivitydetailComponent implements OnInit {
   public urlConvocatoria: string = '';
   DisplayNameDocument: string[] = [
-    'Id',
+    // 'Id',
     'nombre',
     'accion'
   ];
 
   DisplayNamePoster: string[] = [
-    'Id',
     'Formato',
+    'tipo',
     'Documentos',
     'Estado',
     'accion'
@@ -55,7 +55,7 @@ export class ActivitydetailComponent implements OnInit {
   ];
 
   DisplayNameOrganization: string[] = [
-    'Id',
+    // 'Id',
     'logo',
     'nombre',
     'accion'
@@ -143,7 +143,7 @@ export class ActivitydetailComponent implements OnInit {
     this.dataOrganismos.paginator = this.paginatorOrganismos;
   }
   getOneActivity() {
-    this._ActivityService.loading = true;
+    // this._ActivityService.loading = true;
     this._ActivityService.GetOneActivity(this.paramsId).
       subscribe({
         next: (res: GetOneActivity) => {
@@ -166,7 +166,7 @@ export class ActivitydetailComponent implements OnInit {
           this._router.navigate(['/admission/schedule-activities-list']);
         },
         complete: () => {
-           this._ActivityService.loading = false;
+          //  this._ActivityService.loading = false;
         }
       })
   }
@@ -516,9 +516,15 @@ export class ActivitydetailComponent implements OnInit {
           this.urlConvocatoria = `${environment.base}details-inscription/${encrip}`;
           Swal.fire({
             title: "<strong>Escuela Judicial</strong>",
-            html: '<p>URL para la convocatoria</p><a target="_blank" href="' + this.urlConvocatoria + '">Ir</a>',
+            html: '<p>Convocatoria generada correctamente, fue copiado en el portapapel.</p><a target="_blank" href="' + this.urlConvocatoria + '">Ir a la convocatoria</a>',
             icon: "success"
           });
+            const el = document.createElement('textarea');
+            el.value = this.urlConvocatoria;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
         } else {
           Swal.fire({
             title: "<strong>Escuela Judicial</strong>",
@@ -532,6 +538,5 @@ export class ActivitydetailComponent implements OnInit {
   gestionarSalon() {
     localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);
     this._router.navigate(['/admission/reservar-salones/' + this.paramsId]);
-    // [routerLink]="['/admission/reservar-salones/'+_ActivityService._GetOneActivity.id]"
   }
 }

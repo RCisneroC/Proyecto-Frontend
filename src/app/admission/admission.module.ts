@@ -72,6 +72,25 @@ import { ApprovalIncriptionComponent } from './inscription/educacionformal/appro
 import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
 import { InfoAcademicaComponent } from './inscription/educacionformal/forms/info-academica/info-academica.component';
 import { InfoExperienciaComponent } from './inscription/educacionformal/forms/info-experiencia/info-experiencia.component';
+import { DegreeComponent } from './FormalEducations/Maestros/degree/degree.component';
+import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component'
+import { DegreeCompetenceComponent } from './FormalEducations/Maestros/degree-competence/degree-competence.component';
+import { RoomsComponent } from './FormalEducations/Maestros/rooms/rooms.component';
+import { StatusComponent } from './FormalEducations/Maestros/status/status.component';
+import { StudyModeComponent } from './FormalEducations/Maestros/study-mode/study-mode.component';
+import { SubjectComponent } from './FormalEducations/Maestros/subject/subject.component';
+import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
+import { CurriculumDesignComponent } from './FormalEducations/Gestions/curriculum-design/curriculum-design.component';
+import { CurriculumSubjectComponent } from './FormalEducations/Gestions/curriculum-subject/curriculum-subject.component';
+import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
+import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
+import { FormsDegreeComponent } from './FormalEducations/Maestros/Forms/forms-degree/forms-degree.component';
+import { FormsRequirementDegreeComponent } from './FormalEducations/Maestros/Forms/forms-requirement-degree/forms-requirement-degree.component';
+import { FormsDregreeCompetenceComponent } from './FormalEducations/Maestros/Forms/forms-dregree-competence/forms-dregree-competence.component';
+import { FormsRoomsComponent } from './FormalEducations/Maestros/Forms/forms-rooms/forms-rooms.component';
+import { FormsStatusComponent } from './FormalEducations/Maestros/Forms/forms-status/forms-status.component';
+import { FormsStudyModeComponent } from './FormalEducations/Maestros/Forms/forms-study-mode/forms-study-mode.component';
+import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-subject/forms-subject.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -142,6 +161,25 @@ import { InfoExperienciaComponent } from './inscription/educacionformal/forms/in
     BackofficeEFComponent,
     InfoAcademicaComponent,
     InfoExperienciaComponent,
+    DegreeComponent,
+    DegreeAdmissionRequirementComponent,
+    DegreeCompetenceComponent,
+    RoomsComponent,
+    StatusComponent,
+    StudyModeComponent,
+    SubjectComponent,
+    AnnualPlanComponent,
+    CurriculumDesignComponent,
+    CurriculumSubjectComponent,
+    DegreeAdminissionRequirementComponent,
+    DeggreeCompetenceComponent,
+    FormsDegreeComponent,
+    FormsRequirementDegreeComponent,
+    FormsDregreeCompetenceComponent,
+    FormsRoomsComponent,
+    FormsStatusComponent,
+    FormsStudyModeComponent,
+    FormsSubjectComponent
     
   ],
   providers: [

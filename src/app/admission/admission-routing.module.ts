@@ -29,6 +29,15 @@ import { ListscheduleComponent } from './inscription/approval/listschedule/lists
 import { ListActivityComponent } from './inscription/approval/list-activity/list-activity.component';
 import { BackofficeEFComponent } from './inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component';
 import { DetalleParticipanteComponent } from './inscription/approval/activity-participants-list/detalle/detalle-participante/detalle-participante.component';
+import { DegreeComponent } from './FormalEducations/Maestros/degree/degree.component';
+import { SubjectComponent } from './FormalEducations/Maestros/subject/subject.component';
+import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
+import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
+import { RoomsComponent } from './FormalEducations/Maestros/rooms/rooms.component';
+import { StatusComponent } from './FormalEducations/Maestros/status/status.component';
+import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component';
+import { DegreeCompetenceComponent } from './FormalEducations/Maestros/degree-competence/degree-competence.component';
+import { StudyModeComponent } from './FormalEducations/Maestros/study-mode/study-mode.component';
 const routes: Routes = [
 
   {
@@ -162,6 +171,35 @@ const routes: Routes = [
   {
     path: "list-rooms-approve",
     component: ListRequestRoomsComponent,
+  },
+    // ajustes  EF
+  {
+    path: "carreras",
+    component: DegreeComponent,
+  },
+  {
+    path: "asignaturas",
+    component: SubjectComponent,
+  },
+  {
+    path: "documentos-requeridos",
+    component: DegreeAdmissionRequirementComponent,
+  },
+  {
+    path: "competencias",
+    component: DegreeCompetenceComponent,
+  },
+  {
+    path: "modo-estudios",
+    component: StudyModeComponent,
+  },
+  {
+    path: "salones",
+    component: RoomsComponent,
+  },
+  {
+    path: "estado",
+    component:StatusComponent ,
   },
   {
     path: "form-ef",

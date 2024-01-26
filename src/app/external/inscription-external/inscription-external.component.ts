@@ -13,6 +13,7 @@ import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { Requirement } from 'app/admission/models/Requeriminet';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { ValidateFileResponse, VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
+import { Persona } from 'app/admission/models/persona';
 
 @Component({
   selector: 'app-inscription-external',
@@ -48,7 +49,8 @@ export class InscriptionExternalComponent implements OnInit {
     cedulaParticipant:string="";
     loadingFile: boolean = false;
   IsError: boolean = false;
-   public converId: any;
+  public converId: any;
+  busquedaR: boolean = false;
   constructor(private fb:
     FormBuilder,
     private Path: ActivatedRoute,
@@ -95,6 +97,7 @@ ngOnInit():void{
     this.idActivity = this.Path.snapshot.params['id'];
     if (this.idActivity != null) {
       this.converId = this._ActivityDetailService.decryptData(this.idActivity, 'Panama2019$');
+      this.getOneActivityDetails();
     } else {
       this._router.navigate(['/']);
     }
@@ -116,7 +119,8 @@ ngOnInit():void{
   regresar() {
     location.reload();
   }
-  getPersonData(cedula: string){
+  getPersonData(cedula: string) {
+    this._inscriptionService.init_Persona();
     this.loading=false;
     this.disabled=true;
     
@@ -132,21 +136,54 @@ ngOnInit():void{
     this.loading=true;
     this.cedulaParticipant=cedula;
       this._inscriptionService.getDataPerson(cedula).subscribe({
-        next:(data)=>{
-          
-          this.loading=false;
-          this.disabled=true;
-          this.personData=data;
-          console.log('Datos de la persona:', data[0]?.datasetPersona);
+        next: (data: Persona[]) => {
+          this._inscriptionService._Persona = data;
+          console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
+          if (data.length > 0) {
+            this.busquedaR=true;
+            if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
+              this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+               this.disabled=false;
+            } else {
+              if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
+                this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
+              } else {
+                this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
+              }
+              this.busquedaR=true;
+              this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+              this.disabled=true;
+            }
+          }
+         
+          // this.personData=data;
+          // console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
         error:(e)=>this.loading=false,
-        complete:()=> console.info('Complete')
+        complete: () => {
+           this.loading=false;
+        }
       })
 
    }
     
 
   }
+
+    getOneActivityDetails() {
+    this._ActivityDetailService.GetOneActivity(this.converId).
+            subscribe({
+              next: (res: GetOneActivity) => {
+                this._ActivityDetailService._GetOneActivity = res;
+              }, error: (err) => {
+                console.log(err);
+                this._router.navigate(['/']);
+              },
+              complete: () => {
+              }
+            });
+  }
+
 
   getActivities(idSchedule: string) {
     this.showMessage = false;
@@ -355,14 +392,14 @@ getSchedule(){
          if(encontrado) {
             Swal.fire({
                 title: "Escuela Judicial",
-                text: `Faltan documentos requeridos`,
+                text: `Faltan documentos requeridos, verificar que todos los documentos esten cargados.`,
                 icon: "warning"
             });
           this.IsError = true;
         } else {
            Swal.fire({
                 title: "Escuela Judicial",
-                text: `Documentos Cargados correctamente.`,
+                text: `Documentación completada, Inscrito correctamente.`,
                 icon: "success"
             });
           this.IsError = false;

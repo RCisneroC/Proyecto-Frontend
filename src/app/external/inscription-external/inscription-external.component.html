@@ -1,21 +1,35 @@
-<section class="content">
+<section style="margin: 40px;">
   <div class="content-block">
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
-          <div class="header">
-            <h2><strong>Formulario de Inscripcion</strong></h2>
-          </div>
           <div class="body">
             <div class="row">
               <div class="col-lg-12 text-center">
                 <img src="assets/images/ISJUP.png" style="width: 20%;" />
+                <!-- <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
+                <p>Nodalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
+                <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p> -->
               </div>
             </div>
             <div *ngIf="showFileSection">
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="card">
+                    <div class="row" style="margin-top: 10px;">
+                      <div class="col-lg-4">
+                        <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
+                    
+                      </div>
+                      <div class="col-lg-4">
+                        <p>Modalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
+                    
+                      </div>
+                      <div class="col-lg-4">
+                        <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p>
+                    
+                      </div>
+                    </div>
                     <div class="materialTableHeader">
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
@@ -24,7 +38,7 @@
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                            <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
+                            <input placeholder="Ejemplo: 9-999-999" type="text" #filter class="browser-default search-field"
                               aria-label="Search box" />
                             <button mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
                               <mat-icon>search</mat-icon>
@@ -39,7 +53,7 @@
 
               <mat-spinner *ngIf="loading"> </mat-spinner>
 
-              <div *ngIf="personData" class="container">
+              <div *ngIf="busquedaR" class="container">
                 <mat-card class="card">
                   <mat-card-subtitle> Datos de la persona </mat-card-subtitle>
                   <form [formGroup]="form" (ngSubmit)="addParticipant()">
@@ -49,8 +63,7 @@
                           <mat-label>Nombre</mat-label>
                           <input formControlName="firstName" matInput autocomplete="off" [readonly]="disabled"
                             [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.primer_nombre
+                              personData?.primer_nombre
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -58,8 +71,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Primer Apellido</mat-label>
                           <input formControlName="lastName" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.apellido_paterno
+                              personData?.apellido_paterno
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -68,8 +80,7 @@
                           <mat-label>Segundo Apellido</mat-label>
                           <input formControlName="secondSurname" matInput autocomplete="off" [readonly]="disabled"
                             [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.apellido_materno
+                              personData?.apellido_materno
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -77,8 +88,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Cedula</mat-label>
                           <input formControlName="cedula" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.cedula
+                              personData?.cedula
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -86,27 +96,24 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Sexo</mat-label>
                           <input formControlName="gender" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.sexo
+                              personData?.sexo
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Provincia</mat-label>
-                          <input formControlName="province" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.provincia
+                          <input formControlName="province" matInput autocomplete="off" [ngModel]="
+                              personData?.provincia
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Distrito</mat-label>
-                          <input formControlName="judicialDistrict" matInput autocomplete="off" [readonly]="disabled"
+                          <input formControlName="judicialDistrict" matInput autocomplete="off"
                             [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.distrito
+                              personData?.distrito
                             " />
                         </mat-form-field>
                       </mat-grid-tile>

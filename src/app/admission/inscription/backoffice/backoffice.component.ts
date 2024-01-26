@@ -270,7 +270,7 @@ getSchedule(){
                 text: 'Creado correctamente, siguiente paso: cargar los documentos requeridos por la actividad.',
                 icon: "success"
          });
-        this.verificarDocumentacion();
+        // this.verificarDocumentacion();
         this.showFileSection=false;
       },
       error: (error) => {
@@ -316,7 +316,7 @@ getSchedule(){
           elementImg.value = '';
           elementText.innerHTML  = '('+requirement.name+') '+'Cargado Correctamente.';
           this.loadingFile = false;
-          this.verificarDocumentacion();
+          // this.verificarDocumentacion();
         }, error: (err) => {
           elementImg.value = '';
           Swal.fire({
@@ -347,7 +347,7 @@ getSchedule(){
         } else {
            Swal.fire({
                 title: "Escuela Judicial",
-                text: `Documentos Cargados correctamente.`,
+                text: `Documentos Cargados correctamente, se inscribio correctamente.`,
                 icon: "success"
             });
           this.IsError = false;
