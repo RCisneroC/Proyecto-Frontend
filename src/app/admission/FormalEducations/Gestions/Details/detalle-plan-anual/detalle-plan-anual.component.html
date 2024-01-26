@@ -1,0 +1,146 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Detalle de Plan'" [items]="['Inicio','Admisión','Asignaturas']"
+                [active_item]="'Detalle de Plan'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div #imageElement class="header">
+                        <h2 class="text-uppercase">Detalle del Plan Anual</h2>
+                    </div>
+                    <!-- <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha de inicio</h6>
+                                <label for="">{{ _CreateCurriculumDesign.startDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha Fin</h6>
+                                <label for="">{{ _CreateCurriculumDesign.endDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Listado de Periodos</strong>
+                            <button (click)="AddPeriod()" matTooltip="Agregar Periodo"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataPeriod" class="w-100">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="maxCupos">
+                                    <th mat-header-cell *matHeaderCellDef> Cupos del periodo </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.maxNumOfParticipants }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="fechas">
+                                    <th mat-header-cell *matHeaderCellDef> Fechas </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy'}} -
+                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Estado">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.statusId |statusPipe }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="deletePeriodo(element)" mat-mini-fab color="accent"
+                                            matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                        <button (click)="editarPeriodo(element)" mat-mini-fab color="primary"
+                                            matTooltip="Editar">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNamePeriod"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNamePeriod;"></tr>
+                            </table>
+                            <mat-paginator #listadoPeriodo [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Listado de Mallas Curriculares</strong>
+                            <button (click)="AddMallas()" matTooltip="Agregar Malla Curricular"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataDegreeCurriculum" class="w-100">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="fechas">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Vigencia </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy'}} -
+                                        {{ element.endDate | date:'dd/M/yyyy'}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Estado">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.statusId |statusPipe }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="deleteMallaCurricular(element)" mat-mini-fab color="primary"
+                                            matTooltip="Desvincular Malla Curricular">
+                                            <mat-icon>refresh</mat-icon>
+                                        </button>
+                                        <button (click)="detalleGeneral(element)" mat-mini-fab color="accent"
+                                            matTooltip="Desvincular Malla Curricular">
+                                            <mat-icon>visibility</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameCurriculares"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameCurriculares;"></tr>
+                            </table>
+                            <mat-paginator #ListadoMallaCurriculares [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

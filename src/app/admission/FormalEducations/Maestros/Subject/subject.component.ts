@@ -101,7 +101,9 @@ export class SubjectComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
- 
+  dependecias(row:Subject) {
+   this._router.navigate(['/admission/asignaturas/'+row.id+'/detalle'])
+ }
   delete(row:Subject) {
     Swal.fire({
       title: "¿Estas seguro?",

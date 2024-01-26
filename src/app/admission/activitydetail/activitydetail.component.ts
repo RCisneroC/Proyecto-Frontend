@@ -88,7 +88,7 @@ export class ActivitydetailComponent implements OnInit {
   dataTeacher= new MatTableDataSource<ActivityTeachers>(this.dataSourceActivityTeachers);
   dataOrganismos= new MatTableDataSource<ActivityCooperatingOrganization>(this.dataSourceActivityCooperatingOrganization);
   // @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-    @ViewChild(MatPaginator) 
+  @ViewChild(MatPaginator) 
   set paginator(value: MatPaginator) {
       this.dataDocuments.paginator = value;
   }
@@ -97,19 +97,16 @@ export class ActivitydetailComponent implements OnInit {
   @ViewChild('paginatorPoster') 
   set paginatorPoster(value: MatPaginator) {
       this.dataPoster.paginator = value;
-      
   }
 
   @ViewChild('paginatorTeachers') 
   set paginatorTeacher(value: MatPaginator) {
       this.dataTeacher.paginator = value;
-      
   }
 
   @ViewChild('paginatorCooperating') 
   set paginatorOrganismos(value: MatPaginator) {
       this.dataOrganismos.paginator = value;
-      
   }
 
   dataSource3 = new MatTableDataSource(ELEMENT_DATA);

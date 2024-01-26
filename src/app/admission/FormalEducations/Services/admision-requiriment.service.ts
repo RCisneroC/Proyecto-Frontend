@@ -40,9 +40,9 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllRequirementAdmisione2() {
+  getAllRequirementAdmisione2(id:string) {
     return this.httpClient
-      .get<RequirementAdmision[]>(environment.apiEF + 'DegreeAdmissionRequirement/GetAll');
+      .get<RequirementAdmision[]>(environment.apiEF + 'DegreeAdmissionRequirement/GetAll?StatusId='+id);
   }
 
   getAllRequirementAdmisioneFiltro(id: any) {
@@ -70,6 +70,9 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
     };
     
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'DegreeAdmissionRequirement/Delete', options);
+  }
+  addDocumentRequirement(StudyMode: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'Degree/CreateDegreeAdmissionRequirement', StudyMode);
   }
 
   init_RequirementAdmision() {

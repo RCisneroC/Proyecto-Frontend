@@ -38,7 +38,7 @@ import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-acti
 
 // import { MatFileUploadModule } from 'angular-material-fileupload';
 import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
-import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component';
+import { ActivityListInscriptionComponent } from './inscription/activity-list-inscription/activity-list-inscription.component';
 import { ActivityParticipantsListComponent } from './inscription/approval/activity-participants-list/activity-participants-list.component';
 import { RequestRoomComponent } from './request-room/request-room.component';
 import { DocumentRequeridosComponent } from './activitydetail/forms/document-requeridos/document-requeridos.component';
@@ -86,11 +86,22 @@ import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestio
 import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
 import { FormsDegreeComponent } from './FormalEducations/Maestros/Forms/forms-degree/forms-degree.component';
 import { FormsRequirementDegreeComponent } from './FormalEducations/Maestros/Forms/forms-requirement-degree/forms-requirement-degree.component';
-import { FormsDregreeCompetenceComponent } from './FormalEducations/Maestros/Forms/forms-dregree-competence/forms-dregree-competence.component';
 import { FormsRoomsComponent } from './FormalEducations/Maestros/Forms/forms-rooms/forms-rooms.component';
 import { FormsStatusComponent } from './FormalEducations/Maestros/Forms/forms-status/forms-status.component';
 import { FormsStudyModeComponent } from './FormalEducations/Maestros/Forms/forms-study-mode/forms-study-mode.component';
 import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-subject/forms-subject.component';
+import { DegreeDetailsComponent } from './FormalEducations/Maestros/Details/degree-details/degree-details.component';
+import { SubjectDetailsComponent } from './FormalEducations/Maestros/Details/subject-details/subject-details.component';
+import { AddDocumentosComponent } from './FormalEducations/Maestros/Details/Forms/add-documentos/add-documentos.component';
+import { AddPosterComponent } from './FormalEducations/Maestros/Details/Forms/add-poster/add-poster.component';
+import { AddCompetenciasComponent } from './FormalEducations/Maestros/Details/Forms/add-competencias/add-competencias.component';
+import { SubjectCurriculumComponent } from './FormalEducations/Maestros/Details/subject-curriculum/subject-curriculum.component';
+import { AddMallaCurricularComponent } from './FormalEducations/Maestros/Details/Forms/add-malla-curricular/add-malla-curricular.component';
+import { EditAddFormsComponent } from './FormalEducations/Gestions/Forms/edit-add-forms/edit-add-forms.component';
+import { CreatePeriodComponent } from './FormalEducations/Gestions/Forms/create-period/create-period.component';
+import { AsignacionMallaComponent } from './FormalEducations/Gestions/Forms/asignacion-malla/asignacion-malla.component';
+import { DetallePlanAnualComponent } from './FormalEducations/Gestions/Details/detalle-plan-anual/detalle-plan-anual.component';
+import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Details/asignaturas-periodos/asignaturas-periodos.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -107,9 +118,9 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     BackofficeComponent,
     // ExternalUserComponent,
     // InternalUserComponent,
- 
-  ActivityListInscriptionComponent,
-    
+
+    ActivityListInscriptionComponent,
+
     ModalityFormComponent,
     TypeActivityFormComponent,
     ReasonFormComponent,
@@ -175,12 +186,23 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     DeggreeCompetenceComponent,
     FormsDegreeComponent,
     FormsRequirementDegreeComponent,
-    FormsDregreeCompetenceComponent,
     FormsRoomsComponent,
     FormsStatusComponent,
     FormsStudyModeComponent,
-    FormsSubjectComponent
-    
+    FormsSubjectComponent,
+    DegreeDetailsComponent,
+    SubjectDetailsComponent,
+    AddDocumentosComponent,
+    AddPosterComponent,
+    AddCompetenciasComponent,
+    SubjectCurriculumComponent,
+    AddMallaCurricularComponent,
+    EditAddFormsComponent,
+    CreatePeriodComponent,
+    AsignacionMallaComponent,
+    DetallePlanAnualComponent,
+    AsignaturasPeriodosComponent
+
   ],
   providers: [
     VerificarBS64Pipe
@@ -192,7 +214,7 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    
+
   ]
 })
 export class AdmissionModule { }

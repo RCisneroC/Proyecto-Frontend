@@ -1,0 +1,106 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Dependencias de asignaturas'" [items]="['Inicio','Admisión','Asignaturas']"
+                [active_item]="'Dependencias'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Listado de Asignaturas</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Código/Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSubjectList" class="w-100">
+                                <ng-container matColumnDef="codigo">
+                                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+                            
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="accent" (click)="asignar(element)"  matTooltip="Asignar">
+                                            <mat-icon>keyboard_arrow_right</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
+                            </table>
+                           
+                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Asignaturas Dependientes para {{ _subjectService._Subject.name }}</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilterDependence($event)" placeholder="Código/Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSubjectDependence" class="w-100">
+                                <ng-container matColumnDef="codigo">
+                                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+                            
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="warn" (click)="removeDepedence(element)" matTooltip="Eliminar">
+                                            <mat-icon>keyboard_arrow_left</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
+                            </table>
+                            <mat-paginator #asignaturasDependientes [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

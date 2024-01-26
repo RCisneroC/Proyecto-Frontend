@@ -60,7 +60,7 @@ implements OnInit{
     this.requirementService.init_RequirementAdmision();
     const dialogRef = this.dialog.open(FormsRequirementDegreeComponent, {
       data: {
-        requirement: this.requirement,
+        requirementAdmision: this.requirementService._RequirementAdmision,
         action: 'add',
       }
     });
@@ -89,12 +89,15 @@ implements OnInit{
     
     const dialogRef = this.dialog.open(FormsRequirementDegreeComponent, {
       data: {
-        requirement: row,
+        requirementAdmision: row,
         action: 'edit',
       }
     });
 
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+      return;
+      }
       if (result.CodError === 200) {
          Swal.fire({
             title: "Escuela Judicial",

@@ -27,7 +27,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Acrónimo</mat-label>
-                        <input matInput formControlName="acronym">
+                        <input maxlength="10" matInput formControlName="acronym">
                         <mat-error *ngIf="_SubjectModalForms.get('acronym')?.hasError('required')">
                             El Acrónimo es requerido
                         </mat-error>

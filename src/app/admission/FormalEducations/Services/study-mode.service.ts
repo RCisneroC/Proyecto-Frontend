@@ -16,7 +16,7 @@ export class StudyModeService extends UnsubscribeOnDestroyAdapter {
   dataChange: BehaviorSubject<StudyMode[]> = new BehaviorSubject<StudyMode[]
   >([]);
   // Temporarily stores data from dialogs
-  dialogData!: Subject;
+  dialogData!: StudyMode;
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -41,9 +41,9 @@ export class StudyModeService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllStudyMode2() {
+  getAllStudyMode2(id:any) {
     return this.httpClient
-      .get<StudyMode[]>(environment.apiEF + 'StudyMode/GetAll');
+      .get<StudyMode[]>(environment.apiEF + 'StudyMode/GetAll?StatusId=' + id);
   }
 
   getAllStudyModeFiltro(id: any) {
@@ -71,5 +71,14 @@ export class StudyModeService extends UnsubscribeOnDestroyAdapter {
     };
     
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'StudyMode/Delete', options);
+  }
+
+  init_StudyMode() {
+    this._StudyMode = {
+      description: '',
+      id: 0,
+      name: '',
+      statusId:0
+    }
   }
 }
