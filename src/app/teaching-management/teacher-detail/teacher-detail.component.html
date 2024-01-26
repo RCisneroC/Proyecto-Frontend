@@ -281,7 +281,7 @@
                     <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
                 </div>
             </div>
-            
+           
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div class="card">
                   <div class="header">
@@ -291,33 +291,41 @@
                   </h2>
                   </div>
                   <div class="body">
-                    <form [formGroup]="documentForm">
-                    <ng-template>Documentos</ng-template>
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                            <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
-                            <app-file-upload   formControlName="Photo" ></app-file-upload>
-                        </div>
+                    <div class="body table-responsive">
+                      <table mat-table [dataSource]="DataTeacher.listDocument" class="w-100">
+        
+        
                         
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                            <mat-label style="font-weight: bold;">Fotografía</mat-label>
-                            <app-file-upload (change)="onFileSelected($event)" formControlName="CIP" ></app-file-upload>
-                        </div>
-                        
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                            <mat-label style="font-weight: bold;">Titulo</mat-label>
-                            <app-file-upload formControlName="Title" ></app-file-upload>
-                        </div>
-                        
-                        
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                            <mat-label style="font-weight: bold;">CV</mat-label>
-                            <app-file-upload   formControlName="CV" ></app-file-upload>
-                        </div>
-                        
-                   
-                    </div>
-                    </form>
+                        <ng-container matColumnDef="docType">
+                          <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                          <td mat-cell *matCellDef="let element"> 
+                          
+                            <span  *ngIf="element.docType===1" class="text-uppercase" >Cedula</span>
+                            <span  *ngIf="element.docType===2" class="text-uppercase" >CV</span>
+                            <span  *ngIf="element.docType===3" class="text-uppercase" >Fotografia</span>
+                            <span  *ngIf="element.docType===4" class="text-uppercase" >TÍtulo</span>
+                          
+                          </td>
+                      </ng-container>
+                          <ng-container matColumnDef="extension">
+                              <th mat-header-cell *matHeaderCellDef> Formato </th>
+                              <td mat-cell *matCellDef="let element"> <span class="text-uppercase" >{{ element.extension }}</span></td>
+                          </ng-container>
+                          
+                          <!-- Documentos Column -->
+                          <ng-container matColumnDef="docResult">
+                              <th mat-header-cell *matHeaderCellDef> Documento </th>
+                              <td mat-cell *matCellDef="let element">
+                              <button (click)="viewDocumento(element)" matTooltip="Ver Documento" mat-mini-fab color="primary">
+                                  <mat-icon>remove_red_eye</mat-icon>
+                              </button>
+                              </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsDoc"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumnsDoc;"></tr>
+                      </table>
+                      <mat-paginator #paginatorPoster [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+                  </div>
                   </div>
                   <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
               </div>

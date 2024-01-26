@@ -15,7 +15,7 @@
                                 </div>
                                 <div class="body">
                                     <h5><strong>Formulario de Inscripción Docente</strong></h5>
-                                    <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
+                                    
                                     <div class="body">
                                         <mat-horizontal-stepper [linear]="false" #stepper>
                                             <mat-step [stepControl]="teacherForm!">
@@ -24,12 +24,16 @@
                                                     <div class="row">
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
-                                                                <mat-label>Documento de Identidad (Unico)</mat-label>
+                                                                <mat-label>Documento de Identidad (8-888-888)</mat-label>
                                                                 <input matInput formControlName="cedula">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                                  <mat-error *ngIf="teacherForm.get('cedula')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
+                                                                <mat-error *ngIf="teacherForm.get('cedula')?.hasError('cedulaExists')">
+                                                                    Es Requitos
+                                                                </mat-error>
+                                                              
                                                             </mat-form-field>
                                                         </div>
                                                         
@@ -114,21 +118,7 @@
                                                             </mat-form-field>
                                                         </div>
                                                     
-                                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                                            <mat-form-field class="example-full-width" appearance="outline">
-                                                                <mat-label>Programa a académico al que se presenta</mat-label>
-                                                                <mat-select formControlName="carreraId">
-                                                                    <!-- <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option> -->
-                                                                    <mat-option [value]="true">--------------------</mat-option>
-                                                                </mat-select>
-                                                                <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
-                                                                    la modalidad es requerida
-                                                                </mat-error> -->
-                                                                 <mat-error *ngIf="teacherForm.get('planningDate')?.hasError('required')">
-                                                                    Es Requitos
-                                                                </mat-error>
-                                                            </mat-form-field>
-                                                        </div>
+
                                                     </div>
                                                     <!-- [disabled]="!FormsEF!.valid"  -->
                                                     <div>
@@ -198,7 +188,7 @@
                                             <mat-step>
                                                 <form>
                                                     <ng-template matStepLabel>Información Laboral</ng-template>
-                                                    <button mat-raised-button (click)="AddExperience()" color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Labral</button>
+                                                    <button mat-raised-button (click)="AddExperience()" color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Laboral</button>
             
                                                     <div class="body">
                                                         <div class="body table-responsive">
@@ -279,7 +269,7 @@
                                                     <div>
                                                         <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                                         <button mat-raised-button color="primary"
-                                                            (click)="submit()">Validar la información</button>
+                                                            (click)="submit()">Inscribir docente</button>
                                                     </div>
                                                 </form>
                                                 <!-- [disabled]="!editActivity!.valid" -->
