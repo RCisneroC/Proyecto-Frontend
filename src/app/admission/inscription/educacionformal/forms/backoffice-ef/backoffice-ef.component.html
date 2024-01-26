@@ -12,7 +12,8 @@
                     </div>
                     <div class="body">
                         <h5><strong>Formulario de Inscripción de Formación Especializada</strong></h5>
-                        <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
+                        <p *ngIf="!showTable">Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
+                      <p *ngIf="showTable">Nota: <strong> Seleccione el Plan que desea cursar, luego puede avanzar.</strong></p>
                         <div class="body">
                           <div *ngIf="showTable" class="responsive_table">
                             <table mat-table [dataSource]="SourceAcademico" matSort class="mat-cell advance-table">
@@ -47,7 +48,7 @@
                               <ng-container matColumnDef="actions">
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                 <button mat-mini-fab color="accent" title="Editar" (click)="$event.stopPropagation()" (click)="changestatus()"
+                                 <button mat-mini-fab color="accent" title="Editar" (click)="$event.stopPropagation()" (click)="changestatus(row.id)"
                                           class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'"   ></app-feather-icons>
                                   </button>
@@ -66,7 +67,7 @@
                               </mat-row>
 
                             </table>
-                            <mat-paginator #paginator [length]="2" [pageIndex]="0" [pageSize]="5"
+                            <mat-paginator #paginator [length]="SourceAcademico.filter.length" [pageIndex]="0" [pageSize]="5"
                                            [pageSizeOptions]="[5, 10, 25, 100]">
                             </mat-paginator>
 
@@ -188,11 +189,11 @@
                                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Programa a académico al que se presenta</mat-label>
-                                                    <mat-select formControlName="carreraId">
-                                                        <!-- <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option> -->
+                                                    <mat-select formControlName="carreraId" [ngModel]="Participant.carreraId">
+                                                         <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option>
                                                         <mat-option [value]="true">----------------------------</mat-option>
                                                     </mat-select>
-                                                    <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
+                                                     <!--<mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
                                                         la modalidad es requerida
                                                     </mat-error> -->
                                                      <mat-error *ngIf="FormsEF.get('planningDate')?.hasError('required')">

@@ -82,6 +82,7 @@ export class BackofficeEFComponent  {
   ];
   loading:boolean=false;
   personData : any;
+  modalityList:any;
   disabled:boolean = false;
   cedulaParticipant:string="";
   showTable: boolean = true;
@@ -160,8 +161,14 @@ this.SourceAcademico = data;
     })
 }
 
-changestatus(){
+changestatus(id:string){
     this.showTable = false;
+    this._inscriptionService.getDegreeCurriculumdesingByPlan(id).subscribe({
+      next:(data)=>{
+        console.log("Datos de los Mallas de plan"+ id, data);
+        this.modalityList = data;
+      }
+    })
 }
 
   getPersonData(cedula: string){

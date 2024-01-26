@@ -44,6 +44,10 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<any>(environment.consultaPlanesAprobados);
   }
+  getDegreeCurriculumdesingByPlan(id:string){
+    return this.httpClient
+      .get<any>(environment.ConsultaMallaCurrcularByPlan+id);
+  }
 
   getActivities(id:string){
     return this.httpClient.get<any>(environment.apiUrlSchedule+"CurriculumDesign/GetActivitiesBy?CurriculumDesignId="+id)

@@ -8,6 +8,7 @@ export const environment = {
   ConsultaDocentes:'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   consultaEstudiante: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/GetDataCedula/',
   consultaPlanesAprobados: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetAll?StatusId=5',
+  ConsultaMallaCurrcularByPlan: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
   apiEC: "https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
 
