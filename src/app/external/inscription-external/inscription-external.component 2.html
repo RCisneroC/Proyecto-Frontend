@@ -1,0 +1,243 @@
+<section style="margin: 40px;">
+  <div class="content-block">
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <img src="assets/images/ISJUP.png" style="width: 20%;" />
+                <!-- <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
+                <p>Nodalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
+                <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p> -->
+              </div>
+            </div>
+            <div *ngIf="showFileSection">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="card">
+                    <div class="row" style="margin-top: 10px;">
+                      <div class="col-lg-4">
+                        <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
+                    
+                      </div>
+                      <div class="col-lg-4">
+                        <p>Modalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
+                    
+                      </div>
+                      <div class="col-lg-4">
+                        <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p>
+                    
+                      </div>
+                    </div>
+                    <div class="materialTableHeader">
+                      <div class="left">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="tbl-title">
+                            <h2>Cédula</h2>
+                          </li>
+                          <li class="tbl-search-box">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Ejemplo: 9-999-999" type="text" #filter class="browser-default search-field"
+                              aria-label="Search box" />
+                            <button mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
+                              <mat-icon>search</mat-icon>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <mat-spinner *ngIf="loading"> </mat-spinner>
+
+              <div *ngIf="busquedaR" class="container">
+                <mat-card class="card">
+                  <mat-card-subtitle> Datos de la persona </mat-card-subtitle>
+                  <form [formGroup]="form" (ngSubmit)="addParticipant()">
+                    <mat-grid-list class="card" style="color: white" cols="2" rowHeight="80px">
+                      <mat-grid-tile [colspan]="2">
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Nombre</mat-label>
+                          <input formControlName="firstName" matInput autocomplete="off" [readonly]="disabled"
+                            [ngModel]="
+                              personData?.primer_nombre
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Primer Apellido</mat-label>
+                          <input formControlName="lastName" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
+                              personData?.apellido_paterno
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Segundo Apellido</mat-label>
+                          <input formControlName="secondSurname" matInput autocomplete="off" [readonly]="disabled"
+                            [ngModel]="
+                              personData?.apellido_materno
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Cedula</mat-label>
+                          <input formControlName="cedula" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
+                              personData?.cedula
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Sexo</mat-label>
+                          <input formControlName="gender" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
+                              personData?.sexo
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Provincia</mat-label>
+                          <input formControlName="province" matInput autocomplete="off" [ngModel]="
+                              personData?.provincia
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Distrito</mat-label>
+                          <input formControlName="judicialDistrict" matInput autocomplete="off"
+                            [ngModel]="
+                              personData?.distrito
+                            " />
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" ins appearance="outline">
+                          <mat-label>Universidad</mat-label>
+                          <input formControlName="university" matInput autocomplete="off" />
+                          <mat-error *ngIf="form.get('position')?.hasError('required')">
+                            La Universidad es <strong>obligatoria</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Institución</mat-label>
+                          <input formControlName="institution" matInput autocomplete="off" />
+                          <mat-error *ngIf="form.get('position')?.hasError('required')">
+                            La Institución es <strong>obligatoria</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Dependencia</mat-label>
+                          <input formControlName="dependency" matInput autocomplete="off" />
+                          <mat-error *ngIf="form.get('position')?.hasError('required')">
+                            La Dependencia <strong>obligatoria</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Entidad Cooperante</mat-label>
+                          <input formControlName="cooperatingEntity" matInput autocomplete="off" />
+                          <mat-error *ngIf="form.get('position')?.hasError('required')">
+                            La Entidad Cooperante es
+                            <strong>obligatoria</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Posición</mat-label>
+                          <input formControlName="position" matInput autocomplete="off" />
+                          <mat-error *ngIf="form.get('position')?.hasError('required')">
+                            La Posición es <strong>obligatoria</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="mat-form-field" appearance="outline">
+                          <mat-label>Corrreo Electronico</mat-label>
+                          <input type="email" formControlName="email" matInput autocomplete="off" />
+                          <mat-error *ngIf="
+                              form?.get('email')?.hasError('email') &&
+                              !form.get('email')?.hasError('required')
+                            ">
+                            Por favor, ingrese una dirección de correo
+                            electrónico válida.
+                          </mat-error>
+                          <mat-error *ngIf="form.get('email')?.hasError('required')">
+                            El Correo Electrónico es
+                            <strong>obligatorio</strong>.
+                          </mat-error>
+                        </mat-form-field>
+                      </mat-grid-tile>
+
+                      <mat-grid-tile [colspan]="2">
+                        <button [disabled]="form.invalid" type="submit" class="btnAceptar" mat-raised-button
+                          color="primary">
+                          Inscribir
+                        </button>
+                      </mat-grid-tile>
+                    </mat-grid-list>
+                  </form>
+                </mat-card>
+              </div>
+            </div>
+            <div *ngIf="!showFileSection">
+              <div class="container">
+                <mat-card class="card">
+                  <p style="font-weight: bold;text-transform: uppercase; text-align: center;">Ingrese los archivos
+                    requeridos</p>
+                  <mat-grid-list cols="2" rowHeight="2:1">
+                    <mat-grid-tile
+                      *ngFor="let requerimiento of activityRequirements?.activityActivityRequirements;let i=index">
+                      <div class="file-section">
+
+                        <p style="font-weight: bold;text-transform: uppercase;">{{
+                          requerimiento.activityRequirement.name }} <br></p>
+                        <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
+                          (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" />
+                        <p style="color: green;font-weight: bold;margin-top: 10px;"
+                          id="texto_{{ requerimiento.activityRequirement.id }}"></p>
+                        <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
+                      </div>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </mat-card>
+                <h4 *ngIf="IsError" style="text-transform: uppercase;font-weight: bold;">
+                  Documentos Incompletos
+                </h4>
+                <h4 *ngIf="!IsError" style="text-transform: uppercase;font-weight: bold;">
+                  Documentos Completos
+                  <br>
+                  <button *ngIf="!IsError" (click)="regresar()" matTooltip="Nueva Inscripción" mat-raised-button
+                    color="primary">
+                    <mat-icon>keyboard_backspace</mat-icon> Nueva Inscripción.
+                  </button>
+                </h4>
+                <div class="text-center">
+                  <button [disabled]="loadingFile" (click)="verificarDocumentacion()"
+                    matTooltip="Verificar si hace falta alguna documentación" mat-raised-button color="primary">
+                    <mat-icon>check</mat-icon> Verificar Documentación requerida.
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
