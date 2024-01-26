@@ -77,6 +77,20 @@ export class BackofficeEFComponent {
   personData : any;
   disabled:boolean = false;
   cedulaParticipant:string="";
+  showTable: boolean = true;
+  Participant = {
+    firstName : "",
+    lastName:"",
+    secondsurname:"",
+    cedula:"",
+    dateOfBirth:"",
+    placeOfBirth:"",
+    residentialAddress:"",
+    telephoneNumber:"",
+    email:"",
+    carreraId:""
+  };
+
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
  public FormsEF: FormGroup;
@@ -100,6 +114,7 @@ export class BackofficeEFComponent {
       cedula:['',[Validators.required]],
       firstName:['',[Validators.required]],
       lastName:['',[Validators.required]],
+      secondsurname:['',[Validators.required]],
       placeOfBirth:['',[Validators.required]],
       dateOfBirth:['',[Validators.required]],
       residentialAddress:['',[Validators.required]],
@@ -148,6 +163,21 @@ ngOnInit(): void {
           this.loading=false;
           this.disabled=true;
           this.personData=data;
+          this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
+            ?.primer_nombre;
+          this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
+            ?.apellido_paterno;
+          this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
+            ?.apellido_materno;
+          this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+            ?.lugarDeNacimiento;
+          this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+            ?.fecha_nacimiento;
+          this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
+            ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
+            ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
+            ?.barrio_residencia;
+
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
         error:(e)=>this.loading=false,

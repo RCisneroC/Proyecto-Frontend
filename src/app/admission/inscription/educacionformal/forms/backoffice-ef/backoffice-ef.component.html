@@ -14,26 +14,33 @@
                         <h5><strong>Formulario de Inscripción de Formación Especializada</strong></h5>
                         <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
                         <div class="body">
-                            <mat-horizontal-stepper [linear]="false" #stepper>
+                            <mat-horizontal-stepper *ngIf="showTable" [linear]="false" #stepper>
                                 <mat-step [stepControl]="FormsEF!">
                                     <form [formGroup]="FormsEF!">
                                         <ng-template matStepLabel>Datos Personales</ng-template>
+                                       <div class="row">
+                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                           <mat-form-field class="example-full-width " appearance="outline">
+                                             <mat-label>Documento de Identidad (Unico)</mat-label>
+                                             <input #filter matInput formControlName="cedula" [ngModel]="Participant.cedula"  >
+                                             <mat-icon (click)="getPersonData(filter.value)" class="material-icons-two-tone color-icon p-3" matSuffix >search</mat-icon>
+                                             <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
+                                               Es Requitos
+                                             </mat-error>
+                                           </mat-form-field>
+                                         </div>
+                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                           <mat-spinner diameter="45" *ngIf="loading"> </mat-spinner>
+                                         </div>
+
+                                       </div>
                                         <div class="row">
-                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                                <mat-form-field class="example-full-width " appearance="outline">
-                                                    <mat-label>Documento de Identidad (Unico)</mat-label>
-                                                    <input matInput formControlName="cedula">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
-                                                        Es Requitos
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                            
+
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Nombre</mat-label>
-                                                    <input matInput formControlName="firstName" [readonly]="true">
+                                                    <input matInput formControlName="firstName" [readonly]="true" [ngModel]="Participant.firstName" >
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
                                                         Es Requitos
@@ -42,32 +49,42 @@
                                             </div>
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
-                                                    <mat-label>Apellido</mat-label>
-                                                    <input matInput formControlName="lastName" [readonly]="true">
+                                                    <mat-label>Primer Apellido</mat-label>
+                                                    <input matInput formControlName="lastName" [readonly]="true" [ngModel]="Participant.lastName">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>Segundo Apellido</mat-label>
+                                              <input matInput formControlName="secondsurname" [readonly]="true" [ngModel]="Participant.secondsurname">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                                              <mat-error *ngIf="FormsEF.get('secondsurname')?.hasError('required')">
+                                                Es Requitos
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Lugar de nacimiento</mat-label>
-                                                    <input matInput formControlName="placeOfBirth" [readonly]="true">
+                                                    <input matInput formControlName="placeOfBirth" [readonly]="true" [ngModel]="Participant.placeOfBirth">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Fecha de nacimiento</mat-label>
-                                                    <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
+                                                    <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth" [ngModel]="Participant.dateOfBirth">
                                                     <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
                                                     <mat-datepicker #fechaNacimiento></mat-datepicker>
                                                      <mat-error *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
@@ -79,7 +96,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Dirección residencial</mat-label>
-                                                    <input matInput formControlName="residentialAddress" [readonly]="true">
+                                                    <input matInput formControlName="residentialAddress" [readonly]="true" [ngModel]="Participant.residentialAddress">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
                                                         Es Requitos
@@ -92,31 +109,31 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Correo electrónico</mat-label>
-                                                    <input matInput formControlName="email" [readonly]="true">
+                                                    <input matInput formControlName="email" [readonly]="false" [ngModel]="Participant.email">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Número telefónico</mat-label>
-                                                    <input matInput formControlName="telephoneNumber" [readonly]="true">
+                                                    <input matInput formControlName="telephoneNumber" [readonly]="false" [ngModel]="Participant.telephoneNumber">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Programa a académico al que se presenta</mat-label>
                                                     <mat-select formControlName="carreraId">
                                                         <!-- <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option> -->
-                                                        <mat-option [value]="true">--------------------</mat-option>
+                                                        <mat-option [value]="true">----------------------------</mat-option>
                                                     </mat-select>
                                                     <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
                                                         la modalidad es requerida
@@ -264,7 +281,7 @@
                                                 <mat-paginator #paginatorExperiencia [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
                                             </div>
                                         </div>
-                                        
+
                                         <div>
                                             <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                             <button mat-raised-button matStepperNext color="primary">Siguiente</button>
@@ -279,33 +296,33 @@
                                                 <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
                                                 <app-file-upload formControlName="Photo" ></app-file-upload>
                                             </div>
-                                            
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">Fotografía</mat-label>
                                                 <app-file-upload formControlName="CIP" ></app-file-upload>
                                             </div>
-                                            
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">Titulo</mat-label>
                                                 <app-file-upload formControlName="Title" ></app-file-upload>
                                             </div>
-                                            
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">créditos</mat-label>
                                                 <app-file-upload formControlName="Credits" ></app-file-upload>
                                             </div>
-                                            
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">idoneidad</mat-label>
                                                 <app-file-upload formControlName="Idoneidad" ></app-file-upload>
                                             </div>
-                                            
-                                            
+
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">Carta motivación</mat-label>
                                                 <app-file-upload formControlName="LetterMotivation" ></app-file-upload>
                                             </div>
-                                            
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">Carta Aval</mat-label>
                                                 <app-file-upload formControlName="LetterAval" ></app-file-upload>
