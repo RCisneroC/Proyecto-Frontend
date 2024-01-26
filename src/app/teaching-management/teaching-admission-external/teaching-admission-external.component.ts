@@ -115,7 +115,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
       placeResidence: ['', [Validators.required]],
       email: ['', [Validators.required]],
       telephoneNumber: ['', [Validators.required]],
-      carreraId: [''],
+      carreraId: [true, [Validators.required]],
       selected: new FormControl(false),
       listCourse: new FormControl([]),
       listTraining: new FormControl([]),
@@ -251,6 +251,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     // formdata.append('FileDetails', this.docForm.get('FileDetails')?.value);
     // formdata.append('FileType', "1");
 
+<<<<<<< HEAD
 
 
 
@@ -284,6 +285,19 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
         },
         error: () => {
           Swal.fire({
+=======
+  this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
+    next: () => {
+      Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Guardado correctamente.',
+              icon: "success"
+          });
+
+    },
+    error: () => {
+      Swal.fire({
+>>>>>>> 5f8ae75928c1581abb5801781714ff44536fab7a
             title: "Escuela Judicial",
             text: 'Intente nuevamente.',
             icon: "warning"
