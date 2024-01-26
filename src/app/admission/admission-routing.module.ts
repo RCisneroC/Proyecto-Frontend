@@ -225,6 +225,10 @@ const routes: Routes = [
     component: DetallePlanAnualComponent,
   },
   {
+    path: 'AnnualPlan/:id',
+    component: DetallePlanAnualComponent,
+  },
+  {
     path: 'form-ef',
     component: BackofficeEFComponent,
   },
