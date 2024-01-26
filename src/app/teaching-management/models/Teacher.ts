@@ -4,19 +4,18 @@ export class Teacher {
     cedula: string="";
     name: string="";
     lastName: string="";
+    email:string="";
     applicationDate?: string;
     selected: boolean=false;
+    statusId: number=0;
     dischargeDate: string="";
     placeResidence: string="";
-    jobTitle: string="";
-    graduateDegree: string="";
-    professionalExperience: string="";
-    teachingExperience: string="";
     listCourse: Course[]=[];
     listTraining: Training[]=[];
     listSpecialty: Specialty[]=[];
+    listExperience: Experience[]=[];
+    listDocument: Document[]=[];
     process: number=0;
-    topics: number=0;
 }
 
 export interface Course {
@@ -25,15 +24,48 @@ export interface Course {
     name:string;
 }
 
-export interface Training {
-    trainingId: number;
-    name:string;
-    year: number;
-    typeId: number;
+
+export class Training  {
+        trainingId: number=-1;
+        institution: string="";
+        completionDate: string="";
+        city: string="";
+        degreeDate: string="";
+        degreeObtained: string="";
+        statusId: number=1;
 }
 
 export interface Specialty {
     specialtyId: number;
     name:string;
 }
+
+export class Experience {
+    experienceId: number=-1;
+    description: string="";
+    position: string="";
+    startDate: string="";
+    endDate: string="";
+    statusId: number=1;
+}
+
+
+    export class Document  {
+        documentId: number=-1;
+        doc: string="";
+        docResult :string="";
+        extension: string="";
+        docType: number=1;
+        description: string | null="";
+    }
+    
+    export class fileDetails{
+    
+        fileDetails!:any;
+        fileType:number=1;
+    }
+    
+ 
+    
+
 

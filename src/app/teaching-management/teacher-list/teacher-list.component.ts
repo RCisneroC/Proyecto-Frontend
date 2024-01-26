@@ -15,6 +15,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Router } from '@angular/router';
+import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.component';
 
 @Component({
   selector: 'app-teacher-list',
@@ -28,20 +29,12 @@ implements OnInit {
     'cedula',
     'name',
     'lastName',
-    //'applicationDate',
-    'selected',
+    'statusId',
     'process',
     'createdDate',
     'createdBy',
     'lastModifiedDate',
     'lastModifiedBy',
-    // 'dischargeDate',
-    // 'placeResidence',
-    // 'jobTitle',
-    // 'graduateDegree',
-    // 'professionalExperience',
-    // 'teachingExperience',
-    // 'topics',
     'actions'
   ];
   
@@ -54,7 +47,7 @@ implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public TeacherService: TeacherService,
+    public _teacherService: TeacherService,
     private snackBar: MatSnackBar,
     private _nav:Router
   ) {
@@ -73,40 +66,8 @@ implements OnInit {
     this.loadData();
   }
   addNew() {
-    this._nav.navigate(['/teaching-management/teacher-detail/',"-1"]);
-    // let tempDirection: Direction;
-    // if (localStorage.getItem('isRtl') === 'true') {
-    //   tempDirection = 'rtl';
-    // } else {
-    //   tempDirection = 'ltr';
-    // }
-    // const dialogRef = this.dialog.open(TeacherDetailComponent, {
-    //   data: {
-    //     teacher: this.teacher,
-    //     action: 'add',
-    //   },
-    //   direction: tempDirection,
-    // });
-    // this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-    //    if (result == undefined) {
-    //     return;
-    //   }
-      
-    //   if (result.CodError == 200) {
-    //      Swal.fire({
-    //         title: "Escuela Judicial",
-    //         text: result.Message,
-    //         icon: "success"
-    //      });
-    //     this.loadData();
-    //   } else {
-    //      Swal.fire({
-    //       title: "Escuela Judicial",
-    //       text: result.Message,
-    //       icon: "warning"
-    //     });
-    //   }
-    // });
+    this._nav.navigate(['/teacher/teacher-admission-external/']);
+
   }
   editCall(row: Teacher) {
     this.teacherId = row.teacherId;
@@ -152,6 +113,53 @@ implements OnInit {
   Detail(row: Teacher) {
   
     this._nav.navigate(['/teaching-management/teacher-detail/',row.cedula]);
+  }
+  
+  Aproved(row: Teacher){
+   
+   const dialogRef = this.dialog.open(AprovedTeacherComponent, {
+    data: {
+      teacher: row,
+      accion: 'add-course'
+    },
+    disableClose: true,
+  });
+  dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    if (result == undefined) {
+      return;
+      }
+      if (result.CodError == 200) {
+          Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "success"
+          });
+         this.loadData();
+        } else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "warning"
+          });
+        }
+  });
+    // this._teacherService.aprovedTeacher(ids).subscribe({
+    //   next: () => {
+    //     Swal.fire({
+    //             title: "Escuela Judicial",
+    //             text: 'Solicitud de aprobacion enviada.',
+    //             icon: "success"
+    //         });
+    //    this.loadData(); 
+    //   },
+    //   error: () => {
+    //     Swal.fire({
+    //           title: "Escuela Judicial",
+    //           text: 'Intente nuevamente.',
+    //           icon: "warning"
+    //         });
+    //   }
+    //  })
   }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);

@@ -69,6 +69,14 @@ const routes: Routes = [
         (m) => m.InscriptionExternalModule
       ),
   },
+  {
+    path: 'teacher',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./teaching-management/teaching-management.module').then(
+        (m) => m.TeachingManagementModule
+      ),
+  },
 
   { path: '**', component: Page404Component },
 ];

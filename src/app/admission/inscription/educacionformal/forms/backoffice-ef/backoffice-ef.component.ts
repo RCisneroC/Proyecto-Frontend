@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DetalleAcademico } from 'app/admission/models/DetalleAcademico';
 import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
-import { ValidateFileResponse } from '../../../../models/VerificacionDocumentacion';
 
 @Component({
   selector: 'app-backoffice-ef',

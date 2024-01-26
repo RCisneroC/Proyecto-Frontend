@@ -6,14 +6,7 @@
                 [active_item]="'Detalle del docente'">
             </app-breadcrumb>
         </div>
-        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
-            <div class="">
-                <button matTooltip="Regresar" mat-raised-button color="accent"
-                (click)="Regresar()" >
-                    <mat-icon>keyboard_backspace</mat-icon> Regresar
-                </button>
-            </div>
-        </div>
+ 
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
@@ -23,7 +16,9 @@
                         <h2 class="text-uppercase">{{header}}</h2>
                       </div>
                       <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2" style="text-align: left;">
-                        <span class="badge badge-solid-green">{{DataTeacher.selected?"Seleccionado":"Pre-seleccionado" }}</span>
+                        <span *ngIf="DataTeacher.statusId===0" class="badge badge-solid-blue">Pendiente</span>
+                        <span *ngIf="DataTeacher.statusId===1" class="badge badge-solid-green">Aprobado</span>
+                        <span *ngIf="DataTeacher.statusId===2" class="badge badge-solid-red">Rechazado</span>
                        </div>
                       
                       <div class="col-lg-7 col-md-7 col-sm-7 col-7" style="text-align: right;"> 
@@ -31,7 +26,57 @@
                       </div>
                     
                     </div>
-                        <form class="register-form m-4" [formGroup]="teacherForm" (ngSubmit)="submit()">
+                    <div class="body">
+                      <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Documento de identidad</h6>
+                              <label for="">{{ DataTeacher.cedula }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Nombre</h6>
+                              <label for="">{{ DataTeacher.name }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Apellido</h6>
+                              <label for="">{{ DataTeacher.lastName }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Lugar de nacimiento</h6>
+                              <label for="">Panama</label>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Fecha de nacimiento</h6>
+                              <label for="">{{ DataTeacher.applicationDate| date:'dd/M/yyyy' }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Dirección residencial</h6>
+                              <label for="">{{ DataTeacher.placeResidence }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Correo electrónico</h6>
+                              <label for="">{{ DataTeacher.email }}</label>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              <h6>Número telefonico</h6>
+                              <label for="">+5078748952</label>
+                          </div>
+                      </div>
+
+              
+                      <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+                        <div class="">
+                            <button matTooltip="Regresar" mat-raised-button color="accent"
+                                 (click)="Regresar()" >
+                                <mat-icon>keyboard_backspace</mat-icon> Regresar
+                            </button>
+                        </div>
+                    </div>
+                  </div>
+                    
+                        <!-- <form class="register-form m-4" [formGroup]="teacherForm" (ngSubmit)="submit()">
                         <div class="row">
                           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                             <mat-form-field class="example-full-width " appearance="outline">
@@ -66,35 +111,9 @@
                                 </mat-form-field>
                               
                               </div>
-                       
-                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width" appearance="outline">
-                                  <mat-label>Proceso</mat-label>
-                                  <mat-select formControlName="process" >
-                                    <mat-option *ngFor="let row of processList"  [value]="row.id">{{row.name}}</mat-option>
-                                  </mat-select>
-                                  <mat-error *ngIf="teacherForm.get('process')?.hasError('required')">
-                                    el proceso es requerido
-                                  </mat-error>
-                                
-                                
-                                </mat-form-field>
-                              
-                              </div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width" appearance="outline">
-                                  <mat-label>Fecha de alta </mat-label>
-                                  <input matInput [matDatepicker]="pickerStart1" formControlName="dischargeDate">
-                                  <mat-datepicker-toggle matSuffix [for]="pickerStart1"></mat-datepicker-toggle>
-                                  <mat-datepicker #pickerStart1></mat-datepicker>
-                                  <mat-error *ngIf="teacherForm.get('dischargeDate')?.hasError('required')">
-                                    Selecciones una fecha
-                                  </mat-error>
-                                </mat-form-field>
-                              </div>
                               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <mat-form-field class="example-full-width " appearance="outline">
                                   <mat-label>Lugar de residencia</mat-label>
@@ -106,67 +125,22 @@
                                 </mat-form-field>
                               
                               </div>
-                              <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                              
+                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <mat-form-field class="example-full-width " appearance="outline">
-                                  <mat-label>Título profesional</mat-label>
-                                <input matInput formControlName="jobTitle">
+                                  <mat-label>Email</mat-label>
+                                <input matInput formControlName="email">
                                 
-                                  <mat-error *ngIf="teacherForm.get('jobTitle')?.hasError('required')">
-                                    el título profesional es requerido
+                                  <mat-error *ngIf="teacherForm.get('email')?.hasError('required')">
+                                    el email es requerido
                                   </mat-error>
                                 </mat-form-field>
                               
                               </div>
-                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width " appearance="outline">
-                                  <mat-label>Título postgrado</mat-label>
-                                <input matInput formControlName="graduateDegree">
-                                
-                                  <mat-error *ngIf="teacherForm.get('graduateDegree')?.hasError('required')">
-                                    el título postgrado es requerido
-                                  </mat-error>
-                                </mat-form-field>
-                              
-                              </div> -->
+                
                         </div>
 
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width " appearance="outline">
-                                  <mat-label>Experiencia profesional</mat-label>
-                                <input matInput formControlName="professionalExperience">
-
-                                  <mat-error *ngIf="teacherForm.get('professionalExperience')?.hasError('required')">
-                                    la experiencia profesional es requerida
-                                  </mat-error>
-                                </mat-form-field>
-                              
-                              </div>
-                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width " appearance="outline">
-                                  <mat-label>Experiencia docente</mat-label>
-                                <input matInput formControlName="teachingExperience">
-
-                                  <mat-error *ngIf="teacherForm.get('teachingExperience')?.hasError('required')">
-                                    la experiencia docente es requerida
-                                  </mat-error>
-                                </mat-form-field>
-                              
-                              </div>
-                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                                <mat-form-field class="example-full-width " appearance="outline">
-                                  <mat-label>Materias/temas</mat-label>
-                                 <input matInput formControlName="topics">
-
-                                  <mat-error *ngIf="teacherForm.get('topics')?.hasError('required')">
-                                    la materias/temas es requerida
-                                  </mat-error>
-                                </mat-form-field>
-                              
-                              </div>
-                          
-                        </div>
-                        <div class="example-button-row">
                             <div class="col-6">
                              
                                 <button type="submit" [disabled]="!teacherForm.valid"   matTooltip="Guardar docente" mat-raised-button color="accent">
@@ -174,9 +148,18 @@
                                 </button> 
                             </div>
                             
+                            <div class="col-6 ">
+                             
+                                  <button style="margin-bottom: 20px;text-align: right;" matTooltip="Regresar" mat-raised-button color="accent"
+                                  (click)="Regresar()" >
+                                      <mat-icon>keyboard_backspace</mat-icon> Regresar
+                                  </button>
+                           
+                          </div>
+                            
                         </div>
 
-                        </form>
+                        </form> -->
                     <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
                 </div>
             </div>
@@ -186,38 +169,48 @@
                   <div class="header">
                       <h2 class="text-uppercase"><strong>Experiencia Profesional</strong>
 
-                      <button (click)="AddCourses()"  matTooltip="Agregar cursos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                      <!-- <button (click)="AddExperience()"  matTooltip="Agregar experiencia" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                           <mat-icon>add</mat-icon>
-                      </button>
+                      </button> -->
                   </h2>
                   </div>
                   <div class="body" >
                       <div class="body table-responsive">
-                          <table mat-table [dataSource]="DataTeacher.listCourse" class="w-100">
+                          <table mat-table [dataSource]="DataTeacher.listExperience" class="w-100">
                               <!-- Id Column -->
-                              <ng-container matColumnDef="courseId">
+                              <ng-container matColumnDef="experienceId">
                                   <th mat-header-cell *matHeaderCellDef> Id</th>
-                                  <td mat-cell *matCellDef="let element"> {{ element.courseId }}</td>
+                                  <td mat-cell *matCellDef="let element"> {{ element.experienceId}}</td>
                               </ng-container>
-                              <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                              <ng-container matColumnDef="description">
+                                <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                                <td mat-cell *matCellDef="let element">{{ element.description }} </td>
                             </ng-container>
-                              <ng-container matColumnDef="year">
-                                  <th mat-header-cell *matHeaderCellDef> Año </th>
-                                  <td mat-cell *matCellDef="let element">{{ element.year }} </td>
+                              <ng-container matColumnDef="position">
+                                  <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                                  <td mat-cell *matCellDef="let element">{{ element.position }} </td>
                               </ng-container>
+                              
+                              <ng-container matColumnDef="startDate">
+                                <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                                <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy' }} </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="endDate">
+                              <th mat-header-cell *matHeaderCellDef> Fecha fin </th>
+                              <td mat-cell *matCellDef="let element">{{ element.endDate | date:'dd/M/yyyy' }} </td>
+                          </ng-container>
                               <!-- Acción Column -->
                               <ng-container matColumnDef="actions">
                                   <th mat-header-cell *matHeaderCellDef> Acción </th>
                                   <td mat-cell *matCellDef="let element">  
-                                      <button (click)="remove(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                      <!-- <button (click)="RemoveExperience(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                           <mat-icon>restore_from_trash</mat-icon>
-                                      </button>
+                                      </button> -->
                                   </td>
                               </ng-container>
-                              <tr mat-header-row *matHeaderRowDef="displayedColumnsCourse"></tr>
-                              <tr mat-row *matRowDef="let row; columns: displayedColumnsCourse;"></tr>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumnsExperience"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumnsExperience;"></tr>
                           </table>
                           <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
                       </div>
@@ -225,59 +218,16 @@
                   <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
               </div>
           </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="text-uppercase"><strong>Cursos</strong>
-
-                        <button (click)="AddCourse()"  matTooltip="Agregar cursos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </h2>
-                    </div>
-                    <div class="body" >
-                        <div class="body table-responsive">
-                            <table mat-table [dataSource]="DataTeacher.listCourse" class="w-100">
-                                <!-- Id Column -->
-                                <ng-container matColumnDef="courseId">
-                                    <th mat-header-cell *matHeaderCellDef> Id</th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.courseId }}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="name">
-                                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                  <td mat-cell *matCellDef="let element">{{ element.name }} </td>
-                              </ng-container>
-                                <ng-container matColumnDef="year">
-                                    <th mat-header-cell *matHeaderCellDef> Año </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.year }} </td>
-                                </ng-container>
-                                <!-- Acción Column -->
-                                <ng-container matColumnDef="actions">
-                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
-                                    <td mat-cell *matCellDef="let element">  
-                                        <button (click)="remove(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
-                                            <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsCourse"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsCourse;"></tr>
-                            </table>
-                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
-                        </div>
-                    </div>
-                    <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
-                </div>
-            </div>
+         
             
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
                         <h2 class="text-uppercase"><strong>Formaciones</strong>
 
-                        <button (click)="AddCourses()"  matTooltip="Agregar cursos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                        <!-- <button (click)="AddTraining()"  matTooltip="Agregar formación" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                             <mat-icon>add</mat-icon>
-                        </button>
+                        </button> -->
                     </h2>
                     </div>
                     <div class="body">
@@ -288,28 +238,38 @@
                                     <th mat-header-cell *matHeaderCellDef> Id</th>
                                     <td mat-cell *matCellDef="let element"> {{ element.trainingId }}</td>
                                 </ng-container>
-                                
-                                <ng-container matColumnDef="name">
-                                    <th mat-header-cell *matHeaderCellDef>Formación </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                               
+                                <ng-container matColumnDef="institution">
+                                    <th mat-header-cell *matHeaderCellDef>Institución </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.institution }} </td>
                                 </ng-container>
                                 
-                                <ng-container matColumnDef="year">
-                                  <th mat-header-cell *matHeaderCellDef>Año </th>
-                                  <td mat-cell *matCellDef="let element">{{ element.year }} </td>
+                                <ng-container matColumnDef="completionDate">
+                                  <th mat-header-cell *matHeaderCellDef>Fecha de culminación</th>
+                                  <td mat-cell *matCellDef="let element">{{ element.completionDate | date:'dd/M/yyyy' }} </td>
                               </ng-container>
                               
-                              <ng-container matColumnDef="typeId">
-                                <th mat-header-cell *matHeaderCellDef>Tipo de Formación </th>
-                                <td mat-cell *matCellDef="let element">{{ element.typeId }} </td>
+                              <ng-container matColumnDef="degreeDate">
+                                <th mat-header-cell *matHeaderCellDef>Fecha de grado</th>
+                                <td mat-cell *matCellDef="let element">{{ element.degreeDate | date:'dd/M/yyyy' }} </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="degreeObtained">
+                              <th mat-header-cell *matHeaderCellDef>Titulo obtenido</th>
+                              <td mat-cell *matCellDef="let element">{{ element.degreeObtained }} </td>
+                          </ng-container>
+                              
+                              <ng-container matColumnDef="city">
+                                <th mat-header-cell *matHeaderCellDef>Ciudad </th>
+                                <td mat-cell *matCellDef="let element">{{ element.city }} </td>
                             </ng-container>
                                 <!-- Acción Column -->
                                 <ng-container matColumnDef="actions">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">  
-                                        <button (click)="remove(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                                        <!-- <button (click)="removeTraining(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
                                             <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
+                                        </button> -->
                                     </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsTraining"></tr>
@@ -321,91 +281,50 @@
                     <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="text-uppercase"><strong>Especialidades</strong>
-
-                        <button (click)="AddCourses()"  matTooltip="Agregar cursos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </h2>
-                    </div>
-                    <div class="body">
-                        <div class="body table-responsive" *ngIf="DataTeacher">
-                            <table mat-table [dataSource]="DataTeacher.listSpecialty" class="w-100">
-                                <!-- Id Column -->
-                                <ng-container matColumnDef="specialtyId">
-                                    <th mat-header-cell *matHeaderCellDef> Id</th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.specialtyId }}</td>
-                                </ng-container>
-                                
-                                <ng-container matColumnDef="name">
-                                    <th mat-header-cell *matHeaderCellDef> Nombre</th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
-                                </ng-container> 
-                                
-                                <!-- Acción Column -->
-                                <ng-container matColumnDef="actions">
-                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
-                                    <td mat-cell *matCellDef="let element">  
-                                        <button (click)="remove(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
-                                            <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsSpecialty"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsSpecialty;"></tr>
-                            </table>
-                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
-                        </div>
-                    </div>
-                    <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
-                </div>
-            </div>
             
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div class="card">
                   <div class="header">
-                      <h2 class="text-uppercase"><strong>asignaturas</strong>
+                      <h2 class="text-uppercase"><strong>Documentos</strong>
 
-                      <button (click)="AddCourses()"  matTooltip="Agregar cursos" style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                          <mat-icon>add</mat-icon>
-                      </button>
+                    
                   </h2>
                   </div>
                   <div class="body">
-                      <div class="body table-responsive" *ngIf="DataTeacher">
-                          <table mat-table [dataSource]="DataTeacher.listSpecialty" class="w-100">
-                              <!-- Id Column -->
-                              <ng-container matColumnDef="specialtyId">
-                                  <th mat-header-cell *matHeaderCellDef> Id</th>
-                                  <td mat-cell *matCellDef="let element"> {{ element.specialtyId }}</td>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="name">
-                                  <th mat-header-cell *matHeaderCellDef> Nombre</th>
-                                  <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
-                              </ng-container> 
-                              
-                              <!-- Acción Column -->
-                              <ng-container matColumnDef="actions">
-                                  <th mat-header-cell *matHeaderCellDef> Acción </th>
-                                  <td mat-cell *matCellDef="let element">  
-                                      <button (click)="remove(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
-                                          <mat-icon>restore_from_trash</mat-icon>
-                                      </button>
-                                  </td>
-                              </ng-container>
-                              <tr mat-header-row *matHeaderRowDef="displayedColumnsSpecialty"></tr>
-                              <tr mat-row *matRowDef="let row; columns: displayedColumnsSpecialty;"></tr>
-                          </table>
-                          <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
-                      </div>
+                    <form [formGroup]="documentForm">
+                    <ng-template>Documentos</ng-template>
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                            <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
+                            <app-file-upload   formControlName="Photo" ></app-file-upload>
+                        </div>
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                            <mat-label style="font-weight: bold;">Fotografía</mat-label>
+                            <app-file-upload (change)="onFileSelected($event)" formControlName="CIP" ></app-file-upload>
+                        </div>
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                            <mat-label style="font-weight: bold;">Titulo</mat-label>
+                            <app-file-upload formControlName="Title" ></app-file-upload>
+                        </div>
+                        
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                            <mat-label style="font-weight: bold;">CV</mat-label>
+                            <app-file-upload   formControlName="CV" ></app-file-upload>
+                        </div>
+                        
+                   
+                    </div>
+                    </form>
                   </div>
                   <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
               </div>
           </div>
+          
+            
+           
         </div>
     </div>
 </section>

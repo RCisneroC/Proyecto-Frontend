@@ -4,9 +4,8 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { ScheduleActivity } from '../models/scheduleActivity';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HttpErrorResponse } from '@angular/common/http';
+
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
-import { ErrorGenerico } from '../models/ErrorGenerico';
 
 
 export interface DialogData {
@@ -64,13 +63,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     Validators.required,
     // Validators.email,
   ]);
-  getErrorMessage() {
-    return this.formControl.hasError('required')
-      ? 'Required field'
-      : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
-  }
+
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: new FormControl(this.schedule.id),

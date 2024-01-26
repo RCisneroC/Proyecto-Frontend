@@ -48,6 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     AuthLayoutComponent,
     MainLayoutComponent,
     InscriptionExternalComponent,
+    //TeacherDetailComponent
     
    
    
