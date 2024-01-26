@@ -14,6 +14,8 @@ import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.compo
 import { AddTrainingComponent } from './add-training/add-training.component';
 import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
 import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ViewDocumentComponent } from './view-document/view-document.component';
 
 
 @NgModule({
@@ -26,7 +28,11 @@ import { TeachingHistoryListComponent } from './teaching-history-list/teaching-h
     AprovedTeacherComponent,
     AddTrainingComponent,
     TeachingAdmissionExternalComponent,
-    TeachingHistoryListComponent
+    TeachingHistoryListComponent,
+    ViewDocumentComponent
+  ],
+  providers: [
+    VerificarBS64Pipe
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,7 @@ export class Teacher {
     listTraining: Training[]=[];
     listSpecialty: Specialty[]=[];
     listExperience: Experience[]=[];
-    listDocument: Document[]=[];
+    listDocument: Documents[]=[];
     process: number=0;
 }
 
@@ -50,15 +50,24 @@ export class Experience {
 }
 
 
-    export class Document  {
+    export class Documents  {
         documentId: number=-1;
         doc: string="";
-        docResult :string="";
+        docResult! :Poster;
         extension: string="";
-        docType: number=1;
+        docType: number=-1;
         description: string | null="";
     }
     
+    
+    export interface Poster {
+        fileContents:          string;
+        contentType:           string;
+        fileDownloadName:      string;
+        lastModified:          string;
+        entityTag:             string;
+        enableRangeProcessing: boolean;
+    }
     export class fileDetails{
     
         fileDetails!:any;

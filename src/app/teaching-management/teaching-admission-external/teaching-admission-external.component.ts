@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Experience, Teacher, Training } from '../models/Teacher';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
 import { AddTrainingComponent } from '../add-training/add-training.component';
 import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-teaching-admission-external',
@@ -126,6 +127,17 @@ private fb: UntypedFormBuilder,
     })
   }
   
+  cedulaExist() {
+    return (control: FormControl) => {
+      const cedula = control.value;
+  
+      if (!cedula) {
+        return null; // Don't validate empty emails
+      }
+  
+      return this._teacherService.getExisteCedula(cedula)
+    };
+  }
   AddExperience(){
     const dialogRef = this._dialog.open(AddExperienceComponent, {
       data: {
@@ -210,7 +222,7 @@ private fb: UntypedFormBuilder,
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
+      cedula: [this.DataTeacher.cedula,[Validators.required]],
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
       email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
@@ -227,6 +239,8 @@ private fb: UntypedFormBuilder,
      
     });
   }
+  
+
   
   onFileSelected(event: any) {
     // const File1 = event.target.files[0];
@@ -252,7 +266,7 @@ private fb: UntypedFormBuilder,
   
   submit() {
  
-  console.log(this._Form_Data);
+ 
  
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
@@ -266,7 +280,7 @@ private fb: UntypedFormBuilder,
               text: 'Guardado correctamente.',
               icon: "success"
           }); 
-         
+          this._nav.navigate(['/teacher/teacher-admission-external/']);
     },
     error: () => {
       Swal.fire({
@@ -277,7 +291,7 @@ private fb: UntypedFormBuilder,
     }
    })
    
-   //this._nav.navigate(['/teaching-management/teacher-list/']);
+
     // emppty stuff
   }
   

@@ -3,13 +3,16 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { Experience, Teacher, Training } from '../models/Teacher';
+import { Documents, Experience, Teacher, Training } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import Swal from 'sweetalert2';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
 import { AddTrainingComponent } from '../add-training/add-training.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 
 
 
@@ -65,6 +68,14 @@ implements OnInit{
   ];
   
 
+  displayedColumnsDoc = [
+    'docType',
+    'extension',
+    'docResult',
+    
+    
+  ];
+
 DataTeacher!:Teacher;
 DataExperience:Experience[]= [];
 DataTraining:Training[]= [];
@@ -84,6 +95,7 @@ public _teacherService: TeacherService,
 public _dialog: MatDialog,
 private _nav:Router,
 private fb: UntypedFormBuilder,
+public _verificarBS64: VerificarBS64Pipe,
 ){
   super();
   
@@ -105,7 +117,7 @@ private fb: UntypedFormBuilder,
      await this.getTeacherByCedula();
     }
     this.documentForm= this.fb.group({
-      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
       CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
       Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
       CV:new FormControl([]),
@@ -134,6 +146,35 @@ private fb: UntypedFormBuilder,
     })
   }
   
+  viewDocumento(row: Documents) {
+   
+    if (this._verificarBS64.transform(row.docResult.fileContents) != "pdf") {
+      const dialogRef = this._dialog.open(ViewPosterComponent, {
+       data: {
+         type: this._verificarBS64.transform(row.docResult.fileContents),
+         accion: 'view-poster',
+         posterFile: row.docResult.fileContents,
+         comment: "",
+         poster: row,
+       },
+       disableClose: true,
+     });
+    } else {
+      const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+       data: {
+         type: this._verificarBS64.transform(row.docResult.fileContents),
+         accion: 'view-poster',
+         posterFile: row.docResult.fileContents,
+         comment: "",
+         poster: row,
+        },
+        width:'1000px',
+       disableClose: true,
+     });
+    }
+
+  }
+
  
   AddExperience(){
     const dialogRef = this._dialog.open(AddExperienceComponent, {
@@ -301,7 +342,7 @@ private fb: UntypedFormBuilder,
   
   createDocumentForm(): UntypedFormGroup {
     return this.fb.group({
-      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
       CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
       Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
       CV:new FormControl([])

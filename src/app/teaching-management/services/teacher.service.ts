@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Teacher } from '../models/Teacher';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
@@ -68,4 +68,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
  
     return this.httpClient.post(environment.apiUrlEF + 'GetSubjectsBy',data);
   }
+  
+  getExisteCedula(cedula :string) {
+ 
+    return this.httpClient.get(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(
+      map(() => null), // Email is valid if request succeeds
+      catchError((err) => of({ cedulaExists: true, message: err.message })) // Return error object for invalid email
+    );
+  }
+
 }
