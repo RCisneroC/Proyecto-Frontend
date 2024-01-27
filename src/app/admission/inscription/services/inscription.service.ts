@@ -10,6 +10,7 @@ import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 import { Persona } from 'app/admission/models/persona';
 import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
+import {ResponseInscripcionEF} from "../../models/InscripcionEFResponse";
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,7 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   baseApiUrl = "https://file.io"
   isTblLoading = true;
   public _ResponseInscripcion!: ResponseInscripcion;
+  public _ResponseInscripcionEF!: ResponseInscripcionEF;
   public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
@@ -80,6 +82,12 @@ updateParticipant(participantData: any): Observable<any> {
 
   const url = `${environment.apiEC}`;
   return this.httpClient.post<ResponseInscripcion>(url+"ContinuingEducation/Addparticipant", participantData);
+  }
+
+  AddEFAspirant(aspirantData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseInscripcionEF>(url+"EFInscription/EFAddAspirant", aspirantData);
   }
 
   CargaDocumentoRequirement(data: any): Observable<any> {

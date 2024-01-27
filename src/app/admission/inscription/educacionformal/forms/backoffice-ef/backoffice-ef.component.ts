@@ -9,6 +9,7 @@ import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
 import { ValidateFileResponse } from '../../../../models/VerificacionDocumentacion';
 import { InscriptionService } from '../../../services/inscription.service';
 import Swal from "sweetalert2";
+import {ResponseInscripcionEF} from "../../../../models/InscripcionEFResponse";
 
 @Component({
   selector: 'app-backoffice-ef',
@@ -96,7 +97,7 @@ export class BackofficeEFComponent  {
     residentialAddress:"",
     telephoneNumber:"",
     email:"",
-    carreraId:""
+    degreeId:0
   };
 
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
@@ -168,6 +169,29 @@ changestatus(id:string){
         console.log("Datos de los Mallas de plan"+ id, data);
         this.modalityList = data;
       }
+    })
+}
+
+addAspirantEF(){
+    this._inscriptionService.AddEFAspirant(this.Participant).subscribe({
+          next:(data: ResponseInscripcionEF)=>{
+            this._inscriptionService._ResponseInscripcionEF = data;
+            if (!this._inscriptionService._ResponseInscripcionEF.isError){
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Creado correctamente, siguiente paso: cargar información académica.',
+                icon: "success"
+              });
+            }
+            else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Aspirante no fue creado correctamente.',
+                icon: "warning"
+              });
+            }
+
+          }
     })
 }
 

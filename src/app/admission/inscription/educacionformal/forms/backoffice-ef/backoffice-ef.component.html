@@ -189,7 +189,7 @@
                                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Programa a académico al que se presenta</mat-label>
-                                                    <mat-select formControlName="carreraId" [ngModel]="Participant.carreraId">
+                                                    <mat-select formControlName="carreraId" [ngModel]="Participant.degreeId">
                                                          <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option>
                                                         <mat-option [value]="true">----------------------------</mat-option>
                                                     </mat-select>
