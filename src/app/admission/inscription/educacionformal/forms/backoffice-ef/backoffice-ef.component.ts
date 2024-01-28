@@ -69,13 +69,13 @@ export class DialogOverviewDetalleAcademico {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      educationalLevelId: [this.modalityAC.educationalLevelId],
+      educationalLevelId: [this.modalityAC.educationalLevelId,[Validators.required]],
       obtainedTitle: [this.modalityAC.obtainedTitle, [Validators.required]],
       institution: [this.modalityAC.institution, [Validators.required]],
       city: [this.modalityAC.city, [Validators.required]],
       completionDate: [this.modalityAC.completionDate, [Validators.required]],
       startDate: [this.modalityAC.startDate, [Validators.required]],
-      academicInstitutionId: [this.modalityAC.institution, [Validators.required]],
+      academicInstitutionId: [this.modalityAC.institution],
     });
   }
 
