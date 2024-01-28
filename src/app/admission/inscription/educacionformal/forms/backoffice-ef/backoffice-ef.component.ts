@@ -1,5 +1,13 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +19,20 @@ import { InscriptionService } from '../../../services/inscription.service';
 import Swal from "sweetalert2";
 import {ResponseInscripcionEF} from "../../../../models/InscripcionEFResponse";
 import {DetallePlanes} from "../../../../models/DetallePlanes";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {
+  MAT_DIALOG_DATA, MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+import {MaterialModule} from "@shared";
+import {NgIf} from "@angular/common";
+import {Modality} from "../../../../models/modality";
 
 @Component({
   selector: 'app-backoffice-ef',
@@ -123,6 +145,7 @@ export class BackofficeEFComponent  {
   }
 
  constructor(private fb: FormBuilder,
+             public dialog: MatDialog,
     private _snackBar: MatSnackBar, private _inscriptionService: InscriptionService,
     private activatedRoute: ActivatedRoute,
     public elm: ElementRef,
@@ -254,5 +277,62 @@ addAspirantEF(){
 
   submit() {
 
+  }
+  openDialogAC(): void {
+    const dialogACRef = this.dialog.open(DialogOverviewDetalleAcademico, {
+      data: {},//{name: this.name, animal: this.animal},
+    });
+
+    dialogACRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
+  }
+}
+
+//-------------Dialog AC----------------------
+@Component({
+  selector: 'dialog-overview-detelle-academico',
+  templateUrl: './dialog-overview-detalle-academico.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MaterialModule,
+    NgIf,
+    ReactiveFormsModule,
+  ],
+})
+
+export class DialogOverviewDetalleAcademico {
+  public modalityACForm: UntypedFormGroup;
+  public modalityAC: Modality = {
+    id: 0,
+    name: '',
+    statusId:1
+  }
+  constructor(
+    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
+    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
+    private fb: UntypedFormBuilder
+  ) {
+    this.modalityACForm = this.createContactForm();
+  }
+
+  createContactForm(): UntypedFormGroup {
+    return this.fb.group({
+      id: [this.modalityAC.id],
+      name: [this.modalityAC.name, [Validators.required]],
+      statusId: [this.modalityAC.statusId, [Validators.required]],
+    });
+  }
+
+  submit() {
+    // emppty stuff
+  }
+  onNoClick(): void {
+    this.dialogACRef.close();
   }
 }

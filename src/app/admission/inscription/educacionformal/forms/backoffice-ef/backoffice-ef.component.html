@@ -211,7 +211,7 @@
                                 <mat-step>
                                     <form>
                                         <ng-template matStepLabel>Información Académico</ng-template>
-                                        <button mat-raised-button matStepperPrevious color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
+                                        <button (click)="openDialogAC()" mat-raised-button  color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
                                         <div class="body">
                                             <div class="body table-responsive">
                                                 <table mat-table [dataSource]="SourceAcademico" class="w-100">
