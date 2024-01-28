@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +14,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DetalleAcademico } from 'app/admission/models/DetalleAcademico';
 import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
-import { ValidateFileResponse } from '../../../../models/VerificacionDocumentacion';
 import { InscriptionService } from '../../../services/inscription.service';
 import Swal from "sweetalert2";
 import {ResponseInscripcionEF} from "../../../../models/InscripcionEFResponse";
@@ -24,22 +23,92 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA, MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
 } from "@angular/material/dialog";
 import {MaterialModule} from "@shared";
-import {NgIf} from "@angular/common";
-import {Modality} from "../../../../models/modality";
+import {NgFor, NgIf} from "@angular/common";
 
+//-------------Dialog AC----------------------
+@Component({
+  selector: 'dialog-overview-detelle-academico',
+  templateUrl: './dialog-overview-detalle-academico.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MaterialModule,
+    NgIf,
+    NgFor,
+    ReactiveFormsModule,
+  ],
+})
+
+export class DialogOverviewDetalleAcademico {
+  public modalityACForm: UntypedFormGroup;
+  public modalityAC: DetalleAcademico = {
+    educationalLevelId: 0,
+    obtainedTitle: "",
+    institution:"",
+    city:"",
+    completionDate: new Date(),
+    startDate: new Date(),
+    academicInstitutionId: 0
+  }
+   educationlevelList:any;
+
+  constructor(
+    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
+    private _inscriptionService: InscriptionService,
+    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
+    private fb: UntypedFormBuilder
+  ) {
+    this.modalityACForm = this.createContactForm();
+  }
+
+  createContactForm(): UntypedFormGroup {
+    return this.fb.group({
+      educationalLevelId: [this.modalityAC.educationalLevelId],
+      obtainedTitle: [this.modalityAC.obtainedTitle, [Validators.required]],
+      institution: [this.modalityAC.institution, [Validators.required]],
+      city: [this.modalityAC.city, [Validators.required]],
+      completionDate: [this.modalityAC.completionDate, [Validators.required]],
+      startDate: [this.modalityAC.startDate, [Validators.required]],
+      academicInstitutionId: [this.modalityAC.institution, [Validators.required]],
+    });
+  }
+
+  submit() {
+    // emppty stuff
+  }
+  onNoClick(): void {
+    this.dialogACRef.close();
+  }
+
+  getEducationLevel(){
+    this._inscriptionService.getEducationLevel().subscribe({
+      next:(data)=>{
+        console.log("Educationlevel loaded", data.educationLevel);
+        this.educationlevelList = data.educationLevel;
+      }
+    })
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.getEducationLevel();
+  }
+
+
+}
+//--------------------------Dialogs ends------------------------------
 @Component({
   selector: 'app-backoffice-ef',
   templateUrl: './backoffice-ef.component.html',
   styleUrls: ['./backoffice-ef.component.scss']
 })
-export class BackofficeEFComponent  {
+export class BackofficeEFComponent implements AfterViewInit {
 
   displayedColumns = [
     'name',
@@ -108,7 +177,7 @@ export class BackofficeEFComponent  {
   personData : any;
   modalityList:any;
   disabled:boolean = false;
-  cedulaParticipant:string="";
+ public cedulaParticipant:string="";
   showTable: boolean = true;
   Participant = {
     backOffice:0,
@@ -143,6 +212,8 @@ export class BackofficeEFComponent  {
       set paginatorExperiencia(value: MatPaginator) {
           this.SourceExperiencia.paginator = value;
   }
+
+  @ViewChild(DialogOverviewDetalleAcademico)  DialogOverviewDetalleAcademico:any;
 
  constructor(private fb: FormBuilder,
              public dialog: MatDialog,
@@ -185,6 +256,10 @@ export class BackofficeEFComponent  {
      this.SourceAcademico.paginator = this.paginator;
      this.SourceExperiencia.paginator = this.paginatorExperiencia;
 }
+
+  ngAfterViewInit() {
+    console.log('');
+  }
 
 loadPlans(){
     this._inscriptionService.getPlanesAprobados().subscribe({
@@ -290,49 +365,3 @@ addAspirantEF(){
   }
 }
 
-//-------------Dialog AC----------------------
-@Component({
-  selector: 'dialog-overview-detelle-academico',
-  templateUrl: './dialog-overview-detalle-academico.html',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MaterialModule,
-    NgIf,
-    ReactiveFormsModule,
-  ],
-})
-
-export class DialogOverviewDetalleAcademico {
-  public modalityACForm: UntypedFormGroup;
-  public modalityAC: Modality = {
-    id: 0,
-    name: '',
-    statusId:1
-  }
-  constructor(
-    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
-    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
-    private fb: UntypedFormBuilder
-  ) {
-    this.modalityACForm = this.createContactForm();
-  }
-
-  createContactForm(): UntypedFormGroup {
-    return this.fb.group({
-      id: [this.modalityAC.id],
-      name: [this.modalityAC.name, [Validators.required]],
-      statusId: [this.modalityAC.statusId, [Validators.required]],
-    });
-  }
-
-  submit() {
-    // emppty stuff
-  }
-  onNoClick(): void {
-    this.dialogACRef.close();
-  }
-}

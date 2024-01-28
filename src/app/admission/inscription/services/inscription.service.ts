@@ -46,6 +46,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<any>(environment.consultaPlanesAprobados);
   }
+
+  getEducationLevel(){
+    return this.httpClient
+      .get<any>(environment.apiEC + "EFInscription/GetEducationLevel");
+  }
   getDegreeCurriculumdesingByPlan(id:string){
     return this.httpClient
       .get<any>(environment.ConsultaMallaCurrcularByPlan+id);

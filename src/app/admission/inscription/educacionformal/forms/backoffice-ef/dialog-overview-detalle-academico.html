@@ -15,30 +15,24 @@
     <form class="register-form m-4" [formGroup]="modalityACForm" (ngSubmit)="submit">
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="name">
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            <mat-error *ngIf="modalityACForm.get('name')?.hasError('required')">
-              El Nombre es requerido
-            </mat-error>
+          <mat-form-field class="example-full-width " appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="educationalLevelId">
+              <mat-option *ngFor="let row of educationlevelList" [value]="row.id">{{row.name}}</mat-option>
+
+            </mat-select>
+            <!--<mat-error *ngIf="modalityACForm.get('statusId')?.hasError('required')">
+              el estatus es requerido
+            </mat-error>-->
           </mat-form-field>
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width " appearance="outline">
-            <mat-label>Estado</mat-label>
-            <mat-select formControlName="statusId">
-              <mat-option [value]="1">
-                Activo
-              </mat-option>
-              <mat-option [value]="2">
-                Inactivo
-              </mat-option>
-
-            </mat-select>
-            <mat-error *ngIf="modalityACForm.get('statusId')?.hasError('required')">
-              el estatus es requerido
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="city">
+            <mat-error *ngIf="modalityACForm.get('city')?.hasError('required')">
+              El Nombre es requerido
             </mat-error>
           </mat-form-field>
         </div>
