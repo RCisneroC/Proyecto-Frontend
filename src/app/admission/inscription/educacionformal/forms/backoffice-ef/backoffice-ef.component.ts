@@ -10,6 +10,7 @@ import { ValidateFileResponse } from '../../../../models/VerificacionDocumentaci
 import { InscriptionService } from '../../../services/inscription.service';
 import Swal from "sweetalert2";
 import {ResponseInscripcionEF} from "../../../../models/InscripcionEFResponse";
+import {DetallePlanes} from "../../../../models/DetallePlanes";
 
 @Component({
   selector: 'app-backoffice-ef',
@@ -88,6 +89,7 @@ export class BackofficeEFComponent  {
   cedulaParticipant:string="";
   showTable: boolean = true;
   Participant = {
+    backOffice:0,
     firstName : "",
     lastName:"",
     secondsurname:"",
@@ -97,13 +99,20 @@ export class BackofficeEFComponent  {
     residentialAddress:"",
     telephoneNumber:"",
     email:"",
-    degreeId:0
+    degreeId:0,
+    observation:"",
+    createdBy:""
   };
-
+  SourcePlan = new MatTableDataSource<DetallePlanes>();
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
  public FormsEF: FormGroup;
   public FormsEFDocument: FormGroup;
+
+  @ViewChild(MatPaginator)
+  set paginatorPlans(value: MatPaginator) {
+    this.SourcePlan.paginator = value;
+  }
   @ViewChild(MatPaginator)
       set paginator(value: MatPaginator) {
           this.SourceAcademico.paginator = value;
@@ -149,6 +158,7 @@ export class BackofficeEFComponent  {
   //Add 'implements OnInit' to the class.
      this.loadPlans();
      this.showTable = true;
+      this.SourcePlan.paginator = this.paginatorPlans;
      this.SourceAcademico.paginator = this.paginator;
      this.SourceExperiencia.paginator = this.paginatorExperiencia;
 }
@@ -156,7 +166,7 @@ export class BackofficeEFComponent  {
 loadPlans(){
     this._inscriptionService.getPlanesAprobados().subscribe({
       next:(data) =>{
-this.SourceAcademico = data;
+this.SourcePlan = data;
         console.log('Datos de los planes:',data);
       }
     })

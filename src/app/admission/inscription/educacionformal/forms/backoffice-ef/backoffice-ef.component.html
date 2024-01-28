@@ -16,7 +16,7 @@
                       <p *ngIf="showTable">Nota: <strong> Seleccione el Plan que desea cursar, luego puede avanzar.</strong></p>
                         <div class="body">
                           <div *ngIf="showTable" class="responsive_table">
-                            <table mat-table [dataSource]="SourceAcademico" matSort class="mat-cell advance-table">
+                            <table mat-table [dataSource]="SourcePlan" matSort class="mat-cell advance-table">
 
                               <!-- ID Column -->
 
@@ -67,7 +67,7 @@
                               </mat-row>
 
                             </table>
-                            <mat-paginator #paginator [length]="SourceAcademico.filter.length" [pageIndex]="0" [pageSize]="5"
+                            <mat-paginator #paginator [length]="SourcePlan.filter.length" [pageIndex]="0" [pageSize]="5"
                                            [pageSizeOptions]="[5, 10, 25, 100]">
                             </mat-paginator>
 
