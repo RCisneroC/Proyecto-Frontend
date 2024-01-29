@@ -154,7 +154,7 @@ export class DialogOverviewDetalleLaboral {
   datoprueba:string ="textprueba";
 
   constructor(
-    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
+    public dialogILRef: MatDialogRef<DialogOverviewDetalleAcademico>,
     private _inscriptionService: InscriptionService,
     @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
     private fb: UntypedFormBuilder
@@ -174,10 +174,10 @@ export class DialogOverviewDetalleLaboral {
 
   submit() {
     // emppty stuff
-    this.dialogACRef.close(this.modalityILForm.value);
+    this.dialogILRef.close(this.modalityILForm.value);
   }
   onNoClick(): void {
-    this.dialogACRef.close();
+    this.dialogILRef.close();
   }
 
   ngOnInit(): void {
