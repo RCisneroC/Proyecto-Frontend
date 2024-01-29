@@ -17,6 +17,16 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Entidad</mat-label>
+            <input [ngModel]="DetalleIL.entidad" matInput formControlName="entidad">
+            <mat-error *ngIf="modalityILForm.get('entidad')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Cargo</mat-label>
             <input [ngModel]="DetalleIL.position" matInput formControlName="position">
             <mat-error *ngIf="modalityILForm.get('position')?.hasError('required')">
@@ -24,6 +34,9 @@
             </mat-error>
           </mat-form-field>
         </div>
+
+      </div>
+      <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Ciudad</mat-label>
@@ -33,9 +46,6 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
-      <div class="row">
-
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha Inicio</mat-label>
@@ -47,6 +57,9 @@
             </mat-error>
           </mat-form-field>
         </div>
+
+      </div>
+      <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha Fin</mat-label>
@@ -58,9 +71,6 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
-      <div class="row">
-
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Tiempo</mat-label>

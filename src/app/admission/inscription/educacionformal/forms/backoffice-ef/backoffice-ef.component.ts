@@ -67,7 +67,7 @@ export class DialogOverviewDetalleAcademico {
     academicInstitutionId: 0
   }
    educationlevelList:any;
-    datoprueba:string ="textprueba";
+
 
   constructor(
     public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
@@ -137,6 +137,7 @@ export class DialogOverviewDetalleAcademico {
 export class DialogOverviewDetalleLaboral {
   public modalityILForm: UntypedFormGroup;
   public modalityIL: DetalleExperiencia = {
+    entidad:"",
     position: "",
     cityEmployment: "",
     startDateEmployment: new Date(),
@@ -144,14 +145,13 @@ export class DialogOverviewDetalleLaboral {
     time: ""
   }
   DetalleIL = {
+    entidad:"",
     position: "",
     cityEmployment: "",
     startDateEmployment: "",
     endDate: "",
     time: ""
   }
-  educationlevelList:any;
-  datoprueba:string ="textprueba";
 
   constructor(
     public dialogILRef: MatDialogRef<DialogOverviewDetalleAcademico>,
@@ -164,6 +164,7 @@ export class DialogOverviewDetalleLaboral {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
+      entidad: [this.modalityIL.entidad,[Validators.required]],
       position: [this.modalityIL.position,[Validators.required]],
       cityEmployment: [this.modalityIL.cityEmployment, [Validators.required]],
       startDateEmployment: [this.modalityIL.startDateEmployment, [Validators.required]],
@@ -227,6 +228,7 @@ export class BackofficeEFComponent implements AfterViewInit {
 
   public DataExperiencia:DetalleExperiencia[] = [
     {
+      entidad:"Entidad1",
       position: "string",
       cityEmployment: "string",
       startDateEmployment: new Date(),
@@ -234,6 +236,7 @@ export class BackofficeEFComponent implements AfterViewInit {
       time: "string"
     },
     {
+      entidad:"Entidad2",
       position: "string",
       cityEmployment: "string",
       startDateEmployment: new Date(),
