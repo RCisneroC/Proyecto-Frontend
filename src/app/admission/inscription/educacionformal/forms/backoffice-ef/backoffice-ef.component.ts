@@ -56,6 +56,16 @@ export class DialogOverviewDetalleAcademico {
     startDate: new Date(),
     academicInstitutionId: 0
   }
+  DetalleAC = {
+    cedula:"",
+    educationalLevelId: 0,
+    obtainedTitle: "",
+    institution:"",
+    city:"",
+    completionDate: "",
+    startDate: "",
+    academicInstitutionId: 0
+  }
    educationlevelList:any;
     datoprueba:string ="textprueba";
 
@@ -82,10 +92,13 @@ export class DialogOverviewDetalleAcademico {
 
   submit() {
     // emppty stuff
+    this.dialogACRef.close(this.modalityACForm.value);
   }
   onNoClick(): void {
     this.dialogACRef.close();
   }
+
+
 
   getEducationLevel(){
     this._inscriptionService.getEducationLevel().subscribe({
@@ -138,24 +151,7 @@ export class BackofficeEFComponent implements AfterViewInit {
   ];
 
   public DataAcademico:DetalleAcademico[] = [
-    {
-      educationalLevelId: 1,
-      obtainedTitle: "string",
-      institution: "string",
-      city: "string",
-      completionDate: new Date(),
-      startDate: new Date(),
-      academicInstitutionId: 1,
-    },
-    {
-      educationalLevelId: 1,
-      obtainedTitle: "string",
-      institution: "string",
-      city: "string",
-      completionDate: new Date(),
-      startDate: new Date(),
-      academicInstitutionId: 1
-    }
+
   ];
 
   public DataExperiencia:DetalleExperiencia[] = [
@@ -360,9 +356,21 @@ addAspirantEF(){
       data: {},//{name: this.name, animal: this.animal},
     });
 
-    dialogACRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogACRef.afterClosed().subscribe((result:DetalleAcademico) => {
+      console.log('The dialog was closed', result);
+      if(result != null){
+        this.DataAcademico.push(result);
+        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+      }
+
     });
   }
+
+  deleteItemAC(row:any){
+    console.log(row);
+    this.DataAcademico.splice(row,1);
+    this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  }
+
 }
 

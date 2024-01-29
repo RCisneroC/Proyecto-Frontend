@@ -256,7 +256,7 @@
                                                         <th  mat-header-cell *matHeaderCellDef>Acciones
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <button matTooltip="Eliminar" mat-mini-fab color="accent">
+                                                            <button (click)="deleteItemAC(DataAcademico.indexOf(row))" matTooltip="Eliminar" mat-mini-fab color="accent">
                                                                 <mat-icon>delete</mat-icon>
                                                             </button>
                                                         </td>
@@ -264,7 +264,7 @@
                                                 <tr mat-header-row *matHeaderRowDef="InformacionAcademica"></tr>
                                                 <tr mat-row *matRowDef="let row; columns: InformacionAcademica;"></tr>
                                                 </table>
-                                                <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+                                                <mat-paginator #paginator [pageIndex]="0" [pageSize]="2" [pageSizeOptions]="[2, 10, 20]" [length]="SourceAcademico.filteredData.length" ></mat-paginator>
                                             </div>
                                         </div>
                                         <div>

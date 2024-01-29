@@ -17,7 +17,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Nivel</mat-label>
-            <mat-select formControlName="educationalLevelId">
+            <mat-select [ngModel]="DetalleAC.educationalLevelId" formControlName="educationalLevelId">
               <mat-option *ngFor="let row of educationlevelList" [value]="row.id">{{row.name}}</mat-option>
 
             </mat-select>
@@ -30,7 +30,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Institución</mat-label>
-            <input matInput formControlName="institution">
+            <input [ngModel]="DetalleAC.institution" matInput formControlName="institution">
             <mat-error *ngIf="modalityACForm.get('institution')?.hasError('required')">
               Campo requerido
             </mat-error>
@@ -41,7 +41,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Ciudad</mat-label>
-            <input matInput formControlName="city">
+            <input [ngModel]="DetalleAC.city" matInput formControlName="city">
             <mat-error *ngIf="modalityACForm.get('city')?.hasError('required')">
               Campo requerido
             </mat-error>
@@ -50,7 +50,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha Culminación</mat-label>
-            <input matInput [matDatepicker]="completionDate" formControlName="completionDate">
+            <input [ngModel]="DetalleAC.completionDate" matInput [matDatepicker]="completionDate" formControlName="completionDate">
             <mat-datepicker-toggle matSuffix [for]="completionDate"></mat-datepicker-toggle>
             <mat-datepicker #completionDate></mat-datepicker>
             <mat-error *ngIf="modalityACForm.get('completionDate')?.hasError('required')">
@@ -63,7 +63,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha Grado</mat-label>
-            <input matInput [matDatepicker]="startDate" formControlName="startDate">
+            <input [ngModel]="DetalleAC.startDate" matInput [matDatepicker]="startDate" formControlName="startDate">
             <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
             <mat-datepicker #startDate></mat-datepicker>
             <mat-error *ngIf="modalityACForm.get('startDate')?.hasError('required')">
@@ -75,7 +75,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Titulo Obtenido</mat-label>
-            <input matInput formControlName="obtainedTitle">
+            <input [ngModel]="DetalleAC.obtainedTitle" matInput formControlName="obtainedTitle">
             <mat-error *ngIf="modalityACForm.get('obtainedTitle')?.hasError('required')">
               Campo requerido
             </mat-error>
@@ -86,7 +86,7 @@
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row">
-            <button mat-raised-button color="primary" [disabled]="!modalityACForm.valid"
+            <button mat-raised-button color="primary" (click)="submit()" [disabled]="!modalityACForm.valid"
                     >Guardar</button>
             <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
           </div>
