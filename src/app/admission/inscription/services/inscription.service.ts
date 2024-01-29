@@ -12,6 +12,7 @@ import { Persona } from 'app/admission/models/persona';
 import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
 import {ResponseInscripcionEF} from "../../models/InscripcionEFResponse";
 import {ResponseAddEFcademicInfo} from "../../models/AddEFacademicResponse";
+import {ResponseAddEFlaboralInfo} from "../../models/AddEFlaboralResponse";
 @Injectable({
   providedIn: 'root'
 })
@@ -100,6 +101,12 @@ updateParticipant(participantData: any): Observable<any> {
 
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseAddEFcademicInfo>(url+"EFInscription/AddcademicInfo", academicinfiData);
+  }
+
+  AddEFLaboralInfo(laboralinfiData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseAddEFlaboralInfo>(url+"EFInscription/AddExperience", laboralinfiData);
   }
 
   CargaDocumentoRequirement(data: any): Observable<any> {
