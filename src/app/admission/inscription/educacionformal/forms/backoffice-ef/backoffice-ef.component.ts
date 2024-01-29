@@ -116,6 +116,77 @@ export class DialogOverviewDetalleAcademico {
 
 
 }
+
+//-------------Dialog IL----------------------
+@Component({
+  selector: 'dialog-overview-detelle-laboral',
+  templateUrl: './dialog-overview-detalle-laboral.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MaterialModule,
+    NgIf,
+    NgFor,
+    ReactiveFormsModule,
+  ],
+})
+
+export class DialogOverviewDetalleLaboral {
+  public modalityILForm: UntypedFormGroup;
+  public modalityIL: DetalleExperiencia = {
+    position: "",
+    cityEmployment: "",
+    startDateEmployment: new Date(),
+    endDate: new Date(),
+    time: ""
+  }
+  DetalleIL = {
+    position: "",
+    cityEmployment: "",
+    startDateEmployment: "",
+    endDate: "",
+    time: ""
+  }
+  educationlevelList:any;
+  datoprueba:string ="textprueba";
+
+  constructor(
+    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
+    private _inscriptionService: InscriptionService,
+    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
+    private fb: UntypedFormBuilder
+  ) {
+    this.modalityILForm = this.createContactForm();
+  }
+
+  createContactForm(): UntypedFormGroup {
+    return this.fb.group({
+      position: [this.modalityIL.position,[Validators.required]],
+      cityEmployment: [this.modalityIL.cityEmployment, [Validators.required]],
+      startDateEmployment: [this.modalityIL.startDateEmployment, [Validators.required]],
+      endDate: [this.modalityIL.endDate, [Validators.required]],
+      time: [this.modalityIL.time, [Validators.required]],
+    });
+  }
+
+  submit() {
+    // emppty stuff
+    this.dialogACRef.close(this.modalityILForm.value);
+  }
+  onNoClick(): void {
+    this.dialogACRef.close();
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+  }
+
+
+}
 //--------------------------Dialogs ends------------------------------
 @Component({
   selector: 'app-backoffice-ef',
@@ -362,6 +433,21 @@ addAspirantEF(){
         this.DataAcademico.push(result);
         this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
       }
+
+    });
+  }
+
+  openDialogIL(): void {
+    const dialogILRef = this.dialog.open(DialogOverviewDetalleLaboral, {
+      data: {},//{name: this.name, animal: this.animal},
+    });
+
+    dialogILRef.afterClosed().subscribe((result:DetalleExperiencia) => {
+      console.log('The dialog was closed', result);
+     /* if(result != null){
+        this.DataAcademico.push(result);
+        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+      }*/
 
     });
   }
