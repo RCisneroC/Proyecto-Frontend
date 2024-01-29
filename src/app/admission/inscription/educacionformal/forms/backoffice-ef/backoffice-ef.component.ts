@@ -27,6 +27,7 @@ import {
 } from "@angular/material/dialog";
 import {MaterialModule} from "@shared";
 import {NgFor, NgIf} from "@angular/common";
+import {Participant} from "../../../../models/participant";
 
 //-------------Dialog AC----------------------
 @Component({
@@ -232,6 +233,8 @@ export class BackofficeEFComponent implements AfterViewInit {
   loading:boolean=false;
   personData : any;
   modalityList:any;
+  RequirementsDocumentsList:any;
+  loadingFile: boolean = false;
   disabled:boolean = false;
  public cedulaParticipant:string="";
   showTable: boolean = true;
@@ -450,6 +453,21 @@ addAspirantEF(){
     console.log(row);
     this.DataExperiencia.splice(row,1);
     this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+  }
+
+  getRequirementsDocuments(id:string){
+    this._inscriptionService.getRequirementsDocuments(id).subscribe({
+      next:(data) =>{
+        this.RequirementsDocumentsList = data;
+        console.log('Datos de los documentos requeridos:',data);
+      }
+    })
+
+  }
+
+  firstNext(){
+   console.log(this.FormsEF.value.carreraId);
+   this.getRequirementsDocuments(this.FormsEF.value.carreraId);
   }
 
 }

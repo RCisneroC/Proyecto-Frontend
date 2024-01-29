@@ -204,7 +204,7 @@
                                         </div>
                                         <!-- [disabled]="!FormsEF!.valid"  -->
                                         <div>
-                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                            <button (click)="firstNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
                                         </div>
                                     </form>
                                 </mat-step>
@@ -350,17 +350,24 @@
                                     <form [formGroup]="FormsEFDocument!">
                                         <ng-template matStepLabel>Documentos</ng-template>
                                         <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
-                                                <app-file-upload formControlName="Photo" ></app-file-upload>
-                                            </div>
 
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Fotografía</mat-label>
-                                                <app-file-upload formControlName="CIP" ></app-file-upload>
-                                            </div>
+                                          <mat-grid-list cols="2" rowHeight="2:1">
+                                            <mat-grid-tile *ngFor="let requerimiento of RequirementsDocumentsList;let i=index">
+                                              <div class="file-section">
 
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                <p style="font-weight: bold;text-transform: uppercase;" >{{ requerimiento.name }} <br></p>
+                                                <input
+                                                  id="archivo_{{ requerimiento.id }}"
+                                                  type="file"
+                                                  class="file-input"/>
+<!--                                                  (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"-->
+
+                                                <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ requerimiento.id }}"></p>
+                                                <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
+                                              </div>
+                                            </mat-grid-tile>
+                                          </mat-grid-list>
+                                            <!--<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">Titulo</mat-label>
                                                 <app-file-upload formControlName="Title" ></app-file-upload>
                                             </div>
@@ -368,23 +375,8 @@
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                 <mat-label style="font-weight: bold;">créditos</mat-label>
                                                 <app-file-upload formControlName="Credits" ></app-file-upload>
-                                            </div>
 
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">idoneidad</mat-label>
-                                                <app-file-upload formControlName="Idoneidad" ></app-file-upload>
-                                            </div>
-
-
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Carta motivación</mat-label>
-                                                <app-file-upload formControlName="LetterMotivation" ></app-file-upload>
-                                            </div>
-
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Carta Aval</mat-label>
-                                                <app-file-upload formControlName="LetterAval" ></app-file-upload>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div>
                                             <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
