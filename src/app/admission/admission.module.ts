@@ -102,6 +102,13 @@ import { CreatePeriodComponent } from './FormalEducations/Gestions/Forms/create-
 import { AsignacionMallaComponent } from './FormalEducations/Gestions/Forms/asignacion-malla/asignacion-malla.component';
 import { DetallePlanAnualComponent } from './FormalEducations/Gestions/Details/detalle-plan-anual/detalle-plan-anual.component';
 import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Details/asignaturas-periodos/asignaturas-periodos.component';
+import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
+import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
+import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
+import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/approved-degree/approved-degree.component';
+import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
+import { ApprovedPosterTwoComponent } from './FormalEducations/Approvals/Forms/approved-poster-two/approved-poster-two.component';
+
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -201,8 +208,14 @@ import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Detail
     CreatePeriodComponent,
     AsignacionMallaComponent,
     DetallePlanAnualComponent,
-    AsignaturasPeriodosComponent
-
+    AsignaturasPeriodosComponent,
+    ListAnnualPlanComponent,
+    ListPosterComponent,
+    ListDegreeCurricularComponent,
+    ApprovedDegreeComponent,
+    ApprovedAnnualPlanComponent,
+    ApprovedPosterComponent,
+    ApprovedPosterTwoComponent
   ],
   providers: [
     VerificarBS64Pipe

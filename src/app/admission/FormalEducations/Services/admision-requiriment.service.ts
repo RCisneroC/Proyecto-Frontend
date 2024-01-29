@@ -11,7 +11,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 })
 export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
   public _RequirementAdmision!: RequirementAdmision;
-  isTblLoading = true; 
+  isTblLoading = true;
   dataChange: BehaviorSubject<RequirementAdmision[]> = new BehaviorSubject<RequirementAdmision[]
   >([]);
   // Temporarily stores data from dialogs
@@ -40,9 +40,9 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllRequirementAdmisione2(id:string) {
+  getAllRequirementAdmisione2(id: string) {
     return this.httpClient
-      .get<RequirementAdmision[]>(environment.apiEF + 'DegreeAdmissionRequirement/GetAll?StatusId='+id);
+      .get<RequirementAdmision[]>(environment.apiEF + 'Degree/GetPendingDegreeAdmissionRequirementBy?DegreeId=' + id);
   }
 
   getAllRequirementAdmisioneFiltro(id: any) {
@@ -68,7 +68,7 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'DegreeAdmissionRequirement/Delete', options);
   }
   addDocumentRequirement(StudyMode: any) {
@@ -80,7 +80,7 @@ export class AdmisionRequirimentService extends UnsubscribeOnDestroyAdapter {
       description: '',
       id: 0,
       name: '',
-      statusId:0
+      statusId: 0
     }
   }
 }

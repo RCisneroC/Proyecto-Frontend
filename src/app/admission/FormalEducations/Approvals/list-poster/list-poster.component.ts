@@ -1,29 +1,31 @@
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Poster, PosterRequest } from 'app/admission/models/GetOneActivity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { ApprovedPosterComponent } from '../form/approved-poster/approved-poster.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { AnnualPlanService } from '../../Services/annual-plan.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { AnnualPlan } from '../../Models/AnnualPlan';
+import { PosterRequest } from '../../Models/Degree';
+import { ApprovedPosterTwoComponent } from '../Forms/approved-poster-two/approved-poster-two.component';
 
 @Component({
-  selector: 'app-list-request-poster',
-  templateUrl: './list-request-poster.component.html',
-  styleUrls: ['./list-request-poster.component.scss']
+  selector: 'app-list-poster',
+  templateUrl: './list-poster.component.html',
+  styleUrls: ['./list-poster.component.scss']
 })
-export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
+export class ListPosterComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   displayedColumns = [
@@ -34,7 +36,7 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
     'actions',
   ];
 
-  exampleDatabase?: ActivityDetailService;
+  exampleDatabase?: AnnualPlanService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<PosterRequest>(true, []);
   id?: number;
@@ -42,7 +44,7 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _ActivityDetailService: ActivityDetailService,
+    public _AnnualPlanService: AnnualPlanService,
     private snackBar: MatSnackBar,
     private router: Router,
     public _nav: Router,
@@ -64,12 +66,12 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
   }
 
   ViewDetail(row: PosterRequest) {
-    localStorage.setItem('url', '/admission/list-post-approve')
-    this._nav.navigate(['/admission/activity-detail/' + row.activityId]);
+    localStorage.setItem('url', '/admission/approved-poster');
+    this._nav.navigate(['/admission/carreras/' + row.degreeId + '/detalle']);
   }
   aprobar(row: PosterRequest) {
 
-    const dialogRef = this.dialog.open(ApprovedPosterComponent, {
+    const dialogRef = this.dialog.open(ApprovedPosterTwoComponent, {
       data: {
         poster: row,
         accion: 'approved',
@@ -102,7 +104,7 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
 
   verDocumento(row: PosterRequest) {
 
-    this._ActivityDetailService.getPosterRequest(row.id).subscribe({
+    this._AnnualPlanService.getPosterRequest(row.id).subscribe({
       next: (res) => {
         if (this._verificarBS64.transform(res.poster.fileContents) != "pdf") {
           const dialogRef = this.dialog.open(ViewPosterComponent, {
@@ -142,7 +144,7 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
   public loadData() {
     console.log("Cargando...");
 
-    this.exampleDatabase = new ActivityDetailService(this.httpClient);
+    this.exampleDatabase = new AnnualPlanService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -176,7 +178,7 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.activityName
+        'Nombre': x.degreeName
 
       }));
 
@@ -196,7 +198,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
   filteredData: PosterRequest[] = [];
   renderedData: PosterRequest[] = [];
   constructor(
-    public exampleDatabase: ActivityDetailService,
+    public exampleDatabase: AnnualPlanService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -208,7 +210,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
   connect(): Observable<PosterRequest[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChange,
+      this.exampleDatabase.dataChange_poster,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
@@ -218,10 +220,10 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
       map(() => {
 
         // Filter data
-        this.filteredData = this.exampleDatabase.data
+        this.filteredData = this.exampleDatabase.dataPoster
           .slice()
           .filter((poster: PosterRequest) => {
-            const searchStr = (poster.activityName).toLowerCase();
+            const searchStr = (poster.degreeName).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -252,7 +254,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.activityName, b.activityName];
+          [propertyA, propertyB] = [a.degreeName, b.degreeName];
           break;
 
       }
@@ -264,3 +266,4 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
     });
   }
 }
+

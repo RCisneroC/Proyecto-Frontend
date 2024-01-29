@@ -81,7 +81,7 @@ export class AsignacionMallaComponent implements OnInit {
   }
 
   LoadDocumentRequirement() {
-    this._DegreeService.getAllMallasCurriculares(5).subscribe({
+    this._DegreeService.getAllMallasCurriculares(this.data.id_plan).subscribe({
       next: (res) => {
         this.ListadoMallaCurriculares = new MatTableDataSource<DegreeCurriculumDesign>(res);
         this.ListadoMallaCurriculares.paginator = this.paginator;

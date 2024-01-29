@@ -195,6 +195,7 @@ export class AnnualPlanComponent
 
   ViewDegree(row: AnnualPlan) {
     this._router.navigate(['/admission/AnnualPlan/' + row.id])
+    localStorage.setItem('url', '/admission/AnnualPlan/' + row.id);
   }
 
   showNotification(

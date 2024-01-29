@@ -42,6 +42,13 @@ import { SubjectDetailsComponent } from './FormalEducations/Maestros/Details/sub
 import { SubjectCurriculumComponent } from './FormalEducations/Maestros/Details/subject-curriculum/subject-curriculum.component';
 import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
 import { DetallePlanAnualComponent } from './FormalEducations/Gestions/Details/detalle-plan-anual/detalle-plan-anual.component';
+import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Details/asignaturas-periodos/asignaturas-periodos.component';
+import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
+import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/approved-degree/approved-degree.component';
+import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
+import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
+import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
+import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -225,14 +232,30 @@ const routes: Routes = [
     component: DetallePlanAnualComponent,
   },
   {
-    path: 'AnnualPlan/:id',
-    component: DetallePlanAnualComponent,
+    path: 'AnnualPlan/:id/degree/:id_degree',
+    component: AsignaturasPeriodosComponent,
+  },
+  {
+    path: 'approved-annualplan',
+    component: ListAnnualPlanComponent,
+  },
+  {
+    path: 'approved-degree',
+    component: ListDegreeCurricularComponent,
+  },
+  {
+    path: 'approved-poster',
+    component: ListPosterComponent,
   },
   {
     path: 'form-ef',
     component: BackofficeEFComponent,
   },
 ];
+
+
+
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

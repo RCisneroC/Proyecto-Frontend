@@ -83,6 +83,7 @@ export class DetallePlanAnualComponent {
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
+      this._AnnualPlanService.Init_AnnualPlan();
       this.getOnePlan();
       this.getListadoPeriodo();
       this.getMallaCurriculo();
@@ -90,8 +91,10 @@ export class DetallePlanAnualComponent {
   }
 
   getOnePlan() {
+
     this._AnnualPlanService.GetAnualPlan(this.id).subscribe({
       next: (res) => {
+        this._AnnualPlanService._AnnualPlan = res;
         console.log('GetOnePlanes');
         console.log(res);
       },
@@ -101,7 +104,11 @@ export class DetallePlanAnualComponent {
     });
   }
   volverAtras() {
-    this._Router.navigate(['/admission/AnnualPlan']);
+    const url = localStorage.getItem('url') || '/admission/AnnualPlan';
+    console.log('====================================');
+    console.log(url);
+    console.log('====================================');
+    this._Router.navigate([url]);
   }
 
   getListadoPeriodo() {
@@ -260,6 +267,37 @@ export class DetallePlanAnualComponent {
     });
   }
   detalleGeneral(row: DegreeCurriculumDesign) {
+    this._Router.navigate(['/admission/AnnualPlan/' + this.id + '/degree/' + row.id])
+  }
 
+  enviarAprobacion() {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Se enviara el Plan anual para aprobación",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._AnnualPlanService.EnviarPlanAnual(this.id, 3).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: "Escuela Judicial!",
+              text: "Enviado correctamente.",
+              icon: "success"
+            });
+            this._Router.navigate(['/admission/AnnualPlan']);
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
+        });
+      }
+    });
   }
 }

@@ -33,7 +33,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
         next: (data) => {
           this.isTblLoading = false;
           console.log(data);
-          
+
           this.dataChange.next(data);
         },
         error: (error: HttpErrorResponse) => {
@@ -42,27 +42,27 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllSubject2(id:any) {
+  getAllSubject2(id: any) {
     return this.httpClient
-      .get<Subject[]>(environment.apiEF + 'Subject/GetAll?StatusId='+id);
+      .get<Subject[]>(environment.apiEF + 'Subject/GetAll?StatusId=' + id);
   }
 
-  getAllSubjectNotPendingDegree(id:any) {
+  getAllSubjectNotPendingDegree(id: any) {
     return this.httpClient
-      .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetSubjectsBy?DegreeCurriculumDesignId='+id);
+      .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetSubjectsBy?DegreeCurriculumDesignId=' + id);
   }
-  getAllSubjectPendingDegree(id:any) {
+  getAllSubjectPendingDegree(id: any) {
     return this.httpClient
-      .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPendingSubjectsBy?DegreeCurriculumDesignId='+id);
+      .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPendingSubjectsBy?DegreeCurriculumDesignId=' + id);
   }
-  getDependencias(id:any) {
+  getDependencias(id: any) {
     return this.httpClient
-      .get<Subject[]>(environment.apiEF + 'Subject/GetParentSubjectsBy?SubjectId='+id);
+      .get<Subject[]>(environment.apiEF + 'Subject/GetParentSubjectsBy?SubjectId=' + id);
   }
 
-  getOneAsignaturas(id:any) {
+  getOneAsignaturas(id: any) {
     return this.httpClient
-      .get<Subject>(environment.apiEF + 'Subject/GetBy?Id='+id);
+      .get<Subject>(environment.apiEF + 'Subject/GetBy?Id=' + id);
   }
 
 
@@ -91,7 +91,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Subject/Delete', options);
   }
 
@@ -100,7 +100,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'Subject/CreateSubjectDependency', Subject);
   }
 
-   DeleteDependenceSubject(Id: any,parentSubjectId:any) {
+  DeleteDependenceSubject(Id: any, parentSubjectId: any) {
     let data = {
       subjectId: Id,
       parentSubjectId: parentSubjectId,
@@ -111,16 +111,16 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Subject/DeleteSubjectDependency', options);
-   }
-  
+  }
+
   //asignar y eliminar asignaturas
   CreateSubject(Subject: any) {
     return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'DegreeCurriculumDesign/CreateSubject', Subject);
   }
-  
-  DeleteSubjectDegree(Id: any,subjectId:any) {
+
+  DeleteSubjectDegree(Id: any, subjectId: any) {
     let data = {
       degreeCurriculumDesignId: Id,
       subjectId: subjectId
@@ -131,26 +131,34 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'DegreeCurriculumDesign/DeleteSubject', options);
   }
-  
-  
+
+  EnviarMallaCurricular(id: any, estado: any) {
+    let data = {
+      "statusId": estado,
+      "id": id,
+    }
+    return this.httpClient.put<ResponseGenerica>(
+      environment.apiEF + 'Degree/UpdateCurriculumDesign', data
+    );
+  }
 
   init_Subject() {
     this._Subject = {
-      statusId:0,
-      id:0,
-      name:'',
-      description:'',
-      number:0,
-      acronym:'',
-      code:'',
-      numOfCredits:0,
-      numOfHours:0,
-      numOfClasses:0,
-      hasLaboratory:false,
-      evaluationCriteria:'',
+      statusId: 0,
+      id: 0,
+      name: '',
+      description: '',
+      number: 0,
+      acronym: '',
+      code: '',
+      numOfCredits: 0,
+      numOfHours: 0,
+      numOfClasses: 0,
+      hasLaboratory: false,
+      evaluationCriteria: '',
     }
   }
 }

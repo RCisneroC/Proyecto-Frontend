@@ -12,8 +12,9 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
-import { DegreeCurriculumDesign } from '../Models/Degree';
+import { DegreeCurriculumDesign, PosterRequest } from '../Models/Degree';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
+import { SubjectPeriod } from '../Models/PlanSubject';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +25,8 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
   public _AnnualPlanDegreeCurriculumDesign!: AnnualPlanDegreeCurriculumDesign;
   public _Period!: Period;
 
-  dataChange: BehaviorSubject<AnnualPlan[]> = new BehaviorSubject<AnnualPlan[]>(
-    []
-  );
+  dataChange: BehaviorSubject<AnnualPlan[]> = new BehaviorSubject<AnnualPlan[]>([]);
+  dataChange_poster: BehaviorSubject<PosterRequest[]> = new BehaviorSubject<PosterRequest[]>([]);
   // Temporarily stores data from dialogs
   dialogData!: AnnualPlan;
   constructor(private httpClient: HttpClient) {
@@ -35,6 +35,11 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
   get data(): AnnualPlan[] {
     return this.dataChange.value;
   }
+
+  get dataPoster(): PosterRequest[] {
+    return this.dataChange_poster.value;
+  }
+
   getDialogData() {
     return this.dialogData;
   }
@@ -54,6 +59,24 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+
+  getAllAnnualPlanFiltroEstado(id: any): void {
+    this.subs.sink = this.httpClient
+      .get<AnnualPlan[]>(environment.apiEF + 'AnnualPlan/GetAll?StatusId=' + id)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data);
+          console.log(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
   getAllAnnualPlan2() {
     return this.httpClient.get<AnnualPlan[]>(
       environment.apiEF + 'AnnualPlan/GetAll'
@@ -125,7 +148,7 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
   }
 
   GetAnualPlan(id: any) {
-    return this.httpClient.get<AnnualPlan[]>(
+    return this.httpClient.get<AnnualPlan>(
       environment.apiEF + 'AnnualPlan/GetBy?Id=' + id
     );
   }
@@ -163,6 +186,49 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  getSubjectPeiod(id: any) {
+    return this.httpClient.get<SubjectPeriod[]>(
+      environment.apiEF + 'DegreeCurriculumDesign/GetPeriodSubjectsBy?DegreeCurriculumDesignId=' + id
+    );
+  }
+
+  getPeriodAgree(id: any) {
+    return this.httpClient.get<Period[]>(
+      environment.apiEF + 'AnnualPlan/GetPeriodsBy?AnnualPlanId=' + id
+    );
+  }
+
+  EnviarPlanAnual(id: any, estado: any) {
+    let data = {
+      "statusId": estado,
+      "id": id,
+    }
+    return this.httpClient.put<ResponseGenerica>(
+      environment.apiEF + 'AnnualPlan/Update', data
+    );
+  }
+
+  ApprovedAnualPlan(data: any) {
+    return this.httpClient.put(environment.apiEF + 'AnnualPlan/Approve', data);
+  }
+
+  ApprobedPoster(data: any) {
+    return this.httpClient.put(environment.apiEF + 'PosterRequest/Approve', data);
+  }
+  getRequestPoster(id: any) {
+    return this.httpClient.get<PosterRequest[]>(environment.apiEF + 'PosterRequest/GetAll?StatusId=' + id).subscribe({
+      next: (data) => {
+        this.isTblLoading = false;
+        this.dataChange_poster.next(data);
+      },
+      error: (error: HttpErrorResponse) => {
+      },
+    });
+  }
+
+  getPosterRequest(id: number) {
+    return this.httpClient.get<PosterRequest>(environment.apiEF + 'PosterRequest/GetBy?Id=' + id);
+  }
 
 
 

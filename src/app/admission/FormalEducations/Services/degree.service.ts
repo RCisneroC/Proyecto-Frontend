@@ -79,7 +79,7 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
 
   getAllMallasCurriculares(id: any) {
     return this.httpClient.get<DegreeCurriculumDesign[]>(
-      environment.apiEF + 'DegreeCurriculumDesign/GetAll?StatusId=' + id
+      environment.apiEF + 'AnnualPlan/GetPendingDegreeCurriculumDesignsBy?AnnualPlanId=' + id
     );
   }
 
@@ -212,6 +212,8 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
       data
     );
   }
+
+
 
   init_Degree() {
     this._DetalleDegree = {

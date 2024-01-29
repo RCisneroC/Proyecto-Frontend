@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { MatDialog } from '@angular/material/dialog';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe'; 
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { FormsDegreeComponent } from '../Forms/forms-degree/forms-degree.component';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { DegreeService } from '../../Services/degree.service';
@@ -17,13 +17,13 @@ import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/R
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 
-@Component({ 
+@Component({
   selector: 'app-degree',
   templateUrl: './degree.component.html',
   styleUrls: ['./degree.component.scss']
 })
 export class DegreeComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
     'name',
@@ -34,7 +34,7 @@ implements OnInit{
     'statusId',
     'actions',
   ];
-  
+
   exampleDatabase?: DegreeService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Degree>(true, []);
@@ -44,9 +44,9 @@ implements OnInit{
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _DegreeService : DegreeService,
+    public _DegreeService: DegreeService,
     private snackBar: MatSnackBar,
-    private _router:Router
+    private _router: Router
   ) {
     super();
   }
@@ -92,7 +92,7 @@ implements OnInit{
   }
   editCall(row: Degree) {
     this.id = row.id;
-    
+
     const dialogRef = this.dialog.open(FormsDegreeComponent, {
       data: {
         degree: row,
@@ -102,17 +102,17 @@ implements OnInit{
 
     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
-      return;
+        return;
       }
       if (result.CodError === 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
         this.loadData();
       } else {
-         Swal.fire({
+        Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "warning"
@@ -121,10 +121,10 @@ implements OnInit{
     });
   }
 
-    delete(row:Degree) {
+  delete(row: Degree) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.name,
+      text: "Eliminara " + row.name,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -133,32 +133,33 @@ implements OnInit{
     }).then((result) => {
       if (result.isConfirmed) {
         this._DegreeService.DeleteDegree(row.id).subscribe({
-        next:(res:ResponseGenerica)=>{
-             Swal.fire({
+          next: (res: ResponseGenerica) => {
+            Swal.fire({
               title: "Eliminado!",
-              text: row.name+" fue eliminado.",
+              text: row.name + " fue eliminado.",
               icon: "success"
             });
             this.loadData();
           },
-          error: (err:any) => {
+          error: (err: any) => {
             console.log(err);
-             Swal.fire({
+            Swal.fire({
               title: "Intente nuevamente!",
-              text: row.name+" no se pudo eliminar.",
+              text: row.name + " no se pudo eliminar.",
               icon: "warning"
             });
           }
-      })
+        })
       } else {
       }
     });
   }
 
   detalle(row: Degree) {
- 
-    console.log(row);
-    this._router.navigate(['/admission/carreras/'+row.id+'/detalle'])
+
+    localStorage.setItem('url', '/admission/carreras');
+    this._router.navigate(['/admission/carreras/' + row.id + '/detalle']);
+
   }
 
   private refreshTable() {
@@ -202,7 +203,7 @@ implements OnInit{
       this.dataSource.filteredData.map((x) => ({
         'Nombre Salón': x.name,
         'Descripción': x.description,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

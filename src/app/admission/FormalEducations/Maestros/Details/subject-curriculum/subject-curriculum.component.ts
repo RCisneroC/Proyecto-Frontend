@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateCurriculumDesign } from 'app/admission/FormalEducations/Models/Degree';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
-import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service'; 
+import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +17,14 @@ export class SubjectCurriculumComponent {
   public id: string = '';
 
   DisplayNameSubject: string[] = [
+    'posicion',
+    'codigo',
+    'name',
+    'descripcion',
+    'accion'
+  ];
+
+  DisplayNameSubjectAll: string[] = [
     'codigo',
     'name',
     'descripcion',
@@ -25,19 +33,19 @@ export class SubjectCurriculumComponent {
 
   dataSorceSubject: Subject[] = [
     {
-     statusId:0,
-      id:0,
-      name:'',
-      description:'',
-      number:0,
-      acronym:'',
-      code:'',
-      numOfCredits:0,
-      numOfHours:0,
-      numOfClasses:0,
-      hasLaboratory:false,
-      evaluationCriteria:'',
-   }
+      statusId: 0,
+      id: 0,
+      name: '',
+      description: '',
+      number: 0,
+      acronym: '',
+      code: '',
+      numOfCredits: 0,
+      numOfHours: 0,
+      numOfClasses: 0,
+      hasLaboratory: false,
+      evaluationCriteria: '',
+    }
   ];
   public _CreateCurriculumDesign: CreateCurriculumDesign = {
     degreeCurriculumDesignTarget: 0,
@@ -46,19 +54,19 @@ export class SubjectCurriculumComponent {
     startDate: new Date(),
     id: 0,
     name: '',
-    statusId:0
+    statusId: 0
   }
   dataSubjectList = new MatTableDataSource<Subject>(this.dataSorceSubject);
   dataSourceAssignedSubject = new MatTableDataSource<Subject>(this.dataSorceSubject);
-   
-  @ViewChild("listadoAsignaturas") 
+
+  @ViewChild("listadoAsignaturas")
   set paginatorSubjectActive(value: MatPaginator) {
-      this.dataSubjectList.paginator = value;
+    this.dataSubjectList.paginator = value;
   }
 
-  @ViewChild("asignaturasDependientes") 
+  @ViewChild("asignaturasDependientes")
   set paginatorSubjectDependence(value: MatPaginator) {
-      this.dataSourceAssignedSubject.paginator = value;
+    this.dataSourceAssignedSubject.paginator = value;
   }
   constructor(
     public _subjectService: SubjectServiceService,
@@ -79,14 +87,14 @@ export class SubjectCurriculumComponent {
     this._Router.navigate([ruta]);
   }
 
-  getSubjectPending(){
+  getSubjectPending() {
     this._subjectService.getAllSubjectPendingDegree(this.id).subscribe({
       next: (res) => {
         this.dataSourceAssignedSubject = new MatTableDataSource<Subject>(res);
         this.dataSourceAssignedSubject.paginator = this.paginatorSubjectDependence;
       },
       error: () => {
-        
+
       }
     })
   }
@@ -96,8 +104,8 @@ export class SubjectCurriculumComponent {
       let detalle = myValue;
       this._CreateCurriculumDesign = JSON.parse(detalle);
       console.log(this._CreateCurriculumDesign);
-      
-    }else {
+
+    } else {
       this._Router.navigate(['/#/admission/carreras'])
     }
   }
@@ -107,60 +115,117 @@ export class SubjectCurriculumComponent {
     this.dataSubjectList.filter = filterValue.trim().toLowerCase();
   }
 
-   applyFilterDependence(event: Event) {
+  applyFilterDependence(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceAssignedSubject.filter = filterValue.trim().toLowerCase();
   }
-  
+
 
   getSubjectAll() {
     this._subjectService.getAllSubjectNotPendingDegree(this.id).subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.dataSubjectList = new MatTableDataSource<Subject>(res);
         this.dataSubjectList.paginator = this.paginatorSubjectActive;
       },
       error: () => {
-        
+
       }
     })
   }
 
   CreateSubject(row: Subject) {
-    var json = {
-      degreeCurriculumDesignId: this.id,
-      subjectIds: [
-        row.id
-      ]
-    }
-    this._subjectService.CreateSubject(json).subscribe({
-      next: (res) => {
-         
-        this.getSubjectPending();
-       this.getSubjectAll();
+
+    Swal.fire({
+      title: "Ingrese el orden de la asignatura",
+      input: "number",
+      inputAttributes: {
+        autocapitalize: "off"
       },
-      error: (err) => {
-         Swal.fire({
+      showCancelButton: true,
+      confirmButtonText: "Guardar",
+      showLoaderOnConfirm: true,
+      preConfirm: async (login) => {
+        if (login == '') {
+          Swal.showValidationMessage(`Ingrese un valor correcto.`);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+      if (result.isConfirmed) {
+        var json = {
+          degreeCurriculumDesignId: this.id,
+          subjectIds: [
+            row.id
+          ],
+          subjectNumber: result.value
+        }
+        this._subjectService.CreateSubject(json).subscribe({
+          next: (res) => {
+
+            this.getSubjectPending();
+            this.getSubjectAll();
+          },
+          error: (err) => {
+            Swal.fire({
               title: "Escuela Judicial",
               text: err,
               icon: "warning"
             });
+          }
+        });
       }
     });
   }
   DeleteSubjectDegree(row: Subject) {
 
-   this._subjectService.DeleteSubjectDegree(this.id,row.id).subscribe({
+    this._subjectService.DeleteSubjectDegree(this.id, row.id).subscribe({
       next: (res) => {
-         
-       this.getSubjectPending();
-       this.getSubjectAll();
+
+        this.getSubjectPending();
+        this.getSubjectAll();
       },
       error: (err) => {
-         Swal.fire({
-              title: "Escuela Judicial",
-              text: err,
-              icon: "warning"
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: err,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+  enviarAprobacion() {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Se enviara la malla curricular para aprobación",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._subjectService.EnviarMallaCurricular(this.id, 3).subscribe({
+          next: () => {
+            Swal.fire({
+              title: "Escuela Judicial!",
+              text: "Enviado correctamente.",
+              icon: "success"
             });
+            var ruta = localStorage.getItem('url_detalle') || '';
+            this._Router.navigate([ruta]);
+          }
+        });
+
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
+        });
       }
     });
   }

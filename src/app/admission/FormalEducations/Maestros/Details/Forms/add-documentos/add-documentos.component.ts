@@ -16,18 +16,18 @@ export interface DialogData {
   styleUrls: ['./add-documentos.component.scss']
 })
 export class AddDocumentosComponent implements OnInit {
-   public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
-    displayedColumns: string[] = [
+  displayedColumns: string[] = [
     'id',
     'name',
     'description',
-    ];
-  
-  action: string='';
-  dialogTitle: string='';
+  ];
+
+  action: string = '';
+  dialogTitle: string = '';
   RequirementAdmision!: UntypedFormGroup;
   id_actividad: string = '';
   dataSourceRequirementAdmision: RequirementAdmision[] = [
@@ -35,51 +35,51 @@ export class AddDocumentosComponent implements OnInit {
       description: '',
       id: 0,
       name: '',
-      statusId:0
+      statusId: 0
     }
   ];
-  ListadoDocumentosAdmision= new MatTableDataSource<RequirementAdmision>(this.dataSourceRequirementAdmision);
+  ListadoDocumentosAdmision = new MatTableDataSource<RequirementAdmision>(this.dataSourceRequirementAdmision);
   public IsLoading: boolean = true;
   @ViewChild('paginatorDocumentos') set paginator(value: MatPaginator) {
-     setTimeout(() => {
-       this.ListadoDocumentosAdmision.paginator = value;
-       this.IsLoading = false;
-     }, 3000);
+    setTimeout(() => {
+      this.ListadoDocumentosAdmision.paginator = value;
+      this.IsLoading = false;
+    }, 500);
   }
-  
+
   constructor(
     public dialogRef: MatDialogRef<AddDocumentosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _AdmisionRequirimentService:AdmisionRequirimentService,
+    public _AdmisionRequirimentService: AdmisionRequirimentService,
     private fb: UntypedFormBuilder
   ) {
-   this.RequirementAdmision =this.fb.group({
+    this.RequirementAdmision = this.fb.group({
       degreeAdmissionRequirementsIds: this.fb.array([]),
-      degreeId:[this.data.id_carrera,Validators.required]
-   });
+      degreeId: [this.data.id_carrera, Validators.required]
+    });
     this.action = this.data.accion;
     if (this.action === 'add') {
-      this.dialogTitle ="Agregar Requerimientos";
+      this.dialogTitle = "Agregar Requerimientos";
       this.id_actividad = this.data.id_carrera;
     }
-     this.LoadDocumentRequirement();
+    this.LoadDocumentRequirement();
   }
   ngOnInit(): void {
 
     this.ListadoDocumentosAdmision.paginator = this.paginator;
-   
+
   }
-     applyFilter(event: Event) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoDocumentosAdmision.filter = filterValue.trim().toLowerCase();
   }
 
   LoadDocumentRequirement() {
-    this._AdmisionRequirimentService.getAllRequirementAdmisione2('1').subscribe({
+    this._AdmisionRequirimentService.getAllRequirementAdmisione2(this.data.id_carrera).subscribe({
       next: (res) => {
         console.log(res);
-        
-        this.ListadoDocumentosAdmision =new MatTableDataSource<RequirementAdmision>(res);
+
+        this.ListadoDocumentosAdmision = new MatTableDataSource<RequirementAdmision>(res);
       }
     });
   }
@@ -101,7 +101,7 @@ export class AddDocumentosComponent implements OnInit {
     return this.RequirementAdmision.get('degreeAdmissionRequirementsIds') as UntypedFormArray;
   }
 
-    checkboxChange(event: any, checkboxId: any): void {
+  checkboxChange(event: any, checkboxId: any): void {
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
     } else {

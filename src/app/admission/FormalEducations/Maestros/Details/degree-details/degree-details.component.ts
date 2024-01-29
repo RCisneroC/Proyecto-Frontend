@@ -51,6 +51,7 @@ export class DegreeDetailsComponent {
     'name',
     'descripcion',
     'dateStart',
+    'Estado',
     'accion',
   ];
 
@@ -168,7 +169,8 @@ export class DegreeDetailsComponent {
   }
 
   volverAtras() {
-    this._Router.navigate(['/admission/carreras']);
+    const params = localStorage.getItem('url') || '/admission/carreras';
+    this._Router.navigate([params]);
   }
 
   getOneCarrera() {
@@ -190,7 +192,7 @@ export class DegreeDetailsComponent {
         this.dataCompetence.paginator = this.paginatorCompetence;
         this.dataCurriculum.paginator = this.paginatordataCurriculum;
       },
-      error: (err) => {},
+      error: (err) => { },
     });
   }
 

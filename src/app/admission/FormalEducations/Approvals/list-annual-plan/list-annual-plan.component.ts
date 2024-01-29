@@ -1,55 +1,54 @@
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AnnualPlanService } from '../../Services/annual-plan.service';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { AnnualPlan } from '../../Models/AnnualPlan';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatPaginator } from '@angular/material/paginator';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { Poster, PosterRequest } from 'app/admission/models/GetOneActivity';
-import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { ApprovedPosterComponent } from '../form/approved-poster/approved-poster.component';
+import { ApprovedAnnualPlanComponent } from '../Forms/approved-annual-plan/approved-annual-plan.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
-import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
-import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 
 @Component({
-  selector: 'app-list-request-poster',
-  templateUrl: './list-request-poster.component.html',
-  styleUrls: ['./list-request-poster.component.scss']
+  selector: 'app-list-annual-plan',
+  templateUrl: './list-annual-plan.component.html',
+  styleUrls: ['./list-annual-plan.component.scss']
 })
-export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
+export class ListAnnualPlanComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
-
   displayedColumns = [
-    'id',
-    'actividad',
-    'estado',
-    'documento',
+    'name',
+    'description',
+    'dateStart',
+    'dateEnd',
+    'status',
     'actions',
   ];
 
-  exampleDatabase?: ActivityDetailService;
+  exampleDatabase?: AnnualPlanService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<PosterRequest>(true, []);
+  selection = new SelectionModel<AnnualPlan>(true, []);
   id?: number;
-
+  annualPlan?: AnnualPlan;
   constructor(
-    public httpClient: HttpClient,
+    private Path: ActivatedRoute,
+    public _router: Router,
     public dialog: MatDialog,
-    public _ActivityDetailService: ActivityDetailService,
+    public _verificarBS64: VerificarBS64Pipe,
+    public _AnnualPlanService: AnnualPlanService,
     private snackBar: MatSnackBar,
-    private router: Router,
-    public _nav: Router,
-    public _verificarBS64: VerificarBS64Pipe
+    private httpClient: HttpClient
   ) {
     super();
   }
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild('filter', { static: true }) filter!: ElementRef;
@@ -63,15 +62,49 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  ViewDetail(row: PosterRequest) {
-    localStorage.setItem('url', '/admission/list-post-approve')
-    this._nav.navigate(['/admission/activity-detail/' + row.activityId]);
+  private refreshTable() {
+    this.paginator._changePageSize(this.paginator.pageSize);
   }
-  aprobar(row: PosterRequest) {
 
-    const dialogRef = this.dialog.open(ApprovedPosterComponent, {
+  public loadData() {
+    this.exampleDatabase = new AnnualPlanService(this.httpClient);
+    this.dataSource = new ExampleDataSource(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
+      () => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
+
+  ViewDegree(row: AnnualPlan) {
+    this._router.navigate(['/admission/AnnualPlan/' + row.id]);
+    localStorage.setItem('url', '/admission/approved-annualplan');
+  }
+
+  showNotification(
+    colorName: string,
+    text: string,
+    placementFrom: MatSnackBarVerticalPosition,
+    placementAlign: MatSnackBarHorizontalPosition
+  ) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+  aprobar(row: AnnualPlan) {
+    const dialogRef = this.dialog.open(ApprovedAnnualPlanComponent, {
       data: {
-        poster: row,
+        plan: row,
         accion: 'approved',
       },
       disableClose: true
@@ -97,78 +130,6 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
       }
     });
 
-    console.log(row);
-  }
-
-  verDocumento(row: PosterRequest) {
-
-    this._ActivityDetailService.getPosterRequest(row.id).subscribe({
-      next: (res) => {
-        if (this._verificarBS64.transform(res.poster.fileContents) != "pdf") {
-          const dialogRef = this.dialog.open(ViewPosterComponent, {
-            data: {
-              type: this._verificarBS64.transform(res.poster.fileContents),
-              accion: 'view-poster',
-              posterFile: res.poster.fileContents,
-              comment: res.posterComments,
-              poster: res,
-            },
-            disableClose: true,
-          });
-        } else {
-          const dialogRef = this.dialog.open(ViewPosterPDFComponent, {
-            data: {
-              type: this._verificarBS64.transform(res.poster.fileContents),
-              accion: 'view-poster',
-              posterFile: res.poster.fileContents,
-              comment: res.posterComments,
-              poster: res,
-            },
-            width: '1000px',
-            disableClose: true,
-          });
-        }
-      },
-      error: (err) => {
-
-      }
-    })
-
-  }
-  private refreshTable() {
-    this.paginator._changePageSize(this.paginator.pageSize);
-  }
-
-  public loadData() {
-    console.log("Cargando...");
-
-    this.exampleDatabase = new ActivityDetailService(this.httpClient);
-    this.dataSource = new ExampleDataSource(
-      this.exampleDatabase,
-      this.paginator,
-      this.sort
-    );
-    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
-      () => {
-        if (!this.dataSource) {
-          return;
-        }
-        this.dataSource.filter = this.filter.nativeElement.value;
-      }
-    );
-  }
-  showNotification(
-    colorName: string,
-    text: string,
-    placementFrom: MatSnackBarVerticalPosition,
-    placementAlign: MatSnackBarHorizontalPosition
-  ) {
-    this.snackBar.open(text, '', {
-      duration: 2000,
-      verticalPosition: placementFrom,
-      horizontalPosition: placementAlign,
-      panelClass: colorName,
-    });
   }
 
   // export table data in excel file
@@ -176,16 +137,14 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.activityName
-
+        'First Name': x.name,
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
-
-
 }
-export class ExampleDataSource extends DataSource<PosterRequest> {
+
+export class ExampleDataSource extends DataSource<AnnualPlan> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -193,10 +152,10 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: PosterRequest[] = [];
-  renderedData: PosterRequest[] = [];
+  filteredData: AnnualPlan[] = [];
+  renderedData: AnnualPlan[] = [];
   constructor(
-    public exampleDatabase: ActivityDetailService,
+    public exampleDatabase: AnnualPlanService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -205,7 +164,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<PosterRequest[]> {
+  connect(): Observable<AnnualPlan[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -213,15 +172,14 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getRequestPoster('3');
+    this.exampleDatabase.getAllAnnualPlanFiltroEstado(3);
     return merge(...displayDataChanges).pipe(
       map(() => {
-
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((poster: PosterRequest) => {
-            const searchStr = (poster.activityName).toLowerCase();
+          .filter((subject: AnnualPlan) => {
+            const searchStr = subject.name.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -240,7 +198,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: PosterRequest[]): PosterRequest[] {
+  sortData(data: AnnualPlan[]): AnnualPlan[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -252,9 +210,8 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.activityName, b.activityName];
+          [propertyA, propertyB] = [a.name, b.name];
           break;
-
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
