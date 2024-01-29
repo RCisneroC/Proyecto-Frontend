@@ -227,22 +227,7 @@ export class BackofficeEFComponent implements AfterViewInit {
   ];
 
   public DataExperiencia:DetalleExperiencia[] = [
-    {
-      entidad:"Entidad1",
-      position: "string",
-      cityEmployment: "string",
-      startDateEmployment: new Date(),
-      endDate: new Date(),
-      time: "string"
-    },
-    {
-      entidad:"Entidad2",
-      position: "string",
-      cityEmployment: "string",
-      startDateEmployment: new Date(),
-      endDate: new Date(),
-      time: "string"
-    }
+
   ];
   loading:boolean=false;
   personData : any;
@@ -265,7 +250,7 @@ export class BackofficeEFComponent implements AfterViewInit {
     observation:"",
     createdBy:""
   };
-  datoprueba:string = "algo";
+
   SourcePlan = new MatTableDataSource<DetallePlanes>();
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
@@ -447,10 +432,10 @@ addAspirantEF(){
 
     dialogILRef.afterClosed().subscribe((result:DetalleExperiencia) => {
       console.log('The dialog was closed', result);
-     /* if(result != null){
-        this.DataAcademico.push(result);
-        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
-      }*/
+      if(result != null){
+        this.DataExperiencia.push(result);
+        this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+      }
 
     });
   }
@@ -459,6 +444,12 @@ addAspirantEF(){
     console.log(row);
     this.DataAcademico.splice(row,1);
     this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  }
+
+  deleteItemIL(row:any){
+    console.log(row);
+    this.DataExperiencia.splice(row,1);
+    this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
   }
 
 }
