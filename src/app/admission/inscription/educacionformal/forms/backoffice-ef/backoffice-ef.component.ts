@@ -57,6 +57,7 @@ export class DialogOverviewDetalleAcademico {
     academicInstitutionId: 0
   }
    educationlevelList:any;
+    datoprueba:string ="textprueba";
 
   constructor(
     public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
@@ -75,7 +76,7 @@ export class DialogOverviewDetalleAcademico {
       city: [this.modalityAC.city, [Validators.required]],
       completionDate: [this.modalityAC.completionDate, [Validators.required]],
       startDate: [this.modalityAC.startDate, [Validators.required]],
-      academicInstitutionId: [this.modalityAC.institution],
+      academicInstitution: [this.modalityAC.institution],
     });
   }
 
@@ -194,6 +195,7 @@ export class BackofficeEFComponent implements AfterViewInit {
     observation:"",
     createdBy:""
   };
+  datoprueba:string = "algo";
   SourcePlan = new MatTableDataSource<DetallePlanes>();
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
@@ -360,7 +362,6 @@ addAspirantEF(){
 
     dialogACRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      //this.animal = result;
     });
   }
 }
