@@ -39,7 +39,7 @@
                                                                     Es Requitos
                                                                 </mat-error>
                                                                 <mat-error *ngIf="teacherForm.get('cedula')?.hasError('cedulaExists')">
-                                                                    Es Requitos
+                                                                 Documento de identidad ya existe
                                                                 </mat-error>
                                                               
                                                             </mat-form-field>
@@ -284,8 +284,11 @@
                                                     </div>
                                                     <div>
                                                         <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
-                                                        <button mat-raised-button color="primary" [disabled]="!FormsEFDocument.valid" 
+                                                        <button mat-raised-button color="primary" [disabled]="!(FormsEFDocument.valid && teacherForm.valid)" 
                                                          (click)="submit()">Inscribir docente</button>
+                                                         <mat-error *ngIf="!teacherForm.valid && FormsEFDocument.valid">
+                                                            Por favor verifique que los datos requeridos en los pasos anteriores fueron ingresados.
+                                                           </mat-error>
                                                     </div>
                                                 </form>
                                                 <!-- [disabled]="!editActivity!.valid" -->
