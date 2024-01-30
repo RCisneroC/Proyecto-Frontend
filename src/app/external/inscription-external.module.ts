@@ -9,13 +9,17 @@ import { SharedModule } from '@shared';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { DetailsAnnualComponent } from './details-annual/details-annual.component';
 import { InscriptionFormsExternalComponent } from './inscription-forms-external/inscription-forms-external.component';
+import { InfoAcademicaComponent } from './Forms/info-academica/info-academica.component';
+import { InfoLaboralComponent } from './Forms/info-laboral/info-laboral.component';
 
 
 @NgModule({
   declarations: [
     ViewActivityExternalComponent,
     DetailsAnnualComponent,
-    InscriptionFormsExternalComponent
+    InscriptionFormsExternalComponent,
+    InfoAcademicaComponent,
+    InfoLaboralComponent
   ],
   providers: [
      VerificarBS64Pipe

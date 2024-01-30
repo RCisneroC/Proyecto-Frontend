@@ -568,7 +568,13 @@ export class BackofficeEFComponent implements AfterViewInit {
   }
 
   submit() {
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: 'Registrado correctamente',
+      icon: "success"
+    });
 
+    location.reload();
   }
   openDialogAC(): void {
     const dialogACRef = this.dialog.open(DialogOverviewDetalleAcademico, {

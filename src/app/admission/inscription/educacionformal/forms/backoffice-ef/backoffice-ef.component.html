@@ -103,7 +103,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Nombre</mat-label>
-                                                    <input matInput formControlName="firstName" [readonly]="true"
+                                                    <input matInput formControlName="firstName" [readonly]="false"
                                                         [ngModel]="Participant.firstName">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
@@ -115,7 +115,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Primer Apellido</mat-label>
-                                                    <input matInput formControlName="lastName" [readonly]="true"
+                                                    <input matInput formControlName="lastName" [readonly]="false"
                                                         [ngModel]="Participant.lastName">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
@@ -127,7 +127,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Segundo Apellido</mat-label>
-                                                    <input matInput formControlName="secondsurname" [readonly]="true"
+                                                    <input matInput formControlName="secondsurname" [readonly]="false"
                                                         [ngModel]="Participant.secondsurname">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
@@ -143,7 +143,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Lugar de nacimiento</mat-label>
-                                                    <input matInput formControlName="placeOfBirth" [readonly]="true"
+                                                    <input matInput formControlName="placeOfBirth" [readonly]="false"
                                                         [ngModel]="Participant.placeOfBirth">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
@@ -174,7 +174,7 @@
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Dirección residencial</mat-label>
                                                     <input matInput formControlName="residentialAddress"
-                                                        [readonly]="true" [ngModel]="Participant.residentialAddress">
+                                                        [readonly]="false" [ngModel]="Participant.residentialAddress">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
