@@ -98,7 +98,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Nombre</mat-label>
-                                                    <input matInput formControlName="firstName" [readonly]="true" [ngModel]="Participant.firstName" >
+                                                    <input matInput formControlName="firstName" [readonly]="false" [ngModel]="Participant.firstName" >
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
                                                         Es Requitos
@@ -108,7 +108,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Primer Apellido</mat-label>
-                                                    <input matInput formControlName="lastName" [readonly]="true" [ngModel]="Participant.lastName">
+                                                    <input matInput formControlName="lastName" [readonly]="false" [ngModel]="Participant.lastName">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
                                                         Es Requitos
@@ -118,7 +118,7 @@
                                           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                             <mat-form-field class="example-full-width " appearance="outline">
                                               <mat-label>Segundo Apellido</mat-label>
-                                              <input matInput formControlName="secondsurname" [readonly]="true" [ngModel]="Participant.secondsurname">
+                                              <input matInput formControlName="secondsurname" [readonly]="false" [ngModel]="Participant.secondsurname">
                                               <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                               <mat-error *ngIf="FormsEF.get('secondsurname')?.hasError('required')">
                                                 Es Requitos
@@ -131,7 +131,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Lugar de nacimiento</mat-label>
-                                                    <input matInput formControlName="placeOfBirth" [readonly]="true" [ngModel]="Participant.placeOfBirth">
+                                                    <input matInput formControlName="placeOfBirth" [readonly]="false" [ngModel]="Participant.placeOfBirth">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
                                                         Es Requitos
@@ -154,7 +154,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Dirección residencial</mat-label>
-                                                    <input matInput formControlName="residentialAddress" [readonly]="true" [ngModel]="Participant.residentialAddress">
+                                                    <input matInput formControlName="residentialAddress" [readonly]="false" [ngModel]="Participant.residentialAddress">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                      <mat-error *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
                                                         Es Requitos
@@ -202,7 +202,7 @@
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        
+
                                         <div>
                                             <button [disabled]="!FormsEF!.valid" (click)="firstNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
                                         </div>
