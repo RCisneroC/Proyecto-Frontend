@@ -1,0 +1,90 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="DegreeCurriculumDesignForms" (ngSubmit)="submit">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Fecha de Inicio</mat-label>
+                                    <input matInput [matDatepicker]="fechaInicio"
+                                        formControlName="inscriptionStartDate">
+                                    <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaInicio></mat-datepicker>
+                                    <mat-error
+                                        *ngIf="DegreeCurriculumDesignForms.get('inscriptionStartDate')?.hasError('required')">
+                                        Selecciones una fecha
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Fecha Final</mat-label>
+                                    <input matInput [matDatepicker]="fechaFin" formControlName="inscriptionEndDate">
+                                    <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaFin></mat-datepicker>
+                                    <mat-error
+                                        *ngIf="DegreeCurriculumDesignForms.get('inscriptionEndDate')?.hasError('required')">
+                                        Selecciones una fecha
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                            </mat-form-field>
+                            <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
+                            <table *ngIf="!IsLoading" mat-table [dataSource]="ListadoMallaCurriculares" class="w-100">
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <mat-checkbox (change)="checkboxChange($event, element.id)"> {{ element.name
+                                            }}</mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="description">
+                                    <th mat-header-cell *matHeaderCellDef>Descripción </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechas">
+                                    <th mat-header-cell *matHeaderCellDef>Fechas </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.startDate | date:'dd/M/yyyy'}} -
+                                        {{element.endDate | date:'dd/M/yyyy'}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="estado">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.statusId | statusPipe}} </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <mat-paginator #paginatorDocumentos [pageSizeOptions]="[5, 10, 20]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button mat-raised-button color="primary" [disabled]="!DegreeCurriculumDesignForms.valid"
+                (click)="submit()">Guardar</button>
+        </form>
+    </div>
+</div>

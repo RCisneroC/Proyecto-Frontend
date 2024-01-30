@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { DetailsAnnualComponent } from './details-annual/details-annual.component';
 
 
 @NgModule({
   declarations: [
-    ViewActivityExternalComponent
+    ViewActivityExternalComponent,
+    DetailsAnnualComponent
   ],
   providers: [
      VerificarBS64Pipe

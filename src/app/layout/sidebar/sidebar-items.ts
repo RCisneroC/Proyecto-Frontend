@@ -1,111 +1,185 @@
-import { RouteInfo } from "./sidebar.metadata";
+import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
   {
-    path: "",
-    title: "MENU",
-    iconType: "",
-    icon: "",
-    class: "",
+    path: '',
+    title: 'MENU',
+    iconType: '',
+    icon: '',
+    class: '',
     groupTitle: true,
-    badge: "",
-    badgeClass: "",
+    badge: '',
+    badgeClass: '',
     submenu: [],
   },
+
+  //incripción
   {
-    path: "",
-    title: "Admisión",
-    iconType: "feather",
-    icon: "calendar",
-    class: "menu-toggle",
+    path: '',
+    title: 'Admisión',
+    iconType: 'feather',
+    icon: 'calendar',
+    class: 'menu-toggle',
     groupTitle: false,
-    badge: "",
-    badgeClass: "",
+    badge: '',
+    badgeClass: '',
     submenu: [
-    {
-      path: "/admission/schedule-activities-list",
-      title: "Cronograma de actividades",
-      iconType: "",
-      icon: "",
-      class: "ml-menu",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    },
+      {
+        path: '/admission/schedule-activities-list',
+        title: 'Cronograma de actividades',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/admission/AnnualPlan',
+        title: 'Cronograma Anual EF',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
     ]
   },
+
+  // Incripcion
   {
-      path: "admission/",
-      title: "Inscripciones",
-      iconType: "",
-      icon: "user-check",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "admission/schedule-list",
-          title: "BackOffice",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "admission/activity-participants-list",
-          title: "Participantes",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        }
-      ]
+    path: 'admission/',
+    title: 'Inscripciones',
+    iconType: '',
+    icon: 'user-check',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [
+      {
+        path: 'admission/schedule-list',
+        title: 'BackOffice',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: 'admission/activity-participants-list',
+        title: 'Participantes',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+    ],
   },
-    
+
+  // Formulario EF
+  // {
+  //   path: 'admission/',
+  //   title: 'Inscripciones EF',
+  //   iconType: '',
+  //   icon: 'user-check',
+  //   class: 'menu-toggle',
+  //   groupTitle: false,
+  //   badge: '',
+  //   badgeClass: '',
+  //   submenu: [
+  //     {
+  //       path: 'admission/form-ef',
+  //       title: 'BackOffice',
+  //       iconType: '',
+  //       icon: '',
+  //       class: 'ml-menu',
+  //       groupTitle: false,
+  //       badge: '',
+  //       badgeClass: '',
+  //       submenu: [],
+  //     },
+  //   ],
+  // },
+
+  //aprobaciones
   {
-      path: "admission/",
-      title: "Inscripciones EF",
-      iconType: "",
-      icon: "user-check",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "admission/form-ef",
-          title: "BackOffice",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        }
-      ]
+    path: '',
+    title: 'Aprobaciones',
+    iconType: 'feather',
+    icon: 'check-circle',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [
+      {
+        path: 'admission/list-curriculum-approve',
+        title: 'Cronograma de actividades',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: 'admission/list-rooms-approve',
+        title: 'Solicitud de Salones',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: 'admission/list-post-approve',
+        title: 'Solicitud de Afiche',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+    ],
   },
-    
+
+  //ajustes EC
   {
     path: "",
-    title: "Aprobaciones",
-    iconType: "feather",
-    icon: "check-circle",
+    title: "Ajustes",
+    iconType: "",
+    icon: "database",
     class: "menu-toggle",
     groupTitle: false,
     badge: "",
     badgeClass: "",
     submenu: [
       {
-        path: "admission/list-curriculum-approve",
-        title: "Cronograma de actividades",
+        path: "/admission/source-funds-list",
+        title: "Origen de fondos",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      }, {
+        path: "/admission/activity-ubication-list",
+        title: "Ubicación Actividades",
         iconType: "",
         icon: "",
         class: "ml-menu",
@@ -115,281 +189,237 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-      path: "admission/list-rooms-approve",
-      title: "Solicitud de Salones",
-      iconType: "",
-      icon: "",
-      class: "ml-menu",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
+        path: "/admission/modality-list",
+        title: "Modalidad",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
       },
       {
-      path: "admission/list-post-approve",
-      title: "Solicitud de Afiche",
-      iconType: "",
-      icon: "",
-      class: "ml-menu",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: []
-    }
+        path: "/admission/reason-list",
+        title: "Motivo",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/type-activity-list",
+        title: "Tipo de actividad",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/supplies-list",
+        title: "Insumos",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/lounge-list",
+        title: "Salón",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/documentation-required-list",
+        title: "Documentación",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/status-list",
+        title: "Estados",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/cooperating-organization",
+        title: "Organización cooperativa",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/cooperating-organization",
+        title: "Crear Programa",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      }
+
     ]
   },
-  {
-      path: "",
-      title: "Ajustes",
-      iconType: "",
-      icon: "database",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "/admission/source-funds-list",
-          title: "Origen de fondos",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },{
-          path: "/admission/activity-ubication-list",
-          title: "Ubicación Actividades",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-          {
-          path: "/admission/modality-list",
-          title: "Modalidad",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-         {
-          path: "/admission/reason-list",
-          title: "Motivo",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/type-activity-list",
-          title: "Tipo de actividad",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/supplies-list",
-          title: "Insumos",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/lounge-list",
-          title: "Salón",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/documentation-required-list",
-          title: "Documentación",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/status-list",
-          title: "Estados",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/cooperating-organization",
-          title: "Organización cooperativa",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/cooperating-organization",
-          title: "Crear Programa",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        }
-        
-      ]
-  },
-  {
-      path: "",
-      title: "Ajustes EF",
-      iconType: "",
-      icon: "database",
-      class: "menu-toggle",
-      groupTitle: false,
-      badge: "",
-      badgeClass: "",
-      submenu: [
-        {
-          path: "/admission/carreras",
-          title: "Carreras",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/asignaturas",
-          title: "Asignaturas",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/documentos-requeridos",
-          title: "Documentos requeridos",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/competencias",
-          title: "Competencias",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/modo-estudios",
-          title: "Modo de estudios",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/salones",
-          title: "Salones",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
-        {
-          path: "/admission/estado",
-          title: "Estados",
-          iconType: "",
-          icon: "",
-          class: "ml-menu",
-          groupTitle: false,
-          badge: "",
-          badgeClass: "",
-          submenu: []
-        },
 
-      ]
-  },
-  // //inscripcion
-  // {
-  //   path: "",
-  //   title: "Gestión Docente",
-  //   iconType: "feather",
-  //   icon: "lock",
-  //   class: "menu-toggle",
-  //   groupTitle: false,
-  //   badge: "",
-  //   badgeClass: "",
-  //   submenu: [
-  //     {
-  //       path: "/teaching-management/teacher-list",
-  //       title: "Docentes",
-  //       iconType: "",
-  //       icon: "",
-  //       class: "ml-menu",
-  //       groupTitle: false,
-  //       badge: "",
-  //       badgeClass: "",
-  //       submenu: [],
-  //     }
-  //   ]
-  
-  // },
-  //Seguridad
+  //Ajustes EF
   {
     path: "",
-    title: "Seguridad",
+    title: "Ajustes EF",
+    iconType: "",
+    icon: "database",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    submenu: [
+      {
+        path: "/admission/carreras",
+        title: "Carreras",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/asignaturas",
+        title: "Asignaturas",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/documentos-requeridos",
+        title: "Documentos requeridos",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/modo-estudios",
+        title: "Modo de estudios",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/salones",
+        title: "Salones",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      {
+        path: "/admission/estado",
+        title: "Estados",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+    ],
+  },
+  //aprobaciones
+  {
+    path: '',
+    title: 'Aprobaciones EF',
+    iconType: 'feather',
+    icon: 'check-circle',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [
+      {
+        path: 'admission/approved-annualplan',
+        title: 'Plan Anual',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: 'admission/approved-degree',
+        title: 'Mallas Curriculares',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: 'admission/approved-poster',
+        title: 'Solicitud de Afiche',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+    ],
+  },
+  //gestion docente.
+  {
+    path: "",
+    title: "Gestión Docente",
     iconType: "feather",
     icon: "lock",
     class: "menu-toggle",
@@ -398,8 +428,8 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     submenu: [
       {
-        path: "/security/user-list",
-        title: "Usuario",
+        path: "/teaching-management/teacher-list",
+        title: "Docentes",
         iconType: "",
         icon: "",
         class: "ml-menu",
@@ -409,8 +439,8 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/security/role-list",
-        title: "Rol",
+        path: "/teaching-management/teacher-history-list",
+        title: "Historial docente",
         iconType: "",
         icon: "",
         class: "ml-menu",
@@ -418,8 +448,43 @@ export const ROUTES: RouteInfo[] = [
         badge: "",
         badgeClass: "",
         submenu: [],
-      },
+      }
     ]
-  
-  }
+  },
+
+  //Seguridad
+  {
+    path: '',
+    title: 'Seguridad',
+    iconType: 'feather',
+    icon: 'lock',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [
+      {
+        path: '/security/user-list',
+        title: 'Usuario',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Rol',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+    ],
+  },
 ];

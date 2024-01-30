@@ -1,11 +1,11 @@
-
+ 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoungeListComponent } from './maestros/lounge-list/lounge-list.component';
 import { ScheduleActivitiesListComponent } from './schedule-activities-list/schedule-activities-list.component';
 import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule-activity-form.component';
 import { ScheduleActivityDetailComponent } from './schedule-activity-detail/schedule-activity-detail.component';
-import {BackofficeComponent} from './inscription/backoffice/backoffice.component'
+import { BackofficeComponent } from './inscription/backoffice/backoffice.component';
 import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
 import { TypeActivityListComponent } from './maestros/type-activity-list/type-activity-list.component';
 import { ReasonListComponent } from './maestros/reason-list/reason-list.component';
@@ -18,8 +18,8 @@ import { ActivitydetailComponent } from './activitydetail/activitydetail.compone
 import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-design/list-curriculum-design.component';
 import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
-import {ActivityListInscriptionComponent} from './inscription/activity-list-inscription/activity-list-inscription.component'
-import {ScheduleListComponent}  from './inscription/schedule-list/schedule-list.component'
+import { ActivityListInscriptionComponent } from './inscription/activity-list-inscription/activity-list-inscription.component';
+import { ScheduleListComponent } from './inscription/schedule-list/schedule-list.component';
 import { ActivityParticipantsListComponent } from './inscription/approval/activity-participants-list/activity-participants-list.component';
 import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
 import { ListRequestRoomsComponent } from './Approvals/list-request-rooms/list-request-rooms.component';
@@ -47,138 +47,148 @@ import {
 import {
   PartakerListInscriptionComponent
 } from "./inscription/educacionformal/approval/partaker-list-inscription-component/partaker-list-inscription-component.component";
+import { DegreeDetailsComponent } from './FormalEducations/Maestros/Details/degree-details/degree-details.component';
+import { SubjectDetailsComponent } from './FormalEducations/Maestros/Details/subject-details/subject-details.component';
+import { SubjectCurriculumComponent } from './FormalEducations/Maestros/Details/subject-curriculum/subject-curriculum.component';
+import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
+import { DetallePlanAnualComponent } from './FormalEducations/Gestions/Details/detalle-plan-anual/detalle-plan-anual.component';
+import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Details/asignaturas-periodos/asignaturas-periodos.component';
+import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
+import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/approved-degree/approved-degree.component';
+import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
+import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
+import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
+import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
 const routes: Routes = [
-
   {
-    path: "schedule-activities-list",
+    path: 'schedule-activities-list',
     component: ScheduleActivitiesListComponent,
   },
   {
-    path: "schedule-activity-form",
+    path: 'schedule-activity-form',
     component: ScheduleActivityFormComponent,
   },
   {
-    path: "schedule-activity-detail/:id",
+    path: 'schedule-activity-detail/:id',
     component: ScheduleActivityDetailComponent,
   },
-   {
-    path: "reservar-salones/:id",
+  {
+    path: 'reservar-salones/:id',
     component: RoomRequestsComponent,
   },
   {
-    path: "activity-detail/:id",
+    path: 'activity-detail/:id',
     component: ActivitydetailComponent,
   },
   // aprobaciones.
   // maestras
   {
-    path: "list-curriculum",
+    path: 'list-curriculum',
     component: ListCurriculumDesignComponent,
   },
   {
-    path: "detalle-curriculum-activity",
+    path: 'detalle-curriculum-activity',
     component: DeatilActivityCurriculumDesignComponent,
   },
 
-   {
-    path: "source-funds-list",
+  {
+    path: 'source-funds-list',
     component: SourceFundsListComponent,
   },
   {
-    path: "activity-ubication-list",
+    path: 'activity-ubication-list',
     component: ActivityUbicationListComponent,
   },
   {
-    path: "modality-list",
+    path: 'modality-list',
     component: ModalityListComponent,
   },
   {
-    path: "cooperating-organization",
+    path: 'cooperating-organization',
     component: ListCooperatingOrganizationComponent,
   },
   {
-    path: "reason-list",
+    path: 'reason-list',
     component: ReasonListComponent,
   },
   {
-    path: "type-activity-list",
+    path: 'type-activity-list',
     component: TypeActivityListComponent,
   },
   {
-    path: "supplies-list",
-    component: SuppliesListComponent
-    ,
+    path: 'supplies-list',
+    component: SuppliesListComponent,
   },
   {
-    path: "lounge-list",
+    path: 'lounge-list',
     component: LoungeListComponent,
   },
   {
-    path: "documentation-required-list",
+    path: 'documentation-required-list',
     component: DocumentRequiredListComponent,
   },
   {
-    path: "status-list",
+    path: 'status-list',
     component: StatusListComponent,
   },
   {
-    path: "backoffice/:id",
+    path: 'backoffice/:id',
     component: BackofficeComponent,
   },
   {
-    path: "modality-list",
+    path: 'modality-list',
     component: ModalityListComponent,
   },
   {
-    path: "type-activity-list",
+    path: 'type-activity-list',
     component: TypeActivityListComponent,
   },
   {
-    path: "reason-list",
+    path: 'reason-list',
     component: ReasonListComponent,
   },
   {
-    path: "source-funds-list",
+    path: 'source-funds-list',
     component: SourceFundsListComponent,
   },
   {
-    path: "activity-list-inscription/:id",
+    path: 'activity-list-inscription/:id',
     component: ActivityListInscriptionComponent,
   },
   {
-    path: "schedule-list",
+    path: 'schedule-list',
     component: ScheduleListComponent,
   },
   {
-    path: "activity-participants-list",
+    path: 'activity-participants-list',
     component: ListscheduleComponent,
   },
   {
-    path: "listado-participans/:id", //listo.
-    component:ActivityParticipantsListComponent,
+    path: 'listado-participans/:id', //listo.
+    component: ActivityParticipantsListComponent,
   },
-   {
-    path: "detalle-participans/:id", //listo.
-    component:DetalleParticipanteComponent,
+  {
+    path: 'detalle-participans/:id', //listo.
+    component: DetalleParticipanteComponent,
   },
-    {
-    path: "activity-inscription/:id",
+  {
+    path: 'activity-inscription/:id',
     component: ListActivityComponent,
   },
   {
-    path: "list-curriculum-approve",
+    path: 'list-curriculum-approve',
     component: ListCurriculumDesignComponent,
   },
   {
-    path: "list-curriculum-approve/:id",
+    path: 'list-curriculum-approve/:id',
     component: DeatilActivityCurriculumDesignComponent,
   },
   {
-    path: "list-post-approve",
+    path: 'list-post-approve',
     component: ListRequestPosterComponent,
   },
   {
-    path: "list-rooms-approve",
+    path: 'list-rooms-approve',
     component: ListRequestRoomsComponent,
   },
   {
@@ -195,42 +205,82 @@ const routes: Routes = [
   },
     // ajustes  EF
   {
-    path: "carreras",
+    path: 'carreras',
     component: DegreeComponent,
   },
   {
-    path: "asignaturas",
+    path: 'carreras/:id/detalle',
+    component: DegreeDetailsComponent,
+  },
+  {
+    path: 'asignaturas',
     component: SubjectComponent,
   },
   {
-    path: "documentos-requeridos",
+    path: 'asignaturas/:id/detalle',
+    component: SubjectDetailsComponent,
+  },
+  {
+    path: 'carreras/:id/asignaturas',
+    component: SubjectCurriculumComponent,
+  },
+  {
+    path: 'documentos-requeridos',
     component: DegreeAdmissionRequirementComponent,
   },
   {
-    path: "competencias",
+    path: 'competencias',
     component: DegreeCompetenceComponent,
   },
   {
-    path: "modo-estudios",
+    path: 'modo-estudios',
     component: StudyModeComponent,
   },
   {
-    path: "salones",
+    path: 'salones',
     component: RoomsComponent,
   },
   {
-    path: "estado",
-    component:StatusComponent ,
+    path: 'estado',
+    component: StatusComponent,
+  },
+
+  {
+    path: 'AnnualPlan',
+    component: AnnualPlanComponent,
   },
   {
-    path: "form-ef",
-    component:BackofficeEFComponent
-  }
+    path: 'AnnualPlan/:id',
+    component: DetallePlanAnualComponent,
+  },
+  {
+    path: 'AnnualPlan/:id/degree/:id_degree',
+    component: AsignaturasPeriodosComponent,
+  },
+  {
+    path: 'approved-annualplan',
+    component: ListAnnualPlanComponent,
+  },
+  {
+    path: 'approved-degree',
+    component: ListDegreeCurricularComponent,
+  },
+  {
+    path: 'approved-poster',
+    component: ListPosterComponent,
+  },
+  {
+    path: 'form-ef',
+    component: BackofficeEFComponent,
+  },
 ];
+
+
+
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AdmissionRoutingModule { }
-

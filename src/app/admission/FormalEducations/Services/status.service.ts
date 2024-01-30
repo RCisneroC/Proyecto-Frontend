@@ -58,7 +58,7 @@ export class StatusService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put<ResponseGenerica>(environment.apiEF + 'Status/Update', Status);
   }
 
-  DeleteSubject(Id: number) {
+  DeleteStatus(Id: number) {
     let data = {
       id: Id
     };
@@ -70,5 +70,13 @@ export class StatusService extends UnsubscribeOnDestroyAdapter {
     };
     
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Status/Delete', options);
+  }
+  init_Status() {
+    this._Status = {
+      description: '',
+      id: 0,
+      name: '',
+      statusId:0
+    }
   }
 }

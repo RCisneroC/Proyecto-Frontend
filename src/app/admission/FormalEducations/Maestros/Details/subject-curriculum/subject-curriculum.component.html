@@ -1,0 +1,143 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Asignar de Asignaturas'" [items]="['Inicio','Admisión','Asignaturas']"
+                [active_item]="'Carrera'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div #imageElement class="header">
+                        <h2 class="text-uppercase">Asignar Asignatura para la malla curricular ({{
+                            _CreateCurriculumDesign.name }})</h2>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha de inicio</h6>
+                                <label for="">{{ _CreateCurriculumDesign.startDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha Fin</h6>
+                                <label for="">{{ _CreateCurriculumDesign.endDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button (click)="enviarAprobacion()"
+                                    *ngIf="_CreateCurriculumDesign.statusId!=5 && _CreateCurriculumDesign.statusId!=3"
+                                    mat-raised-button color="primary">
+                                    <mat-icon>send</mat-icon> Enviar Aprobación</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Listado de Asignaturas</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilterDependence($event)" placeholder="Código/Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSourceAssignedSubject" class="w-100">
+                                <ng-container matColumnDef="codigo">
+                                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="accent" (click)="CreateSubject(element)"
+                                            matTooltip="Asignar">
+                                            <mat-icon>keyboard_arrow_right</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameSubjectAll"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameSubjectAll;"></tr>
+                            </table>
+
+                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Asignaturas asignadas a la malla curricular</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Código/Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSubjectList" class="w-100">
+                                <ng-container matColumnDef="posicion">
+                                    <th mat-header-cell *matHeaderCellDef>Posición</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.subjectNumber }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="codigo">
+                                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="warn" (click)="DeleteSubjectDegree(element)"
+                                            matTooltip="Eliminar">
+                                            <mat-icon>keyboard_arrow_left</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
+                            </table>
+                            <mat-paginator #asignaturasDependientes [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

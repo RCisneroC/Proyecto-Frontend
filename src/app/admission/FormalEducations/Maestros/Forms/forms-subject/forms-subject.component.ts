@@ -111,11 +111,8 @@ public ResponseMessage: ResponseMessageMaestra = {
           }
         });
     }
-    console.log('====================================');
-    console.log(this._SubjectModalForms.getRawValue());
-    console.log('====================================');
   }
   onNoClick(){
-
+this.dialogRef.close();
   }
 }

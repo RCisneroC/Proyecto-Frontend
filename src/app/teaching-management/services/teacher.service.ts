@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Teacher } from '../models/Teacher';
-import { BehaviorSubject } from 'rxjs';
+import { ResponseSaveTeacher, Teacher } from '../models/Teacher';
+import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
+import { UntypedFormGroup } from '@angular/forms';
+import { RequiredDocument } from '../models/RequiredDocument';
 
 @Injectable({
   providedIn: 'root'
@@ -46,10 +48,46 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   addUpdateTeacher(teacher: Teacher) {
 
-    return this.httpClient.post(environment.apiUrlTeacher+'Save', teacher);
+    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher+'Save', teacher);
+  }
+  
+ archivo(data :any):Observable<any> {
+
+    return this.httpClient.post(environment.apiUrlTeacher + 'archivo',data);
+  }
+  
+  aprovedTeacher(data:UntypedFormGroup) {
+
+    return this.httpClient.post(environment.apiUrlTeacher+'Aproved', data);
   }
   getTeacherByCedula(cedula :string) {
  
     return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula);
   }
+  
+  getSubjectsByCedula(data :any) {
+ 
+    return this.httpClient.post(environment.apiUrlEF + 'GetSubjectsBy',data);
+  }
+  
+  getActivitiesByCedula(cedula:string) {
+ 
+    return this.httpClient.get(environment.apiUrlEC + 'GetActivitiesBy?TeacherCedula='+cedula);
+  }
+  
+  getExisteCedula(cedula :string) {
+ 
+    return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(
+      map(resp=>{
+          return (resp.teacherId>0) ? {cedulaExists: true} : null
+      })
+    );
+  }
+  
+  getRequiredDocument() {
+ 
+    return this.httpClient.get<RequiredDocument[]>(environment.apiUrlDocument + 'GetAll');
+  }
+  
+
 }

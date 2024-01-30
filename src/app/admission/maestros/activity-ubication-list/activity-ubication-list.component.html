@@ -2,14 +2,15 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Ubicación de Actividades'" [items]="['Home','Admisión','Ubicaciones']" [active_item]="'Ubicaciones'">
+            <app-breadcrumb [title]="'Ubicación de Actividades'" [items]="['Home','Admisión','Ubicaciones']"
+                [active_item]="'Ubicaciones'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Listado de Ubicaciones de actividades</strong></h2>
+                        <h2 class="text-uppercase"><strong>Listado de Ubicaciones de actividades</strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -22,9 +23,10 @@
                                                     <h2>Ubicaciones</h2>
                                                 </li>
                                                 <li class="tbl-search-box">
-                                                    <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                                                    <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
-                                                        aria-label="Search box">
+                                                    <label for="search-input"><i
+                                                            class="material-icons search-icon">search</i></label>
+                                                    <input placeholder="Buscar" type="text" #filter
+                                                        class="browser-default search-field" aria-label="Search box">
                                                 </li>
                                             </ul>
                                         </div>
@@ -44,10 +46,11 @@
                                                         </button>
                                                     </div>
                                                 </li>
-                    
+
                                                 <li>
                                                     <div class="export-button m-l-10" matTooltip="XLSX">
-                                                        <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                                                        <img src="assets/images/icons/xlsx.png" alt=""
+                                                            (click)="exportExcel()" />
                                                     </div>
                                                 </li>
                                             </ul>
@@ -55,47 +58,55 @@
                                     </div>
                                     <div class="body overflow-auto">
                                         <div class="responsive_table">
-                                            <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                    
+                                            <table mat-table [dataSource]="dataSource" matSort
+                                                class="mat-cell advance-table">
+
                                                 <!-- ID Column -->
-                    
-                    
+
+
                                                 <ng-container matColumnDef="name">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Ubicaciones
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Origen de fondo:</span>{{row.name}}</mat-cell>
+                                                        <span class="mobile-label">Origen de
+                                                            fondo:</span>{{row.name}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="description">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Descripción :</span>{{row.description}}</mat-cell>
+                                                        <span class="mobile-label">Descripción
+                                                            :</span>{{row.description}}</mat-cell>
                                                 </ng-container>
-                                                
-                    
+
+
                                                 <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <div
                                                             [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                                            <span class="mobile-label ">Estatus:</span>{{row.statusId ===
+                                                            <span class="mobile-label ">Estatus:</span>{{row.statusId
+                                                            ===
                                                             1?'Activo':'Inactivo'}}
                                                         </div>
                                                     </mat-cell>
                                                 </ng-container>
-                    
+
                                                 <!-- actions -->
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                                                    <mat-header-cell class="pr-0"
+                                                        *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
-                                                            (click)="editCall(row)" class="tbl-action-btn">
-                                                            <app-feather-icons [icon]="'edit'"  ></app-feather-icons>
+                                                        <button mat-mini-fab color="accent"
+                                                            (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                                            class="tbl-action-btn">
+                                                            <app-feather-icons [icon]="'edit'"></app-feather-icons>
                                                         </button>
-                                                        <button mat-mini-fab color="accent" (click)="$event.stopPropagation()" (click)="delete(row)" class="tbl-action-btn">
+                                                        <button mat-mini-fab color="accent"
+                                                            (click)="$event.stopPropagation()" (click)="delete(row)"
+                                                            class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
                                                     </mat-cell>
@@ -112,8 +123,9 @@
                                             </mat-progress-spinner>
                                         </div>
                                         <!-- context menu start -->
-                                        <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                                            [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                                        <div style="visibility: hidden; position: fixed"
+                                            [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y"
+                                            [matMenuTriggerFor]="contextMenu">
                                         </div>
                                         <mat-menu #contextMenu="matMenu">
                                             <ng-template matMenuContent let-item="item">
@@ -125,7 +137,7 @@
                                                     <mat-icon>create</mat-icon>
                                                     <span>Edit Record</span>
                                                 </button>
-                    
+
                                                 <button mat-menu-item (click)="refresh()">
                                                     <mat-icon>refresh</mat-icon>
                                                     <span>Refresh Record</span>
@@ -159,8 +171,8 @@
                                             [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                                             No results
                                         </div>
-                                        <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
-                                            [pageSizeOptions]="[5, 10, 25, 100]">
+                                        <mat-paginator #paginator [length]="dataSource.filteredData.length"
+                                            [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
                                         </mat-paginator>
                                     </div>
                                 </div>

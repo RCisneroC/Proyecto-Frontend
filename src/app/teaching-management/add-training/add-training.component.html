@@ -1,0 +1,98 @@
+<div class="addContainer">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+
+          <div class="modal-about">
+            {{dialogTitle}}
+          </div>
+        </div>
+      </div>
+      <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <form class="register-form m-4" [formGroup]="trainingForm" (ngSubmit)="submit">
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-4">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Institución</mat-label>
+              <input matInput formControlName="institution" >
+              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+              <mat-error *ngIf="trainingForm.get('institution')?.hasError('required')">
+                 es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-4">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Ciudad</mat-label>
+              <input matInput formControlName="city" >
+              <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+              <mat-error *ngIf="trainingForm.get('city')?.hasError('required')">
+                 es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-4">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha de culminación </mat-label>
+                <input matInput [matDatepicker]="pickerStart1" formControlName="completionDate">
+                <mat-datepicker-toggle matSuffix [for]="pickerStart1"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart1></mat-datepicker>
+                <mat-error *ngIf="trainingForm.get('completionDate')?.hasError('required')">
+                  Selecciones una fecha
+                </mat-error>
+              </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Fecha de grado </mat-label>
+                    <input matInput [matDatepicker]="pickerStart2" formControlName="degreeDate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart2"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart2></mat-datepicker>
+                    <mat-error *ngIf="trainingForm.get('degreeDate')?.hasError('required')">
+                      Selecciones una fecha
+                    </mat-error>
+                  </mat-form-field>
+              </div>
+              
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Título Obtenido</mat-label>
+                  <!-- <input matInput formControlName="degreeObtained" > -->
+             
+                  <mat-select formControlName="degreeObtained" >
+                    <mat-option *ngFor="let grado of gradosInstruccion"  [value]="grado.nombre">{{grado.nombre}}</mat-option>
+                  </mat-select>
+                  
+                  <mat-error *ngIf="trainingForm.get('degreeObtained')?.hasError('required')">
+                     es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          
+          </div>
+         
+        </div>
+       
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+              <div class="example-button-row">
+                <button mat-raised-button color="primary" [disabled]="!trainingForm.valid" 
+                  (click)="confirmAdd()">Guardar</button>
+                <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+              </div>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+  
+
+
+

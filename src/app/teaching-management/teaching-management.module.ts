@@ -9,6 +9,13 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 import { AddCourseComponent } from './add-course/add-course.component';
+import { AddExperienceComponent } from './add-experience/add-experience.component';
+import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.component';
+import { AddTrainingComponent } from './add-training/add-training.component';
+import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
+import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ViewDocumentComponent } from './view-document/view-document.component';
 
 
 @NgModule({
@@ -16,7 +23,16 @@ import { AddCourseComponent } from './add-course/add-course.component';
     TeacherListComponent,
     TeacherDetailComponent,
     StatusProcessPipe,
-    AddCourseComponent
+    AddCourseComponent,
+    AddExperienceComponent,
+    AprovedTeacherComponent,
+    AddTrainingComponent,
+    TeachingAdmissionExternalComponent,
+    TeachingHistoryListComponent,
+    ViewDocumentComponent
+  ],
+  providers: [
+    VerificarBS64Pipe
   ],
   imports: [
     CommonModule,

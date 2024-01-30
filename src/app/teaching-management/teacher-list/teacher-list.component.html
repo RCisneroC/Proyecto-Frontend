@@ -30,13 +30,7 @@
                           </div>
                           <div class="right">
                             <ul class="tbl-export-btn">
-                              <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="Nuevo">
-                                  <button mat-mini-fab color="primary" (click)="addNew()">
-                                    <mat-icon class="col-white">add</mat-icon>
-                                  </button>
-                                </div>
-                              </li>
+                          
                               <li class="tbl-header-btn">
                                 <div class="m-l-10" matTooltip="REFRESH">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
@@ -90,16 +84,20 @@
                                   <span class="mobile-label">Fecha Aplicación:</span>{{row.applicationDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="selected">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Aprobado
+                              <ng-container matColumnDef="statusId">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                <div *ngIf="row.selected===true">
-                                    <mat-icon style="color: green;">check_circle_outline</mat-icon>
+                                <div *ngIf="row.statusId===1" class="badge badge-solid-green">
+                                    Aprobado
                                 </div>
-                                <div *ngIf="row.selected===false">
-                                    <mat-icon style="color: red;">highlight_off</mat-icon>
+                                <div *ngIf="row.statusId===2" class="badge badge-solid-red" >
+                                     Rechazado 
                                 </div>
+                                <div *ngIf="row.statusId===0" class="badge badge-solid-blue">
+                                   Pendiente
+                                  
+                              </div>
                                 </mat-cell> 
                               </ng-container>
                               <ng-container matColumnDef="createdDate">
@@ -109,12 +107,6 @@
                                   <span class="mobile-label">Fecha de alta:</span>{{row.createdDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="createdBy">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Creado por
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Modificado por:</span>{{row.createdBy}}</mat-cell>
-                              </ng-container>
                               <ng-container matColumnDef="lastModifiedDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de modificación
                                 </mat-header-cell>
@@ -197,17 +189,24 @@
                                 <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                 
-                                  <button *ngIf="!row.selected"matTooltip="Aprobar docente" mat-mini-fab color="warn">
-                                    <app-feather-icons [icon]="'check-square'" ></app-feather-icons>
+                                  <button *ngIf="row.statusId>=0" Tooltip="Aprobar docente" mat-mini-fab color="warn" (click)="$event.stopPropagation()" (click)="Aproved(row)">
+                                    <app-feather-icons [icon]="'check-square'"  ></app-feather-icons>
                                 </button>
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                                  <button *ngIf="true!==true" mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                     class="tbl-action-btn">
                                     <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                                   </button>
                                   
-                                  <button mat-icon-button color="accent" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                                  <!-- <button matTooltip="Ver Detalle" mat-mini-fab color="primary" (click)="ViewDetail(row)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                  </button>
+                                  <button matTooltip="Aprobar estudiante" mat-mini-fab color="warn" (click)="aprobar(row)">
+                                    <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                                  </button> -->
+                                  <button *ngIf="row.statusId>=0" mat-mini-fab color="primary" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                   class="tbl-action-btn">
-                                  <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                                  <mat-icon>remove_red_eye</mat-icon>
+                                  <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
                                 </button>
                                
                                

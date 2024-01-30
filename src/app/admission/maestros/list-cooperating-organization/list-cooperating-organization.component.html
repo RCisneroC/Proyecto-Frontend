@@ -2,14 +2,15 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Modalidad'" [items]="['Home','Admisión','Maestros']" [active_item]="'Organización Cooperativa'">
+            <app-breadcrumb [title]="'Modalidad'" [items]="['Home','Admisión','Maestros']"
+                [active_item]="'Organización Cooperativa'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Listado de organización cooperativa</strong></h2>
+                        <h2 class="text-uppercase"><strong>Listado de organización cooperativa</strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -72,7 +73,8 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                                                        <span
+                                                            class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
                                                 </ng-container>
 
 
@@ -81,21 +83,24 @@
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Imagen:</span>
-                                                        <button (click)="viewDocumento(row)" matTooltip="Ver Documento" mat-mini-fab color="primary">
+                                                        <button (click)="viewDocumento(row)" matTooltip="Ver Documento"
+                                                            mat-mini-fab color="primary">
                                                             <mat-icon>remove_red_eye</mat-icon>
                                                         </button>
 
                                                     </mat-cell>
                                                 </ng-container>
-                                                
+
                                                 <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                    <div [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                                        <span class="mobile-label ">Estatus:</span>{{row.statusId ===
-                                                        1?'Activo':'Inactivo'}}
-                                                    </div>
+                                                        <div
+                                                            [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
+                                                            <span class="mobile-label ">Estatus:</span>{{row.statusId
+                                                            ===
+                                                            1?'Activo':'Inactivo'}}
+                                                        </div>
                                                     </mat-cell>
                                                 </ng-container>
 
@@ -109,8 +114,7 @@
                                                         <button mat-mini-fab color="accent"
                                                             (click)="$event.stopPropagation()" (click)="editCall(row)"
                                                             class="tbl-action-btn">
-                                                            <app-feather-icons [icon]="'edit'"
-                                                                 ></app-feather-icons>
+                                                            <app-feather-icons [icon]="'edit'"></app-feather-icons>
                                                         </button>
                                                         <button mat-mini-fab color="accent"
                                                             (click)="$event.stopPropagation()" (click)="delete(row)"
