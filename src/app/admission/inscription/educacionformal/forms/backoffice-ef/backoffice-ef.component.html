@@ -202,9 +202,9 @@
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <!-- [disabled]="!FormsEF!.valid"  -->
+                                        
                                         <div>
-                                            <button (click)="firstNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                            <button [disabled]="!FormsEF!.valid" (click)="firstNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
                                         </div>
                                     </form>
                                 </mat-step>
