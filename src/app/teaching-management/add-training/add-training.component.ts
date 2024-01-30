@@ -59,7 +59,7 @@ export class AddTrainingComponent {
         },
         {
           id: 3,
-          nombre: "Preparatoria",
+          nombre: "Técnico",
         },
         {
           id: 4,

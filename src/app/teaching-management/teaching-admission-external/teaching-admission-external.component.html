@@ -247,7 +247,7 @@
                                                     </div>
                                                 </form>
                                             </mat-step>
-                                            <mat-step [formGroup]="FormsEFDocument!">
+                                            <mat-step [stepControl]="FormsEFDocument!">
                                                 <form [formGroup]="FormsEFDocument!">
                                                     <ng-template matStepLabel>Documentos</ng-template>
                                                     <div class="row">
@@ -285,7 +285,7 @@
                                                     <div>
                                                         <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                                         <button mat-raised-button color="primary" [disabled]="!FormsEFDocument.valid" 
-                                                            (click)="submit()">Inscribir docente</button>
+                                                         (click)="submit()">Inscribir docente</button>
                                                     </div>
                                                 </form>
                                                 <!-- [disabled]="!editActivity!.valid" -->

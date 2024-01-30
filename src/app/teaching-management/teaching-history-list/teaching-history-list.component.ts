@@ -21,6 +21,12 @@ implements OnInit{
     'hasLaboratory',
     
   ];
+  
+  processList = [
+    { id: 1, name: 'Formación Especialidad' },
+    { id: 2, name: 'Entrenamiento' },
+    
+  ];
   user!: User;
   cedula!: string;
   DataSubjects!: any;

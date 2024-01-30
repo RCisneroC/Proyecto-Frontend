@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Experience, Teacher, Training } from '../models/Teacher';
@@ -10,6 +10,7 @@ import { AddExperienceComponent } from '../add-experience/add-experience.compone
 import { AddTrainingComponent } from '../add-training/add-training.component';
 import Swal from 'sweetalert2';
 import { RequiredDocument } from '../models/RequiredDocument';
+import { MatStepper } from '@angular/material/stepper';
 
 
 
@@ -21,6 +22,8 @@ import { RequiredDocument } from '../models/RequiredDocument';
 export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
+
+   
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
@@ -80,7 +83,7 @@ FormsEFDocument!: UntypedFormGroup;
 
 
 
-
+@ViewChild('stepper') stepper: MatStepper | undefined;
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -95,6 +98,7 @@ FormsEFDocument!: UntypedFormGroup;
 
 
   ngOnInit() {
+  
     this.DataTeacher = new Teacher();
     const fechaActual = new Date();
     this.fechaA = fechaActual.toLocaleDateString('es-PA');
@@ -311,8 +315,14 @@ FormsEFDocument!: UntypedFormGroup;
               title: "Escuela Judicial",
               text: 'Guardado correctamente.',
               icon: "success"
+          }).then((result) => {
+            if (result.value) {
+              // Resetear el stepper
+              window.location.reload();
+            }
           }); 
           
+       
     } },
     error: () => {
       Swal.fire({
