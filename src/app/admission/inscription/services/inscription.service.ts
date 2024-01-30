@@ -115,6 +115,11 @@ updateParticipant(participantData: any): Observable<any> {
     return this.httpClient.post<ResponseAddEFlaboralInfo>(url+"EFInscription/AddExperience", laboralinfiData);
   }
 
+  CargaDocumentoEFRequirement(data: any): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseEF>(url+"EFInscription/AddEFDoc", data);
+  }
+
   CargaDocumentoRequirement(data: any): Observable<any> {
   const url = `${environment.apiEC}`;
   return this.httpClient.post<ResponseEF>(url+"EFInscription/AddDoc", data);

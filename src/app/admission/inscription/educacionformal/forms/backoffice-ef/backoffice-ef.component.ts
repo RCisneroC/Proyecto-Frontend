@@ -31,6 +31,8 @@ import {Participant} from "../../../../models/participant";
 import {ResponseAddEFcademicInfo} from "../../../../models/AddEFacademicResponse";
 import {el} from "@fullcalendar/core/internal-common";
 import {ResponseAddEFlaboralInfo} from "../../../../models/AddEFlaboralResponse";
+import {Requirement} from "../../../../models/Requeriminet";
+import {ResponseEF} from "../../../../models/ResponseMessage";
 
 //-------------Dialog AC----------------------
 @Component({
@@ -476,6 +478,46 @@ addcademicInfo(){
 
       }
     })
+  }
+
+  onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
+    console.log("Requeriment obj",requirement);
+    this.loadingFile = true;
+    const files:FileList = event.target.files;
+    console.log(requirement.name);
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+    if (files.length > 0) {
+      var formdata = new FormData();
+      formdata.append('cedula', this.FormsEF.value.cedula);
+      formdata.append('FileType', requerimentId.toString());
+      formdata.append('InscriptionId', this.inscriptionId.toString());
+      formdata.append('File', files[0]);
+      console.log(formdata);
+      this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+        next: (res:ResponseEF) => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: '('+requirement.name+') '+res.message,
+            icon: "success"
+          });
+
+          elementImg.value = '';
+          elementText.innerHTML  = '('+requirement.name+') '+'Cargado Correctamente.';
+          this.loadingFile = false;
+          // this.verificarDocumentacion();
+        }, error: (err) => {
+          elementImg.value = '';
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Intente nuevamente..',
+            icon: "warning"
+          });
+          this.loadingFile = false;
+        }
+      })
+    }
   }
 
   getPersonData(cedula: string){

@@ -268,7 +268,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                             <button (click)="secondNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
                                         </div>
                                     </form>
@@ -341,7 +341,7 @@
                                         </div>
 
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                             <button (click)="thirdNext()" mat-raised-button matStepperNext color="primary">Siguiente</button>
                                         </div>
                                     </form>
@@ -355,14 +355,22 @@
                                             <mat-grid-tile *ngFor="let requerimiento of RequirementsDocumentsList;let i=index">
                                               <div class="file-section">
 
-                                                <p style="font-weight: bold;text-transform: uppercase;" >{{ requerimiento.name }} <br></p>
-                                                <input
-                                                  id="archivo_{{ requerimiento.id }}"
-                                                  type="file"
-                                                  class="file-input"/>
-<!--                                                  (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"-->
+                                                <p style="font-weight: bold;text-transform: uppercase;">{{
+                                                    requerimiento.name }} <br></p>
 
-                                                <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ requerimiento.id }}"></p>
+                                                <div class="file-drop-area">
+
+                                                  <button mat-raised-button color="primary">Elija el archivo</button>
+                                                  <span>arrastre y suelte el archivo aquí</span>
+                                                  <input class="file-input" id="archivo_{{ requerimiento.id }}"
+                                                         (change)="onChangeFile($event, requerimiento.id,requerimiento)" type="file">
+
+                                                </div>
+
+                                                <!-- <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
+                                                  (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" /> -->
+                                                <p style="color: green;font-weight: bold;margin-top: 10px;"
+                                                   id="texto_{{ requerimiento.id }}"></p>
                                                 <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
                                               </div>
                                             </mat-grid-tile>
@@ -379,7 +387,7 @@
                                             </div>-->
                                         </div>
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
                                             <button mat-raised-button color="primary"
                                                 (click)="submit()">Validar la información</button>
                                         </div>
