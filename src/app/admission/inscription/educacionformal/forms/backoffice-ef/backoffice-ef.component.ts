@@ -30,6 +30,7 @@ import {NgFor, NgIf} from "@angular/common";
 import {Participant} from "../../../../models/participant";
 import {ResponseAddEFcademicInfo} from "../../../../models/AddEFacademicResponse";
 import {el} from "@fullcalendar/core/internal-common";
+import {ResponseAddEFlaboralInfo} from "../../../../models/AddEFlaboralResponse";
 
 //-------------Dialog AC----------------------
 @Component({
@@ -422,7 +423,7 @@ addcademicInfo(){
       else {
         Swal.fire({
           title: "Escuela Judicial",
-          text: 'Aspirante no fue creado correctamente.',
+          text: 'Academic no fue creado correctamente.',
           icon: "warning"
         });
       }
@@ -430,6 +431,52 @@ addcademicInfo(){
     }
   })
 }
+
+  addEFLaboralInfo(){
+    const jsonRequest = {
+      aspirantId:this.aspirantId,
+      workExperience: {}
+    }
+    let pointer = 1;
+    let jsonItem = "{";
+    const length = this.DataExperiencia.length;
+    this.DataExperiencia.forEach(function (value){
+      console.log(value);
+      if(pointer != length){
+        jsonItem  += `"additionalProp${pointer}":` + JSON.stringify(value)+',';
+      }
+      else {
+        jsonItem  += `"additionalProp${pointer}":` + JSON.stringify(value);
+      }
+      pointer = pointer +1;
+    })
+    jsonItem += "}";
+    jsonRequest.workExperience =  JSON.parse(jsonItem);
+
+    console.log("Detalle Laboral request", jsonRequest);
+    this._inscriptionService.AddEFLaboralInfo(jsonRequest).subscribe({
+      next:(data: ResponseAddEFlaboralInfo)=>{
+        this._inscriptionService._ResponseAddEFlaboralInfo = data;
+        if (!this._inscriptionService._ResponseAddEFlaboralInfo.isError){
+
+          console.log("Creado correctamente, siguiente paso: cargar documentos.", this.aspirantId);
+          // Swal.fire({
+          //   title: "Escuela Judicial",
+          //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+          //   icon: "success"
+          // });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'WorkExperience no fue creado correctamente.',
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
 
   getPersonData(cedula: string){
     this.loading=false;
@@ -541,6 +588,10 @@ addcademicInfo(){
 
   secondNext(){
    this.addcademicInfo();
+  }
+
+  thirdNext(){
+   this.addEFLaboralInfo();
   }
 
 }
