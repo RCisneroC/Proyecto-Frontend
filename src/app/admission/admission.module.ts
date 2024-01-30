@@ -91,6 +91,9 @@ import { FormsRoomsComponent } from './FormalEducations/Maestros/Forms/forms-roo
 import { FormsStatusComponent } from './FormalEducations/Maestros/Forms/forms-status/forms-status.component';
 import { FormsStudyModeComponent } from './FormalEducations/Maestros/Forms/forms-study-mode/forms-study-mode.component';
 import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-subject/forms-subject.component';
+import { PlanListInscriptionComponent } from './inscription/educacionformal/approval/plan-list-inscription/plan-list-inscription.component';
+import { MeshListInscriptionComponent } from './inscription/educacionformal/approval/mesh-list-inscription-component/mesh-list-inscription-component.component';
+import { PartakerListInscriptionComponent } from './inscription/educacionformal/approval/partaker-list-inscription-component/partaker-list-inscription-component.component';
 @NgModule({
   declarations: [
     ActivityListComponent,
@@ -107,9 +110,9 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     BackofficeComponent,
     // ExternalUserComponent,
     // InternalUserComponent,
- 
+
   ActivityListInscriptionComponent,
-    
+
     ModalityFormComponent,
     TypeActivityFormComponent,
     ReasonFormComponent,
@@ -179,8 +182,11 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     FormsRoomsComponent,
     FormsStatusComponent,
     FormsStudyModeComponent,
-    FormsSubjectComponent
-    
+    FormsSubjectComponent,
+    PlanListInscriptionComponent,
+    MeshListInscriptionComponent,
+    PartakerListInscriptionComponent
+
   ],
   providers: [
     VerificarBS64Pipe
@@ -192,7 +198,7 @@ import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-s
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    
+
   ]
 })
 export class AdmissionModule { }

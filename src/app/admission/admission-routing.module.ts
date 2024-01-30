@@ -1,4 +1,4 @@
- 
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoungeListComponent } from './maestros/lounge-list/lounge-list.component';
@@ -38,6 +38,15 @@ import { StatusComponent } from './FormalEducations/Maestros/status/status.compo
 import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component';
 import { DegreeCompetenceComponent } from './FormalEducations/Maestros/degree-competence/degree-competence.component';
 import { StudyModeComponent } from './FormalEducations/Maestros/study-mode/study-mode.component';
+import {
+  PlanListInscriptionComponent
+} from "./inscription/educacionformal/approval/plan-list-inscription/plan-list-inscription.component";
+import {
+  MeshListInscriptionComponent
+} from "./inscription/educacionformal/approval/mesh-list-inscription-component/mesh-list-inscription-component.component";
+import {
+  PartakerListInscriptionComponent
+} from "./inscription/educacionformal/approval/partaker-list-inscription-component/partaker-list-inscription-component.component";
 const routes: Routes = [
 
   {
@@ -171,6 +180,18 @@ const routes: Routes = [
   {
     path: "list-rooms-approve",
     component: ListRequestRoomsComponent,
+  },
+  {
+    path:"list-inscriptions-plans",
+    component: PlanListInscriptionComponent
+  },
+  {
+    path:"list-inscriptions-mesh/:id",
+    component: MeshListInscriptionComponent
+  },
+  {
+    path:"list-inscriptions-partaker/:id",
+    component: PartakerListInscriptionComponent
   },
     // ajustes  EF
   {
