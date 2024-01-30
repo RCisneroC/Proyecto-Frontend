@@ -1,1 +1,243 @@
-<p>details-annual works!</p>
+<section style="margin: 40px;">
+    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+    <div class="content-block">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <div class="card" *ngIf="!_ActivityService.loading">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <img src="assets/images/ISJUP.png" style="width: 20%;" />
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!ocultar">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2 class="text-uppercase"><strong>Listado de Periodos</strong>
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <div class="body table-responsive">
+                                            <table mat-table [dataSource]="dataPeriod" class="w-100">
+                                                <ng-container matColumnDef="name">
+                                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="maxCupos">
+                                                    <th mat-header-cell *matHeaderCellDef> Cupos del periodo </th>
+                                                    <td mat-cell *matCellDef="let element">{{
+                                                        element.maxNumOfParticipants }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="start">
+                                                    <th mat-header-cell *matHeaderCellDef> Fechas Inicio </th>
+                                                    <td mat-cell *matCellDef="let element">{{ element.startDate |
+                                                        date:'dd/M/yyyy'}}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="end">
+                                                    <th mat-header-cell *matHeaderCellDef> Fechas Fin </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
+                                                </ng-container>
+                                                <tr mat-header-row *matHeaderRowDef="DisplayNamePeriod"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: DisplayNamePeriod;"></tr>
+                                            </table>
+                                            <mat-paginator #listadoPeriodo [pageSizeOptions]="[10, 20, 30]"
+                                                showFirstLastButtons></mat-paginator>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <button (click)="inscribir()" matTooltip="Inscribir" mat-raised-button
+                                                    color="primary">
+                                                    <mat-icon>send</mat-icon> Inscribir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2 class="text-uppercase"><strong>Listado de Mallas Curriculares</strong>
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <div class="body table-responsive">
+                                            <table mat-table [dataSource]="dataDegreeCurriculum" class="w-100">
+                                                <ng-container matColumnDef="name">
+                                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="descripcion">
+                                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                                    <td mat-cell *matCellDef="let element">{{ element.description }}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="start">
+                                                    <th mat-header-cell *matHeaderCellDef> Fechas Inicio </th>
+                                                    <td mat-cell *matCellDef="let element">{{ element.startDate |
+                                                        date:'dd/M/yyyy'}}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="end">
+                                                    <th mat-header-cell *matHeaderCellDef> Fechas Fin </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="accion">
+                                                    <th mat-header-cell *matHeaderCellDef> Fechas Fin </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <button matTooltip="Ver detalle" mat-mini-fab color="accent"
+                                                            (click)="verDetalle(element)" class="tbl-action-btn">
+                                                            <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                                        </button>
+                                                    </td>
+                                                </ng-container>
+                                                <tr mat-header-row *matHeaderRowDef="DisplayNameCurriculares"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: DisplayNameCurriculares;">
+                                                </tr>
+                                            </table>
+                                            <mat-paginator #ListadoMallaCurriculares [pageSizeOptions]="[10, 20, 30]"
+                                                showFirstLastButtons></mat-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" *ngIf="ocultar">
+                            <div class="col-xs-12 col-sm-16 col-md-16 col-lg-6">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2 class="text-uppercase"><strong>Resumen de asignaturas</strong>
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <div class="body table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre Asignatura</th>
+                                                        <th>Descripción</th>
+                                                        <th>Cantidad Crédito</th>
+                                                        <th>Cantidad Horas</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let item of _Listado">
+                                                        <tr>
+                                                            <td class="clases">{{ item.period.name }}</td>
+                                                            <td class="clases"> <strong>Inicio: (</strong> {{
+                                                                item.period.startDate | date:'dd/M/yyyy' }})
+                                                            </td>
+                                                            <td class="clases"><strong>Fin: (</strong> {{
+                                                                item.period.endDate
+                                                                | date:'dd/M/yyyy' }})</td>
+                                                            <td class="clases"><strong>Cupos: (</strong> {{
+                                                                item.period.maxNumOfParticipants }})</td>
+                                                            <td class="clases"></td>
+                                                        </tr>
+
+                                                        <tr *ngFor="let item_ of item.subjects">
+                                                            <td>{{ item_.name }}</td>
+                                                            <td>{{ item_.description }}</td>
+                                                            <td>{{ item_.numOfCredits }}</td>
+                                                            <td>{{ item_.numOfHours }}</td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-16 col-md-16 col-lg-6">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2 class="text-uppercase"><strong>Detalle de a malla curricular</strong>
+                                        </h2>
+                                    </div>
+                                    <div class="body">
+                                        <div class="body table-responsive">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-xs-12 col-12 text-center">
+                                                    <img *ngIf="IsImage" id="image"
+                                                        style="width: 75%;border-radius: 37px;box-shadow: 0 0 20px 0px #38366b75;" />
+                                                    <iframe *ngIf="!IsImage" id="pdf" frameborder="0"
+                                                        style="width: 100%;height: 50vh;"></iframe>
+                                                    <ul>
+                                                        <li *ngFor="let item of PrincipalPoster.posterComments">
+                                                            <strong>{{ item.text }}</strong>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label style="font-weight: bold;" for="">Nombre</label>
+                                                    <p>{{ detalleMalla.name }}</p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="font-weight: bold;" for="">Descripción</label>
+                                                    <p>{{ detalleMalla.description }}</p>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label style="font-weight: bold;" for="">Inicio Vigencia</label>
+                                                    <p>{{ detalleMalla.startDate |
+                                                        date:'dd/M/yyyy'}}</p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label style="font-weight: bold;" for="">Fin Vigencia</label>
+                                                    <p>{{ detalleMalla.endDate |
+                                                        date:'dd/M/yyyy'}}</p>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label for=""><strong>Documentos requeridos</strong></label>
+                                                    <ul>
+                                                        <li *ngFor="let item of _RequirementAdmission; let i=index">{{
+                                                            i+1
+                                                            }}- {{ item.name }}</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <label for=""><strong>Otros Documentos</strong></label>
+                                                    <ul>
+                                                        <li *ngFor="let item of _PosterRequest; let i=index">
+                                                            <button style="margin-bottom: 10px;"
+                                                                (click)="viewDocumento(item)" matTooltip="Ver Documento"
+                                                                matTooltip="Inscribir en la actividad" mat-raised-button
+                                                                color="primary">
+                                                                <mat-icon>attach_file</mat-icon> Ver Documento/Imagen
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <button mat-raised-button color="primary" (click)="regresar()">
+                                                        <mat-icon>keyboard_backspace</mat-icon> Regresar
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
