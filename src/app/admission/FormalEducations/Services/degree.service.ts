@@ -45,9 +45,41 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllDegree(): void {
+  getAllDegree(id: any = 0): void {
+    if (id == 0) {
+      this.subs.sink = this.httpClient
+        .get<Degree[]>(environment.apiEF + 'Degree/GetAll')
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.isTblLoading = false;
+            this.dataChange.next(data);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isTblLoading = false;
+            console.log(error.name + ' ' + error.message);
+          },
+        });
+    } else {
+      this.subs.sink = this.httpClient
+        .get<Degree[]>(environment.apiEF + 'DegreeCurriculumDesign/GetAll?StatusId=' + id)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.isTblLoading = false;
+            this.dataChange.next(data);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isTblLoading = false;
+            console.log(error.name + ' ' + error.message);
+          },
+        });
+    }
+  }
+
+  getAllDegreeId(id: string): void {
     this.subs.sink = this.httpClient
-      .get<Degree[]>(environment.apiEF + 'Degree/GetAll')
+      .get<Degree[]>(environment.apiEF + 'DegreeCurriculumDesign/GetAll?StatusId=' + id)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -60,6 +92,7 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
   getAllDegree2() {
     return this.httpClient.get<Degree[]>(environment.apiEF + 'Degree/GetAll');
   }
@@ -206,6 +239,24 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  DeleteDegreeCompetence(id: any) {
+    let data = {
+      id: id,
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+
+    return this.httpClient.delete<ResponseGenerica>(
+      environment.apiEF + 'DegreeCompetence/Delete',
+      options
+    );
+  }
+
+
   SaveMallaCurricular(data: any) {
     return this.httpClient.post<ResponseGenerica>(
       environment.apiEF + 'AnnualPlan/CreateDegreeCurriculumDesign',
@@ -213,7 +264,9 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
-
+  ApprovedMallaCurricular(data: any) {
+    return this.httpClient.put(environment.apiEF + 'Degree/ApproveCurriculumDesign', data);
+  }
 
   init_Degree() {
     this._DetalleDegree = {

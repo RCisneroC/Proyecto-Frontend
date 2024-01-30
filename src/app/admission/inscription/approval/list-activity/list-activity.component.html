@@ -18,7 +18,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Listado de actividades</strong></h2>
+                        <h2 class="text-uppercase"><strong>Listado de actividades</strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -115,7 +115,8 @@
                                                     <mat-header-cell class="pr-0"
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button *ngIf="row.statusId == 5" matTooltip="Inscribir Usuario" mat-raised-button color="primary"
+                                                        <button *ngIf="row.statusId == 5" matTooltip="Inscribir Usuario"
+                                                            mat-raised-button color="primary"
                                                             (click)="ViewDetail(row)"><mat-icon>send</mat-icon>participantes</button>
                                                         <button *ngIf="row.statusId != 5" mat-raised-button
                                                             color="accent"><mat-icon>close</mat-icon>Incompleto</button>

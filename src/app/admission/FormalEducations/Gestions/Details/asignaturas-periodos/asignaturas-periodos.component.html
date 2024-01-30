@@ -50,6 +50,7 @@
                                         <th>Descripción</th>
                                         <th>Cantidad Crédito</th>
                                         <th>Cantidad Horas</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,6 +64,7 @@
                                                 | date:'dd/M/yyyy' }})</td>
                                             <td class="clases"><strong>Cupos: (</strong> {{
                                                 item.period.maxNumOfParticipants }})</td>
+                                            <td class="clases"></td>
                                         </tr>
 
                                         <tr *ngFor="let item_ of item.subjects">
@@ -70,39 +72,74 @@
                                             <td>{{ item_.description }}</td>
                                             <td>{{ item_.numOfCredits }}</td>
                                             <td>{{ item_.numOfHours }}</td>
+                                            <td>
+                                                <!-- <button matTooltip="Editar" mat-mini-fab color="primary">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button> -->
+                                                <button (click)="eliminar(item_.id,item.period)" matTooltip="Eliminar"
+                                                    mat-mini-fab color="warn">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+
+                                            </td>
                                         </tr>
                                     </ng-container>
-
-                                    <!-- <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Larry</td>
-                                        <td>Jellybean</td>
-                                        <td>@lajelly</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">5</th>
-                                        <td>Larry</td>
-                                        <td>Kikat</td>
-                                        <td>@lakitkat</td>
-                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Asignar Asignaturas</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Código/Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSubjectList" class="w-100">
+                                <ng-container matColumnDef="posicion">
+                                    <th mat-header-cell *matHeaderCellDef>Posición</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.subjectNumber }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="codigo">
+                                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button mat-mini-fab color="warn" (click)="asignar(element)"
+                                            matTooltip="Asignar al Periodo">
+                                            <mat-icon>add_circle</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
+                            </table>
+                            <mat-paginator #asignaturasDependientes [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

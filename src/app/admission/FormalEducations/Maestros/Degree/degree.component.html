@@ -2,14 +2,15 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Carreras'" [items]="['Home','Admisión','Maestros']" [active_item]="'Listado Carreras'">
+            <app-breadcrumb [title]="'Carreras'" [items]="['Home','Admisión','Maestros']"
+                [active_item]="'Listado Carreras'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Listado de Carreras </strong></h2>
+                        <h2 class="text-uppercase"><strong>Listado de Carreras </strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -57,69 +58,82 @@
                                     </div>
                                     <div class="body overflow-auto">
                                         <div class="responsive_table">
-                                            <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
+                                            <table mat-table [dataSource]="dataSource" matSort
+                                                class="mat-cell advance-table">
                                                 <ng-container matColumnDef="name">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Nombre:</span>{{ row.name }}</mat-cell>
+                                                        <span class="mobile-label">Nombre:</span>{{ row.name
+                                                        }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="description">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Descripción:</span>{{ row.description }}</mat-cell>
+                                                        <span class="mobile-label">Descripción:</span>{{ row.description
+                                                        }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="durationInYears">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Duración en años
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Duración en años:</span>{{ row.durationInYears }}</mat-cell>
+                                                        <span class="mobile-label">Duración en años:</span>{{
+                                                        row.durationInYears }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="numOfCredits">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad de Créditos
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad de
+                                                        Créditos
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Cantidad de Créditos:</span>{{ row.numOfCredits }}</mat-cell>
+                                                        <span class="mobile-label">Cantidad de Créditos:</span>{{
+                                                        row.numOfCredits }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="studyModeId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Modalidad:</span>{{ row.studyModeName }}</mat-cell>
+                                                        <span class="mobile-label">Modalidad:</span>{{ row.studyModeName
+                                                        }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Estado:</span>
-                                    
+
                                                         <div
                                                             [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                                            <span class="mobile-label ">Estatus:</span>{{row.statusId === 1?'Activo':'Inactivo'}}
+                                                            <span class="mobile-label ">Estatus:</span>{{row.statusId
+                                                            === 1?'Activo':'Inactivo'}}
                                                         </div>
                                                     </mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                                                    <mat-header-cell class="pr-0"
+                                                        *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button matTooltip="Editar Asingnatura" mat-mini-fab color="primary" (click)="editCall(row)"
+                                                        <button matTooltip="Editar Asingnatura" mat-mini-fab
+                                                            color="primary" (click)="editCall(row)"
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'edit'"></app-feather-icons>
                                                         </button>
-                                                        <button matTooltip="Ajustes de Carrera" mat-mini-fab color="accent" (click)="detalle(row)" class="tbl-action-btn">
+                                                        <button matTooltip="Ajustes de Carrera" mat-mini-fab
+                                                            color="accent" (click)="detalle(row)"
+                                                            class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'settings'"></app-feather-icons>
                                                         </button>
-                                    
-                                                        <button matTooltip="Eiminar Asingnatura" mat-mini-fab color="accent" (click)="delete(row)"
-                                                            class="tbl-action-btn">
+
+                                                        <button matTooltip="Eiminar Asingnatura" mat-mini-fab
+                                                            color="accent" (click)="delete(row)" class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
-                                    
+
                                                     </mat-cell>
                                                 </ng-container>
                                                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                                <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                                                <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                                    [style.cursor]="'pointer'" matRipple>
                                                 </mat-row>
                                             </table>
                                         </div>
@@ -129,8 +143,9 @@
                                             </mat-progress-spinner>
                                         </div>
                                         <!-- context menu start -->
-                                        <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                                            [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                                        <div style="visibility: hidden; position: fixed"
+                                            [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y"
+                                            [matMenuTriggerFor]="contextMenu">
                                         </div>
                                         <mat-menu #contextMenu="matMenu">
                                             <ng-template matMenuContent let-item="item">
@@ -142,7 +157,7 @@
                                                     <mat-icon>create</mat-icon>
                                                     <span>Edit Record</span>
                                                 </button>
-                                    
+
                                                 <button mat-menu-item (click)="refresh()">
                                                     <mat-icon>refresh</mat-icon>
                                                     <span>Refresh Record</span>
@@ -176,8 +191,8 @@
                                             [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                                             No results
                                         </div>
-                                        <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
-                                            [pageSizeOptions]="[5, 10, 25, 100]">
+                                        <mat-paginator #paginator [length]="dataSource.filteredData.length"
+                                            [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
                                         </mat-paginator>
                                     </div>
                                 </div>

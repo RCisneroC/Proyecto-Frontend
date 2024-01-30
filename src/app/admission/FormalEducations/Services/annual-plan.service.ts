@@ -15,6 +15,7 @@ import { environment } from 'environments/environment.development';
 import { DegreeCurriculumDesign, PosterRequest } from '../Models/Degree';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { SubjectPeriod } from '../Models/PlanSubject';
+import { RequirementAdmision } from '../Models/RequirementAdmision';
 
 @Injectable({
   providedIn: 'root',
@@ -197,6 +198,21 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
       environment.apiEF + 'AnnualPlan/GetPeriodsBy?AnnualPlanId=' + id
     );
   }
+
+  getDocumentosMalla(id: any) {
+    return this.httpClient.get<[RequirementAdmision]>(
+      environment.apiEF + 'Degree/GetDegreeAdmissionRequirementsBy?DegreeCurriculumDesignId=' + id
+    );
+  }
+
+
+  getAfichesMalla(id: any) {
+    return this.httpClient.get<PosterRequest[]>(
+      environment.apiEF + 'DegreeCurriculumDesign/GetPosterRequestsBy?DegreeCurriculumDesignId=' + id
+    );
+  }
+
+
 
   EnviarPlanAnual(id: any, estado: any) {
     let data = {

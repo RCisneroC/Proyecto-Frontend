@@ -1,9 +1,9 @@
 
 export const environment = {
   production: false,
-  base:'http://erp.organo-judicial.com/#/student/',
-  apiUrlTeacher:'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
-  apiUrl:'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',
+  base: 'http://localhost:3001/#/student/',
+  apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
+  apiUrl: 'https://isjupauthenticationservice.azurewebsites.net/api/v1/account/',
   apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/",
   ConsultaDocentes: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   consultaEstudiante: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/GetDataCedula/',
@@ -11,8 +11,7 @@ export const environment = {
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/Subject/',
   apiUrlEC:'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
-  apiUrlDocument:'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
-
+  apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
 };
 
 

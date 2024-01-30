@@ -7,7 +7,7 @@
             </app-breadcrumb>
         </div>
         <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
-            <div class="">
+            <div>
                 <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
                     <mat-icon>keyboard_backspace</mat-icon> Regresar
                 </button>
@@ -18,6 +18,9 @@
                 <div class="card">
                     <div #imageElement class="header">
                         <h2 class="text-uppercase">Detalle del Plan Anual</h2>
+                        <button matTooltip="Regresar" mat-raised-button color="primary" (click)="generarConvocatoria()">
+                            <mat-icon>autorenew</mat-icon> Generar Convocatoria
+                        </button>
                     </div>
                     <!-- <div class="body">
                         <div class="row">

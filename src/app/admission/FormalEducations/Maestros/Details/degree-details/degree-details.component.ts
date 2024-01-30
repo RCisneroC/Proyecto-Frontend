@@ -185,6 +185,8 @@ export class DegreeDetailsComponent {
         this.dataCompetence = new MatTableDataSource<Competence>(
           res.degreeCompetences
         );
+        console.log(this.dataCompetence);
+
         this.dataCurriculum = new MatTableDataSource<DegreeCurriculumDesign>(
           res.degreeCurriculumDesigns
         );
@@ -367,7 +369,10 @@ export class DegreeDetailsComponent {
   }
 
   DeleteCompetencias(row: Competence) {
-    this._DegreeService.DeleteDegreeAdminssion(this.id).subscribe({
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
+    this._DegreeService.DeleteDegreeCompetence(row.id).subscribe({
       next: () => {
         Swal.fire({
           title: 'Escuela Judicial',
@@ -457,7 +462,7 @@ export class DegreeDetailsComponent {
     });
   }
   deleteCurriculum(row: DegreeCurriculumDesign) {
-    this._DegreeService.DeleteDegreeAdminssion(this.id).subscribe({
+    this._DegreeService.DeleteDegreeAdminssion(row.id).subscribe({
       next: () => {
         Swal.fire({
           title: 'Escuela Judicial',
