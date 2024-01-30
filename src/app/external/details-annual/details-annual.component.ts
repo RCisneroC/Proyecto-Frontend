@@ -257,7 +257,7 @@ export class DetailsAnnualComponent {
     })
   }
   inscribir() {
-    this._router.navigate(['/student/external-inscription/' + this.paramsId]);
+    this._router.navigate(['/student/external-EF/' + this.paramsId]);
   }
 
   RenderImage() {

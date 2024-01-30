@@ -8,12 +8,14 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { DetailsAnnualComponent } from './details-annual/details-annual.component';
+import { InscriptionFormsExternalComponent } from './inscription-forms-external/inscription-forms-external.component';
 
 
 @NgModule({
   declarations: [
     ViewActivityExternalComponent,
-    DetailsAnnualComponent
+    DetailsAnnualComponent,
+    InscriptionFormsExternalComponent
   ],
   providers: [
      VerificarBS64Pipe
