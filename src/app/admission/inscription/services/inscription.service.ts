@@ -10,6 +10,9 @@ import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 import { Persona } from 'app/admission/models/persona';
 import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
+import {ResponseInscripcionEF} from "../../models/InscripcionEFResponse";
+import {ResponseAddEFcademicInfo} from "../../models/AddEFacademicResponse";
+import {ResponseAddEFlaboralInfo} from "../../models/AddEFlaboralResponse";
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +23,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   baseApiUrl = "https://file.io"
   isTblLoading = true;
   public _ResponseInscripcion!: ResponseInscripcion;
+  public _ResponseInscripcionEF!: ResponseInscripcionEF;
+  public _ResponseAddEFcademicInfo!: ResponseAddEFcademicInfo;
+  public _ResponseAddEFlaboralInfo!: ResponseAddEFlaboralInfo;
   public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
@@ -40,6 +46,24 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     .get<any>(environment.consultaEstudiante+cedula);
   }
 
+  getPlanesAprobados(){
+    return this.httpClient
+      .get<any>(environment.consultaPlanesAprobados);
+  }
+
+  getEducationLevel(){
+    return this.httpClient
+      .get<any>(environment.apiEC + "EFInscription/GetEducationLevel");
+  }
+  getRequirementsDocuments(id:string){
+    return this.httpClient
+      .get<any>(environment.apiEF + "Degree/GetDegreeAdmissionRequirementsBy?DegreeCurriculumDesignId="+id);
+  }
+  getDegreeCurriculumdesingByPlan(id:string){
+    return this.httpClient
+      .get<any>(environment.ConsultaMallaCurrcularByPlan+id);
+  }
+
   getActivities(id:string){
     return this.httpClient.get<any>(environment.apiUrlSchedule+"CurriculumDesign/GetActivitiesBy?CurriculumDesignId="+id)
   }
@@ -57,20 +81,43 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlSchedule+"CurriculumDesign/GetAll")
   }
 
-  upload(file:any):Observable<any> { 
-  
-    const formData = new FormData();  
-      
-    formData.append("file", file, file.name); 
-      
-  
-    return this.httpClient.post(this.baseApiUrl, formData) 
-} 
+  upload(file:any):Observable<any> {
+
+    const formData = new FormData();
+
+    formData.append("file", file, file.name);
+
+
+    return this.httpClient.post(this.baseApiUrl, formData)
+}
 
 updateParticipant(participantData: any): Observable<any> {
- 
+
   const url = `${environment.apiEC}`;
   return this.httpClient.post<ResponseInscripcion>(url+"ContinuingEducation/Addparticipant", participantData);
+  }
+
+  AddEFAspirant(aspirantData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseInscripcionEF>(url+"EFInscription/EFAddAspirant", aspirantData);
+  }
+
+  AddEFAcademicInfo(academicinfiData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseAddEFcademicInfo>(url+"EFInscription/AddcademicInfo", academicinfiData);
+  }
+
+  AddEFLaboralInfo(laboralinfiData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseAddEFlaboralInfo>(url+"EFInscription/AddExperience", laboralinfiData);
+  }
+
+  CargaDocumentoEFRequirement(data: any): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseEF>(url+"EFInscription/AddEFDoc", data);
   }
 
   CargaDocumentoRequirement(data: any): Observable<any> {
@@ -109,14 +156,14 @@ getParticipants(): void {
       },
     });
   }
-  
+
     getParticipanteActividad(id:any): void {
     this.subs.sink = this.httpClient
       .get<ParticipantActivity>(environment.apiEC+'GetData/Getinscritos?ActivityId='+id)
       .subscribe({
         next: (data) => {
           console.log(data.getDataResultResponse);
-          
+
           this.isTblLoading = false;
           this.dataChangeParticipant.next(data.getDataResultResponse);
         },
