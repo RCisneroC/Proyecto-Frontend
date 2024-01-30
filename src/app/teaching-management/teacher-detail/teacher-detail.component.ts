@@ -13,6 +13,7 @@ import { AddTrainingComponent } from '../add-training/add-training.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { RequiredDocument } from '../models/RequiredDocument';
 
 
 
@@ -78,6 +79,7 @@ implements OnInit{
 
 DataTeacher!:Teacher;
 DataExperience:Experience[]= [];
+DataDocument:RequiredDocument[]= [];
 DataTraining:Training[]= [];
 cedula!:string;
 fechaActual!: string;
@@ -108,6 +110,7 @@ public _verificarBS64: VerificarBS64Pipe,
     this.cedula=this.activatedRoute.snapshot.params["cedula"];
     this.DataTeacher=new Teacher();
     const fechaActual = new Date();
+    this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
     this.documentForm = this.createDocumentForm();
@@ -130,7 +133,20 @@ public _verificarBS64: VerificarBS64Pipe,
    
   }
   
+  async getRequiredDocuments() {
+    this._teacherService.getRequiredDocument().subscribe({
+       next: (res) => {
+ 
+         this.DataDocument = res;
+      
+       }
+     })
+   }
   
+   GetName(type:number){
+   
+  return this.DataDocument.find(x=>x.documentId===type)?.name
+  }
   async getTeacherByCedula() {
    this._teacherService.getTeacherByCedula(this.cedula).subscribe({
       next: (res) => {

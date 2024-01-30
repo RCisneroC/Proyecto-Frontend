@@ -300,10 +300,8 @@
                           <th mat-header-cell *matHeaderCellDef> Descripción </th>
                           <td mat-cell *matCellDef="let element"> 
                           
-                            <span  *ngIf="element.docType===1" class="text-uppercase" >Cedula</span>
-                            <span  *ngIf="element.docType===2" class="text-uppercase" >CV</span>
-                            <span  *ngIf="element.docType===3" class="text-uppercase" >Fotografia</span>
-                            <span  *ngIf="element.docType===4" class="text-uppercase" >TÍtulo</span>
+                            <span   class="text-uppercase" >{{GetName(element.docType)}}</span>
+                       
                           
                           </td>
                       </ng-container>

@@ -74,6 +74,11 @@ export class Experience {
         fileType:number=1;
     }
     
+
+export interface ResponseSaveTeacher  {
+    idRegistro: number;
+}
+    
  
     
 

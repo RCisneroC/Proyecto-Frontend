@@ -63,9 +63,13 @@
               
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6">
                 <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Titulo Obtenido</mat-label>
-                  <input matInput formControlName="degreeObtained" >
-                  <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                  <mat-label>Título Obtenido</mat-label>
+                  <!-- <input matInput formControlName="degreeObtained" > -->
+             
+                  <mat-select formControlName="degreeObtained" >
+                    <mat-option *ngFor="let grado of gradosInstruccion"  [value]="grado.nombre">{{grado.nombre}}</mat-option>
+                  </mat-select>
+                  
                   <mat-error *ngIf="trainingForm.get('degreeObtained')?.hasError('required')">
                      es requerido
                   </mat-error>

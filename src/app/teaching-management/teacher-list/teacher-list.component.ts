@@ -32,7 +32,6 @@ implements OnInit {
     'statusId',
     'process',
     'createdDate',
-    'createdBy',
     'lastModifiedDate',
     'lastModifiedBy',
     'actions'
