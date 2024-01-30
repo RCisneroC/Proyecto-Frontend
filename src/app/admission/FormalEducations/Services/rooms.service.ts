@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { Rooms } from '../Models/Rooms';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { environment } from 'environments/environment.development';
 
@@ -70,5 +70,13 @@ export class RoomsService extends UnsubscribeOnDestroyAdapter {
     };
     
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Room/Delete', options);
+  }
+  init_Rooms() {
+    this._Rooms = {
+      description: '',
+      id: 0,
+      name: '',
+      statusId:0
+    }
   }
 }

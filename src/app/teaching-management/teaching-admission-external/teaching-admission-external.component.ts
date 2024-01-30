@@ -19,8 +19,8 @@ import { RequiredDocument } from '../models/RequiredDocument';
   styleUrls: ['./teaching-admission-external.component.scss']
 })
 export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
-  
+  implements OnInit {
+
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
@@ -35,7 +35,7 @@ implements OnInit{
     'year',
     'actions'
   ];
-  
+
   displayedColumnsTraining = [
     'trainingId',
     'institution',
@@ -45,15 +45,15 @@ implements OnInit{
     'degreeObtained',
     'actions'
   ];
-  
 
-  
+
+
   displayedColumnsSpecialty = [
     'specialtyId',
     'name',
     'actions'
   ];
-  
+
   displayedColumnsExperience = [
     'experienceId',
     'description',
@@ -62,7 +62,7 @@ implements OnInit{
     'endDate',
     'actions'
   ];
-  
+
 
 DataTeacher!:Teacher;
 DataRequiredDocuments:RequiredDocument[]= [];
@@ -82,22 +82,22 @@ FormsEFDocument!: UntypedFormGroup;
 
 
 
-constructor( private activatedRoute: ActivatedRoute,
-public _ActivityService: ActivityDetailService,
-public _teacherService: TeacherService,
-public _dialog: MatDialog,
-private _nav:Router,
-private fb: UntypedFormBuilder,
-){
-  super();
-  
-}
+  constructor(private activatedRoute: ActivatedRoute,
+    public _ActivityService: ActivityDetailService,
+    public _teacherService: TeacherService,
+    public _dialog: MatDialog,
+    private _nav: Router,
+    private fb: UntypedFormBuilder,
+  ) {
+    super();
+
+  }
 
 
   ngOnInit() {
-    this.DataTeacher=new Teacher();
+    this.DataTeacher = new Teacher();
     const fechaActual = new Date();
-    this.fechaA=fechaActual.toLocaleDateString('es-PA');
+    this.fechaA = fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
    
     this.FormsEFDocument = this.fb.group({});
@@ -146,15 +146,15 @@ private fb: UntypedFormBuilder,
   cedulaExist() {
     return (control: FormControl) => {
       const cedula = control.value;
-  
+
       if (!cedula) {
         return null; // Don't validate empty emails
       }
-  
+
       return this._teacherService.getExisteCedula(cedula)
     };
   }
-  AddExperience(){
+  AddExperience() {
     const dialogRef = this._dialog.open(AddExperienceComponent, {
       data: {
         experience: this.experience,
@@ -162,30 +162,30 @@ private fb: UntypedFormBuilder,
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result:Experience) => {
+    dialogRef.afterClosed().subscribe((result: Experience) => {
       if (result == undefined) {
         return;
-        }
-        this.DataExperience=[];
-        
-        if(this.DataTeacher.listExperience.length>0){
-          const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
-            return current.experienceId > previous.experienceId ? current : previous;
-          });
-          result.experienceId=IdMayor.experienceId+1;
-        }else{
-          result.experienceId=1;
-        }
-      
-        this.DataExperience.push(result);
-        
-        this.DataTeacher.listExperience=[...this.DataTeacher.listExperience, ...this.DataExperience]
-        
+      }
+      this.DataExperience = [];
+
+      if (this.DataTeacher.listExperience.length > 0) {
+        const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
+          return current.experienceId > previous.experienceId ? current : previous;
+        });
+        result.experienceId = IdMayor.experienceId + 1;
+      } else {
+        result.experienceId = 1;
+      }
+
+      this.DataExperience.push(result);
+
+      this.DataTeacher.listExperience = [...this.DataTeacher.listExperience, ...this.DataExperience]
+
     });
   }
-  
-  
-  AddTraining(){
+
+
+  AddTraining() {
     const dialogRef = this._dialog.open(AddTrainingComponent, {
       data: {
         training: this.training,
@@ -193,35 +193,35 @@ private fb: UntypedFormBuilder,
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result:Training) => {
+    dialogRef.afterClosed().subscribe((result: Training) => {
       if (result == undefined) {
         return;
-        }
-        this.DataTraining=[];
-        
-        if(this.DataTeacher.listTraining.length>0){
-          const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-            return current.trainingId > previous.trainingId ? current : previous;
-          });
-          result.trainingId=IdMayor.trainingId+1;
-        }else{
-          result.trainingId=1;
-        }
-      
-        this.DataTraining.push(result);
-        
-        this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
-        
+      }
+      this.DataTraining = [];
+
+      if (this.DataTeacher.listTraining.length > 0) {
+        const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
+          return current.trainingId > previous.trainingId ? current : previous;
+        });
+        result.trainingId = IdMayor.trainingId + 1;
+      } else {
+        result.trainingId = 1;
+      }
+
+      this.DataTraining.push(result);
+
+      this.DataTeacher.listTraining = [...this.DataTeacher.listTraining, ...this.DataTraining]
+
     });
   }
-  RemoveExperience(row:Experience){
- 
-        this.DataExperience=[];
-        this.DataExperience=this.DataTeacher.listExperience.filter(x=>x.experienceId!=row.experienceId)
-        this.DataTeacher.listExperience=[...this.DataExperience]
-        
+  RemoveExperience(row: Experience) {
+
+    this.DataExperience = [];
+    this.DataExperience = this.DataTeacher.listExperience.filter(x => x.experienceId != row.experienceId)
+    this.DataTeacher.listExperience = [...this.DataExperience]
+
   }
-  Regresar(){
+  Regresar() {
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
   
@@ -230,24 +230,24 @@ private fb: UntypedFormBuilder,
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: [this.DataTeacher.cedula,[Validators.required]],
+      cedula: [this.DataTeacher.cedula, [Validators.required]],
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
-      email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
-      selected: new FormControl(this.DataTeacher?.selected),
+      email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
+      // selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
-      listCourse: new FormControl(this.DataTeacher?.listCourse||[]),
-      listTraining: new FormControl(this.DataTeacher?.listTraining||[]),
-      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty||[]),
-      listExperience: new FormControl(this.DataTeacher?.listExperience||[]),
-      listDocument: new FormControl(this.DataTeacher?.listDocument||[]),
+      listCourse: new FormControl(this.DataTeacher?.listCourse || []),
+      listTraining: new FormControl(this.DataTeacher?.listTraining || []),
+      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty || []),
+      listExperience: new FormControl(this.DataTeacher?.listExperience || []),
+      listDocument: new FormControl(this.DataTeacher?.listDocument || []),
       process: new FormControl(1),
       createdBy: new FormControl(this.DataTeacher?.dischargeDate)
-     
+
     });
   }
-  
+
 
   tmp_files :any[50] = [];
   tmp_docType :any[50] = [];
@@ -261,7 +261,7 @@ private fb: UntypedFormBuilder,
        formdata.append('FileDetails', this.tmp_files[0]);
 
   }
-  
+
   submit() {
  
 
@@ -325,15 +325,15 @@ private fb: UntypedFormBuilder,
    
 
     // emppty stuff
-  }}
-
+  }
+}
   removeTraining(row: Training){
     this.DataTraining=[];
     this.DataTraining=this.DataTeacher.listTraining.filter(x=>x.trainingId!=row.trainingId)
     this.DataTeacher.listTraining=[...this.DataTraining]
     
   }
-  
+
 
 }
 

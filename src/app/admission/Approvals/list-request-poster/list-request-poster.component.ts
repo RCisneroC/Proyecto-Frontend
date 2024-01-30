@@ -24,7 +24,7 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
   styleUrls: ['./list-request-poster.component.scss']
 })
 export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
     'id',
@@ -33,7 +33,7 @@ implements OnInit{
     'documento',
     'actions',
   ];
-  
+
   exampleDatabase?: ActivityDetailService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<PosterRequest>(true, []);
@@ -42,11 +42,11 @@ implements OnInit{
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _ActivityDetailService:ActivityDetailService ,
+    public _ActivityDetailService: ActivityDetailService,
     private snackBar: MatSnackBar,
     private router: Router,
     public _nav: Router,
-    public _verificarBS64:VerificarBS64Pipe
+    public _verificarBS64: VerificarBS64Pipe
   ) {
     super();
   }
@@ -62,42 +62,42 @@ implements OnInit{
   refresh() {
     this.loadData();
   }
- 
-  ViewDetail(row:PosterRequest) {
-     localStorage.setItem('url','/admission/list-post-approve')
-     this._nav.navigate(['/admission/activity-detail/' + row.activityId]);
+
+  ViewDetail(row: PosterRequest) {
+    localStorage.setItem('url', '/admission/list-post-approve')
+    this._nav.navigate(['/admission/activity-detail/' + row.activityId]);
   }
   aprobar(row: PosterRequest) {
-    
+
     const dialogRef = this.dialog.open(ApprovedPosterComponent, {
       data: {
-        poster : row,
+        poster: row,
         accion: 'approved',
       },
-      disableClose:true
+      disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
 
-     console.log(row);
+    console.log(row);
   }
 
   verDocumento(row: PosterRequest) {
@@ -106,42 +106,42 @@ implements OnInit{
       next: (res) => {
         if (this._verificarBS64.transform(res.poster.fileContents) != "pdf") {
           const dialogRef = this.dialog.open(ViewPosterComponent, {
-          data: {
-            type: this._verificarBS64.transform(res.poster.fileContents),
-            accion: 'view-poster',
-            posterFile: res.poster.fileContents,
-            comment: res.posterComments,
-            poster: res,
-          },
-          disableClose: true,
-        });
+            data: {
+              type: this._verificarBS64.transform(res.poster.fileContents),
+              accion: 'view-poster',
+              posterFile: res.poster.fileContents,
+              comment: res.posterComments,
+              poster: res,
+            },
+            disableClose: true,
+          });
         } else {
           const dialogRef = this.dialog.open(ViewPosterPDFComponent, {
-          data: {
-            type: this._verificarBS64.transform(res.poster.fileContents),
-            accion: 'view-poster',
-            posterFile: res.poster.fileContents,
-            comment: res.posterComments,
-            poster: res,
+            data: {
+              type: this._verificarBS64.transform(res.poster.fileContents),
+              accion: 'view-poster',
+              posterFile: res.poster.fileContents,
+              comment: res.posterComments,
+              poster: res,
             },
-            width:'1000px',
-          disableClose: true,
-        });
+            width: '1000px',
+            disableClose: true,
+          });
         }
       },
       error: (err) => {
-        
+
       }
     })
-    
+
   }
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  
+
   public loadData() {
     console.log("Cargando...");
-    
+
     this.exampleDatabase = new ActivityDetailService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
@@ -177,7 +177,7 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'Nombre': x.activityName
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -216,7 +216,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
     this.exampleDatabase.getRequestPoster('3');
     return merge(...displayDataChanges).pipe(
       map(() => {
-       
+
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
@@ -254,7 +254,7 @@ export class ExampleDataSource extends DataSource<PosterRequest> {
         case 'name':
           [propertyA, propertyB] = [a.activityName, b.activityName];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

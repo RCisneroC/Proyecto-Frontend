@@ -1,0 +1,108 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Malla Curricular'" [items]="['Inicio','Admisión','Malla Curricular']"
+                [active_item]="'Malla Curricular'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div #imageElement class="header">
+                        <h2 class="text-uppercase">Malla Curricular</h2>
+                    </div>
+                    <!-- <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha de inicio</h6>
+                                <label for="">{{ _CreateCurriculumDesign.startDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <h6>Fecha Fin</h6>
+                                <label for="">{{ _CreateCurriculumDesign.endDate | date:'dd/M/yyyy' }}</label>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Resumen de asignaturas</strong>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre Asignatura</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad Crédito</th>
+                                        <th>Cantidad Horas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let item of _Listado">
+                                        <tr>
+                                            <td class="clases">{{ item.period.name }}</td>
+                                            <td class="clases"> <strong>Inicio: (</strong> {{
+                                                item.period.startDate | date:'dd/M/yyyy' }})
+                                            </td>
+                                            <td class="clases"><strong>Fin: (</strong> {{ item.period.endDate
+                                                | date:'dd/M/yyyy' }})</td>
+                                            <td class="clases"><strong>Cupos: (</strong> {{
+                                                item.period.maxNumOfParticipants }})</td>
+                                        </tr>
+
+                                        <tr *ngFor="let item_ of item.subjects">
+                                            <td>{{ item_.name }}</td>
+                                            <td>{{ item_.description }}</td>
+                                            <td>{{ item_.numOfCredits }}</td>
+                                            <td>{{ item_.numOfHours }}</td>
+                                        </tr>
+                                    </ng-container>
+
+                                    <!-- <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Larry</td>
+                                        <td>Jellybean</td>
+                                        <td>@lajelly</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
+                                        <td>Larry</td>
+                                        <td>Kikat</td>
+                                        <td>@lakitkat</td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
