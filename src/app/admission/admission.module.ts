@@ -108,6 +108,7 @@ import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list
 import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/approved-degree/approved-degree.component';
 import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
 import { ApprovedPosterTwoComponent } from './FormalEducations/Approvals/Forms/approved-poster-two/approved-poster-two.component';
+import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create-asigned/create-asigned.component';
 
 @NgModule({
   declarations: [
@@ -215,7 +216,8 @@ import { ApprovedPosterTwoComponent } from './FormalEducations/Approvals/Forms/a
     ApprovedDegreeComponent,
     ApprovedAnnualPlanComponent,
     ApprovedPosterComponent,
-    ApprovedPosterTwoComponent
+    ApprovedPosterTwoComponent,
+    CreateAsignedComponent
   ],
   providers: [
     VerificarBS64Pipe

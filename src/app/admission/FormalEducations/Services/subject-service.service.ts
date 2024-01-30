@@ -51,6 +51,12 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetSubjectsBy?DegreeCurriculumDesignId=' + id);
   }
+
+  getAllSubjectNotPendingDegreePeriodo(id: any, id2: any) {
+    return this.httpClient
+      .get<Subject[]>(environment.apiEF + `DegreeCurriculumDesign/GetSubjectsWithoutPeriodBy?DegreeCurriculumDesignId=${id}&AnnualPlanId=${id2}`);
+  }
+
   getAllSubjectPendingDegree(id: any) {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPendingSubjectsBy?DegreeCurriculumDesignId=' + id);
@@ -143,6 +149,22 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put<ResponseGenerica>(
       environment.apiEF + 'Degree/UpdateCurriculumDesign', data
     );
+  }
+
+  SaveAsignacion(data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'Period/CreateSubject', data);
+  }
+
+  DeleteRelacion(data: any) {
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+
+    return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Period/DeleteSubject', options);
   }
 
   init_Subject() {

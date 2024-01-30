@@ -11,6 +11,9 @@ import { AnnualPlan, Period } from 'app/admission/FormalEducations/Models/Annual
 import { DegreeCurriculumDesign } from 'app/admission/FormalEducations/Models/Degree';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ActivityService } from 'app/admission/maestros/services/activity.service';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
+import { environment } from 'environments/environment.development';
 
 @Component({
   selector: 'app-detalle-plan-anual',
@@ -60,7 +63,7 @@ export class DetallePlanAnualComponent {
       degreeCurriculumDesignTarget: 0,
     },
   ];
-
+  public urlConvocatoria: string = '';
   dataPeriod = new MatTableDataSource<Period>(this.dataSourcePeriod);
   dataDegreeCurriculum = new MatTableDataSource<DegreeCurriculumDesign>(this.dataSourceDegreeCurriculumDesign);
 
@@ -79,7 +82,8 @@ export class DetallePlanAnualComponent {
     private activatedRoute: ActivatedRoute,
     public _AnnualPlanService: AnnualPlanService,
     public _dialog: MatDialog,
-    public _verificarBS64: VerificarBS64Pipe
+    public _verificarBS64: VerificarBS64Pipe,
+    public _ActivityService: ActivityDetailService
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
@@ -105,9 +109,6 @@ export class DetallePlanAnualComponent {
   }
   volverAtras() {
     const url = localStorage.getItem('url') || '/admission/AnnualPlan';
-    console.log('====================================');
-    console.log(url);
-    console.log('====================================');
     this._Router.navigate([url]);
   }
 
@@ -299,5 +300,23 @@ export class DetallePlanAnualComponent {
         });
       }
     });
+  }
+  generarConvocatoria() {
+
+    var encrip = this._ActivityService.encryptData(this.id, 'Panama2019$');
+    this.urlConvocatoria = `${environment.base}details-annual-plan/${encrip}`;
+    Swal.fire({
+      title: "<strong>Escuela Judicial</strong>",
+      html: '<p>Convocatoria generada correctamente, fue copiado en el portapapel.</p><a target="_blank" href="' + this.urlConvocatoria + '">Ir a la convocatoria</a>',
+      icon: "success"
+    });
+    const el = document.createElement('textarea');
+    el.value = this.urlConvocatoria;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+
   }
 }

@@ -19,15 +19,16 @@
                     <div class="row" style="margin-top: 10px;">
                       <div class="col-lg-4">
                         <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
-                    
+
                       </div>
                       <div class="col-lg-4">
                         <p>Modalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
-                    
+
                       </div>
                       <div class="col-lg-4">
-                        <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p>
-                    
+                        <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong>
+                        </p>
+
                       </div>
                     </div>
                     <div class="materialTableHeader">
@@ -38,8 +39,8 @@
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                            <input placeholder="Ejemplo: 9-999-999" type="text" #filter class="browser-default search-field"
-                              aria-label="Search box" />
+                            <input placeholder="Ejemplo: 9-999-999" type="text" #filter
+                              class="browser-default search-field" aria-label="Search box" />
                             <button mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
                               <mat-icon>search</mat-icon>
                             </button>
@@ -111,8 +112,7 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Distrito</mat-label>
-                          <input formControlName="judicialDistrict" matInput autocomplete="off"
-                            [ngModel]="
+                          <input formControlName="judicialDistrict" matInput autocomplete="off" [ngModel]="
                               personData?.distrito
                             " />
                         </mat-form-field>
@@ -204,8 +204,18 @@
 
                         <p style="font-weight: bold;text-transform: uppercase;">{{
                           requerimiento.activityRequirement.name }} <br></p>
-                        <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
-                          (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" />
+
+                        <div class="file-drop-area">
+
+                          <button mat-raised-button color="primary">Elija el archivo</button>
+                          <span>arrastre y suelte el archivo aquí</span>
+                          <input class="file-input" id="archivo_{{ requerimiento.activityRequirement.id }}"
+                            (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"
+                            type="file">
+                        </div>
+
+                        <!-- <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
+                          (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" /> -->
                         <p style="color: green;font-weight: bold;margin-top: 10px;"
                           id="texto_{{ requerimiento.activityRequirement.id }}"></p>
                         <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>

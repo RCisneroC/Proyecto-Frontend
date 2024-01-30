@@ -1,1 +1,51 @@
-<p>approved-degree works!</p>
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="ApprovedForm" (ngSubmit)="submit">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Comentario</mat-label>
+                                    <textarea matInput formControlName="approvalMessage"></textarea>
+                                    <mat-error *ngIf="ApprovedForm.get('approvalMessage')?.hasError('required')">
+                                        El comentario es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Estado</mat-label>
+                                    <mat-select formControlName="isApproved">
+                                        <mat-option value="">.........</mat-option>
+                                        <mat-option value="1">Aprobar</mat-option>
+                                        <mat-option value="2">Rechazar</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="ApprovedForm.get('isApproved')?.hasError('required')">
+                                        la Estado es requerido
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button color="primary" [disabled]="!ApprovedForm.valid"
+                    (click)="submit()">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
