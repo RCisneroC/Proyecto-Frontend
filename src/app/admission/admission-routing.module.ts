@@ -1,4 +1,4 @@
- 
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoungeListComponent } from './maestros/lounge-list/lounge-list.component';
@@ -59,6 +59,9 @@ import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approv
 import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
 import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
 import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
+import {
+  PartakerDetailInscriptionComponent
+} from "./inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component";
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -200,8 +203,12 @@ const routes: Routes = [
     component: MeshListInscriptionComponent
   },
   {
-    path:"list-inscriptions-partaker/:id",
+    path:"list-inscriptions-partaker",
     component: PartakerListInscriptionComponent
+  },
+  {
+    path:"detail-inscriptions-partaker/:id",
+    component: PartakerDetailInscriptionComponent
   },
     // ajustes  EF
   {
