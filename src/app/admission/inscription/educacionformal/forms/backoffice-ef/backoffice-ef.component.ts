@@ -341,7 +341,21 @@ changestatus(id:string){
 }
 
 addAspirantEF(){
-    this._inscriptionService.AddEFAspirant(this.Participant).subscribe({
+   const jsonRequest = {
+     backoffice:0,
+     firstName: this.FormsEF.value.firstName,
+     lastName: this.FormsEF.value.lastName,
+     cedula:this.FormsEF.value.cedula,
+     dateOfBirth: this.FormsEF.value.dateOfBirth,
+     placeOfBirth: this.FormsEF.value.placeOfBirth,
+     residentialAddress: this.FormsEF.value.residentialAddress,
+     telephoneNumber: this.FormsEF.value.telephoneNumber,
+     email: this.FormsEF.value.email,
+     degreeId: this.FormsEF.value.carreraId,
+     observation: "",
+     createdBy: ""
+   }
+    this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
           next:(data: ResponseInscripcionEF)=>{
             this._inscriptionService._ResponseInscripcionEF = data;
             if (!this._inscriptionService._ResponseInscripcionEF.isError){
@@ -467,6 +481,7 @@ addAspirantEF(){
 
   firstNext(){
    console.log(this.FormsEF.value.carreraId);
+   this.addAspirantEF();
    this.getRequirementsDocuments(this.FormsEF.value.carreraId);
   }
 
