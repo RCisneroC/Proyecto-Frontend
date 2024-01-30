@@ -109,7 +109,7 @@ FormsEFDocument!: UntypedFormGroup;
    
     this.teacherForm=this.fb.group({
       teacherId :new FormControl(0),
-      cedula:['',[Validators.required]],
+      cedula:['',[Validators.required],[this.cedulaExist()]],
       name:['',[Validators.required]],
       lastName:['',[Validators.required]],
       placeOfBirth:['',[Validators.required]],
@@ -234,7 +234,7 @@ FormsEFDocument!: UntypedFormGroup;
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: [this.DataTeacher.cedula, [Validators.required]],
+      cedula: [this.DataTeacher.cedula, [Validators.required],[this.cedulaExist()]],
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),

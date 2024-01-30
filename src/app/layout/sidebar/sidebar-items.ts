@@ -106,6 +106,17 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: '',
         submenu: [],
       },
+      {
+        path: 'admission/list-inscriptions-partaker',
+        title: 'Participantes',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
     ],
   },
 

@@ -77,9 +77,10 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   
   getExisteCedula(cedula :string) {
  
-    return this.httpClient.get(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(
-      map(() => null), // Email is valid if request succeeds
-      catchError((err) => of({ cedulaExists: true, message: err.message })) // Return error object for invalid email
+    return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(
+      map(resp=>{
+          return (resp.teacherId>0) ? {cedulaExists: true} : null
+      })
     );
   }
   

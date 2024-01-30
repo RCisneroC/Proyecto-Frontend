@@ -7,7 +7,7 @@ import { ActivityDetailService } from 'app/admission/services/activity-detail.se
 export interface DialogData {
   id: string;
   participant: GetDataResultResponse;
-  accion:string;
+  accion: string;
 }
 @Component({
   selector: 'app-approve-participant',
@@ -15,13 +15,13 @@ export interface DialogData {
   styleUrls: ['./approve-participant.component.scss']
 })
 export class ApproveParticipantComponent {
-public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
-}
-  
+    Message: ''
+  }
+
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   ApprovedForm: UntypedFormGroup;
   id_participant: number = 0;
   useJson: any;
@@ -30,29 +30,28 @@ public ResponseMessage: ResponseMessageMaestra = {
   constructor(
     public dialogRef: MatDialogRef<ApproveParticipantComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _ActivityService:ActivityDetailService,
+    public _ActivityService: ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
-    this.localUser = localStorage.getItem('currentUser')||null;
-  
+    this.localUser = localStorage.getItem('currentUser') || null;
+
     if (this.localUser != '') {
       this.useJson = JSON.parse(this.localUser);
     }
-    console.log('====================================');
-    console.log(this.data);
-    console.log('====================================');
-    this.action = data.accion; 
+
+    this.action = data.accion;
     if (this.action === 'approved') {
-      this.dialogTitle ="Aprobar Participante";
+      this.dialogTitle = "Aprobar Participante";
       this.id_participant = data.participant.inscriptionId;
     }
-     this.ApprovedForm = this.fb.group({
-          id: ['', [Validators.required]],
-          cedula: [data.participant.cedula, [Validators.required]],
-          statusId: ['', [Validators.required]],
-          userid: [this.useJson.id, [Validators.required]]
-        });
+    this.ApprovedForm = this.fb.group({
+      id: ['', [Validators.required]],
+      cedula: [data.participant.cedula, [Validators.required]],
+      statusId: ['', [Validators.required]],
+      userid: [this.useJson.id, [Validators.required]],
+
+    });
 
     _ActivityService.GetParticipanteCedula(data.participant.cedula).subscribe({
       next: (res: ApiResponse) => {
@@ -70,7 +69,7 @@ public ResponseMessage: ResponseMessageMaestra = {
         location.reload();
       }
     });
-    
+
   }
   submit() {
     console.log(this.ApprovedForm.getRawValue());
