@@ -85,29 +85,29 @@ export const ROUTES: RouteInfo[] = [
   },
 
   // Formulario EF
-  // {
-  //   path: 'admission/',
-  //   title: 'Inscripciones EF',
-  //   iconType: '',
-  //   icon: 'user-check',
-  //   class: 'menu-toggle',
-  //   groupTitle: false,
-  //   badge: '',
-  //   badgeClass: '',
-  //   submenu: [
-  //     {
-  //       path: 'admission/form-ef',
-  //       title: 'BackOffice',
-  //       iconType: '',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       badge: '',
-  //       badgeClass: '',
-  //       submenu: [],
-  //     },
-  //   ],
-  // },
+   {
+     path: 'admission/',
+     title: 'Inscripciones EF',
+     iconType: '',
+     icon: 'user-check',
+     class: 'menu-toggle',
+     groupTitle: false,
+     badge: '',
+     badgeClass: '',
+     submenu: [
+       {
+         path: 'admission/form-ef',
+         title: 'BackOffice',
+         iconType: '',
+         icon: '',
+         class: 'ml-menu',
+         groupTitle: false,
+         badge: '',
+         badgeClass: '',
+         submenu: [],
+       },
+     ],
+   },
 
   //aprobaciones
   {

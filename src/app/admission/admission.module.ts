@@ -202,7 +202,7 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
     FormsStudyModeComponent,
     PlanListInscriptionComponent,
     MeshListInscriptionComponent,
-    PartakerListInscriptionComponent
+    PartakerListInscriptionComponent,
 
     FormsSubjectComponent,
     DegreeDetailsComponent,
