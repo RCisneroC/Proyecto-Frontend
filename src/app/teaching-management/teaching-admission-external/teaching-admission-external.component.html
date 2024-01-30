@@ -10,11 +10,19 @@
                     <div class="row clearfix">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
-                                <div class="header">
-                                Admision docente
-                                </div>
-                                <div class="body">
-                                    <h5><strong>Formulario de Inscripción Docente</strong></h5>
+                          
+                             
+                                
+                                    <div class="row" style="height: auto;">
+                                    <div class="col-12 " style="max-height:auto; text-align-last: center;">
+                                        
+                                            <img src="assets/images/ISJUP.png" style="height: 200px; margin-top: 10px;" /> <br><br>
+                                            <mat-divider style="border: inset;"></mat-divider>
+                                            <h5><strong>Formulario de Inscripción Docente</strong></h5>
+                                    </div>
+                                        
+                                      </div>
+                                   
                                     
                                     <div class="body">
                                         <mat-horizontal-stepper [linear]="false" #stepper>
@@ -155,8 +163,9 @@
                                                             </ng-container>
                                                             
                                                             <ng-container matColumnDef="degreeObtained">
-                                                              <th mat-header-cell *matHeaderCellDef>Titulo obtenido</th>
+                                                              <th mat-header-cell *matHeaderCellDef>Título obtenido</th>
                                                               <td mat-cell *matCellDef="let element">{{ element.degreeObtained }} </td>
+                                                              
                                                           </ng-container>
                                                               
                                                               <ng-container matColumnDef="city">
@@ -238,18 +247,25 @@
                                                     </div>
                                                 </form>
                                             </mat-step>
-                                            <mat-step [formGroup]="FormsEFDocument!">
+                                            <mat-step [stepControl]="FormsEFDocument!">
                                                 <form [formGroup]="FormsEFDocument!">
                                                     <ng-template matStepLabel>Documentos</ng-template>
                                                     <div class="row">
                                                     
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                            <mat-label style="font-weight: bold;">CV</mat-label>
-                                                            <app-file-upload formControlName="CV" ></app-file-upload>
+                                                        <div *ngFor="let item of DataRequiredDocuments; index as i" class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                            <mat-label style="font-weight: bold;">{{ item.name }}</mat-label>
+                                                            <app-file-upload (change)="onFileSelected($event,i,item.documentId)" [formControlName]="item.documentId" ></app-file-upload>
+                                                            <mat-error *ngIf="FormsEFDocument.get(item.documentId.toString())?.hasError('required')">
+                                                                es requerido
+                                                             </mat-error>
                                                         </div>
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                                                        
+                                             
+                                                       
+                                                        
+                                                        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
                                                             <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
-                                                            <app-file-upload formControlName="Photo" ></app-file-upload>
+                                                            <app-file-upload (change)="onFileSelected($event)"  formControlName="Photo" ></app-file-upload>
                                                         </div>
                                                         
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
@@ -261,22 +277,22 @@
                                                             <mat-label style="font-weight: bold;">Titulo</mat-label>
                                                             <app-file-upload formControlName="Title" ></app-file-upload>
                                                         </div>
-                                                        
+                                                         -->
                                                  
                                                         
                                                  
                                                     </div>
                                                     <div>
                                                         <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
-                                                        <button mat-raised-button color="primary"
-                                                            (click)="submit()">Inscribir docente</button>
+                                                        <button mat-raised-button color="primary" [disabled]="!FormsEFDocument.valid" 
+                                                         (click)="submit()">Inscribir docente</button>
                                                     </div>
                                                 </form>
                                                 <!-- [disabled]="!editActivity!.valid" -->
                                             </mat-step>
                                         </mat-horizontal-stepper>
                                     </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

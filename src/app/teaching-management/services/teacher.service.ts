@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Teacher } from '../models/Teacher';
+import { ResponseSaveTeacher, Teacher } from '../models/Teacher';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
+import { RequiredDocument } from '../models/RequiredDocument';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   addUpdateTeacher(teacher: Teacher) {
 
-    return this.httpClient.post(environment.apiUrlTeacher+'Save', teacher);
+    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher+'Save', teacher);
   }
   
  archivo(data :any):Observable<any> {
@@ -76,5 +77,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       catchError((err) => of({ cedulaExists: true, message: err.message })) // Return error object for invalid email
     );
   }
+  
+  getRequiredDocument() {
+ 
+    return this.httpClient.get<RequiredDocument[]>(environment.apiUrlDocument + 'GetAll');
+  }
+  
 
 }

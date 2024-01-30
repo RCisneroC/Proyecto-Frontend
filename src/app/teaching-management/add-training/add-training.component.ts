@@ -23,6 +23,7 @@ export class AddTrainingComponent {
     trainingForm!: UntypedFormGroup;
     training!: Training;
     years = Array(100).fill(null);
+    gradosInstruccion: { id: number; nombre: string; }[];
    
    
     constructor(
@@ -47,7 +48,32 @@ export class AddTrainingComponent {
         this.years[i] = new Date().getFullYear() + i;
       }
     
-      
+      this.gradosInstruccion = [
+        {
+          id: 1,
+          nombre: "Primaria",
+        },
+        {
+          id: 2,
+          nombre: "Secundaria",
+        },
+        {
+          id: 3,
+          nombre: "Técnico",
+        },
+        {
+          id: 4,
+          nombre: "Licenciatura",
+        },
+        {
+          id: 5,
+          nombre: "Maestría",
+        },
+        {
+          id: 6,
+          nombre: "Doctorado",
+        },
+      ];
     }
   
   
