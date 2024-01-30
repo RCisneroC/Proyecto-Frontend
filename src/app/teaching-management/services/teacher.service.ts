@@ -70,6 +70,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post(environment.apiUrlEF + 'GetSubjectsBy',data);
   }
   
+  getActivitiesByCedula(cedula:string) {
+ 
+    return this.httpClient.get(environment.apiUrlEC + 'GetActivitiesBy?TeacherCedula='+cedula);
+  }
+  
   getExisteCedula(cedula :string) {
  
     return this.httpClient.get(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(

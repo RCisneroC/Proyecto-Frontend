@@ -8,6 +8,22 @@
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
+          <div>
+          
+         
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6" style="margin: auto;margin-top: 15px;">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Proceso</mat-label>
+                <!-- <input matInput formControlName="degreeObtained" > -->
+             
+                <mat-select  [(ngModel)]="selectedOption" (selectionChange)="viewTable($event.value)" >
+                  <mat-option  *ngFor="let grado of processList"  [value]="grado.id">{{grado.name}}</mat-option>
+                </mat-select>
+                
+              
+              </mat-form-field>
+            </div>
+          </div>
             <div class="header">
               <h2><strong>Historial docentes</strong></h2>
             </div>
@@ -42,7 +58,7 @@
                         </div>
                         <div class="body overflow-auto">
                           <div class="responsive_table">
-                            <table mat-table [dataSource]="DataSubjects" matSort class="mat-cell advance-table">
+                            <table  *ngIf="view" mat-table [dataSource]="DataSubjects" matSort class="mat-cell advance-table">
                             
                             
                               <ng-container matColumnDef="name">
@@ -81,16 +97,58 @@
                                   <span class="mobile-label">Laboratorio:</span>{{row.hasLaboratory===true?"Si":"No"}}</mat-cell>
                               </ng-container>
                               
-                          
-                              
 
-                              
-                         
-                             
-                             
         
                               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                               <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                [style.cursor]="'pointer'" matRipple>
+                              </mat-row>
+                            </table>
+                            
+                            <table *ngIf="!view" mat-table [dataSource]="DataActivities" matSort class="mat-cell advance-table">
+                            
+                            
+                              <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de actividad
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Nombre de actividad:</span>{{row.name}}</mat-cell>
+                              </ng-container>
+                              
+                               <ng-container matColumnDef="activityModeName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad de la actividad
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Modalidad de la actividad:</span>{{row.activityModeName}}</mat-cell>
+                              </ng-container>
+                          
+  
+                              <ng-container matColumnDef="activityTypeName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de actividad
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Tipo de actividad:</span>{{row.activityTypeName}}</mat-cell>
+                              </ng-container>
+                             
+                              <ng-container matColumnDef="activityLocationName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
+                              </ng-container>
+                              
+                                
+                              <ng-container matColumnDef="isExecuted">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ejecutada
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" >
+                                  <span class="mobile-label">Ejecutada:</span>{{row.isExecuted===true?"Si":"No"}}</mat-cell>
+                              </ng-container>
+                             
+
+        
+                              <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumns2;"
                                 [style.cursor]="'pointer'" matRipple>
                               </mat-row>
                             </table>
