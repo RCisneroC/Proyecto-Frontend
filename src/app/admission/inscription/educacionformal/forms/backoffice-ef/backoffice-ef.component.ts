@@ -28,6 +28,8 @@ import {
 import {MaterialModule} from "@shared";
 import {NgFor, NgIf} from "@angular/common";
 import {Participant} from "../../../../models/participant";
+import {ResponseAddEFcademicInfo} from "../../../../models/AddEFacademicResponse";
+import {el} from "@fullcalendar/core/internal-common";
 
 //-------------Dialog AC----------------------
 @Component({
@@ -234,6 +236,8 @@ export class BackofficeEFComponent implements AfterViewInit {
   personData : any;
   modalityList:any;
   RequirementsDocumentsList:any;
+  inscriptionId: string = "";
+  aspirantId: string = "";
   loadingFile: boolean = false;
   disabled:boolean = false;
  public cedulaParticipant:string="";
@@ -359,11 +363,15 @@ addAspirantEF(){
           next:(data: ResponseInscripcionEF)=>{
             this._inscriptionService._ResponseInscripcionEF = data;
             if (!this._inscriptionService._ResponseInscripcionEF.isError){
-              Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Creado correctamente, siguiente paso: cargar información académica.',
-                icon: "success"
-              });
+              this.inscriptionId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].inscriptionId.toString();
+              this.aspirantId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].aspirantId.toString();
+
+              console.log("Creado correctamente, siguiente paso: cargar información académica.", this.aspirantId);
+              // Swal.fire({
+              //   title: "Escuela Judicial",
+              //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+              //   icon: "success"
+              // });
             }
             else {
               Swal.fire({
@@ -375,6 +383,52 @@ addAspirantEF(){
 
           }
     })
+}
+
+addcademicInfo(){
+  const jsonRequest = {
+    aspirantId:this.aspirantId,
+    academicInformation: {}
+  }
+  let pointer = 1;
+  let jsonItem = "{";
+  const length = this.DataAcademico.length;
+  this.DataAcademico.forEach(function (value){
+    console.log(value);
+    if(pointer != length){
+      jsonItem  += `"additionalProp${pointer}":` + JSON.stringify(value)+',';
+    }
+    else {
+      jsonItem  += `"additionalProp${pointer}":` + JSON.stringify(value);
+    }
+    pointer = pointer +1;
+  })
+  jsonItem += "}";
+  jsonRequest.academicInformation =  JSON.parse(jsonItem);
+
+  console.log("Detalle academico request", jsonRequest);
+  this._inscriptionService.AddEFAcademicInfo(jsonRequest).subscribe({
+    next:(data: ResponseAddEFcademicInfo)=>{
+      this._inscriptionService._ResponseAddEFcademicInfo = data;
+      if (!this._inscriptionService._ResponseAddEFcademicInfo.isError){
+
+        console.log("Creado correctamente, siguiente paso: cargar información Laboral.", this.aspirantId);
+        // Swal.fire({
+        //   title: "Escuela Judicial",
+        //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+        //   icon: "success"
+        // });
+      }
+      else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Aspirante no fue creado correctamente.',
+          icon: "warning"
+        });
+      }
+
+    }
+  })
 }
 
   getPersonData(cedula: string){
@@ -483,6 +537,10 @@ addAspirantEF(){
    console.log(this.FormsEF.value.carreraId);
    this.addAspirantEF();
    this.getRequirementsDocuments(this.FormsEF.value.carreraId);
+  }
+
+  secondNext(){
+   this.addcademicInfo();
   }
 
 }

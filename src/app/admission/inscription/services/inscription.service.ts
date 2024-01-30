@@ -24,6 +24,7 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   public _ResponseInscripcion!: ResponseInscripcion;
   public _ResponseInscripcionEF!: ResponseInscripcionEF;
+  public _ResponseAddEFcademicInfo!: ResponseAddEFcademicInfo;
   public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
