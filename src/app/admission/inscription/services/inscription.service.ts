@@ -13,7 +13,11 @@ import { documentosIncripcion } from 'app/admission/models/documentosIncripcion'
 import { ResponseInscripcionEF } from "../../models/InscripcionEFResponse";
 import { ResponseAddEFcademicInfo } from "../../models/AddEFacademicResponse";
 import { ResponseAddEFlaboralInfo } from "../../models/AddEFlaboralResponse";
-import { InscriptionResponse, ListInscriptionResponse } from 'app/admission/models/ParticipantesEF';
+import {
+  InscriptionResponse,
+  ListAspirantDegreeResponse,
+  ListInscriptionResponse
+} from 'app/admission/models/ParticipantesEF';
 import {Degree, Mesh} from "../../FormalEducations/Models/Degree";
 @Injectable({
   providedIn: 'root'
@@ -222,11 +226,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   getParticipantsEFomalDegreeId(id:number): void {
     this.subs.sink = this.httpClient
-      .get<ListInscriptionResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId='+ id)
+      .get<ListAspirantDegreeResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId='+ id)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChangeParticipantEF.next(data.inscriptionResponse);
+          this.dataChangeParticipantEF.next(data.getAspirantDegreeResult);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;

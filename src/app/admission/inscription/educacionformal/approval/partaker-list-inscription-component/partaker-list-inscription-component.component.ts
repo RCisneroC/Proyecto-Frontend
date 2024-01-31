@@ -161,7 +161,7 @@ export class ExampleDataSource extends DataSource<InscriptionResponse> {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     });
-    this.exampleDatabase.getParticipantsEFomal();
+    this.exampleDatabase.getParticipantsEFomalDegreeId(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

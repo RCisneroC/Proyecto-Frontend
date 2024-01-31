@@ -14,7 +14,7 @@ export class Participant {
     isError: boolean;
     statusCode: number;
 }
-  
+
 
  export interface ApiResponseOne {
     participants: Participant;
@@ -74,4 +74,31 @@ export interface DetailsResponse {
     observation:       string;
     createDate:        Date;
     name:              string;
+}
+
+export interface DetailsParticipanteEF {
+  getDetailsResponse: DetailsResponseEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+export interface DetailsResponseEF {
+  firstName: string,
+  lastName: string,
+  cedula: string,
+  email: string,
+  telephoneNumber: string,
+  gender: string,
+  bloodtype: string,
+  maritalStatus: string,
+  nameOfspouse: string,
+  numberofchildren: number,
+  caseOfemergency: string,
+  telephoneNumberEmergency: string,
+  degreeName: string,
+  durationInYears: number,
+  studyModeName: string,
+  numOfCredits: number,
+  statusName: string
 }

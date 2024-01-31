@@ -10,7 +10,14 @@ import { Cooperating } from '../models/Cooperating';
 import { EditActivity } from '../models/EditActivity';
 import * as CryptoJS from 'crypto-js';
 import { RequestRooms } from '../models/RequestRooms';
-import { ApiResponse, ApiResponseOne, DetailsParticipante, DetailsResponse, Participant } from '../models/participant';
+import {
+  ApiResponse,
+  ApiResponseOne,
+  DetailsParticipante,
+  DetailsParticipanteEF,
+  DetailsResponse, DetailsResponseEF,
+  Participant
+} from '../models/participant';
 @Injectable({
   providedIn: 'root'
 })
@@ -289,6 +296,52 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     name: '',
   };
 
+  public _DetailsParticipanteEF: DetailsParticipanteEF = {
+    isError: false,
+    message: '',
+    statusCode: 0,
+    getDetailsResponse: [
+      {
+        bloodtype: "",
+        caseOfemergency: "",
+        degreeName: "",
+        durationInYears: 0,
+        maritalStatus: "",
+        nameOfspouse: "",
+        numOfCredits: 0,
+        numberofchildren: 0,
+        statusName: "",
+        studyModeName: "",
+        telephoneNumber: "",
+        telephoneNumberEmergency: "",
+        firstName: '',
+        lastName: '',
+        gender: '',
+        cedula: '',
+        email: ''
+      }
+    ]
+  }
+  public _DetailsResponseEF: DetailsResponseEF = {
+    bloodtype: "",
+    caseOfemergency: "",
+    degreeName: "",
+    durationInYears: 0,
+    maritalStatus: "",
+    nameOfspouse: "",
+    numOfCredits: 0,
+    numberofchildren: 0,
+    statusName: "",
+    studyModeName: "",
+    telephoneNumber: "",
+    telephoneNumberEmergency: "",
+    firstName: '',
+    lastName: '',
+    gender: '',
+    cedula: '',
+    email: ''
+  };
+
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
   isTblLoading = true;
@@ -470,6 +523,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
 
   GetDetailsCedula(cedula: any) {
     return this.httpClient.get<DetailsParticipante>(environment.apiEC + 'GetData/GetDetail?cedula=' + cedula);
+  }
+
+  GetDetailsEFCedula(cedula: any) {
+    return this.httpClient.get<DetailsParticipanteEF>(environment.apiEC + 'EFInscription/EFDetails?cedula=' + cedula);
   }
 
   encryptData(data: string, secretKey: string): string {
