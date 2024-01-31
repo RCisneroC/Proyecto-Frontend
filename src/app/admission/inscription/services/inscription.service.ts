@@ -219,6 +219,21 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  getParticipantsEFomalDegreeId(id:number): void {
+    this.subs.sink = this.httpClient
+      .get<ListInscriptionResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId='+ id)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChangeParticipantEF.next(data.inscriptionResponse);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
   ApproveParticipant(data: any) {
     return this.httpClient.post(environment.apiEC + 'EFInscription/AddAcceptanceRejection', data);
   }
