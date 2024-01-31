@@ -78,7 +78,7 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
       .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id);
   }
 
-  getMeshCurriculumdesingByPlan(id: string): void {
+  getMeshCurriculumdesingByPlan(id: number): void {
     this.subs.sink = this.httpClient
       .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id)
       .subscribe({
