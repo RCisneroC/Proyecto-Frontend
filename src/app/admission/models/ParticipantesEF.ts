@@ -18,3 +18,11 @@ export interface InscriptionResponse {
     degreeId: number;
     status: string;
 }
+
+
+export interface ListAspirantDegreeResponse {
+  getAspirantDegreeResult: InscriptionResponse[];
+  message: string;
+  isError: boolean;
+  statusCode: number;
+}
