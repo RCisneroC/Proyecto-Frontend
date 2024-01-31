@@ -5,7 +5,7 @@ import {Degree, Mesh} from "../../../../FormalEducations/Models/Degree";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -46,6 +46,7 @@ export class MeshListInscriptionComponent extends UnsubscribeOnDestroyAdapter
     public dialog: MatDialog,
     public _MeshService: InscriptionService,
     private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
     private _router: Router
   ) {
     super();
@@ -58,6 +59,9 @@ export class MeshListInscriptionComponent extends UnsubscribeOnDestroyAdapter
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+    })
   }
   refresh() {
     this.loadData();
@@ -112,6 +116,7 @@ export class MeshListInscriptionComponent extends UnsubscribeOnDestroyAdapter
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
+      this.activatedRoute,
       this.sort
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
@@ -153,6 +158,7 @@ export class MeshListInscriptionComponent extends UnsubscribeOnDestroyAdapter
 
 export class ExampleDataSource extends DataSource<Mesh> {
   filterChange = new BehaviorSubject('');
+  id!: number;
   get filter(): string {
     return this.filterChange.value;
   }
@@ -164,6 +170,7 @@ export class ExampleDataSource extends DataSource<Mesh> {
   constructor(
     public exampleDatabase: InscriptionService,
     public paginator: MatPaginator,
+    public activatedRoute: ActivatedRoute,
     public _sort: MatSort
   ) {
     super();
@@ -179,7 +186,10 @@ export class ExampleDataSource extends DataSource<Mesh> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getMeshCurriculumdesingByPlan('7');
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+    this.exampleDatabase.getMeshCurriculumdesingByPlan(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
