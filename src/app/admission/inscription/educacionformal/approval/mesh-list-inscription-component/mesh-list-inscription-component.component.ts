@@ -63,10 +63,11 @@ export class MeshListInscriptionComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  detalle(row: Degree) {
+  detalle(row: Mesh) {
 
     localStorage.setItem('url_detalle', '/admission/approved-degree');
-    this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
+    this._router.navigate(['/admission/list-inscriptions-partaker']);
+    //this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
 
   }
 
