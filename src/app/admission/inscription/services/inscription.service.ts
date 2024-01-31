@@ -14,6 +14,7 @@ import { ResponseInscripcionEF } from "../../models/InscripcionEFResponse";
 import { ResponseAddEFcademicInfo } from "../../models/AddEFacademicResponse";
 import { ResponseAddEFlaboralInfo } from "../../models/AddEFlaboralResponse";
 import { InscriptionResponse, ListInscriptionResponse } from 'app/admission/models/ParticipantesEF';
+import {Degree, Mesh} from "../../FormalEducations/Models/Degree";
 @Injectable({
   providedIn: 'root'
 })
@@ -27,9 +28,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   public _ResponseInscripcionEF!: ResponseInscripcionEF;
   public _ResponseAddEFcademicInfo!: ResponseAddEFcademicInfo;
   public _ResponseAddEFlaboralInfo!: ResponseAddEFlaboralInfo;
+  public _Mesh!: Mesh;
   public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
+  dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
 
@@ -37,6 +40,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   public _documentosIncripcion!: documentosIncripcion;
   get data(): Participant[] {
     return this.dataChange.value || [];
+  }
+  get dataMesh(): Mesh[] {
+    return this.dataChangeMesh.value || [];
   }
   get dataParticipantActivity(): GetDataResultResponse[] {
     return this.dataChangeParticipant.value || [];
@@ -69,7 +75,23 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   }
   getDegreeCurriculumdesingByPlan(id: string) {
     return this.httpClient
-      .get<any>(environment.ConsultaMallaCurrcularByPlan + id);
+      .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id);
+  }
+
+  getMeshCurriculumdesingByPlan(id: string): void {
+    this.subs.sink = this.httpClient
+      .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeMesh.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
   }
 
   getActivities(id: string) {
