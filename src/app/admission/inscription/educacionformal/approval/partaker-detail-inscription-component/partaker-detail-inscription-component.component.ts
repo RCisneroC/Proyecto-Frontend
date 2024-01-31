@@ -70,12 +70,12 @@ export class PartakerDetailInscriptionComponent {
       this.getDetails();
       this.getOneActivity();
     } else {
-      this._router.navigate([localStorage.getItem('url')]);
+      this._router.navigate([localStorage.getItem('url_list_partaker')]);
     }
   }
 
   volverAtras() {
-    this._router.navigate([localStorage.getItem('url')]);
+    this._router.navigate([localStorage.getItem('url_list_partaker')]);
   }
   getDetails() {
     this._ActivityService.loading = true;

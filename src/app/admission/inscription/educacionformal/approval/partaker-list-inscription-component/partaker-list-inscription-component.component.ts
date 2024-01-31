@@ -85,8 +85,9 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     );
   }
 
-  ViewDetail(user: InscriptionResponse) {
-
+  ViewDetail(row: InscriptionResponse) {
+    localStorage.setItem('url_list_partaker', '/admission/list-inscriptions-partaker/'+ this.id);
+    this._router.navigate(['/admission/detail-inscriptions-partaker/'+ row.cedula]);
   }
   aprobar(user: InscriptionResponse) {
     const dialogRef = this._dialog.open(ApprovalIncriptionComponent, {
