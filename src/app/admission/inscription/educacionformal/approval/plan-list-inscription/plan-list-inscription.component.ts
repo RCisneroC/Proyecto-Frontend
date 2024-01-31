@@ -86,7 +86,7 @@ export class PlanListInscriptionComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   ViewDegree(row: AnnualPlan) {
-    this._router.navigate(['/admission/AnnualPlan/' + row.id]);
+    this._router.navigate(['/admission/list-inscriptions-mesh/' + row.id]);
     localStorage.setItem('url', '/admission/approved-annualplan');
   }
 
