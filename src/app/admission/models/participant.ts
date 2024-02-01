@@ -102,3 +102,34 @@ export interface DetailsResponseEF {
   numOfCredits: number,
   statusName: string
 }
+
+
+export interface AcadInfoResponseEF {
+  inscriptionResponse: AcadInfoEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+
+export interface  AcadInfoEF {
+  institutionOfeducation: string,
+  program: string,
+  obtainedTitle: string,
+  year: number
+}
+
+export interface ExperienceInfoResponseEF {
+  experienceInfoResponse: ExperienceInfoEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+
+export interface  ExperienceInfoEF {
+  entidad: string,
+  position: string,
+  period: string,
+  months: string
+}

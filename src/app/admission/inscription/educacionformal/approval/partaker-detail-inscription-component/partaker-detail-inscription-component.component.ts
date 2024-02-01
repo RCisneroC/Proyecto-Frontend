@@ -1,5 +1,10 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import { DetailsParticipanteEF, GetDataResultResponse} from "../../../../models/participant";
+import {
+  AcadInfoEF,
+  DetailsParticipanteEF,
+  ExperienceInfoEF,
+  GetDataResultResponse
+} from "../../../../models/participant";
 import {ActivityActivityRequirement, ActivityRequirement, GetOneActivity} from "../../../../models/GetOneActivity";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -30,6 +35,20 @@ export class PartakerDetailInscriptionComponent {
     'actualizar',
     'documentacion'
   ];
+
+  DisplayNameAcadInfo: string[] = [
+    'Institucion',
+    'Programa',
+    'Título',
+    'Años',
+  ];
+
+  DisplayNameExperienceInfo: string[] = [
+    'Entidad',
+    'Posición',
+    'Período',
+    'Meses',
+  ];
   oadingFile: boolean = false;
   public _GetDataResultResponse: GetDataResultResponse = {
     inscriptionId: 0,
@@ -49,12 +68,40 @@ export class PartakerDetailInscriptionComponent {
     }
   ];
 
+  dataSourceAcadInfo: AcadInfoEF[] = [{
+      institutionOfeducation: '',
+      program: '',
+      obtainedTitle: '',
+      year: 0
+
+  }]
+
+  dataSourceExperienceInfo: ExperienceInfoEF[] = [{
+    entidad: '',
+    position: '',
+    period: '',
+    months: ''
+  }]
+
   loadingFile: boolean = false;
+  dataAcadInfo= new  MatTableDataSource<AcadInfoEF>(this.dataSourceAcadInfo);
+  dataExperienceInfo= new  MatTableDataSource<ExperienceInfoEF>(this.dataSourceExperienceInfo);
   dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
     this.dataDocuments.paginator = value;
   }
+
+  @ViewChild('ListaAcadInfo')
+  set paginatorAcadInfo(value: MatPaginator) {
+    this.dataAcadInfo.paginator = value;
+  }
+
+  @ViewChild('ListaExperienceInfo')
+  set paginatorExperienceInfo(value: MatPaginator) {
+    this.dataExperienceInfo.paginator = value;
+  }
+
 
   constructor(
     private Path: ActivatedRoute,
@@ -69,6 +116,8 @@ export class PartakerDetailInscriptionComponent {
     if (this.paramsId != null) {
       this.getDetails();
       this.getOneActivity();
+      this.getAcadInfo();
+      this.getExperiencenfo();
     } else {
       this._router.navigate([localStorage.getItem('url_list_partaker')]);
     }
@@ -77,6 +126,31 @@ export class PartakerDetailInscriptionComponent {
   volverAtras() {
     this._router.navigate([localStorage.getItem('url_list_partaker')]);
   }
+
+  getAcadInfo(){
+    this._inscriptionService.GetAcadInfoEF(this.paramsId).subscribe({
+      next:(res)=>{
+        this.dataAcadInfo = new MatTableDataSource<AcadInfoEF>(res.inscriptionResponse);
+      },
+      error: (err) => {
+        console.log(err);
+
+      }
+    })
+  }
+
+  getExperiencenfo(){
+    this._inscriptionService.GetExperienceInfoEF(this.paramsId).subscribe({
+      next:(res)=>{
+        this.dataExperienceInfo = new MatTableDataSource<ExperienceInfoEF>(res.experienceInfoResponse);
+      },
+      error: (err) => {
+        console.log(err);
+
+      }
+    })
+  }
+
   getDetails() {
     this._ActivityService.loading = true;
     this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
