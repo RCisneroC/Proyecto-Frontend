@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.development';
 import { Observable, of } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Participant, ApiResponse, ParticipantActivity, GetDataResultResponse } from '../../models/participant';
+import {
+  Participant,
+  ApiResponse,
+  ParticipantActivity,
+  GetDataResultResponse,
+  AcadInfoResponseEF, ExperienceInfoResponseEF
+} from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
@@ -19,6 +25,7 @@ import {
   ListInscriptionResponse
 } from 'app/admission/models/ParticipantesEF';
 import {Degree, Mesh} from "../../FormalEducations/Models/Degree";
+import {Period} from "../../FormalEducations/Models/AnnualPlan";
 @Injectable({
   providedIn: 'root'
 })
@@ -80,6 +87,18 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   getDegreeCurriculumdesingByPlan(id: string) {
     return this.httpClient
       .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id);
+  }
+
+  GetAcadInfoEF(id: any) {
+    return this.httpClient.get<AcadInfoResponseEF>(
+      environment.apiEC + 'EFInscription/AcadInfo?Cedula=' + id
+    );
+  }
+
+  GetExperienceInfoEF(id: any) {
+    return this.httpClient.get<ExperienceInfoResponseEF>(
+      environment.apiEC + 'EFInscription/ExperienceInfo?Cedula=' + id
+    );
   }
 
   getMeshCurriculumdesingByPlan(id: number): void {
