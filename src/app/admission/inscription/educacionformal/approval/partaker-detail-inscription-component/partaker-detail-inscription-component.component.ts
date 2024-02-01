@@ -206,6 +206,7 @@ export class PartakerDetailInscriptionComponent {
 
   aprobar() {
     const item = localStorage.getItem('userItem');
+    localStorage.removeItem('userItem');
     if (item != null){
       const user: InscriptionResponse = JSON.parse(item);
 
