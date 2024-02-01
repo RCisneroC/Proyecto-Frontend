@@ -29,8 +29,8 @@
                                     <mat-label>Estado</mat-label>
                                     <mat-select formControlName="statusId">
                                         <mat-option value="">.........</mat-option>
-                                        <mat-option value="1">Aprobar</mat-option>
-                                        <mat-option value="2">Rechazar</mat-option>
+                                        <mat-option value=4>Aprobar</mat-option>
+                                        <mat-option value=5>Rechazar</mat-option>
                                     </mat-select>
                                     <mat-error *ngIf="ApprovedForm.get('statusId')?.hasError('required')">
                                         la Estado es requerido
