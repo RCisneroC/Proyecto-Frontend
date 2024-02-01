@@ -21,6 +21,8 @@ import Swal from "sweetalert2";
 import {Requirement} from "../../../../models/Requeriminet";
 import {ViewPosterComponent} from "../../../../activitydetail/forms/view-poster/view-poster.component";
 import {ViewPosterPDFComponent} from "../../../../activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {InscriptionResponse} from "../../../../models/ParticipantesEF";
+import {ApprovalIncriptionComponent} from "../approval-incription/approval-incription.component";
 
 @Component({
   selector: 'app-partaker-detail-inscription-component',
@@ -167,7 +169,7 @@ export class PartakerDetailInscriptionComponent {
     })
   }
 
-  aprobar() {
+  aprobarOld() {
     this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.cedula; //cedula
     this._GetDataResultResponse.inscriptionId = 0; //cedula
     this._GetDataResultResponse.activityName = this._ActivityService._DetailsResponse.name; //cedula
@@ -200,6 +202,43 @@ export class PartakerDetailInscriptionComponent {
         });
       }
     });
+  }
+
+  aprobar() {
+    const item = localStorage.getItem('userItem');
+    if (item != null){
+      const user: InscriptionResponse = JSON.parse(item);
+
+      const dialogRef = this._dialog.open(ApprovalIncriptionComponent, {
+        data: {
+          participant: user,
+          accion: 'approved',
+        },
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+        if (result == undefined) {
+          return;
+        }
+        if (result.CodError == 200) {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "success"
+          });
+          this.getDetails();
+        } else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: result.Message,
+            icon: "warning"
+          });
+        }
+      });
+    }
+
+
   }
 
   getOneActivity() {
