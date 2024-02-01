@@ -261,6 +261,10 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post(environment.apiEC + 'EFInscription/AddAcceptanceRejection', data);
   }
 
+  AssignParticipant(data: any) {
+    return this.httpClient.post(environment.apiEC + 'EFInscription/Addassignment', data);
+  }
+
   init_ResponseInscripcion() {
     this._ResponseInscripcion = {
       backOffice: 0,

@@ -23,6 +23,8 @@ import {ViewPosterComponent} from "../../../../activitydetail/forms/view-poster/
 import {ViewPosterPDFComponent} from "../../../../activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 import {InscriptionResponse} from "../../../../models/ParticipantesEF";
 import {ApprovalIncriptionComponent} from "../approval-incription/approval-incription.component";
+import {AuthService} from "@core";
+import {co} from "@fullcalendar/core/internal-common";
 
 @Component({
   selector: 'app-partaker-detail-inscription-component',
@@ -112,7 +114,8 @@ export class PartakerDetailInscriptionComponent {
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
     public elm: ElementRef,
-    private _inscriptionService: InscriptionService
+    private _inscriptionService: InscriptionService,
+    private authService: AuthService
   ) {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
@@ -120,6 +123,7 @@ export class PartakerDetailInscriptionComponent {
       this.getOneActivity();
       this.getAcadInfo();
       this.getExperiencenfo();
+      this.makeAutoAssigment();
     } else {
       this._router.navigate([localStorage.getItem('url_list_partaker')]);
     }
@@ -151,6 +155,29 @@ export class PartakerDetailInscriptionComponent {
 
       }
     })
+  }
+
+  makeAutoAssigment(){
+    const item = localStorage.getItem('userItem');
+    if (item != null){
+      const UserItem: InscriptionResponse = JSON.parse(item);
+      const User = this.authService.currentUserValue;
+      const ReuestObj = {
+        aspNetUsersId: User.id,
+        inscriptionId: UserItem.inscriptionId,
+        createdBy: User.id
+      }
+      this._inscriptionService.AssignParticipant(ReuestObj).subscribe({
+        next:(res)=>{
+          console.log(res);
+        },
+        error: (err) => {
+          console.log(err);
+
+        }
+      })
+    }
+
   }
 
   getDetails() {
