@@ -84,7 +84,7 @@ export class PartakerDetailInscriptionComponent {
         this._ActivityService._DetailsParticipanteEF = res;
         console.log(res);
         if (res.getDetailsResponse.length > 0) {
-          this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
         }
         this._ActivityService.loading = false;
       },
