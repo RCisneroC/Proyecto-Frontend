@@ -68,19 +68,18 @@
                             }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="FechaInicio">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Duración en años
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Inicio
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Duración en años:</span>{{
-                              row.startDate }}</mat-cell>
+                            <span class="mobile-label">Fecha de Inicio :</span>{{
+                              row.startDate | date:'dd/M/yyyy'  }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="FechaFin">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad de
-                            Créditos
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de fin
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Cantidad de Créditos:</span>{{
-                              row.endDate }}</mat-cell>
+                            <span class="mobile-label">Fecha de fin:</span>{{
+                              row.endDate | date:'dd/M/yyyy'  }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="statusId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
