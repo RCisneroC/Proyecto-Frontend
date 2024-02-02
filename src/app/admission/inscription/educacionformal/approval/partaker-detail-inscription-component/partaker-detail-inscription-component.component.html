@@ -97,7 +97,7 @@
             <div class="row">
               <div class="example-button-row">
                 <div class="col-12">
-                  <button [disabled]="_ActivityService._DetailsResponseEF.statusName == 'Activo'" matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
+                  <button [disabled]="_ActivityService._DetailsResponseEF.statusName != 'En Proceso'" matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
                     <mat-icon>check</mat-icon> Aprobar / Rechazar
                   </button>
                 </div>
