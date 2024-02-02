@@ -28,7 +28,7 @@
                                                         class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>search</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -47,7 +47,7 @@
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -58,7 +58,7 @@
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -70,12 +70,11 @@
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
                                                         *ngIf="FormsEF.get('secondsurname')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
@@ -85,7 +84,7 @@
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
                                                         *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -100,7 +99,7 @@
                                                     <mat-datepicker #fechaNacimiento></mat-datepicker>
                                                     <mat-error
                                                         *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -114,12 +113,11 @@
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
                                                         *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
@@ -128,7 +126,7 @@
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
@@ -142,29 +140,195 @@
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
                                                         *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
-                                                        Es Requitos
+                                                      Requerido
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
 
-                                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                                <mat-form-field class="example-full-width" appearance="outline">
-                                                    <mat-label>Programa a académico al que se presenta</mat-label>
-                                                    <mat-select formControlName="carreraId">
-                                                        <!-- <mat-option *ngFor="let row of modalityList"
-                                                            [value]="row.id">{{row.name}}</mat-option> -->
-                                                    </mat-select>
-                                                    <!--<mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
-                                                        la modalidad es requerida
-                                                    </mat-error> -->
-                                                    <mat-error
-                                                        *ngIf="FormsEF.get('planningDate')?.hasError('required')">
-                                                        Es Requitos
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Sexo</mat-label>
+                                              <mat-select formControlName="gender">
+                                                <mat-option value="Femenino">Femenino</mat-option>
+                                                <mat-option value="Masculino">Masculino</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="FormsEF.get('gender')?.hasError('required')">
+                                                Requerido
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
+
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width " appearance="outline">
+                                            <mat-label>Tipo de sangre</mat-label>
+                                            <input matInput formControlName="bloodtype" [readonly]="false">
+                                            <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                      matSuffix>edit</mat-icon>
+                                            <mat-error *ngIf="FormsEF.get('bloodtype')?.hasError('required')">
+                                              Requerido
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Estado Civil</mat-label>
+                                              <mat-select formControlName="maritalStatus">
+                                                <mat-option value="Soltero">Soltero(a)</mat-option>
+                                                <mat-option value="Casado">Casado(a)</mat-option>
+                                                <mat-option value="Viudo">Viudo(a)</mat-option>
+                                                <mat-option value="Divorciado">Divorciado(a)</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="FormsEF.get('maritalStatus')?.hasError('required')">
+                                                Requerido
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width " appearance="outline">
+                                            <mat-label>Nombre del cónyuge</mat-label>
+                                            <input matInput formControlName="nameOfspouse" [readonly]="false">
+                                            <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                      matSuffix>edit</mat-icon>
+                                          </mat-form-field>
                                         </div>
 
+                                      </div>
+                                        <div class="row">
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>No. de hijos </mat-label>
+                                              <input matInput formControlName="numberofchildren" [readonly]="false">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>En caso de emergencia avisar a</mat-label>
+                                              <input matInput formControlName="caseOfemergency" [readonly]="false">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                              <mat-error *ngIf="FormsEF.get('caseOfemergency')?.hasError('required')">
+                                                Requerido
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>Número residencial y/o celular (emergencia)</mat-label>
+                                              <input matInput formControlName="telephoneNumberEmergency" [readonly]="false">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                              <mat-error *ngIf="FormsEF.get('telephoneNumberEmergency')?.hasError('required')">
+                                                Requerido
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                          <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Programa a académico al que se presenta</mat-label>
+                                            <mat-select formControlName="degreeId">
+                                              <mat-option *ngFor="let row of meshList"
+                                                          [value]="row.id">{{row.name}}</mat-option>
+                                            </mat-select>
+                                            <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
+                                                 la modalidad es requerida
+                                             </mat-error> -->
+                                            <mat-error
+                                              *ngIf="FormsEF.get('degreeId')?.hasError('required')">
+                                              Requerido
+                                            </mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                      </div>
+                                        <div class="row">
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Posee alguna capacidad diferente</mat-label>
+                                              <mat-select formControlName="specialCapacity">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="FormsEF.get('specialCapacity')?.hasError('required')">
+                                                Requerido
+                                              </mat-error>
+                                            </mat-form-field>
+                                          </div>
+                                      </div>
+                                        <div *ngIf="FormsEF.value.specialCapacity === 'True'" class="row">
+                                          <h5 class="text-uppercase"><strong>CAPACIDADES ESPECIALES</strong></h5>
+                                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Visual</mat-label>
+                                              <mat-select formControlName="visual">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Auditiva</mat-label>
+                                              <mat-select formControlName="auditory">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Cognitiva</mat-label>
+                                              <mat-select formControlName="cognitive">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Física</mat-label>
+                                              <mat-select formControlName="physical">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+
+                                        </div>
+                                        <div *ngIf="FormsEF.value.specialCapacity === 'True'" class="row">
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>Describa la misma</mat-label>
+                                              <input matInput formControlName="specific" [readonly]="false">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                            <mat-form-field class="example-full-width " appearance="outline">
+                                              <mat-label>Otra</mat-label>
+                                              <input matInput formControlName="others" [readonly]="false">
+                                              <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                              <mat-label>Utilización de silla de ruedas</mat-label>
+                                              <mat-select formControlName="usesAwheelchair">
+                                                <mat-option value=True>Si</mat-option>
+                                                <mat-option value=False>No</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                        </div>
                                         <div>
                                             <button [disabled]="!FormsEF!.valid" mat-raised-button matStepperNext
                                                 color="primary">Siguiente</button>

@@ -19,6 +19,7 @@ export class InscriptionFormsExternalComponent {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  meshList: any;
   activities: any[] = [];
   schedule: any[] = [];
   disabled: boolean = false;
@@ -38,6 +39,7 @@ export class InscriptionFormsExternalComponent {
   idActivity: any;
   cedulaParticipant: string = "";
   loadingFile: boolean = false;
+  planId:string = "";
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
@@ -48,11 +50,51 @@ export class InscriptionFormsExternalComponent {
     private http: HttpClient,
     public _router: Router,
     public elm: ElementRef,
-    private _inscriptionService: InscriptionService
+    private activatedRoute: ActivatedRoute,
+    private _inscriptionService: InscriptionService,
   ) {
     this.FormsEF = this.fb.group({
-
+      cedula: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      secondsurname: ['', [Validators.required]],
+      placeOfBirth: ['', [Validators.required]],
+      dateOfBirth: ['', [Validators.required]],
+      residentialAddress: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      telephoneNumber: ['', [Validators.required]],
+      degreeId: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      bloodtype: ['', [Validators.required]],
+      maritalStatus: ['', [Validators.required]],
+      nameOfspouse: [''],
+      numberofchildren: [''],
+      caseOfemergency: ['', [Validators.required]],
+      telephoneNumberEmergency: ['', [Validators.required]],
+      specialCapacity: [false, [Validators.required]],
+      visual: [false],
+      auditory: [false],
+      cognitive: [false],
+      physical: [false],
+      specific: [''],
+      others: [''],
+      usesAwheelchair: [false],
     });
+  }
+
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((params) => {
+      this.planId = params['id'];
+      this.loadMeshList(this.planId);
+    })
+  }
+
+  loadMeshList(id: string) {
+    this._inscriptionService.getDegreeCurriculumdesingByPlan(id).subscribe({
+      next: (data) => {
+        this.meshList = data;
+      }
+    })
   }
 
   getPersonData(cedula: string) {
