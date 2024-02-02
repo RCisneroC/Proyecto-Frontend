@@ -85,6 +85,10 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     );
   }
 
+  volverAtras() {
+    this._router.navigate([localStorage.getItem('url_mesh')]);
+  }
+
   ViewDetail(row: InscriptionResponse) {
     localStorage.setItem('url_list_partaker', '/admission/list-inscriptions-partaker/'+ this.id);
     const UserItem  = JSON.stringify(row);
