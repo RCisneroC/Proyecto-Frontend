@@ -22,22 +22,25 @@
           <div class="body" *ngIf="_ActivityService.loading==false">
             <div class="row">
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                <h6>Nombre / Apellido</h6>
-                <label for="">{{ _ActivityService._DetailsResponseEF.firstName }} {{ _ActivityService._DetailsResponseEF.lastName }}
+                <h6>Nombres</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.firstName }}
                 </label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                <h6>Género</h6>
+                <h6>Primer Apellido</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.lastName }}
+                </label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Segundo Apellido</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.secondsurname }}
+                </label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Sexo</h6>
                 <label for="">{{ _ActivityService._DetailsResponseEF.gender }}</label>
               </div>
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                <h6>Malla Curricular</h6>
-                <label for="">{{ _ActivityService._DetailsResponseEF.degreeName }}</label>
-              </div>
-              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                <h6>Duración en años </h6>
-                <label for="">{{ _ActivityService._DetailsResponseEF.durationInYears }}</label>
-              </div>
+
             </div>
 
             <div class="row">
@@ -46,8 +49,26 @@
                 <label for="">{{ _ActivityService._DetailsResponseEF.bloodtype }}</label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
-                <h6>Estado Matrimonial</h6>
+                <h6>Estado civil</h6>
                 <label for="">{{ _ActivityService._DetailsResponseEF.maritalStatus }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Nombre del cónyuge</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.nameOfspouse }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>No. de hijos </h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.numberofchildren }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Malla Curricular</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.degreeName }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Duración en años </h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.durationInYears }}</label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Modalidad</h6>
@@ -59,12 +80,83 @@
               </div>
             </div>
             <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>En caso de emergencia avisar a</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.caseOfemergency }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Número residencial y/o celular </h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.telephoneNumberEmergency }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Posee alguna capacidad diferente</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.specialCapacity" for="">Si</label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.specialCapacity" for="">No</label>
+              </div>
+            </div>
+            <div class="row">
               <div class="example-button-row">
                 <div class="col-12">
                   <button [disabled]="_ActivityService._DetailsResponseEF.statusName == 'Activo'" matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
                     <mat-icon>check</mat-icon> Aprobar / Rechazar
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+        </div>
+        <div *ngIf="_ActivityService._DetailsResponseEF.specialCapacity" class="card">
+          <div #imageElement class="header" *ngIf="_ActivityService.loading==false">
+            <h2 class="text-uppercase">CAPACIDADES ESPECIALES</h2>
+          </div>
+          <div class="body" *ngIf="_ActivityService.loading==false">
+            <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Visual</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.visual" for="">Si
+                </label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.visual" for="">No
+                </label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Auditiva</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.auditory" for="">Si
+                </label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.auditory" for="">No
+                </label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Cognitiva</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.cognitive" for="">Si
+                </label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.cognitive" for="">No
+                </label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Física</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.physical" for="">Si
+                </label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.physical" for="">No
+                </label>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Utilización de silla de ruedas</h6>
+                <label *ngIf="_ActivityService._DetailsResponseEF.usesAwheelchair" for="">Si</label>
+                <label *ngIf="!_ActivityService._DetailsResponseEF.usesAwheelchair" for="">No</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Otra</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.others }}</label>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Describa la misma</h6>
+                <label for="">{{ _ActivityService._DetailsResponseEF.specific }}</label>
               </div>
             </div>
           </div>

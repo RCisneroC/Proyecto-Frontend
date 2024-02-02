@@ -86,6 +86,7 @@ export interface DetailsParticipanteEF {
 export interface DetailsResponseEF {
   firstName: string,
   lastName: string,
+  secondsurname: string,
   cedula: string,
   email: string,
   telephoneNumber: string,
@@ -96,11 +97,19 @@ export interface DetailsResponseEF {
   numberofchildren: number,
   caseOfemergency: string,
   telephoneNumberEmergency: string,
+  specialCapacity: string,
   degreeName: string,
   durationInYears: number,
   studyModeName: string,
   numOfCredits: number,
-  statusName: string
+  statusName: string,
+  visual: boolean,
+  auditory: boolean,
+  cognitive: boolean,
+  physical: boolean,
+  usesAwheelchair:boolean,
+  others: string,
+  specific:string
 }
 
 
