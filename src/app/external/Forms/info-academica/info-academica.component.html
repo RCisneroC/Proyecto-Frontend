@@ -15,19 +15,6 @@
     <form class="register-form m-4" [formGroup]="modalityACForm" (ngSubmit)="submit">
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width " appearance="outline">
-            <mat-label>Nivel</mat-label>
-            <mat-select [ngModel]="DetalleAC.educationalLevelId" formControlName="educationalLevelId">
-              <mat-option *ngFor="let row of educationlevelList" [value]="row.id">{{row.name}}</mat-option>
-
-            </mat-select>
-            <mat-error *ngIf="modalityACForm.get('educationalLevelId')?.hasError('required')">
-              Campo requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Institución</mat-label>
             <input [ngModel]="DetalleAC.institution" matInput formControlName="institution">
@@ -36,47 +23,32 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
-      <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Ciudad</mat-label>
-            <input [ngModel]="DetalleAC.city" matInput formControlName="city">
-            <mat-error *ngIf="modalityACForm.get('city')?.hasError('required')">
-              Campo requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Fecha Culminación</mat-label>
-            <input [ngModel]="DetalleAC.completionDate" matInput [matDatepicker]="completionDate" formControlName="completionDate">
-            <mat-datepicker-toggle matSuffix [for]="completionDate"></mat-datepicker-toggle>
-            <mat-datepicker #completionDate></mat-datepicker>
-            <mat-error *ngIf="modalityACForm.get('completionDate')?.hasError('required')">
+            <mat-label>Programa</mat-label>
+            <input [ngModel]="DetalleAC.program" matInput formControlName="program">
+            <mat-error *ngIf="modalityACForm.get('program')?.hasError('required')">
               Campo requerido
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Fecha Grado</mat-label>
-            <input [ngModel]="DetalleAC.startDate" matInput [matDatepicker]="startDate" formControlName="startDate">
-            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-            <mat-datepicker #startDate></mat-datepicker>
-            <mat-error *ngIf="modalityACForm.get('startDate')?.hasError('required')">
-              Campo requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Titulo Obtenido</mat-label>
             <input [ngModel]="DetalleAC.obtainedTitle" matInput formControlName="obtainedTitle">
             <mat-error *ngIf="modalityACForm.get('obtainedTitle')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>AÑO</mat-label>
+            <input [ngModel]="DetalleAC.year" matInput formControlName="year">
+            <mat-error *ngIf="modalityACForm.get('year')?.hasError('required')">
               Campo requerido
             </mat-error>
           </mat-form-field>

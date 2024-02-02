@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {DetalleAcademico} from "../../../admission/models/DetalleAcademico";
+import {DetalleAcademico, DetalleAcademicoExt} from "../../../admission/models/DetalleAcademico";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {InscriptionService} from "../../../admission/inscription/services/inscription.service";
 
@@ -11,24 +11,17 @@ import {InscriptionService} from "../../../admission/inscription/services/inscri
 })
 export class InfoAcademicaComponent {
   public modalityACForm: UntypedFormGroup;
-  public modalityAC: DetalleAcademico = {
-    educationalLevelId: 0,
-    obtainedTitle: "",
-    institution: "",
-    city: "",
-    completionDate: new Date(),
-    startDate: new Date(),
-    academicInstitutionId: 0
+  public modalityAC: DetalleAcademicoExt = {
+    obtainedTitle:"",
+    institution:"",
+    program:"",
+    year:0
   }
   DetalleAC = {
-    cedula: "",
-    educationalLevelId: 0,
-    obtainedTitle: "",
-    institution: "",
-    city: "",
-    completionDate: "",
-    startDate: "",
-    academicInstitutionId: 0
+    obtainedTitle:"",
+    institution:"",
+    program:"",
+    year:0
   }
   educationlevelList: any;
 
@@ -44,13 +37,10 @@ export class InfoAcademicaComponent {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      educationalLevelId: [this.modalityAC.educationalLevelId, [Validators.required]],
       obtainedTitle: [this.modalityAC.obtainedTitle, [Validators.required]],
       institution: [this.modalityAC.institution, [Validators.required]],
-      city: [this.modalityAC.city, [Validators.required]],
-      completionDate: [this.modalityAC.completionDate, [Validators.required]],
-      startDate: [this.modalityAC.startDate, [Validators.required]],
-      academicInstitution: [this.modalityAC.institution],
+      program: [this.modalityAC.program, [Validators.required]],
+      year: [this.modalityAC.year,[Validators.required]],
     });
   }
 
@@ -63,19 +53,10 @@ export class InfoAcademicaComponent {
   }
 
 
-
-  getEducationLevel() {
-    this._inscriptionService.getEducationLevel().subscribe({
-      next: (data) => {
-        console.log("Educationlevel loaded", data.educationLevel);
-        this.educationlevelList = data.educationLevel;
-      }
-    })
-  }
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.getEducationLevel();
+    //this.getEducationLevel();
   }
 
 

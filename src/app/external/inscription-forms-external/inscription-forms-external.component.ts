@@ -6,12 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from "@angular/material/table";
-import {DetalleAcademico} from "../../admission/models/DetalleAcademico";
+import {DetalleAcademico, DetalleAcademicoExt} from "../../admission/models/DetalleAcademico";
 import {DetalleExperiencia} from "../../admission/models/DetalleExperiencia";
 import {MatPaginator} from "@angular/material/paginator";
-import {
-  DialogOverviewDetalleLaboral
-} from "../../admission/inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component";
 import {InfoAcademicaComponent} from "../Forms/info-academica/info-academica.component";
 import {InfoLaboralComponent} from "../Forms/info-laboral/info-laboral.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -30,12 +27,10 @@ export class InscriptionFormsExternalComponent {
   FormsEF: FormGroup;
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   InformacionAcademica: string[] = [
-    'nivel',
     'institucion',
-    'ciudad',
-    'fecha_culiminacion',
-    'fecha_grado',
+    'programa',
     'titulo_obtenido',
+    'year',
     'acciones',
   ];
   InformacionLaboral: string[] = [
@@ -76,7 +71,7 @@ export class InscriptionFormsExternalComponent {
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
-  public DataAcademico: DetalleAcademico[] = [
+  public DataAcademico: DetalleAcademicoExt[] = [
 
   ];
 
@@ -84,7 +79,7 @@ export class InscriptionFormsExternalComponent {
 
   ];
 
-  SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  SourceAcademico = new MatTableDataSource<DetalleAcademicoExt>(this.DataAcademico);
   SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
   public FormsEFDocument: FormGroup;
   @ViewChild(MatPaginator)
@@ -197,11 +192,11 @@ export class InscriptionFormsExternalComponent {
       data: {},//{name: this.name, animal: this.animal},
     });
 
-    dialogACRef.afterClosed().subscribe((result: DetalleAcademico) => {
+    dialogACRef.afterClosed().subscribe((result: DetalleAcademicoExt) => {
       console.log('The dialog was closed', result);
       if (result != null) {
         this.DataAcademico.push(result);
-        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+        this.SourceAcademico = new MatTableDataSource<DetalleAcademicoExt>(this.DataAcademico);
       }
 
     });
@@ -225,7 +220,7 @@ export class InscriptionFormsExternalComponent {
   deleteItemAC(row: any) {
     console.log(row);
     this.DataAcademico.splice(row, 1);
-    this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+    this.SourceAcademico = new MatTableDataSource<DetalleAcademicoExt>(this.DataAcademico);
   }
 
   deleteItemIL(row: any) {
