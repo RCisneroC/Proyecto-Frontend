@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {DetalleExperiencia} from "../../../admission/models/DetalleExperiencia";
+import {DetalleExperiencia, DetalleExperienciaExt} from "../../../admission/models/DetalleExperiencia";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {InscriptionService} from "../../../admission/inscription/services/inscription.service";
 import {DetalleAcademico} from "../../../admission/models/DetalleAcademico";
@@ -12,21 +12,17 @@ import {DetalleAcademico} from "../../../admission/models/DetalleAcademico";
 })
 export class InfoLaboralComponent {
   public modalityILForm: UntypedFormGroup;
-  public modalityIL: DetalleExperiencia = {
+  public modalityIL: DetalleExperienciaExt = {
     entidad: "",
     position: "",
-    cityEmployment: "",
-    startDateEmployment: new Date(),
-    endDate: new Date(),
-    time: ""
+    periodo: "",
+    meses: ""
   }
   DetalleIL = {
     entidad: "",
     position: "",
-    cityEmployment: "",
-    startDateEmployment: "",
-    endDate: "",
-    time: ""
+    periodo: "",
+    meses: ""
   }
 
   constructor(
@@ -42,10 +38,8 @@ export class InfoLaboralComponent {
     return this.fb.group({
       entidad: [this.modalityIL.entidad, [Validators.required]],
       position: [this.modalityIL.position, [Validators.required]],
-      cityEmployment: [this.modalityIL.cityEmployment, [Validators.required]],
-      startDateEmployment: [this.modalityIL.startDateEmployment, [Validators.required]],
-      endDate: [this.modalityIL.endDate, [Validators.required]],
-      time: [this.modalityIL.time, [Validators.required]],
+      periodo: [this.modalityIL.periodo, [Validators.required]],
+      meses: [this.modalityIL.meses, [Validators.required]],
     });
   }
 

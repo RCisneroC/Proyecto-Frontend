@@ -7,7 +7,7 @@ import { InscriptionService } from 'app/admission/inscription/services/inscripti
 import Swal from 'sweetalert2';
 import {MatTableDataSource} from "@angular/material/table";
 import {DetalleAcademico, DetalleAcademicoExt} from "../../admission/models/DetalleAcademico";
-import {DetalleExperiencia} from "../../admission/models/DetalleExperiencia";
+import {DetalleExperiencia, DetalleExperienciaExt,} from "../../admission/models/DetalleExperiencia";
 import {MatPaginator} from "@angular/material/paginator";
 import {InfoAcademicaComponent} from "../Forms/info-academica/info-academica.component";
 import {InfoLaboralComponent} from "../Forms/info-laboral/info-laboral.component";
@@ -36,10 +36,8 @@ export class InscriptionFormsExternalComponent {
   InformacionLaboral: string[] = [
     'entidad',
     'cargo',
-    'ciudad',
-    'inicio',
-    'fin',
-    'tiempo',
+    'periodo',
+    'meses',
     'acciones',
   ];
   loading: boolean = false;
@@ -75,12 +73,12 @@ export class InscriptionFormsExternalComponent {
 
   ];
 
-  public DataExperiencia: DetalleExperiencia[] = [
+  public DataExperiencia: DetalleExperienciaExt[] = [
 
   ];
 
   SourceAcademico = new MatTableDataSource<DetalleAcademicoExt>(this.DataAcademico);
-  SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+  SourceExperiencia = new MatTableDataSource<DetalleExperienciaExt>(this.DataExperiencia);
   public FormsEFDocument: FormGroup;
   @ViewChild(MatPaginator)
   set paginatorAcademic(value: MatPaginator) {
@@ -207,11 +205,11 @@ export class InscriptionFormsExternalComponent {
       data: {},//{name: this.name, animal: this.animal},
     });
 
-    dialogILRef.afterClosed().subscribe((result: DetalleExperiencia) => {
+    dialogILRef.afterClosed().subscribe((result: DetalleExperienciaExt) => {
       console.log('The dialog was closed', result);
       if (result != null) {
         this.DataExperiencia.push(result);
-        this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+        this.SourceExperiencia = new MatTableDataSource<DetalleExperienciaExt>(this.DataExperiencia);
       }
 
     });
@@ -226,7 +224,7 @@ export class InscriptionFormsExternalComponent {
   deleteItemIL(row: any) {
     console.log(row);
     this.DataExperiencia.splice(row, 1);
-    this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+    this.SourceExperiencia = new MatTableDataSource<DetalleExperienciaExt>(this.DataExperiencia);
   }
 
   getRequirementsDocuments(id: string) {

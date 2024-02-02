@@ -6,3 +6,10 @@ export interface DetalleExperiencia{
     endDate:Date;
     time:string;
 }
+
+export interface DetalleExperienciaExt{
+  entidad:string;
+  position:string;
+  periodo:string;
+  meses:string;
+}

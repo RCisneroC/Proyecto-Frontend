@@ -416,51 +416,36 @@
                                         <table mat-table [dataSource]="SourceExperiencia" class="w-100">
                                           <!-- Id Column -->
                                           <ng-container matColumnDef="entidad">
-                                            <th mat-header-cell *matHeaderCellDef>Entidad
+                                            <th mat-header-cell *matHeaderCellDef>ENTIDAD
                                             </th>
                                             <td mat-cell *matCellDef="let row">
                                               <span class="mobile-label">Entidad:</span>{{row.entidad}}
                                             </td>
                                           </ng-container>
                                           <ng-container matColumnDef="cargo">
-                                            <th mat-header-cell *matHeaderCellDef>Cargo
+                                            <th mat-header-cell *matHeaderCellDef>CARGO
                                             </th>
                                             <td mat-cell *matCellDef="let row">
                                               <span class="mobile-label">:Cargo</span>{{row.position}}
                                             </td>
                                           </ng-container>
-                                          <ng-container matColumnDef="ciudad">
-                                            <th mat-header-cell *matHeaderCellDef>Ciudad
+
+                                          <ng-container matColumnDef="periodo">
+                                            <th mat-header-cell *matHeaderCellDef>PERIODO
                                             </th>
                                             <td mat-cell *matCellDef="let row">
-                                                            <span
-                                                              class="mobile-label">:Ciudad</span>{{row.cityEmployment}}
+                                              <span class="mobile-label">:PERIODO</span>{{row.periodo}}
                                             </td>
                                           </ng-container>
-                                          <ng-container matColumnDef="inicio">
-                                            <th mat-header-cell *matHeaderCellDef>Inicio
+                                          <ng-container matColumnDef="meses">
+                                            <th mat-header-cell *matHeaderCellDef>MESES
                                             </th>
                                             <td mat-cell *matCellDef="let row">
-                                                            <span
-                                                              class="mobile-label">:Inicio</span>{{row.startDateEmployment}}
-                                            </td>
-                                          </ng-container>
-                                          <ng-container matColumnDef="fin">
-                                            <th mat-header-cell *matHeaderCellDef>Fin
-                                            </th>
-                                            <td mat-cell *matCellDef="let row">
-                                              <span class="mobile-label">:Fin</span>{{row.endDate}}
-                                            </td>
-                                          </ng-container>
-                                          <ng-container matColumnDef="tiempo">
-                                            <th mat-header-cell *matHeaderCellDef>Tiempo
-                                            </th>
-                                            <td mat-cell *matCellDef="let row">
-                                              <span class="mobile-label">:Tiempo</span>{{row.time}}
+                                              <span class="mobile-label">:Meses</span>{{row.meses}}
                                             </td>
                                           </ng-container>
                                           <ng-container matColumnDef="acciones">
-                                            <th mat-header-cell *matHeaderCellDef>Acciones
+                                            <th mat-header-cell *matHeaderCellDef>ACCIONES
                                             </th>
                                             <td mat-cell *matCellDef="let row">
                                               <button (click)="deleteItemIL(DataExperiencia.indexOf(row))"
