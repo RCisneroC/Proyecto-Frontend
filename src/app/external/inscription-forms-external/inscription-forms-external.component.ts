@@ -1,10 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
 import Swal from 'sweetalert2';
+import {MatTableDataSource} from "@angular/material/table";
+import {DetalleAcademico} from "../../admission/models/DetalleAcademico";
+import {DetalleExperiencia} from "../../admission/models/DetalleExperiencia";
+import {MatPaginator} from "@angular/material/paginator";
+import {
+  DialogOverviewDetalleLaboral
+} from "../../admission/inscription/educacionformal/forms/backoffice-ef/backoffice-ef.component";
+import {InfoAcademicaComponent} from "../Forms/info-academica/info-academica.component";
+import {InfoLaboralComponent} from "../Forms/info-laboral/info-laboral.component";
+import {MatDialog} from "@angular/material/dialog";
+import {Requirement} from "../../admission/models/Requeriminet";
+import {ResponseEF} from "../../admission/models/ResponseMessage";
 
 @Component({
   selector: 'app-inscription-forms-external',
@@ -17,12 +29,33 @@ export class InscriptionFormsExternalComponent {
   showFileSection = true;
   FormsEF: FormGroup;
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
+  InformacionAcademica: string[] = [
+    'nivel',
+    'institucion',
+    'ciudad',
+    'fecha_culiminacion',
+    'fecha_grado',
+    'titulo_obtenido',
+    'acciones',
+  ];
+  InformacionLaboral: string[] = [
+    'entidad',
+    'cargo',
+    'ciudad',
+    'inicio',
+    'fin',
+    'tiempo',
+    'acciones',
+  ];
   loading: boolean = false;
   personData: any;
   meshList: any;
+  RequirementsDocumentsList: any;
   activities: any[] = [];
   schedule: any[] = [];
   disabled: boolean = false;
+  inscriptionId: string = "";
+  aspirantId: string = "";
   mostrarActividad: boolean = true;
   mostrarCronograma: boolean = true;
   fileSelected: boolean = false
@@ -43,6 +76,25 @@ export class InscriptionFormsExternalComponent {
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
+  public DataAcademico: DetalleAcademico[] = [
+
+  ];
+
+  public DataExperiencia: DetalleExperiencia[] = [
+
+  ];
+
+  SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+  public FormsEFDocument: FormGroup;
+  @ViewChild(MatPaginator)
+  set paginatorAcademic(value: MatPaginator) {
+    this.SourceAcademico.paginator = value;
+  }
+  @ViewChild('paginatorExperiencia')
+  set paginatorExperiencia(value: MatPaginator) {
+    this.SourceExperiencia.paginator = value;
+  }
   constructor(private fb:
     FormBuilder,
     private Path: ActivatedRoute,
@@ -52,6 +104,7 @@ export class InscriptionFormsExternalComponent {
     public elm: ElementRef,
     private activatedRoute: ActivatedRoute,
     private _inscriptionService: InscriptionService,
+    public dialog: MatDialog,
   ) {
     this.FormsEF = this.fb.group({
       cedula: ['', [Validators.required]],
@@ -79,6 +132,16 @@ export class InscriptionFormsExternalComponent {
       specific: [''],
       others: [''],
       usesAwheelchair: [false],
+    });
+
+    this.FormsEFDocument = this.fb.group({
+      Photo: [''],
+      CIP: [''],
+      Title: [''],
+      Credits: [''],
+      Idoneidad: [''],
+      LetterMotivation: [''],
+      LetterAval: [''],
     });
   }
 
@@ -127,6 +190,114 @@ export class InscriptionFormsExternalComponent {
     }
 
 
+  }
+
+  openDialogAC(): void {
+    const dialogACRef = this.dialog.open(InfoAcademicaComponent, {
+      data: {},//{name: this.name, animal: this.animal},
+    });
+
+    dialogACRef.afterClosed().subscribe((result: DetalleAcademico) => {
+      console.log('The dialog was closed', result);
+      if (result != null) {
+        this.DataAcademico.push(result);
+        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+      }
+
+    });
+  }
+
+  openDialogIL(): void {
+    const dialogILRef = this.dialog.open(InfoLaboralComponent, {
+      data: {},//{name: this.name, animal: this.animal},
+    });
+
+    dialogILRef.afterClosed().subscribe((result: DetalleExperiencia) => {
+      console.log('The dialog was closed', result);
+      if (result != null) {
+        this.DataExperiencia.push(result);
+        this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+      }
+
+    });
+  }
+
+  deleteItemAC(row: any) {
+    console.log(row);
+    this.DataAcademico.splice(row, 1);
+    this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  }
+
+  deleteItemIL(row: any) {
+    console.log(row);
+    this.DataExperiencia.splice(row, 1);
+    this.SourceExperiencia = new MatTableDataSource<DetalleExperiencia>(this.DataExperiencia);
+  }
+
+  getRequirementsDocuments(id: string) {
+    this._inscriptionService.getRequirementsDocuments(id).subscribe({
+      next: (data) => {
+        this.RequirementsDocumentsList = data;
+        console.log('Datos de los documentos requeridos:', data);
+      }
+    })
+
+  }
+
+  onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
+    console.log("Requeriment obj", requirement);
+    this.loadingFile = true;
+    const files: FileList = event.target.files;
+    console.log(requirement.name);
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+    if (files.length > 0) {
+      var formdata = new FormData();
+      formdata.append('cedula', this.FormsEF.value.cedula);
+      formdata.append('FileType', requerimentId.toString());
+      formdata.append('InscriptionId', this.inscriptionId.toString());
+      formdata.append('File', files[0]);
+      console.log(formdata);
+      this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+        next: (res: ResponseEF) => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: '(' + requirement.name + ') ' + res.message,
+            icon: "success"
+          });
+
+          elementImg.value = '';
+          elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
+          this.loadingFile = false;
+          // this.verificarDocumentacion();
+        }, error: (err) => {
+          elementImg.value = '';
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Intente nuevamente..',
+            icon: "warning"
+          });
+          this.loadingFile = false;
+        }
+      })
+    }
+  }
+
+  submit() {
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: 'Registrado correctamente',
+      icon: "success"
+    });
+
+    location.reload();
+  }
+
+  firstNext() {
+    console.log(this.FormsEF.value.degreeId);
+    //this.addAspirantEF();
+    this.getRequirementsDocuments(this.FormsEF.value.degreeId);
   }
 
 }
