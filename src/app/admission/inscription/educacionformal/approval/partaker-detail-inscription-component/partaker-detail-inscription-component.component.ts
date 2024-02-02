@@ -196,44 +196,9 @@ export class PartakerDetailInscriptionComponent {
     })
   }
 
-  aprobarOld() {
-    this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.cedula; //cedula
-    this._GetDataResultResponse.inscriptionId = 0; //cedula
-    this._GetDataResultResponse.activityName = this._ActivityService._DetailsResponse.name; //cedula
-    this._GetDataResultResponse.firstName = this._ActivityService._DetailsResponse.firstName; //cedula
-    this._GetDataResultResponse.lastName = this._ActivityService._DetailsResponse.lastName; //cedula
-    const dialogRef = this._dialog.open(ApproveParticipantComponent, {
-      data: {
-        participant : this._GetDataResultResponse,
-        accion: 'approved',
-      },
-      disableClose:true
-    });
-
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.getDetails();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
 
   aprobar() {
     const item = localStorage.getItem('userItem');
-    localStorage.removeItem('userItem');
     if (item != null){
       const user: InscriptionResponse = JSON.parse(item);
 
