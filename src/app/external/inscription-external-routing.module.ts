@@ -21,7 +21,6 @@ const routes: Routes = [
     path: "external-EF/:id",
     component: InscriptionFormsExternalComponent,
   },
-
 ];
 
 @NgModule({

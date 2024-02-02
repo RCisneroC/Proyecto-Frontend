@@ -1,0 +1,231 @@
+<section>
+    <div class="">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <img src="assets/images/ISJUP.png" style="width: 20%;" />
+                            </div>
+                        </div>
+                        <h5 class="text-uppercase"><strong>Listado de Planes anuales aprobados</strong></h5>
+                        <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal
+                                Electoral, luego puede avanzar.</strong></p>
+                        <div class="body">
+                            <mat-horizontal-stepper [linear]="false" #stepper>
+                                <mat-step [stepControl]="FormsEF!">
+                                    <form [formGroup]="FormsEF!">
+                                        <ng-template matStepLabel>Datos Personales</ng-template>
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Documento de Identidad (Unico)</mat-label>
+                                                    <input #filter matInput formControlName="cedula">
+                                                    <mat-icon (click)="getPersonData(filter.value)"
+                                                        class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>search</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-spinner diameter="45" *ngIf="loading"> </mat-spinner>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Nombre</mat-label>
+                                                    <input matInput formControlName="firstName" [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Primer Apellido</mat-label>
+                                                    <input matInput formControlName="lastName" [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Segundo Apellido</mat-label>
+                                                    <input matInput formControlName="secondsurname" [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('secondsurname')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Lugar de nacimiento</mat-label>
+                                                    <input matInput formControlName="placeOfBirth" [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width" appearance="outline">
+                                                    <mat-label>Fecha de nacimiento</mat-label>
+                                                    <input matInput [matDatepicker]="fechaNacimiento"
+                                                        formControlName="dateOfBirth">
+                                                    <mat-datepicker-toggle matSuffix
+                                                        [for]="fechaNacimiento"></mat-datepicker-toggle>
+                                                    <mat-datepicker #fechaNacimiento></mat-datepicker>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Dirección residencial</mat-label>
+                                                    <input matInput formControlName="residentialAddress"
+                                                        [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Correo electrónico</mat-label>
+                                                    <input matInput formControlName="email" [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Número telefónico</mat-label>
+                                                    <input matInput formControlName="telephoneNumber"
+                                                        [readonly]="false">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width" appearance="outline">
+                                                    <mat-label>Programa a académico al que se presenta</mat-label>
+                                                    <mat-select formControlName="carreraId">
+                                                        <!-- <mat-option *ngFor="let row of modalityList"
+                                                            [value]="row.id">{{row.name}}</mat-option> -->
+                                                    </mat-select>
+                                                    <!--<mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
+                                                        la modalidad es requerida
+                                                    </mat-error> -->
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('planningDate')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button [disabled]="!FormsEF!.valid" mat-raised-button matStepperNext
+                                                color="primary">Siguiente</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+                                <mat-step>
+                                    <form>
+                                        <ng-template matStepLabel>Información Académico</ng-template>
+                                        <button mat-raised-button color="primary" class="msr-2">
+                                            <mat-icon>playlist_add</mat-icon> Nueva información
+                                            Academica</button>
+                                        <div class="body">
+
+                                        </div>
+                                        <div>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+                                <mat-step>
+                                    <form>
+                                        <ng-template matStepLabel>Información Laboral</ng-template>
+                                        <button mat-raised-button color="primary"
+                                            class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia
+                                            Labral</button>
+
+                                        <div class="body">
+
+                                        </div>
+
+                                        <div>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                        </div>
+                                    </form>
+                                </mat-step>
+                                <mat-step>
+                                    <form>
+                                        <ng-template matStepLabel>Documentos</ng-template>
+                                        <div class="row">
+
+
+                                        </div>
+                                        <div>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button mat-raised-button color="primary">Validar la
+                                                información</button>
+                                        </div>
+                                    </form>
+                                    <!-- [disabled]="!editActivity!.valid" -->
+                                </mat-step>
+                            </mat-horizontal-stepper>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
