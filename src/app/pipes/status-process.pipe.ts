@@ -12,6 +12,8 @@ export class StatusProcessPipe implements PipeTransform {
       return 'Educación continua';
     }else if (value == 3) {
       return 'Ambos';
+    }else if(value == 4){
+      return 'Sin asignar';
     }
     return '';
   }

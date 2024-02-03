@@ -3,7 +3,7 @@
         <div class="editRowModal">
             <div class="modalHeader clearfix">
                 <div class="modal-about">
-                    {{dialogTitle}}
+                    {{dialogTitle +"("+data.teacher.name+" " +data.teacher.lastName+")"}}
                 </div>
             </div>
         </div>
@@ -12,7 +12,9 @@
         </button>
     </div>
     <div mat-dialog-content>
+    
         <form class="register-form m-4" [formGroup]="ApprovedForm" (ngSubmit)="submit">
+           
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
@@ -26,13 +28,15 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
+                        
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Estado</mat-label>
-                                    <mat-select formControlName="statusId">
-                                        <mat-option value="">.........</mat-option>
+                                    <mat-select formControlName="statusId" (selectionChange)="Valor($event.value)">
+                                        <mat-option value="">Seleccione</mat-option>
                                         <mat-option value="1">Aprobar</mat-option>
                                         <mat-option value="2">Rechazar</mat-option>
+                                        <mat-option *ngIf="data.teacher.statusId===1" value="3">Dar de baja</mat-option>
                                     </mat-select>
                                     <mat-error *ngIf="ApprovedForm.get('statusId')?.hasError('required')">
                                         la Estado es requerido
@@ -40,6 +44,21 @@
                                 </mat-form-field>
 
                             </div>
+                            
+                            <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Proceso</mat-label>
+                                    <mat-select  formControlName="process">
+                                        <mat-option  *ngFor="let grado of processList"  [value]="grado.id">{{grado.name}}</mat-option>
+                                      </mat-select>
+                                    <mat-error *ngIf="ApprovedForm.get('process')?.hasError('required')">
+                                        el process es requerido
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            
+                          
                         </div>
                     </div>
                 </div>

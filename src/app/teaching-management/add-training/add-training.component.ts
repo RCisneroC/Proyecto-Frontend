@@ -38,7 +38,7 @@ export class AddTrainingComponent {
         this.training = data.training;
       } else {
         
-        this.dialogTitle = 'Agregar formación';
+        this.dialogTitle = 'Agregar formación academica';
         this.training = new Training();
   
       }
@@ -51,19 +51,19 @@ export class AddTrainingComponent {
       this.gradosInstruccion = [
         {
           id: 1,
-          nombre: "Primaria",
+          nombre: "Bachiller",
         },
         {
           id: 2,
-          nombre: "Secundaria",
-        },
-        {
-          id: 3,
           nombre: "Técnico",
         },
         {
-          id: 4,
+          id: 3,
           nombre: "Licenciatura",
+        },
+        {
+          id: 4,
+          nombre: "Especialización",
         },
         {
           id: 5,
@@ -73,10 +73,13 @@ export class AddTrainingComponent {
           id: 6,
           nombre: "Doctorado",
         },
+        {
+          id: 7,
+          nombre: "Otros",
+        },
       ];
     }
-  
-  
+
     formControl = new UntypedFormControl('', [
       Validators.required,
     ]);
@@ -89,6 +92,7 @@ export class AddTrainingComponent {
       city: [this.training.city, Validators.required],
       degreeDate: [this.training.degreeDate, Validators.required],
       degreeObtained: [this.training.degreeObtained, Validators.required],
+      educationLevel:[this.training.educationLevel, Validators.required],
       statusId: [this.training.statusId, Validators.required],
       });
     }

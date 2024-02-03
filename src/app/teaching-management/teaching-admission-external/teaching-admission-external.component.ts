@@ -22,8 +22,6 @@ import { MatStepper } from '@angular/material/stepper';
 export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
-
-   
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
@@ -45,6 +43,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     'city',
     'completionDate',
     'degreeDate',
+    'educationLevel',
     'degreeObtained',
     'actions'
   ];
@@ -124,7 +123,7 @@ FormsEFDocument!: UntypedFormGroup;
       listSpecialty: new FormControl([]),
       listExperience: new FormControl([]),
       listDocument: new FormControl([]),
-      process: new FormControl(1),
+      process: new FormControl(4),
       createdBy: new FormControl("")
     })
   }
@@ -133,13 +132,13 @@ FormsEFDocument!: UntypedFormGroup;
     this._teacherService.getRequiredDocument().subscribe({
        next: (res) => {
  
-         this.DataRequiredDocuments = res;
+         this.DataRequiredDocuments = res.filter(x=>x.statusId===1);
         
         for (const property of this.DataRequiredDocuments) {
         
           this.FormsEFDocument.addControl(
             property.documentId.toString(),
-            this.fb.control([],property.documentId==1? [Validators.required]:[])
+            this.fb.control([],property.typeEducationId==1? [Validators.required]:[])
           );
         }
   
@@ -246,7 +245,7 @@ FormsEFDocument!: UntypedFormGroup;
       listSpecialty: new FormControl(this.DataTeacher?.listSpecialty || []),
       listExperience: new FormControl(this.DataTeacher?.listExperience || []),
       listDocument: new FormControl(this.DataTeacher?.listDocument || []),
-      process: new FormControl(1),
+      process: new FormControl(4),
       createdBy: new FormControl(this.DataTeacher?.dischargeDate)
 
     });
@@ -259,35 +258,21 @@ FormsEFDocument!: UntypedFormGroup;
  
         this.tmp_files[idx]=(event.target.files[0]);
         this.tmp_docType[idx]=(docId);
-  
-       const formdata=new FormData();
-   
-       formdata.append('FileDetails', this.tmp_files[0]);
-
+        const formdata=new FormData();
+        formdata.append('FileDetails', this.tmp_files[0]);
   }
 
   submit() {
  
-
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
+  
   if(this.teacherForm.valid){
   
- const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
-   if(tem.length>1){
-   
-   if(tem.length==this.DataRequiredDocuments.length){
-    this.teacherForm?.get('process')?.setValue(3);
-   }else{
-    this.teacherForm?.get('process')?.setValue(1);
-   }
-   }else{
-    this.teacherForm?.get('process')?.setValue(2);
-   }
-   
-    
-   
+  const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
+ 
+  this.teacherForm?.get('process')?.setValue(4);
 
   this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
     next: (res) => {

@@ -1,6 +1,7 @@
 export class User {
    id!: string;
    img!: string;
+   cedula!: string;
    userName!: string;
    password!: string;
    firstName!: string; 

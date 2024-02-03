@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { Documents, Experience, Teacher, Training } from '../models/Teacher';
+import { Activity, Documents, Experience, Subject, Teacher, Training } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import Swal from 'sweetalert2';
 import { MatAccordion } from '@angular/material/expansion';
@@ -14,6 +14,8 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { RequiredDocument } from '../models/RequiredDocument';
+import { AddActivityComponent } from '../add-activity/add-activity.component';
+import { AddSubjectComponent } from '../add-subject/add-subject.component';
 
 
 
@@ -47,6 +49,7 @@ implements OnInit{
     'city',
     'completionDate',
     'degreeDate',
+    'educationLevel',
     'degreeObtained',
     'actions'
   ];
@@ -74,7 +77,18 @@ implements OnInit{
     'extension',
     'docResult',
     
-    
+  ];
+  
+  displayedColumnsActivities: string[] = [
+    'name',
+    'activityModeId',
+    'activityTypeId',
+    'actions',
+  ];
+  
+  displayedColumnsSubject: string[] = [
+    'name',
+    'actions',
   ];
 
 DataTeacher!:Teacher;
@@ -89,6 +103,8 @@ experience?: Experience;
 training?: Training;
 _Form_Data = new FormData();
 docForm!: UntypedFormGroup;
+viewAct!: boolean;
+viewAsig!: boolean;
 
 
 constructor( private activatedRoute: ActivatedRoute,
@@ -152,10 +168,37 @@ public _verificarBS64: VerificarBS64Pipe,
       next: (res) => {
 
         this.DataTeacher = res;
+        switch (res.statusId) {
+          case 0:
+            this.viewAct=false;
+            this.viewAsig=false;
+              break;
+          case 1:
+            switch (res.process) {
+              case 1:
+                this.viewAct=true;
+                this.viewAsig=false;
+                  break;
+              case 2:
+                this.viewAct=false;
+                this.viewAsig=true;
+                  break;
+              case 3:
+                this.viewAct=true;
+                this.viewAsig=true;
+                break; 
+          default:
+            this.viewAct=false;
+            this.viewAsig=false;
+              break;
+      }
+    }
+ 
+      
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
-        console.log(this.documentForm.get("Photo")?.value);
+        
         
         this._teacherService.isTblLoading = false;
       }
@@ -222,7 +265,120 @@ public _verificarBS64: VerificarBS64Pipe,
     });
   }
   
+  AddActivity(){
+    const dialogRef = this._dialog.open(AddActivityComponent, {
+      data: {
+        teacher:this.DataTeacher,
+        accion: 'add-Activities'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+          this.getTeacherByCedula();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+    });
   
+
+  }
+  
+  AddSubject(){
+    const dialogRef = this._dialog.open(AddSubjectComponent, {
+      data: {
+        teacher:this.DataTeacher,
+        accion: 'add-subjects'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+          this.getTeacherByCedula();
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+    });
+  
+
+  }
+  
+  deleteSubject(row: Subject) {
+  
+    const AsignarActivitiesForm = this.fb.group({
+      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      subjectList: this.fb.array([row.id]),
+      Action:2
+    });
+    this._teacherService.addSubjectTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getTeacherByCedula(); 
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
+  } 
+  
+  
+  deleteAct(row: Activity) {
+  
+    const AsignarActivitiesForm = this.fb.group({
+      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      activityList: this.fb.array([row.id]),
+      Action:2
+    });
+    this._teacherService.addActivitiesTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
+      next: () => {
+        Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Eliminado correctamente.',
+                icon: "success"
+            });
+          this.getTeacherByCedula(); 
+      },
+      error: () => {
+        Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente.',
+              icon: "warning"
+            });
+      }
+     })
+  }  
   AddTraining(){
     const dialogRef = this._dialog.open(AddTrainingComponent, {
       data: {
@@ -263,15 +419,7 @@ public _verificarBS64: VerificarBS64Pipe,
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
   
-//   this.FormsEFDocument=this.fb.group({
-//     Photo:[''],
-//     CIP:[''],
-//     Title:[''],
-//     Credits:[''],
-//     Idoneidad:[''],
-//     LetterMotivation:[''],
-//     LetterAval:[''],
-//  })
+
   
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({

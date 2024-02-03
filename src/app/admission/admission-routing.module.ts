@@ -31,8 +31,6 @@ import { BackofficeEFComponent } from './inscription/educacionformal/forms/backo
 import { DetalleParticipanteComponent } from './inscription/approval/activity-participants-list/detalle/detalle-participante/detalle-participante.component';
 import { DegreeComponent } from './FormalEducations/Maestros/degree/degree.component';
 import { SubjectComponent } from './FormalEducations/Maestros/subject/subject.component';
-import { DegreeAdminissionRequirementComponent } from './FormalEducations/Gestions/curriculum-design/degree-adminission-requirement/degree-adminission-requirement.component';
-import { DeggreeCompetenceComponent } from './FormalEducations/Gestions/curriculum-design/deggree-competence/deggree-competence.component';
 import { RoomsComponent } from './FormalEducations/Maestros/rooms/rooms.component';
 import { StatusComponent } from './FormalEducations/Maestros/status/status.component';
 import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component';
@@ -53,9 +51,6 @@ import { SubjectCurriculumComponent } from './FormalEducations/Maestros/Details/
 import { AnnualPlanComponent } from './FormalEducations/Gestions/annual-plan/annual-plan.component';
 import { DetallePlanAnualComponent } from './FormalEducations/Gestions/Details/detalle-plan-anual/detalle-plan-anual.component';
 import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Details/asignaturas-periodos/asignaturas-periodos.component';
-import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
-import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/approved-degree/approved-degree.component';
-import { ApprovedPosterComponent } from './Approvals/form/approved-poster/approved-poster.component';
 import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
 import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
 import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
@@ -280,6 +275,7 @@ const routes: Routes = [
   {
     path: 'form-ef',
     component: BackofficeEFComponent,
+
   },
   {
     path: 'period/:id/degree/:id_degree',

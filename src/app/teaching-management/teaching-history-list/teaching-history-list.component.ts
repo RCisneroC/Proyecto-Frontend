@@ -51,13 +51,14 @@ implements OnInit{
   super()
   }
 ngOnInit()  {
-
+  this.user =this.authenticationService.currentUserValue;
   this.docForm= this.fb.group({
     code:new FormControl(""),
     name:new FormControl(""),
-    teacherCedula:new FormControl("21324339"),
+    teacherCedula:new FormControl(this.user.cedula),
   });
-  this.user =this.authenticationService.currentUserValue;
+  
+  
   this.getSubjects(); 
   this.getActivities();
   
@@ -89,7 +90,7 @@ if(id==1){
    
    async getActivities() {
    //const ced=this.docForm.get('teacherCedula')?.value;
-    this._teacherService.getActivitiesByCedula("12345678").subscribe({
+    this._teacherService.getActivitiesByCedula(this.user.cedula).subscribe({
        next: (res) => {
  
          this.DataActivities = res;

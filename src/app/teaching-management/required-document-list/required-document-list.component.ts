@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { TeacherService } from '../services/teacher.service';
-import { Teacher } from '../models/Teacher';
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { RequiredDocument } from '../models/RequiredDocument';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -10,44 +8,39 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Direction } from '@angular/cdk/bidi';
-import { TeacherDetailComponent } from '../teacher-detail/teacher-detail.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import Swal from 'sweetalert2';
+import { RequiredDocumentFormComponent } from '../required-document-form/required-document-form.component';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { Router } from '@angular/router';
-import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.component';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { TeacherService } from '../services/teacher.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-teacher-list',
-  templateUrl: './teacher-list.component.html',
-  styleUrls: ['./teacher-list.component.scss']
+  selector: 'app-required-document-list',
+  templateUrl: './required-document-list.component.html',
+  styleUrls: ['./required-document-list.component.scss']
 })
-export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit {
+export class RequiredDocumentListComponent  extends UnsubscribeOnDestroyAdapter
+implements OnInit{
 
   displayedColumns = [
-    'cedula',
     'name',
-    'lastName',
+    'description',
+    'typeEducationId',
     'statusId',
-    'process',
-    'createdDate',
-    'dischargeDate',
-    'actions'
+    'actions',
   ];
   
   exampleDatabase?: TeacherService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<Teacher>(true, []);
-  teacherId?: number;
-  teacher?: Teacher;
+  selection = new SelectionModel<RequiredDocument>(true, []);
+  id?: number;
+  requiredDocument?: RequiredDocument;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _teacherService: TeacherService,
-    private snackBar: MatSnackBar,
-    private _nav:Router
+    public teacherService: TeacherService,
+    private snackBar: MatSnackBar
   ) {
     super();
   }
@@ -64,40 +57,79 @@ implements OnInit {
     this.loadData();
   }
   addNew() {
-    this._nav.navigate(['/teacher/teacher-admission-external/']);
-
-  }
-  editCall(row: Teacher) {
-    this.teacherId = row.teacherId;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(TeacherDetailComponent, {
+    const dialogRef = this.dialog.open(RequiredDocumentFormComponent, {
       data: {
-        user: row,
+        requiredDocument: this.requiredDocument,
+        action: 'add',
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.exampleDatabase?.dataChange2.value.unshift(
+          this.teacherService.getDialogData2()
+        );
+        this.refreshTable();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "Guardado exitosamente",
+          icon: "success"
+        });
+      }else{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "Intente de nuevo",
+          icon: "warning"
+        });
+      }
+    });
+  }
+  editCall(row: RequiredDocument) {
+    this.id = row.documentId;
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(RequiredDocumentFormComponent, {
+      data: {
+        requiredDocument: row,
         action: 'edit',
       },
       direction: tempDirection,
     });
-     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-       if (result == undefined) {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
         return;
       }
-      
-      if (result.CodError == 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
-        this.loadData();
-      } else {
-         Swal.fire({
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.exampleDatabase?.dataChange2.value.unshift(
+          this.teacherService.getDialogData2()
+        );
+        this.refreshTable();
+        Swal.fire({
           title: "Escuela Judicial",
-          text: result.Message,
+          text: "Guardado exitosamente",
+          icon: "success"
+        });
+      }else{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "Intente de nuevo",
           icon: "warning"
         });
       }
@@ -107,42 +139,12 @@ implements OnInit {
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
+  /** Whether the number of selected elements matches the total number of rows. */
 
-  Detail(row: Teacher) {
-  
-    this._nav.navigate(['/teaching-management/teacher-detail/',row.cedula]);
-  }
-  
-  Aproved(row: Teacher){
-   
-   const dialogRef = this.dialog.open(AprovedTeacherComponent, {
-    data: {
-      teacher: row,
-      accion: 'add-course'
-    },
-    disableClose: true,
-  });
-  dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-    if (result == undefined) {
-      return;
-      }
-      if (result.CodError == 200) {
-          Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "success"
-          });
-         this.loadData();
-        } else {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "warning"
-          });
-        }
-  });
- 
-  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+
+
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -178,7 +180,7 @@ implements OnInit {
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.name,
+        'First Name': x.name,
        
       }));
 
@@ -187,7 +189,7 @@ implements OnInit {
 
 
 }
-export class ExampleDataSource extends DataSource<Teacher> {
+export class ExampleDataSource extends DataSource<RequiredDocument> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -195,10 +197,10 @@ export class ExampleDataSource extends DataSource<Teacher> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Teacher[] = [];
-  renderedData: Teacher[] = [];
+  filteredData: RequiredDocument[] = [];
+  renderedData: RequiredDocument[] = [];
   constructor(
-    public teacherService: TeacherService,
+    public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -207,25 +209,22 @@ export class ExampleDataSource extends DataSource<Teacher> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Teacher[]> {
+  connect(): Observable<RequiredDocument[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.teacherService.dataChange,
+      this.exampleDatabase.dataChange2,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.teacherService.getAllTeachers();
+    this.exampleDatabase.getAllRequiredDocument();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.teacherService.data
+        this.filteredData = this.exampleDatabase.data2
           .slice()
-          .filter((teacher: Teacher) => {
-            const searchStr = (
-              teacher.name 
-              
-            ).toLowerCase();
+          .filter((requiredDocument: RequiredDocument) => {
+            const searchStr = (requiredDocument.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -244,7 +243,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: Teacher[]): Teacher[] {
+  sortData(data: RequiredDocument[]): RequiredDocument[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -252,10 +251,10 @@ export class ExampleDataSource extends DataSource<Teacher> {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
       switch (this._sort.active) {
-        case 'teacherId':
-          [propertyA, propertyB] = [a.teacherId, b.teacherId];
+        case 'id':
+          [propertyA, propertyB] = [a.documentId, b.documentId];
           break;
-        case 'Name':
+        case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
       
@@ -266,5 +265,5 @@ export class ExampleDataSource extends DataSource<Teacher> {
         (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
       );
     });
+  } 
   }
-}

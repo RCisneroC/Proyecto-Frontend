@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { ResponseSaveTeacher, Teacher } from '../models/Teacher';
-import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
+import { RequestActivityTeacher, RequestSubjectTeacher, ResponseSaveTeacher, Subject, Teacher } from '../models/Teacher';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
@@ -17,16 +17,28 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   dataChange: BehaviorSubject<Teacher[]> = new BehaviorSubject<
   Teacher[]
   >([]);
+  
+  dataChange2: BehaviorSubject<RequiredDocument[]> = new BehaviorSubject<
+  RequiredDocument[]
+  >([]);
   // Temporarily stores data from dialogs
   dialogData!: Teacher;
+  dialogData2!: RequiredDocument;
   constructor(private httpClient: HttpClient) {
     super();
   }
   get data(): Teacher[] {
     return this.dataChange.value;
   }
+  
+  get data2(): RequiredDocument[] {
+    return this.dataChange2.value;
+  }
   getDialogData() {
     return this.dialogData;
+  }
+  getDialogData2() {
+    return this.dialogData2;
   }
   /** CRUD METHODS */
   getAllTeachers(): void {
@@ -45,11 +57,48 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
   
+  
+  getAllRequiredDocument(){
+    this.subs.sink = this.httpClient
+    .get<RequiredDocument[]>(environment.apiUrlDocument+'GetAll')
+    .subscribe({
+      next: (data) => {
+        this.isTblLoading = false;
+        this.dataChange2.next(data);
+     
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      },
+    });
+  } 
 
   addUpdateTeacher(teacher: Teacher) {
 
     return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher+'Save', teacher);
   }
+  
+  addActivitiesTeacher(data: RequestActivityTeacher) {
+
+    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher+'SaveActivities', data);
+  }
+  
+  addSubjectTeacher(data: RequestSubjectTeacher) {
+
+    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher+'SaveSubject', data);
+  }
+  
+  
+  
+ 
+  
+  updateRequiredDocument(requiredDocument: RequiredDocument) {
+    return this.httpClient.post(environment.apiUrlDocument+'Save', requiredDocument);
+
+  }
+  
+ 
   
  archivo(data :any):Observable<any> {
 
@@ -58,7 +107,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   
   aprovedTeacher(data:UntypedFormGroup) {
 
-    return this.httpClient.post(environment.apiUrlTeacher+'Aproved', data);
+    return this.httpClient.post<Teacher>(environment.apiUrlTeacher+'Aproved', data);
   }
   getTeacherByCedula(cedula :string) {
  
@@ -75,6 +124,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get(environment.apiUrlEC + 'GetActivitiesBy?TeacherCedula='+cedula);
   }
   
+  
+  getAllSubject3() {
+    return this.httpClient
+      .get<Subject[]>(environment.apiEF + 'Subject/GetAll');
+  }
   getExisteCedula(cedula :string) {
  
     return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula='+cedula).pipe(

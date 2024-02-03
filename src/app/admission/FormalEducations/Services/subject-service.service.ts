@@ -47,6 +47,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       .get<Subject[]>(environment.apiEF + 'Subject/GetAll?StatusId=' + id);
   }
 
+ 
   getAllSubjectNotPendingDegree(id: any) {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetSubjectsBy?DegreeCurriculumDesignId=' + id);
