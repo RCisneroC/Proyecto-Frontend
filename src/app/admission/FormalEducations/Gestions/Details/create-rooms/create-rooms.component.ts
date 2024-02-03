@@ -15,6 +15,7 @@ import { RoomsService } from 'app/admission/FormalEducations/Services/rooms.serv
 import { Rooms } from 'app/admission/FormalEducations/Models/Rooms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Period } from 'app/admission/FormalEducations/Models/AnnualPlan';
 
 @Component({
   selector: 'app-create-rooms',
@@ -47,7 +48,15 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
     },
   ];
   dataRooms = new MatTableDataSource<Rooms>(this.dataSorceRooms);
-
+  dataPeriod: Period = {
+    statusId: 0,
+    id: 0,
+    name: '',
+    description: '',
+    startDate: new Date,
+    endDate: new Date,
+    maxNumOfParticipants: 0,
+  }
   @ViewChild('rooms')
   set paginatorRooms(value: MatPaginator) {
     this.dataRooms.paginator = value;
@@ -74,8 +83,15 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
       this.degree = params['id_degree'];
       this.getOneMalla();
       this.getRooms();
-      ;
+      this.getDatosPeriod();
     });
+  }
+
+  getDatosPeriod() {
+    let dataLocal = localStorage.getItem('detailsPeriod') || '';
+    if (dataLocal != '') {
+      this.dataPeriod = JSON.parse(dataLocal);
+    }
   }
 
   getOneMalla() {

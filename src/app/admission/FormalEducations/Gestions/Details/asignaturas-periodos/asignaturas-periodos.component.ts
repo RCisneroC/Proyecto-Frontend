@@ -320,6 +320,7 @@ export class AsignaturasPeriodosComponent extends UnsubscribeOnDestroyAdapter
   }
 
   createRooms(row: Period) {
+    localStorage.setItem('detailsPeriod', JSON.stringify(row));
     localStorage.removeItem('url_plan');
     localStorage.setItem('url_plan', '/admission/AnnualPlan/' + this.id + '/degree/' + this.degree)
     this._Router.navigate(['admission/period/' + row.id + '/degree/' + this.degree])
