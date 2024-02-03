@@ -40,8 +40,8 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Periodo</mat-label>
-            <input [ngModel]="DetalleIL.periodo" matInput formControlName="periodo">
-            <mat-error *ngIf="modalityILForm.get('periodo')?.hasError('required')">
+            <input [ngModel]="DetalleIL.period" matInput formControlName="period">
+            <mat-error *ngIf="modalityILForm.get('period')?.hasError('required')">
               Campo requerido
             </mat-error>
           </mat-form-field>
@@ -50,8 +50,8 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Meses</mat-label>
-            <input [ngModel]="DetalleIL.meses" matInput formControlName="meses">
-            <mat-error *ngIf="modalityILForm.get('meses')?.hasError('required')">
+            <input [ngModel]="DetalleIL.months" matInput formControlName="months">
+            <mat-error *ngIf="modalityILForm.get('months')?.hasError('required')">
               Campo requerido
             </mat-error>
           </mat-form-field>

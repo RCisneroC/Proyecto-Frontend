@@ -10,6 +10,6 @@ export interface DetalleExperiencia{
 export interface DetalleExperienciaExt{
   entidad:string;
   position:string;
-  periodo:string;
-  meses:string;
+  period:string;
+  months:string;
 }

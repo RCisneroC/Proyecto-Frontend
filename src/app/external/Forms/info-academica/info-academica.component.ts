@@ -13,13 +13,13 @@ export class InfoAcademicaComponent {
   public modalityACForm: UntypedFormGroup;
   public modalityAC: DetalleAcademicoExt = {
     obtainedTitle:"",
-    institution:"",
+    institutionOfeducation:"",
     program:"",
     year:0
   }
   DetalleAC = {
     obtainedTitle:"",
-    institution:"",
+    institutionOfeducation:"",
     program:"",
     year:0
   }
@@ -29,7 +29,7 @@ export class InfoAcademicaComponent {
   constructor(
     public dialogACRef: MatDialogRef<InfoAcademicaComponent>,
     private _inscriptionService: InscriptionService,
-    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
+    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademicoExt,
     private fb: UntypedFormBuilder
   ) {
     this.modalityACForm = this.createContactForm();
@@ -38,7 +38,7 @@ export class InfoAcademicaComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       obtainedTitle: [this.modalityAC.obtainedTitle, [Validators.required]],
-      institution: [this.modalityAC.institution, [Validators.required]],
+      institutionOfeducation: [this.modalityAC.institutionOfeducation, [Validators.required]],
       program: [this.modalityAC.program, [Validators.required]],
       year: [this.modalityAC.year,[Validators.required]],
     });

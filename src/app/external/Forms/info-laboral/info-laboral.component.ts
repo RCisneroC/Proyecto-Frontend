@@ -15,14 +15,14 @@ export class InfoLaboralComponent {
   public modalityIL: DetalleExperienciaExt = {
     entidad: "",
     position: "",
-    periodo: "",
-    meses: ""
+    period: "",
+    months: ""
   }
   DetalleIL = {
     entidad: "",
     position: "",
-    periodo: "",
-    meses: ""
+    period: "",
+    months: ""
   }
 
   constructor(
@@ -38,8 +38,8 @@ export class InfoLaboralComponent {
     return this.fb.group({
       entidad: [this.modalityIL.entidad, [Validators.required]],
       position: [this.modalityIL.position, [Validators.required]],
-      periodo: [this.modalityIL.periodo, [Validators.required]],
-      meses: [this.modalityIL.meses, [Validators.required]],
+      period: [this.modalityIL.period, [Validators.required]],
+      months: [this.modalityIL.months, [Validators.required]],
     });
   }
 

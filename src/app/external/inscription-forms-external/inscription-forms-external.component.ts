@@ -14,6 +14,12 @@ import {InfoLaboralComponent} from "../Forms/info-laboral/info-laboral.component
 import {MatDialog} from "@angular/material/dialog";
 import {Requirement} from "../../admission/models/Requeriminet";
 import {ResponseEF} from "../../admission/models/ResponseMessage";
+import {ResponseInscripcionEF} from "../../admission/models/InscripcionEFResponse";
+import {AuthService} from "@core";
+import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
+import {ResponseAddEFlaboralInfo} from "../../admission/models/AddEFlaboralResponse";
+import {el} from "@fullcalendar/core/internal-common";
+import {MatStepper} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-inscription-forms-external',
@@ -47,6 +53,8 @@ export class InscriptionFormsExternalComponent {
   activities: any[] = [];
   schedule: any[] = [];
   disabled: boolean = false;
+  validsecondNext: boolean = false;
+  validthirdNext: boolean = false;
   inscriptionId: string = "";
   aspirantId: string = "";
   mostrarActividad: boolean = true;
@@ -98,6 +106,7 @@ export class InscriptionFormsExternalComponent {
     private activatedRoute: ActivatedRoute,
     private _inscriptionService: InscriptionService,
     public dialog: MatDialog,
+    private authService: AuthService
   ) {
     this.FormsEF = this.fb.group({
       cedula: ['', [Validators.required]],
@@ -174,6 +183,20 @@ export class InscriptionFormsExternalComponent {
           this.loading = false;
           this.disabled = true;
           this.personData = data;
+          this.FormsEF.value.firstName = this.personData[0]?.datasetPersona?.personaPublica
+            ?.primer_nombre;
+          this.FormsEF.value.lastName = this.personData[0]?.datasetPersona?.personaPublica
+            ?.apellido_paterno;
+          this.FormsEF.value.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
+            ?.apellido_materno;
+          this.FormsEF.value.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+            ?.lugarDeNacimiento;
+          this.FormsEF.value.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+            ?.fecha_nacimiento;
+          this.FormsEF.value.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
+            ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
+            ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
+            ?.barrio_residencia;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
         error: (e) => this.loading = false,
@@ -287,10 +310,189 @@ export class InscriptionFormsExternalComponent {
     location.reload();
   }
 
+  addAspirantEF() {
+    const jsonRequest = {
+      backoffice: 0,
+      firstName: this.FormsEF.value.firstName,
+      lastName: this.FormsEF.value.lastName,
+      cedula: this.FormsEF.value.cedula,
+      dateOfBirth: this.FormsEF.value.dateOfBirth,
+      placeOfBirth: this.FormsEF.value.placeOfBirth,
+      residentialAddress: this.FormsEF.value.residentialAddress,
+      telephoneNumber: this.FormsEF.value.telephoneNumber,
+      email: this.FormsEF.value.email,
+      degreeId: this.FormsEF.value.degreeId,
+      gender: this.FormsEF.value.gender,
+      bloodtype: this.FormsEF.value.bloodtype,
+      maritalStatus: this.FormsEF.value.maritalStatus,
+      nameOfspouse: this.FormsEF.value.nameOfspouse,
+      numberofchildren: this.FormsEF.value.numberofchildren,
+      caseOfemergency: this.FormsEF.value.caseOfemergency,
+      telephoneNumberEmergency: this.FormsEF.value.telephoneNumberEmergency,
+      specialCapacity: this.FormsEF.value.specialCapacity == "True",
+      visual: this.FormsEF.value.visual == "True",
+      auditory: this.FormsEF.value.auditory == "True",
+      cognitive: this.FormsEF.value.cognitive == "True",
+      physical: this.FormsEF.value.physical == "True",
+      specific: this.FormsEF.value.specific,
+      others: this.FormsEF.value.others,
+      usesAwheelchair: this.FormsEF.value.usesAwheelchair == "True",
+      observation: "",
+      createdBy: this.authService.currentUserValue.id
+    }
+    this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
+      next: (data: ResponseInscripcionEF) => {
+        this._inscriptionService._ResponseInscripcionEF = data;
+        if (!this._inscriptionService._ResponseInscripcionEF.isError) {
+          this.inscriptionId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].inscriptionId.toString();
+          this.aspirantId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].aspirantId.toString();
+
+          console.log("Creado correctamente, siguiente paso: cargar información académica.", this.aspirantId);
+          // Swal.fire({
+          //   title: "Escuela Judicial",
+          //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+          //   icon: "success"
+          // });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Aspirante no fue creado correctamente.',
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
+
+  addcademicInfo() {
+    const jsonRequest = {
+      aspirantId: this.aspirantId,
+      academicInformation: {}
+    }
+    let pointer = 1;
+    let jsonItem = "{";
+    const length = this.DataAcademico.length;
+    this.DataAcademico.forEach(function (value) {
+      console.log(value);
+      if (pointer != length) {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
+      }
+      else {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value);
+      }
+      pointer = pointer + 1;
+    })
+    jsonItem += "}";
+    jsonRequest.academicInformation = JSON.parse(jsonItem);
+
+    console.log("Detalle academico request", jsonRequest);
+    this._inscriptionService.AddEFAcademicInfo(jsonRequest).subscribe({
+      next: (data: ResponseAddEFcademicInfo) => {
+        this._inscriptionService._ResponseAddEFcademicInfo = data;
+        if (!this._inscriptionService._ResponseAddEFcademicInfo.isError) {
+
+          console.log("Creado correctamente, siguiente paso: cargar información Laboral.", this.aspirantId);
+          // Swal.fire({
+          //   title: "Escuela Judicial",
+          //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+          //   icon: "success"
+          // });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Academic no fue creado correctamente.',
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
+
+  addEFLaboralInfo() {
+    const jsonRequest = {
+      aspirantId: this.aspirantId,
+      workExperience: {}
+    }
+    let pointer = 1;
+    let jsonItem = "{";
+    const length = this.DataExperiencia.length;
+    this.DataExperiencia.forEach(function (value) {
+      console.log(value);
+      if (pointer != length) {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
+      }
+      else {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value);
+      }
+      pointer = pointer + 1;
+    })
+    jsonItem += "}";
+    jsonRequest.workExperience = JSON.parse(jsonItem);
+
+    console.log("Detalle Laboral request", jsonRequest);
+    this._inscriptionService.AddEFLaboralInfo(jsonRequest).subscribe({
+      next: (data: ResponseAddEFlaboralInfo) => {
+        this._inscriptionService._ResponseAddEFlaboralInfo = data;
+        if (!this._inscriptionService._ResponseAddEFlaboralInfo.isError) {
+
+          console.log("Creado correctamente, siguiente paso: cargar documentos.", this.aspirantId);
+          // Swal.fire({
+          //   title: "Escuela Judicial",
+          //   text: 'Creado correctamente, siguiente paso: cargar información académica.',
+          //   icon: "success"
+          // });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'WorkExperience no fue creado correctamente.',
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
+
   firstNext() {
     console.log(this.FormsEF.value.degreeId);
-    //this.addAspirantEF();
+    this.addAspirantEF();
     this.getRequirementsDocuments(this.FormsEF.value.degreeId);
+  }
+
+  secondNext(stepper?: MatStepper) {
+    if(this.DataAcademico.length > 0){
+      this.addcademicInfo();
+      this.validsecondNext = true;
+      stepper?.next();
+    }
+    else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Debe ingresar al menos una informacion Academica.',
+        icon: "warning"
+      });
+    }
+
+  }
+
+  thirdNext(stepper?: MatStepper) {
+    if(this.DataExperiencia.length > 0){
+      this.addEFLaboralInfo();
+      this.validthirdNext = true;
+      stepper?.next();
+    }
+    else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Debe ingresar al menos una Experiencia Laboral.',
+        icon: "warning"
+      });
+    }
   }
 
 }

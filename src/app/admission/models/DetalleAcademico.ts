@@ -10,7 +10,7 @@ export interface DetalleAcademico{
 
 export interface DetalleAcademicoExt{
   obtainedTitle:string;
-  institution:string;
+  institutionOfeducation:string;
   program:string;
   year:number;
 }
