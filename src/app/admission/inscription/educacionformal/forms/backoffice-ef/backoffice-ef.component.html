@@ -1,7 +1,8 @@
 <section class="content">
     <div class="content-block">
         <div class="block-header">
-            <app-breadcrumb [title]="'Inscripción de Formación Especializada'" [items]="['Home','Admisión','Educación Formal']"
+            <app-breadcrumb [title]="'Inscripción de Formación Especializada'"
+                [items]="['Home','Admisión','Educación Formal']"
                 [active_item]="'Inscripción de Formación Especializada'">
             </app-breadcrumb>
         </div>
@@ -11,10 +12,69 @@
                     <div class="header">
                     </div>
                     <div class="body">
-                        <h5><strong>Formulario de Inscripción de Formación Especializada</strong></h5>
-                        <p>Nota: <strong>Documento de Identidad se estara validando con el Tribunal Electoral, luego puede avanzar.</strong></p>
+                        <h5 class="text-uppercase"><strong>Listado de Planes anuales aprobados</strong></h5>
+                        <p *ngIf="!showTable">Nota: <strong>Documento de Identidad se estara validando con el Tribunal
+                                Electoral, luego puede avanzar.</strong></p>
                         <div class="body">
-                            <mat-horizontal-stepper [linear]="false" #stepper>
+                            <div *ngIf="showTable" class="responsive_table">
+                                <table mat-table [dataSource]="SourcePlan" matSort class="mat-cell advance-table">
+
+                                    <!-- ID Column -->
+
+
+                                    <ng-container matColumnDef="name">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="description">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="statusId">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <span class="badge badge-solid-green">{{ row.statusId | statusPipe }}</span>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- actions -->
+                                    <ng-container matColumnDef="actions">
+                                        <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                                        <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                                            <button mat-mini-fab color="accent"
+                                                matTooltip="Inscribir en el Plan Anual {{ row.name }}"
+                                                (click)="$event.stopPropagation()" (click)="changestatus(row.id)"
+                                                class="tbl-action-btn">
+                                                <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                            </button>
+                                            <!--  &lt;!&ndash; <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> &ndash;&gt;
+                                    <button mat-mini-fab color="primary" title="Detalle Salón" (click)="$event.stopPropagation()" class="tbl-action-btn">
+                                      <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                    </button>
+                                    <button mat-mini-fab color="accent" title="Eliminar" (click)="$event.stopPropagation()" (click)="delete(row)" class="tbl-action-btn">
+                                      <app-feather-icons [icon]="'trash'"></app-feather-icons>
+                                    </button>-->
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'"
+                                        matRipple>
+                                    </mat-row>
+
+                                </table>
+                                <mat-paginator #paginator [length]="SourcePlan.filter.length" [pageIndex]="0"
+                                    [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+                                </mat-paginator>
+
+                            </div>
+                            <mat-horizontal-stepper *ngIf="!showTable" [linear]="false" #stepper>
                                 <mat-step [stepControl]="FormsEF!">
                                     <form [formGroup]="FormsEF!">
                                         <ng-template matStepLabel>Datos Personales</ng-template>
@@ -22,30 +82,57 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Documento de Identidad (Unico)</mat-label>
-                                                    <input matInput formControlName="cedula">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
+                                                    <input #filter matInput formControlName="cedula"
+                                                        [ngModel]="Participant.cedula">
+                                                    <mat-icon (click)="getPersonData(filter.value)"
+                                                        class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>search</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-spinner diameter="45" *ngIf="loading"> </mat-spinner>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Nombre</mat-label>
-                                                    <input matInput formControlName="firstName" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
+                                                    <input matInput formControlName="firstName" [readonly]="false"
+                                                        [ngModel]="Participant.firstName">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
-                                                    <mat-label>Apellido</mat-label>
-                                                    <input matInput formControlName="lastName" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
+                                                    <mat-label>Primer Apellido</mat-label>
+                                                    <input matInput formControlName="lastName" [readonly]="false"
+                                                        [ngModel]="Participant.lastName">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
+                                                        Es Requitos
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                <mat-form-field class="example-full-width " appearance="outline">
+                                                    <mat-label>Segundo Apellido</mat-label>
+                                                    <input matInput formControlName="secondsurname" [readonly]="false"
+                                                        [ngModel]="Participant.secondsurname">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('secondsurname')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
@@ -56,21 +143,28 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Lugar de nacimiento</mat-label>
-                                                    <input matInput formControlName="placeOfBirth" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
+                                                    <input matInput formControlName="placeOfBirth" [readonly]="false"
+                                                        [ngModel]="Participant.placeOfBirth">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('placeOfBirth')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Fecha de nacimiento</mat-label>
-                                                    <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
-                                                    <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+                                                    <input matInput [matDatepicker]="fechaNacimiento"
+                                                        formControlName="dateOfBirth"
+                                                        [ngModel]="Participant.dateOfBirth">
+                                                    <mat-datepicker-toggle matSuffix
+                                                        [for]="fechaNacimiento"></mat-datepicker-toggle>
                                                     <mat-datepicker #fechaNacimiento></mat-datepicker>
-                                                     <mat-error *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('fechaNacimiento')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
@@ -79,9 +173,12 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Dirección residencial</mat-label>
-                                                    <input matInput formControlName="residentialAddress" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
+                                                    <input matInput formControlName="residentialAddress"
+                                                        [readonly]="false" [ngModel]="Participant.residentialAddress">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('residentialAddress')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
@@ -92,116 +189,145 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Correo electrónico</mat-label>
-                                                    <input matInput formControlName="email" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
+                                                    <input matInput formControlName="email" [readonly]="false"
+                                                        [ngModel]="Participant.email">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Número telefónico</mat-label>
-                                                    <input matInput formControlName="telephoneNumber" [readonly]="true">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                                                     <mat-error *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
+                                                    <input matInput formControlName="telephoneNumber" [readonly]="false"
+                                                        [ngModel]="Participant.telephoneNumber">
+                                                    <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                        matSuffix>edit</mat-icon>
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
-                                        
+
                                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Programa a académico al que se presenta</mat-label>
-                                                    <mat-select formControlName="carreraId">
-                                                        <!-- <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option> -->
-                                                        <mat-option [value]="true">--------------------</mat-option>
+                                                    <mat-select formControlName="carreraId"
+                                                        [ngModel]="Participant.degreeId">
+                                                        <mat-option *ngFor="let row of modalityList"
+                                                            [value]="row.id">{{row.name}}</mat-option>
                                                     </mat-select>
-                                                    <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
+                                                    <!--<mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
                                                         la modalidad es requerida
                                                     </mat-error> -->
-                                                     <mat-error *ngIf="FormsEF.get('planningDate')?.hasError('required')">
+                                                    <mat-error
+                                                        *ngIf="FormsEF.get('planningDate')?.hasError('required')">
                                                         Es Requitos
                                                     </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <!-- [disabled]="!FormsEF!.valid"  -->
+
                                         <div>
-                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                            <button [disabled]="!FormsEF!.valid" (click)="firstNext()" mat-raised-button
+                                                matStepperNext color="primary">Siguiente</button>
                                         </div>
                                     </form>
                                 </mat-step>
                                 <mat-step>
                                     <form>
                                         <ng-template matStepLabel>Información Académico</ng-template>
-                                        <button mat-raised-button matStepperPrevious color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
+                                        <button (click)="openDialogAC()" mat-raised-button color="primary"
+                                            class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información
+                                            Academica</button>
                                         <div class="body">
                                             <div class="body table-responsive">
                                                 <table mat-table [dataSource]="SourceAcademico" class="w-100">
                                                     <!-- Id Column -->
                                                     <ng-container matColumnDef="nivel">
-                                                        <th  mat-header-cell *matHeaderCellDef>Nivel
+                                                        <th mat-header-cell *matHeaderCellDef>Nivel
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">Nivel:</span>{{row.educationalLevelId}}</td>
+                                                            <span
+                                                                class="mobile-label">Nivel:</span>{{row.educationalLevelId}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="institucion">
-                                                        <th  mat-header-cell *matHeaderCellDef>Institución
+                                                        <th mat-header-cell *matHeaderCellDef>Institución
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Institución</span>{{row.institution}}</td>
+                                                            <span
+                                                                class="mobile-label">:Institución</span>{{row.institution}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="ciudad">
-                                                        <th  mat-header-cell *matHeaderCellDef>Ciudad
+                                                        <th mat-header-cell *matHeaderCellDef>Ciudad
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Ciudad</span>{{row.city}}</td>
+                                                            <span class="mobile-label">:Ciudad</span>{{row.city}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="fecha_culiminacion">
-                                                        <th  mat-header-cell *matHeaderCellDef>Fecha Culminación
+                                                        <th mat-header-cell *matHeaderCellDef>Fecha Culminación
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Fecha Culminación</span>{{row.completionDate}}</td>
+                                                            <span class="mobile-label">:Fecha
+                                                                Culminación</span>{{row.completionDate}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="fecha_grado">
-                                                        <th  mat-header-cell *matHeaderCellDef>Fecha Grado
+                                                        <th mat-header-cell *matHeaderCellDef>Fecha Grado
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Fecha Grado</span>{{row.startDate}}</td>
+                                                            <span class="mobile-label">:Fecha
+                                                                Grado</span>{{row.startDate}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="titulo_obtenido">
-                                                        <th  mat-header-cell *matHeaderCellDef>Titulo Obtenido
+                                                        <th mat-header-cell *matHeaderCellDef>Titulo Obtenido
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Titulo Obtenido</span>{{row.obtainedTitle}}</td>
+                                                            <span class="mobile-label">:Titulo
+                                                                Obtenido</span>{{row.obtainedTitle}}
+                                                        </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="acciones">
-                                                        <th  mat-header-cell *matHeaderCellDef>Acciones
+                                                        <th mat-header-cell *matHeaderCellDef>Acciones
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <button matTooltip="Eliminar" mat-mini-fab color="accent">
+                                                            <button (click)="deleteItemAC(DataAcademico.indexOf(row))"
+                                                                matTooltip="Eliminar" mat-mini-fab color="accent">
                                                                 <mat-icon>delete</mat-icon>
                                                             </button>
                                                         </td>
                                                     </ng-container>
-                                                <tr mat-header-row *matHeaderRowDef="InformacionAcademica"></tr>
-                                                <tr mat-row *matRowDef="let row; columns: InformacionAcademica;"></tr>
+                                                    <tr mat-header-row *matHeaderRowDef="InformacionAcademica"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: InformacionAcademica;">
+                                                    </tr>
                                                 </table>
-                                                <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+                                                <mat-paginator #paginator [pageIndex]="0" [pageSize]="2"
+                                                    [pageSizeOptions]="[2, 10, 20]"
+                                                    [length]="SourceAcademico.filteredData.length"></mat-paginator>
                                             </div>
                                         </div>
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
-                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button (click)="secondNext()" mat-raised-button matStepperNext
+                                                color="primary">Siguiente</button>
                                         </div>
                                     </form>
                                 </mat-step>
                                 <mat-step>
                                     <form>
                                         <ng-template matStepLabel>Información Laboral</ng-template>
-                                        <button mat-raised-button matStepperPrevious color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Labral</button>
+                                        <button mat-raised-button (click)="openDialogIL()" color="primary"
+                                            class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia
+                                            Labral</button>
 
                                         <div class="body">
                                             <div class="body table-responsive">
@@ -211,7 +337,7 @@
                                                         <th mat-header-cell *matHeaderCellDef>Entidad
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">Entidad:</span>..............
+                                                            <span class="mobile-label">Entidad:</span>{{row.entidad}}
                                                         </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="cargo">
@@ -225,14 +351,16 @@
                                                         <th mat-header-cell *matHeaderCellDef>Ciudad
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Ciudad</span>{{row.cityEmployment}}
+                                                            <span
+                                                                class="mobile-label">:Ciudad</span>{{row.cityEmployment}}
                                                         </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="inicio">
                                                         <th mat-header-cell *matHeaderCellDef>Inicio
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <span class="mobile-label">:Inicio</span>{{row.startDateEmployment}}
+                                                            <span
+                                                                class="mobile-label">:Inicio</span>{{row.startDateEmployment}}
                                                         </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="fin">
@@ -253,7 +381,8 @@
                                                         <th mat-header-cell *matHeaderCellDef>Acciones
                                                         </th>
                                                         <td mat-cell *matCellDef="let row">
-                                                            <button matTooltip="Eliminar" mat-mini-fab color="accent">
+                                                            <button (click)="deleteItemIL(DataExperiencia.indexOf(row))"
+                                                                matTooltip="Eliminar" mat-mini-fab color="accent">
                                                                 <mat-icon>delete</mat-icon>
                                                             </button>
                                                         </td>
@@ -261,13 +390,17 @@
                                                     <tr mat-header-row *matHeaderRowDef="InformacionLaboral"></tr>
                                                     <tr mat-row *matRowDef="let row; columns: InformacionLaboral;"></tr>
                                                 </table>
-                                                <mat-paginator #paginatorExperiencia [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+                                                <mat-paginator #paginatorExperiencia [pageIndex]="0" [pageSize]="2"
+                                                    [pageSizeOptions]="[2, 10, 20]"
+                                                    [length]="SourceExperiencia.filteredData.length"></mat-paginator>
                                             </div>
                                         </div>
-                                        
+
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
-                                            <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button (click)="thirdNext()" mat-raised-button matStepperNext
+                                                color="primary">Siguiente</button>
                                         </div>
                                     </form>
                                 </mat-step>
@@ -275,46 +408,42 @@
                                     <form [formGroup]="FormsEFDocument!">
                                         <ng-template matStepLabel>Documentos</ng-template>
                                         <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
-                                                <app-file-upload formControlName="Photo" ></app-file-upload>
-                                            </div>
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Fotografía</mat-label>
-                                                <app-file-upload formControlName="CIP" ></app-file-upload>
-                                            </div>
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Titulo</mat-label>
-                                                <app-file-upload formControlName="Title" ></app-file-upload>
-                                            </div>
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">créditos</mat-label>
-                                                <app-file-upload formControlName="Credits" ></app-file-upload>
-                                            </div>
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">idoneidad</mat-label>
-                                                <app-file-upload formControlName="Idoneidad" ></app-file-upload>
-                                            </div>
-                                            
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Carta motivación</mat-label>
-                                                <app-file-upload formControlName="LetterMotivation" ></app-file-upload>
-                                            </div>
-                                            
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                <mat-label style="font-weight: bold;">Carta Aval</mat-label>
-                                                <app-file-upload formControlName="LetterAval" ></app-file-upload>
-                                            </div>
+
+                                            <mat-grid-list cols="2" rowHeight="2:1">
+                                                <mat-grid-tile
+                                                    *ngFor="let requerimiento of RequirementsDocumentsList;let i=index">
+                                                    <div class="file-section">
+
+                                                        <p style="font-weight: bold;text-transform: uppercase;">{{
+                                                            requerimiento.name }} <br></p>
+
+                                                        <div class="file-drop-area">
+
+                                                            <button mat-raised-button color="primary">Elija el
+                                                                archivo</button>
+                                                            <span>arrastre y suelte el archivo aquí</span>
+                                                            <input class="file-input"
+                                                                id="archivo_{{ requerimiento.id }}"
+                                                                (change)="onChangeFile($event, requerimiento.id,requerimiento)"
+                                                                type="file">
+
+                                                        </div>
+
+                                                        <!-- <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
+                                                  (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" /> -->
+                                                        <p style="color: green;font-weight: bold;margin-top: 10px;"
+                                                            id="texto_{{ requerimiento.id }}"></p>
+                                                        <mat-progress-bar mode="indeterminate"
+                                                            *ngIf="loadingFile"></mat-progress-bar>
+                                                    </div>
+                                                </mat-grid-tile>
+                                            </mat-grid-list>
                                         </div>
                                         <div>
-                                            <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
-                                            <button mat-raised-button color="primary"
-                                                (click)="submit()">Validar la información</button>
+                                            <button disabled mat-raised-button matStepperPrevious color="warn"
+                                                class="msr-2">Atras</button>
+                                            <button mat-raised-button color="primary" (click)="submit()">Validar la
+                                                información</button>
                                         </div>
                                     </form>
                                     <!-- [disabled]="!editActivity!.valid" -->

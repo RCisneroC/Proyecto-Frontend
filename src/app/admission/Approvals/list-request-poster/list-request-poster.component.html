@@ -10,7 +10,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Listado de Afiches/Documentos por aprobar</strong></h2>
+                        <h2 class="text-uppercase"><strong>Listado de Afiches/Documentos por aprobar</strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -67,7 +67,8 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actividad
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Actividad:</span>{{row.activityName}}</mat-cell>
+                                                        <span
+                                                            class="mobile-label">Actividad:</span>{{row.activityName}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="estado">
@@ -86,7 +87,8 @@
                                                     <mat-cell *matCellDef="let row">
                                                         <div>
                                                             <span class="mobile-label ">Documento:</span>
-                                                            <button matTooltip="Ver Documento" mat-mini-fab color="primary" (click)="verDocumento(row)">
+                                                            <button matTooltip="Ver Documento" mat-mini-fab
+                                                                color="primary" (click)="verDocumento(row)">
                                                                 <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                             </button>
                                                         </div>
@@ -100,9 +102,11 @@
                                                         <button matTooltip="Detalle de Actividades" mat-mini-fab
                                                             color="primary" (click)="ViewDetail(row)">
                                                             <app-feather-icons [icon]="'airplay'"></app-feather-icons>
-                                                        </button> 
-                                                        <button matTooltip="Aprobar Afiche" mat-mini-fab color="warn" (click)="aprobar(row)">
-                                                            <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                                                        </button>
+                                                        <button matTooltip="Aprobar Afiche" mat-mini-fab color="warn"
+                                                            (click)="aprobar(row)">
+                                                            <app-feather-icons
+                                                                [icon]="'check-square'"></app-feather-icons>
                                                         </button>
                                                     </mat-cell>
                                                 </ng-container>

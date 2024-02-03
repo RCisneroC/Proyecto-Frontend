@@ -90,6 +90,9 @@ import { FormsRoomsComponent } from './FormalEducations/Maestros/Forms/forms-roo
 import { FormsStatusComponent } from './FormalEducations/Maestros/Forms/forms-status/forms-status.component';
 import { FormsStudyModeComponent } from './FormalEducations/Maestros/Forms/forms-study-mode/forms-study-mode.component';
 import { FormsSubjectComponent } from './FormalEducations/Maestros/Forms/forms-subject/forms-subject.component';
+import { PlanListInscriptionComponent } from './inscription/educacionformal/approval/plan-list-inscription/plan-list-inscription.component';
+import { MeshListInscriptionComponent } from './inscription/educacionformal/approval/mesh-list-inscription-component/mesh-list-inscription-component.component';
+import { PartakerListInscriptionComponent } from './inscription/educacionformal/approval/partaker-list-inscription-component/partaker-list-inscription-component.component';
 import { DegreeDetailsComponent } from './FormalEducations/Maestros/Details/degree-details/degree-details.component';
 import { SubjectDetailsComponent } from './FormalEducations/Maestros/Details/subject-details/subject-details.component';
 import { AddDocumentosComponent } from './FormalEducations/Maestros/Details/Forms/add-documentos/add-documentos.component';
@@ -109,6 +112,7 @@ import { ApprovedDegreeComponent } from './FormalEducations/Approvals/Forms/appr
 import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/approved-annual-plan/approved-annual-plan.component';
 import { ApprovedPosterTwoComponent } from './FormalEducations/Approvals/Forms/approved-poster-two/approved-poster-two.component';
 import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create-asigned/create-asigned.component';
+import { PartakerDetailInscriptionComponent } from './inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +131,7 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
     // ExternalUserComponent,
     // InternalUserComponent,
 
-    ActivityListInscriptionComponent,
+  ActivityListInscriptionComponent,
 
     ModalityFormComponent,
     TypeActivityFormComponent,
@@ -197,6 +201,10 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
     FormsRoomsComponent,
     FormsStatusComponent,
     FormsStudyModeComponent,
+    PlanListInscriptionComponent,
+    MeshListInscriptionComponent,
+    PartakerListInscriptionComponent,
+
     FormsSubjectComponent,
     DegreeDetailsComponent,
     SubjectDetailsComponent,
@@ -218,7 +226,7 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
     ApprovedPosterComponent,
     ApprovedPosterTwoComponent,
     CreateAsignedComponent,
-    
+    PartakerDetailInscriptionComponent
   ],
   providers: [
     VerificarBS64Pipe

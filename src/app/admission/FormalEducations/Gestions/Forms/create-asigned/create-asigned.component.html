@@ -36,7 +36,7 @@
                                     <mat-select formControlName="teacherCedula">
                                         <mat-option value="">------------------</mat-option>
                                         <ng-container *ngFor="let item of _ActivityDetailService._ListadoDocentes">
-                                            <mat-option *ngIf="item.process == 2" [value]="item.cedula">{{item.name}}
+                                            <mat-option *ngIf="item.process == 1" [value]="item.cedula">{{item.name}}
                                                 {{item.lastName}}</mat-option>
                                         </ng-container>
 

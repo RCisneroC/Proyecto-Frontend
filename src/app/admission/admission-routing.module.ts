@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoungeListComponent } from './maestros/lounge-list/lounge-list.component';
@@ -35,6 +36,15 @@ import { StatusComponent } from './FormalEducations/Maestros/status/status.compo
 import { DegreeAdmissionRequirementComponent } from './FormalEducations/Maestros/degree-admission-requirement/degree-admission-requirement.component';
 import { DegreeCompetenceComponent } from './FormalEducations/Maestros/degree-competence/degree-competence.component';
 import { StudyModeComponent } from './FormalEducations/Maestros/study-mode/study-mode.component';
+import {
+  PlanListInscriptionComponent
+} from "./inscription/educacionformal/approval/plan-list-inscription/plan-list-inscription.component";
+import {
+  MeshListInscriptionComponent
+} from "./inscription/educacionformal/approval/mesh-list-inscription-component/mesh-list-inscription-component.component";
+import {
+  PartakerListInscriptionComponent
+} from "./inscription/educacionformal/approval/partaker-list-inscription-component/partaker-list-inscription-component.component";
 import { DegreeDetailsComponent } from './FormalEducations/Maestros/Details/degree-details/degree-details.component';
 import { SubjectDetailsComponent } from './FormalEducations/Maestros/Details/subject-details/subject-details.component';
 import { SubjectCurriculumComponent } from './FormalEducations/Maestros/Details/subject-curriculum/subject-curriculum.component';
@@ -44,7 +54,7 @@ import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Detail
 import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
 import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
 import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
-import { RequiredDocumentListComponent } from 'app/teaching-management/required-document-list/required-document-list.component';
+import { PartakerDetailInscriptionComponent } from './inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -177,6 +187,22 @@ const routes: Routes = [
     path: 'list-rooms-approve',
     component: ListRequestRoomsComponent,
   },
+  {
+    path: "list-inscriptions-plans",
+    component: PlanListInscriptionComponent
+  },
+  {
+    path: "list-inscriptions-mesh/:id",
+    component: MeshListInscriptionComponent
+  },
+  {
+    path: "list-inscriptions-partaker",
+    component: PartakerListInscriptionComponent
+  },
+  {
+    path: "detail-inscriptions-partaker/:id",
+    component: PartakerDetailInscriptionComponent
+  },
   // ajustes  EF
   {
     path: 'carreras',
@@ -248,10 +274,6 @@ const routes: Routes = [
     component: BackofficeEFComponent,
     
   },
-  {
-    path: 'required-document-list',
-    component: RequiredDocumentListComponent,
-  }
 ];
 
 
