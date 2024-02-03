@@ -488,6 +488,10 @@ export class BackofficeEFComponent implements AfterViewInit {
 
   }
 
+  volverAtras(){
+    this.showTable = true;
+  }
+
   firstNext() {
     console.log(this.FormsEF.value.degreeId);
     this.addAspirantEF();

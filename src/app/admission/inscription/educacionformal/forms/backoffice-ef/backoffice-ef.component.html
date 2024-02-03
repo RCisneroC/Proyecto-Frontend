@@ -6,6 +6,13 @@
                 [active_item]="'Inscripción de Formación Especializada'">
             </app-breadcrumb>
         </div>
+      <div *ngIf="!showTable" class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+        <div class="">
+          <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+            <mat-icon>keyboard_backspace</mat-icon> Regresar
+          </button>
+        </div>
+      </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
