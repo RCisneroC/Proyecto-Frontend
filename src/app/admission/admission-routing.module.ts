@@ -62,6 +62,7 @@ import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/li
 import {
   PartakerDetailInscriptionComponent
 } from "./inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component";
+import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create-rooms/create-rooms.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -279,6 +280,10 @@ const routes: Routes = [
   {
     path: 'form-ef',
     component: BackofficeEFComponent,
+  },
+  {
+    path: 'period/:id/degree/:id_degree',
+    component: CreateRoomsComponent,
   },
 
 ];

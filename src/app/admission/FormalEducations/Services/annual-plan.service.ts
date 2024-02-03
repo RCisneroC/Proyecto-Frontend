@@ -16,6 +16,7 @@ import { DegreeCurriculumDesign, PosterRequest } from '../Models/Degree';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { SubjectPeriod } from '../Models/PlanSubject';
 import { RequirementAdmision } from '../Models/RequirementAdmision';
+import { PlanEstudioList } from '../Models/PlanEstudio';
 
 @Injectable({
   providedIn: 'root',
@@ -107,14 +108,14 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
 
   addAnnualPlanPeriod(_AnnualPlan: any) {
     return this.httpClient.post<ResponseGenerica>(
-      environment.apiEF + 'AnnualPlan/CreatePeriod',
+      environment.apiEF + 'DegreeCurriculumDesign/CreatePeriod',
       _AnnualPlan
     );
   }
 
   updateAnnualPlanPeriod(_AnnualPlan: any) {
     return this.httpClient.put<ResponseGenerica>(
-      environment.apiEF + 'AnnualPlan/UpdatePeriod',
+      environment.apiEF + 'DegreeCurriculumDesign/UpdatePeriod',
       _AnnualPlan
     );
   }
@@ -138,7 +139,7 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
 
   GetPeriodAnnualPlan(id: any) {
     return this.httpClient.get<Period[]>(
-      environment.apiEF + 'AnnualPlan/GetPeriodsBy?AnnualPlanId=' + id
+      environment.apiEF + 'DegreeCurriculumDesign/GetPeriodsBy?DegreeCurriculumDesignId=' + id
     );
   }
 
@@ -165,7 +166,7 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
     return this.httpClient.delete<ResponseGenerica>(
-      environment.apiEF + 'AnnualPlan/DeletePeriod',
+      environment.apiEF + 'DegreeCurriculumDesign/DeletePeriod',
       options
     );
   }
@@ -188,14 +189,14 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
   }
 
   getSubjectPeiod(id: any) {
-    return this.httpClient.get<SubjectPeriod[]>(
+    return this.httpClient.get<PlanEstudioList[]>(
       environment.apiEF + 'DegreeCurriculumDesign/GetPeriodSubjectsBy?DegreeCurriculumDesignId=' + id
     );
   }
 
   getPeriodAgree(id: any) {
     return this.httpClient.get<Period[]>(
-      environment.apiEF + 'AnnualPlan/GetPeriodsBy?AnnualPlanId=' + id
+      environment.apiEF + 'DegreeCurriculumDesign/GetPeriodsBy?DegreeCurriculumDesignId=' + id
     );
   }
 
@@ -314,7 +315,7 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
       description: '',
       startDate: new Date(),
       endDate: new Date(),
-      maxNumOfParticipants: 0,
+      maxNumOfParticipants: 1,
     };
   }
 }

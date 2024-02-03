@@ -66,7 +66,6 @@ export class InscriptionFormsExternalComponent {
         text: 'Por favor, ingrese una cédula',
         icon: "warning"
       });
-
     } else {
       this.loading = true;
       this.cedulaParticipant = cedula;
@@ -81,10 +80,6 @@ export class InscriptionFormsExternalComponent {
         error: (e) => this.loading = false,
         complete: () => console.info('Complete')
       })
-
     }
-
-
   }
-
 }

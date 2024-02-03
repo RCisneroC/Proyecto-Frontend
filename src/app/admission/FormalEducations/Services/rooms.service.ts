@@ -45,9 +45,15 @@ export class RoomsService extends UnsubscribeOnDestroyAdapter {
       .get<Rooms[]>(environment.apiEF + 'Room/GetAll');
   }
 
+  getAllRoom2Filter(id: any) {
+    return this.httpClient
+      .get<Rooms[]>(environment.apiEF + 'v1/Room/GetAll?StatusId=' + id);
+  }
+
+
   getAllRoomsFiltro(id: any) {
     return this.httpClient
-      .get<Rooms[]>(environment.apiEF + 'Room/GetAll?StatusId=' + id);
+      .get<Rooms>(environment.apiEF + 'Room/GetAll?StatusId=' + id);
   }
 
   addRooms(Rooms: any) {
@@ -68,7 +74,7 @@ export class RoomsService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Room/Delete', options);
   }
   init_Rooms() {
@@ -76,7 +82,7 @@ export class RoomsService extends UnsubscribeOnDestroyAdapter {
       description: '',
       id: 0,
       name: '',
-      statusId:0
+      statusId: 0
     }
   }
 }

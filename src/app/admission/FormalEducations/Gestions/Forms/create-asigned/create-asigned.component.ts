@@ -15,6 +15,7 @@ export interface DialogData {
   id_plan: string;
   period: Period[];
   subject: Subject;
+  anios: number;
 }
 
 @Component({
@@ -29,6 +30,8 @@ export class CreateAsignedComponent implements OnInit {
   }
   action: string;
   dialogTitle: string = '';
+  public CountYears: any[] = [];
+  public cantidad: number = 2;
   AsignacionForms: UntypedFormGroup;
   constructor(
     public dialogRef: MatDialogRef<CreateAsignedComponent>,
@@ -41,6 +44,7 @@ export class CreateAsignedComponent implements OnInit {
     console.log(data);
     if (this.action === 'add') {
       this.dialogTitle = "Nueva asignación";
+      this.cantidad = data.anios;
       this.LoadAlTeachers();
     }
     this.AsignacionForms = this.fb.group({
@@ -50,18 +54,19 @@ export class CreateAsignedComponent implements OnInit {
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       examDate: ['', [Validators.required]],
-      teacherCedula: ['', [Validators.required]],
-      virtualRoom: ['', [Validators.required]],
+      virtualRoom: ['001', [Validators.required]],
+      year: [0, [Validators.required]]
     });
+
   }
   ngOnInit(): void {
+    for (let index = 1; index <= this.cantidad; index++) {
+      this.CountYears.push(index);
+    }
 
   }
   onChange(item: MatSelectChange) {
     var valor = this.data.period.find(x => x.id == item.value);
-    console.log(valor);
-    this.AsignacionForms.controls['startDate'].setValue(valor?.startDate);
-    this.AsignacionForms.controls['endDate'].setValue(valor?.endDate);
   }
   submit() {
     console.log(this.AsignacionForms.getRawValue());

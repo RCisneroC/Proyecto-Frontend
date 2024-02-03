@@ -17,7 +17,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div #imageElement class="header">
-                        <h2 class="text-uppercase">Malla Curricular</h2>
+                        <h2 class="text-uppercase">Malla Curricular de <strong>{{ _Degree._DetalleMalla.name}}</strong>
+                            <br> <span><strong>{{ _Degree._DetalleMalla.degree.name}}</strong></span>
+                        </h2>
                     </div>
                     <!-- <div class="body">
                         <div class="row">
@@ -46,43 +48,35 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Nombre Asignatura</th>
-                                        <th>Descripción</th>
-                                        <th>Cantidad Crédito</th>
-                                        <th>Cantidad Horas</th>
-                                        <th>Acciones</th>
+                                        <th class="theat">Código de asignatura</th>
+                                        <th class="theat">Descripción</th>
+                                        <th class="theat">Descripción</th>
+                                        <th class="theat">Cantidad Crédito</th>
+                                        <th class="theat">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <ng-container *ngFor="let item of _Listado">
                                         <tr>
-                                            <td class="clases">{{ item.period.name }}</td>
-                                            <td class="clases"> <strong>Inicio: (</strong> {{
-                                                item.period.startDate | date:'dd/M/yyyy' }})
-                                            </td>
-                                            <td class="clases"><strong>Fin: (</strong> {{ item.period.endDate
-                                                | date:'dd/M/yyyy' }})</td>
-                                            <td class="clases"><strong>Cupos: (</strong> {{
-                                                item.period.maxNumOfParticipants }})</td>
-                                            <td class="clases"></td>
+                                            <td class="theatanio" colspan="5">{{ item.year }} AÑO</td>
                                         </tr>
-
-                                        <tr *ngFor="let item_ of item.subjects">
-                                            <td>{{ item_.name }}</td>
-                                            <td>{{ item_.description }}</td>
-                                            <td>{{ item_.numOfCredits }}</td>
-                                            <td>{{ item_.numOfHours }}</td>
-                                            <td>
-                                                <!-- <button matTooltip="Editar" mat-mini-fab color="primary">
-                                                    <mat-icon>edit</mat-icon>
-                                                </button> -->
-                                                <button (click)="eliminar(item_.id,item.period)" matTooltip="Eliminar"
-                                                    mat-mini-fab color="warn">
-                                                    <mat-icon>delete</mat-icon>
-                                                </button>
-
-                                            </td>
-                                        </tr>
+                                        <ng-container *ngFor="let item_p of item.periods">
+                                            <tr>
+                                                <td class="period" colspan="5">{{item_p.name }}</td>
+                                            </tr>
+                                            <tr *ngFor="let item_ of item_p.subjects">
+                                                <td style="font-weight: 800;">{{ item_.code }}</td>
+                                                <td>{{ item_.name }}</td>
+                                                <td>{{ item_.description }}</td>
+                                                <td>{{ item_.numOfCredits }}</td>
+                                                <td>
+                                                    <button (click)="eliminar(item_,item_p,item.year)"
+                                                        matTooltip="Eliminar" mat-mini-fab color="warn">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
                                     </ng-container>
                                 </tbody>
                             </table>
@@ -139,7 +133,63 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="text-uppercase"><strong>Listado de Periodos</strong>
+                            <button (click)="AddPeriod()" matTooltip="Agregar Periodo"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataPeriod" class="w-100">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
 
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Cupos del periodo </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+                                <!-- <ng-container matColumnDef="fechas">
+                                    <th mat-header-cell *matHeaderCellDef> Fechas </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy'}} -
+                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
+                                </ng-container> -->
+                                <ng-container matColumnDef="Estado">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.statusId |statusPipe }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="deletePeriodo(element)" mat-mini-fab color="accent"
+                                            matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                        <button (click)="editarPeriodo(element)" mat-mini-fab color="primary"
+                                            matTooltip="Editar">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                        <button (click)="createRooms(element)" mat-mini-fab color="primary"
+                                            matTooltip="Aperturar Salones">
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNamePeriod"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNamePeriod;"></tr>
+                            </table>
+                            <mat-paginator #listadoPeriodo [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

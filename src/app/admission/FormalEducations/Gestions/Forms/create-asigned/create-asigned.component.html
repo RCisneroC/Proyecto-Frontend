@@ -30,7 +30,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <mat-form-field class="example-full-width " appearance="outline">
                                     <mat-label>Profesor Asignado</mat-label>
                                     <mat-select formControlName="teacherCedula">
@@ -45,7 +45,7 @@
                                         El periodo es requerido
                                     </mat-error>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
@@ -85,12 +85,18 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-                                <mat-form-field class="example-full-width" appearance="outline">
-                                    <mat-label>Salón Virtual</mat-label>
-                                    <input matInput formControlName="virtualRoom">
-                                    <mat-error *ngIf="AsignacionForms.get('virtualRoom')?.hasError('required')">
-                                        El Salón es requerido
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width " appearance="outline">
+                                    <mat-label>Año Asignado</mat-label>
+                                    <mat-select formControlName="year">
+                                        <mat-option value="">------------------</mat-option>
+                                        <ng-container *ngFor="let item of CountYears">
+                                            <mat-option [value]="item">{{item}}</mat-option>
+                                        </ng-container>
+
+                                    </mat-select>
+                                    <mat-error *ngIf="AsignacionForms.get('year')?.hasError('required')">
+                                        El año es requerido
                                     </mat-error>
                                 </mat-form-field>
                             </div>

@@ -113,6 +113,8 @@ import { ApprovedAnnualPlanComponent } from './FormalEducations/Approvals/Forms/
 import { ApprovedPosterTwoComponent } from './FormalEducations/Approvals/Forms/approved-poster-two/approved-poster-two.component';
 import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create-asigned/create-asigned.component';
 import { PartakerDetailInscriptionComponent } from './inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component';
+import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create-rooms/create-rooms.component';
+import { CreateRoomsPeriodComponent } from './FormalEducations/Gestions/Forms/create-rooms-period/create-rooms-period.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +133,7 @@ import { PartakerDetailInscriptionComponent } from './inscription/educacionforma
     // ExternalUserComponent,
     // InternalUserComponent,
 
-  ActivityListInscriptionComponent,
+    ActivityListInscriptionComponent,
 
     ModalityFormComponent,
     TypeActivityFormComponent,
@@ -226,7 +228,9 @@ import { PartakerDetailInscriptionComponent } from './inscription/educacionforma
     ApprovedPosterComponent,
     ApprovedPosterTwoComponent,
     CreateAsignedComponent,
-    PartakerDetailInscriptionComponent
+    PartakerDetailInscriptionComponent,
+    CreateRoomsComponent,
+    CreateRoomsPeriodComponent
   ],
   providers: [
     VerificarBS64Pipe
