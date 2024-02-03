@@ -199,7 +199,7 @@ const routes: Routes = [
     component: MeshListInscriptionComponent
   },
   {
-    path: "list-inscriptions-partaker",
+    path: "list-inscriptions-partaker/:id",
     component: PartakerListInscriptionComponent
   },
   {

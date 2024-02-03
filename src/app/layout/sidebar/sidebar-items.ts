@@ -107,7 +107,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: 'admission/list-inscriptions-partaker',
+        path: 'admission/list-inscriptions-plans',
         title: 'Participantes',
         iconType: '',
         icon: '',

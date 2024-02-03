@@ -30,6 +30,17 @@ export interface DegreeCurriculumDesign {
     degreeCurriculumDesignTarget: number;
 }
 
+export interface Mesh {
+  statusId:                     number;
+  annualPlanId:                 number;
+  id:                           number;
+  name:                         string;
+  description:                  string;
+  startDate:                    Date;
+  endDate:                      Date;
+  degreeCurriculumDesignTarget: number;
+}
+
 export interface DegreeDegreeAdmissionRequirement {
     statusId:                   number;
     id:                         number;

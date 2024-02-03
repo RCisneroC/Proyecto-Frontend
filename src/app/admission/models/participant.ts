@@ -14,7 +14,7 @@ export class Participant {
     isError: boolean;
     statusCode: number;
 }
-  
+
 
  export interface ApiResponseOne {
     participants: Participant;
@@ -74,4 +74,71 @@ export interface DetailsResponse {
     observation:       string;
     createDate:        Date;
     name:              string;
+}
+
+export interface DetailsParticipanteEF {
+  getDetailsResponse: DetailsResponseEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+export interface DetailsResponseEF {
+  firstName: string,
+  lastName: string,
+  secondsurname: string,
+  cedula: string,
+  email: string,
+  telephoneNumber: string,
+  gender: string,
+  bloodtype: string,
+  maritalStatus: string,
+  nameOfspouse: string,
+  numberofchildren: number,
+  caseOfemergency: string,
+  telephoneNumberEmergency: string,
+  specialCapacity: string,
+  degreeName: string,
+  durationInYears: number,
+  studyModeName: string,
+  numOfCredits: number,
+  statusName: string,
+  visual: boolean,
+  auditory: boolean,
+  cognitive: boolean,
+  physical: boolean,
+  usesAwheelchair:boolean,
+  others: string,
+  specific:string
+}
+
+
+export interface AcadInfoResponseEF {
+  inscriptionResponse: AcadInfoEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+
+export interface  AcadInfoEF {
+  institutionOfeducation: string,
+  program: string,
+  obtainedTitle: string,
+  year: number
+}
+
+export interface ExperienceInfoResponseEF {
+  experienceInfoResponse: ExperienceInfoEF[];
+  message:         string;
+  isError:         boolean;
+  statusCode:      number;
+}
+
+
+export interface  ExperienceInfoEF {
+  entidad: string,
+  position: string,
+  period: string,
+  months: string
 }
