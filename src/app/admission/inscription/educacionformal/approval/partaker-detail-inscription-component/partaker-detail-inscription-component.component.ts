@@ -137,6 +137,7 @@ export class PartakerDetailInscriptionComponent {
     this._inscriptionService.GetAcadInfoEF(this.paramsId).subscribe({
       next:(res)=>{
         this.dataAcadInfo = new MatTableDataSource<AcadInfoEF>(res.inscriptionResponse);
+        console.log("AcadInfo",res.inscriptionResponse)
       },
       error: (err) => {
         console.log(err);
@@ -149,6 +150,7 @@ export class PartakerDetailInscriptionComponent {
     this._inscriptionService.GetExperienceInfoEF(this.paramsId).subscribe({
       next:(res)=>{
         this.dataExperienceInfo = new MatTableDataSource<ExperienceInfoEF>(res.experienceInfoResponse);
+        console.log("ExperienceInfo",res.experienceInfoResponse)
       },
       error: (err) => {
         console.log(err);
