@@ -15,7 +15,10 @@ import { AddTrainingComponent } from './add-training/add-training.component';
 import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
 import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
-import { ViewDocumentComponent } from './view-document/view-document.component';
+import { RequiredDocumentListComponent } from './required-document-list/required-document-list.component';
+import { RequiredDocumentFormComponent } from './required-document-form/required-document-form.component';
+import { AddActivityComponent } from './add-activity/add-activity.component';
+import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 
 @NgModule({
@@ -29,7 +32,11 @@ import { ViewDocumentComponent } from './view-document/view-document.component';
     AddTrainingComponent,
     TeachingAdmissionExternalComponent,
     TeachingHistoryListComponent,
-    ViewDocumentComponent
+    RequiredDocumentListComponent,
+    RequiredDocumentFormComponent,
+    AddActivityComponent,
+    AddSubjectComponent,
+  
   ],
   providers: [
     VerificarBS64Pipe

@@ -15,6 +15,8 @@ export class Teacher {
     listSpecialty: Specialty[]=[];
     listExperience: Experience[]=[];
     listDocument: Documents[]=[];
+    listActivity: Activity[]=[];
+    listSubject: Subject[]=[];
     process: number=0;
 }
 
@@ -31,6 +33,7 @@ export class Training  {
         completionDate: string="";
         city: string="";
         degreeDate: string="";
+        educationLevel:string="";
         degreeObtained: string="";
         statusId: number=1;
 }
@@ -60,6 +63,32 @@ export class Experience {
     }
     
     
+    export class Activity  {
+
+            id!: number;
+            name!: string;
+            activityTypeId!: number;
+            activityModeId!: number;
+            startDate!: string;
+            plannedEndDate!: string;
+
+    }
+    
+    export interface Subject {
+        id: number;
+        name: string;
+        description: string;
+        acronym: string;
+        code: string;
+        numOfCredits: number;
+        numOfHours: number;
+        numOfClasses: number;
+        hasLaboratory: boolean;
+        evaluationCriteria: string;
+        statusId: number;
+    }
+    
+    
     export interface Poster {
         fileContents:          string;
         contentType:           string;
@@ -77,6 +106,16 @@ export class Experience {
 
 export interface ResponseSaveTeacher  {
     idRegistro: number;
+}
+
+export interface RequestActivityTeacher {
+    teacherId: number;
+    activityList: number[];
+}
+
+export interface RequestSubjectTeacher {
+    teacherId: number;
+    subjectList: number[];
 }
     
  

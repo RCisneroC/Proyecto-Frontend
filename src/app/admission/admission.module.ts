@@ -217,7 +217,8 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
     ApprovedAnnualPlanComponent,
     ApprovedPosterComponent,
     ApprovedPosterTwoComponent,
-    CreateAsignedComponent
+    CreateAsignedComponent,
+    
   ],
   providers: [
     VerificarBS64Pipe

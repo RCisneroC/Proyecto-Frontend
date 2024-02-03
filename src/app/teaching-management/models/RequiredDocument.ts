@@ -1,8 +1,10 @@
 
-    export interface RequiredDocument {
-        documentId: number;
-        name: string;
-        description: string | null;
-        statusId: number;
-        typeEducationId: number;
+    export class RequiredDocument {
+        documentId: number=-1;
+        name: string="";
+        description: string="";
+        statusId: number=1;
+        typeEducationId: number=0;
+        
+        
 }

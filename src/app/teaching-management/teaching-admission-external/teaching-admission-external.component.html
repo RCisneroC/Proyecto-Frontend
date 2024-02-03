@@ -11,8 +11,6 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
                           
-                             
-                                
                                     <div class="row" style="height: auto;">
                                     <div class="col-12 " style="max-height:auto; text-align-last: center;">
                                         
@@ -25,21 +23,21 @@
                                    
                                     
                                     <div class="body">
-                                        <mat-horizontal-stepper [linear]="false" #stepper>
-                                            <mat-step [stepControl]="teacherForm!">
-                                                <form [formGroup]="teacherForm!">
+                                        <mat-horizontal-stepper [linear]="true" #stepper>
+                                            <mat-step [stepControl]="teacherForm!"   >
+                                                <form [formGroup]="teacherForm!" style="margin-top: 10px!important;">
                                                     <ng-template matStepLabel>Datos Personales</ng-template>
                                                     <div class="row">
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
-                                                                <mat-label>Documento de Identidad (8-888-888)</mat-label>
+                                                                <mat-label>Cédula/Pasaporte(8-888-888)</mat-label>
                                                                 <input matInput formControlName="cedula">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                                  <mat-error *ngIf="teacherForm.get('cedula')?.hasError('required')">
                                                                     Es Requitos
                                                                 </mat-error>
                                                                 <mat-error *ngIf="teacherForm.get('cedula')?.hasError('cedulaExists')">
-                                                                 Documento de identidad ya existe
+                                                                Cédula/Pasaporte ya existe
                                                                 </mat-error>
                                                               
                                                             </mat-form-field>
@@ -93,7 +91,7 @@
             
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
-                                                                <mat-label>Dirección residencial</mat-label>
+                                                                <mat-label>Lugar de residencia</mat-label>
                                                                 <input matInput formControlName="placeResidence">
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                                  <mat-error *ngIf="teacherForm.get('placeResidence')?.hasError('required')">
@@ -117,7 +115,7 @@
                                                     
                                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                             <mat-form-field class="example-full-width " appearance="outline">
-                                                                <mat-label>Número telefónico</mat-label>
+                                                                <mat-label>Teléfono</mat-label>
                                                                 <input matInput formControlName="telephoneNumber" >
                                                                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                                                                  <mat-error *ngIf="teacherForm.get('telephoneNumber')?.hasError('required')">
@@ -128,16 +126,15 @@
                                                     
 
                                                     </div>
-                                                    <!-- [disabled]="!FormsEF!.valid"  -->
                                                     <div>
-                                                        <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                                                        <button mat-raised-button matStepperNext   color="primary">Siguiente</button>
                                                     </div>
                                                 </form>
                                             </mat-step>
-                                            <mat-step>
+                                            <mat-step [completed]="DataTeacher.listTraining.length>0">
                                                 <form>
-                                                    <ng-template matStepLabel>Información Académico</ng-template>
-                                                    <button (click)="AddTraining()" mat-raised-button  color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva información Academica</button>
+                                                    <ng-template matStepLabel>Formación Académica</ng-template>
+                                                    <button (click)="AddTraining()" mat-raised-button  color="primary" class="msr-2"> <mat-icon>playlist_add</mat-icon> Nueva formación academica</button>
                                                     <div class="body">
                                                         <div class="body table-responsive">
                                                             <table mat-table [dataSource]="DataTeacher.listTraining" class="w-100">
@@ -167,7 +164,13 @@
                                                               <td mat-cell *matCellDef="let element">{{ element.degreeObtained }} </td>
                                                               
                                                           </ng-container>
-                                                              
+                                                          
+                                                          <ng-container matColumnDef="educationLevel">
+                                                            <th mat-header-cell *matHeaderCellDef>Nivel educativo</th>
+                                                            <td mat-cell *matCellDef="let element">{{ element.educationLevel }} </td>
+                                                            
+                                                        </ng-container>
+                                                          
                                                               <ng-container matColumnDef="city">
                                                                 <th mat-header-cell *matHeaderCellDef>Ciudad </th>
                                                                 <td mat-cell *matCellDef="let element">{{ element.city }} </td>
@@ -189,14 +192,14 @@
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Atras</button>
+                                                        <button mat-raised-button matStepperPrevious  color="warn" class="msr-2">Atras</button>
                                                         <button mat-raised-button matStepperNext color="primary">Siguiente</button>
                                                     </div>
                                                 </form>
                                             </mat-step>
-                                            <mat-step>
+                                            <mat-step [completed]="DataTeacher.listExperience.length>0" >
                                                 <form>
-                                                    <ng-template matStepLabel>Información Laboral</ng-template>
+                                                    <ng-template matStepLabel>Experiencia Profesional</ng-template>
                                                     <button mat-raised-button (click)="AddExperience()" color="primary" class="msr-2"><mat-icon>playlist_add</mat-icon> Nueva Experiencia Laboral</button>
             
                                                     <div class="body">
@@ -259,27 +262,7 @@
                                                                 es requerido
                                                              </mat-error>
                                                         </div>
-                                                        
-                                             
-                                                       
-                                                        
-                                                        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                            <mat-label style="font-weight: bold;">Documento de Identidad</mat-label>
-                                                            <app-file-upload (change)="onFileSelected($event)"  formControlName="Photo" ></app-file-upload>
-                                                        </div>
-                                                        
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                            <mat-label style="font-weight: bold;">Fotografía</mat-label>
-                                                            <app-file-upload formControlName="CIP" ></app-file-upload>
-                                                        </div>
-                                                        
-                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
-                                                            <mat-label style="font-weight: bold;">Titulo</mat-label>
-                                                            <app-file-upload formControlName="Title" ></app-file-upload>
-                                                        </div>
-                                                         -->
-                                                 
-                                                        
+
                                                  
                                                     </div>
                                                     <div>

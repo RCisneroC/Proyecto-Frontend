@@ -9,7 +9,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2><strong>Listado de docentes</strong></h2>
+              <h2 class="text-uppercase"><strong>Listado de docentes</strong></h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -53,7 +53,7 @@
                             
                             
                               <ng-container matColumnDef="cedula">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cedula
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula/Pasaporte
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                   <span class="mobile-label">Cedula:</span>{{row.cedula}}</mat-cell>
@@ -101,32 +101,26 @@
                                 </mat-cell> 
                               </ng-container>
                               <ng-container matColumnDef="createdDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de aplicación
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha de alta:</span>{{row.createdDate | date:'dd/M/yyyy'}}</mat-cell>
+                                  <span class="mobile-label">Fecha de aplicación:</span>{{row.createdDate | date:'dd/M/yyyy'}}</mat-cell>
                               </ng-container>
                               
-                              <ng-container matColumnDef="lastModifiedDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de modificación
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha de alta:</span>{{row.lastModifiedDate | date:'dd/M/yyyy'}}</mat-cell>
-                              </ng-container>
-                              
-                              <ng-container matColumnDef="lastModifiedBy">
+                             
+                              <!-- <ng-container matColumnDef="lastModifiedBy">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Modificado por
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                   <span class="mobile-label">Modificado por:</span>{{row.lastModifiedBy}}</mat-cell>
-                              </ng-container>
+                              </ng-container> -->
    
 
                               <ng-container matColumnDef="dischargeDate">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de alta
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row" >
-                                  <span class="mobile-label">Fecha de alta:</span>{{row.dischargeDate | date:'dd/M/yyyy'}}</mat-cell>
+                                  <span class="mobile-label">Fecha de alta:</span>{{row.dischargeDate!==null?(row.dischargeDate | date:'dd/M/yyyy'):"N/A"}}</mat-cell>
                               </ng-container>
                               
                               <ng-container matColumnDef="placeResidence">

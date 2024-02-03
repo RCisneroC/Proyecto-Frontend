@@ -80,7 +80,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     } else {
       this.requirementService.addRequirement(this.requirementForm.getRawValue())
       .subscribe({
-          next: (res:ResponseGenerica) => {
+          next: () => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Creado correctamente.';
            this.dialogRef.close(this.ResponseMessage);

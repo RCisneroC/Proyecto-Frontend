@@ -23,12 +23,18 @@ export class AprovedTeacherComponent {
       CodError: 0,
       Message:''
   }
-    
+  processList = [
+    { id: "", name: 'Seleccione' },
+    { id: "1", name: 'Formación' },
+    { id: "2", name: 'Educación continua' },
+    { id: "3", name: 'Ambos procesos' }
+  ];
     action: string;
     dialogTitle: string='';
     ApprovedForm: UntypedFormGroup;
     UserForm: UntypedFormGroup;
     id_cronograma: number = 0;
+    viewProcess!: boolean;
     constructor(
       public dialogRef: MatDialogRef<AprovedTeacherComponent>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -39,15 +45,10 @@ export class AprovedTeacherComponent {
     ) {
       // Set the defaults
       this.action = data.accion;
-      console.log(data);
-      
-      if (this.action === 'approved') {
-        this.dialogTitle ="Aprobar Cronograma";
-        //this.id_cronograma = data.scheduleActivity.id;
-      }
       this.dialogTitle="Aprobar solicitud de docente"
       this.ApprovedForm = this.fb.group({
         teacherId: [data.teacher.teacherId,[Validators.required]],
+        process:['',[Validators.required]],
         statusId:['',[Validators.required]],
         approvalMessage:['',[Validators.required]]
       });
@@ -57,19 +58,26 @@ export class AprovedTeacherComponent {
         userName: ["Docente"+this.data.teacher.teacherId, [Validators.required]],
         firstName: [this.data.teacher.name, [Validators.required]],
         lastName: [this.data.teacher.lastName, [Validators.required]],
+        cedula: [this.data.teacher.cedula, [Validators.required]],
         email: [this.data.teacher.email, [Validators.required]],
         phoneNumber: ["04248772488", [Validators.required]],
         gender:["M", [Validators.required]],
         roles:[["Profesor"], [Validators.required]],
       });
+      
+      this.viewProcess=false;
     }
+    Valor(value:string){
     
+     this.viewProcess=value=="1"?true:false;
+    
+    }
    
     submit() {
       const status=this.ApprovedForm.get("statusId")?.value;
      this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
-      () => {
-      if (status!=2){
+      (res) => {
+      if (status==1){
       
      
         this._userService.addUser(this.UserForm.value).subscribe(
@@ -86,7 +94,7 @@ export class AprovedTeacherComponent {
           })
         }else{
           this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Aprobado correctamente.';
+          this.ResponseMessage.Message = 'Guardado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
         }
       },

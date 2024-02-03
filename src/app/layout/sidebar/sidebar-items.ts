@@ -188,6 +188,7 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: "",
         submenu: []
       },
+      
       {
         path: "/admission/modality-list",
         title: "Modalidad",
@@ -286,7 +287,19 @@ export const ROUTES: RouteInfo[] = [
         badge: "",
         badgeClass: "",
         submenu: []
-      }
+      },
+      {
+        path: "/admission/required-document-list",
+        title: "Documentos",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        submenu: []
+      },
+      
 
     ]
   },

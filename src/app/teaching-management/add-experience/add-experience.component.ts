@@ -40,7 +40,7 @@ export class AddExperienceComponent {
         this.experience = data.experience;
       } else {
         
-        this.dialogTitle = 'Agregar experiencia';
+        this.dialogTitle = 'Agregar experiencia profesional';
         this.experience = new Experience();
   
       }
