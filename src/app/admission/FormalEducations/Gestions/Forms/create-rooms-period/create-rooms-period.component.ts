@@ -38,17 +38,21 @@ export class CreateRoomsPeriodComponent implements OnInit {
       periodId: [data.id_periodo, [Validators.required]],
       year: [data.id_years, [Validators.required]],
       roomsIds: [[0], [Validators.required]],
+      numOfStudents: [0, Validators.required]
     });
   }
   ngOnInit(): void {
 
   }
 
+
+
   submit() {
     let senData = {
       periodId: this.PeriodForm.controls['periodId'].value,
       year: this.PeriodForm.controls['year'].value,
-      roomsIds: [this.PeriodForm.controls['roomsIds'].value]
+      roomsIds: [this.PeriodForm.controls['roomsIds'].value],
+      numOfStudents: this.PeriodForm.controls['numOfStudents'].value
     }
     this._DegreeService.SaveRoomsPeriod(senData).subscribe({
       next: (res: any) => {

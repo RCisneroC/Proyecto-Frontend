@@ -314,7 +314,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         studyModeName: "",
         telephoneNumber: "",
         telephoneNumberEmergency: "",
-        specialCapacity:"",
+        specialCapacity: "",
         firstName: '',
         lastName: '',
         secondsurname: '',
@@ -325,9 +325,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         auditory: false,
         cognitive: false,
         physical: false,
-        usesAwheelchair:false,
+        usesAwheelchair: false,
         others: '',
-        specific:''
+        specific: ''
       }
     ]
   }
@@ -344,7 +344,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     studyModeName: "",
     telephoneNumber: "",
     telephoneNumberEmergency: "",
-    specialCapacity:"",
+    specialCapacity: "",
     firstName: '',
     lastName: '',
     secondsurname: '',
@@ -355,9 +355,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     auditory: false,
     cognitive: false,
     physical: false,
-    usesAwheelchair:false,
+    usesAwheelchair: false,
     others: '',
-    specific:''
+    specific: ''
   };
 
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];

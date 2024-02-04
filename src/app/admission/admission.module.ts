@@ -115,6 +115,8 @@ import { CreateAsignedComponent } from './FormalEducations/Gestions/Forms/create
 import { PartakerDetailInscriptionComponent } from './inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component';
 import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create-rooms/create-rooms.component';
 import { CreateRoomsPeriodComponent } from './FormalEducations/Gestions/Forms/create-rooms-period/create-rooms-period.component';
+import { CreteAsignacionDocenteComponent } from './FormalEducations/Gestions/Forms/crete-asignacion-docente/crete-asignacion-docente.component';
+import { ShowDocentesAsignadoComponent } from './FormalEducations/Gestions/Forms/show-docentes-asignado/show-docentes-asignado.component';
 
 @NgModule({
   declarations: [
@@ -230,7 +232,9 @@ import { CreateRoomsPeriodComponent } from './FormalEducations/Gestions/Forms/cr
     CreateAsignedComponent,
     PartakerDetailInscriptionComponent,
     CreateRoomsComponent,
-    CreateRoomsPeriodComponent
+    CreateRoomsPeriodComponent,
+    CreteAsignacionDocenteComponent,
+    ShowDocentesAsignadoComponent
   ],
   providers: [
     VerificarBS64Pipe

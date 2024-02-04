@@ -1,3 +1,4 @@
+import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
@@ -16,6 +17,8 @@ import { Rooms } from 'app/admission/FormalEducations/Models/Rooms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Period } from 'app/admission/FormalEducations/Models/AnnualPlan';
+import { CreteAsignacionDocenteComponent } from '../../Forms/crete-asignacion-docente/crete-asignacion-docente.component';
+import { ShowDocentesAsignadoComponent } from '../../Forms/show-docentes-asignado/show-docentes-asignado.component';
 
 @Component({
   selector: 'app-create-rooms',
@@ -25,10 +28,16 @@ import { Period } from 'app/admission/FormalEducations/Models/AnnualPlan';
 export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
-
+  DisplayNameSubject: string[] = [
+    'codigo',
+    'name',
+    'descripcion',
+    'accion'
+  ];
   DisplayNamePeriod: string[] = [
     'name',
     'descripcion',
+    'capacidad',
     'Estado',
     'accion',
   ];
@@ -38,7 +47,14 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
   public CountYears: any[] = [];
   public anioSelect: any = 0;
   busqueda: UntypedFormGroup;
+  public AsignarTeachers: boolean = true;
 
+  public _roomsOne: Rooms = {
+    statusId: 0,
+    id: 0,
+    name: '',
+    description: '',
+  }
   dataSorceRooms: Rooms[] = [
     {
       statusId: 0,
@@ -61,6 +77,29 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
   set paginatorRooms(value: MatPaginator) {
     this.dataRooms.paginator = value;
   }
+
+  dataSorceSubject: Subject[] = [
+    {
+      statusId: 0,
+      id: 0,
+      name: '',
+      description: '',
+      number: 0,
+      acronym: '',
+      code: '',
+      numOfCredits: 0,
+      numOfHours: 0,
+      numOfClasses: 0,
+      hasLaboratory: false,
+      evaluationCriteria: '',
+    }
+  ];
+  dataSubjectList = new MatTableDataSource<Subject>(this.dataSorceSubject);
+  @ViewChild("listadoAsignaturas")
+  set paginatorSubjectActive(value: MatPaginator) {
+    this.dataSubjectList.paginator = value;
+  }
+
   constructor(
     private _Router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,7 +114,7 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
     super();
 
     this.busqueda = this.fb.group({
-      busquedaAnio: [''],
+      busquedaAnio: [1],
     });
     this.activatedRoute.params.subscribe((params) => {
       _Degree.init_DetalleMalla();
@@ -108,8 +147,16 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
   }
 
   ngOnInit(): void {
-
+    let dataYears = {
+      PeriodId: this.id,
+      Year: 1
+    };
+    this.getGroup(dataYears);
   }
+
+
+
+
   getRooms() {
     this._RoomService.init_Rooms();
 
@@ -130,11 +177,6 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
     };
     if (event.value != "") {
       this.getGroup(data);
-      // this._Degree.getSalonesPeriod(data).subscribe({
-      //   next: (res) => {
-      //     this.dataRooms = new MatTableDataSource<Rooms>(res);
-      //   }
-      // })
     } else {
       this.dataRooms = new MatTableDataSource<Rooms>([]);
     }
@@ -149,7 +191,6 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
   }
 
   AddSalones() {
-    console.log(this.busqueda);
     if (this.busqueda.controls['busquedaAnio'].value == "") {
       Swal.fire({
         title: 'Escuela Judicial',
@@ -225,6 +266,112 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
     });
   }
   GoRoomsPeriod(row: Rooms) {
+    //
+    this.AsignarTeachers = false;
+    this.getSubjectAll(row);
+  }
+  backShow() {
+    this.AsignarTeachers = true;
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSubjectList.filter = filterValue.trim().toLowerCase();
+  }
+  getSubjectAll(row: Rooms) {
+
+    this._Degree.getSubject(this.id, this.busqueda.controls['busquedaAnio'].value).subscribe({
+      next: (res) => {
+        this._roomsOne = row;
+        this.dataSubjectList = new MatTableDataSource<Subject>(res);
+        this.dataSubjectList.paginator = this.paginatorSubjectActive;
+      },
+      error: () => {
+
+      }
+    })
+  }
+
+  AsignarDocente(row: Subject) {
+    const dialogRef = this._dialog.open(CreteAsignacionDocenteComponent, {
+      data: {
+        periodId: this.id,
+        accion: 'add',
+        year: this.busqueda.controls['busquedaAnio'].value,
+        subjectId: row.id,
+        roomId: this._roomsOne.id
+      },
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        let dataYears = {
+          PeriodId: this.id,
+          Year: this.busqueda.controls['busquedaAnio'].value
+        };
+        this.getGroup(dataYears);
+        Swal.fire({
+          title: 'Escuela Judicial',
+          text: result.Message,
+          icon: 'success',
+        });
+      } else {
+        Swal.fire({
+          title: 'Escuela Judicial',
+          text: result.Message,
+          icon: 'warning',
+        });
+      }
+    });
+  }
+  docentesAsignados(row: Subject) {
+    var json = {
+      periodId: this.id,
+      accion: 'add',
+      year: this.busqueda.controls['busquedaAnio'].value,
+      subjectId: row,
+      roomId: this._roomsOne.id
+    };
+
+    const dialogRef = this._dialog.open(ShowDocentesAsignadoComponent, {
+      data: {
+        periodId: this.id,
+        accion: 'add',
+        year: this.busqueda.controls['busquedaAnio'].value,
+        subjectId: row,
+        roomId: this._roomsOne.id
+      },
+      width: '1200px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        let dataYears = {
+          PeriodId: this.id,
+          Year: this.busqueda.controls['busquedaAnio'].value
+        };
+        this.getGroup(dataYears);
+        Swal.fire({
+          title: 'Escuela Judicial',
+          text: result.Message,
+          icon: 'success',
+        });
+      } else {
+        Swal.fire({
+          title: 'Escuela Judicial',
+          text: result.Message,
+          icon: 'warning',
+        });
+      }
+    });
 
   }
+
 }

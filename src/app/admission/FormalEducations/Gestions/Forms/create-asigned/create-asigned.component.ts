@@ -51,10 +51,10 @@ export class CreateAsignedComponent implements OnInit {
       periodId: ['', [Validators.required]],
       degreeCurriculumDesignId: [data.id_malla, [Validators.required]],
       subjectsIds: [[data.subject.id], [Validators.required]],
-      startDate: ['', [Validators.required]],
-      endDate: ['', [Validators.required]],
-      examDate: ['', [Validators.required]],
-      virtualRoom: ['001', [Validators.required]],
+      // startDate: ['', [Validators.required]],
+      // endDate: ['', [Validators.required]],
+      // examDate: ['', [Validators.required]],
+      // virtualRoom: ['001', [Validators.required]],
       year: [0, [Validators.required]]
     });
 

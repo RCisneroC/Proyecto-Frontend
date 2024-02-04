@@ -27,6 +27,17 @@
                             el estatus es requerido
                         </mat-error>
                     </mat-form-field>
+
+                    <!--  -->
+                </div>
+                <div class="col-xl-12 col-lg-12 col-md-12col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Cantidad estudiantes</mat-label>
+                        <input matInput formControlName="numOfStudents">
+                        <mat-error *ngIf="PeriodForm.get('numOfStudents')?.hasError('required')">
+                            Es requerido
+                        </mat-error>
+                    </mat-form-field>
                 </div>
                 <button mat-raised-button color="primary" [disabled]="!PeriodForm.valid"
                     (click)="submit()">Guardar</button>

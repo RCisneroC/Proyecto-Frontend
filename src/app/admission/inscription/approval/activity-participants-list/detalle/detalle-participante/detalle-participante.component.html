@@ -23,7 +23,15 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Nombre / Apellido</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.firstName }}{{ _ActivityService._DetailsResponse.lastName }}
+                                <label for="">{{ _ActivityService._DetailsResponse.firstName }} {{
+                                    _ActivityService._DetailsResponse.lastName }} {{
+                                    _ActivityService._DetailsResponse.secondsurname }}
+                                </label>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Cédula</h6>
+                                <label for="">{{_ActivityService._DetailsResponse.cedula }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
@@ -31,8 +39,36 @@
                                 <label for="">{{ _ActivityService._DetailsResponse.gender }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Correo Electrónico</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.email }}
+                                </label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Institución</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.institution }}
+                                </label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Universidad</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.university }}
+                                </label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Dependencia</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.dependency }}
+                                </label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Ubicación</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.position }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Provincia</h6>
                                 <label for="">{{ _ActivityService._DetailsResponse.province }}</label>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                                <h6>Distrito</h6>
+                                <label for="">{{ _ActivityService._DetailsResponse.judicialDistrict }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha de Inscripción</h6>
@@ -60,13 +96,17 @@
                             </div>
                         </div>
                         <div class="row">
-                         <div class="example-button-row">
-                             <div class="col-12">
-                                 <button matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
-                                     <mat-icon>check</mat-icon> Aprobar / Rechazar
-                                 </button>
-                             </div>
-                         </div>
+                            <div class="example-button-row">
+                                <div class="col-12">
+                                    <button *ngIf="_ActivityService._DetailsResponse.name !='Aceptado'"
+                                        matTooltip="Gestionar Salones" mat-raised-button color="primary"
+                                        (click)="aprobar()">
+                                        <mat-icon>check</mat-icon> Aprobar / Rechazar
+                                    </button>
+                                    <span *ngIf="_ActivityService._DetailsResponse.name =='Aceptado'"
+                                        class="badge badge-solid-green">Usuario Aceptado</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -144,7 +184,8 @@
                                     <td mat-cell *matCellDef="let element">
                                         <input id="archivo_{{ element.id }}" type="file" class="file-input"
                                             (change)="onChangeFile($event, element.id,element)" />
-                                        <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ element.id }}"></p>
+                                        <p style="color: green;font-weight: bold;margin-top: 10px;"
+                                            id="texto_{{ element.id }}"></p>
                                         <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
                                     </td>
                                 </ng-container>
@@ -152,15 +193,17 @@
                                 <ng-container matColumnDef="documentacion">
                                     <th mat-header-cell *matHeaderCellDef> Documentación </th>
                                     <td mat-cell *matCellDef="let element">
-                                       <button mat-mini-fab (click)="verDocumento(element)" matTooltip="Ver documento adjuntado">
-                                        <mat-icon>remove_red_eye</mat-icon>
-                                       </button>
+                                        <button mat-mini-fab (click)="verDocumento(element)"
+                                            matTooltip="Ver documento adjuntado">
+                                            <mat-icon>remove_red_eye</mat-icon>
+                                        </button>
                                     </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="DisplayNameDocument"></tr>
                                 <tr mat-row *matRowDef="let row; columns: DisplayNameDocument;"></tr>
                             </table>
-                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]"
+                                showFirstLastButtons></mat-paginator>
                         </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>

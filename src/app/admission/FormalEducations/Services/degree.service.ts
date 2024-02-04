@@ -19,6 +19,9 @@ import { BehaviorSubject } from 'rxjs';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { DetalleMalla } from '../Models/DetalleMalla';
+import { Subject } from '../Models/Subject';
+import { Teacher } from 'app/teaching-management/models/Teacher';
+import { DocentesAsignados } from '../Models/DocentesA';
 
 @Injectable({
   providedIn: 'root',
@@ -243,6 +246,14 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  SaveCreateTeacher(data: any) {
+    return this.httpClient.post<ResponseGenerica>(
+      environment.apiEF + 'Period/CreateTeacher',
+      data
+    );
+  }
+
+
   DeleteDegreeAdminssion(id: any) {
     let data = {
       id: id,
@@ -308,7 +319,41 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  getSubject(periodo: any, years: any) {
+    return this.httpClient.get<Subject[]>(
+      environment.apiEF + 'Period/GetSubjectsBy?PeriodId=' + periodo + '&Year=' + years
+    );
+  }
 
+
+  getDocenteAsignado(data: any) {
+    return this.httpClient.get<DocentesAsignados[]>(
+      environment.apiEF + `Period/GetTeachersBy?ClassShift=${data.ClassShift}&PeriodId=${data.periodId}&Year=${data.year}&SubjectId=${data.subjectId}&RoomId=${data.roomId}`
+    );
+  }
+
+
+
+  getDocentes(idSubject: any) {
+    return this.httpClient.get<Teacher[]>(
+      environment.apiUrlTeacher + 'GetSubjectTeacher?subject=' + idSubject
+    );
+  }
+
+
+  deleteTeachers(data: any) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+
+    return this.httpClient.delete<ResponseGenerica>(
+      environment.apiEF + '/Period/DeleteTeacher',
+      options
+    );
+  }
   init_Degree() {
     this._DetalleDegree = {
       description: '',

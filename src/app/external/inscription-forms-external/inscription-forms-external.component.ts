@@ -20,6 +20,7 @@ import { ResponseAddEFcademicInfo } from "../../admission/models/AddEFacademicRe
 import { ResponseAddEFlaboralInfo } from "../../admission/models/AddEFlaboralResponse";
 import { el } from "@fullcalendar/core/internal-common";
 import { MatStepper } from "@angular/material/stepper";
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 
 @Component({
   selector: 'app-inscription-forms-external',
@@ -106,7 +107,8 @@ export class InscriptionFormsExternalComponent {
     private activatedRoute: ActivatedRoute,
     private _inscriptionService: InscriptionService,
     public dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    public _ActivityService: ActivityDetailService
   ) {
     this.FormsEF = this.fb.group({
       cedula: ['', [Validators.required]],
@@ -149,7 +151,8 @@ export class InscriptionFormsExternalComponent {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
-      this.planId = params['id'];
+      this.converId = this._ActivityService.decryptData(params['id'], 'Panama2019$');
+      this.planId = this.converId;
       this.loadMeshList(this.planId);
     })
   }
