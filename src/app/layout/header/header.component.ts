@@ -121,6 +121,12 @@ export class HeaderComponent
       status: 'msg-read',
     },
   ];
+  
+  copy(inputElement:any) {
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+  }
   ngOnInit() {
     this.config = this.configService.configData;
     
