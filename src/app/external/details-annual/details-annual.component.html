@@ -15,53 +15,6 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="card">
                                     <div class="header">
-                                        <h2 class="text-uppercase"><strong>Listado de Periodos</strong>
-                                        </h2>
-                                    </div>
-                                    <div class="body">
-                                        <div class="body table-responsive">
-                                            <table mat-table [dataSource]="dataPeriod" class="w-100">
-                                                <ng-container matColumnDef="name">
-                                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="maxCupos">
-                                                    <th mat-header-cell *matHeaderCellDef> Cupos del periodo </th>
-                                                    <td mat-cell *matCellDef="let element">{{
-                                                        element.maxNumOfParticipants }} </td>
-                                                </ng-container>
-                                                <ng-container matColumnDef="start">
-                                                    <th mat-header-cell *matHeaderCellDef> Fechas Inicio </th>
-                                                    <td mat-cell *matCellDef="let element">{{ element.startDate |
-                                                        date:'dd/M/yyyy'}}</td>
-                                                </ng-container>
-                                                <ng-container matColumnDef="end">
-                                                    <th mat-header-cell *matHeaderCellDef> Fechas Fin </th>
-                                                    <td mat-cell *matCellDef="let element">
-                                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
-                                                </ng-container>
-                                                <tr mat-header-row *matHeaderRowDef="DisplayNamePeriod"></tr>
-                                                <tr mat-row *matRowDef="let row; columns: DisplayNamePeriod;"></tr>
-                                            </table>
-                                            <mat-paginator #listadoPeriodo [pageSizeOptions]="[10, 20, 30]"
-                                                showFirstLastButtons></mat-paginator>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <button (click)="inscribir()" matTooltip="Inscribir" mat-raised-button
-                                                    color="primary">
-                                                    <mat-icon>send</mat-icon> Inscribir
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="header">
                                         <h2 class="text-uppercase"><strong>Listado de Mallas Curriculares</strong>
                                         </h2>
                                     </div>
@@ -103,13 +56,21 @@
                                             <mat-paginator #ListadoMallaCurriculares [pageSizeOptions]="[10, 20, 30]"
                                                 showFirstLastButtons></mat-paginator>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <button (click)="inscribir()" matTooltip="Inscribir" mat-raised-button
+                                                    color="primary">
+                                                    <mat-icon>send</mat-icon> Inscribir
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="row" *ngIf="ocultar">
-                            <!-- <div class="col-xs-12 col-sm-16 col-md-16 col-lg-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="card">
                                     <div class="header">
                                         <h2 class="text-uppercase"><strong>Resumen de asignaturas</strong>
@@ -120,40 +81,36 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nombre Asignatura</th>
-                                                        <th>Descripción</th>
-                                                        <th>Cantidad Crédito</th>
-                                                        <th>Cantidad Horas</th>
+                                                        <th class="theat">Código de asignatura</th>
+                                                        <th class="theat">Descripción</th>
+                                                        <th class="theat">Descripción</th>
+                                                        <th class="theat">Cantidad Crédito</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <ng-container *ngFor="let item of _Listado">
                                                         <tr>
-                                                            <td class="clases">{{ item.period.name }}</td>
-                                                            <td class="clases"> <strong>Inicio: (</strong> {{
-                                                                item.period.startDate | date:'dd/M/yyyy' }})
-                                                            </td>
-                                                            <td class="clases"><strong>Fin: (</strong> {{
-                                                                item.period.endDate
-                                                                | date:'dd/M/yyyy' }})</td>
-                                                            <td class="clases"><strong>Cupos: (</strong> {{
-                                                                item.period.maxNumOfParticipants }})</td>
-                                                            <td class="clases"></td>
+                                                            <td class="theatanio" colspan="5">{{ item.year }} AÑO</td>
                                                         </tr>
+                                                        <ng-container *ngFor="let item_p of item.periods">
+                                                            <tr>
+                                                                <td class="period" colspan="5">{{item_p.name }}</td>
+                                                            </tr>
+                                                            <tr *ngFor="let item_ of item_p.subjects">
+                                                                <td style="font-weight: 800;">{{ item_.code }}</td>
+                                                                <td>{{ item_.name }}</td>
+                                                                <td>{{ item_.description }}</td>
+                                                                <td>{{ item_.numOfCredits }}</td>
 
-                                                        <tr *ngFor="let item_ of item.subjects">
-                                                            <td>{{ item_.name }}</td>
-                                                            <td>{{ item_.description }}</td>
-                                                            <td>{{ item_.numOfCredits }}</td>
-                                                            <td>{{ item_.numOfHours }}</td>
-                                                        </tr>
+                                                            </tr>
+                                                        </ng-container>
                                                     </ng-container>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="col-xs-12 col-sm-16 col-md-16 col-lg-6">
                                 <div class="card">
