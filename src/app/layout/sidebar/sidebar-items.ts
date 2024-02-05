@@ -592,7 +592,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [
       {
-        path: '/security/user-list',
+        path: '/dashboard/dashboard1',
         title: 'Matricula',
         iconType: '',
         icon: '',
@@ -604,7 +604,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/security/role-list',
+        path: '/dashboard/dashboard1',
         title: 'Pre-Matricula',
         iconType: '',
         icon: '',
@@ -619,7 +619,7 @@ export const ROUTES: RouteInfo[] = [
   },
 
   {
-    path: '',
+    path: '/dashboard/dashboard1',
     title: 'Historial',
     iconType: 'feather',
     icon: 'hard-drive',
@@ -630,7 +630,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [
       {
-        path: '/security/user-list',
+        path: '/dashboard/dashboard1',
         title: 'Creditos no Oficiales',
         iconType: '',
         icon: '',
@@ -642,7 +642,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/security/role-list',
+        path: '/dashboard/dashboard1',
         title: 'Notas',
         iconType: '',
         icon: '',
@@ -654,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/security/role-list',
+        path: '/dashboard/dashboard1',
         title: 'Plan de Estudio',
         iconType: '',
         icon: '',
@@ -666,7 +666,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/security/role-list',
+        path: '/dashboard/dashboard1',
         title: 'Asistencia',
         iconType: '',
         icon: '',
@@ -691,7 +691,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [
       {
-        path: '/security/user-list',
+        path: '/dashboard/dashboard1',
         title: 'Retiro o Reingresos',
         iconType: '',
         icon: '',
@@ -703,7 +703,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/security/role-list',
+        path: '/dashboard/dashboard1',
         title: 'Solicitudes Varias',
         iconType: '',
         icon: '',
