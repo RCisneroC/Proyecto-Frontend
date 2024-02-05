@@ -81,8 +81,8 @@ implements OnInit{
   
   displayedColumnsActivities: string[] = [
     'name',
-    'activityModeId',
-    'activityTypeId',
+    // 'activityModeId',
+    // 'activityTypeId',
     'actions',
   ];
   

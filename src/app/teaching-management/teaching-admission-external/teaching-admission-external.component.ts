@@ -123,6 +123,8 @@ FormsEFDocument!: UntypedFormGroup;
       listSpecialty: new FormControl([]),
       listExperience: new FormControl([]),
       listDocument: new FormControl([]),
+      ListSubject: new FormControl([]),
+      listActivity: new FormControl([]),
       process: new FormControl(4),
       createdBy: new FormControl("")
     })
