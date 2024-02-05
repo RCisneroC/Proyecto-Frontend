@@ -120,7 +120,7 @@ export class PartakerDetailInscriptionComponent {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       this.getDetails();
-      this.getOneActivity();
+      this.getRequirementsDocuments();
       this.getAcadInfo();
       this.getExperiencenfo();
       this.makeAutoAssigment();
@@ -266,6 +266,20 @@ export class PartakerDetailInscriptionComponent {
         //  this._ActivityService.loading = false;
       }
     })
+  }
+
+  getRequirementsDocuments() {
+    const degreeid= localStorage.getItem('partaker_degreeid');
+    if (degreeid != null){
+      this._inscriptionService.getRequirementsDocuments(degreeid).subscribe({
+        next: (data) => {
+          console.log('Datos de los documentos requeridos:', data);
+          this.dataDocuments = data;
+        }
+      })
+    }
+
+
   }
 
   async getDocumentos(res: ActivityActivityRequirement[]) {
