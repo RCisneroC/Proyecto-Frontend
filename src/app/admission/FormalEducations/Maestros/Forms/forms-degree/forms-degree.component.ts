@@ -10,7 +10,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { UserService } from 'app/security/user/service/user.service';
 export interface DialogData {
   action: string;
-  degree : Degree;
+  degree: Degree;
 }
 @Component({
   selector: 'app-forms-degree',
@@ -41,34 +41,34 @@ export class FormsDegreeComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private _DegreeService: DegreeService,
     private _studyMode: StudyModeService,
-    private _user:UserService
+    private _user: UserService
 
   ) {
     console.log(data);
     this.action = data.action;
-   if (this.action === 'add') {
+    if (this.action === 'add') {
       this.dialogTitle = "Nueva Carrera";
-     this._DegreeModal = data.degree;
-   } else {
-     this.dialogTitle = "Editar Carrera";
-     this._DegreeModal = data.degree;
-   }
-   this._DegreeModalForms = this.createContactForm();
+      this._DegreeModal = data.degree;
+    } else {
+      this.dialogTitle = "Editar Carrera";
+      this._DegreeModal = data.degree;
+    }
+    this._DegreeModalForms = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      statusId: [this.data.degree.statusId,Validators.required],
-      id:[this.data.degree.id],
-      name:[this.data.degree.name,Validators.required],
-      description:[this.data.degree.description,Validators.required],
-      graduationProfile:[this.data.degree.graduationProfile,Validators.required],
-      admissionProfile:[this.data.degree.admissionProfile,Validators.required],
-      generalGoals:[this.data.degree.generalGoals,Validators.required],
-      durationInYears:[this.data.degree.durationInYears,Validators.required],
-      numOfCredits:[this.data.degree.numOfCredits,Validators.required],
-      assignedCoordinatorId:[this.data.degree.assignedCoordinatorId,Validators.required],
-      studyModeId:[this.data.degree.studyModeId,Validators.required],
+      statusId: [this.data.degree.statusId, Validators.required],
+      id: [this.data.degree.id],
+      name: [this.data.degree.name, Validators.required],
+      description: [this.data.degree.description, Validators.required],
+      graduationProfile: [this.data.degree.graduationProfile, Validators.required],
+      admissionProfile: [this.data.degree.admissionProfile, Validators.required],
+      generalGoals: [this.data.degree.generalGoals, Validators.required],
+      durationInYears: [this.data.degree.durationInYears, Validators.required],
+      numOfCredits: [1, Validators.required],
+      assignedCoordinatorId: [this.data.degree.assignedCoordinatorId, Validators.required],
+      studyModeId: [this.data.degree.studyModeId, Validators.required],
     });
   }
 
@@ -77,7 +77,7 @@ export class FormsDegreeComponent implements OnInit {
     this.GetCoordinador();
   }
   submit() {
-    
+
   }
   // buscar la modalidad.
   StudyMode() {
@@ -85,8 +85,8 @@ export class FormsDegreeComponent implements OnInit {
       next: (res) => {
         this._ListModeStudy = res;
         console.log(this._ListModeStudy);
-        }
-      })
+      }
+    })
   }
   // buscar coordinador.
   GetCoordinador() {
@@ -94,41 +94,41 @@ export class FormsDegreeComponent implements OnInit {
       next: (res) => {
         this._ListUser = res;
         console.log(this._ListUser);
-        }
-      })
+      }
+    })
   }
-  confirmAdd(){
+  confirmAdd() {
     if (this.action == 'add') {
       this._DegreeService.addDegree(this._DegreeModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Guardado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = err;
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     } else {
-       this._DegreeService.updateDegree(this._DegreeModalForms.getRawValue())
+      this._DegreeService.updateDegree(this._DegreeModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = err;
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     }
   }
-  onNoClick(){
-this.dialogRef.close();
+  onNoClick() {
+    this.dialogRef.close();
   }
 }

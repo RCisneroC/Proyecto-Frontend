@@ -7,3 +7,10 @@ export interface DetalleAcademico{
     startDate:Date;
     academicInstitutionId:number;
 }
+
+export interface DetalleAcademicoExt{
+  obtainedTitle:string;
+  institutionOfeducation:string;
+  program:string;
+  year:number;
+}

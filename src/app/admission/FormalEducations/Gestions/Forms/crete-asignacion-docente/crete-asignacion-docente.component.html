@@ -1,0 +1,89 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="PeriodForm" (ngSubmit)="submit">
+            <div class="row clearfix">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <mat-form-field class="example-full-width " appearance="outline">
+                            <mat-label>Turno</mat-label>
+                            <mat-select formControlName="classShift">
+                                <mat-option *ngFor="let item of Turno" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+
+                            </mat-select>
+                            <mat-error *ngIf="PeriodForm.get('classShift')?.hasError('required')">
+                                el estatus es requerido
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!--  -->
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                        <mat-form-field class="example-full-width " appearance="outline">
+                            <mat-label>Docentes</mat-label>
+                            <mat-select formControlName="teacherCedulas">
+                                <mat-option *ngFor="let item of ListTeacher" [value]="item.cedula">
+                                    {{ item.name }} {{ item.lastName }}
+                                </mat-option>
+
+                            </mat-select>
+                            <mat-error *ngIf="PeriodForm.get('teacherCedulas')?.hasError('required')">
+                                el estatus es requerido
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Fecha Inicio Clases</mat-label>
+                            <input readonly="true" matInput [matDatepicker]="fechainicio" formControlName="startDate">
+                            <mat-datepicker-toggle matSuffix [for]="fechainicio"></mat-datepicker-toggle>
+                            <mat-datepicker #fechainicio></mat-datepicker>
+                            <mat-error *ngIf="PeriodForm.get('startDate')?.hasError('required')">
+                                Selecciones una fecha
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Fecha Final Clases</mat-label>
+                            <input readonly="true" matInput [matDatepicker]="fechaFin" formControlName="endDate">
+                            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                            <mat-datepicker #fechaFin></mat-datepicker>
+                            <mat-error *ngIf="PeriodForm.get('endDate')?.hasError('required')">
+                                Selecciones una fecha
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Fecha de Examen</mat-label>
+                            <input matInput [matDatepicker]="finExamen" formControlName="examDate">
+                            <mat-datepicker-toggle matSuffix [for]="finExamen"></mat-datepicker-toggle>
+                            <mat-datepicker #finExamen></mat-datepicker>
+                            <mat-error *ngIf="PeriodForm.get('examDate')?.hasError('required')">
+                                Selecciones una fecha
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <button mat-raised-button color="primary" [disabled]="!PeriodForm.valid"
+                    (click)="submit()">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

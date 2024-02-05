@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit() {
     this.authForm = this.formBuilder.group({
       username: ['', Validators.required],

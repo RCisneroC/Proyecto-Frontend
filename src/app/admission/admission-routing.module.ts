@@ -54,7 +54,10 @@ import { AsignaturasPeriodosComponent } from './FormalEducations/Gestions/Detail
 import { ListAnnualPlanComponent } from './FormalEducations/Approvals/list-annual-plan/list-annual-plan.component';
 import { ListDegreeCurricularComponent } from './FormalEducations/Approvals/list-degree-curricular/list-degree-curricular.component';
 import { ListPosterComponent } from './FormalEducations/Approvals/list-poster/list-poster.component';
-import { PartakerDetailInscriptionComponent } from './inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component';
+import {
+  PartakerDetailInscriptionComponent
+} from "./inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component";
+import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create-rooms/create-rooms.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -196,7 +199,7 @@ const routes: Routes = [
     component: MeshListInscriptionComponent
   },
   {
-    path: "list-inscriptions-partaker",
+    path: "list-inscriptions-partaker/:id",
     component: PartakerListInscriptionComponent
   },
   {
@@ -272,8 +275,13 @@ const routes: Routes = [
   {
     path: 'form-ef',
     component: BackofficeEFComponent,
-    
+
   },
+  {
+    path: 'period/:id/degree/:id_degree',
+    component: CreateRoomsComponent,
+  },
+
 ];
 
 

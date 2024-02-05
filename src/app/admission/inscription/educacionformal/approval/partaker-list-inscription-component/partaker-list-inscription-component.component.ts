@@ -42,6 +42,7 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     public _verificarBS64: VerificarBS64Pipe,
     public _InscriptionService: InscriptionService,
     private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
     private httpClient: HttpClient
   ) {
     super();
@@ -54,6 +55,9 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+    })
   }
   refresh() {
     this.loadData();
@@ -68,6 +72,7 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
+      this.activatedRoute,
       this.sort
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
@@ -80,8 +85,15 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     );
   }
 
-  ViewDetail(user: InscriptionResponse) {
+  volverAtras() {
+    this._router.navigate([localStorage.getItem('url_mesh')]);
+  }
 
+  ViewDetail(row: InscriptionResponse) {
+    localStorage.setItem('url_list_partaker', '/admission/list-inscriptions-partaker/'+ this.id);
+    const UserItem  = JSON.stringify(row);
+    localStorage.setItem('userItem',UserItem);
+    this._router.navigate(['/admission/detail-inscriptions-partaker/'+ row.cedula]);
   }
   aprobar(user: InscriptionResponse) {
     const dialogRef = this._dialog.open(ApprovalIncriptionComponent, {
@@ -125,6 +137,7 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
 
 export class ExampleDataSource extends DataSource<InscriptionResponse> {
   filterChange = new BehaviorSubject('');
+  id!: number;
   get filter(): string {
     return this.filterChange.value;
   }
@@ -136,6 +149,7 @@ export class ExampleDataSource extends DataSource<InscriptionResponse> {
   constructor(
     public exampleDatabase: InscriptionService,
     public paginator: MatPaginator,
+    public activatedRoute: ActivatedRoute,
     public _sort: MatSort
   ) {
     super();
@@ -151,7 +165,10 @@ export class ExampleDataSource extends DataSource<InscriptionResponse> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getParticipantsEFomal();
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+    this.exampleDatabase.getParticipantsEFomalDegreeId(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

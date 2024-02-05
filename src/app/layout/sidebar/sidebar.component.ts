@@ -70,14 +70,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    console.log(this.authService.currentUserValue);
+
     if (this.authService.currentUserValue) {
+      this.userType = this.getRoleFromToken(this.authService.currentUserValue.token);
+      console.log('====================================');
+      console.log(this.userType);
+      console.log('====================================');
       this.userFullName =
         this.authService.currentUserValue.firstName +
         ' ' +
         this.authService.currentUserValue.lastName;
       this.userImg = this.authService.currentUserValue.img;
-      this.userType = 'Admin';
-      this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
+      // this.userType = 'Admin';
+      this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem.Role == this.userType);
     }
 
     // this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
@@ -159,4 +165,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  public decodeToken(token: string): any {
+    const payload = token.split('.')[1];
+    const decodedPayload = window.atob(payload);
+    return JSON.parse(decodedPayload);
+  }
+
+  public getRoleFromToken(token: string): string {
+    const decodedToken = this.decodeToken(token);
+    return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  }
+
 }

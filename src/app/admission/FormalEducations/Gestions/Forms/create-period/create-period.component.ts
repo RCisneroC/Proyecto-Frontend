@@ -6,7 +6,7 @@ import { AnnualPlanService } from 'app/admission/FormalEducations/Services/annua
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   accion: string;
-  id_plan: string;
+  id_curriculum: string;
   Period: Period;
 }
 @Component({
@@ -43,7 +43,7 @@ export class CreatePeriodComponent implements OnInit {
       startDate: [data.Period.startDate, [Validators.required]],
       endDate: [data.Period.endDate, [Validators.required]],
       maxNumOfParticipants: [data.Period.maxNumOfParticipants, [Validators.required]],
-      annualPlanId: [data.id_plan, [Validators.required]],
+      degreeCurriculumDesignId: [data.id_curriculum, [Validators.required]],
     });
   }
   ngOnInit(): void {
@@ -78,6 +78,5 @@ export class CreatePeriodComponent implements OnInit {
         }
       });
     }
-
   }
 }

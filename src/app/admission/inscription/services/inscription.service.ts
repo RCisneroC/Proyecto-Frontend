@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.development';
 import { Observable, of } from 'rxjs';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Participant, ApiResponse, ParticipantActivity, GetDataResultResponse } from '../../models/participant';
+import {
+  Participant,
+  ApiResponse,
+  ParticipantActivity,
+  GetDataResultResponse,
+  AcadInfoResponseEF, ExperienceInfoResponseEF
+} from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
@@ -13,7 +19,13 @@ import { documentosIncripcion } from 'app/admission/models/documentosIncripcion'
 import { ResponseInscripcionEF } from "../../models/InscripcionEFResponse";
 import { ResponseAddEFcademicInfo } from "../../models/AddEFacademicResponse";
 import { ResponseAddEFlaboralInfo } from "../../models/AddEFlaboralResponse";
-import { InscriptionResponse, ListInscriptionResponse } from 'app/admission/models/ParticipantesEF';
+import {
+  InscriptionResponse,
+  ListAspirantDegreeResponse,
+  ListInscriptionResponse
+} from 'app/admission/models/ParticipantesEF';
+import {Degree, Mesh} from "../../FormalEducations/Models/Degree";
+import {Period} from "../../FormalEducations/Models/AnnualPlan";
 @Injectable({
   providedIn: 'root'
 })
@@ -27,9 +39,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   public _ResponseInscripcionEF!: ResponseInscripcionEF;
   public _ResponseAddEFcademicInfo!: ResponseAddEFcademicInfo;
   public _ResponseAddEFlaboralInfo!: ResponseAddEFlaboralInfo;
+  public _Mesh!: Mesh;
   public _Persona!: Persona[];
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
+  dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
 
@@ -37,6 +51,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   public _documentosIncripcion!: documentosIncripcion;
   get data(): Participant[] {
     return this.dataChange.value || [];
+  }
+  get dataMesh(): Mesh[] {
+    return this.dataChangeMesh.value || [];
   }
   get dataParticipantActivity(): GetDataResultResponse[] {
     return this.dataChangeParticipant.value || [];
@@ -69,7 +86,35 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   }
   getDegreeCurriculumdesingByPlan(id: string) {
     return this.httpClient
-      .get<any>(environment.ConsultaMallaCurrcularByPlan + id);
+      .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id);
+  }
+
+  GetAcadInfoEF(id: any) {
+    return this.httpClient.get<AcadInfoResponseEF>(
+      environment.apiEC + 'EFInscription/AcadInfo?Cedula=' + id
+    );
+  }
+
+  GetExperienceInfoEF(id: any) {
+    return this.httpClient.get<ExperienceInfoResponseEF>(
+      environment.apiEC + 'EFInscription/ExperienceInfo?Cedula=' + id
+    );
+  }
+
+  getMeshCurriculumdesingByPlan(id: number): void {
+    this.subs.sink = this.httpClient
+      .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeMesh.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
   }
 
   getActivities(id: string) {
@@ -197,8 +242,27 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  getParticipantsEFomalDegreeId(id:number): void {
+    this.subs.sink = this.httpClient
+      .get<ListAspirantDegreeResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId='+ id)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChangeParticipantEF.next(data.getAspirantDegreeResult);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
   ApproveParticipant(data: any) {
     return this.httpClient.post(environment.apiEC + 'EFInscription/AddAcceptanceRejection', data);
+  }
+
+  AssignParticipant(data: any) {
+    return this.httpClient.post(environment.apiEC + 'EFInscription/Addassignment', data);
   }
 
   init_ResponseInscripcion() {

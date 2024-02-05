@@ -41,60 +41,6 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2 class="text-uppercase"><strong>Listado de Periodos</strong>
-                            <button (click)="AddPeriod()" matTooltip="Agregar Periodo"
-                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h2>
-                    </div>
-                    <div class="body">
-                        <div class="body table-responsive">
-                            <table mat-table [dataSource]="dataPeriod" class="w-100">
-                                <ng-container matColumnDef="name">
-                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="maxCupos">
-                                    <th mat-header-cell *matHeaderCellDef> Cupos del periodo </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.maxNumOfParticipants }} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="fechas">
-                                    <th mat-header-cell *matHeaderCellDef> Fechas </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy'}} -
-                                        {{ element.endDate | date:'dd/M/yyyy'}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="Estado">
-                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.statusId |statusPipe }} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="accion">
-                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <button (click)="deletePeriodo(element)" mat-mini-fab color="accent"
-                                            matTooltip="Eliminar">
-                                            <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
-                                        <button (click)="editarPeriodo(element)" mat-mini-fab color="primary"
-                                            matTooltip="Editar">
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="DisplayNamePeriod"></tr>
-                                <tr mat-row *matRowDef="let row; columns: DisplayNamePeriod;"></tr>
-                            </table>
-                            <mat-paginator #listadoPeriodo [pageSizeOptions]="[10, 20, 30]"
-                                showFirstLastButtons></mat-paginator>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header">
                         <h2 class="text-uppercase"><strong>Listado de Mallas Curriculares</strong>
                             <button (click)="AddMallas()" matTooltip="Agregar Malla Curricular"
                                 style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">

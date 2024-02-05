@@ -1,14 +1,15 @@
 import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
   {
-    path: '',
-    title: 'MENU',
-    iconType: '',
-    icon: '',
+    path: '/dashboard/dashboard1',
+    title: 'Panel control',
+    iconType: 'feather',
+    icon: 'calendar',
     class: '',
-    groupTitle: true,
+    groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Administrador',
     submenu: [],
   },
 
@@ -22,6 +23,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Administrador',
     submenu: [
       {
         path: '/admission/schedule-activities-list',
@@ -32,6 +34,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -43,6 +46,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
     ]
@@ -58,6 +62,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Administrador',
     submenu: [
       {
         path: 'admission/schedule-list',
@@ -68,6 +73,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -79,6 +85,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
@@ -94,6 +101,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Administrador',
     submenu: [
       {
         path: 'admission/form-ef',
@@ -104,10 +112,11 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
       {
-        path: 'admission/list-inscriptions-partaker',
+        path: 'admission/list-inscriptions-plans',
         title: 'Participantes',
         iconType: '',
         icon: '',
@@ -115,11 +124,23 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
   },
-
+  {
+    path: '/dashboard/dashboard1',
+    title: 'Panel control',
+    iconType: 'feather',
+    icon: 'calendar',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Director',
+    submenu: [],
+  },
   //aprobaciones
   {
     path: '',
@@ -130,6 +151,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Director',
     submenu: [
       {
         path: 'admission/list-curriculum-approve',
@@ -140,6 +162,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
       {
@@ -151,6 +174,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
       {
@@ -162,6 +186,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
     ],
@@ -177,6 +202,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
+    Role: 'Administrador',
     submenu: [
       {
         path: "/admission/source-funds-list",
@@ -187,6 +213,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       }, {
         path: "/admission/activity-ubication-list",
@@ -197,9 +224,10 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
-      
+
       {
         path: "/admission/modality-list",
         title: "Modalidad",
@@ -209,6 +237,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -220,6 +249,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -231,6 +261,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -242,6 +273,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -253,6 +285,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -264,6 +297,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -275,6 +309,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -286,6 +321,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -297,6 +333,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -308,9 +345,10 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
-      
+
 
     ]
   },
@@ -325,6 +363,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
+    Role: 'Administrador',
     submenu: [
       {
         path: "/admission/carreras",
@@ -335,6 +374,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -346,6 +386,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -357,6 +398,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -368,6 +410,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -379,6 +422,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -390,6 +434,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: []
       },
     ],
@@ -404,6 +449,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Director',
     submenu: [
       {
         path: 'admission/approved-annualplan',
@@ -414,6 +460,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
       {
@@ -425,6 +472,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
       {
@@ -436,6 +484,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Director',
         submenu: [],
       },
     ],
@@ -450,6 +499,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
+    Role: 'Administrador',
     submenu: [
       {
         path: "/teaching-management/teacher-list",
@@ -460,6 +510,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -471,6 +522,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        Role: 'Administrador',
         submenu: [],
       }
     ]
@@ -486,6 +538,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
+    Role: 'Administrador',
     submenu: [
       {
         path: '/security/user-list',
@@ -496,6 +549,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -507,8 +561,160 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
   },
+  //estudiante
+
+  {
+    path: '/dashboard/dashboard1',
+    title: 'Panel control',
+    iconType: 'feather',
+    icon: 'calendar',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [],
+  },
+  {
+    path: '',
+    title: 'Matricula',
+    iconType: 'feather',
+    icon: 'table',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [
+      {
+        path: '/security/user-list',
+        title: 'Matricula',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Pre-Matricula',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+    ],
+  },
+
+  {
+    path: '',
+    title: 'Historial',
+    iconType: 'feather',
+    icon: 'hard-drive',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [
+      {
+        path: '/security/user-list',
+        title: 'Creditos no Oficiales',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Notas',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Plan de Estudio',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Asistencia',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+    ],
+  },
+  {
+    path: '',
+    title: 'Solicitudes',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [
+      {
+        path: '/security/user-list',
+        title: 'Retiro o Reingresos',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/security/role-list',
+        title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+    ],
+  },
+
 ];

@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { PlanEstudioList } from 'app/admission/FormalEducations/Models/PlanEstudio';
 
 @Component({
   selector: 'app-details-annual',
@@ -28,34 +29,34 @@ export class DetailsAnnualComponent {
 
   public id: string = '';
   public ocultar: boolean = false;
-  public _Listado: SubjectPeriod[] = [
+  public _Listado: PlanEstudioList[] = [
     {
-      period: {
-        statusId: 0,
-        id: 0,
-        name: '',
-        description: '',
-        startDate: new Date(),
-        endDate: new Date(),
-        maxNumOfParticipants: 0,
-      },
-      subjects: [
+      year: 0,
+      periods: [
         {
           statusId: 0,
           id: 0,
           name: '',
           description: '',
-          acronym: '',
-          code: '',
-          numOfCredits: 0,
-          numOfHours: 0,
-          numOfClasses: 0,
-          hasLaboratory: false,
-          evaluationCriteria: '',
-          degreeCurriculumDesigns: [],
-          periods: [],
-          parentSubjects: [],
-          dependentSubjects: [],
+          startDate: new Date(),
+          endDate: new Date(),
+          maxNumOfParticipants: 0,
+          subjects: [
+            {
+              statusId: 0,
+              id: 0,
+              name: '',
+              description: '',
+              number: 0,
+              acronym: '',
+              code: '',
+              numOfCredits: 0,
+              numOfHours: 0,
+              numOfClasses: 0,
+              hasLaboratory: false,
+              evaluationCriteria: '',
+            }
+          ]
         }
       ]
     }
