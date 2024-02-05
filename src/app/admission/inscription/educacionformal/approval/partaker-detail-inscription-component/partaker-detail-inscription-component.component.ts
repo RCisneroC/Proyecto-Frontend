@@ -137,6 +137,7 @@ export class PartakerDetailInscriptionComponent {
     this._inscriptionService.GetAcadInfoEF(this.paramsId).subscribe({
       next:(res)=>{
         this.dataAcadInfo = new MatTableDataSource<AcadInfoEF>(res.inscriptionResponse);
+        console.log("AcadInfo",res.inscriptionResponse)
       },
       error: (err) => {
         console.log(err);
@@ -149,6 +150,7 @@ export class PartakerDetailInscriptionComponent {
     this._inscriptionService.GetExperienceInfoEF(this.paramsId).subscribe({
       next:(res)=>{
         this.dataExperienceInfo = new MatTableDataSource<ExperienceInfoEF>(res.experienceInfoResponse);
+        console.log("ExperienceInfo",res.experienceInfoResponse)
       },
       error: (err) => {
         console.log(err);
@@ -185,7 +187,7 @@ export class PartakerDetailInscriptionComponent {
     this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
       next: (res:DetailsParticipanteEF) => {
         this._ActivityService._DetailsParticipanteEF = res;
-        console.log(res);
+        console.log("Activity obj",res);
         if (res.getDetailsResponse.length > 0) {
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
         }
@@ -267,7 +269,7 @@ export class PartakerDetailInscriptionComponent {
 
   verDocumento(row: Requirement) {
     this._inscriptionService.init_documentosIncripcion();
-    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString(), row.id.toString()).
+    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString(), row.id.toString()).
     subscribe({
       next: (res) => {
         this._inscriptionService._documentosIncripcion = res;
@@ -320,11 +322,11 @@ export class PartakerDetailInscriptionComponent {
 
     if (files.length > 0) {
       var formdata = new FormData();
-      formdata.append('cedula', this._ActivityService._DetailsParticipante.detailsResponse[0].cedula);
+      formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
       formdata.append('FileType', requerimentId.toString());
-      formdata.append('InscriptionId', this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString());
+      formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
       formdata.append('File', files[0]);
-      this._inscriptionService.CargaDocumentoRequirement(formdata).subscribe({
+      this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
         next: (res:ResponseEF) => {
           Swal.fire({
             title: "Escuela Judicial",

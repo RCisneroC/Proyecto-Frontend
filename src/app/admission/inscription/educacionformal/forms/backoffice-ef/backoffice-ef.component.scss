@@ -25,3 +25,7 @@
   font-weight: 500;
   color: #5b5bff;
 }
+
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}
