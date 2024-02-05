@@ -328,7 +328,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         physical: false,
         usesAwheelchair:false,
         others: '',
-        specific:''
+        specific:'',
+        observation:''
       }
     ]
   }
@@ -359,7 +360,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     physical: false,
     usesAwheelchair:false,
     others: '',
-    specific:''
+    specific:'',
+    observation:''
   };
 
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];

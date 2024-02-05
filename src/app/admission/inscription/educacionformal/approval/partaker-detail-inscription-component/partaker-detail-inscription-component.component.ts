@@ -182,6 +182,18 @@ export class PartakerDetailInscriptionComponent {
 
   }
 
+  EnrollmentAction(){
+    this._inscriptionService.EnrollmentAction(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString()).subscribe({
+      next:(res)=>{
+        console.log("EnrollmentAction response",res);
+      },
+      error: (err) => {
+        console.log(err);
+
+      }
+    })
+  }
+
   getDetails() {
     this._ActivityService.loading = true;
     this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
@@ -223,6 +235,7 @@ export class PartakerDetailInscriptionComponent {
             icon: "success"
           });
           this.getDetails();
+          this.EnrollmentAction();
         } else {
           Swal.fire({
             title: "Escuela Judicial",
