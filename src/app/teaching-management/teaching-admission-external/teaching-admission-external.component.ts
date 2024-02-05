@@ -76,13 +76,15 @@ header!: string;
 experience?: Experience;
 training?: Training;
 _Form_Data = new FormData();
-
+viewMessage?:boolean;
 FormsEFDocument!: UntypedFormGroup;
   
 
 
 
 @ViewChild('stepper') stepper: MatStepper | undefined;
+  viewAlert: boolean=false;
+  viewAlert1: boolean=false;
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -185,11 +187,29 @@ FormsEFDocument!: UntypedFormGroup;
       this.DataExperience.push(result);
 
       this.DataTeacher.listExperience = [...this.DataTeacher.listExperience, ...this.DataExperience]
-
+      this.viewMessag(2);
     });
   }
 
+   viewMessag(tip:number){
+  if(tip==1){
+    if(this.DataTeacher.listTraining.length==0){
+    
+    this.viewAlert=true;
+    }else{
+      this.viewAlert=false;
+    }
+    
+  }else{
+    if(this.DataTeacher.listExperience.length==0){
+      this.viewAlert1=true;
+    }else{
+      this.viewAlert1=false;
+    }
+    
+  }
 
+  }
   AddTraining() {
     const dialogRef = this._dialog.open(AddTrainingComponent, {
       data: {
@@ -214,9 +234,9 @@ FormsEFDocument!: UntypedFormGroup;
       }
 
       this.DataTraining.push(result);
-
+      
       this.DataTeacher.listTraining = [...this.DataTeacher.listTraining, ...this.DataTraining]
-
+      this.viewMessag(1);
     });
   }
   RemoveExperience(row: Experience) {

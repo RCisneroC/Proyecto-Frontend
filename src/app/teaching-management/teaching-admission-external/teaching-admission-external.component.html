@@ -229,7 +229,11 @@
                                                 <button mat-raised-button matStepperPrevious color="warn"
                                                     class="msr-2">Atras</button>
                                                 <button mat-raised-button matStepperNext
-                                                    color="primary">Siguiente</button>
+                                                    color="primary" (click)="viewMessag(1)" >Siguiente</button>
+                                                    <mat-error
+                                                    *ngIf="viewAlert">
+                                                     Debe agregar al menos una(1) formación academica
+                                                </mat-error> 
                                             </div>
                                         </form>
                                     </mat-step>
@@ -297,7 +301,11 @@
                                                 <button mat-raised-button matStepperPrevious color="warn"
                                                     class="msr-2">Atras</button>
                                                 <button mat-raised-button matStepperNext
-                                                    color="primary">Siguiente</button>
+                                                color="primary" (click)="viewMessag(2)" >Siguiente</button>
+                                                <mat-error
+                                                *ngIf="viewAlert1">
+                                                 Debe agregar al menos una(1) experiencia profesional
+                                            </mat-error> 
                                             </div>
                                         </form>
                                     </mat-step>

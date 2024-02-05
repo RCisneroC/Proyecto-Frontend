@@ -79,10 +79,9 @@ ngOnInit(): void {
 LoadSubject() {
   this._teacherService.getAllSubject3().subscribe({
     next: (res: Subject[]) => {
-      // const filter = res.filter(obj1 => {
-      //   return this.data.teacher.listActivity.some(obj2 =>obj2.id!=obj1.id);
-      // });
-      this.subjectList =new MatTableDataSource<Subject>(res);
+
+      const interseccion = res.filter(obj1 => !this.data.teacher.listSubject.some(obj2 => obj2.id === obj1.id));
+      this.subjectList =new MatTableDataSource<Subject>(interseccion);
     }
   });
 }
