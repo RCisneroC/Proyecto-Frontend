@@ -302,6 +302,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     statusCode: 0,
     getDetailsResponse: [
       {
+        inscriptionId:"",
         bloodtype: "",
         caseOfemergency: "",
         degreeName: "",
@@ -332,6 +333,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     ]
   }
   public _DetailsResponseEF: DetailsResponseEF = {
+    inscriptionId:"",
     bloodtype: "",
     caseOfemergency: "",
     degreeName: "",

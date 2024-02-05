@@ -84,6 +84,7 @@ export interface DetailsParticipanteEF {
 }
 
 export interface DetailsResponseEF {
+  inscriptionId: string,
   firstName: string,
   lastName: string,
   secondsurname: string,
