@@ -90,6 +90,12 @@ export class BackofficeEFComponent implements AfterViewInit {
     observation: "",
     createdBy: ""
   };
+  DocSustento: Requirement = {
+    id: 3,
+    name: "Documento de sustento",
+    description: "Documento de sustento",
+    statusId: 1
+  }
 
   SourcePlan = new MatTableDataSource<DetallePlanes>();
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
@@ -145,6 +151,7 @@ export class BackofficeEFComponent implements AfterViewInit {
       specific: [''],
       others: [''],
       usesAwheelchair: [false],
+      observation: ['', [Validators.required]]
     })
 
 
@@ -197,6 +204,7 @@ export class BackofficeEFComponent implements AfterViewInit {
       backoffice: 0,
       firstName: this.FormsEF.value.firstName,
       lastName: this.FormsEF.value.lastName,
+      secondsurname: this.FormsEF.value.secondsurname,
       cedula: this.FormsEF.value.cedula,
       dateOfBirth: this.FormsEF.value.dateOfBirth,
       placeOfBirth: this.FormsEF.value.placeOfBirth,
@@ -219,7 +227,7 @@ export class BackofficeEFComponent implements AfterViewInit {
       specific: this.FormsEF.value.specific,
       others: this.FormsEF.value.others,
       usesAwheelchair: this.FormsEF.value.usesAwheelchair == "True",
-      observation: "",
+      observation: this.FormsEF.value.observation,
       createdBy: this.authService.currentUserValue.id
     }
     this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
