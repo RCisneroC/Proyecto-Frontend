@@ -91,6 +91,7 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
 
   ViewDetail(row: InscriptionResponse) {
     localStorage.setItem('url_list_partaker', '/admission/list-inscriptions-partaker/' + this.id);
+    localStorage.setItem('partaker_degreeid', row.degreeId.toString());
     const UserItem = JSON.stringify(row);
     localStorage.setItem('userItem', UserItem);
     this._router.navigate(['/admission/detail-inscriptions-partaker/' + row.cedula]);

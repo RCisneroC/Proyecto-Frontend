@@ -328,6 +328,7 @@ export class InscriptionFormsExternalComponent {
       backoffice: 0,
       firstName: this.FormsEF.value.firstName,
       lastName: this.FormsEF.value.lastName,
+      secondsurname: this.FormsEF.value.secondsurname,
       cedula: this.FormsEF.value.cedula,
       dateOfBirth: this.FormsEF.value.dateOfBirth,
       placeOfBirth: this.FormsEF.value.placeOfBirth,

@@ -120,7 +120,7 @@ export class PartakerDetailInscriptionComponent {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       this.getDetails();
-      this.getOneActivity();
+      this.getRequirementsDocuments();
       this.getAcadInfo();
       this.getExperiencenfo();
       this.makeAutoAssigment();
@@ -182,6 +182,18 @@ export class PartakerDetailInscriptionComponent {
 
   }
 
+  EnrollmentAction(){
+    this._inscriptionService.EnrollmentAction(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString()).subscribe({
+      next:(res)=>{
+        console.log("EnrollmentAction response",res);
+      },
+      error: (err) => {
+        console.log(err);
+
+      }
+    })
+  }
+
   getDetails() {
     this._ActivityService.loading = true;
     this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
@@ -223,6 +235,7 @@ export class PartakerDetailInscriptionComponent {
             icon: "success"
           });
           this.getDetails();
+          this.EnrollmentAction();
         } else {
           Swal.fire({
             title: "Escuela Judicial",
@@ -253,6 +266,20 @@ export class PartakerDetailInscriptionComponent {
           //  this._ActivityService.loading = false;
         }
       })
+  }
+
+  getRequirementsDocuments() {
+    const degreeid= localStorage.getItem('partaker_degreeid');
+    if (degreeid != null){
+      this._inscriptionService.getRequirementsDocuments(degreeid).subscribe({
+        next: (data) => {
+          console.log('Datos de los documentos requeridos:', data);
+          this.dataDocuments = data;
+        }
+      })
+    }
+
+
   }
 
   async getDocumentos(res: ActivityActivityRequirement[]) {

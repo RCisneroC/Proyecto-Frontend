@@ -110,7 +110,8 @@ export interface DetailsResponseEF {
   physical: boolean,
   usesAwheelchair:boolean,
   others: string,
-  specific:string
+  specific:string,
+  observation:string
 }
 
 

@@ -302,7 +302,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     statusCode: 0,
     getDetailsResponse: [
       {
-        inscriptionId:"",
+        inscriptionId: "",
         bloodtype: "",
         caseOfemergency: "",
         degreeName: "",
@@ -328,12 +328,13 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
         physical: false,
         usesAwheelchair: false,
         others: '',
-        specific: ''
+        specific: '',
+        observation: ''
       }
     ]
   }
   public _DetailsResponseEF: DetailsResponseEF = {
-    inscriptionId:"",
+    inscriptionId: "",
     bloodtype: "",
     caseOfemergency: "",
     degreeName: "",
@@ -359,7 +360,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     physical: false,
     usesAwheelchair: false,
     others: '',
-    specific: ''
+    specific: '',
+    observation: ''
   };
 
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];

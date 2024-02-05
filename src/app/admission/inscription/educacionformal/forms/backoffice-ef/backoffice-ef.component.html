@@ -314,6 +314,19 @@
                                       </div>
                                     </div>
                                     <div class="row">
+                                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                        <mat-form-field class="example-full-width " appearance="outline">
+                                          <mat-label>Observaciones</mat-label>
+                                          <input matInput formControlName="observation" [readonly]="false">
+                                          <mat-icon class="material-icons-two-tone color-icon p-3"
+                                                    matSuffix>edit</mat-icon>
+                                          <mat-error *ngIf="FormsEF.get('observation')?.hasError('required')">
+                                            Requerido
+                                          </mat-error>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                    <div class="row">
                                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                                         <mat-form-field class="example-full-width" appearance="outline">
                                           <mat-label>Posee alguna capacidad diferente</mat-label>
@@ -572,6 +585,35 @@
                                                     </div>
                                                 </mat-grid-tile>
                                             </mat-grid-list>
+                                          <div class="row">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                                              <div  class="file-section">
+
+                                                <p style="font-weight: bold;text-transform: uppercase;">Documento Sustento <br></p>
+
+                                                <div class="file-drop-area">
+
+                                                  <button mat-raised-button color="primary">Elija el
+                                                    archivo</button>
+                                                  <span>arrastre y suelte el archivo aquí</span>
+                                                  <input class="file-input"
+                                                         id="archivo_9923"
+                                                         (change)="onChangeFile($event, DocSustento.id, DocSustento)"
+                                                         type="file">
+
+                                                </div>
+
+                                                <!-- <input id="archivo_{{ requerimiento.activityRequirement.id }}" type="file" class="file-input"
+                                          (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)" /> -->
+                                                <p style="color: green;font-weight: bold;margin-top: 10px;"
+                                                   id="texto_{{ DocSustento.id }}"></p>
+                                                <mat-progress-bar mode="indeterminate"
+                                                                  *ngIf="loadingFile"></mat-progress-bar>
+                                              </div>
+                                            </div>
+
+                                          </div>
+
                                         </div>
                                         <div>
                                             <button disabled mat-raised-button matStepperPrevious color="warn"
