@@ -168,6 +168,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseAddEFlaboralInfo>(url + "EFInscription/AddExperience", laboralinfiData);
   }
 
+  EnrollmentAction(InscriptionId: string): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId="+InscriptionId, null);
+  }
+
   CargaDocumentoEFRequirement(data: any): Observable<any> {
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseEF>(url + "EFInscription/AddEFDoc", data);

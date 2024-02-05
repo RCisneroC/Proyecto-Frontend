@@ -117,6 +117,9 @@ import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create
 import { CreateRoomsPeriodComponent } from './FormalEducations/Gestions/Forms/create-rooms-period/create-rooms-period.component';
 import { CreteAsignacionDocenteComponent } from './FormalEducations/Gestions/Forms/crete-asignacion-docente/crete-asignacion-docente.component';
 import { ShowDocentesAsignadoComponent } from './FormalEducations/Gestions/Forms/show-docentes-asignado/show-docentes-asignado.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -246,7 +249,6 @@ import { ShowDocentesAsignadoComponent } from './FormalEducations/Gestions/Forms
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-
   ]
 })
 export class AdmissionModule { }

@@ -43,7 +43,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Nombre</mat-label>
-                                                    <input matInput formControlName="firstName" [readonly]="false">
+                                                    <input [ngModel]="Participant.firstName" matInput formControlName="firstName" [readonly]="false">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('firstName')?.hasError('required')">
@@ -54,7 +54,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Primer Apellido</mat-label>
-                                                    <input matInput formControlName="lastName" [readonly]="false">
+                                                    <input [ngModel]="Participant.lastName" matInput formControlName="lastName" [readonly]="false">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error *ngIf="FormsEF.get('lastName')?.hasError('required')">
@@ -65,7 +65,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Segundo Apellido</mat-label>
-                                                    <input matInput formControlName="secondsurname" [readonly]="false">
+                                                    <input [ngModel]="Participant.secondsurname" matInput formControlName="secondsurname" [readonly]="false">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
@@ -79,7 +79,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Lugar de nacimiento</mat-label>
-                                                    <input matInput formControlName="placeOfBirth" [readonly]="false">
+                                                    <input [ngModel]="Participant.placeOfBirth" matInput formControlName="placeOfBirth" [readonly]="false">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>
                                                     <mat-error
@@ -92,7 +92,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                     <mat-label>Fecha de nacimiento</mat-label>
-                                                    <input matInput [matDatepicker]="fechaNacimiento"
+                                                    <input [ngModel]="Participant.dateOfBirth" matInput [matDatepicker]="fechaNacimiento"
                                                         formControlName="dateOfBirth">
                                                     <mat-datepicker-toggle matSuffix
                                                         [for]="fechaNacimiento"></mat-datepicker-toggle>
@@ -107,7 +107,7 @@
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                 <mat-form-field class="example-full-width " appearance="outline">
                                                     <mat-label>Dirección residencial</mat-label>
-                                                    <input matInput formControlName="residentialAddress"
+                                                    <input [ngModel]="Participant.residentialAddress" matInput formControlName="residentialAddress"
                                                         [readonly]="false">
                                                     <mat-icon class="material-icons-two-tone color-icon p-3"
                                                         matSuffix>edit</mat-icon>

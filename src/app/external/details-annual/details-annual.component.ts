@@ -206,9 +206,11 @@ export class DetailsAnnualComponent {
     this.ocultar = false;
   }
   verDetalle(row: DegreeCurriculumDesign) {
+    console.log(row);
+
     this.ocultar = true;
-    this.getAfichesMalla();
-    this.getDocumentosMalla();
+    this.getAfichesMalla(row.id);
+    this.getDocumentosMalla(row.id);
     this.detalleMalla = row;
     this.getOnePeriodSubject(row.id);
   }
@@ -221,9 +223,9 @@ export class DetailsAnnualComponent {
     })
   }
 
-  getAfichesMalla() {
+  getAfichesMalla(IdParams: any) {
     this._PosterRequest = [];
-    this._PlanAnnual.getAfichesMalla(this.converId).subscribe({
+    this._PlanAnnual.getAfichesMalla(IdParams).subscribe({
       next: (res) => {
         console.log(res);
 
@@ -250,8 +252,8 @@ export class DetailsAnnualComponent {
       }
     })
   }
-  getDocumentosMalla() {
-    this._PlanAnnual.getDocumentosMalla(this.converId).subscribe({
+  getDocumentosMalla(IdParams: any) {
+    this._PlanAnnual.getDocumentosMalla(IdParams).subscribe({
       next: (res) => {
         this._RequirementAdmission = res;
       }

@@ -2,10 +2,6 @@ import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angula
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators
 } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,183 +14,19 @@ import { InscriptionService } from '../../../services/inscription.service';
 import Swal from "sweetalert2";
 import { ResponseInscripcionEF } from "../../../../models/InscripcionEFResponse";
 import { DetallePlanes } from "../../../../models/DetallePlanes";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
 import {
-  MAT_DIALOG_DATA, MatDialog,
-  MatDialogRef,
+   MatDialog,
 } from "@angular/material/dialog";
-import { MaterialModule } from "@shared";
-import { NgFor, NgIf } from "@angular/common";
-import { Participant } from "../../../../models/participant";
 import { ResponseAddEFcademicInfo } from "../../../../models/AddEFacademicResponse";
-import { el } from "@fullcalendar/core/internal-common";
 import { ResponseAddEFlaboralInfo } from "../../../../models/AddEFlaboralResponse";
 import { Requirement } from "../../../../models/Requeriminet";
 import { ResponseEF } from "../../../../models/ResponseMessage";
-
-//-------------Dialog AC----------------------
-@Component({
-  selector: 'dialog-overview-detelle-academico',
-  templateUrl: './dialog-overview-detalle-academico.html',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MaterialModule,
-    NgIf,
-    NgFor,
-    ReactiveFormsModule,
-  ],
-})
-
-export class DialogOverviewDetalleAcademico {
-  public modalityACForm: UntypedFormGroup;
-  public modalityAC: DetalleAcademico = {
-    educationalLevelId: 0,
-    obtainedTitle: "",
-    institution: "",
-    city: "",
-    completionDate: new Date(),
-    startDate: new Date(),
-    academicInstitutionId: 0
-  }
-  DetalleAC = {
-    cedula: "",
-    educationalLevelId: 0,
-    obtainedTitle: "",
-    institution: "",
-    city: "",
-    completionDate: "",
-    startDate: "",
-    academicInstitutionId: 0
-  }
-  educationlevelList: any;
+import {InfoAcademicaComponent} from "../../../../../external/Forms/info-academica/info-academica.component";
+import {InfoLaboralComponent} from "../../../../../external/Forms/info-laboral/info-laboral.component";
+import {AuthService} from "@core";
+import {MatStepper} from "@angular/material/stepper";
 
 
-  constructor(
-    public dialogACRef: MatDialogRef<DialogOverviewDetalleAcademico>,
-    private _inscriptionService: InscriptionService,
-    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
-    private fb: UntypedFormBuilder
-  ) {
-    this.modalityACForm = this.createContactForm();
-  }
-
-  createContactForm(): UntypedFormGroup {
-    return this.fb.group({
-      educationalLevelId: [this.modalityAC.educationalLevelId, [Validators.required]],
-      obtainedTitle: [this.modalityAC.obtainedTitle, [Validators.required]],
-      institution: [this.modalityAC.institution, [Validators.required]],
-      city: [this.modalityAC.city, [Validators.required]],
-      completionDate: [this.modalityAC.completionDate, [Validators.required]],
-      startDate: [this.modalityAC.startDate, [Validators.required]],
-      academicInstitution: [this.modalityAC.institution],
-    });
-  }
-
-  submit() {
-    // emppty stuff
-    this.dialogACRef.close(this.modalityACForm.value);
-  }
-  onNoClick(): void {
-    this.dialogACRef.close();
-  }
-
-
-
-  getEducationLevel() {
-    this._inscriptionService.getEducationLevel().subscribe({
-      next: (data) => {
-        console.log("Educationlevel loaded", data.educationLevel);
-        this.educationlevelList = data.educationLevel;
-      }
-    })
-  }
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.getEducationLevel();
-  }
-
-
-}
-
-//-------------Dialog IL----------------------
-@Component({
-  selector: 'dialog-overview-detelle-laboral',
-  templateUrl: './dialog-overview-detalle-laboral.html',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MaterialModule,
-    NgIf,
-    NgFor,
-    ReactiveFormsModule,
-  ],
-})
-
-export class DialogOverviewDetalleLaboral {
-  public modalityILForm: UntypedFormGroup;
-  public modalityIL: DetalleExperiencia = {
-    entidad: "",
-    position: "",
-    cityEmployment: "",
-    startDateEmployment: new Date(),
-    endDate: new Date(),
-    time: ""
-  }
-  DetalleIL = {
-    entidad: "",
-    position: "",
-    cityEmployment: "",
-    startDateEmployment: "",
-    endDate: "",
-    time: ""
-  }
-
-  constructor(
-    public dialogILRef: MatDialogRef<DialogOverviewDetalleAcademico>,
-    private _inscriptionService: InscriptionService,
-    @Inject(MAT_DIALOG_DATA) public data: DetalleAcademico,
-    private fb: UntypedFormBuilder
-  ) {
-    this.modalityILForm = this.createContactForm();
-  }
-
-  createContactForm(): UntypedFormGroup {
-    return this.fb.group({
-      entidad: [this.modalityIL.entidad, [Validators.required]],
-      position: [this.modalityIL.position, [Validators.required]],
-      cityEmployment: [this.modalityIL.cityEmployment, [Validators.required]],
-      startDateEmployment: [this.modalityIL.startDateEmployment, [Validators.required]],
-      endDate: [this.modalityIL.endDate, [Validators.required]],
-      time: [this.modalityIL.time, [Validators.required]],
-    });
-  }
-
-  submit() {
-    // emppty stuff
-    this.dialogILRef.close(this.modalityILForm.value);
-  }
-  onNoClick(): void {
-    this.dialogILRef.close();
-  }
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-  }
-
-
-}
-//--------------------------Dialogs ends------------------------------
 @Component({
   selector: 'app-backoffice-ef',
   templateUrl: './backoffice-ef.component.html',
@@ -210,21 +42,17 @@ export class BackofficeEFComponent implements AfterViewInit {
   ];
 
   InformacionAcademica: string[] = [
-    'nivel',
     'institucion',
-    'ciudad',
-    'fecha_culiminacion',
-    'fecha_grado',
+    'programa',
     'titulo_obtenido',
+    'year',
     'acciones',
   ];
   InformacionLaboral: string[] = [
     'entidad',
     'cargo',
-    'ciudad',
-    'inicio',
-    'fin',
-    'tiempo',
+    'periodo',
+    'meses',
     'acciones',
   ];
 
@@ -237,8 +65,10 @@ export class BackofficeEFComponent implements AfterViewInit {
   ];
   loading: boolean = false;
   personData: any;
-  modalityList: any;
+  meshList: any;
   RequirementsDocumentsList: any;
+  validsecondNext: boolean = false;
+  validthirdNext: boolean = false;
   inscriptionId: string = "";
   aspirantId: string = "";
   loadingFile: boolean = false;
@@ -260,6 +90,12 @@ export class BackofficeEFComponent implements AfterViewInit {
     observation: "",
     createdBy: ""
   };
+  DocSustento: Requirement = {
+    id: 3,
+    name: "Documento de sustento",
+    description: "Documento de sustento",
+    statusId: 1
+  }
 
   SourcePlan = new MatTableDataSource<DetallePlanes>();
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
@@ -280,12 +116,12 @@ export class BackofficeEFComponent implements AfterViewInit {
     this.SourceExperiencia.paginator = value;
   }
 
-  @ViewChild(DialogOverviewDetalleAcademico) DialogOverviewDetalleAcademico: any;
 
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar, private _inscriptionService: InscriptionService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     public elm: ElementRef,
     public _nav: Router) {
     // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
@@ -299,7 +135,23 @@ export class BackofficeEFComponent implements AfterViewInit {
       residentialAddress: ['', [Validators.required]],
       email: ['', [Validators.required]],
       telephoneNumber: ['', [Validators.required]],
-      carreraId: ['', [Validators.required]],
+      degreeId: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      bloodtype: ['', [Validators.required]],
+      maritalStatus: ['', [Validators.required]],
+      nameOfspouse: [''],
+      numberofchildren: [''],
+      caseOfemergency: ['', [Validators.required]],
+      telephoneNumberEmergency: ['', [Validators.required]],
+      specialCapacity: [false, [Validators.required]],
+      visual: [false],
+      auditory: [false],
+      cognitive: [false],
+      physical: [false],
+      specific: [''],
+      others: [''],
+      usesAwheelchair: [false],
+      observation: ['', [Validators.required]]
     })
 
 
@@ -342,7 +194,7 @@ export class BackofficeEFComponent implements AfterViewInit {
     this._inscriptionService.getDegreeCurriculumdesingByPlan(id).subscribe({
       next: (data) => {
         console.log("Datos de los Mallas de plan" + id, data);
-        this.modalityList = data;
+        this.meshList = data;
       }
     })
   }
@@ -352,15 +204,31 @@ export class BackofficeEFComponent implements AfterViewInit {
       backoffice: 0,
       firstName: this.FormsEF.value.firstName,
       lastName: this.FormsEF.value.lastName,
+      secondsurname: this.FormsEF.value.secondsurname,
       cedula: this.FormsEF.value.cedula,
       dateOfBirth: this.FormsEF.value.dateOfBirth,
       placeOfBirth: this.FormsEF.value.placeOfBirth,
       residentialAddress: this.FormsEF.value.residentialAddress,
       telephoneNumber: this.FormsEF.value.telephoneNumber,
       email: this.FormsEF.value.email,
-      degreeId: this.FormsEF.value.carreraId,
-      observation: "",
-      createdBy: ""
+      degreeId: this.FormsEF.value.degreeId,
+      gender: this.FormsEF.value.gender,
+      bloodtype: this.FormsEF.value.bloodtype,
+      maritalStatus: this.FormsEF.value.maritalStatus,
+      nameOfspouse: this.FormsEF.value.nameOfspouse,
+      numberofchildren: this.FormsEF.value.numberofchildren,
+      caseOfemergency: this.FormsEF.value.caseOfemergency,
+      telephoneNumberEmergency: this.FormsEF.value.telephoneNumberEmergency,
+      specialCapacity: this.FormsEF.value.specialCapacity == "True",
+      visual: this.FormsEF.value.visual == "True",
+      auditory: this.FormsEF.value.auditory == "True",
+      cognitive: this.FormsEF.value.cognitive == "True",
+      physical: this.FormsEF.value.physical == "True",
+      specific: this.FormsEF.value.specific,
+      others: this.FormsEF.value.others,
+      usesAwheelchair: this.FormsEF.value.usesAwheelchair == "True",
+      observation: this.FormsEF.value.observation,
+      createdBy: this.authService.currentUserValue.id
     }
     this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
       next: (data: ResponseInscripcionEF) => {
@@ -577,7 +445,7 @@ export class BackofficeEFComponent implements AfterViewInit {
     location.reload();
   }
   openDialogAC(): void {
-    const dialogACRef = this.dialog.open(DialogOverviewDetalleAcademico, {
+    const dialogACRef = this.dialog.open(InfoAcademicaComponent, {
       data: {},//{name: this.name, animal: this.animal},
     });
 
@@ -592,7 +460,7 @@ export class BackofficeEFComponent implements AfterViewInit {
   }
 
   openDialogIL(): void {
-    const dialogILRef = this.dialog.open(DialogOverviewDetalleLaboral, {
+    const dialogILRef = this.dialog.open(InfoLaboralComponent, {
       data: {},//{name: this.name, animal: this.animal},
     });
 
@@ -628,18 +496,45 @@ export class BackofficeEFComponent implements AfterViewInit {
 
   }
 
+  volverAtras(){
+    this.showTable = true;
+  }
+
   firstNext() {
-    console.log(this.FormsEF.value.carreraId);
+    console.log(this.FormsEF.value.degreeId);
     this.addAspirantEF();
-    this.getRequirementsDocuments(this.FormsEF.value.carreraId);
+    this.getRequirementsDocuments(this.FormsEF.value.degreeId);
   }
 
-  secondNext() {
-    this.addcademicInfo();
+  secondNext(stepper?: MatStepper) {
+    if(this.DataAcademico.length > 0){
+      this.addcademicInfo();
+      this.validsecondNext = true;
+      stepper?.next();
+    }
+    else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Debe ingresar al menos una informacion Academica.',
+        icon: "warning"
+      });
+    }
+
   }
 
-  thirdNext() {
-    this.addEFLaboralInfo();
+  thirdNext(stepper?: MatStepper) {
+    if(this.DataExperiencia.length > 0){
+      this.addEFLaboralInfo();
+      this.validthirdNext = true;
+      stepper?.next();
+    }
+    else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Debe ingresar al menos una Experiencia Laboral.',
+        icon: "warning"
+      });
+    }
   }
 
 }

@@ -78,6 +78,18 @@ export class InscriptionFormsExternalComponent {
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
+  Participant = {
+    backOffice: 0,
+    firstName: "",
+    lastName: "",
+    secondsurname: "",
+    cedula: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    residentialAddress: "",
+    telephoneNumber: "",
+    gender: "",
+  };
   public DataAcademico: DetalleAcademicoExt[] = [
 
   ];
@@ -185,17 +197,19 @@ export class InscriptionFormsExternalComponent {
           this.loading = false;
           this.disabled = true;
           this.personData = data;
-          this.FormsEF.value.firstName = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
             ?.primer_nombre;
-          this.FormsEF.value.lastName = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
             ?.apellido_paterno;
-          this.FormsEF.value.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
             ?.apellido_materno;
-          this.FormsEF.value.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
             ?.lugarDeNacimiento;
-          this.FormsEF.value.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
             ?.fecha_nacimiento;
-          this.FormsEF.value.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
+          this.Participant.gender = this.personData[0]?.datasetPersona?.personaPublica
+            ?.sexo;
+          this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
             ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
               ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
               ?.barrio_residencia;
@@ -314,6 +328,7 @@ export class InscriptionFormsExternalComponent {
       backoffice: 0,
       firstName: this.FormsEF.value.firstName,
       lastName: this.FormsEF.value.lastName,
+      secondsurname: this.FormsEF.value.secondsurname,
       cedula: this.FormsEF.value.cedula,
       dateOfBirth: this.FormsEF.value.dateOfBirth,
       placeOfBirth: this.FormsEF.value.placeOfBirth,
