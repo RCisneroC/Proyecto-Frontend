@@ -603,18 +603,6 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Estudiante',
         submenu: [],
       },
-      {
-        path: '/dashboard/dashboard1',
-        title: 'Pre-Matricula',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        Role: 'Estudiante',
-        submenu: [],
-      },
     ],
   },
 
