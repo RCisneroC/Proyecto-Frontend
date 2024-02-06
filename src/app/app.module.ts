@@ -49,10 +49,10 @@ export function createTranslateLoader(http: HttpClient) {
     MainLayoutComponent,
     InscriptionExternalComponent,
     //TeacherDetailComponent
-    
-   
-   
-    
+
+
+
+
 
   ],
   imports: [
@@ -77,9 +77,9 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  
-   
+
+
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

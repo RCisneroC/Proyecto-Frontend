@@ -717,4 +717,43 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
+  {
+    path: '',
+    title: 'Solicitudes',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Profesor',
+    submenu: [
+      {
+        path: '/dashboard/dashboard1',
+        title: 'Retiro o Reingresos',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Profesor',
+        submenu: [],
+      },
+      {
+        path: '/dashboard/dashboard1',
+        title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Profesor',
+        submenu: [],
+      },
+    ],
+  },
+
+
 ];

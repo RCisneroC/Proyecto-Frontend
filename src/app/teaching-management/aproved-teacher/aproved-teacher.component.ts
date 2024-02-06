@@ -11,7 +11,7 @@ import { UserService } from 'app/security/user/service/user.service';
 export interface DialogData {
   id: string;
   teacher: Teacher;
-  accion:string;
+  accion: string;
 }
 @Component({
   selector: 'app-aproved-teacher',
@@ -20,79 +20,80 @@ export interface DialogData {
 })
 export class AprovedTeacherComponent {
   public ResponseMessage: ResponseMessageMaestra = {
-      CodError: 0,
-      Message:''
+    CodError: 0,
+    Message: ''
   }
+
   processList = [
     { id: "", name: 'Seleccione' },
-    { id: "1", name: 'Formación' },
-    { id: "2", name: 'Educación continua' },
+    { id: "1", name: 'Entrenamiento' },
+    { id: "2", name: 'Formación especializada' },
     { id: "3", name: 'Ambos procesos' }
   ];
-    action: string;
-    dialogTitle: string='';
-    ApprovedForm: UntypedFormGroup;
-    UserForm: UntypedFormGroup;
-    id_cronograma: number = 0;
-    viewProcess!: boolean;
-    constructor(
-      public dialogRef: MatDialogRef<AprovedTeacherComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: DialogData,
-      public _teacherService:TeacherService,
-      public _userService:UserService,
-      private fb: UntypedFormBuilder,
-      private fbUser: UntypedFormBuilder
-    ) {
-      // Set the defaults
-      this.action = data.accion;
-      this.dialogTitle="Aprobar solicitud de docente"
-      this.ApprovedForm = this.fb.group({
-        teacherId: [data.teacher.teacherId,[Validators.required]],
-        process:['',[Validators.required]],
-        statusId:['',[Validators.required]],
-        approvalMessage:['',[Validators.required]]
-      });
-      
-     this.UserForm= this.fbUser.group({
-        id: [''],
-        userName: ["Docente"+this.data.teacher.teacherId, [Validators.required]],
-        firstName: [this.data.teacher.name, [Validators.required]],
-        lastName: [this.data.teacher.lastName, [Validators.required]],
-        cedula: [this.data.teacher.cedula, [Validators.required]],
-        email: [this.data.teacher.email, [Validators.required]],
-        phoneNumber: ["04248772488", [Validators.required]],
-        gender:["M", [Validators.required]],
-        roles:[["Profesor"], [Validators.required]],
-      });
-      
-      this.viewProcess=false;
-    }
-    Valor(value:string){
-    
-     this.viewProcess=value=="1"?true:false;
-    
-    }
-   
-    submit() {
-      const status=this.ApprovedForm.get("statusId")?.value;
-     this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
+  action: string;
+  dialogTitle: string = '';
+  ApprovedForm: UntypedFormGroup;
+  UserForm: UntypedFormGroup;
+  id_cronograma: number = 0;
+  viewProcess!: boolean;
+  constructor(
+    public dialogRef: MatDialogRef<AprovedTeacherComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    public _teacherService: TeacherService,
+    public _userService: UserService,
+    private fb: UntypedFormBuilder,
+    private fbUser: UntypedFormBuilder
+  ) {
+    // Set the defaults
+    this.action = data.accion;
+    this.dialogTitle = "Aprobar solicitud de docente"
+    this.ApprovedForm = this.fb.group({
+      teacherId: [data.teacher.teacherId, [Validators.required]],
+      process: ['', [Validators.required]],
+      statusId: ['', [Validators.required]],
+      approvalMessage: ['', [Validators.required]]
+    });
+
+    this.UserForm = this.fbUser.group({
+      id: [''],
+      userName: ["Docente" + this.data.teacher.teacherId, [Validators.required]],
+      firstName: [this.data.teacher.name, [Validators.required]],
+      lastName: [this.data.teacher.lastName, [Validators.required]],
+      cedula: [this.data.teacher.cedula, [Validators.required]],
+      email: [this.data.teacher.email, [Validators.required]],
+      phoneNumber: ["04248772488", [Validators.required]],
+      gender: ["M", [Validators.required]],
+      roles: [["Profesor"], [Validators.required]],
+    });
+
+    this.viewProcess = false;
+  }
+  Valor(value: string) {
+
+    this.viewProcess = value == "1" ? true : false;
+
+  }
+
+  submit() {
+    const status = this.ApprovedForm.get("statusId")?.value;
+    this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
       (res) => {
-      if (status==1){
-      
-     
-        this._userService.addUser(this.UserForm.value).subscribe(
-          (data) => {
-            console.log(data)
-            this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Aprobado correctamente.';
-            this.dialogRef.close(this.ResponseMessage);
-          },
-          (error) => {
-            this.ResponseMessage.CodError = 500;
-                   this.ResponseMessage.Message = error;
-                   this.dialogRef.close(this.ResponseMessage);
-          })
-        }else{
+        if (status == 1) {
+
+
+          this._userService.addUser(this.UserForm.value).subscribe(
+            (data) => {
+              console.log(data)
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Aprobado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+            },
+            (error) => {
+              this.ResponseMessage.CodError = 500;
+              this.ResponseMessage.Message = error;
+              this.dialogRef.close(this.ResponseMessage);
+            })
+        } else {
           this.ResponseMessage.CodError = 200;
           this.ResponseMessage.Message = 'Guardado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
@@ -100,8 +101,8 @@ export class AprovedTeacherComponent {
       },
       (error) => {
         this.ResponseMessage.CodError = 500;
-               this.ResponseMessage.Message = error;
-               this.dialogRef.close(this.ResponseMessage);
+        this.ResponseMessage.Message = error;
+        this.dialogRef.close(this.ResponseMessage);
       },
       () => {
         // this.ResponseMessage.CodError = 200;
@@ -110,28 +111,28 @@ export class AprovedTeacherComponent {
         // La promesa se resolvió correctamente.
       }
     );
-      
-    }
-  }
-      
-    //    this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe({
-    //     next: () => {
-    //       this._userService.addUser(this.UserForm.value).subscribe({
 
-    //       next: () => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Aprobado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //     });
-    //     },
-    //     error: (err) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-     
-  
-  
-  
+  }
+}
+
+//    this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe({
+//     next: () => {
+//       this._userService.addUser(this.UserForm.value).subscribe({
+
+//       next: () => {
+//       this.ResponseMessage.CodError = 200;
+//       this.ResponseMessage.Message = 'Aprobado correctamente.';
+//       this.dialogRef.close(this.ResponseMessage);
+//     }
+//     });
+//     },
+//     error: (err) => {
+//       this.ResponseMessage.CodError = 500;
+//       this.ResponseMessage.Message = err;
+//       this.dialogRef.close(this.ResponseMessage);
+//     }
+//   });
+
+
+
+

@@ -3,7 +3,7 @@ FROM node:16.20.0 as node
 WORKDIR /app
 COPY . .
 RUN npm install --legacy-peer-deps
-RUN npm run build --prod
+RUN npm run build
 
 # stage 2
 FROM nginx:alpine

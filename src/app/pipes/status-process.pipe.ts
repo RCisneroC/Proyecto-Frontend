@@ -7,12 +7,12 @@ export class StatusProcessPipe implements PipeTransform {
 
   transform(value: number): string {
     if (value == 1) {
-      return 'Formación';
-    }else if (value == 2) {
-      return 'Educación continua';
-    }else if (value == 3) {
+      return 'Entrenamiento';
+    } else if (value == 2) {
+      return 'Formación especializada';
+    } else if (value == 3) {
       return 'Ambos';
-    }else if(value == 4){
+    } else if (value == 4) {
       return 'Sin asignar';
     }
     return '';
