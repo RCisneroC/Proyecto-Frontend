@@ -148,7 +148,9 @@ export class HeaderComponent
       this.flagvalue = val.map((element) => element.flag);
     }
   }
-
+  infoTeacher(){
+    this.router.navigate(['/teaching-management/info-teacher/']);
+  }
   callFullscreen() {
     if (!this.isFullScreen) {
       if (this.docElement?.requestFullscreen != null) {
