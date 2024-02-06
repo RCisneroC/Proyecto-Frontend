@@ -93,10 +93,10 @@
                           <mat-header-cell class="pr-0"
                                            *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button matTooltip="Participantes" mat-mini-fab
-                                    color="accent" (click)="detalle(row)"
+                            <button matTooltip="Seleccionar" mat-mini-fab
+                                    color="accent" (click)="seleccionar(row)"
                                     class="tbl-action-btn">
-                              <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                              <app-feather-icons [icon]="'check'"></app-feather-icons>
                             </button>
                           </mat-cell>
                         </ng-container>

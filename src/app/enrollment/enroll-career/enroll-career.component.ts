@@ -65,11 +65,10 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  detalle(row: Mesh) {
+  seleccionar(row: Mesh) {
 
-    localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
-    this._router.navigate(['/admission/list-inscriptions-partaker/'+ row.id]);
-    //this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
+    //localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
+    this._router.navigate(['/enrollment/enroll-period/'+ row.id]);
 
   }
 
