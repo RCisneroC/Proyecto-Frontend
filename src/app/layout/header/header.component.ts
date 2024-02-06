@@ -121,6 +121,12 @@ export class HeaderComponent
       status: 'msg-read',
     },
   ];
+  
+  copy(inputElement:any) {
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+  }
   ngOnInit() {
     this.config = this.configService.configData;
     
@@ -142,7 +148,9 @@ export class HeaderComponent
       this.flagvalue = val.map((element) => element.flag);
     }
   }
-
+  infoTeacher(){
+    this.router.navigate(['/teaching-management/info-teacher/']);
+  }
   callFullscreen() {
     if (!this.isFullScreen) {
       if (this.docElement?.requestFullscreen != null) {

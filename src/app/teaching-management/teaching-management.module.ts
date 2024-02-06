@@ -19,6 +19,7 @@ import { RequiredDocumentListComponent } from './required-document-list/required
 import { RequiredDocumentFormComponent } from './required-document-form/required-document-form.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { AddSubjectComponent } from './add-subject/add-subject.component';
+import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
     RequiredDocumentFormComponent,
     AddActivityComponent,
     AddSubjectComponent,
+    InfoTeacherComponent,
   
   ],
   providers: [

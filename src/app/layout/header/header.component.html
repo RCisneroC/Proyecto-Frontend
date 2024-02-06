@@ -21,6 +21,13 @@
                 </li>
                 <li>
                   <div class="row g-0 p-1">
+                  <div class="col-12" class="app-icons">
+                    <mat-form-field>
+                      <input matInput #inputUrl placeholder="URL para importar" value="http://localhost:4200/#/teacher/teacher-admission-external" />
+                      <mat-hint>Link Inscripción docente</mat-hint>
+                    </mat-form-field>
+                    <button mat-button color="primary" (click)="copy(inputUrl)" >Copy</button>
+                  </div>
                     <div class="col-3 text-center"><a routerLink="/apps/chat" class="app-icons">
                         <img src="assets/images/apps/chat.png">
                         <p class="tx-12 mb-0">Chat</p>
@@ -128,6 +135,10 @@
                 <div class="user_dw_menu">
                    <button mat-menu-item (click)="changePassword()" class="user-item-list">
                     <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Cambiar contraseña
+                  </button>
+                  
+                  <button mat-menu-item (click)="infoTeacher()" class="user-item-list">
+                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Actualizar Datos
                   </button>
                 <!--  <button mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox
