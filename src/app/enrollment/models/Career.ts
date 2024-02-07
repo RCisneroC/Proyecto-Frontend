@@ -22,7 +22,7 @@ export interface Career {
 
 
 export interface CareerResponse {
-  studentInnfo: Career[],
+  studentInfo: Career[],
   message: string,
   isError: boolean,
   statusCode: number
