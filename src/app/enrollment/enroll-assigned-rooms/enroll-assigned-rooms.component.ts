@@ -18,6 +18,8 @@ import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {Room} from "../models/Room";
 import {Subject} from "../models/Subject";
+import {EnrollDummy} from "../models/EnrollDummy";
+import {Career} from "../models/Career";
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -39,8 +41,9 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<Room>(true, []);
   id?: number;
   requirement?: Room = this._RoomService._Room;
-
-
+  SubjectItem!: Subject;
+  CareerIten!:Career;
+  enrollDummyList: EnrollDummy[] = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -69,11 +72,43 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
+  volverAtras(){
+    const uri = localStorage.getItem('enroll-subject-url');
+    this._router.navigate([uri]);
+  }
+
   seleccionar(row: Room) {
 
-    //localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
-    //this._router.navigate(['enrollment/enroll-subject/']);
-    //this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
+    const itemList = localStorage.getItem('enroll-dummy');
+    if (itemList != null){
+      this.enrollDummyList = JSON.parse(itemList);
+    }
+    const itemSubject = localStorage.getItem('enroll-subject');
+    const itemCareer = localStorage.getItem('enroll-career');
+    if (itemSubject != null){
+      this.SubjectItem = JSON.parse(itemSubject);
+    }
+    if(itemCareer != null){
+      this.CareerIten = JSON.parse(itemCareer);
+    }
+    console.log("ver objeto", this.CareerIten);
+    this.enrollDummyList.push({
+      DegreeName: this.CareerIten.name,
+      RoomName: row.name,
+      SubjectId: this.SubjectItem.id,
+      SubjectName: this.SubjectItem.name,
+      createDate: new Date(),
+      ClassShift : "1"
+    })
+    const enrollDummyListItem = JSON.stringify(this.enrollDummyList);
+    localStorage.setItem('enroll-dummy', enrollDummyListItem);
+    const uri = localStorage.getItem('enroll-subject-url');
+    this._router.navigate([uri]);
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: "Matricula completada con éxito",
+      icon: "success"
+    });
 
   }
 

@@ -2,22 +2,15 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Detalles de Matricula'" [items]="['Home','Matriculas']"
-                      [active_item]="'Listado Asignaturas'">
+      <app-breadcrumb [title]="'Dashboard'" [items]="['Home']"
+                      [active_item]="'Dashboard'">
       </app-breadcrumb>
-    </div>
-    <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
-      <div class="">
-        <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
-          <mat-icon>keyboard_backspace</mat-icon> Regresar
-        </button>
-      </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Listado de Asignaturas</strong></h2>
+            <h2 class="text-uppercase"><strong>Listado de Carreras</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -27,7 +20,7 @@
                     <div class="left">
                       <ul class="header-buttons-left ms-0">
                         <li class="tbl-title">
-                          <h2>Asignaturas</h2>
+                          <h2>Carreras</h2>
                         </li>
                         <li class="tbl-search-box">
                           <label for="search-input"><i
@@ -74,39 +67,30 @@
                             <span class="mobile-label">Descripción:</span>{{ row.description
                             }}</mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="clases">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Clases
+                        <ng-container matColumnDef="FechaInicio">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Inicio
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Clases:</span>{{ row.numOfClasses
-                            }}</mat-cell>
+                            <span class="mobile-label">Fecha de Inicio :</span>{{
+                              row.startDate | date:'dd/M/yyyy'  }}</mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="créditos">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Créditos
+                        <ng-container matColumnDef="FechaFin">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de fin
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Créditos:</span>{{ row.numOfCredits
-                            }}</mat-cell>
+                            <span class="mobile-label">Fecha de fin:</span>{{
+                              row.endDate | date:'dd/M/yyyy'  }}</mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="horas">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Horas
+                        <ng-container matColumnDef="statusId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Horas:</span>{{ row.numOfHours
-                            }}</mat-cell>
-                        </ng-container>
-
-                        <ng-container matColumnDef="actions">
-                          <mat-header-cell class="pr-0"
-                                           *matHeaderCellDef>Acciones</mat-header-cell>
-                          <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button matTooltip="Seleccionar" mat-mini-fab
-                                    color="accent" (click)="detalle(row)"
-                                    class="tbl-action-btn">
-                              <app-feather-icons [icon]="'check'"></app-feather-icons>
-                            </button>
+                            <span class="mobile-label">Estado:</span>
+                            <span class="badge badge-solid-blue">{{ row.statusId |
+                              statusPipe}}</span>
                           </mat-cell>
                         </ng-container>
+
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;"
                                  [style.cursor]="'pointer'" matRipple>

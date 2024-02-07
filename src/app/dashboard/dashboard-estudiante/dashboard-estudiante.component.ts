@@ -1,4 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {EnrollDummy} from "../../enrollment/models/EnrollDummy";
+import {Career} from "../../enrollment/models/Career";
+import _default from "chart.js/dist/plugins/plugin.tooltip";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
 import {InscriptionService} from "../../admission/inscription/services/inscription.service";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
@@ -7,7 +12,6 @@ import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {
@@ -16,12 +20,13 @@ import {
 import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+
 @Component({
-  selector: 'app-enroll-career',
-  templateUrl: './enroll-career.component.html',
-  styleUrls: ['./enroll-career.component.scss']
+  selector: 'app-dashboard-estudiante',
+  templateUrl: './dashboard-estudiante.component.html',
+  styleUrls: ['./dashboard-estudiante.component.scss']
 })
-export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
+export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   displayedColumns = [
@@ -30,7 +35,6 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
     'FechaInicio',
     'FechaFin',
     'statusId',
-    'actions',
   ];
 
   exampleDatabase?: InscriptionService;

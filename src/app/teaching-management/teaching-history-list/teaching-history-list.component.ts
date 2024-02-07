@@ -57,9 +57,9 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   subjects = [
     {
       id: 1,
-      name: "Matemáticas",
-      description: "Introducción a los conceptos matemáticos básicos y técnicas de resolución de problemas.",
-      acronym: "MAT",
+      name: "Programación de Computadores",
+      description: "Programación de Computadores",
+      acronym: "PR",
       code: "MAT101",
       numOfCredits: 3,
       numOfHours: 4,

@@ -5,6 +5,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { TeacherService } from 'app/teaching-management/services/teacher.service';
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { AuthService } from '@core';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -19,7 +22,9 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _RequestServicesService: RequestServicesService,
+    public _user: AuthService
   ) { }
   ngOnInit() {
     this.authForm = this.formBuilder.group({
@@ -43,7 +48,17 @@ export class SignupComponent implements OnInit {
     if (this.authForm.invalid) {
       return;
     } else {
-      this.router.navigate(['/admin/dashboard/main']);
+      // /dashboard/dashboard - student
+      let type = this._RequestServicesService.getRoleFromToken(this._user.currentUserValue.token);
+      console.log(type);
+      console.log("......................");
+      alert();
+
+      if (type == 'Profesor') {
+        this.router.navigate(['/dashboard/dashboard-student']);
+      } else {
+        this.router.navigate(['/admin/dashboard/main']);
+      }
     }
   }
 }
