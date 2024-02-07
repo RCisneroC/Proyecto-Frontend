@@ -394,10 +394,10 @@ public _verificarBS64: VerificarBS64Pipe,
       cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
-      placeOfBirth:['',[Validators.required]],
-      dateOfBirth:['',[Validators.required]],
+      placeOfBirth:['Panama',[Validators.required]],
+      dateOfBirth:[this.DataTeacher?.dischargeDate],
       email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
-      telephoneNumber:['',[Validators.required]],
+      telephoneNumber:['+50742487558',[Validators.required]],
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
@@ -409,7 +409,7 @@ public _verificarBS64: VerificarBS64Pipe,
       listActivity: new FormControl(this.DataTeacher?.listActivity||[]),
       listSubject: new FormControl(this.DataTeacher?.listSubject||[]),
       process: new FormControl(this.DataTeacher.process),
-      createdBy: new FormControl(this.DataTeacher?.dischargeDate)
+      createdBy: new FormControl(this.DataTeacher?.name)
      
     });
   }
@@ -443,6 +443,9 @@ public _verificarBS64: VerificarBS64Pipe,
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
+  this.teacherForm?.get('listDocument')?.setValue([]);
+  this.teacherForm?.get('listSubject')?.setValue([]);
+  //this.teacherForm?.get('listSubject')?.setValue([]);
   if(this.teacherForm.valid)
 
   this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
