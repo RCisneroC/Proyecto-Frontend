@@ -19,7 +19,7 @@ import { ValidateFileResponse, VerificarDocumentacion } from 'app/admission/mode
   styleUrls: ['./backoffice.component.scss']
 })
 export class BackofficeComponent implements OnInit {
-    shortLink: string = ""; 
+    shortLink: string = "";
     files:{[key:number]:File[]}={};
     showFileSection=true;
     form: FormGroup;
@@ -43,7 +43,7 @@ export class BackofficeComponent implements OnInit {
     infoMessage: string = '';
     selectedActivity: any;
     status: "initial" | "uploading" | "success" | "fail" = "initial";
-    idActivity: number = 0;;
+    idActivity: number = 0;
     cedulaParticipant:string="";
     loadingFile: boolean = false;
     IsError: boolean = false;
@@ -77,7 +77,7 @@ export class BackofficeComponent implements OnInit {
 
   }
   ngOnInit():void{
-     
+
       this._inscriptionService.getShedule().subscribe({
           next:(data)=>{
             this.schedule=data;
@@ -103,9 +103,9 @@ export class BackofficeComponent implements OnInit {
   getPersonData(cedula: string){
     this.loading=false;
     this.disabled=true;
-    
+
    if(!cedula){
-   
+
     Swal.fire({
       title: "Escuela Judicial",
       text: 'Por favor, ingrese una cédula',
@@ -117,7 +117,7 @@ export class BackofficeComponent implements OnInit {
     this.cedulaParticipant=cedula;
       this._inscriptionService.getDataPerson(cedula).subscribe({
         next:(data)=>{
-          
+
           this.loading=false;
           this.disabled=true;
           this.personData=data;
@@ -128,7 +128,7 @@ export class BackofficeComponent implements OnInit {
       })
 
    }
-    
+
 
   }
 
@@ -138,7 +138,7 @@ export class BackofficeComponent implements OnInit {
     this._inscriptionService.getActivities(idSchedule).subscribe({
       next: (data) => {
         this.activities = data;
-        
+
         // Actualiza las opciones de actividades
         this.filteredActivities = data;
       },
@@ -179,7 +179,7 @@ getSchedule(){
 
 
   }
-    
+
   }
 
   onScheduleChange(selectedSchedule:any): void{
@@ -192,7 +192,7 @@ getSchedule(){
       );
       this.getActivities(String(selectedSchedule.id))
     }
-    
+
   }
 
   cambiarAIInscripcion(){
@@ -207,27 +207,27 @@ getSchedule(){
   }
 
   isActivityDisabled(activity: any): boolean {
-    
+
     const effectiveEndDate = new Date(activity.effectiveEndDate);
     const currentDate = new Date();
     console.log(effectiveEndDate, currentDate)
     if (currentDate > effectiveEndDate) {
-     
+
       this.errorMessage = '';
       this.infoMessage = 'Inscripción permitida.';
-      return false; 
+      return false;
     } else {
       this.errorMessage = 'Inscripción no permitida. La fecha de inscripción ha expirado.';
       this.infoMessage = '';
-      return true; 
+      return true;
     }
   }
   displayFn(schedule: any): string {
     return schedule && schedule.name ? schedule.name : '';
   }
 
-  
- 
+
+
   getActividad() {
   this._ActivityDetailService.GetOneActivity(this.idActivity?.toString()).
       subscribe({
@@ -252,7 +252,7 @@ getSchedule(){
           this._ActivityDetailService._GetOneActivity = res;
           this.activityRequirements = res;
           console.log(this.activityRequirements);
-          
+
         },
         error: (err:any) => {
         },
@@ -312,7 +312,7 @@ getSchedule(){
                 text: '('+requirement.name+') '+res.message,
                 icon: "success"
             });
-          
+
           elementImg.value = '';
           elementText.innerHTML  = '('+requirement.name+') '+'Cargado Correctamente.';
           this.loadingFile = false;
