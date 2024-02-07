@@ -22,6 +22,8 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
 import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { DetailTaskComponent } from './detail-task/detail-task.component';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { AddCalifComponent } from './add-calif/add-calif.component';
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import { DetailTaskComponent } from './detail-task/detail-task.component';
     InfoTeacherComponent,
     DetailSubjectComponent,
     DetailTaskComponent,
+    AddTaskComponent,
+    AddCalifComponent,
   
   ],
   providers: [

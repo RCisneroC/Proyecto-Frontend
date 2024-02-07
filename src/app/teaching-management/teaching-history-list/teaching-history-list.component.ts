@@ -67,7 +67,8 @@ implements OnInit{
       evaluationCriteria: "Exámenes, cuestionarios, tareas",
       statusId: 1,
       listTask: [
-        {
+        { 
+          id:1,
           Titulo: "Investigación sobre el cambio climático",
           observacion: "Utilizar fuentes confiables y variadas.",
           tipoTarea: "Investigación",
@@ -75,6 +76,7 @@ implements OnInit{
           fechaEntrega: new Date("2024-03-08"),
         },
         {
+          id:2,
           Titulo: "Análisis del poema 'Piedra negra sobre una piedra blanca' de Octavio Paz",
           observacion: "Enfatizar en las figuras literarias y el simbolismo.",
           tipoTarea: "Análisis",
@@ -82,6 +84,7 @@ implements OnInit{
           fechaEntrega: new Date("2024-03-15"),
         },
         {
+          id:3,
           Titulo: "Diseño de un prototipo de aplicación móvil para gestión de tareas",
           observacion: "Utilizar herramientas de diseño como Figma o Adobe XD.",
           tipoTarea: "Diseño",
@@ -89,6 +92,7 @@ implements OnInit{
           fechaEntrega: new Date("2024-04-05"),
         },
         {
+          id:4,
           Titulo: "Exposición oral sobre la historia del rock and roll",
           observacion: "Preparar una presentación multimedia atractiva e informativa.",
           tipoTarea: "Exposición",

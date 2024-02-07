@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TaskSubject } from '../models/Teacher';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { AddCalifComponent } from '../add-calif/add-calif.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-detail-task',
@@ -62,14 +64,42 @@ export class DetailTaskComponent implements OnInit {
     'actions'
     
   ]
-  constructor(private _nav:Router ) {}
+  constructor(private _nav:Router,
+    public _dialog: MatDialog
+  ) {}
 
   ngOnInit() {
      this.dataSou = new MatTableDataSource<any>(this.users);
   //   //this.dataSou.paginator = this.paginator;
    }
-  addNew(){
-  
+   AddCalif(row:any){
+    const dialogRef = this._dialog.open(AddCalifComponent, {
+      data: {
+        user: row,
+        accion: 'add-taskSubject'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result:any) => {
+      if (result == undefined) {
+        return;
+        }
+        // this.DataTraining=[];
+        
+        // if(this.DataTeacher.listTraining.length>0){
+        //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
+        //     return current.trainingId > previous.trainingId ? current : previous;
+        //   });
+        //   result.trainingId=IdMayor.trainingId+1;
+        // }else{
+        //   result.trainingId=1;
+        // }
+      
+        // this.DataTraining.push(result);
+        
+        // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
+        
+    });
   }
   volverAtras(){
     this._nav.navigate(['/teaching-management/detail-subject/',1]);
