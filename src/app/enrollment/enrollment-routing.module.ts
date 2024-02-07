@@ -4,6 +4,7 @@ import {EnrollCareerComponent} from "./enroll-career/enroll-career.component";
 import {EnrollPeriodComponent} from "./enroll-period/enroll-period.component";
 import {EnrollSubjectsComponent} from "./enroll-subjects/enroll-subjects.component";
 import {EnrollAssignedRoomsComponent} from "./enroll-assigned-rooms/enroll-assigned-rooms.component";
+import {EnrollDetailsComponent} from "./enroll-details/enroll-details.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path:"enroll-room",
     component: EnrollAssignedRoomsComponent
+  },
+  {
+    path:"enroll-details",
+    component: EnrollDetailsComponent
   }
 ];
 

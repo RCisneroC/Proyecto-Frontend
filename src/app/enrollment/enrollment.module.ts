@@ -10,6 +10,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ComponentsModule} from "@shared/components/components.module";
 import {SharedModule} from "@shared";
 import {StatusPipePipe} from "../pipes/status-pipe.pipe";
+import { EnrollDetailsComponent } from './enroll-details/enroll-details.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {StatusPipePipe} from "../pipes/status-pipe.pipe";
     EnrollPeriodComponent,
     EnrollSubjectsComponent,
     EnrollAssignedRoomsComponent,
+    EnrollDetailsComponent,
   ],
   providers:[StatusPipePipe],
   imports: [

@@ -93,7 +93,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     }
     console.log("ver objeto", this.CareerIten);
     this.enrollDummyList.push({
-      DegreeName: this.CareerIten.degreeName,
+      DegreeName: this.CareerIten.name,
       RoomName: row.name,
       SubjectId: this.SubjectItem.id,
       SubjectName: this.SubjectItem.name,

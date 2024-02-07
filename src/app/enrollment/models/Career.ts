@@ -8,7 +8,7 @@ export interface Career {
   mCurriculumName: string,
   descriptionName: string,
   degreeId: number,
-  degreeName: string,
+  name: string,
   cedula: string,
   telephoneNumber: string,
   email: string,
