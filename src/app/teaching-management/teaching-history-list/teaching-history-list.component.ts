@@ -34,6 +34,7 @@ implements OnInit{
     'activityTypeName',
     'activityLocationName',
     'isExecuted',
+    'actions',
     
   ];
   
@@ -131,24 +132,27 @@ implements OnInit{
     {
       id: 1,
       name: "Taller de escritura creativa",
-      activityTypeId: 2, // Suponiendo que 2 representa "Taller"
-      activityModeId: 1, // Suponiendo que 1 representa "Presencial"
+      activityTypeName: "Taller", // Suponiendo que 2 representa "Taller"
+      activityModeName: "Presencial", // Suponiendo que 1 representa "Presencial"
+      activityLocationName:"psub1",
       startDate: "2024-02-15",
       plannedEndDate: "2024-03-15",
     },
     {
       id: 2,
       name: "Conferencia sobre marketing digital",
-      activityTypeId: 1, // Suponiendo que 1 representa "Conferencia"
-      activityModeId: 3, // Suponiendo que 3 representa "Virtual"
+      activityTypeName: "Conferencia", // Suponiendo que 1 representa "Conferencia"
+      activityModeName: "Virtual", // Suponiendo que 3 representa "Virtual"
       startDate: "2024-02-20",
+      activityLocationName:"psub2",
       plannedEndDate: "2024-02-20",
     },
     {
       id: 3,
       name: "Curso de programación en Python",
-      activityTypeId: 3, // Suponiendo que 3 representa "Curso"
-      activityModeId: 2, // Suponiendo que 2 representa "Semipresencial"
+      activityTypeName: "Curso", // Suponiendo que 3 representa "Curso"
+      activityModeName:"Semipresencial", // Suponiendo que 2 representa "Semipresencial"
+      activityLocationName:"psub3",
       startDate: "2024-03-01",
       plannedEndDate: "2024-04-30",
     },
@@ -182,7 +186,7 @@ ngOnInit()  {
     this.activities = JSON.parse(activitiesStr);
   }
   this.DataSubjects = new MatTableDataSource<Subject>(this.subjects);
-  this.DataActivities = new MatTableDataSource<Activity>(this.activities);
+  this.DataActivities = new MatTableDataSource<any>(this.activities);
 
 }
 
