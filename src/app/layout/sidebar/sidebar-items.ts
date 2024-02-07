@@ -603,6 +603,18 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Estudiante',
         submenu: [],
       },
+      {
+        path: '/enrollment/enroll-details',
+        title: 'Mi Matricula',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      }
     ],
   },
 
