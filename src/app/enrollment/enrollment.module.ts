@@ -9,6 +9,7 @@ import { EnrollAssignedRoomsComponent } from './enroll-assigned-rooms/enroll-ass
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ComponentsModule} from "@shared/components/components.module";
 import {SharedModule} from "@shared";
+import {StatusPipePipe} from "../pipes/status-pipe.pipe";
 
 
 @NgModule({
@@ -16,8 +17,9 @@ import {SharedModule} from "@shared";
     EnrollCareerComponent,
     EnrollPeriodComponent,
     EnrollSubjectsComponent,
-    EnrollAssignedRoomsComponent
+    EnrollAssignedRoomsComponent,
   ],
+  providers:[StatusPipePipe],
   imports: [
     CommonModule,
     EnrollmentRoutingModule,

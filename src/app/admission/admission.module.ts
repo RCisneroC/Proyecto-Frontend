@@ -154,7 +154,6 @@ import { MatSelectModule } from '@angular/material/select';
     StatusListComponent,
     StatusFormComponent,
     ActivitydetailComponent,
-    StatusPipePipe,
     VerificarBS64Pipe,
     ListCurriculumDesignComponent,
     DeatilActivityCurriculumDesignComponent,

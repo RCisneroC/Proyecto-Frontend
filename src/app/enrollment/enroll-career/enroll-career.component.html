@@ -86,7 +86,8 @@
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Estado:</span>
-                            <span class="badge badge-solid-blue">{{ row.statusId }}</span>
+                            <span class="badge badge-solid-blue">{{ row.statusId |
+                              statusPipe}}</span>
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="actions">

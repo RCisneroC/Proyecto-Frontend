@@ -9,9 +9,10 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
+import {StatusPipePipe} from "../pipes/status-pipe.pipe";
 
 @NgModule({
-  declarations: [],
+  declarations: [StatusPipePipe],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -24,7 +25,8 @@ import { MatTableModule } from "@angular/material/table";
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    StatusPipePipe
 
 
   ],
