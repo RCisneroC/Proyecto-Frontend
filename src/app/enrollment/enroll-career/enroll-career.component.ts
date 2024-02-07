@@ -68,7 +68,7 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
   seleccionar(row: Mesh) {
 
     //localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
-    this._router.navigate(['/enrollment/enroll-period/'+ row.id]);
+    this._router.navigate(['/enrollment/enroll-subject/'+ row.id]);
 
   }
 

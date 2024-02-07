@@ -19,6 +19,7 @@ import {ResponseInscripcionEF} from "../../admission/models/InscripcionEFRespons
 import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
 import {ResponseAddEFlaboralInfo} from "../../admission/models/AddEFlaboralResponse";
 import {Period} from "../models/Period";
+import {Subject} from "../models/Subject";
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +29,12 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   public _Mesh!: Mesh;
   public _Period!: Period;
+  public _Subject!: Subject;
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
   dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangePeriod: BehaviorSubject<Period[]> = new BehaviorSubject<Period[]>([]);
+  dataChangeSubject: BehaviorSubject<Subject[]> = new BehaviorSubject<Subject[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
 
@@ -46,6 +49,9 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   get dataPeriod(): Period[] {
     return this.dataChangePeriod.value || [];
+  }
+  get dataSubject(): Subject[] {
+    return this.dataChangeSubject.value || [];
   }
   get dataParticipantActivity(): GetDataResultResponse[] {
     return this.dataChangeParticipant.value || [];
@@ -81,6 +87,22 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
           console.log(data);
           this.isTblLoading = false;
           this.dataChangePeriod.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
+  GetSubjectsBy(year: number,id: number): void {
+    this.subs.sink = this.httpClient
+      .get<Subject[]>(environment.apiEF + 'Period/GetSubjectsBy?Year='+year+'&DegreeCurriculumDesignId='+id)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeSubject.next(data);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
