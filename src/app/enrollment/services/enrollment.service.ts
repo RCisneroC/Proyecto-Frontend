@@ -20,6 +20,7 @@ import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResp
 import {ResponseAddEFlaboralInfo} from "../../admission/models/AddEFlaboralResponse";
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
+import {Room} from "../models/Room";
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,13 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   public _Mesh!: Mesh;
   public _Period!: Period;
   public _Subject!: Subject;
+  public _Room!: Room;
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
   dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangePeriod: BehaviorSubject<Period[]> = new BehaviorSubject<Period[]>([]);
   dataChangeSubject: BehaviorSubject<Subject[]> = new BehaviorSubject<Subject[]>([]);
+  dataChangeRoom: BehaviorSubject<Room[]> = new BehaviorSubject<Room[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
 
@@ -52,6 +55,9 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   }
   get dataSubject(): Subject[] {
     return this.dataChangeSubject.value || [];
+  }
+  get dataRoom(): Room[] {
+    return this.dataChangeRoom.value || [];
   }
   get dataParticipantActivity(): GetDataResultResponse[] {
     return this.dataChangeParticipant.value || [];
@@ -103,6 +109,22 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
           console.log(data);
           this.isTblLoading = false;
           this.dataChangeSubject.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
+  GetAssignedRoomsBy(classshift: number,periodid: number,year:number,subjectid: number): void {
+    this.subs.sink = this.httpClient
+      .get<Room[]>(environment.apiEF + 'Period/GetAssignedRoomsBy?ClassShift='+classshift+'&PeriodId='+periodid+'&Year='+year+'&SubjectId=' +subjectid)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeRoom.next(data);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;

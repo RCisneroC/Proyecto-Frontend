@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PartakerDetailInscriptionComponentComponent } from './partaker-detail-inscription-component.component';
+import { PartakerDetailInscriptionComponent } from './partaker-detail-inscription-component.component';
 
 describe('PartakerDetailInscriptionComponentComponent', () => {
-  let component: PartakerDetailInscriptionComponentComponent;
-  let fixture: ComponentFixture<PartakerDetailInscriptionComponentComponent>;
+  let component: PartakerDetailInscriptionComponent;
+  let fixture: ComponentFixture<PartakerDetailInscriptionComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PartakerDetailInscriptionComponentComponent]
+      declarations: [PartakerDetailInscriptionComponent]
     });
-    fixture = TestBed.createComponent(PartakerDetailInscriptionComponentComponent);
+    fixture = TestBed.createComponent(PartakerDetailInscriptionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

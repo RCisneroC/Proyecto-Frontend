@@ -62,10 +62,11 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  detalle(row: Mesh) {
+  detalle(row: Subject) {
 
-    localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
-    this._router.navigate(['/admission/list-inscriptions-partaker/'+ row.id]);
+    const SubjectItem = JSON.stringify(row);
+    localStorage.setItem('enroll-subject', SubjectItem);
+    this._router.navigate(['enrollment/enroll-room/']);
     //this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
 
   }
