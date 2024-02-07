@@ -48,15 +48,11 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
 
           let dataL = localStorage.getItem('solicitudes') || '';
           if (dataL != '') {
-
             if (this.userType == 'Administrador') {
               this.isTblLoading = false;
               this.dataChange.next(JSON.parse(dataL));
             } else {
               this.dataLStorage = JSON.parse(dataL);
-              console.log('====================================');
-              console.log(this.dataLStorage);
-              console.log('====================================');
               this.dataLStorage = this.dataLStorage.filter((sidebarItem) => sidebarItem.idSolicitante == this.UserData.id);
               this.isTblLoading = false;
               this.dataChange.next(this.dataLStorage);
