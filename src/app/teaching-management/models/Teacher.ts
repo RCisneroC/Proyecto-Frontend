@@ -90,6 +90,7 @@ export class Experience {
     }
     
     export class TaskSubject{
+        id!:number;
         Titulo!:string;
         observacion!:string;
         tipoTarea!:string;

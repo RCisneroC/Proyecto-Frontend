@@ -24,6 +24,8 @@ import { DetailTaskComponent } from './detail-task/detail-task.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ListStudentsComponent } from './list-students/list-students.component';
 import { AddAttendanceFormsComponent } from './add-attendance-forms/add-attendance-forms.component';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { AddCalifComponent } from './add-calif/add-calif.component';
 
 
 @NgModule({
@@ -44,10 +46,10 @@ import { AddAttendanceFormsComponent } from './add-attendance-forms/add-attendan
     InfoTeacherComponent,
     DetailSubjectComponent,
     DetailTaskComponent,
-    ListStudentsComponent,
-    ListStudentsComponent,
-    AddAttendanceFormsComponent
-
+    AddTaskComponent,
+    AddCalifComponent,
+    AddAttendanceFormsComponent,
+    ListStudentsComponent
   ],
   providers: [VerificarBS64Pipe],
   imports: [
