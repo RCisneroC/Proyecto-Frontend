@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskSubject } from '../models/Teacher';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddCalifComponent } from '../add-calif/add-calif.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TeacherService } from '../services/teacher.service';
+import { User } from '@core';
+import { MatPaginator } from '@angular/material/paginator';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail-task',
@@ -12,106 +17,118 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DetailTaskComponent implements OnInit {
   //this.cedula=this.activatedRoute.snapshot.params["cedula"];
-  dataSou!: MatTableDataSource<any>;
   //displayedColumns: string[] = ['nombre', 'descripcion', 'fechaEntrega', 'materia'];
-
-
-
-  users = [
-    {
-      id: "user1",
-      img: "https://placeholder.com/150", // Replace with placeholder image URL
-      cedula: "123456789", // Replace with placeholder ID
-      userName: "usuario1",
-      firstName: "Juan",
-      lastName: "Pérez",
-      emailConfirm: true,
-      email: "juan.perez@ejemplo.com",
-      statusId: 1, // Assuming 1 represents active status
-      gender: "Masculino",
-      phoneNumber: null,
-      createdDate: "2024-02-06",
-      token: "YOUR_APP_TOKEN", // Replace with placeholder token
-      roles: ["Estudiante"],
-      calif: 18
-    },
-    {
-      id: "user2",
-      img: "https://placeholder.com/150", // Replace with placeholder image URL
-      cedula: "987654321", // Replace with placeholder ID
-      userName: "profesora2",
-      firstName: "María",
-      lastName: "García",
-      emailConfirm: false,
-      email: "maria.garcia@ejemplo.com",
-      statusId: 2, // Assuming 2 represents another status
-      gender: "Femenino",
-      phoneNumber: null,
-      createdDate: "2024-01-20",
-      token: "YOUR_APP_TOKEN", // Replace with placeholder token
-      roles: ["Profesor"],
-      calif: 15
-    },
-    // Add more users with different data if needed
-  ];
   displayedColumns: string[] = [
     'cedula',
     'firstName',
     'lastName',
     'email',
     'gender',
-    'calif',
     'actions'
 
-  ]
-  constructor(private _nav: Router,
-    public _dialog: MatDialog
-  ) { }
+  ];
 
-  ngOnInit() {
-    this.dataSou = new MatTableDataSource<any>(this.users);
-    //   //this.dataSou.paginator = this.paginator;
+  taskSubject: TaskSubject = {
+    id: 0,
+    Titulo: '',
+    observacion: '',
+    tipoTarea: '',
+    nombre: '',
+    fechaEntrega: new Date(),
+    idAsignatura: '',
+    type: '',
+  };
+  dataSourseUser: User[] = []
+  dataSou = new MatTableDataSource<User>(this.dataSourseUser);
+  public id: string = '';
+  @ViewChild('pagination')
+  set paginator(value: MatPaginator) {
+    setTimeout(() => {
+      this.dataSou.paginator = value;
+    }, 1000);
+  }
+  constructor(private _nav: Router,
+    public _dialog: MatDialog,
+    public _TeacherService: TeacherService, private activatedRoute: ActivatedRoute
+  ) {
+    this.getOneStudents();
+    this.activatedRoute.params.subscribe((params) => {
+      this.getOneLocal();
+      this.id = params['id'];
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSou.filter = filterValue.trim().toLowerCase();
+  }
+  ngOnInit(): void {
+    this.dataSou.paginator = this.paginator;
+  }
+  getOneStudents() {
+    this._TeacherService.getStudents("Estudiante").subscribe({
+      next: (res) => {
+        this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+      }
+    })
+  }
+
+  // ngOnInit() {
+  //   this.dataSou = new MatTableDataSource<any>(this.users);
+  //   //   //this.dataSou.paginator = this.paginator;
+  // }
+  getOneLocal() {
+    let dataLocal = localStorage.getItem('details_task') || '';
+    if (dataLocal != '') {
+      this.taskSubject = JSON.parse(dataLocal);
+      console.log(this.taskSubject);
+
+    } else {
+      this._nav.navigate(['/teaching-management/detail-subject/', 1]);
+    }
   }
   addNew() {
 
   }
-  AddCalif(row: any) {
+  AddCalif(row: User) {
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
         user: row,
+        taskSubject: this.taskSubject,
         accion: 'add-taskSubject'
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
       }
-      // this.DataTraining=[];
-
-      // if(this.DataTeacher.listTraining.length>0){
-      //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-      //     return current.trainingId > previous.trainingId ? current : previous;
-      //   });
-      //   result.trainingId=IdMayor.trainingId+1;
-      // }else{
-      //   result.trainingId=1;
-      // }
-
-      // this.DataTraining.push(result);
-
-      // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
-
+      if (result.CodError == 200) {
+        this.getOneStudents();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
   volverAtras() {
-    this._nav.navigate(['/teaching-management/detail-subject/', 1]);
+    this._nav.navigate(['/teaching-management/teacher-history-list']);
 
   }
-  editCall(row: any) {
+  editCall(row: User) {
 
   }
+  verAsignatura(row: User) {
 
+  }
   refresh() {
   }
 

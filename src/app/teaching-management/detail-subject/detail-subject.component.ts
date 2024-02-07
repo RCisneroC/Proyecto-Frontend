@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TaskSubject } from '../models/Teacher';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from '../models/Teacher';
 import { AddTaskComponent } from '../add-task/add-task.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-detail-subject',
@@ -17,43 +20,19 @@ export class DetailSubjectComponent implements OnInit {
   //this.cedula=this.activatedRoute.snapshot.params["cedula"];
   dataSou!: MatTableDataSource<TaskSubject>;
 
-  taskSubject?: TaskSubject;
-  tareas: TaskSubject[] = [
-    {
-      id:1,
-      Titulo: "Investigación sobre el cambio climático",
-      observacion: "Utilizar fuentes confiables y variadas.",
-      tipoTarea: "Investigación",
-      nombre: "Tarea 1",
-      fechaEntrega: new Date("2024-03-08"),
-    },
-    {
-      id:2,
-      Titulo: "Análisis del poema 'Piedra negra sobre una piedra blanca' de Octavio Paz",
-      observacion: "Enfatizar en las figuras literarias y el simbolismo.",
-      tipoTarea: "Análisis",
-      nombre: "Tarea 2",
-      fechaEntrega: new Date("2024-03-15"),
-    },
-    {
-      id:3,
-      Titulo: "Diseño de un prototipo de aplicación móvil para gestión de tareas",
-      observacion: "Utilizar herramientas de diseño como Figma o Adobe XD.",
-      tipoTarea: "Diseño",
-      nombre: "Tarea 3",
-      fechaEntrega: new Date("2024-04-05"),
-    },
-    {
-      id:4,
-      Titulo: "Exposición oral sobre la historia del rock and roll",
-      observacion: "Preparar una presentación multimedia atractiva e informativa.",
-      tipoTarea: "Exposición",
-      nombre: "Tarea 4",
-      fechaEntrega: new Date("2024-04-20"),
-    },
-  ];
+  taskSubject: TaskSubject = {
+    id: 0,
+    Titulo: '',
+    observacion: '',
+    tipoTarea: '',
+    nombre: '',
+    fechaEntrega: new Date(),
+    idAsignatura: '',
+    type: '',
+  };
 
-  displayedColumns :string[] = [
+
+  displayedColumns: string[] = [
     'id',
     'Titulo',
     'observacion',
@@ -61,67 +40,200 @@ export class DetailSubjectComponent implements OnInit {
     'nombre',
     'fechaEntrega',
     'actions'
-    
-  ]
 
-  constructor( private _nav:Router,
-    public _dialog: MatDialog
-  ) {}
+  ]
+  public id: string = '';
+  TaskSubjectArray: TaskSubject[] = [];
+  TaskSubject!: TaskSubject;;
+  @ViewChild('pagination')
+  set paginator(value: MatPaginator) {
+    setTimeout(() => {
+      this.dataSou.paginator = value;
+    }, 1000);
+  }
+  constructor(private _nav: Router,
+    public _dialog: MatDialog,
+    public activeRouter: ActivatedRoute
+  ) {
+    this.activeRouter.params.subscribe((params) => {
+
+      this.id = params['id'];
+    });
+  }
 
   ngOnInit() {
-     this.dataSou = new MatTableDataSource<TaskSubject>(this.tareas);
-  //   //this.dataSou.paginator = this.paginator;
-   }
-  addNew(){
-  
-  }
-  
-  volverAtras(){
-    this._nav.navigate(['/teaching-management/teacher-history-list/']);
-  }
-  
-  Detail(row:TaskSubject): void {
-  
-    this._nav.navigate(['/teaching-management/detail-task/',1]);
+    this.load();
+    //   //this.dataSou.paginator = this.paginator;
   }
 
-  editCall( row:any){
-  
+  load() {
+    let local = localStorage.getItem('task') || '';
+    if (local != '') {
+      this.TaskSubjectArray = JSON.parse(local);
+      console.log(localStorage.getItem('tipoSolicitud') || '1');
+      let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
+      this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
+      this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
+    } else {
+      this.dataSou = new MatTableDataSource<TaskSubject>([]);
+    }
   }
-  
-  refresh(){
+  addNew() {
+
   }
-  
-  exportExcel(){
+
+  volverAtras() {
+    this._nav.navigate(['/teaching-management/teacher-history-list/']);
   }
-  
-  AddTask(){
+
+  Detail(row: TaskSubject): void {
+    localStorage.setItem('details_task', JSON.stringify(row));
+    this._nav.navigate(['/teaching-management/detail-task/', row.id]);
+  }
+
+  editCall(row: TaskSubject) {
+    const dialogRef = this._dialog.open(AddTaskComponent, {
+      data: {
+        taskSubject: row,
+        accion: 'edit-taskSubject',
+        id: this.id
+      },
+      disableClose: true,
+      width: '900px'
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.load();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+      // this.DataTraining=[];
+
+      // if(this.DataTeacher.listTraining.length>0){
+      //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
+      //     return current.trainingId > previous.trainingId ? current : previous;
+      //   });
+      //   result.trainingId=IdMayor.trainingId+1;
+      // }else{
+      //   result.trainingId=1;
+      // }
+
+      // this.DataTraining.push(result);
+
+      // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
+
+    });
+  }
+
+  refresh() {
+  }
+
+  exportExcel() {
+  }
+
+  EliminarTarea(row: TaskSubject) {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        let dataL = localStorage.getItem('task') || '';
+        if (dataL != '') {
+          this.TaskSubjectArray = JSON.parse(dataL);
+          let indice = this.TaskSubjectArray.findIndex(x => x.id === row.id);
+          console.log(indice);
+
+          if (indice !== -1) {
+            this.TaskSubjectArray.splice(indice, 1);
+          }
+          localStorage.setItem('task', JSON.stringify(this.TaskSubjectArray));
+          this.load();
+        }
+
+        //   this._RequestServicesService.DeleteRequestVarious(row.id).subscribe({
+        //     next: (res: ResponseGenerica) => {
+        //       Swal.fire({
+        //         title: "Eliminado!",
+        //         text: row.name + " fue eliminado.",
+        //         icon: "success"
+        //       });
+        //       this.loadData();
+        //     },
+        //     error: (err: any) => {
+        //       console.log(err);
+        //       Swal.fire({
+        //         title: "Intente nuevamente!",
+        //         text: row.name + " no se pudo eliminar.",
+        //         icon: "warning"
+        //       });
+        //     }
+        //   })
+        // } else {
+      }
+    });
+  }
+
+  AddTask() {
     const dialogRef = this._dialog.open(AddTaskComponent, {
       data: {
         taskSubject: this.taskSubject,
-        accion: 'add-taskSubject'
+        accion: 'add-taskSubject',
+        id: this.id
       },
       disableClose: true,
+      width: '900px'
     });
-    dialogRef.afterClosed().subscribe((result:TaskSubject) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        // this.DataTraining=[];
-        
-        // if(this.DataTeacher.listTraining.length>0){
-        //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-        //     return current.trainingId > previous.trainingId ? current : previous;
-        //   });
-        //   result.trainingId=IdMayor.trainingId+1;
-        // }else{
-        //   result.trainingId=1;
-        // }
-      
-        // this.DataTraining.push(result);
-        
-        // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
-        
+      }
+      if (result.CodError == 200) {
+        this.load();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+      // this.DataTraining=[];
+
+      // if(this.DataTeacher.listTraining.length>0){
+      //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
+      //     return current.trainingId > previous.trainingId ? current : previous;
+      //   });
+      //   result.trainingId=IdMayor.trainingId+1;
+      // }else{
+      //   result.trainingId=1;
+      // }
+
+      // this.DataTraining.push(result);
+
+      // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
+
     });
   }
 }

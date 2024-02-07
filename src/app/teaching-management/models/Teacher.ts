@@ -1,119 +1,121 @@
 
 export class Teacher {
-    teacherId: number=-1;
-    cedula: string="";
-    name: string="";
-    lastName: string="";
-    email:string="";
+    teacherId: number = -1;
+    cedula: string = "";
+    name: string = "";
+    lastName: string = "";
+    email: string = "";
     applicationDate?: string;
-    selected: boolean=false;
-    statusId: number=0;
-    dischargeDate: string="";
-    placeResidence: string="";
-    listCourse: Course[]=[];
-    listTraining: Training[]=[];
-    listSpecialty: Specialty[]=[];
-    listExperience: Experience[]=[];
-    listDocument: Documents[]=[];
-    listActivity: Activity[]=[];
-    listSubject: Subject[]=[];
-    process: number=0;
+    selected: boolean = false;
+    statusId: number = 0;
+    dischargeDate: string = "";
+    placeResidence: string = "";
+    listCourse: Course[] = [];
+    listTraining: Training[] = [];
+    listSpecialty: Specialty[] = [];
+    listExperience: Experience[] = [];
+    listDocument: Documents[] = [];
+    listActivity: Activity[] = [];
+    listSubject: Subject[] = [];
+    process: number = 0;
 }
 
 export interface Course {
     courseId: number;
     year: number;
-    name:string;
+    name: string;
 }
 
 
-export class Training  {
-        trainingId: number=-1;
-        institution: string="";
-        completionDate: string="";
-        city: string="";
-        degreeDate: string="";
-        educationLevel:string="";
-        degreeObtained: string="";
-        statusId: number=1;
+export class Training {
+    trainingId: number = -1;
+    institution: string = "";
+    completionDate: string = "";
+    city: string = "";
+    degreeDate: string = "";
+    educationLevel: string = "";
+    degreeObtained: string = "";
+    statusId: number = 1;
 }
 
 export interface Specialty {
     specialtyId: number;
-    name:string;
+    name: string;
 }
 
 export class Experience {
-    experienceId: number=-1;
-    description: string="";
-    position: string="";
-    startDate: string="";
-    endDate: string="";
-    statusId: number=1;
+    experienceId: number = -1;
+    description: string = "";
+    position: string = "";
+    startDate: string = "";
+    endDate: string = "";
+    statusId: number = 1;
 }
 
 
-    export class Documents  {
-        documentId: number=-1;
-        doc: string="";
-        docResult! :Poster;
-        extension: string="";
-        docType: number=-1;
-        description: string | null="";
-    }
-    
-    
-    export class Activity  {
+export class Documents {
+    documentId: number = -1;
+    doc: string = "";
+    docResult!: Poster;
+    extension: string = "";
+    docType: number = -1;
+    description: string | null = "";
+}
 
-            id!: number;
-            name!: string;
-            activityTypeId!: number;
-            activityModeId!: number;
-            startDate!: string;
-            plannedEndDate!: string;
 
-    }
-    
-    export class Subject {
-        id!: number;
-        name!: string;
-        description!: string;
-        acronym!: string;
-        code!: string;
-        numOfCredits!: number;
-        numOfHours!: number;
-        numOfClasses!: number;
-        hasLaboratory!: boolean;
-        evaluationCriteria!: string;
-        statusId!: number;
-        listTask: TaskSubject[]=[];
-    }
-    
-    export class TaskSubject{
-        id!:number;
-        Titulo!:string;
-        observacion!:string;
-        tipoTarea!:string;
-        nombre!: string;
-        fechaEntrega!: Date;
-    }
-    
-    export interface Poster {
-        fileContents:          string;
-        contentType:           string;
-        fileDownloadName:      string;
-        lastModified:          string;
-        entityTag:             string;
-        enableRangeProcessing: boolean;
-    }
-    export class fileDetails{
-    
-        fileDetails!:any;
-        fileType:number=1;
-    }
-    
+export class Activity {
 
-export interface ResponseSaveTeacher  {
+    id!: number;
+    name!: string;
+    activityTypeId!: number;
+    activityModeId!: number;
+    startDate!: string;
+    plannedEndDate!: string;
+
+}
+
+export class Subject {
+    id!: number;
+    name!: string;
+    description!: string;
+    acronym!: string;
+    code!: string;
+    numOfCredits!: number;
+    numOfHours!: number;
+    numOfClasses!: number;
+    hasLaboratory!: boolean;
+    evaluationCriteria!: string;
+    statusId!: number;
+    listTask: TaskSubject[] = [];
+}
+
+export class TaskSubject {
+    id!: number;
+    Titulo!: string;
+    observacion!: string;
+    tipoTarea!: string;
+    nombre!: string;
+    fechaEntrega!: Date;
+    idAsignatura!: string;
+    type!: string;
+}
+
+export interface Poster {
+    fileContents: string;
+    contentType: string;
+    fileDownloadName: string;
+    lastModified: string;
+    entityTag: string;
+    enableRangeProcessing: boolean;
+}
+export class fileDetails {
+
+    fileDetails!: any;
+    fileType: number = 1;
+}
+
+
+export interface ResponseSaveTeacher {
     idRegistro: number;
 }
 
@@ -126,8 +128,8 @@ export interface RequestSubjectTeacher {
     teacherId: number;
     subjectList: number[];
 }
-    
- 
-    
+
+
+
 
 
