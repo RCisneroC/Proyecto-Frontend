@@ -23,7 +23,7 @@ export class ListscheduleComponent extends UnsubscribeOnDestroyAdapter
   displayedColumns = [
     'name',
     'description',
-    'year', s
+    'year',
     'statusId',
     'actions',
   ];
