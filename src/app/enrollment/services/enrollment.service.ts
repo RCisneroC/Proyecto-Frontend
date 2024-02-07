@@ -21,6 +21,7 @@ import {ResponseAddEFlaboralInfo} from "../../admission/models/AddEFlaboralRespo
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
 import {Room} from "../models/Room";
+import {Career, CareerResponse} from "../models/Career";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangePeriod: BehaviorSubject<Period[]> = new BehaviorSubject<Period[]>([]);
   dataChangeSubject: BehaviorSubject<Subject[]> = new BehaviorSubject<Subject[]>([]);
+  dataChangeCareer: BehaviorSubject<CareerResponse[]> = new BehaviorSubject<CareerResponse[]>([]);
   dataChangeRoom: BehaviorSubject<Room[]> = new BehaviorSubject<Room[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
@@ -77,6 +79,22 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
           console.log(data);
           this.isTblLoading = false;
           this.dataChangeMesh.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
+  GetSubjectDegree(id: string): void {
+    this.subs.sink = this.httpClient
+      .post<CareerResponse[]>(environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id})
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeCareer.next(data);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
