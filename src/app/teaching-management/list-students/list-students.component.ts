@@ -9,6 +9,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StudenAsistence } from '../models/Asistencias';
 
 @Component({
   selector: 'app-list-students',
@@ -34,6 +35,7 @@ export class ListStudentsComponent implements OnInit {
       this.dataSou.paginator = value;
     }, 1000);
   }
+
   constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
     this.getOneStudents();
     this.activatedRoute.params.subscribe((params) => {

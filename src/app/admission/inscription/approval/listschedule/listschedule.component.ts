@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { ScheduleActivity } from 'app/admission/models/scheduleActivity';
-import { ScheduleActivitiesService } from 'app/admission/services/schedule-activities.service'; 
+import { ScheduleActivitiesService } from 'app/admission/services/schedule-activities.service';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 
 @Component({
@@ -19,15 +19,15 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
   styleUrls: ['./listschedule.component.scss']
 })
 export class ListscheduleComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
   displayedColumns = [
     'name',
     'description',
-    'year',
+    'year', s
     'statusId',
     'actions',
   ];
-  
+
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivity>(true, []);
@@ -37,7 +37,7 @@ implements OnInit{
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public scheduleActivitiesService:ScheduleActivitiesService ,
+    public scheduleActivitiesService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
     private router: Router,
   ) {
@@ -55,16 +55,16 @@ implements OnInit{
   refresh() {
     this.loadData();
   }
-  ViewDetail(row:ScheduleActivity) {
-    this.router.navigate(['/admission/activity-inscription',row.id]);
+  ViewDetail(row: ScheduleActivity) {
+    this.router.navigate(['/admission/activity-inscription', row.id]);
   }
   editCall(row: ScheduleActivity) {
     this.id = row.id;
-   
+
   }
   addNew() {
     let tempDirection: Direction;
-  
+
   }
 
 
@@ -114,13 +114,13 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.name,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-  
+
 
 }
 export class ExampleDataSource extends DataSource<ScheduleActivity> {
@@ -191,7 +191,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

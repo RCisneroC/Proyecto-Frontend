@@ -1,14 +1,17 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {AcadInfoEF, DetailsParticipanteEF} from "../../admission/models/participant";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActivityDetailService} from "../../admission/services/activity-detail.service";
-import {MatDialog} from "@angular/material/dialog";
-import {VerificarBS64Pipe} from "../../pipes/verificar-bs64.pipe";
-import {InscriptionService} from "../../admission/inscription/services/inscription.service";
-import {AuthService} from "@core";
-import {EnrollDummy} from "../models/EnrollDummy";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AcadInfoEF, DetailsParticipanteEF } from "../../admission/models/participant";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActivityDetailService } from "../../admission/services/activity-detail.service";
+import { MatDialog } from "@angular/material/dialog";
+import { VerificarBS64Pipe } from "../../pipes/verificar-bs64.pipe";
+import { InscriptionService } from "../../admission/inscription/services/inscription.service";
+import { AuthService } from "@core";
+import { EnrollDummy } from "../models/EnrollDummy";
+import { AddAttendanceFormsComponent } from 'app/teaching-management/add-attendance-forms/add-attendance-forms.component';
+import { Direction } from '@angular/cdk/bidi';
+import { StudenAsistence } from 'app/teaching-management/models/Asistencias';
 
 @Component({
   selector: 'app-enroll-details',
@@ -22,7 +25,8 @@ export class EnrollDetailsComponent {
     'DegreeName',
     'ClassShift',
     'RoomName',
-    'createDate'
+    'createDate',
+    'accion'
   ];
 
   dataSourceInfo: EnrollDummy[] = [{
@@ -32,7 +36,19 @@ export class EnrollDetailsComponent {
     ClassShift: '',
     RoomName: '',
     createDate: new Date()
-  }]
+  }];
+  public _StudenAsistence: StudenAsistence = {
+    statusId: 0,
+    startDate: new Date(),
+    idEstudiante: '',
+    cedula: '',
+    name: '',
+    lastname: '',
+    id: 0,
+    docente: '',
+    idasignatura: '',
+    type: ''
+  }
   enrollDummyList: EnrollDummy[] = [];
 
   dataInfo = new MatTableDataSource<EnrollDummy>(this.dataSourceInfo);
@@ -48,10 +64,11 @@ export class EnrollDetailsComponent {
     public _ActivityService: ActivityDetailService,
     public elm: ElementRef,
     private _inscriptionService: InscriptionService,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialog: MatDialog
   ) {
-        this.getDetails();
-        this.getInfo();
+    this.getDetails();
+    this.getInfo();
   }
 
   getDetails() {
@@ -72,12 +89,31 @@ export class EnrollDetailsComponent {
 
   getInfo() {
     const itemList = localStorage.getItem('enroll-dummy');
-    if (itemList != null){
+    if (itemList != null) {
       this.enrollDummyList = JSON.parse(itemList);
       this.dataInfo = new MatTableDataSource<EnrollDummy>(this.enrollDummyList);
     }
+  }
 
-
-
+  verAsignatura(row: EnrollDummy) {
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    this._StudenAsistence.cedula = this._ActivityService._DetailsResponseEF.cedula;
+    localStorage.setItem('tipoSolicitud', '1');
+    const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
+      data: {
+        students: this._StudenAsistence,
+        action: 'view',
+        id: row.SubjectId,
+      },
+      direction: tempDirection,
+    });
   }
 }
