@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MeshListInscriptionComponentComponent } from './mesh-list-inscription-component.component';
+import { MeshListInscriptionComponent } from './mesh-list-inscription-component.component';
 
 describe('MeshListInscriptionComponentComponent', () => {
-  let component: MeshListInscriptionComponentComponent;
-  let fixture: ComponentFixture<MeshListInscriptionComponentComponent>;
+  let component: MeshListInscriptionComponent;
+  let fixture: ComponentFixture<MeshListInscriptionComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MeshListInscriptionComponentComponent]
+      declarations: [MeshListInscriptionComponent]
     });
-    fixture = TestBed.createComponent(MeshListInscriptionComponentComponent);
+    fixture = TestBed.createComponent(MeshListInscriptionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

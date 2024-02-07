@@ -592,7 +592,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [
       {
-        path: '/dashboard/dashboard1',
+        path: '/enrollment/enroll-career',
         title: 'Matricula',
         iconType: '',
         icon: '',
