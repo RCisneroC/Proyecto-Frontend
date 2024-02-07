@@ -719,6 +719,43 @@ export const ROUTES: RouteInfo[] = [
 
   {
     path: '',
+    title: 'Perfil',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Profesor',
+    submenu: [
+      {
+        path: '/teaching-management/info-teacher',
+        title: 'Actualizar datos',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Profesor',
+        submenu: [],
+      },
+      {
+        path: '/teaching-management/teacher-history-list',
+        title: 'Historial Docente',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Profesor',
+        submenu: [],
+      },
+    ],
+  },
+  {
+    path: '',
     title: 'Solicitudes',
     iconType: 'feather',
     icon: 'folder',
@@ -753,7 +790,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
     ],
-  },
+  }
 
 
 ];

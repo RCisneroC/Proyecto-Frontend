@@ -129,18 +129,13 @@ public _verificarBS64: VerificarBS64Pipe,
     this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
-    this.documentForm = this.createDocumentForm();
+    //this.documentForm = this.createDocumentForm();
    
   
      this.header="Actualizar Datos";
      await this.getTeacherByCedula();
  
-    this.documentForm= this.fb.group({
-      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
-      CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
-      Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
-      CV:new FormControl([]),
-    });
+
    
     this.docForm= this.fb.group({
       FileDetails:new FormControl([]),
@@ -171,7 +166,7 @@ public _verificarBS64: VerificarBS64Pipe,
         this.DataTeacher = res;
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
-        this.documentForm = this.createDocumentForm();
+        //this.documentForm = this.createDocumentForm();
         this._teacherService.isTblLoading = false;
       }
     })
@@ -540,14 +535,14 @@ public _verificarBS64: VerificarBS64Pipe,
     
   }
   
-  createDocumentForm(): UntypedFormGroup {
-    return this.fb.group({
-      Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
-      CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
-      Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
-      CV:new FormControl([])
-    });
-  }
+  // createDocumentForm(): UntypedFormGroup {
+  //   return this.fb.group({
+  //     Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
+  //     CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
+  //     Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
+  //     CV:new FormControl([])
+  //   });
+  // }
 
 
 }

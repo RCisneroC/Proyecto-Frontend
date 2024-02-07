@@ -74,20 +74,28 @@ export class Experience {
 
     }
     
-    export interface Subject {
-        id: number;
-        name: string;
-        description: string;
-        acronym: string;
-        code: string;
-        numOfCredits: number;
-        numOfHours: number;
-        numOfClasses: number;
-        hasLaboratory: boolean;
-        evaluationCriteria: string;
-        statusId: number;
+    export class Subject {
+        id!: number;
+        name!: string;
+        description!: string;
+        acronym!: string;
+        code!: string;
+        numOfCredits!: number;
+        numOfHours!: number;
+        numOfClasses!: number;
+        hasLaboratory!: boolean;
+        evaluationCriteria!: string;
+        statusId!: number;
+        listTask: TaskSubject[]=[];
     }
     
+    export class TaskSubject{
+        Titulo!:string;
+        observacion!:string;
+        tipoTarea!:string;
+        nombre!: string;
+        fechaEntrega!: Date;
+    }
     
     export interface Poster {
         fileContents:          string;

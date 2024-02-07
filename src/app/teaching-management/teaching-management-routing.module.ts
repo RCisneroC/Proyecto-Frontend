@@ -5,6 +5,8 @@ import { TeacherDetailComponent } from './teacher-detail/teacher-detail.componen
 import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
 import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
 import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
+import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
+import { DetailTaskComponent } from './detail-task/detail-task.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: "info-teacher",
     component: InfoTeacherComponent,
+  },
+  {
+    path: "detail-subject/:id",
+    component: DetailSubjectComponent,
+  },
+  {
+    path: "detail-task/:id",
+    component: DetailTaskComponent,
   }
 ];
 
