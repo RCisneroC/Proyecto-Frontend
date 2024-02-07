@@ -28,12 +28,12 @@ export class ActivityFormComponent {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle ="Editar actividad";
+      this.dialogTitle = "Editar actividad";
       this.activity = data.activity;
     } else {
       this.dialogTitle = 'Crear actividad';
       this.activity = new Activity();
-      this.activity.statusId=1;
+      this.activity.statusId = 1;
     }
     this.activityForm = this.createContactForm();
   }
@@ -45,8 +45,8 @@ export class ActivityFormComponent {
     return this.formControl.hasError('required')
       ? 'Required field'
       : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+        ? 'Not a valid email'
+        : '';
   }
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
@@ -57,7 +57,7 @@ export class ActivityFormComponent {
       numOfVacancies: [this.activity.numOfVacancies, [Validators.required]],
       profileType: [this.activity.profileType, [Validators.required]],
       statusId: [this.activity.statusId, [Validators.required]],
-     
+
     });
   }
   submit() {
@@ -67,14 +67,15 @@ export class ActivityFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    if  (this.action==='edit'){
-    this.activityService.updateActivity(
-      this.activityForm.getRawValue()
-    ); }else{
+    if (this.action === 'edit') {
+      this.activityService.updateActivity(
+        this.activityForm.getRawValue()
+      );
+    } else {
       this.activityService.addActivity(
         this.activityForm.getRawValue()
       );
     }
-  
+
   }
 }

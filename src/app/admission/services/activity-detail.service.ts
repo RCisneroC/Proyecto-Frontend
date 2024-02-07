@@ -576,6 +576,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       return '';
     }
   }
+
+  getActivityStatus(id: number) {
+    return this.httpClient.get<GetOneActivity[]>(environment.apiUrlSchedule + 'Activity/GetAll?StatusId=' + id);
+  }
+
   initService() {
     this._GetOneActivity = {
       statusId: 0,

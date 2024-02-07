@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "name": "Joel",
+        "lastname": "Jimenez",
+        "idSolicitante": "07ab2c1d-203b-45f1-8981-148e95ef44d9",
+        "numberPhone": "64547057",
+        "email": "testjoel@gmail.com",
+        "typeUser": 2,
+        "typeRequest": 1,
+        "nameTypeRequest": "Peticiones informativas",
+        "typeActivityAcademy": 1,
+        "idSubjectOrActivity": 4,
+        "nameActivitySubject": "Matemática",
+        "dateCreate": "2024-02-06T17:40:06.933Z",
+        "statusId": 1,
+        "comments": "Yo necesito........."
+    }
+]

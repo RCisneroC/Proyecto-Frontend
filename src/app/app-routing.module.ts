@@ -33,7 +33,7 @@ const routes: Routes = [
           import('./enrollment/enrollment.module').then((m) => m.EnrollmentModule),
       },
       {
-        path: 'intranet-academic-registration',
+        path: 'intranet-academic',
         loadChildren: () =>
           import('./intranet-academic-registration/intranet-academic-registration.module').then((m) => m.IntranetAcademicRegistrationModule),
       },
@@ -47,7 +47,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./virtual-learning/virtual-learning.module').then((m) => m.VirtualLearningModule),
       },
-    
+
 
     ],
   },
@@ -84,4 +84,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {})],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

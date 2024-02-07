@@ -8,4 +8,4 @@ import { SharedModule } from "../shared.module";
   imports: [SharedModule],
   exports: [FileUploadComponent, BreadcrumbComponent],
 })
-export class ComponentsModule {}
+export class ComponentsModule { }
