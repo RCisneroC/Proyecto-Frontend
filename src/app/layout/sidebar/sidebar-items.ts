@@ -569,7 +569,7 @@ export const ROUTES: RouteInfo[] = [
   //estudiante
 
   {
-    path: '/dashboard/dashboard1',
+    path: '/dashboard/dashboard-student',
     title: 'Panel control',
     iconType: 'feather',
     icon: 'calendar',
