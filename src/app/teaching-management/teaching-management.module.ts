@@ -14,7 +14,6 @@ import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.compo
 import { AddTrainingComponent } from './add-training/add-training.component';
 import { TeachingAdmissionExternalComponent } from './teaching-admission-external/teaching-admission-external.component';
 import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { RequiredDocumentListComponent } from './required-document-list/required-document-list.component';
 import { RequiredDocumentFormComponent } from './required-document-form/required-document-form.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
@@ -22,6 +21,9 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
 import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { DetailTaskComponent } from './detail-task/detail-task.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ListStudentsComponent } from './list-students/list-students.component';
+import { AddAttendanceFormsComponent } from './add-attendance-forms/add-attendance-forms.component';
 
 
 @NgModule({
@@ -42,11 +44,12 @@ import { DetailTaskComponent } from './detail-task/detail-task.component';
     InfoTeacherComponent,
     DetailSubjectComponent,
     DetailTaskComponent,
-  
+    ListStudentsComponent,
+    ListStudentsComponent,
+    AddAttendanceFormsComponent
+
   ],
-  providers: [
-    VerificarBS64Pipe
-  ],
+  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
     TeachingManagementRoutingModule,

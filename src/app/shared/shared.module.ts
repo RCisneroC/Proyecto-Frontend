@@ -9,10 +9,11 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
-import {StatusPipePipe} from "../pipes/status-pipe.pipe";
+import { StatusPipePipe } from "../pipes/status-pipe.pipe";
+import { VerificarBS64Pipe } from "app/pipes/verificar-bs64.pipe";
 
 @NgModule({
-  declarations: [StatusPipePipe],
+  declarations: [StatusPipePipe, VerificarBS64Pipe],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -26,7 +27,8 @@ import {StatusPipePipe} from "../pipes/status-pipe.pipe";
     MatSelectModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    StatusPipePipe
+    StatusPipePipe,
+    VerificarBS64Pipe
 
 
   ],

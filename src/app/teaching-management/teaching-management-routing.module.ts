@@ -7,6 +7,7 @@ import { TeachingHistoryListComponent } from './teaching-history-list/teaching-h
 import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { DetailTaskComponent } from './detail-task/detail-task.component';
+import { ListStudentsComponent } from './list-students/list-students.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
   {
     path: "detail-task/:id",
     component: DetailTaskComponent,
+  },
+  {
+    path: "detail-asignatura/:id",
+    component: ListStudentsComponent,
+
   }
 ];
 

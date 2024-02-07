@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
-
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
+export interface DialogData {
+  id: string;
+  action: string;
+  request: RequestVarious;
+}
 @Component({
   selector: 'app-detalle-solicitud',
   templateUrl: './detalle-solicitud.component.html',
   styleUrls: ['./detalle-solicitud.component.scss']
 })
 export class DetalleSolicitudComponent {
+  action: string;
+  dialogTitle: string;
 
+  constructor(
+    public dialogRef: MatDialogRef<DetalleSolicitudComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {
+    this.action = data.action;
+    this.dialogTitle = "Detalle de la Solicitud";
+  }
 }

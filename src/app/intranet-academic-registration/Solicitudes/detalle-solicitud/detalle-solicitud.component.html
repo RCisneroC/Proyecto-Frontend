@@ -1,1 +1,58 @@
-<p>detalle-solicitud works!</p>
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Nombre</strong></p>
+                <label for="">{{ data.request.name }}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Apellido</strong></p>
+                <label for="">{{ data.request.lastname }}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Correo Electrónico</strong></p>
+                <label for="">{{ data.request.email }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Tipo de Actividad Académica</strong></p>
+                <label for="">{{ data.request.typeActivityAcademy }}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Tipo de Solicitud</strong></p>
+                <label for="">{{ data.request.typeRequest }}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Asignatura o Actividad</strong></p>
+                <label for="">{{ data.request.idSubjectOrActivity }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <p><strong>Estado</strong></p>
+                <label class="badge badge-solid-green" for="">{{ data.request.statusId | statusPipe }}</label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-6 col-12">
+                <p><strong>Comentario</strong></p>
+                <label for="">{{ data.request.comments }}</label>
+            </div>
+        </div>
+
+
+    </div>
+</div>

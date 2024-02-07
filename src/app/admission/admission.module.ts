@@ -31,7 +31,6 @@ import { DocumentRequiredListComponent } from './maestros/document-required-list
 import { StatusListComponent } from './maestros/status-list/status-list.component';
 import { StatusFormComponent } from './maestros/status-form/status-form.component';
 import { ActivitydetailComponent } from './activitydetail/activitydetail.component';
-import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 import { ListCurriculumDesignComponent } from './Approvals/list-curriculum-design/list-curriculum-design.component';
 import { DeatilActivityCurriculumDesignComponent } from './Approvals/deatil-activity-curriculum-design/deatil-activity-curriculum-design.component';
 
@@ -46,7 +45,6 @@ import { PosterRequeridosComponent } from './activitydetail/forms/poster-requeri
 import { RoomRequestsComponent } from './activitydetail/forms/room-requests/room-requests.component';
 import { AsignarDocentesComponent } from './activitydetail/forms/asignar-docentes/asignar-docentes.component';
 import { AsignarCooperantesComponent } from './activitydetail/forms/asignar-cooperantes/asignar-cooperantes.component';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ViewPosterComponent } from './activitydetail/forms/view-poster/view-poster.component';
 import { ViewPosterPDFComponent } from './activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { ListRequestPosterComponent } from './Approvals/list-request-poster/list-request-poster.component';
@@ -120,6 +118,7 @@ import { ShowDocentesAsignadoComponent } from './FormalEducations/Gestions/Forms
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 @NgModule({
   declarations: [
@@ -154,7 +153,6 @@ import { MatSelectModule } from '@angular/material/select';
     StatusListComponent,
     StatusFormComponent,
     ActivitydetailComponent,
-    VerificarBS64Pipe,
     ListCurriculumDesignComponent,
     DeatilActivityCurriculumDesignComponent,
     ScheduleListComponent,
@@ -238,9 +236,7 @@ import { MatSelectModule } from '@angular/material/select';
     CreteAsignacionDocenteComponent,
     ShowDocentesAsignadoComponent
   ],
-  providers: [
-    VerificarBS64Pipe
-  ],
+  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
     AdmissionRoutingModule,

@@ -10,11 +10,13 @@ import { MatSort } from '@angular/material/sort';
 import { AuthService } from '@core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ApprovedSolicitudComponent } from 'app/intranet-academic-registration/Forms/approved-solicitud/approved-solicitud.component';
 import { CreateSolicitudComponent } from 'app/intranet-academic-registration/Forms/create-solicitud/create-solicitud.component';
 import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import Swal from 'sweetalert2';
+import { DetalleSolicitudComponent } from '../detalle-solicitud/detalle-solicitud.component';
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -29,6 +31,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     'tiposolicitud',
     'tipousuario',
     'Actividad_Asignatura',
+    'email',
     'estado',
     'fechacreacion',
     'accion',
@@ -55,7 +58,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     statusId: 0,
     comments: ''
   };
-
+  public _typeUser: string = '';
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -73,6 +76,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+    this._typeUser = this._RequestServicesService.getRoleFromToken(this.authService.currentUserValue.token);
   }
   refresh() {
     this.loadData();
@@ -227,6 +231,60 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
       panelClass: colorName,
+    });
+  }
+
+  aprobar(row: RequestVarious, id: number) {
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(ApprovedSolicitudComponent, {
+      data: {
+        request: row,
+        action: 'edit',
+        id: id
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+  detalleSolicitud(row: RequestVarious, id: number) {
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(DetalleSolicitudComponent, {
+      data: {
+        request: row,
+        action: 'detalle',
+        id: id
+      },
+      width: '900px',
+      direction: tempDirection,
     });
   }
 

@@ -174,7 +174,7 @@ export class CreateSolicitudComponent {
         typeActivityAcademy: ['', [Validators.required]],
         idSubjectOrActivity: ['', [Validators.required]],
         dateCreate: [new Date(), [Validators.required]],
-        statusId: ['1', [Validators.required]],
+        statusId: ['3', [Validators.required]],
         comments: ['', [Validators.required]],
         email: [this.authService.currentUserValue.email, [Validators.required]],
       });
@@ -230,7 +230,6 @@ export class CreateSolicitudComponent {
     this._SubjectService.getAllSubjectFiltro(1).subscribe({
       next: (res: any) => {
         this._Subject = res;
-        // this.RequestVariousForm.controls['idSubjectOrActivity'].setValue(this.data.request.idSubjectOrActivity);
 
       }
     })

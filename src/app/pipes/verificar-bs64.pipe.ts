@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class VerificarBS64Pipe implements PipeTransform {
 
   transform(base64Data: string): any {
-   const byteString = atob(base64Data);
+    const byteString = atob(base64Data);
     const byteNumbers = new Array(byteString.length);
     for (let i = 0; i < byteString.length; i++) {
       byteNumbers[i] = byteString.charCodeAt(i);

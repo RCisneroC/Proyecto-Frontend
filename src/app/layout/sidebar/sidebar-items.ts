@@ -566,8 +566,32 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //estudiante
-
+  //Solicitudes
+  {
+    path: '',
+    title: 'Solicitudes',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Administrador',
+    submenu: [
+      {
+        path: '/intranet-academic/list-requests-various',
+        title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+    ],
+  },
   {
     path: '/dashboard/dashboard1',
     title: 'Panel control',

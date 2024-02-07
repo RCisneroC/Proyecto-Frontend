@@ -9,8 +9,6 @@ import { ApprovedSolicitudComponent } from './Forms/approved-solicitud/approved-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
-import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 
 @NgModule({
@@ -19,12 +17,6 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     CreateSolicitudComponent,
     DetalleSolicitudComponent,
     ApprovedSolicitudComponent,
-    StatusPipePipe,
-    VerificarBS64Pipe,
-  ],
-  providers: [
-    StatusPipePipe,
-    VerificarBS64Pipe
   ],
   imports: [
     CommonModule,

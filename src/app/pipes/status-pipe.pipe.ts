@@ -8,17 +8,17 @@ export class StatusPipePipe implements PipeTransform {
   transform(value: number): string {
     if (value == 1) {
       return 'Activo.';
-    }else if (value == 2) {
+    } else if (value == 2) {
       return 'Inactivo.';
-    }else if (value == 3) {
+    } else if (value == 3) {
       return 'Pendiente.';
-    }else if (value == 4) {
+    } else if (value == 4) {
       return 'Rechazado.';
-    }else if (value == 5) {
+    } else if (value == 5) {
       return 'Aprobado.';
-    }else if (value == 6) {
+    } else if (value == 6) {
       return 'Terminado.';
-    }else if (value == 7) { // borrador -
+    } else if (value == 7) { // borrador -
       return 'Borrador.';
     }
     return '';
