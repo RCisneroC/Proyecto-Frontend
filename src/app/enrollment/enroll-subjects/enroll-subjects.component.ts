@@ -12,6 +12,8 @@ import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {Subject} from "../models/Subject";
+import {EnrollDummy} from "../models/EnrollDummy";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-enroll-subjects',
@@ -35,7 +37,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<Subject>(true, []);
   id?: number;
   requirement?: Subject = this._SubjectService._Subject;
-
+  enrollDummyList: EnrollDummy[] = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -62,12 +64,35 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  detalle(row: Subject) {
+  volverAtras(){
+    this._router.navigate(['/enrollment/enroll-career']);
+  }
 
-    const SubjectItem = JSON.stringify(row);
-    localStorage.setItem('enroll-subject', SubjectItem);
-    this._router.navigate(['enrollment/enroll-room/']);
-    //this._router.navigate(['/admission/carreras/' + row.id + '/asignaturas']);
+  detalle(row: Subject) {
+    let exist = false
+    const itemList = localStorage.getItem('enroll-dummy');
+    if (itemList != null){
+      this.enrollDummyList = JSON.parse(itemList);
+      console.log(this.enrollDummyList);
+      this.enrollDummyList.forEach(function (value){
+        if (value.SubjectId === row.id){
+          exist = true
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "La asignatura ya fue matriculada",
+            icon: "warning"
+          });
+        }
+
+      });
+    }
+      if(!exist){
+        const SubjectItem = JSON.stringify(row);
+        localStorage.setItem('enroll-subject', SubjectItem);
+        localStorage.setItem('enroll-subject-url', 'enrollment/enroll-subject/'+ this.id);
+        this._router.navigate(['enrollment/enroll-room/']);
+      }
+
 
   }
 

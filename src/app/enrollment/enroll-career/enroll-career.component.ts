@@ -67,6 +67,8 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
 
   seleccionar(row: Mesh) {
 
+    const CareerItem = JSON.stringify(row);
+    localStorage.setItem('enroll-career', CareerItem);
     //localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
     this._router.navigate(['/enrollment/enroll-subject/'+ row.id]);
 
