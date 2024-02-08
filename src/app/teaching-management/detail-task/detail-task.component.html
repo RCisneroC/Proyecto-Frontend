@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Estudiantes'" [items]="['Perfil','Historial Docente']" [active_item]="'Asignatura'">
+      <app-breadcrumb [title]="'Estudiantes'" [items]="['Perfil','Historial Docente']" [active_item]="'Calificación'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -16,7 +16,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Listado de Estudiantes</strong>
+            <h2 class="text-uppercase"><strong>Listado de Estudiantes</strong><br>
               <span><strong>Tarea</strong>: {{ taskSubject.Titulo}}</span> <br>
               <span><strong>Descripción</strong>: {{ taskSubject.observacion }}</span> <br>
               <span><strong>Fecha de Entrega</strong>: {{ taskSubject.fechaEntrega | date:'dd/M/yyyy'}}</span> <br>

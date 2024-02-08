@@ -22,26 +22,26 @@ import Swal from 'sweetalert2';
   styleUrls: ['./schedule-activity-detail.component.scss']
 })
 export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
-         'planningDate',
-         'activityModeName',
-         'activityTypeName',
-         'activityName',
-         'activityLocationName',
-        //  'assignedCoordinatorName',
-         'startDate',
-         'plannedEndDate',
-         'effectiveEndDate',
-         'activityReasonName',
-         'activityFundsSourceName',
-         'startTime',
-         'endTime',
-         'status',
-         'actions',
+    'planningDate',
+    'activityModeName',
+    'activityTypeName',
+    'activityName',
+    'activityLocationName',
+    //  'assignedCoordinatorName',
+    'startDate',
+    'plannedEndDate',
+    'effectiveEndDate',
+    'activityReasonName',
+    'activityFundsSourceName',
+    'startTime',
+    'endTime',
+    'status',
+    'actions',
   ];
-  
+
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivityDetail>(true, []);
@@ -54,7 +54,7 @@ implements OnInit{
     public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private _nav:Router
+    private _nav: Router
   ) {
     super();
   }
@@ -67,12 +67,12 @@ implements OnInit{
   ngOnInit() {
     this.activityDetailService.init_DetailCurriculum();
     this.loadData();
-   
+
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.getOne();
-  })
-  
+    })
+
   }
   refresh() {
     this.loadData();
@@ -86,8 +86,8 @@ implements OnInit{
     })
   }
   addNew() {
-  
-   let tempDirection: Direction;
+
+    let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
@@ -101,28 +101,28 @@ implements OnInit{
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-       if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-            this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
   editCall(row: ScheduleActivityDetail) {
-  
+
     this.id = row.curriculumDesignId;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -132,37 +132,37 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(ScheduleActivityDetailFormComponent, {
       data: {
-        scheduleActivity : row,
+        scheduleActivity: row,
         action: 'edit',
       },
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-          if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-            this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
-        }); 
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
   }
 
 
 
   Detail(row: ScheduleActivityDetail) {
     this._nav.navigate(['/admission/activity-detail/' + row.id]);
-    localStorage.setItem('url','/admission/schedule-activity-detail/' + this.id)
+    localStorage.setItem('url', '/admission/schedule-activity-detail/' + this.id)
   }
 
 
@@ -212,7 +212,7 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.curriculumDesignId,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -239,7 +239,7 @@ implements OnInit{
             this._nav.navigate(['/admission/schedule-activities-list']);
           },
           error: (err) => {
-               Swal.fire({
+            Swal.fire({
               title: "Escuela Judicial!",
               text: "No fue enviado.",
               icon: "warning"
@@ -248,10 +248,10 @@ implements OnInit{
         })
       } else {
         Swal.fire({
-              title: "Escuela Judicial!",
-              text: "No fue enviado.",
-              icon: "warning"
-            });
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
+        });
       }
     });
   }
@@ -287,9 +287,9 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       this.filterChange,
       this.paginator.page,
     ];
-    
+
     this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id']; 
+      this.id = params['id'];
     });
     this.exampleDatabase.getAllActivityDetail(this.id);
     return merge(...displayDataChanges).pipe(
@@ -330,7 +330,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         case 'curriculumDesignId':
           [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

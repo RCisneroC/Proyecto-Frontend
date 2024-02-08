@@ -14,7 +14,8 @@
   </div>
   <div mat-dialog-content>
 
-    <form class="register-form m-4" [formGroup]="FormsCalificacion" (ngSubmit)="submit">
+    <form class="register-form m-4" [formGroup]="FormsCalificacion" (ngSubmit)="submit"
+      *ngIf="action == 'add-calificacion'">
       <div class="row">
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-12">
@@ -38,5 +39,13 @@
         </div>
       </div>
     </form>
+    <div *ngIf="action == 'view'">
+      <div class="row">
+        <div class="col-lg-6">
+          <p><strong>Calificación</strong>:</p>
+          <label for="">90</label>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -39,11 +39,12 @@
                                     <th mat-header-cell *matHeaderCellDef> Descripción</th>
                                     <td mat-cell *matCellDef="let element">{{ element.description }} </td>
                                 </ng-container>
-                            
+
                                 <ng-container matColumnDef="accion">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">
-                                        <button mat-mini-fab color="accent" (click)="asignar(element)"  matTooltip="Asignar">
+                                        <button mat-mini-fab color="accent" (click)="asignar(element)"
+                                            matTooltip="Asignar">
                                             <mat-icon>keyboard_arrow_right</mat-icon>
                                         </button>
                                     </td>
@@ -51,8 +52,9 @@
                                 <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
                                 <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
                             </table>
-                           
-                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+
+                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]"
+                                showFirstLastButtons></mat-paginator>
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,8 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header">
-                        <h2 class="text-uppercase"><strong>Asignaturas Dependientes para {{ _subjectService._Subject.name }}</strong>
+                        <h2 class="text-uppercase"><strong>Asignaturas Dependientes para {{
+                                _subjectService._Subject.name }}</strong>
                         </h2>
                     </div>
                     <div class="body">
@@ -83,11 +86,12 @@
                                     <th mat-header-cell *matHeaderCellDef> Descripción</th>
                                     <td mat-cell *matCellDef="let element">{{ element.description }} </td>
                                 </ng-container>
-                            
+
                                 <ng-container matColumnDef="accion">
                                     <th mat-header-cell *matHeaderCellDef> Acción </th>
                                     <td mat-cell *matCellDef="let element">
-                                        <button mat-mini-fab color="warn" (click)="removeDepedence(element)" matTooltip="Eliminar">
+                                        <button mat-mini-fab color="warn" (click)="removeDepedence(element)"
+                                            matTooltip="Eliminar">
                                             <mat-icon>keyboard_arrow_left</mat-icon>
                                         </button>
                                     </td>

@@ -102,11 +102,27 @@
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
-                        <mat-form-field class="mat-form-field" appearance="outline">
+
+                        <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>Provincia</mat-label>
-                          <input formControlName="province" matInput autocomplete="off" [ngModel]="
-                              personData?.provincia
-                            " />
+                          <mat-select formControlName="province" [ngModel]="personData?.provincia">
+                            <mat-option value="BOCAS DEL TORO">BOCAS DEL TORO</mat-option>
+                            <mat-option value="COCLÉ">COCLÉ</mat-option>
+                            <mat-option value="COLÓN">COLÓN</mat-option>
+                            <mat-option value="CHIRIQUÍ">CHIRIQUÍ</mat-option>
+                            <mat-option value="DARIÉN">DARIÉN</mat-option>
+                            <mat-option value="HERRERA">HERRERA</mat-option>
+                            <mat-option value="LOS SANTOS">LOS SANTOS</mat-option>
+                            <mat-option value="PANAMÁ">PANAMÁ</mat-option>
+                            <mat-option value="VERAGUAS">VERAGUAS</mat-option>
+                            <mat-option value="COMARCA GUNA YALA">COMARCA GUNA YALA</mat-option>
+                            <mat-option value="COMARCA EMBERÁ-WOUNAAN">COMARCA EMBERÁ-WOUNAAN</mat-option>
+                            <mat-option value="COMARCA NGÄBE-BUGLÉ">COMARCA NGÄBE-BUGLÉ</mat-option>
+                            <mat-option value="PANAMÁ OESTE">PANAMÁ OESTE</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="form.get('province')?.hasError('required')">
+                            Requerido
+                          </mat-error>
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
@@ -237,7 +253,7 @@
                 <div class="text-center">
                   <button [disabled]="loadingFile" (click)="verificarDocumentacion()"
                     matTooltip="Verificar si hace falta alguna documentación" mat-raised-button color="primary">
-                    <mat-icon>check</mat-icon> Verificar Documentación requerida.
+                    <mat-icon>check</mat-icon> Verificar Documentos requeridos por ISJUP.
                   </button>
                 </div>
               </div>

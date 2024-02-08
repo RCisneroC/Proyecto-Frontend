@@ -95,7 +95,7 @@ export class DetailTaskComponent implements OnInit {
       data: {
         user: row,
         taskSubject: this.taskSubject,
-        accion: 'add-taskSubject'
+        accion: 'add-calificacion'
       },
       disableClose: true,
     });
@@ -127,7 +127,33 @@ export class DetailTaskComponent implements OnInit {
 
   }
   verAsignatura(row: User) {
-
+    const dialogRef = this._dialog.open(AddCalifComponent, {
+      data: {
+        user: row,
+        taskSubject: this.taskSubject,
+        accion: 'view'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.getOneStudents();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
   }
   refresh() {
   }

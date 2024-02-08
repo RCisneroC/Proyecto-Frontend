@@ -2,8 +2,8 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Actividad'" [items]="['Inicio','Admisión','Registro Actividad']"
-                [active_item]="'Actividad'">
+            <app-breadcrumb [title]="'Actividad'" [items]="['Inicio','Admisión','Cronograma de Actividad']"
+                [active_item]="'Actividad Por Aprobar'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -168,11 +168,14 @@
                                                     <mat-header-cell class="pr-0"
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button matTooltip="Detalle de la actividad" mat-mini-fab color="primary" (click)="ViewDetail(row)">
-                                                            <app-feather-icons [icon]="'airplay'"   ></app-feather-icons>
+                                                        <button matTooltip="Detalle de la actividad" mat-mini-fab
+                                                            color="primary" (click)="ViewDetail(row)">
+                                                            <app-feather-icons [icon]="'airplay'"></app-feather-icons>
                                                         </button>
-                                                        <button matTooltip="Aprobar Actividad" mat-mini-fab color="warn" (click)="approved(row)">
-                                                            <app-feather-icons [icon]="'check-square'" ></app-feather-icons>
+                                                        <button matTooltip="Aprobar Actividad" mat-mini-fab color="warn"
+                                                            (click)="approved(row)">
+                                                            <app-feather-icons
+                                                                [icon]="'check-square'"></app-feather-icons>
                                                         </button>
 
 

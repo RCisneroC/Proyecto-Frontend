@@ -2,8 +2,8 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Detalle del Participante'" [items]="['Inicio','Admisión','Cronograma']"
-                      [active_item]="'Detalle del Participante'">
+      <app-breadcrumb [title]="'Detalle del Participante'" [items]="['Inicio','Admisión','Formación Especializada']"
+        [active_item]="'Detalle del Participante'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -101,7 +101,8 @@
             <div class="row">
               <div class="example-button-row">
                 <div class="col-12">
-                  <button [disabled]="_ActivityService._DetailsResponseEF.statusName != 'En Proceso'" matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
+                  <button [disabled]="_ActivityService._DetailsResponseEF.statusName != 'En Proceso'"
+                    matTooltip="Gestionar Salones" mat-raised-button color="primary" (click)="aprobar()">
                     <mat-icon>check</mat-icon> Aprobar / Rechazar
                   </button>
                 </div>
@@ -196,8 +197,7 @@
                 <tr mat-header-row *matHeaderRowDef="DisplayNameAcadInfo"></tr>
                 <tr mat-row *matRowDef="let row; columns: DisplayNameAcadInfo;"></tr>
               </table>
-              <mat-paginator #ListaAcadInfo [pageSizeOptions]="[10, 20, 30]"
-                             showFirstLastButtons></mat-paginator>
+              <mat-paginator #ListaAcadInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
           <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
@@ -231,8 +231,7 @@
                 <tr mat-header-row *matHeaderRowDef="DisplayNameExperienceInfo"></tr>
                 <tr mat-row *matRowDef="let row; columns: DisplayNameExperienceInfo;"></tr>
               </table>
-              <mat-paginator #ListaExperienceInfo [pageSizeOptions]="[10, 20, 30]"
-                             showFirstLastButtons></mat-paginator>
+              <mat-paginator #ListaExperienceInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
           <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
@@ -308,7 +307,7 @@
                   <th mat-header-cell *matHeaderCellDef> Actializar documento </th>
                   <td mat-cell *matCellDef="let element">
                     <input id="archivo_{{ element.id }}" type="file" class="file-input"
-                           (change)="onChangeFile($event, element.id,element)" />
+                      (change)="onChangeFile($event, element.id,element)" />
                     <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ element.id }}"></p>
                     <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
                   </td>

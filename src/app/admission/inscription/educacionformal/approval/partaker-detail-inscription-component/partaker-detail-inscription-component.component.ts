@@ -182,10 +182,10 @@ export class PartakerDetailInscriptionComponent {
 
   }
 
-  EnrollmentAction(){
+  EnrollmentAction() {
     this._inscriptionService.EnrollmentAction(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString()).subscribe({
-      next:(res)=>{
-        console.log("EnrollmentAction response",res);
+      next: (res) => {
+        console.log("EnrollmentAction response", res);
       },
       error: (err) => {
         console.log(err);
@@ -269,11 +269,11 @@ export class PartakerDetailInscriptionComponent {
   }
 
   getRequirementsDocuments() {
-    const degreeid= localStorage.getItem('partaker_degreeid');
-    if (degreeid != null){
+    const degreeid = localStorage.getItem('partaker_degreeid');
+    if (degreeid != null) {
       this._inscriptionService.getRequirementsDocuments(degreeid).subscribe({
         next: (data) => {
-          console.log('Datos de los documentos requeridos:', data);
+          console.log('Datos de los documentos requeridos por ISJUP:', data);
           this.dataDocuments = data;
         }
       })
