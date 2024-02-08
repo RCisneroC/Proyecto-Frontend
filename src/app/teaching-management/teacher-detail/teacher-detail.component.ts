@@ -168,31 +168,31 @@ public _verificarBS64: VerificarBS64Pipe,
       next: (res) => {
 
         this.DataTeacher = res;
-        switch (res.statusId) {
-          case 0:
-            this.viewAct=false;
-            this.viewAsig=false;
-              break;
-          case 1:
-            switch (res.process) {
-              case 1:
-                this.viewAct=true;
-                this.viewAsig=false;
-                  break;
-              case 2:
-                this.viewAct=false;
-                this.viewAsig=true;
-                  break;
-              case 3:
-                this.viewAct=true;
-                this.viewAsig=true;
-                break; 
-          default:
-            this.viewAct=false;
-            this.viewAsig=false;
-              break;
-      }
-    }
+    //     switch (res.statusId) {
+    //       case 0:
+    //         this.viewAct=false;
+    //         this.viewAsig=false;
+    //           break;
+    //       case 1:
+    //         switch (res.process) {
+    //           case 1:
+    //             this.viewAct=true;
+    //             this.viewAsig=false;
+    //               break;
+    //           case 2:
+    //             this.viewAct=false;
+    //             this.viewAsig=true;
+    //               break;
+    //           case 3:
+    //             this.viewAct=true;
+    //             this.viewAsig=true;
+    //             break; 
+    //       default:
+    //         this.viewAct=false;
+    //         this.viewAsig=false;
+    //           break;
+    //   }
+    // }
  
       
         this.fechaA=res.applicationDate;
@@ -418,6 +418,11 @@ public _verificarBS64: VerificarBS64Pipe,
   Regresar(){
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
+  Historial(){
+    this._nav.navigate(['/teaching-management/teacher-history-list/',this.DataTeacher.cedula]);
+  }
+  
+  
   
 
   

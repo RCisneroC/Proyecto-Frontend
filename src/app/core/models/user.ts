@@ -12,6 +12,7 @@ export class User {
    gender!:string;
    phoneNumber!:null;
    createdDate!:string;
+   isRegistered!:boolean;
    token!: string;
    roles!: string[];
  

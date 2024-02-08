@@ -16,6 +16,9 @@ import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Router } from '@angular/router';
 import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.component';
+import { AuthService } from '@core/service/auth.service';
+import { User } from '@core/models/user';
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 
 @Component({
   selector: 'app-teacher-list',
@@ -41,13 +44,18 @@ implements OnInit {
   selection = new SelectionModel<Teacher>(true, []);
   teacherId?: number;
   teacher?: Teacher;
+  user!: User;
+  typeUser!: string;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _teacherService: TeacherService,
     private snackBar: MatSnackBar,
-    private _nav:Router
+    private _nav:Router,
+    private _RequestService: RequestServicesService,
+    private authenticationService: AuthService,
+    
   ) {
     super();
   }
@@ -58,6 +66,9 @@ implements OnInit {
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    this.user = this.authenticationService.currentUserValue;
+    this.typeUser=this._RequestService.getRoleFromToken(this.user.token);
+    
     this.loadData();
   }
   refresh() {
@@ -148,7 +159,9 @@ implements OnInit {
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
-      this.sort
+      this.sort,
+      this._RequestService,
+      this.authenticationService
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -189,6 +202,8 @@ implements OnInit {
 }
 export class ExampleDataSource extends DataSource<Teacher> {
   filterChange = new BehaviorSubject('');
+  user = this.authenticationService.currentUserValue;
+  typeUser=this._RequestService.getRoleFromToken(this.user.token);
   get filter(): string {
     return this.filterChange.value;
   }
@@ -200,7 +215,9 @@ export class ExampleDataSource extends DataSource<Teacher> {
   constructor(
     public teacherService: TeacherService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    private _RequestService: RequestServicesService,
+    private authenticationService: AuthService,
   ) {
     super();
     // Reset to the first page when the user changes the filter.
@@ -218,9 +235,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
     this.teacherService.getAllTeachers();
     return merge(...displayDataChanges).pipe(
       map(() => {
-        // Filter data
-        this.filteredData = this.teacherService.data
-          .slice()
+        this.filteredData = this.typeUser=="coordinador"?this.teacherService.data.filter(x=>x.statusId==1):this.teacherService.data          .slice()
           .filter((teacher: Teacher) => {
             const searchStr = (
               teacher.name 
