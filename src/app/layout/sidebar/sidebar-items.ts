@@ -730,7 +730,7 @@ export const ROUTES: RouteInfo[] = [
 
   {
     path: '',
-    title: 'Perfil',
+    title: 'Home',
     iconType: 'feather',
     icon: 'folder',
     class: 'menu-toggle',
@@ -804,7 +804,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: "/teaching-management/teacher-list",
-        title: "Docentes Aprobados",
+        title: "Gestión Docente",
         iconType: '',
         icon: '',
         class: 'ml-menu',
