@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UnsubscribeOnDestroyAdapter} from "@shared";
-import {ResponseInscripcion} from "../../admission/models/InscripcionResponse";
 import {Mesh} from "../../admission/FormalEducations/Models/Degree";
-import {Persona} from "../../admission/models/persona";
 import {VerificarDocumentacion} from "../../admission/models/VerificacionDocumentacion";
 import {BehaviorSubject, Observable} from "rxjs";
 import {
@@ -15,13 +13,11 @@ import {
 import {documentosIncripcion} from "../../admission/models/documentosIncripcion";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
-import {ResponseInscripcionEF} from "../../admission/models/InscripcionEFResponse";
 import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
-import {ResponseAddEFlaboralInfo} from "../../admission/models/AddEFlaboralResponse";
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
 import {Room} from "../models/Room";
-import {Career, CareerResponse} from "../models/Career";
+import { CareerResponse} from "../models/Career";
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +97,24 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
           console.log(error.name + ' ' + error.message);
         },
       });
+  }
+
+  CreateEnrollment(createEnrollmentdDta: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/CreateEnrollment", createEnrollmentdDta);
+  }
+
+  AddSubjectStudent(createEnrollmentdSubjectDta: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/AddSubjectStudent", createEnrollmentdSubjectDta);
+  }
+
+  GetStudentsSubjects(id: any) {
+    return this.httpClient.get<any>(
+      environment.apiEC + 'EJMatricula/GetStudentsSubjects?Cedula=' + id
+    );
   }
 
   getPeriodCurriculumdesingById(id: number): void {

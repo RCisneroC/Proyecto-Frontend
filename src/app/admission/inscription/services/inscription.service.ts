@@ -169,6 +169,12 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseAddEFlaboralInfo>(url + "EFInscription/AddExperience", laboralinfiData);
   }
 
+  ValidateDocument(validateDocumentData: any): Observable<any> {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.put<ResponseInscripcionEF>(url + "EFInscription/ValidateDocument", validateDocumentData);
+  }
+
   EnrollmentAction(InscriptionId: string): Observable<any> {
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId="+InscriptionId, null);
@@ -367,8 +373,10 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     this._documentosIncripcion = {
       getDocResp: [
         {
+          documentId: 0,
           docFile: '',
-          fileType: ''
+          fileType: '',
+          validate: false
         }
       ],
       isError: false,
