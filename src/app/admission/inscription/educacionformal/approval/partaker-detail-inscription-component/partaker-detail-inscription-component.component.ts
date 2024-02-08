@@ -24,8 +24,8 @@ import { ViewPosterPDFComponent } from "../../../../activitydetail/forms/view-po
 import { InscriptionResponse } from "../../../../models/ParticipantesEF";
 import { ApprovalIncriptionComponent } from "../approval-incription/approval-incription.component";
 import { AuthService } from "@core";
-import {co, el} from "@fullcalendar/core/internal-common";
-import {documentosIncripcion} from "../../../../models/documentosIncripcion";
+import { co, el } from "@fullcalendar/core/internal-common";
+import { documentosIncripcion } from "../../../../models/documentosIncripcion";
 
 @Component({
   selector: 'app-partaker-detail-inscription-component',
@@ -342,42 +342,56 @@ export class PartakerDetailInscriptionComponent {
       });
   }
 
-  validarDocumentos(row:Requirement){
-    var request = {
-      documentId: this.documentosIncripcion.getDocResp[0].documentId,
-      validate: true,
-      lastModifiedBy: this.authService.currentUserValue.id
-    }
-    console.log(this.documentosIncripcion.getDocResp[0]);
-    if (this.documentosIncripcion.getDocResp[0].validate){
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: 'El documento ya fue validado',
-        icon: "warning"
-      });
-    }
-    else {
-      this._inscriptionService.ValidateDocument(request).subscribe({
-        next:(res)=>{
-          console.log("Validate Document",res);
-          if(res.isError === false){
+  validarDocumentos(row: Requirement) {
+
+    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString(), row.id.toString()).
+      subscribe({
+        next: (res) => {
+          console.log(res.getDocResp);
+          if (Array.isArray(res.getDocResp)) {
+            var request = {
+              documentId: res.getDocResp[0].documentId,
+              validate: true,
+              lastModifiedBy: this.authService.currentUserValue.id
+            }
+            console.log(res.getDocResp[0]);
+            if (res.getDocResp[0].validate) {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'El documento ya fue validado',
+                icon: "warning"
+              });
+            }
+            else {
+              this._inscriptionService.ValidateDocument(request).subscribe({
+                next: (res) => {
+                  console.log("Validate Document", res);
+                  if (res.isError === false) {
+                    Swal.fire({
+                      title: "Escuela Judicial",
+                      text: 'Documento validado con exitosamente',
+                      icon: "success"
+                    });
+                  }
+                  else {
+                    Swal.fire({
+                      title: "Escuela Judicial",
+                      text: 'El documento no pudo ser validado',
+                      icon: "warning"
+                    });
+                  }
+                }
+              })
+            }
+          } else {
             Swal.fire({
               title: "Escuela Judicial",
-              text: 'Documento validado con exitosamente',
-              icon: "success"
-            });
-          }
-          else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: 'El documento no pudo ser validado',
+              text: 'No mantiene documentación.',
               icon: "warning"
             });
           }
         }
-      })
-    }
-
+      });
   }
 
   onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
