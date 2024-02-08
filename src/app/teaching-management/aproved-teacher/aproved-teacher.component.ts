@@ -64,6 +64,7 @@ export class AprovedTeacherComponent {
       phoneNumber: ["04248772488", [Validators.required]],
       gender: ["M", [Validators.required]],
       roles: [["Profesor"], [Validators.required]],
+      
     });
 
     this.viewProcess = false;

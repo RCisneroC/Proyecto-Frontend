@@ -513,18 +513,18 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: [],
       },
-      {
-        path: "/teaching-management/teacher-history-list",
-        title: "Historial docente",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        Role: 'Administrador',
-        submenu: [],
-      }
+      // {
+      //   path: "/teaching-management/teacher-history-list",
+      //   title: "Historial docente",
+      //   iconType: "",
+      //   icon: "",
+      //   class: "ml-menu",
+      //   groupTitle: false,
+      //   badge: "",
+      //   badgeClass: "",
+      //   Role: 'Administrador',
+      //   submenu: [],
+      // }
     ]
   },
 
@@ -789,7 +789,34 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
     ],
-  }
+  },
+  
+  {
+    path: '',
+    title: 'Perfil',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'coordinador',
+    submenu: [
+      {
+        path: "/teaching-management/teacher-list",
+        title: "Docentes Aprobados",
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Profesor',
+        submenu: [],
+      },
+
+    ],
+  },
 
 
 ];

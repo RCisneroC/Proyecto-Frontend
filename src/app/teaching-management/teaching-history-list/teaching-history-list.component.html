@@ -17,7 +17,7 @@
                 <mat-label>Proceso</mat-label>
                 <!-- <input matInput formControlName="degreeObtained" > -->
 
-                <mat-select [(ngModel)]="selectedOption" (selectionChange)="viewTable($event.value)">
+                <mat-select [(ngModel)]="selectedOption" (selectionChange)="viewTable(selectedOption)">
                   <mat-option *ngFor="let grado of processList" [value]="grado.id">{{grado.name}}</mat-option>
                 </mat-select>
 
@@ -105,12 +105,12 @@
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                            <button *ngIf="row.statusId>=0" mat-mini-fab color="primary" matTooltip="Ver Detalle"
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" matTooltip="Ver Detalle"
                               (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
 
                             </button>
-                            <button mat-mini-fab color="primary" (click)="$event.stopPropagation()"
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" (click)="$event.stopPropagation()"
                               matTooltip="Ingresar Asistencia" (click)="calificacionesAasignatura(row)"
                               class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>
@@ -173,12 +173,12 @@
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                            <button mat-mini-fab color="primary" (click)="$event.stopPropagation()"
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" (click)="$event.stopPropagation()"
                               matTooltip="Ver Detalle" (click)="Detail(row)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
                             </button>
 
-                            <button *ngIf="typeUser == 'Profesor'" mat-mini-fab color="primary"
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
                               (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
                               (click)="calificacionesActividades(row)" class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>

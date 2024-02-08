@@ -87,6 +87,7 @@ public ResponseMessage: ResponseMessageMaestra = {
       userStatusId:[this.user.statusId, [Validators.required]],
       gender:["M", [Validators.required]],
       roles:[rol, [Validators.required]],
+      isRegistered:[true, [Validators.required]],
     });
   }
   

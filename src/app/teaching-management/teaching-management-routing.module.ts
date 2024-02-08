@@ -23,6 +23,10 @@ const routes: Routes = [
     component: TeachingAdmissionExternalComponent,
   },
   {
+    path: "teacher-history-list/:cedula",
+    component: TeachingHistoryListComponent,
+  },
+  {
     path: "teacher-history-list",
     component: TeachingHistoryListComponent,
   },

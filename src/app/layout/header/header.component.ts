@@ -14,6 +14,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../../authentication/change-password/change-password.component';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment.development';
 
 interface Notifications {
   message: string;
@@ -51,6 +52,7 @@ export class HeaderComponent
   isFullScreen = false;
   formPassword?: ChangePassword;
   username?: string;
+  baseUrl: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -130,7 +132,7 @@ export class HeaderComponent
   ngOnInit() {
     this.config = this.configService.configData;
     
-    
+    this.baseUrl=environment.baseUrlTeacher+"/#/teacher/teacher-admission-external";
     this.username = this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName;
     this.userImg = "https://ui-avatars.com/api/?name="+this.authService.currentUserValue.firstName+"+"+this.authService.currentUserValue.lastName+"&background=0D8ABC&color=fff&size=128";
     this.docElement = document.documentElement;

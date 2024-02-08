@@ -85,6 +85,7 @@ FormsEFDocument!: UntypedFormGroup;
 @ViewChild('stepper') stepper: MatStepper | undefined;
   viewAlert: boolean=false;
   viewAlert1: boolean=false;
+  load: boolean=true;
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -291,7 +292,7 @@ FormsEFDocument!: UntypedFormGroup;
   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
   
   if(this.teacherForm.valid){
-  
+  this.load=true;
   const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
  
   this.teacherForm?.get('process')?.setValue(4);
@@ -310,15 +311,9 @@ FormsEFDocument!: UntypedFormGroup;
        this._teacherService.archivo(formdata).subscribe({
          next: () => {
           console.log("guardado");
-         },
-         error: () => {
-         
-         }
-       })
-      }
-  
-    }
-      Swal.fire({
+          if (i==tem.length-1){
+            this.load=false;
+            Swal.fire({
               title: "Escuela Judicial",
               text: 'Guardado correctamente.',
               icon: "success"
@@ -327,7 +322,18 @@ FormsEFDocument!: UntypedFormGroup;
               // Resetear el stepper
               window.location.reload();
             }
-          }); 
+          });
+          }
+        
+         },
+         error: () => {
+         
+         }
+       })
+      }
+  
+    }
+ 
           
        
     } },

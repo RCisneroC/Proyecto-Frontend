@@ -23,45 +23,15 @@
                   <div class="row g-0 p-1">
                   <div class="col-12" class="app-icons">
                     <mat-form-field>
-                      <input matInput #inputUrl placeholder="URL para importar" value="http://localhost:4200/#/teacher/teacher-admission-external" />
+                      <input matInput #inputUrl placeholder="URL para importar" [value]="this.baseUrl" />
                       <mat-hint>Link Inscripción docente</mat-hint>
                     </mat-form-field>
                     <button mat-button color="primary" (click)="copy(inputUrl)" >Copy</button>
                   </div>
-                    <div class="col-3 text-center"><a routerLink="/apps/chat" class="app-icons">
-                        <img src="assets/images/apps/chat.png">
-                        <p class="tx-12 mb-0">Chat</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/calendar" class="app-icons">
-                        <img src="assets/images/apps/calendar.png">
-                        <p class="tx-12 mb-0">Calendar</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/task" class="app-icons">
-                        <img src="assets/images/apps/task.png">
-                        <p class="tx-12 mb-0">Task</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/email/inbox" class="app-icons">
-                        <img src="assets/images/apps/mail.png">
-                        <p class="tx-12 mb-0">Mail</p>
-                      </a></div>
+                  
                   </div>
                   <div class="row g-0 p-1">
-                    <div class="col-3 text-center"><a routerLink="/advance-table" class="app-icons">
-                        <img src="assets/images/apps/table.png">
-                        <p class="tx-12 mb-0">Table</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/contacts" class="app-icons">
-                        <img src="assets/images/apps/contact.png">
-                        <p class="tx-12 mb-0">Contact</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/apps/support" class="app-icons">
-                        <img src="assets/images/apps/support.png">
-                        <p class="tx-12 mb-0">Support</p>
-                      </a></div>
-                    <div class="col-3 text-center"><a routerLink="/media/gallery" class="app-icons">
-                        <img src="assets/images/apps/gallery.png">
-                        <p class="tx-12 mb-0">Gallery</p>
-                      </a></div>
+                   
                   </div>
                 </li>
               </ul>
