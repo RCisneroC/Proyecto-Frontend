@@ -245,19 +245,20 @@
                                             <mat-select formControlName="participationProfile">
                                                 <mat-option value="">-------------</mat-option>
                                                 <mat-option value="1">Funcionarios Públicos</mat-option>
-                                                <mat-option value="2">Público en general</mat-option>
+                                                <mat-option value="2">Servidores Judiciales</mat-option>
                                                 <mat-option value="3">Ambos</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                                    <div *ngIf="editActivity.controls['participationProfile'].value == '2' || editActivity.controls['participationProfile'].value == '3'"
+                                        class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                                         <mat-form-field class="example-full-width" appearance="outline">
                                             <mat-label>Perfil del participante</mat-label>
                                             <mat-select formControlName="activityTarget">
                                                 <mat-option value="">-------------</mat-option>
                                                 <mat-option value="1">Administrativo</mat-option>
-                                                <mat-option value="2">judicial</mat-option>
+                                                <mat-option value="2">servidores judiciales</mat-option>
                                             </mat-select>
                                         </mat-form-field>
 

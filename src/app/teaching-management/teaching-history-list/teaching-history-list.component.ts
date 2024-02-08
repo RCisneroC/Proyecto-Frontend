@@ -39,7 +39,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   processList = [
-    { id: 1, name: 'Formación Especialidad' },
+    { id: 1, name: 'Formación Especializada' },
     { id: 2, name: 'Entrenamiento' },
 
   ];

@@ -23,5 +23,6 @@ export interface CalificacionEstudiante {
     docente: string;
     type: string;
     calificacion: string;
+    nameTarea: string;
 }
 

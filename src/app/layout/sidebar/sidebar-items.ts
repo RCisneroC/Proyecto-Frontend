@@ -790,10 +790,10 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  
+
   {
     path: '',
-    title: 'Home',
+    title: 'Docentes',
     iconType: 'feather',
     icon: 'folder',
     class: 'menu-toggle',

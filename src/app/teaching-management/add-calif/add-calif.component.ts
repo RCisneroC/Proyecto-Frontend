@@ -7,7 +7,7 @@ import { AuthService, User } from '@core';
 import { CalificacionEstudiante } from '../models/Asistencias';
 export interface DialogData {
   id: string;
-  action: string;
+  accion: string;
   user: User;
   taskSubject: TaskSubject
 }
@@ -26,7 +26,7 @@ export class AddCalifComponent {
   public _CalificacionEstudianteOne!: CalificacionEstudiante;
 
   action: string;
-  dialogTitle: string;
+  dialogTitle: string = '';
   FormsCalificacion!: UntypedFormGroup;
   user!: User;
 
@@ -37,9 +37,16 @@ export class AddCalifComponent {
     public authservice: AuthService
   ) {
     // Set the defaults
-    this.action = data.action;
-    //if (this.action === 'edit') {
-    this.dialogTitle = "Agregar calificación";
+    this.action = data.accion;
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
+    if (this.action == 'add-calificacion') {
+      this.dialogTitle = "Agregar calificación";
+    } else if (this.action == 'view') {
+      this.dialogTitle = "Ver calificación";
+    }
+
     this.user = data.user;
 
     this.FormsCalificacion = this.createContactForm();
@@ -71,11 +78,8 @@ export class AddCalifComponent {
 
     if (local != '') {
       this._CalificacionEstudiante = JSON.parse(local);
-      this._CalificacionEstudiante = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura);
-      console.log('====================================');
-      console.log(this._CalificacionEstudiante);
-      console.log('====================================');
-      if (this._CalificacionEstudiante.length > 0) {
+      let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura);
+      if (existe.length > 0) {
         this.ResponseMessage.CodError = 500;
         this.ResponseMessage.Message = 'Ya mantiene una calificación.';
         this.dialogRef.close(this.ResponseMessage);
@@ -92,6 +96,7 @@ export class AddCalifComponent {
           docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
           type: type,
           calificacion: this.FormsCalificacion.controls['calif'].value,
+          nameTarea: this.data.taskSubject.Titulo
         };
         this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
         localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante));
@@ -114,6 +119,7 @@ export class AddCalifComponent {
         docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
         type: type,
         calificacion: this.FormsCalificacion.controls['calif'].value,
+        nameTarea: this.data.taskSubject.Titulo
       };
       this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
       localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante))

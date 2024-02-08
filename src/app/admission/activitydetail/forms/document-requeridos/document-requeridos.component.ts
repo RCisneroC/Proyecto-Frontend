@@ -57,7 +57,7 @@ export class DocumentRequeridosComponent implements OnInit {
     });
     this.action = this.data.accion;
     if (this.action === 'add-document') {
-      this.dialogTitle = "Agregar Requerimientos";
+      this.dialogTitle = "Agregar Documentos Requeridos por ISJUP";
       this.id_actividad = this.data.id_actividad;
     }
     this.LoadDocumentRequirement();

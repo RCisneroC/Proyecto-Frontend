@@ -267,7 +267,7 @@ export class InscriptionFormsExternalComponent {
     this._inscriptionService.getRequirementsDocuments(id).subscribe({
       next: (data) => {
         this.RequirementsDocumentsList = data;
-        console.log('Datos de los documentos requeridos:', data);
+        console.log('Datos de los documentos requeridos por ISJUP:', data);
       }
     })
 

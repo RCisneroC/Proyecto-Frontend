@@ -27,7 +27,7 @@ export class AprovedTeacherComponent {
   processList = [
     { id: "", name: 'Seleccione' },
     { id: "1", name: 'Entrenamiento' },
-    { id: "2", name: 'Formación especializada' },
+    { id: "2", name: 'Formación Especializada' },
     { id: "3", name: 'Ambos procesos' }
   ];
   action: string;

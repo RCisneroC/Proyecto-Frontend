@@ -3,7 +3,7 @@
         <div class="block-header">
             <!-- breadcrumb -->
             <app-breadcrumb [title]="'Cronograma de actividades'" [items]="['Home','Admisión']"
-                [active_item]="'Cronograma de actividades'">
+                [active_item]="'Cronograma De actividades'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
@@ -99,12 +99,14 @@
                                                     <mat-header-cell class="pr-0"
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button matTooltip="Detalle de Actividades"  mat-mini-fab color="primary"
-                                                            (click)="ViewDetail(row)">
-                                                            <app-feather-icons [icon]="'airplay'" ></app-feather-icons>
+                                                        <button matTooltip="Detalle de Actividades" mat-mini-fab
+                                                            color="primary" (click)="ViewDetail(row)">
+                                                            <app-feather-icons [icon]="'airplay'"></app-feather-icons>
                                                         </button>
-                                                        <button matTooltip="Aprobar Cronograma" mat-mini-fab color="warn" (click)="aprobar(row)">
-                                                            <app-feather-icons [icon]="'check-square'" ></app-feather-icons>
+                                                        <button matTooltip="Aprobar Cronograma" mat-mini-fab
+                                                            color="warn" (click)="aprobar(row)">
+                                                            <app-feather-icons
+                                                                [icon]="'check-square'"></app-feather-icons>
                                                         </button>
                                                         <!-- <button  mat-stroked-button color="check" (click)="ViewDetail(row)">
                                     <app-feather-icons [icon]="'check'"  ></app-feather-icons>
