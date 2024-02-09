@@ -209,33 +209,7 @@ public authenticationService:AuthService
       next: (res) => {
 
         this.DataTeacher = res;
-    //     switch (res.statusId) {
-    //       case 0:
-    //         this.viewAct=false;
-    //         this.viewAsig=false;
-    //           break;
-    //       case 1:
-    //         switch (res.process) {
-    //           case 1:
-    //             this.viewAct=true;
-    //             this.viewAsig=false;
-    //               break;
-    //           case 2:
-    //             this.viewAct=false;
-    //             this.viewAsig=true;
-    //               break;
-    //           case 3:
-    //             this.viewAct=true;
-    //             this.viewAsig=true;
-    //             break; 
-    //       default:
-    //         this.viewAct=false;
-    //         this.viewAsig=false;
-    //           break;
-    //   }
-    // }
- 
-   
+
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
@@ -258,24 +232,58 @@ public authenticationService:AuthService
       }else{
         this.viewTable(this.DataTeacher.process);
       }
+    }else{
+      this.viewTable(this.DataTeacher.process);
     }
         this._teacherService.isTblLoading = false;
       }
     })
   }
   
+  async getTeacherByCedula2() {
+    this._teacherService.getTeacherByCedula(this.cedula).subscribe({
+       next: (res) => {
+ 
+         this.DataTeacher = res;
+ 
+        
+     }
+   
+       
+     })
+   }
+  
   confirmDelete(id:number) {
   if(id!=3){
+        if(this.selectedOption!="0"){
+ 
+   Swal.fire({
+      title: 'Esta seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Perform delete action
+        console.log('Deleted!');
+        const idArray: number[] = [];
+        this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
+        this.deleteSubjectProcess(idArray);
+        
+         const idArray2: number[] = [];
+         this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
+          this.deleteActProcess(idArray2,id);
+        //this.viewTable(id);
+      }
+      
+    });
 
-  const idArray: number[] = [];
-  this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
-  this.deleteSubjectProcess(idArray);
-  
-   const idArray2: number[] = [];
-   this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
-    this.deleteActProcess(idArray2,id);
   }
-  //this.getTeacherByCedula();
+  }
+  this.getTeacherByCedula2();
   this.viewTable(id);
   
   
