@@ -14,7 +14,7 @@ import { TeacherDetailComponent } from '../teacher-detail/teacher-detail.compone
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.component';
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
@@ -46,6 +46,7 @@ implements OnInit {
   teacher?: Teacher;
   user!: User;
   typeUser!: string;
+  idProcess!: number;
 
   constructor(
     public httpClient: HttpClient,
@@ -55,6 +56,7 @@ implements OnInit {
     private _nav:Router,
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
+    private activatedRoute: ActivatedRoute,
     
   ) {
     super();
@@ -68,7 +70,7 @@ implements OnInit {
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
     this.typeUser=this._RequestService.getRoleFromToken(this.user.token);
-    
+
     this.loadData();
   }
   refresh() {
@@ -125,8 +127,9 @@ implements OnInit {
   }
   
   Aproved(row: Teacher){
-   
+ 
    const dialogRef = this.dialog.open(AprovedTeacherComponent, {
+   
     data: {
       teacher: row,
       accion: 'add-course'

@@ -16,6 +16,8 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
 import { RequiredDocument } from '../models/RequiredDocument';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { AuthService, User } from '@core';
 
 
 
@@ -31,9 +33,10 @@ implements OnInit{
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
-    { id: 1, name: 'Formación' },
-    { id: 2, name: 'Educación continua' },
-    { id: 3, name: 'Ambos procesos' }
+    { id: "0", name: 'Seleccione' },
+    { id: "1", name: 'Formación Especializada' },
+    { id: "2", name: 'Entrenamiento' },
+    { id: "3", name: 'Ambos procesos' }
   ];
 
   displayedColumnsCourse = [
@@ -105,6 +108,11 @@ _Form_Data = new FormData();
 docForm!: UntypedFormGroup;
 viewAct!: boolean;
 viewAsig!: boolean;
+idProces!: number;
+selectedOption!: string;
+  user!: User;
+  typeUser!: string;
+  view!: boolean;
 
 
 constructor( private activatedRoute: ActivatedRoute,
@@ -114,6 +122,9 @@ public _dialog: MatDialog,
 private _nav:Router,
 private fb: UntypedFormBuilder,
 public _verificarBS64: VerificarBS64Pipe,
+public _RequestService: RequestServicesService,
+public authenticationService:AuthService
+
 ){
   super();
   
@@ -124,6 +135,10 @@ public _verificarBS64: VerificarBS64Pipe,
   async ngOnInit() {
     //this.DataTeacher=this.activatedRoute.snapshot.queryParams["cedula"];
     this.cedula=this.activatedRoute.snapshot.params["cedula"];
+    this.user = this.authenticationService.currentUserValue;
+    this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
+    
+ 
     this.DataTeacher=new Teacher();
     const fechaActual = new Date();
     this.getRequiredDocuments();
@@ -131,10 +146,13 @@ public _verificarBS64: VerificarBS64Pipe,
     this.teacherForm = this.createTeacherForm();
     this.documentForm = this.createDocumentForm();
     this.header="Crear docente";
+    
+    
     if(this.cedula!="-1"){
      this.header="Detalle docente";
      await this.getTeacherByCedula();
     }
+    
     this.documentForm= this.fb.group({
       Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
       CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
@@ -159,6 +177,29 @@ public _verificarBS64: VerificarBS64Pipe,
      })
    }
   
+   viewTable(id: number) {
+   
+    console.log('====================================');
+    console.log(id);
+    console.log('====================================');
+    localStorage.setItem('tipoSolicitud', id.toString());
+    if (id == 1) {
+      this.viewAsig = true;
+      this.viewAct = false;
+    } else if(id==2) {
+   
+      this.viewAct = true;
+      this.viewAsig = false;
+
+    }else if(id==3){
+      this.viewAct = true;
+      this.viewAsig = true;
+    }else{
+      this.viewAct = false;
+      this.viewAsig = false;
+    }
+    
+  }
    GetName(type:number){
    
   return this.DataDocument.find(x=>x.documentId===type)?.name
@@ -194,15 +235,68 @@ public _verificarBS64: VerificarBS64Pipe,
     //   }
     // }
  
-      
+   
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
         
+        if(this.typeUser=="Administrador"){
+       if(this.DataTeacher.statusId!=1){
+         if(this.DataTeacher.listSubject.length>0 && this.DataTeacher.listActivity.length>0){
+          this.selectedOption="3";
+        }else if(this.DataTeacher.listSubject.length>0){
+          this.selectedOption="1";
+        }else if(this.DataTeacher.listActivity.length>0){
+          this.selectedOption="2";
+        }else{
+          this.selectedOption="0";
+        }
         
+        this.viewTable(parseInt(this.selectedOption));
+        this.view=true;
+        // this.selectedOption=this.DataTeacher.process.toString();
+      }else{
+        this.viewTable(this.DataTeacher.process);
+      }
+    }
         this._teacherService.isTblLoading = false;
       }
     })
+  }
+  
+  confirmDelete(id:number) {
+  if(id!=3){
+
+  const idArray: number[] = [];
+  this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
+  this.deleteSubjectProcess(idArray);
+  
+   const idArray2: number[] = [];
+   this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
+    this.deleteActProcess(idArray2,id);
+  }
+  //this.getTeacherByCedula();
+  this.viewTable(id);
+  
+  
+  
+  
+    // Swal.fire({
+    //   title: 'Esta seguro?',
+    //   text: "No podrás revertir esto!",
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Si, Eliminar!'
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     // Perform delete action
+    //     console.log('Deleted!');
+    //     this.selectedOption=id;
+    //     this.viewTable(id);
+    //   }
+    // });
   }
   
   viewDocumento(row: Documents) {
@@ -349,6 +443,40 @@ public _verificarBS64: VerificarBS64Pipe,
               text: 'Intente nuevamente.',
               icon: "warning"
             });
+      }
+     })
+  } 
+  
+  deleteSubjectProcess(listNumber:number []) {
+  
+    const AsignarActivitiesForm = this.fb.group({
+      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      subjectList: this.fb.array(listNumber),
+      Action:2
+    });
+    this._teacherService.addSubjectTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
+      next: () => {
+         
+      },
+      error: () => {
+
+      }
+     })
+  } 
+  
+  deleteActProcess(listNumber:number [],id:number) {
+  
+    const AsignarActivitiesForm = this.fb.group({
+      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      activityList: this.fb.array(listNumber),
+      Action:2
+    });
+    this._teacherService.addActivitiesTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
+      next: () => {
+         
+      },
+      error: () => {
+
       }
      })
   } 

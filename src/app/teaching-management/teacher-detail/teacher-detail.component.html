@@ -84,23 +84,6 @@
                         </div>
                        </div>
                        </div>
-                      <!-- <div class="row clearfix">
-                        <div class="" style="margin-bottom: 20px;text-align: left;">
-                            <button matTooltip="Regresar" mat-raised-button color="primary" (click)="submit()">
-                                <mat-icon>save</mat-icon> Guardar
-                            </button>
-                        </div>
-
-                    </div>
-                      <div class="row clearfix" >
-                        <div class="" style="margin-bottom: 20px;text-align: right;">
-                            <button matTooltip="Regresar" mat-raised-button color="accent"
-                                 (click)="Regresar()" >
-                                <mat-icon>keyboard_backspace</mat-icon> Regresar
-                            </button>
-                        </div>
-                      
-                    </div> -->
                   </div>
                     
                     <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
@@ -275,8 +258,25 @@
                   <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
               </div>
           </div>
-          
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card" *ngIf="view && DataTeacher.statusId!==1" >
+            
+            <div>
+           
+          <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6" style="margin: auto;margin-top: 15px;">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Proceso</mat-label>
+                <mat-select [(ngModel)]="selectedOption" (selectionChange)="confirmDelete($event.value)" >
+                    <mat-option  *ngFor="let grado of processList"  [value]="grado.id">{{grado.name}}</mat-option>
+                  </mat-select>
+                <!-- <mat-error *ngIf="ApprovedForm.get('process')?.hasError('required')">
+                    el process es requerido
+                </mat-error> -->
+            </mat-form-field>
+
+        </div>
+    </div>
+    </div> 
+          <div *ngIf="viewAsig" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="header">
                     <h2 class="text-uppercase"><strong>Materias/Temas</strong>
@@ -319,7 +319,7 @@
             </div>
         </div>
        
-        <div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div  *ngIf="viewAct" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
               <div class="header">
                   <h2 class="text-uppercase"><strong>Actividades</strong>
