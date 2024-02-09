@@ -209,33 +209,7 @@ public authenticationService:AuthService
       next: (res) => {
 
         this.DataTeacher = res;
-    //     switch (res.statusId) {
-    //       case 0:
-    //         this.viewAct=false;
-    //         this.viewAsig=false;
-    //           break;
-    //       case 1:
-    //         switch (res.process) {
-    //           case 1:
-    //             this.viewAct=true;
-    //             this.viewAsig=false;
-    //               break;
-    //           case 2:
-    //             this.viewAct=false;
-    //             this.viewAsig=true;
-    //               break;
-    //           case 3:
-    //             this.viewAct=true;
-    //             this.viewAsig=true;
-    //             break; 
-    //       default:
-    //         this.viewAct=false;
-    //         this.viewAsig=false;
-    //           break;
-    //   }
-    // }
- 
-   
+
         this.fechaA=res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
@@ -264,6 +238,19 @@ public authenticationService:AuthService
     })
   }
   
+  async getTeacherByCedula2() {
+    this._teacherService.getTeacherByCedula(this.cedula).subscribe({
+       next: (res) => {
+ 
+         this.DataTeacher = res;
+ 
+        
+     }
+   
+       
+     })
+   }
+  
   confirmDelete(id:number) {
   if(id!=3){
 
@@ -275,7 +262,7 @@ public authenticationService:AuthService
    this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
     this.deleteActProcess(idArray2,id);
   }
-  //this.getTeacherByCedula();
+  this.getTeacherByCedula2();
   this.viewTable(id);
   
   
