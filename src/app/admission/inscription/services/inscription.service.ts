@@ -195,6 +195,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseEF>(url + "EJMatricula/CreateUserEC?InscriptionId="+InscriptionId+"&StatusId="+ StatusID, null);
   }
 
+  BuildPDFPartaker(data: any): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponsePDFEF>(url + "GeneratePDF/AddPdfDoc", data);
+  }
+
   CargaDocumentoEFRequirement(data: any): Observable<any> {
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseEF>(url + "EFInscription/AddEFDoc", data);
