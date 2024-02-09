@@ -319,6 +319,9 @@
                     <button mat-mini-fab (click)="verDocumento(element)" matTooltip="Ver documento adjuntado">
                       <mat-icon>remove_red_eye</mat-icon>
                     </button>
+                    <button mat-mini-fab (click)="validarDocumentos(element)" matTooltip="validar documento adjuntado">
+                      <mat-icon>check_circle_outline</mat-icon>
+                    </button>
                   </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="DisplayNameDocument"></tr>

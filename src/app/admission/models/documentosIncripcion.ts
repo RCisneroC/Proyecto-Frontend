@@ -6,6 +6,8 @@ export interface documentosIncripcion {
 }
 
 export interface GetDocResp {
+    documentId: number,
     docFile:  string;
     fileType: string;
+    validate: boolean;
 }

@@ -14,6 +14,8 @@ import { Requirement } from 'app/admission/models/Requeriminet';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { documentosIncripcion } from "../../../../../models/documentosIncripcion";
+import { AuthService } from "@core";
 
 @Component({
   selector: 'app-detalle-participante',
@@ -48,6 +50,7 @@ export class DetalleParticipanteComponent {
   ];
 
   loadingFile: boolean = false;
+  public documentosIncripcion!: documentosIncripcion;
   dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
@@ -61,7 +64,8 @@ export class DetalleParticipanteComponent {
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
     public elm: ElementRef,
-    private _inscriptionService: InscriptionService
+    private _inscriptionService: InscriptionService,
+    private authService: AuthService
   ) {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
@@ -162,6 +166,7 @@ export class DetalleParticipanteComponent {
       subscribe({
         next: (res) => {
           this._inscriptionService._documentosIncripcion = res;
+          this.documentosIncripcion = res;
           if (Array.isArray(this._inscriptionService._documentosIncripcion.getDocResp)) {
             if (this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile) != "pdf") {
               const dialogRef = this._dialog.open(ViewPosterComponent, {
@@ -188,6 +193,61 @@ export class DetalleParticipanteComponent {
               });
             }
 
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'No mantiene documentación.',
+              icon: "warning"
+            });
+          }
+          console.log(res);
+
+        }
+      });
+  }
+
+  validarDocumentos(row: Requirement) {
+
+    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString(), row.id.toString()).
+      subscribe({
+        next: (res) => {
+          this._inscriptionService._documentosIncripcion = res;
+          this.documentosIncripcion = res;
+          if (Array.isArray(this._inscriptionService._documentosIncripcion.getDocResp)) {
+            var request = {
+              documentId: this.documentosIncripcion.getDocResp[0].documentId,
+              validate: true,
+              lastModifiedBy: this.authService.currentUserValue.id
+            }
+            console.log(this.documentosIncripcion.getDocResp[0]);
+            if (this.documentosIncripcion.getDocResp[0].validate) {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'El documento ya fue validado',
+                icon: "warning"
+              });
+            }
+            else {
+              this._inscriptionService.ValidateDocument(request).subscribe({
+                next: (res) => {
+                  console.log("Validate Document", res);
+                  if (res.isError === false) {
+                    Swal.fire({
+                      title: "Escuela Judicial",
+                      text: 'Documento validado con exitosamente',
+                      icon: "success"
+                    });
+                  }
+                  else {
+                    Swal.fire({
+                      title: "Escuela Judicial",
+                      text: 'El documento no pudo ser validado',
+                      icon: "warning"
+                    });
+                  }
+                }
+              })
+            }
           } else {
             Swal.fire({
               title: "Escuela Judicial",
