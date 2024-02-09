@@ -97,18 +97,28 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
     }
     this._InscriptionService.BuildPDFPartaker(request).subscribe({
       next:(res: ResponsePDFEF)=>{
-        console.log("docfile", res.getPdfResponse[0].docFile)
-        const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-          data: {
-            type: this._verificarBS64.transform(res.getPdfResponse[0].docFile),
-            accion: 'view-poster',
-            posterFile: res.getPdfResponse[0].docFile,
-            comment: [],
-            poster: res,
-          },
-          width: '1200px',
-          disableClose: true,
-        });
+        if(res.statusCode === 200){
+          console.log("docfile", res.getPdfResponse[0].docFile)
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: this._verificarBS64.transform(res.getPdfResponse[0].docFile),
+              accion: 'view-poster',
+              posterFile: res.getPdfResponse[0].docFile,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: res.message,
+            icon: "warning"
+          });
+        }
+
       }
     })
   }
