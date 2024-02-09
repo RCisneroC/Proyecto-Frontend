@@ -106,7 +106,7 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
             comment: [],
             poster: res,
           },
-          width: '1000px',
+          width: '1200px',
           disableClose: true,
         });
       }
