@@ -232,6 +232,8 @@ public authenticationService:AuthService
       }else{
         this.viewTable(this.DataTeacher.process);
       }
+    }else{
+      this.viewTable(this.DataTeacher.process);
     }
         this._teacherService.isTblLoading = false;
       }
@@ -253,14 +255,33 @@ public authenticationService:AuthService
   
   confirmDelete(id:number) {
   if(id!=3){
+        if(this.selectedOption!="0"){
+ 
+   Swal.fire({
+      title: 'Esta seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Perform delete action
+        console.log('Deleted!');
+        const idArray: number[] = [];
+        this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
+        this.deleteSubjectProcess(idArray);
+        
+         const idArray2: number[] = [];
+         this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
+          this.deleteActProcess(idArray2,id);
+        //this.viewTable(id);
+      }
+      
+    });
 
-  const idArray: number[] = [];
-  this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
-  this.deleteSubjectProcess(idArray);
-  
-   const idArray2: number[] = [];
-   this.DataTeacher.listActivity.forEach(obj => idArray2.push(obj.id));
-    this.deleteActProcess(idArray2,id);
+  }
   }
   this.getTeacherByCedula2();
   this.viewTable(id);
