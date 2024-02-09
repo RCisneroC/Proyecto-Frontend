@@ -14,8 +14,11 @@ import { GetDataResultResponse, Participant } from '../../../models/participant'
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApproveParticipantComponent } from './detalle/approve-participant/approve-participant.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {ResponseMessageMaestra, ResponsePDFEF} from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import {ViewPosterPDFComponent} from "../../../activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {VerificarBS64Pipe} from "../../../../pipes/verificar-bs64.pipe";
+import {el} from "@fullcalendar/core/internal-common";
 @Component({
   selector: 'app-activity-participants-list',
   templateUrl: './activity-participants-list.component.html',
@@ -32,7 +35,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       'fecha_inscrito',
       'actions',
     ];
-    
+
     exampleDatabase?: InscriptionService;
     dataSource!: ExampleDataSource;
     selection = new SelectionModel<Participant>(true, []);
@@ -45,7 +48,10 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       public scheduleActivitiesService:InscriptionService ,
       private snackBar: MatSnackBar,
       private router: Router,
-      private activatedRoute:ActivatedRoute
+      private activatedRoute:ActivatedRoute,
+      public _dialog: MatDialog,
+      public _verificarBS64: VerificarBS64Pipe,
+      public _InscriptionService: InscriptionService,
     ) {
       super();
     }
@@ -71,13 +77,47 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       this.router.navigate(['/admission/detalle-participans',row.cedula]);
     }
     editCall(row: Participant) {
-     
+
     }
     addNew() {
       let tempDirection: Direction;
-    
+
     }
-  
+
+  viewPartakerListPDF(){
+    const request = {
+      id:this.id,
+      value: 1
+    }
+    this._InscriptionService.BuildPDFPartaker(request).subscribe({
+      next:(res: ResponsePDFEF)=>{
+        if(res.statusCode === 200)
+        {
+          console.log("docfile", res.getPdfResponse[0].docFile)
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: this._verificarBS64.transform(res.getPdfResponse[0].docFile),
+              accion: 'view-poster',
+              posterFile: res.getPdfResponse[0].docFile,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: res.message,
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
+
     aprobar(row:GetDataResultResponse) {
       const dialogRef = this.dialog.open(ApproveParticipantComponent, {
           data: {
@@ -111,11 +151,11 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       this.paginator._changePageSize(this.paginator.pageSize);
     }
     /** Whether the number of selected elements matches the total number of rows. */
-  
-  
+
+
     /** Selects all rows if they are not all selected; otherwise clear selection. */
-  
-  
+
+
     public loadData() {
       this.exampleDatabase = new InscriptionService(this.httpClient);
       this.dataSource = new ExampleDataSource(
@@ -147,7 +187,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
         panelClass: colorName,
       });
     }
-  
+
     // export table data in excel file
     exportExcel() {
       // key name with space add in brackets
@@ -160,7 +200,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
           'Estado': x.statusName.toString(),
           'Fecha': x.fechaInscrito.toString()
         }));
-  
+
       TableExportUtil.exportToExcel(exportData, 'excel');
     }
   }
@@ -199,7 +239,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
       ];
       this.exampleDatabase.getParticipanteActividad(this.id);
       return merge(...displayDataChanges).pipe(
-        map(() => { 
+        map(() => {
           this.filteredData = this.exampleDatabase.dataParticipantActivity
             .slice()
             .filter((role: GetDataResultResponse) => {
@@ -236,7 +276,7 @@ export class ActivityParticipantsListComponent  extends UnsubscribeOnDestroyAdap
           case 'name':
             [propertyA, propertyB] = [a.firstName, b.firstName];
             break;
-        
+
         }
         const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
         const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
