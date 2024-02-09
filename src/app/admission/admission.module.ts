@@ -119,6 +119,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { FormsCertificateComponent } from './activitydetail/forms/forms-certificate/forms-certificate.component';
 
 @NgModule({
   declarations: [
@@ -234,7 +235,8 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     CreateRoomsComponent,
     CreateRoomsPeriodComponent,
     CreteAsignacionDocenteComponent,
-    ShowDocentesAsignadoComponent
+    ShowDocentesAsignadoComponent,
+    FormsCertificateComponent
   ],
   providers: [VerificarBS64Pipe],
   imports: [

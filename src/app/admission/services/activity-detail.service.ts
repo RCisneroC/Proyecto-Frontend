@@ -18,6 +18,7 @@ import {
   DetailsResponse, DetailsResponseEF,
   Participant
 } from '../models/participant';
+import { DTCertificate } from '../models/DTCertificate';
 @Injectable({
   providedIn: 'root'
 })
@@ -163,6 +164,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     participationProfile: 0,
     studentQuota: 0,
     certificatesReceived: 0,
+    hasCertificate: false,
     roomRequests: [
       this._RoomRequest
     ],
@@ -393,6 +395,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'PosterRequest/Create', data);
   }
 
+  SaveCertificate(data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Activity/UploadCertificateTemplate', data);
+  }
+
+
   GetAllTeacher() {
     return this.httpClient.get<DetalleDocente[]>(environment.ConsultaDocentes + 'Teacher/GetAll');
   }
@@ -581,6 +588,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<GetOneActivity[]>(environment.apiUrlSchedule + 'Activity/GetAll?StatusId=' + id);
   }
 
+
+  getTemplateActivity(id: any) {
+    return this.httpClient.get<DTCertificate>(environment.apiUrlSchedule + 'Activity/GetCertificateTemplateBy?ActivityId=' + id);
+  }
+
   initService() {
     this._GetOneActivity = {
       statusId: 0,
@@ -634,6 +646,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       male: 0,
       female: 0,
       certificatesReceived: 0,
+      hasCertificate: false,
       roomRequests: [
         this._RoomRequest
       ],

@@ -96,9 +96,6 @@ export class EnrollDetailsComponent {
   }
 
   verAsignatura(row: EnrollDummy) {
-    console.log('====================================');
-    console.log(row);
-    console.log('====================================');
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -115,5 +112,9 @@ export class EnrollDetailsComponent {
       },
       direction: tempDirection,
     });
+  }
+
+  verCalificaciones(row: EnrollDummy) {
+
   }
 }

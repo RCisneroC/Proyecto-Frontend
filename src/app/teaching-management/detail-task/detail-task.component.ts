@@ -120,11 +120,10 @@ export class DetailTaskComponent implements OnInit {
     });
   }
   volverAtras() {
-    this._nav.navigate(['/teaching-management/teacher-history-list']);
-
+    this._nav.navigate(['/teaching-management/detail-subject/' + this.taskSubject.idAsignatura]);
   }
-  editCall(row: User) {
 
+  editCall(row: User) {
   }
   verAsignatura(row: User) {
     const dialogRef = this._dialog.open(AddCalifComponent, {

@@ -324,31 +324,18 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
-      {
-        path: "/admission/cooperating-organization",
-        title: "Crear Programa",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        Role: 'Administrador',
-        submenu: []
-      },
-      {
-        path: "/admission/required-document-list",
-        title: "Documentos",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        Role: 'Administrador',
-        submenu: []
-      },
-
+      // {
+      //   path: "/admission/required-document-list",
+      //   title: "Firma Director",
+      //   iconType: "",
+      //   icon: "",
+      //   class: "ml-menu",
+      //   groupTitle: false,
+      //   badge: "",
+      //   badgeClass: "",
+      //   Role: 'Administrador',
+      //   submenu: []
+      // },
 
     ]
   },
