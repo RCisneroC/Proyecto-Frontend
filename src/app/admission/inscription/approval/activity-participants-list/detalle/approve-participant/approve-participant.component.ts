@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {ResponseMessageExtended, ResponseMessageMaestra} from 'app/admission/models/ResponseMessage';
 import { ApiResponse, ApiResponseOne, GetDataResultResponse, Participant } from 'app/admission/models/participant';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 export interface DialogData {
@@ -17,7 +17,13 @@ export interface DialogData {
 export class ApproveParticipantComponent {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message: ''
+    Message: '',
+  }
+
+  public ResponseMessageExt: ResponseMessageExtended = {
+    CodError: 0,
+    Message: '',
+    status: 0
   }
 
   action: string;
@@ -75,10 +81,12 @@ export class ApproveParticipantComponent {
     console.log(this.ApprovedForm.getRawValue());
     this._ActivityService.ApproveParticipant(this.ApprovedForm.getRawValue()).subscribe({
       next: (res) => {
-        console.log(res);
-        this.ResponseMessage.CodError = 200;
-        this.ResponseMessage.Message = 'Aprobado correctamente.';
-        this.dialogRef.close(this.ResponseMessage);
+
+        this.ResponseMessageExt.CodError = 200;
+        this.ResponseMessageExt.Message = 'Aprobado correctamente.';
+        this.ResponseMessageExt.status =  + this.ApprovedForm.getRawValue().statusId;
+
+        this.dialogRef.close(this.ResponseMessageExt);
       },
       error: (err) => {
         this.ResponseMessage.CodError = 500;

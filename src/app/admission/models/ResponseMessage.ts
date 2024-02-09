@@ -3,6 +3,12 @@ export interface ResponseMessageMaestra {
     Message: string;
 }
 
+export interface ResponseMessageExtended {
+  CodError:number;
+  Message: string;
+  status: number;
+}
+
 export interface ResponseGenerica {
   id: number;
   message: string;
