@@ -5,6 +5,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { Teacher } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import { UserService } from 'app/security/user/service/user.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -26,8 +27,8 @@ export class AprovedTeacherComponent {
 
   processList = [
     { id: "", name: 'Seleccione' },
-    { id: "1", name: 'Entrenamiento' },
-    { id: "2", name: 'Formación Especializada' },
+    { id: "1", name: 'Formación Especializada' },
+    { id: "2", name: 'Entrenamiento' },
     { id: "3", name: 'Ambos procesos' }
   ];
   action: string;
@@ -77,7 +78,27 @@ export class AprovedTeacherComponent {
   }
 
   submit() {
+  let process;
     const status = this.ApprovedForm.get("statusId")?.value;
+    const process1 = this.ApprovedForm.get("process")?.value;
+    if(this.data.teacher.listSubject.length>0 && this.data.teacher.listActivity.length>0){
+      process="3";
+    }else if(this.data.teacher.listSubject.length>0){
+      process="1";
+    }else if(this.data.teacher.listActivity.length>0){
+      process="2";
+    }else{
+    process=0;
+    }
+    
+    if(process!=process1 && status==1){
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
+        icon: "warning"
+     });
+    }else{
+    
     this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
       (res) => {
         if (status == 1) {
@@ -114,6 +135,7 @@ export class AprovedTeacherComponent {
       }
     );
 
+  } 
   }
 }
 
