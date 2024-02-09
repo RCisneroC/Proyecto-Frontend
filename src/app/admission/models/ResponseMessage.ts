@@ -3,6 +3,12 @@ export interface ResponseMessageMaestra {
     Message: string;
 }
 
+export interface ResponseMessageExtended {
+  CodError:number;
+  Message: string;
+  status: number;
+}
+
 export interface ResponseGenerica {
   id: number;
   message: string;
@@ -20,4 +26,16 @@ export interface ResponseEF{
    isError: number;
   message: string;
   statusCode: number;
+}
+
+
+export interface ResponsePDFEF{
+  getPdfResponse: DocFileResp[]
+  isError: number;
+  message: string;
+  statusCode: number;
+}
+
+export  interface DocFileResp{
+  docFile: string;
 }

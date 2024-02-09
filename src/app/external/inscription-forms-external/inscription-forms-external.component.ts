@@ -54,6 +54,7 @@ export class InscriptionFormsExternalComponent {
   activities: any[] = [];
   schedule: any[] = [];
   disabled: boolean = false;
+  tribunalReady: boolean = false;
   validsecondNext: boolean = false;
   validthirdNext: boolean = false;
   inscriptionId: string = "";
@@ -214,6 +215,7 @@ export class InscriptionFormsExternalComponent {
               ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
               ?.barrio_residencia;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
+          this.tribunalReady = true;
         },
         error: (e) => this.loading = false,
         complete: () => console.info('Complete')

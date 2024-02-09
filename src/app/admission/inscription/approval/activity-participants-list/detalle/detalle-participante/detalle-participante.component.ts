@@ -5,7 +5,7 @@ import { DetailsParticipante, GetDataResultResponse } from 'app/admission/models
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ApproveParticipantComponent } from '../approve-participant/approve-participant.component';
-import { ResponseEF, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {ResponseEF, ResponseMessageExtended, ResponseMessageMaestra} from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ActivityActivityRequirement, ActivityRequirement, GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,6 +16,7 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { documentosIncripcion } from "../../../../../models/documentosIncripcion";
 import { AuthService } from "@core";
+import {el} from "@fullcalendar/core/internal-common";
 
 @Component({
   selector: 'app-detalle-participante',
@@ -94,6 +95,21 @@ export class DetalleParticipanteComponent {
     })
   }
 
+  CreateUserEC(StatusID: number){
+  this._inscriptionService.CreateUserEC(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId, StatusID).subscribe({
+    next:(res)=>{
+
+      if(res.isError){
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudo crear el usuario correctamente",
+          icon: "warning"
+        });
+      }
+    }
+  })
+  }
+
   aprobar() {
     this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.cedula; //cedula
     this._GetDataResultResponse.inscriptionId = 0; //cedula
@@ -108,17 +124,19 @@ export class DetalleParticipanteComponent {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageExtended) => {
       if (result == undefined) {
         return;
       }
       if (result.CodError == 200) {
+
+        this.getDetails();
+        this.CreateUserEC(result.status);
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
-        this.getDetails();
       } else {
         Swal.fire({
           title: "Escuela Judicial",

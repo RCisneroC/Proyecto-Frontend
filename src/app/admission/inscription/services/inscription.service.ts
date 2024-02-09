@@ -12,7 +12,7 @@ import {
 } from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
-import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import {ResponseEF, ResponsePDFEF} from 'app/admission/models/ResponseMessage';
 import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 import { Persona } from 'app/admission/models/persona';
 import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
@@ -178,6 +178,16 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   EnrollmentAction(InscriptionId: string): Observable<any> {
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId="+InscriptionId, null);
+  }
+
+  CreateUserEC(InscriptionId: number, StatusID: number): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseEF>(url + "EJMatricula/CreateUserEC?InscriptionId="+InscriptionId+"&StatusId="+ StatusID, null);
+  }
+
+  BuildPDFPartaker(data: any): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponsePDFEF>(url + "GeneratePDF/AddPdfDoc", data);
   }
 
   CargaDocumentoEFRequirement(data: any): Observable<any> {

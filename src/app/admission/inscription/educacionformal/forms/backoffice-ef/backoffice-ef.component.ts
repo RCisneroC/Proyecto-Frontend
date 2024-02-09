@@ -73,6 +73,7 @@ export class BackofficeEFComponent implements AfterViewInit {
   aspirantId: string = "";
   loadingFile: boolean = false;
   disabled: boolean = false;
+  tribunalReady: boolean = false;
   public cedulaParticipant: string = "";
   showTable: boolean = true;
   Participant = {
@@ -425,6 +426,7 @@ export class BackofficeEFComponent implements AfterViewInit {
               ?.barrio_residencia;
 
           console.log('Datos de la persona:', data[0]?.datasetPersona);
+          this.tribunalReady = true;
         },
         error: (e) => this.loading = false,
         complete: () => console.info('Complete')
