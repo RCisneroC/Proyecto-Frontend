@@ -22,7 +22,7 @@ export interface DialogData {
 export class AprovedTeacherComponent {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message: ''
+    Message: '',
   }
 
   processList = [
@@ -66,7 +66,7 @@ export class AprovedTeacherComponent {
       gender: ["M", [Validators.required]],
       roles: [["Profesor"], [Validators.required]],
       isRegistered: [true, [Validators.required]],
-      
+
     });
 
     this.viewProcess = false;
