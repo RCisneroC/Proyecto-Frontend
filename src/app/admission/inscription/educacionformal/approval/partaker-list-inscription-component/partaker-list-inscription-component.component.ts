@@ -13,8 +13,9 @@ import { InscriptionResponse } from 'app/admission/models/ParticipantesEF';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { ApprovalIncriptionComponent } from '../approval-incription/approval-incription.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {ResponseMessageMaestra, ResponsePDFEF} from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import {ViewPosterPDFComponent} from "../../../../activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 @Component({
   selector: 'app-partaker-list-inscription-component',
   templateUrl: './partaker-list-inscription-component.component.html',
@@ -87,6 +88,29 @@ export class PartakerListInscriptionComponent extends UnsubscribeOnDestroyAdapte
 
   volverAtras() {
     this._router.navigate([localStorage.getItem('url_mesh')]);
+  }
+
+  viewPartakerListPDF(){
+    const request = {
+      id:this.id,
+      value: 0
+    }
+    this._InscriptionService.BuildPDFPartaker(request).subscribe({
+      next:(res: ResponsePDFEF)=>{
+        console.log("docfile", res.getPdfResponse[0].docFile)
+        const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+          data: {
+            type: this._verificarBS64.transform(res.getPdfResponse[0].docFile),
+            accion: 'view-poster',
+            posterFile: res.getPdfResponse[0].docFile,
+            comment: [],
+            poster: res,
+          },
+          width: '1000px',
+          disableClose: true,
+        });
+      }
+    })
   }
 
   ViewDetail(row: InscriptionResponse) {
