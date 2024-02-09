@@ -27,3 +27,15 @@ export interface ResponseEF{
   message: string;
   statusCode: number;
 }
+
+
+export interface ResponsePDFEF{
+  getPdfResponse: DocFileResp[]
+  isError: number;
+  message: string;
+  statusCode: number;
+}
+
+export  interface DocFileResp{
+  docFile: string;
+}
