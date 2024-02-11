@@ -53,14 +53,14 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Nombre:</span>{{ row.name
+                            <span class="mobile-label">Nombre:</span>{{ row.mCurriculumName
                             }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="description">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Descripción:</span>{{ row.description
+                            <span class="mobile-label">Descripción:</span>{{ row.mCurriculumName
                             }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="FechaInicio">
@@ -82,7 +82,7 @@
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Estado:</span>
-                            <span class="badge badge-solid-blue">{{ row.statusId |
+                            <span class="badge badge-solid-blue">{{ row.statusDegreeCurriculumDesign |
                               statusPipe}}</span>
                           </mat-cell>
                         </ng-container>
