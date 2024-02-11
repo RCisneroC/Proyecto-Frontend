@@ -17,7 +17,7 @@ import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResp
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
 import {Room} from "../models/Room";
-import { CareerResponse} from "../models/Career";
+import {Career, CareerResponse} from "../models/Career";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   baseApiUrl = "https://file.io"
   isTblLoading = true;
   public _Mesh!: Mesh;
+  public _Career!: Career;
   public _Period!: Period;
   public _Subject!: Subject;
   public _Room!: Room;
@@ -34,7 +35,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
   dataChangePeriod: BehaviorSubject<Period[]> = new BehaviorSubject<Period[]>([]);
   dataChangeSubject: BehaviorSubject<Subject[]> = new BehaviorSubject<Subject[]>([]);
-  dataChangeCareer: BehaviorSubject<CareerResponse[]> = new BehaviorSubject<CareerResponse[]>([]);
+  dataChangeCareer: BehaviorSubject<Career[]> = new BehaviorSubject<Career[]>([]);
   dataChangeRoom: BehaviorSubject<Room[]> = new BehaviorSubject<Room[]>([]);
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
@@ -48,6 +49,9 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.dataChangeMesh.value || [];
   }
 
+  get dataCareer(): Career[] {
+    return this.dataChangeCareer.value || [];
+  }
   get dataPeriod(): Period[] {
     return this.dataChangePeriod.value || [];
   }
@@ -85,12 +89,12 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   GetSubjectDegree(id: string): void {
     this.subs.sink = this.httpClient
-      .post<CareerResponse[]>(environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id})
+      .post<CareerResponse>(environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id})
       .subscribe({
         next: (data) => {
-          console.log(data);
+          console.log(data.studentInnfo);
           this.isTblLoading = false;
-          this.dataChangeCareer.next(data);
+          this.dataChangeCareer.next(data.studentInnfo);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
