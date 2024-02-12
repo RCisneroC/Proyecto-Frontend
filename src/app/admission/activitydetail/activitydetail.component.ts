@@ -174,7 +174,6 @@ export class ActivitydetailComponent implements OnInit {
           // this.getOrganismos();
 
         }, error: (err) => {
-          console.log(err);
           this._router.navigate(['/admission/schedule-activities-list']);
         },
         complete: () => {
@@ -183,7 +182,11 @@ export class ActivitydetailComponent implements OnInit {
       })
   }
   safeHtml(myHtmlString: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(myHtmlString);
+    if (myHtmlString == null) {
+      return '.';
+    } else {
+      return this.sanitizer.bypassSecurityTrustHtml(myHtmlString);
+    }
   }
   async getDocumentos(res: ActivityActivityRequirement[]) {
     this.dataSoruceActivityRequirements = [];
@@ -243,7 +246,7 @@ export class ActivitydetailComponent implements OnInit {
     })
   }
   deleteAfiche(row: PosterRequest) {
-    console.log(row);
+
 
     this._ActivityService.DeletePoster(row.id).subscribe({
       next: () => {
@@ -504,7 +507,6 @@ export class ActivitydetailComponent implements OnInit {
       virtualRoom: row.virtualRoom,
       certificatesReceived: 0
     }
-    console.log(this._ActivityService._EditActivity);
     const dialogRef = this._dialog.open(EditActivityFormsComponent, {
       data: {
         actividad: this._ActivityService._EditActivity,

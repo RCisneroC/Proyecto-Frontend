@@ -609,8 +609,13 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   }
 
   VerificarDisponibilidadActividad(id: any) {
-    return this.httpClient.get<boolean>(environment.apiUrlSchedule + '/Activity/CheckConditionsBy?ActivityId=' + id);
+    return this.httpClient.get<boolean>(environment.apiUrlSchedule + 'Activity/CheckConditionsBy?ActivityId=' + id);
   }
+
+  getOneDocumento(id: any) {
+    return this.httpClient.get<ActivityRequirement>(environment.apiUrlSchedule + 'ActivityRequirement/GetBy?Id=' + id);
+  }
+
 
   GetParticipanteCedula(cedula: any) {
     return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula=' + cedula);

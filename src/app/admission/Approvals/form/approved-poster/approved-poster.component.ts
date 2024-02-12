@@ -7,7 +7,7 @@ import { ActivityDetailService } from 'app/admission/services/activity-detail.se
 export interface DialogData {
   id: string;
   poster: PosterRequest;
-  accion:string;
+  accion: string;
 }
 @Component({
   selector: 'app-approved-poster',
@@ -19,7 +19,7 @@ export class ApprovedPosterComponent {
     CodError: 0,
     Message: ''
   }
-  
+
   action: string;
   dialogTitle: string = '';
   ApprovedForm: UntypedFormGroup;
@@ -45,16 +45,14 @@ export class ApprovedPosterComponent {
     });
   }
   submit() {
-    console.log(this.ApprovedForm.getRawValue());
     if (this.ApprovedForm.controls['isApproved'].value == "1") {
       this.ApprovedForm.controls['isApproved'].setValue(true);
     } else if (this.ApprovedForm.controls['isApproved'].value == "2") {
       this.ApprovedForm.controls['isApproved'].setValue(false);
     }
-    
+
     this._ActivityService.ApprovedPoster(this.ApprovedForm.getRawValue()).subscribe({
       next: (res) => {
-        console.log(res);
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Aprobado correctamente.';
         this.dialogRef.close(this.ResponseMessage);

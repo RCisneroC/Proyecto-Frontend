@@ -284,6 +284,16 @@ export class InscriptionFormsExternalComponent {
     const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
 
     if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+        elementImg.value = '';
+        return;
+      }
       var formdata = new FormData();
       formdata.append('cedula', this.FormsEF.value.cedula);
       formdata.append('FileType', requerimentId.toString());

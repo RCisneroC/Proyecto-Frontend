@@ -18,19 +18,19 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
   styleUrls: ['./list-activity.component.scss']
 })
 export class ListActivityComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
-         'planningDate',
-         'activityModeName',
-         'activityTypeName',
-         'activityName',
-         'activityLocationName',
-         'startDate',
-         'status',
-         'actions',
+    'planningDate',
+    'activityModeName',
+    'activityTypeName',
+    'activityName',
+    'activityLocationName',
+    'startDate',
+    'status',
+    'actions',
   ];
-  
+
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivityDetail>(true, []);
@@ -55,20 +55,20 @@ implements OnInit{
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
-   
+
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-  })
-   
+    })
+
   }
   refresh() {
     this.loadData();
   }
 
   ViewDetail(row: ScheduleActivityDetail) {
-    localStorage.setItem('ruta_local', '/admission/activity-participants-list');
+    localStorage.setItem('ruta_local', '/admission/activity-inscription/' + this.id);
     localStorage.setItem('name_actividad', row.name);
-    this.router.navigate(['/admission/listado-participans/'+row.id]);
+    this.router.navigate(['/admission/listado-participans/' + row.id]);
     console.log('====================================');
     console.log(row);
     console.log('====================================');
@@ -78,13 +78,13 @@ implements OnInit{
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
-  addNew(){
+  addNew() {
 
   }
   editCall(row: ScheduleActivityDetail) {
 
   }
-  
+
   /** Whether the number of selected elements matches the total number of rows. */
 
 
@@ -128,7 +128,7 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.curriculumDesignId,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -166,9 +166,9 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       this.filterChange,
       this.paginator.page,
     ];
-    
+
     this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id']; 
+      this.id = params['id'];
     });
     this.exampleDatabase.getAllActivityDetail(this.id);
     return merge(...displayDataChanges).pipe(
@@ -209,7 +209,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         case 'curriculumDesignId':
           [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

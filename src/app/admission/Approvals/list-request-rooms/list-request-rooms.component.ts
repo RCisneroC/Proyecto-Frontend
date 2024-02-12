@@ -21,8 +21,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-request-rooms.component.scss']
 })
 export class ListRequestRoomsComponent extends UnsubscribeOnDestroyAdapter
-  implements OnInit{
-  
+  implements OnInit {
+
   displayedColumns = [
     'id',
     'actividad',
@@ -31,86 +31,83 @@ export class ListRequestRoomsComponent extends UnsubscribeOnDestroyAdapter
     'actions',
   ];
 
-   exampleDatabase?: ActivityDetailService;
+  exampleDatabase?: ActivityDetailService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<RoomRequest>(true, []);
   id?: number;
 
 
-    constructor(
+  constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _ActivityDetailService:ActivityDetailService ,
+    public _ActivityDetailService: ActivityDetailService,
     private snackBar: MatSnackBar,
     public _nav: Router
   ) {
     super();
-    }
-  
-    @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-    @ViewChild(MatSort, { static: true }) sort!: MatSort;
-    @ViewChild('filter', { static: true }) filter!: ElementRef;
-    @ViewChild(MatMenuTrigger)
-    contextMenu?: MatMenuTrigger;
-    contextMenuPosition = { x: '0px', y: '0px' };
-    ngOnInit() {
-      this.loadData();
-    }
-    refresh() {
-      this.loadData();
-    }
-  
-   ViewDetail(row:RoomRequest) {
-     localStorage.setItem('url','/admission/list-rooms-approve')
-     this._nav.navigate(['/admission/reservar-salones/' + row.activityId]);
-   }
-  
-    aprobar(row: RoomRequest) {
-    
+  }
+
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild('filter', { static: true }) filter!: ElementRef;
+  @ViewChild(MatMenuTrigger)
+  contextMenu?: MatMenuTrigger;
+  contextMenuPosition = { x: '0px', y: '0px' };
+  ngOnInit() {
+    this.loadData();
+  }
+  refresh() {
+    this.loadData();
+  }
+
+  ViewDetail(row: RoomRequest) {
+    localStorage.setItem('url', '/admission/list-rooms-approve')
+    this._nav.navigate(['/admission/reservar-salones/' + row.activityId]);
+  }
+
+  aprobar(row: RoomRequest) {
+
     const dialogRef = this.dialog.open(ApprovedRoomsComponent, {
       data: {
-        rooms : row,
+        rooms: row,
         accion: 'approved',
       },
-      disableClose:true
+      disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
-  
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  
+
   public loadData() {
- 
+
     this.exampleDatabase = new ActivityDetailService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
       this.sort
     );
-    console.log('====================================');
-    console.log(this.dataSource);
-    console.log('====================================');
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
         if (!this.dataSource) {
@@ -140,7 +137,7 @@ export class ListRequestRoomsComponent extends UnsubscribeOnDestroyAdapter
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'Nombre': x.activityName
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -178,7 +175,7 @@ export class ExampleDataSource extends DataSource<RoomRequest> {
     this.exampleDatabase.getRoomsRequest('3');
     return merge(...displayDataChanges).pipe(
       map(() => {
-       
+
         // Filter data
         this.filteredData = this.exampleDatabase.dataRooms
           .slice()
@@ -216,7 +213,7 @@ export class ExampleDataSource extends DataSource<RoomRequest> {
         case 'actividad':
           [propertyA, propertyB] = [a.activityName, b.activityName];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
