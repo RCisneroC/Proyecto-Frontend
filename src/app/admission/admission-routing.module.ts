@@ -58,6 +58,9 @@ import {
   PartakerDetailInscriptionComponent
 } from "./inscription/educacionformal/approval/partaker-detail-inscription-component/partaker-detail-inscription-component.component";
 import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create-rooms/create-rooms.component';
+import { DetailsEventsComponent } from './activitydetail/details-events/details-events.component';
+import { DesignCurriculunComponent } from './activitydetail/design-curriculun/design-curriculun.component';
+import { DetailsModulesComponent } from './activitydetail/design-curriculun/Module/details-modules/details-modules.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -281,6 +284,19 @@ const routes: Routes = [
     path: 'period/:id/degree/:id_degree',
     component: CreateRoomsComponent,
   },
+  {
+    path: 'activity-detail/:id/details-eventos',
+    component: DetailsEventsComponent,
+  },
+  {
+    path: 'activity-detail/:id/details-modules',
+    component: DesignCurriculunComponent,
+  },
+  {
+    path: 'activity-detail/:id/details-modules/:module',
+    component: DetailsModulesComponent,
+  },
+
 
 ];
 

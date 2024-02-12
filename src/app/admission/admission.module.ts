@@ -120,8 +120,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { FormsCertificateComponent } from './activitydetail/forms/forms-certificate/forms-certificate.component';
+import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+} from '@danielmoncada/angular-datetime-picker';
 
-@NgModule({
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DetailsEventsComponent } from './activitydetail/details-events/details-events.component';
+import { CreateEventsComponent } from './activitydetail/details-events/Forms/create-events/create-events.component';
+import { DesignCurriculunComponent } from './activitydetail/design-curriculun/design-curriculun.component';
+import { CreateModulesComponent } from './activitydetail/design-curriculun/Forms/create-modules/create-modules.component';
+import { CreatePlanStudyFormsComponent } from './activitydetail/design-curriculun/Forms/create-plan-study-forms/create-plan-study-forms.component';
+import { DetailsModulesComponent } from './activitydetail/design-curriculun/Module/details-modules/details-modules.component';
+import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
+import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component'; @NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -236,7 +248,15 @@ import { FormsCertificateComponent } from './activitydetail/forms/forms-certific
     CreateRoomsPeriodComponent,
     CreteAsignacionDocenteComponent,
     ShowDocentesAsignadoComponent,
-    FormsCertificateComponent
+    FormsCertificateComponent,
+    DetailsEventsComponent,
+    CreateEventsComponent,
+    DesignCurriculunComponent,
+    CreateModulesComponent,
+    CreatePlanStudyFormsComponent,
+    DetailsModulesComponent,
+    EvaluationsCriteriaFormsComponent,
+    ActivityLearningFormsComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [
@@ -246,6 +266,9 @@ import { FormsCertificateComponent } from './activitydetail/forms/forms-certific
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    CKEditorModule
   ]
 })
 export class AdmissionModule { }

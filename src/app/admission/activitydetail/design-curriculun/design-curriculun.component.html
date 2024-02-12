@@ -1,0 +1,137 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Diseño Curricular'" [items]="['Inicio','Admisión','Diseño Curricular']"
+                [active_item]="'Ajustes'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase">Plan de Estudio <strong>{{
+                                _ActivityService._GetOneActivity.name }}</strong>
+
+                            <button *ngIf="!ExistPlan" (click)="CreateStudyPlans()" matTooltip="Agregar Plan de Estudio"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+
+                            <button *ngIf="ExistPlan" (click)="EditStudyPlans(this._ActivityService._PlanStudyActivity)"
+                                matTooltip="Editar Plan de Estudio" style="position: absolute;right: 5px;top: 5px;"
+                                mat-mini-fab color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                        </h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="row" *ngIf="!ExistPlan">
+                            <div class="col-12">
+                                <p class="badge badge-solid-red" style="font-size: 15px;">Debe Registar el Plan De
+                                    Estudio de la Actividad</p>
+                            </div>
+                        </div>
+                        <!-- *ngIf="this._ActivityService._PlanStudyActivity.id!=0"
+                        *ngIf="this._ActivityService._PlanStudyActivity.id!=0" -->
+                        <div class="row" *ngIf="ExistPlan">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <mat-label><strong>Nombre</strong></mat-label>
+                                <p>{{ this._ActivityService._PlanStudyActivity.name }}</p>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <mat-label><strong>Descripción</strong></mat-label>
+                                <p>{{ this._ActivityService._PlanStudyActivity.description }}</p>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                                <mat-label><strong>Esquema integral del curso</strong></mat-label>
+                                <br>
+                                <button (click)="getOnePlanStudy(_ActivityService._PlanStudyActivity.id)" mat-mini-fab
+                                    color="primary" matTooltip="Ver Esquema Integral">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase">Módulos que mantiene el Plan de Estudio de la Actividad <strong>{{
+                                _ActivityService._GetOneActivity.name }}</strong>
+
+                            <button (click)="CreateModules()" matTooltip="Agregar Nuevo Modulo"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por Nombre">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataDocuments" class="w-100">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                                </ng-container>
+                                <!-- <ng-container matColumnDef="datecreate">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container> -->
+                                <ng-container matColumnDef="status">
+                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td mat-cell *matCellDef="let element"> <span class="badge badge-solid-green">{{
+                                            element.statusId | statusPipe }}</span> </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="configModule(element)" mat-mini-fab color="primary"
+                                            matTooltip="Configurar">
+                                            <mat-icon>settings</mat-icon>
+                                        </button>
+
+                                        <button (click)="editModule(element)" mat-mini-fab color="accent"
+                                            matTooltip="Editar Modulo">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+
+                                        <button (click)="deleteModule(element)" mat-mini-fab color="accent"
+                                            matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="LabelTable"></tr>
+                                <tr mat-row *matRowDef="let row; columns: LabelTable;"></tr>
+                            </table>
+                            <mat-paginator #paginatorModule [pageSizeOptions]="[5, 10, 20]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

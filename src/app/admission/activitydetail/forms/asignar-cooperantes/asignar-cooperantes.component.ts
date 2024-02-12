@@ -22,21 +22,21 @@ export interface DialogData {
 export class AsignarCooperantesComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
-displayedColumns: string[] = [
+  displayedColumns: string[] = [
     'id',
     'name',
     'descipcion',
     'logo',
-];
+  ];
 
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   AsignarCooperantesForm: UntypedFormGroup;
-  id_actividad: string = ''; 
+  id_actividad: string = '';
 
- 
+
   dataSourceCooperating: Cooperating[] = [
     this._ActivityDetailService._Cooperating
   ];
@@ -44,11 +44,11 @@ displayedColumns: string[] = [
   public IsLoading: boolean = true;
 
   @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
-      console.log(value);
-     setTimeout(() => {
-       this.ListadoCooperantes.paginator = value;
-       this.IsLoading = false;
-     }, 3000);
+    console.log(value);
+    setTimeout(() => {
+      this.ListadoCooperantes.paginator = value;
+      this.IsLoading = false;
+    }, 3000);
   }
 
   constructor(
@@ -57,69 +57,69 @@ displayedColumns: string[] = [
     private fb: UntypedFormBuilder,
     public _dialog: MatDialog,
     private _CooperationgOrganizationService: CooperationgOrganizationService,
-     public _ActivityDetailService:ActivityDetailService,
-    public _verificarBS64:VerificarBS64Pipe
+    public _ActivityDetailService: ActivityDetailService,
+    public _verificarBS64: VerificarBS64Pipe
   ) {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
-    
+
     if (this.action === 'add-cooperantes') {
-      this.dialogTitle ="Agregar Organizaciones Cooperantes";
+      this.dialogTitle = "Agregar Organizaciones Cooperantes";
       this.id_actividad = data.id_actividad;
     }
     this.LoadCooperantes();
-    this.AsignarCooperantesForm =this.fb.group({
+    this.AsignarCooperantesForm = this.fb.group({
       cooperatingOrganizationsIds: this.fb.array([]),
-      activityId:[data.id_actividad,[Validators.required]]
+      activityId: [data.id_actividad, [Validators.required]]
     });
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-     this.ListadoCooperantes.paginator = this.paginator;
-  } 
+    this.ListadoCooperantes.paginator = this.paginator;
+  }
 
-     applyFilter(event: Event) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoCooperantes.filter = filterValue.trim().toLowerCase();
   }
 
   LoadCooperantes() {
-  
+
     console.log(this.ListadoCooperantes);
     this._CooperationgOrganizationService.getAllCooperatingFiltro(1).subscribe({
       next: (res) => {
-         this.ListadoCooperantes =new MatTableDataSource<Cooperating>(res);
+        this.ListadoCooperantes = new MatTableDataSource<Cooperating>(res);
       }
     });
   }
-    viewLogo(row:Cooperating) {
+  viewLogo(row: Cooperating) {
     this._CooperationgOrganizationService.getByIdLogo(row.id).subscribe({
       next: (logo) => {
         if (logo.logo == null) {
-         Swal.fire({
-              title: "Escuela Judicial!",
-              text: "No mantiene logo cargado.",
-              icon: "warning"
-            });
+          Swal.fire({
+            title: "Escuela Judicial!",
+            text: "No mantiene logo cargado.",
+            icon: "warning"
+          });
           return;
-       }
+        }
 
         if (this._verificarBS64.transform(logo.logo.fileContents) != "pdf") {
-              const dialogRef = this._dialog.open(ViewLogoComponent, {
-              data: {
-                type: this._verificarBS64.transform(logo.logo.fileContents),
-                accion: 'view-logo',
-                logofile: logo.logo.fileContents,
-                logo: logo,
-              },
-              disableClose: true,
-            });
-            }
+          const dialogRef = this._dialog.open(ViewLogoComponent, {
+            data: {
+              type: this._verificarBS64.transform(logo.logo.fileContents),
+              accion: 'view-logo',
+              logofile: logo.logo.fileContents,
+              logo: logo,
+            },
+            disableClose: true,
+          });
+        }
       }, error: () => {
-        
+
       }
     })
   }
@@ -140,11 +140,11 @@ displayedColumns: string[] = [
   }
   get checkboxesFormArray(): UntypedFormArray {
     console.log("hola");
-    
+
     return this.AsignarCooperantesForm.get('cooperatingOrganizationsIds') as UntypedFormArray;
   }
 
-    checkboxChange(event: any, checkboxId: any): void {
+  checkboxChange(event: any, checkboxId: any): void {
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
     } else {
@@ -153,6 +153,6 @@ displayedColumns: string[] = [
         this.checkboxesFormArray.removeAt(index);
       }
     }
-    }
-  
+  }
+
 }

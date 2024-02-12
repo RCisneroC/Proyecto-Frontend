@@ -21,6 +21,7 @@ import { ViewLogoComponent } from './forms/view-logo/view-logo.component';
 import { EditActivityFormsComponent } from './forms/edit-activity-forms/edit-activity-forms.component';
 import { environment } from 'environments/environment.development';
 import { FormsCertificateComponent } from './forms/forms-certificate/forms-certificate.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export class PeriodicElement {
   name!: string;
@@ -112,6 +113,8 @@ export class ActivitydetailComponent implements OnInit {
 
   dataSource3 = new MatTableDataSource(ELEMENT_DATA);
 
+  panelOpenState = false;
+  step = 0;
 
   public paramsId: any;
   public paramsIdRevisado: any;
@@ -121,7 +124,8 @@ export class ActivitydetailComponent implements OnInit {
     public _ActivityService: ActivityDetailService,
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
-    public _CooperatingOrganizationService: CooperationgOrganizationService
+    public _CooperatingOrganizationService: CooperationgOrganizationService,
+    private sanitizer: DomSanitizer
   ) {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
@@ -134,6 +138,15 @@ export class ActivitydetailComponent implements OnInit {
     }
   }
 
+  setStep(index: number) {
+    this.step = index;
+  }
+  nextStep() {
+    this.step++;
+  }
+  prevStep() {
+    this.step--;
+  }
   ngOnInit(): void {
     this.dataDocuments.paginator = this.paginator;
     this.dataPoster.paginator = this.paginatorPoster;
@@ -155,6 +168,7 @@ export class ActivitydetailComponent implements OnInit {
           this.dataPoster.paginator = this.paginator;
           this.dataTeacher.paginator = this.paginator;
           this.dataOrganismos.paginator = this.paginator;
+          // this.safeHtml(res.competencies);
           // this.getPoster(res.posterRequests);
           // this.getTeachers();
           // this.getOrganismos();
@@ -167,6 +181,9 @@ export class ActivitydetailComponent implements OnInit {
           //  this._ActivityService.loading = false;
         }
       })
+  }
+  safeHtml(myHtmlString: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(myHtmlString);
   }
   async getDocumentos(res: ActivityActivityRequirement[]) {
     this.dataSoruceActivityRequirements = [];
@@ -447,7 +464,6 @@ export class ActivitydetailComponent implements OnInit {
       activityReasonId: row.activityReasonId,
       curriculumDesignId: row.curriculumDesignId,
       assignedCoordinatorId: row.assignedCoordinatorId,
-      numOfAssignedTeachers: row.numOfAssignedTeachers,
       studentQuota: row.studentQuota,
       planningDate: row.planningDate,
       startDate: row.startDate,
@@ -473,7 +489,20 @@ export class ActivitydetailComponent implements OnInit {
       learningActivities: row.learningActivities,
       electronicEvaluation: row.electronicEvaluation,
       participationProfile: row.participationProfile,
-      activityTarget: row.activityTarget
+      activityTarget: row.activityTarget,
+      startTime: row.startTime,
+      endTime: row.endTime,
+      generalGoals: row.generalGoals,
+      hasCertificate: row.hasCertificate,
+      hasSurvey: row.hasSurvey,
+      justification: row.justification,
+      meetLink: row.meetLink,
+      participantAdmissionProfile: row.participantAdmissionProfile,
+      participantGraduateProfile: row.participantGraduateProfile,
+      specificGoals: row.specificGoals,
+      teachingMethodology: row.teachingMethodology,
+      virtualRoom: row.virtualRoom,
+      certificatesReceived: 0
     }
     console.log(this._ActivityService._EditActivity);
     const dialogRef = this._dialog.open(EditActivityFormsComponent, {
@@ -482,6 +511,8 @@ export class ActivitydetailComponent implements OnInit {
         accion: 'editar-actividad'
       },
       disableClose: true,
+      width: '1800px',
+      height: '600px'
     });
 
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
@@ -608,5 +639,22 @@ export class ActivitydetailComponent implements OnInit {
     localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);
     this._router.navigate(['/admission/reservar-salones/' + this.paramsId]);
   }
+  copy(inputElement: any) {
+    const el = document.createElement('textarea');
+    el.value = inputElement;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    Swal.fire({
+      title: "<strong>Escuela Judicial</strong>",
+      text: 'Copiado correctamente',
+      icon: "success"
+    });
+  }
 
+  GoDesignCurriculum(row: GetOneActivity) {
+    this._router.navigate(['/admission/activity-detail/' + row.id + '/details-modules']);
+
+  }
 }
