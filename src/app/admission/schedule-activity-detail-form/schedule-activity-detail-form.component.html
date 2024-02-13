@@ -16,56 +16,56 @@
     <form class="register-form m-4" [formGroup]="scheduleForm" (ngSubmit)="submit">
       <div class="row">
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
-         
+
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha de planificación</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="planningDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('planningDate')?.hasError('required')">
-               Selecciones una fecha
+              Selecciones una fecha
             </mat-error>
           </mat-form-field>
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Modalidad</mat-label>
-            <mat-select formControlName="activityModeId" >
-              <mat-option *ngFor="let row of modalityList"  [value]="row.id">{{row.name}}</mat-option>
+            <mat-select formControlName="activityModeId">
+              <mat-option *ngFor="let row of modalityList" [value]="row.id">{{row.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('activityModeId')?.hasError('required')">
               la modalidad es requerida
             </mat-error>
-          
-          
+
+
           </mat-form-field>
-        
+
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Tipo de actividad</mat-label>
-            <mat-select formControlName="activityTypeId" >
-              <mat-option *ngFor="let row of typeActivityList"  [value]="row.id">{{row.name}}</mat-option>
+            <mat-select formControlName="activityTypeId">
+              <mat-option *ngFor="let row of typeActivityList" [value]="row.id">{{row.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('activityTypeId')?.hasError('required')">
               el tipo de actividad es requerida
             </mat-error>
           </mat-form-field>
-          
-        
+
+
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Nombre de la actividad</mat-label>
-          <input matInput formControlName="name">
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <input matInput formControlName="name">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="scheduleForm.get('name')?.hasError('required')">
               la actividad es requerida
             </mat-error>
           </mat-form-field>
-        
+
         </div>
-       
+
       </div>
       <div class="row">
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
@@ -78,38 +78,38 @@
               el Lugar es requerido
             </mat-error>
           </mat-form-field>
-        
+
         </div>
-        
+
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Coordinador Asignado</mat-label>
-            <mat-select formControlName="assignedCoordinatorId" >
-              <mat-option *ngFor="let row of userList"  [value]="row.id">{{row.firstName+" "+row.lastName}}</mat-option>
+            <mat-select formControlName="assignedCoordinatorId">
+              <mat-option *ngFor="let row of userList" [value]="row.id">{{row.firstName+" "+row.lastName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('assignedCoordinatorId')?.hasError('required')">
               el coordinador es requerido
             </mat-error>
           </mat-form-field>
-        
+
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Motivo</mat-label>
-            <mat-select formControlName="activityReasonId" >
-              <mat-option *ngFor="let row of reasonList"  [value]="row.id">{{row.name}}</mat-option>
+            <mat-select formControlName="activityReasonId">
+              <mat-option *ngFor="let row of reasonList" [value]="row.id">{{row.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('activityReasonId')?.hasError('required')">
               el motivo es requerido
             </mat-error>
           </mat-form-field>
-        
+
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Origen de los fondos</mat-label>
-            <mat-select formControlName="activityFundsSourceId" >
-              <mat-option *ngFor="let row of sourceFundsList"  [value]="row.id">{{row.name}}</mat-option>
+            <mat-select formControlName="activityFundsSourceId">
+              <mat-option *ngFor="let row of sourceFundsList" [value]="row.id">{{row.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('activityFundsSourceId')?.hasError('required')">
               el origen es requerido
@@ -117,123 +117,128 @@
           </mat-form-field>
         </div>
       </div>
-        <div  class="row">
+      <div class="row">
 
-          <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha de inicio de inscripción</mat-label>
-              <input matInput [matDatepicker]="pickerStart" formControlName="inscriptionStartDate">
-              <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-              <mat-datepicker #pickerStart></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('inscriptionStartDate')?.hasError('required')">
-                Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha de final de inscripción</mat-label>
-              <input matInput [matDatepicker]="pickerEnd" formControlName="inscriptionEndDate">
-              <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-              <mat-datepicker #pickerEnd></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('inscriptionEndDate')?.hasError('required')">
-                Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha de inicio</mat-label>
-              <input matInput [matDatepicker]="picker1" formControlName="startDate">
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('startDate')?.hasError('required')">
-                 Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha final programada</mat-label>
-              <input matInput [matDatepicker]="picker2" formControlName="plannedEndDate">
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('plannedEndDate')?.hasError('required')">
-                 Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha final efectiva</mat-label>
-              <input matInput [matDatepicker]="picker3" formControlName="effectiveEndDate">
-              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-              <mat-datepicker #picker3></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('effectiveEndDate')?.hasError('required')">
-                Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha entrega ficha técnica</mat-label>
-              <input matInput [matDatepicker]="picker4" formControlName="dataSheetDeliveryDate">
-              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-              <mat-datepicker #picker4></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('dataSheetDeliveryDate')?.hasError('required')">
-                 Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha entrega de informe digital</mat-label>
-              <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate">
-              <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-              <mat-datepicker #picker5></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
-                 Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
-           
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha entrega de informe físico</mat-label>
-              <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate">
-              <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
-              <mat-datepicker #picker6></mat-datepicker>
-              <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
-                 Selecciones una fecha
-              </mat-error>
-            </mat-form-field>
-          
-          </div> 
+        <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha de inicio de inscripción</mat-label>
+            <input matInput [matDatepicker]="pickerStart" formControlName="inscriptionStartDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('inscriptionStartDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
         </div>
-    <div class="row">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Observaciones</mat-label>
-          <input matInput formControlName="observations">
-          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-        </mat-form-field>
+
+        <div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha de final de inscripción</mat-label>
+            <input matInput [min]="scheduleForm.get('inscriptionStartDate')?.value" [matDatepicker]="pickerEnd"
+              formControlName="inscriptionEndDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('inscriptionEndDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha de inicio</mat-label>
+            <input matInput [min]="scheduleForm.get('inscriptionEndDate')?.value" [matDatepicker]="picker1"
+              formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('startDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha final programada</mat-label>
+            <input matInput [min]="scheduleForm.get('startDate')?.value" [matDatepicker]="picker2"
+              formControlName="plannedEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('plannedEndDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha final efectiva</mat-label>
+            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker3"
+              formControlName="effectiveEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('effectiveEndDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha entrega ficha técnica</mat-label>
+            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker4"
+              formControlName="dataSheetDeliveryDate">
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('dataSheetDeliveryDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha entrega de informe digital</mat-label>
+            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker5"
+              formControlName="digitalReportDeliveryDate">
+            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <mat-datepicker #picker5></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha entrega de informe físico</mat-label>
+            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker6"
+              formControlName="physicalReportDeliveryDate">
+            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <mat-datepicker #picker6></mat-datepicker>
+            <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
+              Selecciones una fecha
+            </mat-error>
+          </mat-form-field>
+
+        </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Observaciones</mat-label>
+            <input matInput formControlName="observations">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
 
 
       <div class="row">
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-            <div class="example-button-row">
-              <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid"
-                (click)="confirmAdd()">Guardar</button>
-              <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
-            </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid"
+              (click)="confirmAdd()">Guardar</button>
+            <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
           </div>
         </div>
+      </div>
     </form>
   </div>
 </div>
-
-
