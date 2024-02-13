@@ -1,1 +1,74 @@
-<p>details-events works!</p>
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Diseño Curricular'" [items]="['Inicio','Admisión','Diseño Curricular']"
+                [active_item]="'Ajustes'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+            <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header" *ngIf="_ActivityService.loading==false">
+                        <h2 class="text-uppercase">Programa de Actividades para (<strong>{{
+                                _ActivityService._GetOneActivity.name }}</strong>)
+
+                            <button (click)="NewEvents()" matTooltip="Agregar Plan de Estudio"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
+
+                        </h2>
+                    </div>
+                    <div class="body" *ngIf="_ActivityService.loading==false">
+                        <div class="body table-responsive">
+                            <table mat-table [dataSource]="dataEvent" class="w-100">
+                                <ng-container matColumnDef="hora">
+                                    <th mat-header-cell *matHeaderCellDef> Hora </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.startTime |date:'shortTime' }} -
+                                        {{ element.endTime |date:'shortTime' }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="fecha">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.date |date:'dd/M/yyy' }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="tema">
+                                    <th mat-header-cell *matHeaderCellDef> Tema</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="docente">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.teacherFullName }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button (click)="deleteEvents(element)" mat-mini-fab color="accent"
+                                            matTooltip="Eliminar">
+                                            <mat-icon>restore_from_trash</mat-icon>
+                                        </button>
+                                        <button (click)="EditarEvents(element)" mat-mini-fab color="primary"
+                                            matTooltip="Editar">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="DisplayNameDocument"></tr>
+                                <tr mat-row *matRowDef="let row; columns: DisplayNameDocument;"></tr>
+                            </table>
+                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]"
+                                showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -657,6 +657,10 @@ export class ActivitydetailComponent implements OnInit {
 
   GoDesignCurriculum(row: GetOneActivity) {
     this._router.navigate(['/admission/activity-detail/' + row.id + '/details-modules']);
-
   }
+  IrPlanificacion(row: GetOneActivity) {
+    this._router.navigate(['/admission/activity-detail/' + row.id + '/details-eventos']);
+  }
+
+
 }

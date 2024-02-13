@@ -21,6 +21,7 @@ import {
 import { DTCertificate } from '../models/DTCertificate';
 import { PlanStudyActivity } from '../models/PlanStudyActivity';
 import { ActivityDetailModules, ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
+import { EventsActivity } from '../models/EventsActivity';
 @Injectable({
   providedIn: 'root'
 })
@@ -430,6 +431,19 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     name: '',
     description: ''
   }
+  public _EventsActivity: EventsActivity = {
+    statusId: 0,
+    id: 0,
+    activityId: 0,
+    name: '',
+    description: '',
+    date: new Date(), // O simplemente '', dependiendo de cómo quieras manejar las fechas
+    startTime: new Date(), // O simplemente ''
+    endTime: new Date(), // O simplemente ''
+    teacherCedula: '',
+    teacherFullName: '',
+    teacherStatusId: '',
+  }
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
   isTblLoading = true;
@@ -734,6 +748,31 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   }
 
 
+  UpdateEventsActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/UpdateEvent', data);
+  }
+  CreateEventsActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/CreateEvent', data);
+  }
+
+  DeleteEvents(id: any,) {
+    let data = {
+      id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Activity/DeleteEvent', options);
+  }
+
+  GetEventsActivity(id: any) {
+    return this.httpClient.get<EventsActivity[]>(environment.apiUrlSchedule + 'Activity/GetEventsBy?ActivityId=' + id);
+  }
+
+
 
   initService() {
     this._GetOneActivity = {
@@ -1008,6 +1047,21 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       activityStudyPlanModuleId: 0,
       name: '',
       description: ''
+    }
+  }
+  init_EventActivity() {
+    this._EventsActivity = {
+      statusId: 0,
+      id: 0,
+      activityId: 0,
+      name: '',
+      description: '',
+      date: new Date(), // O simplemente '', dependiendo de cómo quieras manejar las fechas
+      startTime: new Date(), // O simplemente ''
+      endTime: new Date(), // O simplemente ''
+      teacherCedula: '',
+      teacherFullName: '',
+      teacherStatusId: '',
     }
   }
 }
