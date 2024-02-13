@@ -2,7 +2,6 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
 import {EnrollmentService} from "../services/enrollment.service";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Degree, Mesh} from "../../admission/FormalEducations/Models/Degree";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
