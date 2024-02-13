@@ -579,6 +579,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+  //estudiante
   {
     path: '/dashboard/dashboard-student',
     title: 'Panel control',
@@ -628,67 +629,6 @@ export const ROUTES: RouteInfo[] = [
       }
     ],
   },
-  // {
-  //   path: '/dashboard/dashboard1',
-  //   title: 'Historial',
-  //   iconType: 'feather',
-  //   icon: 'hard-drive',
-  //   class: 'menu-toggle',
-  //   groupTitle: false,
-  //   badge: '',
-  //   badgeClass: '',
-  //   Role: 'Estudiante',
-  //   submenu: [
-  //     {
-  //       path: '/dashboard/dashboard1',
-  //       title: 'Creditos no Oficiales',
-  //       iconType: '',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       badge: '',
-  //       badgeClass: '',
-  //       Role: 'Estudiante',
-  //       submenu: [],
-  //     },
-  //     {
-  //       path: '/dashboard/dashboard1',
-  //       title: 'Notas',
-  //       iconType: '',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       badge: '',
-  //       badgeClass: '',
-  //       Role: 'Estudiante',
-  //       submenu: [],
-  //     },
-  //     {
-  //       path: '/dashboard/dashboard1',
-  //       title: 'Plan de Estudio',
-  //       iconType: '',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       badge: '',
-  //       badgeClass: '',
-  //       Role: 'Estudiante',
-  //       submenu: [],
-  //     },
-  //     {
-  //       path: '/dashboard/dashboard1',
-  //       title: 'Asistencia',
-  //       iconType: '',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       badge: '',
-  //       badgeClass: '',
-  //       Role: 'Estudiante',
-  //       submenu: [],
-  //     },
-  //   ],
-  // },
   {
     path: '',
     title: 'Solicitudes',
@@ -714,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-
+  //Docente 
   {
     path: '',
     title: 'Home',
@@ -777,7 +717,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-
+  //Coordinador
   {
     path: '',
     title: 'Docentes',
@@ -799,6 +739,46 @@ export const ROUTES: RouteInfo[] = [
         badge: '',
         badgeClass: '',
         Role: 'Profesor',
+        submenu: [],
+      },
+
+    ],
+  },
+
+  //Coordinador
+  {
+    path: '',
+    title: 'Intranet',
+    iconType: 'feather',
+    icon: 'folder',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Tutor',
+    submenu: [
+      {
+        path: "/intranet-academic/list-task-subject",
+        title: "Tareas Asignaturas",
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Tutor',
+        submenu: [],
+      },
+      {
+        path: "/intranet-academic/list-task-activity",
+        title: "Tareas Actividades",
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Tutor',
         submenu: [],
       },
 

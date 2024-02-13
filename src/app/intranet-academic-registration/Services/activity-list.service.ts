@@ -1,30 +1,30 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Activity } from 'app/admission/models/activity';
+import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActivityService extends UnsubscribeOnDestroyAdapter {
+export class ActivityListService extends UnsubscribeOnDestroyAdapter {
 
   private readonly API_URL = 'assets/data/data-master.json';
   private readonly API_URL1 = 'assets/data/activityDetail.json';
   private readonly API_URL2 = 'assets/data/activities.json';
   isTblLoading = true;
-  dataChange: BehaviorSubject<Activity[]> = new BehaviorSubject<
-    Activity[]
+  dataChange: BehaviorSubject<GetOneActivity[]> = new BehaviorSubject<
+    GetOneActivity[]
   >([]);
 
 
   // Temporarily stores data from dialogs
-  dialogData!: Activity;
+  dialogData!: GetOneActivity;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): Activity[] {
+  get data(): GetOneActivity[] {
     return this.dataChange.value;
   }
 
@@ -32,9 +32,9 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllActivity(): void {
+  getAllActivity(status: number): void {
     this.subs.sink = this.httpClient
-      .get<Activity[]>(environment.apiUrlSchedule + 'Activity/GetAll')
+      .get<GetOneActivity[]>(environment.apiUrlSchedule + 'Activity/GetAll?StatusId=' + status)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -46,14 +46,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-
-  getAllActivity2() {
-    return this.httpClient
-      .get<Activity[]>(environment.apiUrlSchedule + 'Activity/GetAll');
-
-  }
-
-  addActivity(activity: Activity): void {
+  addActivity(activity: GetOneActivity): void {
     this.dialogData = activity;
 
     this.httpClient.post(environment.apiUrlSchedule + 'Activity/Create', activity)
@@ -67,7 +60,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  updateActivity(activity: Activity): void {
+  updateActivity(activity: GetOneActivity): void {
     this.dialogData = activity;
 
     this.httpClient.put(environment.apiUrlSchedule + 'Activity/Update', activity)
@@ -82,3 +75,4 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
       });
   }
 }
+
