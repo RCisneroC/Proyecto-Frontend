@@ -9,6 +9,13 @@ import { ApprovedSolicitudComponent } from './Forms/approved-solicitud/approved-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
+import { ListTaskActivityComponent } from './Task/Activity/list-task-activity/list-task-activity.component';
+import { ListTaskSubjectComponent } from './Task/Subject/list-task-subject/list-task-subject.component';
+import { FormsCreateTaskComponent } from './Task/Activity/Forms/forms-create-task/forms-create-task.component';
+import { DetailsInfoTaskComponent } from './Task/Subject/details-info-task/details-info-task.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { CreateTaskSubjectComponent } from './Task/Subject/Forms/create-task-subject/create-task-subject.component';
+import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-task-activity/details-info-task-activity.component';
 
 
 @NgModule({
@@ -17,14 +24,21 @@ import { SharedModule } from '@shared';
     CreateSolicitudComponent,
     DetalleSolicitudComponent,
     ApprovedSolicitudComponent,
+    ListTaskActivityComponent,
+    ListTaskSubjectComponent,
+    FormsCreateTaskComponent,
+    DetailsInfoTaskComponent,
+    CreateTaskSubjectComponent,
+    DetailsInfoTaskActivityComponent,
   ],
+  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
+    IntranetAcademicRegistrationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    IntranetAcademicRegistrationRoutingModule,
   ]
 })
 export class IntranetAcademicRegistrationModule { }

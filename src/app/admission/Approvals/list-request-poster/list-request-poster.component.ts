@@ -97,7 +97,6 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
       }
     });
 
-    console.log(row);
   }
 
   verDocumento(row: PosterRequest) {
@@ -140,7 +139,6 @@ export class ListRequestPosterComponent extends UnsubscribeOnDestroyAdapter
   }
 
   public loadData() {
-    console.log("Cargando...");
 
     this.exampleDatabase = new ActivityDetailService(this.httpClient);
     this.dataSource = new ExampleDataSource(

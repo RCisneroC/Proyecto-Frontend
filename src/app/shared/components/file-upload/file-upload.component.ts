@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
@@ -19,12 +20,22 @@ export class FileUploadComponent implements ControlValueAccessor {
   public file: File | null = null;
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
-    const file = event && event.item(0);
+    let file = event && event.item(0);
     this.onChange(file);
     this.file = file;
+    if (file != null) {
+      if (file.type != 'application/pdf' && file?.type != 'image/png' && file?.type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        return;
+      }
+    }
   }
 
-  constructor(private host: ElementRef<HTMLInputElement>) {}
+  constructor(private host: ElementRef<HTMLInputElement>) { }
 
   writeValue(value: null) {
     // clear file input

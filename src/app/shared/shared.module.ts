@@ -25,6 +25,7 @@ import { VerificarBS64Pipe } from "app/pipes/verificar-bs64.pipe";
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+
     MatProgressSpinnerModule,
     MatTableModule,
     StatusPipePipe,

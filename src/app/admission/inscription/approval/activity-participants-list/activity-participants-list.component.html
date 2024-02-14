@@ -8,8 +8,7 @@
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
       <div class="">
-        <button matTooltip="Regresar" mat-raised-button color="accent"
-          [routerLink]="['/admission/activity-participants-list']">
+        <button matTooltip="Regresar" mat-raised-button color="accent" (click)="regresar()">
           <mat-icon>keyboard_backspace</mat-icon> Regresar
         </button>
       </div>
@@ -50,6 +49,13 @@
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                          </div>
+                        </li>
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="Listar PDF">
+                            <button mat-mini-fab color="primary" (click)="viewPartakerListPDF()">
+                              <mat-icon>picture_as_pdf</mat-icon>
+                            </button>
                           </div>
                         </li>
                       </ul>

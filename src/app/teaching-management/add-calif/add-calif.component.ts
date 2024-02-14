@@ -23,7 +23,21 @@ export class AddCalifComponent {
   }
   public _CalificacionEstudiante: CalificacionEstudiante[] = [];
   public _CalificacionEstudianteUser: CalificacionEstudiante[] = [];
-  public _CalificacionEstudianteOne!: CalificacionEstudiante;
+  public _CalificacionEstudianteOne: CalificacionEstudiante = {
+    statusId: 0,
+    startDate: new Date(),
+    idEstudiante: '',
+    cedula: '',
+    name: '',
+    lastname: '',
+    id: 0,
+    idasignatura: '',
+    docente: '',
+    type: '',
+    calificacion: '',
+    nameTarea: '',
+    idTask: 0,
+  }
 
   action: string;
   dialogTitle: string = '';
@@ -38,13 +52,11 @@ export class AddCalifComponent {
   ) {
     // Set the defaults
     this.action = data.accion;
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
     if (this.action == 'add-calificacion') {
       this.dialogTitle = "Agregar calificación";
     } else if (this.action == 'view') {
       this.dialogTitle = "Ver calificación";
+      this.getCalificacion();
     }
 
     this.user = data.user;
@@ -60,6 +72,23 @@ export class AddCalifComponent {
     });
   }
 
+  getCalificacion() {
+    let type = localStorage.getItem('tipoSolicitud') || '1';
+    let local = localStorage.getItem('calificaciones') || '';
+
+    this._CalificacionEstudiante = JSON.parse(local);
+    console.log('====================================');
+    console.log(this.data.user.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
+    console.log('====================================');
+    let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
+    if (existe.length > 0) {
+      this._CalificacionEstudianteOne = existe[0];
+    }
+    console.log('====================================');
+    console.log(this._CalificacionEstudianteOne);
+    console.log('====================================');
+  }
+
 
   submit() {
     // emppty stuff
@@ -69,16 +98,13 @@ export class AddCalifComponent {
   }
   public confirmAdd(): void {
 
-    console.log('====================================');
-    console.log(this.FormsCalificacion.getRawValue());
-    console.log('====================================');
     let type = localStorage.getItem('tipoSolicitud') || '1';
     let local = localStorage.getItem('calificaciones') || '';
     console.log(local);
 
     if (local != '') {
       this._CalificacionEstudiante = JSON.parse(local);
-      let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura);
+      let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
       if (existe.length > 0) {
         this.ResponseMessage.CodError = 500;
         this.ResponseMessage.Message = 'Ya mantiene una calificación.';
@@ -96,7 +122,8 @@ export class AddCalifComponent {
           docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
           type: type,
           calificacion: this.FormsCalificacion.controls['calif'].value,
-          nameTarea: this.data.taskSubject.Titulo
+          nameTarea: this.data.taskSubject.Titulo,
+          idTask: this.data.taskSubject.id
         };
         this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
         localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante));
@@ -119,7 +146,8 @@ export class AddCalifComponent {
         docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
         type: type,
         calificacion: this.FormsCalificacion.controls['calif'].value,
-        nameTarea: this.data.taskSubject.Titulo
+        nameTarea: this.data.taskSubject.Titulo,
+        idTask: this.data.taskSubject.id
       };
       this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
       localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante))

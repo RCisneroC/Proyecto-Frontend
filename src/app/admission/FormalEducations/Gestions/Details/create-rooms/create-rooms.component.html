@@ -20,7 +20,10 @@
                         <h2 class="text-uppercase">Malla Curricular de <strong>{{ _Degree._DetalleMalla.name}}</strong>
                             <br> <span><strong>{{ _Degree._DetalleMalla.degree.name}}</strong></span>
                             <br>
-                            <strong>Periodo</strong> : {{ dataPeriod.name }}
+                            <strong>Periodo</strong> : {{ dataPeriod.name }} <br><span
+                                class="badge badge-solid-green">{{
+                                dataPeriod.startDate |date:'dd/M/yyy' }} - {{ dataPeriod.endDate |date:'dd/M/yyy'
+                                }}</span>
                         </h2>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { DetailsParticipante, GetDataResultResponse } from 'app/admission/models
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ApproveParticipantComponent } from '../approve-participant/approve-participant.component';
-import { ResponseEF, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseEF, ResponseMessageExtended, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ActivityActivityRequirement, ActivityRequirement, GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,8 +14,10 @@ import { Requirement } from 'app/admission/models/Requeriminet';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
-import { documentosIncripcion } from "../../../../../models/documentosIncripcion";
+import { GetDocResp, documentosIncripcion } from "../../../../../models/documentosIncripcion";
 import { AuthService } from "@core";
+import { el } from "@fullcalendar/core/internal-common";
+import { isArray } from 'chart.js/dist/helpers/helpers.core';
 
 @Component({
   selector: 'app-detalle-participante',
@@ -28,6 +30,7 @@ export class DetalleParticipanteComponent {
     // 'Id',
     'nombre',
     'actualizar',
+    'estado',
     'documentacion'
   ];
   oadingFile: boolean = false;
@@ -40,18 +43,21 @@ export class DetalleParticipanteComponent {
     statusName: '',
     fechaInscrito: new Date()
   }
-  dataSoruceActivityRequirements: ActivityRequirement[] = [
+  dataSoruceActivityRequirements: GetDocResp[] = [
     {
-      description: '',
-      id: 0,
+      documentId: 0,
+      docFile: '',
+      fileType: '',
+      validate: false,
       name: '',
-      statusId: 0
+      inscriptionId: 0
     }
   ];
+  public Array_GetDocResp: GetDocResp[] = [];
 
   loadingFile: boolean = false;
   public documentosIncripcion!: documentosIncripcion;
-  dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
+  dataDocuments = new MatTableDataSource<GetDocResp>(this.dataSoruceActivityRequirements);
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
     this.dataDocuments.paginator = value;
@@ -86,6 +92,7 @@ export class DetalleParticipanteComponent {
         this._ActivityService._DetailsParticipante = res;
         if (res.detailsResponse.length > 0) {
           this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+          this.getDocumentosInscripcion();
         }
         this._ActivityService.loading = false;
       },
@@ -94,6 +101,44 @@ export class DetalleParticipanteComponent {
     })
   }
 
+  CreateUserEC(StatusID: number) {
+    this._inscriptionService.CreateUserEC(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId, StatusID).subscribe({
+      next: (res) => {
+
+        if (res.isError) {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "No se pudo crear el usuario correctamente",
+            icon: "warning"
+          });
+        }
+      }
+    })
+  }
+
+  getDocumentosInscripcion() {
+    this.Array_GetDocResp = [];
+    this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponse.inscriptionId).subscribe({
+      next: (res) => {
+        if (Array.isArray(res.getDocResp)) {
+          res.getDocResp.forEach((element: GetDocResp) => {
+            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+              next: (res) => {
+                element.name = res.name;
+                this.Array_GetDocResp.push(element);
+
+              },
+              complete: () => {
+                this.dataDocuments = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
+              }
+            })
+          });
+        }
+      },
+      error: (err) => {
+      }
+    })
+  }
   aprobar() {
     this._GetDataResultResponse.cedula = this._ActivityService._DetailsResponse.cedula; //cedula
     this._GetDataResultResponse.inscriptionId = 0; //cedula
@@ -108,17 +153,19 @@ export class DetalleParticipanteComponent {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageExtended) => {
       if (result == undefined) {
         return;
       }
       if (result.CodError == 200) {
+
+        this.getDetails();
+        this.CreateUserEC(result.status);
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
-        this.getDetails();
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -135,11 +182,8 @@ export class DetalleParticipanteComponent {
     this._ActivityService.GetOneActivity(id_actividad).
       subscribe({
         next: (res: GetOneActivity) => {
-          // console.log(res);
-          this.getDocumentos(res.activityActivityRequirements);
 
         }, error: (err) => {
-          console.log(err);
           this._router.navigate(['/admission/schedule-list']);
         },
         complete: () => {
@@ -148,21 +192,22 @@ export class DetalleParticipanteComponent {
       })
   }
 
-  async getDocumentos(res: ActivityActivityRequirement[]) {
-    this.dataSoruceActivityRequirements = [];
-    res.forEach((element: ActivityActivityRequirement) => {
-      this.dataSoruceActivityRequirements.push(element.activityRequirement);
-    });
-    this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
-    this.dataDocuments.paginator = this.paginator;
-    console.log('====================================');
-    console.log(this.dataSoruceActivityRequirements);
-    console.log('====================================');
-  }
+  // async getDocumentos(res: ActivityActivityRequirement[]) {
+  //   this.dataSoruceActivityRequirements = [];
+  //   res.forEach((element: ActivityActivityRequirement) => {
+  //     this.dataSoruceActivityRequirements.push(element.activityRequirement);
+  //   });
+  //   this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
+  //   this.dataDocuments.paginator = this.paginator;
+  //   console.log('====================================');
+  //   console.log(this.dataSoruceActivityRequirements);
+  //   console.log('====================================');
+  // }
 
-  verDocumento(row: Requirement) {
+  verDocumento(row: GetDocResp) {
     this._inscriptionService.init_documentosIncripcion();
-    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString(), row.id.toString()).
+    // this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString()
+    this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
       subscribe({
         next: (res) => {
           this._inscriptionService._documentosIncripcion = res;
@@ -200,15 +245,14 @@ export class DetalleParticipanteComponent {
               icon: "warning"
             });
           }
-          console.log(res);
 
         }
       });
   }
 
-  validarDocumentos(row: Requirement) {
+  validarDocumentos(row: GetDocResp) {
 
-    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString(), row.id.toString()).
+    this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
       subscribe({
         next: (res) => {
           this._inscriptionService._documentosIncripcion = res;
@@ -219,7 +263,6 @@ export class DetalleParticipanteComponent {
               validate: true,
               lastModifiedBy: this.authService.currentUserValue.id
             }
-            console.log(this.documentosIncripcion.getDocResp[0]);
             if (this.documentosIncripcion.getDocResp[0].validate) {
               Swal.fire({
                 title: "Escuela Judicial",
@@ -230,13 +273,13 @@ export class DetalleParticipanteComponent {
             else {
               this._inscriptionService.ValidateDocument(request).subscribe({
                 next: (res) => {
-                  console.log("Validate Document", res);
                   if (res.isError === false) {
                     Swal.fire({
                       title: "Escuela Judicial",
                       text: 'Documento validado con exitosamente',
                       icon: "success"
                     });
+                    this.getDocumentosInscripcion();
                   }
                   else {
                     Swal.fire({
@@ -255,21 +298,30 @@ export class DetalleParticipanteComponent {
               icon: "warning"
             });
           }
-          console.log(res);
 
         }
       });
   }
 
   onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
-    console.log(name);
+
     this.loadingFile = true;
     const files: FileList = event.target.files;
-    console.log(requirement.name);
+    console.log(files);
     const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
     const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
 
     if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+        elementImg.value = '';
+        return;
+      }
       var formdata = new FormData();
       formdata.append('cedula', this._ActivityService._DetailsParticipante.detailsResponse[0].cedula);
       formdata.append('FileType', requerimentId.toString());

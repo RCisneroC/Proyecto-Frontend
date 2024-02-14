@@ -12,7 +12,7 @@ import {
 } from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
-import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import { ResponseEF, ResponsePDFEF } from 'app/admission/models/ResponseMessage';
 import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 import { Persona } from 'app/admission/models/persona';
 import { documentosIncripcion } from 'app/admission/models/documentosIncripcion';
@@ -24,8 +24,8 @@ import {
   ListAspirantDegreeResponse,
   ListInscriptionResponse
 } from 'app/admission/models/ParticipantesEF';
-import {Degree, Mesh} from "../../FormalEducations/Models/Degree";
-import {Period} from "../../FormalEducations/Models/AnnualPlan";
+import { Degree, Mesh } from "../../FormalEducations/Models/Degree";
+import { Period } from "../../FormalEducations/Models/AnnualPlan";
 @Injectable({
   providedIn: 'root'
 })
@@ -177,7 +177,17 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   EnrollmentAction(InscriptionId: string): Observable<any> {
     const url = `${environment.apiEC}`;
-    return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId="+InscriptionId, null);
+    return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId=" + InscriptionId, null);
+  }
+
+  CreateUserEC(InscriptionId: number, StatusID: number): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponseEF>(url + "EJMatricula/CreateUserEC?InscriptionId=" + InscriptionId + "&StatusId=" + StatusID, null);
+  }
+
+  BuildPDFPartaker(data: any): Observable<any> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<ResponsePDFEF>(url + "GeneratePDF/AddPdfDoc", data);
   }
 
   CargaDocumentoEFRequirement(data: any): Observable<any> {
@@ -238,6 +248,11 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   }
 
 
+  GtedocumentoEC(id: any) {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.get<documentosIncripcion>(url + "GeneratePDF/GetPdfValidate?Id=" + id)
+  }
+
   /***********************************************************************/
 
   getParticipantsEFomal(): void {
@@ -255,9 +270,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  getParticipantsEFomalDegreeId(id:number): void {
+  getParticipantsEFomalDegreeId(id: number): void {
     this.subs.sink = this.httpClient
-      .get<ListAspirantDegreeResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId='+ id)
+      .get<ListAspirantDegreeResponse>(environment.apiEC + 'EFInscription/GetAspirantDegree?DegreeId=' + id)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -376,7 +391,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
           documentId: 0,
           docFile: '',
           fileType: '',
-          validate: false
+          validate: false,
+          inscriptionId: 0,
+          name: ''
         }
       ],
       isError: false,

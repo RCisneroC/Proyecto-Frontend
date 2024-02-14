@@ -9,7 +9,7 @@
         <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
             <div class="">
                 <button matTooltip="Regresar" mat-raised-button color="accent"
-                    [routerLink]="['/admission/schedule-list']">
+                    [routerLink]="['/admission/activity-participants-list']">
                     <mat-icon>keyboard_backspace</mat-icon> Regresar
                 </button>
             </div>
@@ -115,9 +115,9 @@
                                                     <mat-header-cell class="pr-0"
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button *ngIf="row.statusId == 5" matTooltip="Inscribir Usuario"
-                                                            mat-raised-button color="primary"
-                                                            (click)="ViewDetail(row)"><mat-icon>send</mat-icon>participantes</button>
+                                                        <button *ngIf="row.statusId == 5" matTooltip="participantes"
+                                                            mat-mini-fab color="primary"
+                                                            (click)="ViewDetail(row)"><mat-icon>remove_red_eye</mat-icon></button>
                                                         <button *ngIf="row.statusId != 5" mat-raised-button
                                                             color="accent"><mat-icon>close</mat-icon>Incompleto</button>
 

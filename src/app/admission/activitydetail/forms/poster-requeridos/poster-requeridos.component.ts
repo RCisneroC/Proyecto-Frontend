@@ -15,31 +15,31 @@ export interface DialogData {
 export class PosterRequeridosComponent {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   PosterForm: UntypedFormGroup;
   id_actividad: string = '';
   ListadoDocumentos: any;
   constructor(
     public dialogRef: MatDialogRef<PosterRequeridosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _ActivityService:ActivityDetailService,
+    public _ActivityService: ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
     if (this.action === 'add-poster') {
-      this.dialogTitle ="Agregar Afiche";
+      this.dialogTitle = "Agregar Afiche";
       this.id_actividad = data.id_actividad;
     }
     this.PosterForm = this.fb.group({
-      Poster: ['',[Validators.required]],
-      PosterType:['',[Validators.required]],
-      Comment:['',[Validators.required]],
-      ActivityId:[data.id_actividad,[Validators.required]]
+      Poster: ['', [Validators.required]],
+      PosterType: ['', [Validators.required]],
+      Comment: ['', [Validators.required]],
+      ActivityId: [data.id_actividad, [Validators.required]]
     });
   }
 
@@ -51,7 +51,7 @@ export class PosterRequeridosComponent {
     _Form_Data.append('Poster', this.PosterForm.get('Poster')?.value);
     _Form_Data.append('PosterType', this.PosterForm.get('PosterType')?.value);
     this._ActivityService.SavePoster(_Form_Data).subscribe({
-      next: (res:ResponseGenerica) => {
+      next: (res: ResponseGenerica) => {
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Cargado correctamente.';
         this.dialogRef.close(this.ResponseMessage);

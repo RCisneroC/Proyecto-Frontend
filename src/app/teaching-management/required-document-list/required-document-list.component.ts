@@ -19,8 +19,8 @@ import Swal from 'sweetalert2';
   templateUrl: './required-document-list.component.html',
   styleUrls: ['./required-document-list.component.scss']
 })
-export class RequiredDocumentListComponent  extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+export class RequiredDocumentListComponent extends UnsubscribeOnDestroyAdapter
+  implements OnInit {
 
   displayedColumns = [
     'name',
@@ -29,7 +29,7 @@ implements OnInit{
     'statusId',
     'actions',
   ];
-  
+
   exampleDatabase?: TeacherService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<RequiredDocument>(true, []);
@@ -86,7 +86,8 @@ implements OnInit{
           text: "Guardado exitosamente",
           icon: "success"
         });
-      }else{
+        this.loadData();
+      } else {
         Swal.fire({
           title: "Escuela Judicial",
           text: "Intente de nuevo",
@@ -126,7 +127,8 @@ implements OnInit{
           text: "Guardado exitosamente",
           icon: "success"
         });
-      }else{
+        this.loadData();
+      } else {
         Swal.fire({
           title: "Escuela Judicial",
           text: "Intente de nuevo",
@@ -181,7 +183,7 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.name,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -257,7 +259,7 @@ export class ExampleDataSource extends DataSource<RequiredDocument> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
@@ -265,5 +267,5 @@ export class ExampleDataSource extends DataSource<RequiredDocument> {
         (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
       );
     });
-  } 
   }
+}

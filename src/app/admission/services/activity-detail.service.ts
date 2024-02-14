@@ -18,6 +18,10 @@ import {
   DetailsResponse, DetailsResponseEF,
   Participant
 } from '../models/participant';
+import { DTCertificate } from '../models/DTCertificate';
+import { PlanStudyActivity } from '../models/PlanStudyActivity';
+import { ActivityDetailModules, ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
+import { EventsActivity } from '../models/EventsActivity';
 @Injectable({
   providedIn: 'root'
 })
@@ -137,7 +141,6 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     inscriptionStartDate: new Date(),
     inscriptionEndDate: new Date(),
     isExecuted: false,
-    numOfAssignedTeachers: 0,
     hasDataSheet: false,
     dataSheetDeliveryDate: new Date(),
     digitalReportDeliveryDate: new Date(),
@@ -163,6 +166,19 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     participationProfile: 0,
     studentQuota: 0,
     certificatesReceived: 0,
+    hasCertificate: false,
+    endTime: new Date(),
+    startTime: new Date(),
+    generalGoals: '',
+    hasSurvey: false,
+    justification: '',
+    meetLink: '',
+    participantAdmissionProfile: '',
+    participantGraduateProfile: '',
+    specificGoals: '',
+    teachingMethodology: '',
+    virtualRoom: '',
+
     roomRequests: [
       this._RoomRequest
     ],
@@ -363,7 +379,71 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     specific: '',
     observation: ''
   };
-
+  public _PlanStudyActivity: PlanStudyActivity = {
+    statusId: 0,
+    id: 0,
+    activityId: 0,
+    name: '',
+    description: '',
+    courseOutline: {
+      fileContents: '',
+      contentType: '',
+      fileDownloadName: '',
+      lastModified: '',
+      entityTag: '',
+      enableRangeProcessing: false,
+    }
+  }
+  public _ActivityDetailModules: ActivityDetailModules = {
+    statusId: 0,
+    id: 0,
+    activityStudyPlanId: 0,
+    name: '',
+    description: '',
+    synchronousHours: 0,
+    asynchronousHours: 0,
+    inPersonHours: 0,
+    totalHours: 0,
+    percentageValue: 0,
+    learningGoals: '',
+    competencies: '',
+    subTopics: '',
+    methodologicalStrategy: '',
+    bibliographicCitation: '',
+    learningStrategies: '',
+    evaluation: '',
+    teachingResources: '',
+    createdDate: new Date(),
+    activityStudyPlanModuleLearningActivities: [
+      {
+        statusId: 0,
+        id: 0,
+        activityStudyPlanModuleId: 0,
+        name: '',
+        description: ''
+      }
+    ]
+  }
+  public _ActivityStudyPlanModuleLearningActivity: ActivityStudyPlanModuleLearningActivity = {
+    statusId: 0,
+    id: 0,
+    activityStudyPlanModuleId: 0,
+    name: '',
+    description: ''
+  }
+  public _EventsActivity: EventsActivity = {
+    statusId: 0,
+    id: 0,
+    activityId: 0,
+    name: '',
+    description: '',
+    date: new Date(), // O simplemente '', dependiendo de cómo quieras manejar las fechas
+    startTime: new Date(), // O simplemente ''
+    endTime: new Date(), // O simplemente ''
+    teacherCedula: '',
+    teacherFullName: '',
+    teacherStatusId: '',
+  }
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
   isTblLoading = true;
@@ -393,8 +473,19 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'PosterRequest/Create', data);
   }
 
+  SaveCertificate(data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Activity/UploadCertificateTemplate', data);
+  }
+
+
   GetAllTeacher() {
     return this.httpClient.get<DetalleDocente[]>(environment.ConsultaDocentes + 'Teacher/GetAll');
+  }
+
+  getDocentesActividad(idactivity: any) {
+    return this.httpClient.get<DetalleDocente[]>(
+      environment.apiUrlTeacher + 'GetActivityTeacher?activity=' + idactivity
+    );
   }
 
   AddTeachers(data: any) {
@@ -532,8 +623,13 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   }
 
   VerificarDisponibilidadActividad(id: any) {
-    return this.httpClient.get<boolean>(environment.apiUrlSchedule + '/Activity/CheckConditionsBy?ActivityId=' + id);
+    return this.httpClient.get<boolean>(environment.apiUrlSchedule + 'Activity/CheckConditionsBy?ActivityId=' + id);
   }
+
+  getOneDocumento(id: any) {
+    return this.httpClient.get<ActivityRequirement>(environment.apiUrlSchedule + 'ActivityRequirement/GetBy?Id=' + id);
+  }
+
 
   GetParticipanteCedula(cedula: any) {
     return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula=' + cedula);
@@ -581,6 +677,103 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<GetOneActivity[]>(environment.apiUrlSchedule + 'Activity/GetAll?StatusId=' + id);
   }
 
+
+  getTemplateActivity(id: any) {
+    return this.httpClient.get<DTCertificate>(environment.apiUrlSchedule + 'Activity/GetCertificateTemplateBy?ActivityId=' + id);
+  }
+
+
+  /////////Diseño curricular.
+
+  GetAllPlanStudyActivity(id: any) {
+    return this.httpClient.get<PlanStudyActivity[]>(environment.apiUrlSchedule + 'Activity/GetActivityStudyPlansBy?ActivityId=' + id);
+  }
+
+  GetOnePlanStudyActivity(id: any) {
+    return this.httpClient.get<PlanStudyActivity>(environment.apiUrlSchedule + 'ActivityStudyPlan/GetBy?Id=' + id);
+  }
+  GetModulesByPlanStudy(id: any) {
+    return this.httpClient.get<ActivityDetailModules[]>(environment.apiUrlSchedule + '/ActivityStudyPlan/GetActivityStudyPlanModulesBy?ActivityStudyPlanId=' + id);
+  }
+
+  GetModulesByIdModules(id: any) {
+    return this.httpClient.get<ActivityDetailModules>(environment.apiUrlSchedule + 'ActivityStudyPlanModule/GetBy?Id=' + id);
+  }
+
+  DeleteOneModule(id: any,) {
+    let data = {
+      id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'ActivityStudyPlan/DeleteModule', options);
+  }
+
+  UpdateStudyPlan(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/UpdateStudyPlan', data);
+  }
+  CreateStudyPlan(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/CreateStudyPlan', data);
+  }
+
+  UpdateModule(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'ActivityStudyPlan/UpdateModule', data);
+  }
+  CreateModule(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'ActivityStudyPlan/CreateModule', data);
+  }
+
+
+  UpdateLearningActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'ActivityStudyPlanModule/UpdateLearningActivity', data);
+  }
+  CreateLearningActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'ActivityStudyPlanModule/CreateLearningActivity', data);
+  }
+  DeleleCriterio(id: any,) {
+    let data = {
+      id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'ActivityStudyPlanModule/DeleteLearningActivity', options);
+  }
+
+
+  UpdateEventsActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/UpdateEvent', data);
+  }
+  CreateEventsActivity(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Activity/CreateEvent', data);
+  }
+
+  DeleteEvents(id: any,) {
+    let data = {
+      id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Activity/DeleteEvent', options);
+  }
+
+  GetEventsActivity(id: any) {
+    return this.httpClient.get<EventsActivity[]>(environment.apiUrlSchedule + 'Activity/GetEventsBy?ActivityId=' + id);
+  }
+
+
+
   initService() {
     this._GetOneActivity = {
       statusId: 0,
@@ -608,7 +801,6 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       inscriptionStartDate: new Date(),
       inscriptionEndDate: new Date(),
       isExecuted: false,
-      numOfAssignedTeachers: 0,
       hasDataSheet: false,
       dataSheetDeliveryDate: new Date(),
       digitalReportDeliveryDate: new Date(),
@@ -634,6 +826,18 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       male: 0,
       female: 0,
       certificatesReceived: 0,
+      hasCertificate: false,
+      endTime: new Date(),
+      startTime: new Date(),
+      generalGoals: '',
+      hasSurvey: false,
+      justification: '',
+      meetLink: '',
+      participantAdmissionProfile: '',
+      participantGraduateProfile: '',
+      specificGoals: '',
+      teachingMethodology: '',
+      virtualRoom: '',
       roomRequests: [
         this._RoomRequest
       ],
@@ -735,7 +939,6 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       activityReasonId: 0,
       curriculumDesignId: 0,
       assignedCoordinatorId: '',
-      numOfAssignedTeachers: 0,
       studentQuota: 0,
       planningDate: new Date(),
       startDate: new Date(),
@@ -762,6 +965,19 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       electronicEvaluation: false,
       participationProfile: 0,
       activityTarget: 0,
+      certificatesReceived: 0,
+      hasCertificate: false,
+      endTime: new Date(),
+      startTime: new Date(),
+      generalGoals: '',
+      hasSurvey: false,
+      justification: '',
+      meetLink: '',
+      participantAdmissionProfile: '',
+      participantGraduateProfile: '',
+      specificGoals: '',
+      teachingMethodology: '',
+      virtualRoom: '',
     }
   }
   init_RequestRooms() {
@@ -771,6 +987,81 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       startDate: new Date(),
       id: 0,
       statusId: 0,
+    }
+  }
+
+  init_PlanStudy() {
+    this._PlanStudyActivity = {
+      statusId: 1,
+      id: 0,
+      activityId: 0,
+      name: '',
+      description: '',
+      courseOutline: {
+        fileContents: '',
+        contentType: '',
+        fileDownloadName: '',
+        lastModified: '',
+        entityTag: '',
+        enableRangeProcessing: false,
+      }
+    }
+  }
+
+  init_modules_study() {
+    this._ActivityDetailModules = {
+      statusId: 0,
+      id: 0,
+      activityStudyPlanId: 0,
+      name: '.',
+      description: '.',
+      synchronousHours: 1,
+      asynchronousHours: 1,
+      inPersonHours: 1,
+      totalHours: 1,
+      percentageValue: 1,
+      learningGoals: '.',
+      competencies: '.',
+      subTopics: '.',
+      methodologicalStrategy: '.',
+      bibliographicCitation: '.',
+      learningStrategies: '.',
+      evaluation: '.',
+      teachingResources: '.',
+      createdDate: new Date(),
+      activityStudyPlanModuleLearningActivities: [
+        {
+          statusId: 1,
+          id: 0,
+          activityStudyPlanModuleId: 0,
+          name: '.',
+          description: '.'
+        }
+      ]
+    }
+  }
+  init_ActivityStudyPlanModuleLearningActivity() {
+    this._ActivityStudyPlanModuleLearningActivity = {
+      statusId: 0,
+      id: 0,
+      activityStudyPlanModuleId: 0,
+      name: '',
+      description: ''
+    }
+  }
+  init_EventActivity() {
+    this._EventsActivity = {
+      statusId: 0,
+      id: 0,
+      activityId: 0,
+      name: '',
+      description: '',
+      date: new Date(), // O simplemente '', dependiendo de cómo quieras manejar las fechas
+      startTime: new Date(), // O simplemente ''
+      endTime: new Date(), // O simplemente ''
+      teacherCedula: '',
+      teacherFullName: '',
+      teacherStatusId: '',
     }
   }
 }

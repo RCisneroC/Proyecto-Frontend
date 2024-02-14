@@ -7,7 +7,7 @@ import { ActivityDetailService } from 'app/admission/services/activity-detail.se
 export interface DialogData {
   id: string;
   scheduleActivity: ScheduleActivity;
-  accion:string;
+  accion: string;
 }
 
 @Component({
@@ -16,46 +16,43 @@ export interface DialogData {
   styleUrls: ['./approved-curriculum.component.scss']
 })
 export class ApprovedCurriculumComponent {
-public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
-}
-  
+    Message: ''
+  }
+
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   ApprovedForm: UntypedFormGroup;
   id_cronograma: number = 0;
   constructor(
     public dialogRef: MatDialogRef<ApprovedCurriculumComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _ActivityService:ActivityDetailService,
+    public _ActivityService: ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.accion;
-    console.log(data);
-    
+
     if (this.action === 'approved') {
-      this.dialogTitle ="Aprobar Cronograma";
+      this.dialogTitle = "Aprobar Cronograma";
       this.id_cronograma = data.scheduleActivity.id;
     }
     this.ApprovedForm = this.fb.group({
-      id: [data.scheduleActivity.id,[Validators.required]],
-      isApproved:['',[Validators.required]],
-      approvalMessage:['',[Validators.required]]
+      id: [data.scheduleActivity.id, [Validators.required]],
+      isApproved: ['', [Validators.required]],
+      approvalMessage: ['', [Validators.required]]
     });
   }
   submit() {
-    console.log(this.ApprovedForm.getRawValue());
     if (this.ApprovedForm.controls['isApproved'].value == "1") {
       this.ApprovedForm.controls['isApproved'].setValue(true);
-    } else if(this.ApprovedForm.controls['isApproved'].value == "2") {
+    } else if (this.ApprovedForm.controls['isApproved'].value == "2") {
       this.ApprovedForm.controls['isApproved'].setValue(false);
     }
-    
+
     this._ActivityService.ApproveCurilculum(this.ApprovedForm.getRawValue()).subscribe({
       next: (res) => {
-        console.log(res);
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Aprobado correctamente.';
         this.dialogRef.close(this.ResponseMessage);

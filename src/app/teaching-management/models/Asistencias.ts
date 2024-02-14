@@ -24,5 +24,6 @@ export interface CalificacionEstudiante {
     type: string;
     calificacion: string;
     nameTarea: string;
+    idTask: number;
 }
 

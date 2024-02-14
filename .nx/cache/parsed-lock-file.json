@@ -9433,6 +9433,15 @@
         "hash": "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
       }
     },
+    "npm:moment-timezone": {
+      "type": "npm",
+      "name": "npm:moment-timezone",
+      "data": {
+        "version": "0.5.45",
+        "packageName": "moment-timezone",
+        "hash": "sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ=="
+      }
+    },
     "npm:mrmime": {
       "type": "npm",
       "name": "npm:mrmime",
@@ -25613,6 +25622,13 @@
       {
         "source": "npm:mkdirp",
         "target": "npm:minimist",
+        "type": "static"
+      }
+    ],
+    "npm:moment-timezone": [
+      {
+        "source": "npm:moment-timezone",
+        "target": "npm:moment",
         "type": "static"
       }
     ],

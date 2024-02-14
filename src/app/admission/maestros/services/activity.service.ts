@@ -15,9 +15,9 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL2 = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<Activity[]> = new BehaviorSubject<
-  Activity[]
+    Activity[]
   >([]);
-  
+
 
   // Temporarily stores data from dialogs
   dialogData!: Activity;
@@ -34,7 +34,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllActivity(): void {
     this.subs.sink = this.httpClient
-      .get<Activity[]>(environment.apiUrlSchedule+'Activity/GetAll')
+      .get<Activity[]>(environment.apiUrlSchedule + 'Activity/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -46,17 +46,17 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  
-  getAllActivity2 () {
+
+  getAllActivity2() {
     return this.httpClient
-      .get<Activity[]>(environment.apiUrlSchedule+'Activity/GetAll');
-      
+      .get<Activity[]>(environment.apiUrlSchedule + 'Activity/GetAll');
+
   }
 
   addActivity(activity: Activity): void {
     this.dialogData = activity;
 
-    this.httpClient.post(environment.apiUrlSchedule+'Activity/Create', activity)
+    this.httpClient.post(environment.apiUrlSchedule + 'Activity/Create', activity)
       .subscribe({
         next: () => {
           this.dialogData = activity;
@@ -70,18 +70,15 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   updateActivity(activity: Activity): void {
     this.dialogData = activity;
 
-    this.httpClient.put(environment.apiUrlSchedule+'Activity/Update', activity)
-        .subscribe({
-          next: () => {
-            this.dialogData = activity;
-          },
-          error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
-          },
-        });
+    this.httpClient.put(environment.apiUrlSchedule + 'Activity/Update', activity)
+      .subscribe({
+        next: () => {
+          this.dialogData = activity;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
   }
-  
-
-
 }

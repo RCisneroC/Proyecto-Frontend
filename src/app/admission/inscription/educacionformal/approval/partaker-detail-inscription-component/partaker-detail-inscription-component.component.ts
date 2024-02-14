@@ -25,7 +25,7 @@ import { InscriptionResponse } from "../../../../models/ParticipantesEF";
 import { ApprovalIncriptionComponent } from "../approval-incription/approval-incription.component";
 import { AuthService } from "@core";
 import { co, el } from "@fullcalendar/core/internal-common";
-import { documentosIncripcion } from "../../../../models/documentosIncripcion";
+import { GetDocResp, documentosIncripcion } from "../../../../models/documentosIncripcion";
 
 @Component({
   selector: 'app-partaker-detail-inscription-component',
@@ -38,6 +38,7 @@ export class PartakerDetailInscriptionComponent {
     // 'Id',
     'nombre',
     'actualizar',
+    'estado',
     'documentacion'
   ];
 
@@ -93,10 +94,10 @@ export class PartakerDetailInscriptionComponent {
   dataAcadInfo = new MatTableDataSource<AcadInfoEF>(this.dataSourceAcadInfo);
   dataExperienceInfo = new MatTableDataSource<ExperienceInfoEF>(this.dataSourceExperienceInfo);
   dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
-  @ViewChild(MatPaginator)
-  set paginator(value: MatPaginator) {
-    this.dataDocuments.paginator = value;
-  }
+  // @ViewChild(MatPaginator)
+  // set paginator(value: MatPaginator) {
+  //   this.dataDocumentsRequired.paginator = value;
+  // }
 
   @ViewChild('ListaAcadInfo')
   set paginatorAcadInfo(value: MatPaginator) {
@@ -107,8 +108,23 @@ export class PartakerDetailInscriptionComponent {
   set paginatorExperienceInfo(value: MatPaginator) {
     this.dataExperienceInfo.paginator = value;
   }
+  dataSoruceActivityRequirementsDocuementos: GetDocResp[] = [
+    {
+      documentId: 0,
+      docFile: '',
+      fileType: '',
+      validate: false,
+      name: '',
+      inscriptionId: 0
+    }
+  ];
 
-
+  dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.dataSoruceActivityRequirementsDocuementos);
+  @ViewChild(MatPaginator)
+  set paginator(value: MatPaginator) {
+    this.dataDocumentsRequired.paginator = value;
+  }
+  public Array_GetDocResp: GetDocResp[] = [];
   constructor(
     private Path: ActivatedRoute,
     public _router: Router,
@@ -133,6 +149,30 @@ export class PartakerDetailInscriptionComponent {
 
   volverAtras() {
     this._router.navigate([localStorage.getItem('url_list_partaker')]);
+  }
+
+
+  getDocumentosInscripcion() {
+    this.Array_GetDocResp = [];
+    this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponseEF.inscriptionId).subscribe({
+      next: (res) => {
+        if (Array.isArray(res.getDocResp)) {
+          res.getDocResp.forEach((element: GetDocResp) => {
+            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+              next: (res) => {
+                element.name = res.name;
+                this.Array_GetDocResp.push(element);
+              },
+              complete: () => {
+                this.dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
+              }
+            })
+          });
+        }
+      },
+      error: (err) => {
+      }
+    })
   }
 
   getAcadInfo() {
@@ -204,6 +244,7 @@ export class PartakerDetailInscriptionComponent {
         console.log("Activity obj", res);
         if (res.getDetailsResponse.length > 0) {
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+          this.getDocumentosInscripcion();
         }
         this._ActivityService.loading = false;
       },
@@ -258,7 +299,7 @@ export class PartakerDetailInscriptionComponent {
       subscribe({
         next: (res: GetOneActivity) => {
           // console.log(res);
-          this.getDocumentos(res.activityActivityRequirements);
+          // this.getDocumentos(res.activityActivityRequirements);
 
         }, error: (err) => {
           console.log(err);
@@ -284,21 +325,21 @@ export class PartakerDetailInscriptionComponent {
 
   }
 
-  async getDocumentos(res: ActivityActivityRequirement[]) {
-    this.dataSoruceActivityRequirements = [];
-    res.forEach((element: ActivityActivityRequirement) => {
-      this.dataSoruceActivityRequirements.push(element.activityRequirement);
-    });
-    this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
-    this.dataDocuments.paginator = this.paginator;
-    console.log('====================================');
-    console.log(this.dataSoruceActivityRequirements);
-    console.log('====================================');
-  }
+  // async getDocumentos(res: ActivityActivityRequirement[]) {
+  //   this.dataSoruceActivityRequirements = [];
+  //   res.forEach((element: ActivityActivityRequirement) => {
+  //     this.dataSoruceActivityRequirements.push(element.activityRequirement);
+  //   });
+  //   this.dataDocuments = new MatTableDataSource<ActivityRequirement>(this.dataSoruceActivityRequirements);
+  //   this.dataDocuments.paginator = this.paginator;
+  //   console.log('====================================');
+  //   console.log(this.dataSoruceActivityRequirements);
+  //   console.log('====================================');
+  // }
 
-  verDocumento(row: Requirement) {
+  verDocumento(row: GetDocResp) {
     this._inscriptionService.init_documentosIncripcion();
-    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString(), row.id.toString()).
+    this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
       subscribe({
         next: (res) => {
           this._inscriptionService._documentosIncripcion = res;
@@ -342,9 +383,9 @@ export class PartakerDetailInscriptionComponent {
       });
   }
 
-  validarDocumentos(row: Requirement) {
+  validarDocumentos(row: GetDocResp) {
 
-    this._inscriptionService.getDocumentos(this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString(), row.id.toString()).
+    this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
       subscribe({
         next: (res) => {
           console.log(res.getDocResp);
@@ -372,6 +413,7 @@ export class PartakerDetailInscriptionComponent {
                       text: 'Documento validado con exitosamente',
                       icon: "success"
                     });
+                    this.getDocumentosInscripcion();
                   }
                   else {
                     Swal.fire({
@@ -394,7 +436,7 @@ export class PartakerDetailInscriptionComponent {
       });
   }
 
-  onChangeFile(event: any, requerimentId: number, requirement: Requirement) {
+  onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
     console.log(name);
     this.loadingFile = true;
     const files: FileList = event.target.files;
@@ -403,6 +445,16 @@ export class PartakerDetailInscriptionComponent {
     const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
 
     if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+        elementImg.value = '';
+        return;
+      }
       var formdata = new FormData();
       formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
       formdata.append('FileType', requerimentId.toString());

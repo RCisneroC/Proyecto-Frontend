@@ -18,7 +18,7 @@
                     <div class="body table-responsive">
                         <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Filtro</mat-label>
-                            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                            <input matInput (keyup)="applyFilter($event)" placeholder=".....">
                         </mat-form-field>
                         <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
                         <table *ngIf="!IsLoading" mat-table [dataSource]="ListadoLounge" class="w-100">
@@ -47,8 +47,9 @@
                     </div>
                 </div>
             </div>
-            <p class="alerta">Recomendación: Solo un salón por solicitud, si toma más de un salón, esto quiere decir que el salón tendrá el mismo
-            horario y los mismos requerimientos.</p>
+            <p class="alerta">Recomendación: Solo un salón por solicitud, si toma más de un salón, esto quiere decir que
+                el salón tendrá el mismo
+                horario y los mismos requerimientos.</p>
             <button mat-raised-button color="primary" [disabled]="!requiremetForm.valid"
                 (click)="submit()">Guardar</button>
         </form>

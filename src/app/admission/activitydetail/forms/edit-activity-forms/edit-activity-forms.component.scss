@@ -26,3 +26,8 @@ img {
     height: auto;
     width: auto;
 }
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 300px !important;
+    max-height: 300px !important;
+}

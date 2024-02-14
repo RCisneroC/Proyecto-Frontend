@@ -79,7 +79,7 @@ export class AnnualPlanComponent
   }
 
   addNew() {
-    console.log(this._AnnualPlanService.Init_AnnualPlan());
+    this._AnnualPlanService.Init_AnnualPlan();
     const dialogRef = this._dialog.open(EditAddFormsComponent, {
       data: {
         accion: 'add',

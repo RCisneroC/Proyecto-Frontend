@@ -22,8 +22,14 @@
                                 class="badge badge-solid-green">{{ _ActivityService._GetOneActivity.statusId|statusPipe
                                 }}</span> <br> Cronograma <strong>{{
                                 _ActivityService._GetOneActivity.curriculumDesignName }}</strong></h2>
+
+                        <button class="boton_menu" [matMenuTriggerFor]="menu" matTooltip="Acciones" mat-raised-button
+                            color="primary">
+                            Acciones
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
                     </div>
-                    <div class="body" *ngIf="_ActivityService.loading==false">
+                    <div class=" body" *ngIf="_ActivityService.loading==false">
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Nombre de Actividad</h6>
@@ -65,7 +71,8 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha de Inicio</h6>
-                                <label for="">{{ _ActivityService._GetOneActivity.startDate|date:'dd/M/yyyy' }}</label>
+                                <label for="">{{ _ActivityService._GetOneActivity.startDate|date:'dd/M/yyyy'
+                                    }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha Final programada</h6>
@@ -87,23 +94,27 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha de Inicio de Incripción</h6>
-                                <label for="">{{ _ActivityService._GetOneActivity.inscriptionStartDate|date:'dd/M/yyyy'
+                                <label for="">{{
+                                    _ActivityService._GetOneActivity.inscriptionStartDate|date:'dd/M/yyyy'
                                     }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha Final de Incripción</h6>
-                                <label for="">{{ _ActivityService._GetOneActivity.inscriptionEndDate|date:'dd/M/yyyy'
+                                <label for="">{{
+                                    _ActivityService._GetOneActivity.inscriptionEndDate|date:'dd/M/yyyy'
                                     }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha de entrega de Ficha Técnica</h6>
-                                <label for="">{{ _ActivityService._GetOneActivity.dataSheetDeliveryDate|date:'dd/M/yyyy'
+                                <label for="">{{
+                                    _ActivityService._GetOneActivity.dataSheetDeliveryDate|date:'dd/M/yyyy'
                                     }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha Entrada Físico / Digital</h6>
                                 <label for="">{{
-                                    _ActivityService._GetOneActivity.digitalReportDeliveryDate|date:'dd/M/yyyy' }} - {{
+                                    _ActivityService._GetOneActivity.digitalReportDeliveryDate|date:'dd/M/yyyy' }} -
+                                    {{
                                     _ActivityService._GetOneActivity.physicalReportDeliveryDate|date:'dd/M/yyyy'
                                     }}</label>
                             </div>
@@ -112,7 +123,7 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Duración</h6>
-                                <label for="">{{ _ActivityService._GetOneActivity.duration }}</label>
+                                <label for="">{{ _ActivityService._GetOneActivity.duration }} (Horas)</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Total de Horas</h6>
@@ -128,37 +139,129 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-                                <h6>Competencias</h6>
-                                <label for="">.....</label>
+
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h6>Hora Inicio de Actividad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.startTime |date:'shortTime' }}</label>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-                                <h6>Contenido</h6>
-                                <label for="">.....</label>
+
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h6>Hora Fin de Actividad</h6>
+                                <label for="">{{ _ActivityService._GetOneActivity.endTime |date:'shortTime' }}</label>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-                                <h6>Actividades de Aprendizajes</h6>
-                                <label for="">.....</label>
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h6>Recurso</h6>
+                                <div class="row g-0 p-1">
+                                    <div class="col-12" class="app-icons">
+                                        <mat-form-field>
+                                            <input matInput #inputUrl
+                                                [value]="_ActivityService._GetOneActivity.meetLink" />
+                                        </mat-form-field>
+                                        <button mat-button color="primary"
+                                            (click)="copy(_ActivityService._GetOneActivity.meetLink)">Copiar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="HasCertificate">
+                                <h6>Ver Certificado</h6>
+                                <button style="margin-bottom: 10px;" matTooltip="Gestionar Salones" mat-raised-button
+                                    color="primary" (click)="verCertificado(_ActivityService._GetOneActivity)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="example-button-row">
-                            <div class="col-12">
-                                <button matTooltip="Gestionar Salones" mat-raised-button color="primary"
-                                    (click)="gestionarSalon()">
-                                    <mat-icon>add</mat-icon> Gestión de Salones
-                                </button>
-                                <button *ngIf="_ActivityService._GetOneActivity.statusId != 3"
-                                    matTooltip="Editar Actividad" mat-raised-button color="accent"
-                                    (click)="editarActividad(_ActivityService._GetOneActivity)">
-                                    <mat-icon>edit</mat-icon> Editar Actividad.
-                                </button>
-                                <button *ngIf="_ActivityService._GetOneActivity.statusId != 3"
-                                    matTooltip="Crear Convocatoria" mat-raised-button color="primary"
-                                    (click)="generarConvocatoria(_ActivityService._GetOneActivity)">
-                                    <mat-icon>refresh</mat-icon> Generar Convocatoria.
-                                </button>
-                            </div>
+                        <div class="body">
+                            <mat-accordion>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header style="background: #38366b;text-transform: uppercase;">
+                                        <mat-panel-title style="color: white;">
+                                            Información Adicional de la Actividad
+                                        </mat-panel-title>
+                                        <mat-panel-description style="color: white;">
+                                            Cantidad Horas {{ _ActivityService._GetOneActivity.totalHours }}
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class=" row" style="margin-top: 10px;">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Competencias</strong></mat-label>
+                                            <div style="text-align: justify;"
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.competencies)">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Contenido</strong></mat-label>
+                                            <div style="text-align: justify;"
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.content)">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Actividades de aprendizaje</strong></mat-label>
+                                            <div
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.learningActivities)">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" *ngIf="_ActivityService._GetOneActivity.totalHours>80">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Justificación</strong></mat-label>
+                                            <div style="text-align: justify;"
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.justification)">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Objetivos General</strong></mat-label>
+                                            <div style="text-align: justify;"
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.generalGoals)">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Objetivos Especificos</strong></mat-label>
+                                            <div style="text-align: justify;"
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.specificGoals)">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row" *ngIf="_ActivityService._GetOneActivity.totalHours>80">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Perfil de ingreso del participante</strong></mat-label>
+                                            <div
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.participantAdmissionProfile)">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Perfil de salida del participante</strong></mat-label>
+                                            <div
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.participantGraduateProfile)">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Modalidad didáctica</strong></mat-label>
+                                            <div
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.teachingMethodology)">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </div>
+                        <div class="row">
+                            <p class="badge badge-solid-green" style="font-size: 15px;font-weight: 600;"
+                                *ngIf="_ActivityService._GetOneActivity.totalHours>80">
+                                Debe de realizar el diseño curricular
+                            </p>
+                            <p class="badge badge-solid-purple" style="font-size: 15px;font-weight: 600;"
+                                *ngIf="_ActivityService._GetOneActivity.totalHours<=80">
+                                No debe de realizar el Diseño Curricular, pero si debe de ingresar información necesaria
+                                para la Ficha Técnica.
+                            </p>
                         </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
@@ -208,7 +311,8 @@
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
                         <h2 class="text-uppercase"><strong>Afiches ( <span
-                                    class="badge badge-solid-red">REQUERIDO</span> ) </strong>
+                                    class="badge badge-solid-red">REQUERIDO</span> )
+                            </strong>
                             <button (click)="AddPoster()" matTooltip="Agregar Afiche"
                                 style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
                                 <mat-icon>add</mat-icon>
@@ -375,4 +479,34 @@
             </div>
         </div>
     </div>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item matTooltip="Gestionar Salones" color="primary" (click)="gestionarSalon()">
+            <mat-icon>add</mat-icon> Gestión de Salones
+        </button>
+        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.statusId != 3" matTooltip="Editar Actividad"
+            color="accent" (click)="editarActividad(_ActivityService._GetOneActivity)">
+            <mat-icon>edit</mat-icon> Editar Actividad.
+        </button>
+        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.statusId != 3" matTooltip="Crear Convocatoria"
+            color="primary" (click)="generarConvocatoria(_ActivityService._GetOneActivity)">
+            <mat-icon>refresh</mat-icon> Generar Convocatoria.
+        </button>
+
+        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.statusId != 3"
+            matTooltip="Cargar Diseño del Certificado" color="primary"
+            (click)="uploadCertificado(_ActivityService._GetOneActivity)">
+            <mat-icon>upload</mat-icon>Diseño del Certificado.
+        </button>
+
+        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.totalHours<=80" matTooltip="Planificar Evento"
+            color="primary" (click)="IrPlanificacion(_ActivityService._GetOneActivity)">
+            <mat-icon>add_alarm</mat-icon>Planificar Horas
+        </button>
+
+        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.totalHours>80"
+            matTooltip="Crear Diseño Curricular" color="primary"
+            (click)="GoDesignCurriculum(_ActivityService._GetOneActivity)">
+            <mat-icon>add_to_queue</mat-icon>Crear Diseño Curricular.
+        </button>
+    </mat-menu>
 </section>

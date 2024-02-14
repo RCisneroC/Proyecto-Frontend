@@ -33,25 +33,25 @@ export interface DialogData {
 export class ScheduleActivityDetailFormComponent {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   action: string;
   dialogTitle: string;
   scheduleForm!: UntypedFormGroup;
-  schedule!:ScheduleActivityDetail;
+  schedule!: ScheduleActivityDetail;
   activityList!: Activity[];
   ubicationsList!: UbicationsActivity[];
   modalityList!: Modality[];
   typeActivityList!: TypeActivity[];
-  userList!: User [];
-  reasonList!: Reason [];
-  sourceFundsList!: SourceFunds [];
-  
-  id!:number;
- 
+  userList!: User[];
+  reasonList!: Reason[];
+  sourceFundsList!: SourceFunds[];
+
+  id!: number;
+
   constructor(
     private _activityService: ActivityService,
-    private _activityLocationService:ActivityLocationService,
+    private _activityLocationService: ActivityLocationService,
     private _modalityService: ModalityService,
     private _typeActivityService: TypeActivityService,
     private _userService: UserService,
@@ -62,20 +62,20 @@ export class ScheduleActivityDetailFormComponent {
     public scheduleActivitiesService: ScheduleActivitiesService,
     private fb: UntypedFormBuilder
   ) {
-    
+
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      
-      this.dialogTitle ="Editar actividad";
-      
+
+      this.dialogTitle = "Editar actividad";
+
       this.schedule = data.scheduleActivity;
     } else {
-      
+
       this.dialogTitle = 'Añadir actividad';
-      this.id=data.id;
+      this.id = data.id;
       this.schedule = new ScheduleActivityDetail();
-   
+
     }
     this.scheduleForm = this.createContactForm();
     this.loadActivities();
@@ -96,12 +96,12 @@ export class ScheduleActivityDetailFormComponent {
     return this.formControl.hasError('required')
       ? 'Required field'
       : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+        ? 'Not a valid email'
+        : '';
   }
-  createContactForm(): UntypedFormGroup{
+  createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      curriculumDesignId: new FormControl(this.action=="edit"?this.schedule.curriculumDesignId:this.id, Validators.required),
+      curriculumDesignId: new FormControl(this.action == "edit" ? this.schedule.curriculumDesignId : this.id, Validators.required),
       id: new FormControl(this.schedule.id),
       planningDate: new FormControl(this.schedule.planningDate, Validators.required),
       activityModeId: new FormControl(this.schedule.activityModeId, Validators.required),
@@ -134,41 +134,41 @@ export class ScheduleActivityDetailFormComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-   console.log(this.scheduleForm);
-   
-      if(this.action==='edit'){
-        this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({
-          next:() => {
-              this.ResponseMessage.CodError = 200;
-              this.ResponseMessage.Message = 'Creado correctamente.';
-              this.dialogRef.close(this.ResponseMessage);
-          },
-          error:(err:any) => {
-              this.ResponseMessage.CodError = 500;
-              this.ResponseMessage.Message = 'Intente Nuevamente.';
-              this.dialogRef.close(this.ResponseMessage);
-          }
-        });
-      } else {
-        this.scheduleActivitiesService.addActivityDetail(this.scheduleForm.getRawValue()).subscribe({
-          next:() => {
-              this.ResponseMessage.CodError = 200;
-              this.ResponseMessage.Message = 'Creado correctamente.';
-              this.dialogRef.close(this.ResponseMessage);
-          },
-          error:(err:any) => {
-              this.ResponseMessage.CodError = 500;
-              this.ResponseMessage.Message = 'Intente Nuevamente.';
-              this.dialogRef.close(this.ResponseMessage);
-          }
-        });
-      }
-      
+    console.log(this.scheduleForm);
+
+    if (this.action === 'edit') {
+      this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({
+        next: () => {
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Creado correctamente.';
+          this.dialogRef.close(this.ResponseMessage);
+        },
+        error: (err: any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = 'Intente Nuevamente.';
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
+    } else {
+      this.scheduleActivitiesService.addActivityDetail(this.scheduleForm.getRawValue()).subscribe({
+        next: () => {
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Creado correctamente.';
+          this.dialogRef.close(this.ResponseMessage);
+        },
+        error: (err: any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = 'Intente Nuevamente.';
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
+    }
+
   }
-    loadLocationActividad() {
+  loadLocationActividad() {
     this._activityLocationService.getAllLocationActivity2().subscribe({
       next: (data) => {
-      this.ubicationsList=data;
+        this.ubicationsList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -179,71 +179,71 @@ export class ScheduleActivityDetailFormComponent {
   loadActivities() {
     this._activityService.getAllActivity2().subscribe({
       next: (data) => {
-      this.activityList=data;
+        this.activityList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
+
   loadModality() {
     this._modalityService.getAllModality2().subscribe({
       next: (data) => {
-      this.modalityList=data;
+        this.modalityList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
+
   loadTypeActivity() {
     this._typeActivityService.getAllTypeActivity2().subscribe({
       next: (data) => {
-      this.typeActivityList=data;
+        this.typeActivityList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
+
   loadUser() {
     this._userService.getAllUsers2().subscribe({
       next: (data) => {
-      this.userList=data;
+        this.userList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
+
   loadReason() {
     this._reasonService.getAllReason2().subscribe({
       next: (data) => {
-      this.reasonList=data;
+        this.reasonList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
-    
+
+
   loadSourceFunds() {
     this._sourceFundsService.getAllSourceFunds2().subscribe({
       next: (data) => {
-      this.sourceFundsList=data;
+        this.sourceFundsList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
   }
-  
-  
-  
+
+
+
 
 }

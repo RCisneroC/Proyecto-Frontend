@@ -19,6 +19,10 @@ import { SourceFunds } from 'app/admission/models/source -funds';
 import { TypeActivity } from 'app/admission/models/type-activity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { UserService } from 'app/security/user/service/user.service';
+import * as moment from 'moment-timezone';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
+// import { EditorConfig } from '@ckeditor/ckeditor5-angular';
 export interface DialogData {
   actividad: EditActivity;
   accion: string;
@@ -37,6 +41,7 @@ export class EditActivityFormsComponent implements OnInit {
   action: string = '';
   dialogTitle: string = '';
   editActivity!: UntypedFormGroup;
+  RoweditActivity!: EditActivity;
   id_actividad: string = '';
   activityList!: Activity[];
   ubicationsList!: UbicationsActivity[];
@@ -46,6 +51,14 @@ export class EditActivityFormsComponent implements OnInit {
   reasonList!: Reason[];
   sourceFundsList!: SourceFunds[];
   public pasar: any[] = [];
+  public cantidadHoras: number = 0;
+  public Editor: any = ClassicEditor;
+
+  public config = {
+    licenseKey: 'a004N2VuYWZNOHdLMUxGNFpDVzcrMitERUNEKzlKdWZZbmtOQ3RJZ0xKc3NwMlFMNG4yOWliTkE2bFI0LU1qQXlOREF6TVRJPQ==',
+    language: 'es',
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed'],
+  }
   @ViewChild('stepper') stepper: MatStepper | undefined;
   constructor(
     public dialogRef: MatDialogRef<EditActivityFormsComponent>,
@@ -74,6 +87,15 @@ export class EditActivityFormsComponent implements OnInit {
     } else {
       data.actividad.electronicEvaluation = "false";
     }
+
+    if (data.actividad.hasSurvey) {
+      data.actividad.hasSurvey = "true";
+    } else {
+      data.actividad.hasSurvey = "false";
+    }
+    console.log(this.id_actividad);
+
+    this.cantidadHoras = data.actividad.totalHours;
     this.editActivity = this.fb.group({
       statusId: [data.actividad.statusId, [Validators.required]],//
       name: [data.actividad.name, [Validators.required]],//
@@ -85,8 +107,7 @@ export class EditActivityFormsComponent implements OnInit {
       activityFundsSourceId: [data.actividad.activityFundsSourceId, [Validators.required]],//
       activityReasonId: [data.actividad.activityReasonId, [Validators.required]],//
       curriculumDesignId: [data.actividad.curriculumDesignId, [Validators.required]],//
-      assignedCoordinatorId: [data.actividad.assignedCoordinatorId, [Validators.required]],//
-      numOfAssignedTeachers: [data.actividad.numOfAssignedTeachers],
+      assignedCoordinatorId: [data.actividad.assignedCoordinatorId, [Validators.required]],// 
       studentQuota: [data.actividad.studentQuota, [Validators.required]],//
       planningDate: [data.actividad.planningDate, [Validators.required]],//
       startDate: [data.actividad.startDate, [Validators.required]],
@@ -100,19 +121,32 @@ export class EditActivityFormsComponent implements OnInit {
       physicalReportDeliveryDate: [data.actividad.physicalReportDeliveryDate, [Validators.required]],
       isExecuted: [data.actividad.isExecuted],
       hasDataSheet: [data.actividad.hasDataSheet],
+      hasCertificate: [data.actividad.hasCertificate],
+      hasSurvey: [data.actividad.hasSurvey],
       isEvaluation: [data.actividad.isEvaluation],
-      observations: [data.actividad.observations],//
-      duration: [data.actividad.duration, [Validators.required]],//
-      totalHours: [data.actividad.totalHours, [Validators.required]],//
-      onSiteHours: [data.actividad.onSiteHours, [Validators.required]],//
-      synchronousHours: [data.actividad.synchronousHours, [Validators.required]],//
-      asynchronousHours: [data.actividad.asynchronousHours, [Validators.required]],//
+      observations: [data.actividad.observations],
+      duration: [data.actividad.duration, [Validators.required]],
+      totalHours: [data.actividad.totalHours, [Validators.required]],
+      onSiteHours: [data.actividad.onSiteHours, [Validators.required]],
+      synchronousHours: [data.actividad.synchronousHours, [Validators.required]],
+      asynchronousHours: [data.actividad.asynchronousHours, [Validators.required]],
+      startTime: [data.actividad.startTime],
+      endTime: [data.actividad.endTime],
       competencies: [data.actividad.competencies],
       content: [data.actividad.content],
       learningActivities: [data.actividad.learningActivities],
       electronicEvaluation: [data.actividad.electronicEvaluation],//
       participationProfile: [data.actividad.participationProfile?.toString(), [Validators.required]],//
-      activityTarget: [data.actividad.activityTarget?.toString(), [Validators.required]],//
+      activityTarget: [data.actividad.activityTarget?.toString()],//
+      virtualRoom: [data.actividad.virtualRoom],//
+      meetLink: [data.actividad.meetLink],//
+      justification: [data.actividad.justification],//
+      generalGoals: [data.actividad.generalGoals],//
+      specificGoals: [data.actividad.specificGoals],//
+      participantAdmissionProfile: [data.actividad.participantAdmissionProfile],//
+      participantGraduateProfile: [data.actividad.participantGraduateProfile],//
+      teachingMethodology: [data.actividad.teachingMethodology],//
+
     });
     this.action = this.data.accion;
     if (this.action === 'add-document') {
@@ -130,7 +164,67 @@ export class EditActivityFormsComponent implements OnInit {
     } else {
       this.editActivity.controls['electronicEvaluation'].setValue(false);
     }
-    this._ActivityDetailService.UpdateActivity(this.editActivity.getRawValue()).subscribe({
+
+    if (this.editActivity.controls['hasSurvey'].value == "true") {
+      this.editActivity.controls['hasSurvey'].setValue(true);
+    } else {
+      this.editActivity.controls['hasSurvey'].setValue(false);
+    }
+    let TimeStart = moment.tz(this.editActivity.controls['startTime'].value, "America/Panama");
+    let TimeEnd = moment.tz(this.editActivity.controls['endTime'].value, "America/Panama");
+    this.RoweditActivity = {
+      id: this.editActivity.controls['id'].value,
+      statusId: this.editActivity.controls['statusId'].value,
+      name: this.editActivity.controls['name'].value,
+      description: this.editActivity.controls['description'].value,
+      curriculumDesignId: this.editActivity.controls['curriculumDesignId'].value,
+      activityModeId: this.editActivity.controls['activityModeId'].value,
+      activityTypeId: this.editActivity.controls['activityTypeId'].value,
+      activityLocationId: this.editActivity.controls['activityLocationId'].value,
+      activityFundsSourceId: this.editActivity.controls['activityFundsSourceId'].value,
+      activityReasonId: this.editActivity.controls['activityReasonId'].value,
+      assignedCoordinatorId: this.editActivity.controls['assignedCoordinatorId'].value,
+      studentQuota: this.editActivity.controls['studentQuota'].value,
+      planningDate: this.editActivity.controls['planningDate'].value,
+      startDate: this.editActivity.controls['startDate'].value,
+      plannedEndDate: this.editActivity.controls['plannedEndDate'].value,
+      effectiveEndDate: this.editActivity.controls['effectiveEndDate'].value,
+      startTime: this.adjustDateTimeToLocal(TimeStart.toLocaleString()),
+      endTime: this.adjustDateTimeToLocal(TimeEnd.toLocaleString()),
+      inscriptionStartDate: this.editActivity.controls['inscriptionStartDate'].value,
+      inscriptionEndDate: this.editActivity.controls['inscriptionEndDate'].value,
+      studentWithdrawalEndDate: this.editActivity.controls['studentWithdrawalEndDate'].value,
+      dataSheetDeliveryDate: this.editActivity.controls['dataSheetDeliveryDate'].value,
+      digitalReportDeliveryDate: this.editActivity.controls['digitalReportDeliveryDate'].value,
+      physicalReportDeliveryDate: this.editActivity.controls['physicalReportDeliveryDate'].value,
+      isExecuted: this.editActivity.controls['isExecuted'].value,
+      hasDataSheet: this.editActivity.controls['hasDataSheet'].value,
+      hasCertificate: this.editActivity.controls['hasCertificate'].value,
+      hasSurvey: this.editActivity.controls['hasSurvey'].value,
+      isEvaluation: this.editActivity.controls['isEvaluation'].value,
+      observations: this.editActivity.controls['observations'].value,
+      duration: this.editActivity.controls['duration'].value,
+      totalHours: this.editActivity.controls['totalHours'].value,
+      onSiteHours: this.editActivity.controls['onSiteHours'].value,
+      synchronousHours: this.editActivity.controls['synchronousHours'].value,
+      asynchronousHours: this.editActivity.controls['asynchronousHours'].value,
+      competencies: this.editActivity.controls['competencies'].value,
+      content: this.editActivity.controls['content'].value,
+      learningActivities: this.editActivity.controls['learningActivities'].value,
+      electronicEvaluation: this.editActivity.controls['electronicEvaluation'].value,
+      participationProfile: this.editActivity.controls['participationProfile'].value,
+      activityTarget: this.editActivity.controls['activityTarget'].value,
+      virtualRoom: this.editActivity.controls['virtualRoom'].value,
+      meetLink: this.editActivity.controls['meetLink'].value,
+      justification: this.editActivity.controls['justification'].value,
+      generalGoals: this.editActivity.controls['generalGoals'].value,
+      specificGoals: this.editActivity.controls['specificGoals'].value,
+      participantAdmissionProfile: this.editActivity.controls['participantAdmissionProfile'].value,
+      participantGraduateProfile: this.editActivity.controls['participantGraduateProfile'].value,
+      teachingMethodology: this.editActivity.controls['teachingMethodology'].value,
+      certificatesReceived: 0,
+    };
+    this._ActivityDetailService.UpdateActivity(this.RoweditActivity).subscribe({
       next: () => {
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Cargado correctamente.';
@@ -144,6 +238,20 @@ export class EditActivityFormsComponent implements OnInit {
     })
 
   }
+
+  adjustDateTimeToLocal(date: string) {
+    let fecha = new Date(date);
+
+    // Formatear la fecha en el formato deseado (YYYY-MM-DDTHH:mm:ss)
+    let fechaFormateada = fecha.getFullYear() + '-' +
+      ('0' + (fecha.getMonth() + 1)).slice(-2) + '-' + // los meses en JavaScript van de 0 a 11
+      ('0' + fecha.getDate()).slice(-2) + 'T' +
+      ('0' + fecha.getHours()).slice(-2) + ':' +
+      ('0' + fecha.getMinutes()).slice(-2) + ':' +
+      ('0' + fecha.getSeconds()).slice(-2);
+    return fechaFormateada;
+  }
+
 
   loadLocationActividad() {
     this._activityLocationService.getAllLocationActivity2().subscribe({
