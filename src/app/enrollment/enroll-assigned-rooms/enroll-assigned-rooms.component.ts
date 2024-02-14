@@ -20,6 +20,7 @@ import {Room} from "../models/Room";
 import {Subject} from "../models/Subject";
 import {EnrollDummy} from "../models/EnrollDummy";
 import {Career} from "../models/Career";
+import {AuthService} from "@core";
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -44,12 +45,16 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   SubjectItem!: Subject;
   CareerIten!:Career;
   enrollDummyList: EnrollDummy[] = [];
+  classshiftSelect: string = '1';
+  studentId:string = "";
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _RoomService: EnrollmentService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private _router: Router
   ) {
     super();
@@ -61,6 +66,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    localStorage.setItem("classhiftvalue", this.classshiftSelect);
     this.loadData();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
@@ -72,9 +78,48 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
+  changeclasshift(){
+    console.log("Classhift",this.classshiftSelect);
+    localStorage.setItem("classhiftvalue", this.classshiftSelect);
+    this.loadData();
+  }
+
+
   volverAtras(){
     const uri = localStorage.getItem('enroll-subject-url');
     this._router.navigate([uri]);
+  }
+
+  matricular(row: Room){
+
+    const itemSubject = localStorage.getItem('enroll-subject');
+    const itemCareer = localStorage.getItem('enroll-career');
+    if (itemSubject != null){
+      this.SubjectItem = JSON.parse(itemSubject);
+    }
+    if(itemCareer != null){
+      this.CareerIten = JSON.parse(itemCareer);
+    }
+const stdid = localStorage.getItem('enroll-studentID');
+    if(stdid){
+      this.studentId = stdid;
+    }
+    else {
+      const reqiestObj = {
+        cedula:this.authService.currentUserValue.cedula,
+        degreeId: this.CareerIten.degreeCurriculumDesignId,
+        createdBy: this.authService.currentUserValue.id
+      }
+      this._RoomService.CreateEnrollment(reqiestObj).subscribe({
+        next:(res)=>{
+          console.log(res);
+          this.studentId =  res.enrollmentResult[0].studentId.toString();
+          localStorage.setItem('enroll-studentID', this.studentId);
+
+        }
+      })
+
+    }
   }
 
   seleccionar(row: Room) {
@@ -93,12 +138,12 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     }
     console.log("ver objeto", this.CareerIten);
     this.enrollDummyList.push({
-      DegreeName: this.CareerIten.name,
+      DegreeName: this.CareerIten.mCurriculumName,
       RoomName: row.name,
       SubjectId: this.SubjectItem.id,
       SubjectName: this.SubjectItem.name,
       createDate: new Date(),
-      ClassShift : "1"
+      ClassShift : this.classshiftSelect
     })
     const enrollDummyListItem = JSON.stringify(this.enrollDummyList);
     localStorage.setItem('enroll-dummy', enrollDummyListItem);
@@ -197,6 +242,7 @@ export class ExampleDataSource extends DataSource<Room> {
   filterChange = new BehaviorSubject('');
   id!: number;
   SubjectItem!: Subject;
+  classhift!: number;
   get filter(): string {
     return this.filterChange.value;
   }
@@ -232,7 +278,13 @@ export class ExampleDataSource extends DataSource<Room> {
     if (item != null){
       this.SubjectItem = JSON.parse(item);
     }
-    this.exampleDatabase.GetAssignedRoomsBy(1,this.SubjectItem.periodId,1,this.SubjectItem.id);
+    const clashift = localStorage.getItem("classhiftvalue");
+    if(clashift){
+      this.classhift = +clashift
+    }
+
+    console.log("Subjectobj",this.SubjectItem);
+    this.exampleDatabase.GetAssignedRoomsBy(this.classhift,this.SubjectItem.periodId,1,this.SubjectItem.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

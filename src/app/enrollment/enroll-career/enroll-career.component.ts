@@ -1,8 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {InscriptionService} from "../../admission/inscription/services/inscription.service";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Degree, Mesh} from "../../admission/FormalEducations/Models/Degree";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
@@ -16,6 +14,9 @@ import {
 import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {EnrollmentService} from "../services/enrollment.service";
+import {Career} from "../models/Career";
+import {AuthService} from "@core";
 @Component({
   selector: 'app-enroll-career',
   templateUrl: './enroll-career.component.html',
@@ -33,19 +34,20 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
     'actions',
   ];
 
-  exampleDatabase?: InscriptionService;
+  exampleDatabase?: EnrollmentService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<Mesh>(true, []);
+  selection = new SelectionModel<Career>(true, []);
   id?: number;
-  requirement?: Mesh = this._MeshService._Mesh;
+  requirement?: Career = this._EnrollmentService._Career;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _MeshService: InscriptionService,
+    public _EnrollmentService: EnrollmentService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -65,16 +67,15 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  seleccionar(row: Mesh) {
+  seleccionar(row: Career) {
 
     const CareerItem = JSON.stringify(row);
     localStorage.setItem('enroll-career', CareerItem);
-    //localStorage.setItem('url_mesh', '/admission/list-inscriptions-mesh/' +this.id);
-    this._router.navigate(['/enrollment/enroll-subject/'+ row.id]);
+    this._router.navigate(['/enrollment/enroll-subject/'+ row.degreeCurriculumDesignId]);
 
   }
 
-  aprobar(row: Degree) {
+  aprobar(row: Career) {
     const dialogRef = this.dialog.open(ApprovedDegreeComponent, {
       data: {
         malla: row,
@@ -111,12 +112,13 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
   }
 
   public loadData() {
-    this.exampleDatabase = new InscriptionService(this.httpClient);
+    this.exampleDatabase = new EnrollmentService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
       this.activatedRoute,
-      this.sort
+      this.sort,
+      this.authService
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -146,8 +148,8 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre Salón': x.name,
-        'Descripción': x.description,
+        'Nombre Salón': x.mCurriculumName,
+        'Descripción': x.descriptionName,
 
       }));
 
@@ -155,7 +157,7 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
   }
 }
 
-export class ExampleDataSource extends DataSource<Mesh> {
+export class ExampleDataSource extends DataSource<Career> {
   filterChange = new BehaviorSubject('');
   id!: number;
   get filter(): string {
@@ -164,38 +166,38 @@ export class ExampleDataSource extends DataSource<Mesh> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Mesh[] = [];
-  renderedData: Mesh[] = [];
+  filteredData: Career[] = [];
+  renderedData: Career[] = [];
   constructor(
-    public exampleDatabase: InscriptionService,
+    public exampleDatabase: EnrollmentService,
     public paginator: MatPaginator,
     public activatedRoute: ActivatedRoute,
-    public _sort: MatSort
+    public _sort: MatSort,
+    private authService: AuthService,
+
   ) {
     super();
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Mesh[]> {
+  connect(): Observable<Career[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChangeMesh,
+      this.exampleDatabase.dataChangeCareer,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-    });
-    this.exampleDatabase.getMeshCurriculumdesingByPlan(10);
+
+    this.exampleDatabase.GetSubjectDegree(this.authService.currentUserValue.cedula);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.exampleDatabase.dataMesh
+        this.filteredData = this.exampleDatabase.dataCareer
           .slice()
-          .filter((_Mesh:Mesh) => {
-            const searchStr = (_Mesh.name).toLowerCase();
+          .filter((_Career:Career) => {
+            const searchStr = (_Career.mCurriculumName).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -214,7 +216,7 @@ export class ExampleDataSource extends DataSource<Mesh> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: Mesh[]): Mesh[] {
+  sortData(data: Career[]): Career[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -222,11 +224,11 @@ export class ExampleDataSource extends DataSource<Mesh> {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
       switch (this._sort.active) {
-        case 'id':
-          [propertyA, propertyB] = [a.id, b.id];
+        case 'degreeId':
+          [propertyA, propertyB] = [a.degreeId, b.degreeId];
           break;
-        case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+        case 'mCurriculumName':
+          [propertyA, propertyB] = [a.mCurriculumName, b.mCurriculumName];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
