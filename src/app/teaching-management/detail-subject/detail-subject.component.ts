@@ -10,6 +10,10 @@ import Swal from 'sweetalert2';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
 import { UntypedFormBuilder } from '@angular/forms';
+import { DataTaskSubject } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
+import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
+import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
+import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
 
 @Component({
   selector: 'app-detail-subject',
@@ -20,8 +24,8 @@ import { UntypedFormBuilder } from '@angular/forms';
 
 export class DetailSubjectComponent implements OnInit {
   //this.cedula=this.activatedRoute.snapshot.params["cedula"];
-  dataSou!: MatTableDataSource<TaskSubject>;
-
+  //dataSou!: MatTableDataSource<TaskSubject>;
+  public _Subject!: Subject;
   taskSubject: TaskSubject = {
     id: 0,
     Titulo: '',
@@ -34,7 +38,7 @@ export class DetailSubjectComponent implements OnInit {
   };
 
 
-  displayedColumns: string[] = [
+  displayedColumnssssss: string[] = [
     'id',
     'Titulo',
     'observacion',
@@ -44,13 +48,58 @@ export class DetailSubjectComponent implements OnInit {
     'actions'
 
   ]
+  
+  displayedColumns:string[] = [
+    'name',
+    'tipo',
+    'subject',
+    'observacion',
+    'observation',
+    'finalDate',
+    'accion',
+  ]
+  
+  dataSourceEvent: DataTaskSubject[] = [
+    {
+      id: 0,
+      createdDate: new Date(),
+      createdBy: '',
+      lastModifiedDate: '',
+      lastModifiedBy: '',
+      totalRecords: 0,
+      taskFiles: [
+        {
+          name: '',
+          fileType: '',
+          content: '',
+          subjectTaskId: 0,
+          activityTaskId: 0,
+        }
+      ],
+      taskType: {
+        name: '',
+        id: 0,
+      },
+      subject: {
+        id: 0,
+        name: '',
+      },
+      title: '',
+      description: '',
+      finalDate: new Date(),
+      taskTypeId: 0,
+      subjectId: 0,
+      observation: '',
+    }
+  ]
+  dataTask = new MatTableDataSource<any>(this.dataSourceEvent);
   public id: string = '';
   TaskSubjectArray: TaskSubject[] = [];
   TaskSubject!: TaskSubject;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
-      this.dataSou.paginator = value;
+      this.dataTask.paginator = value;
     }, 1000);
   }
   constructor(private _nav: Router,
@@ -58,6 +107,8 @@ export class DetailSubjectComponent implements OnInit {
     public activeRouter: ActivatedRoute,
     public _teacherService: TeacherService,
     private fb: UntypedFormBuilder,
+    public _SubjectService: SubjectListService,
+    public _ActivityListService: ActivityListService,
   ) {
     this.activeRouter.params.subscribe((params) => {
 
@@ -71,46 +122,54 @@ export class DetailSubjectComponent implements OnInit {
   }
 
   load() {
-    let local = localStorage.getItem('task') || '';
-    if (local != '') {
-      this.TaskSubjectArray = JSON.parse(local);
-      console.log(localStorage.getItem('tipoSolicitud') || '1');
-      let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
-      this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
-      this.getTaskBySubject();
-      this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
-    } else {
-      this.dataSou = new MatTableDataSource<TaskSubject>([]);
+     let local = localStorage.getItem('tipoSolicitud') || '';
+     if (local != '') {
+     if(local=="1"){
+      this.getAllTaskSubject();
+     }else{
+     this.getAllTaskActivity();
+     }
+    //   this.TaskSubjectArray = JSON.parse(local);
+  
+       //let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
+    //   this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
+    //   this.getTaskBySubject();
+    //   this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
+    // } else {
+    //   this.dataSou = new MatTableDataSource<TaskSubject>([]);
+     }
+    
+    
+  }
+  getAllTaskSubject() {
+    const data = {
+      subjectId: this.id
     }
+    this._SubjectService.GetTaskSubject(data).subscribe({
+      next: (res) => {
+        this.dataTask = new MatTableDataSource<DataTaskSubject>(res.data);
+        this.dataTask.paginator = this.paginator;
+
+      }
+    })
   }
   
-  
-  async getTaskBySubject() {
+  getAllTaskActivity() {
+    const data = {
+      activityId: this.id
+    }
+    this._ActivityListService.GetTaskSubject(data).subscribe({
+      next: (res) => {
+        console.log('====================================');
+        console.log(res);
+        console.log('====================================');
+        this.dataTask = new MatTableDataSource<any>(res.data);
+        //this.dataTask.paginator = this.paginator_;
 
-    const filter = this.fb.group({
-      finalDate:'',
-      taskTypeId:0,
-      subjectId:this.id,
-      observation:"",
-      id:1,
-      title:"",
-      description:"",
-      pageNumber:0,
-      pageSize:0,
-    });
-    this._teacherService.searchSubjectTask(filter).subscribe({
-       next: (res) => {
-      const data=res;
-     console.log(data);
-     console.log("data1");
-       // this.TaskSubjectArray = res;
-        //  this.fechaA=res.applicationDate;
-        //  this.teacherForm = this.createTeacherForm();
-        //  //this.documentForm = this.createDocumentForm();
-        //  this._teacherService.isTblLoading = false;
-       }
-     })
-   }
+      }
+    })
+  }
+ 
   addNew() {
 
   }
@@ -123,7 +182,7 @@ export class DetailSubjectComponent implements OnInit {
 
   Detail(row: TaskSubject): void {
     localStorage.setItem('details_task', JSON.stringify(row));
-    this._nav.navigate(['/teaching-management/detail-task/', row.id]);
+    this._nav.navigate(['/teaching-management/detail-task/', this.id]);
   }
 
   editCall(row: TaskSubject) {
