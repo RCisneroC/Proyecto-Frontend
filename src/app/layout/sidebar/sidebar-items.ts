@@ -9,7 +9,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [],
   },
 
@@ -23,7 +23,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: '/admission/schedule-activities-list',
@@ -34,7 +34,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -46,7 +46,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
     ]
@@ -62,7 +62,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: 'admission/schedule-list',
@@ -73,7 +73,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -85,7 +85,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
@@ -101,7 +101,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: 'admission/form-ef',
@@ -112,7 +112,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -124,7 +124,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
@@ -202,7 +202,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: "/admission/source-funds-list",
@@ -213,7 +213,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       }, {
         path: "/admission/activity-ubication-list",
@@ -224,7 +224,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
 
@@ -237,7 +237,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -249,7 +249,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -261,7 +261,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -273,7 +273,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -285,7 +285,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -297,7 +297,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -309,7 +309,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -321,7 +321,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -333,7 +333,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
 
@@ -350,7 +350,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: "/admission/carreras",
@@ -361,7 +361,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -373,7 +373,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -385,7 +385,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -397,7 +397,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -409,7 +409,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
       {
@@ -421,7 +421,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: []
       },
     ],
@@ -486,7 +486,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: "/teaching-management/teacher-list",
@@ -497,7 +497,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
       // {
@@ -509,7 +509,7 @@ export const ROUTES: RouteInfo[] = [
       //   groupTitle: false,
       //   badge: "",
       //   badgeClass: "",
-      //   Role: 'Administrator',
+      //   Role: 'Administrador',
       //   submenu: [],
       // }
     ]
@@ -525,7 +525,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: '/security/user-list',
@@ -536,7 +536,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -548,7 +548,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
@@ -563,7 +563,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Administrator',
+    Role: 'Administrador',
     submenu: [
       {
         path: '/intranet-academic/list-requests-various',
@@ -574,7 +574,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Administrator',
+        Role: 'Administrador',
         submenu: [],
       },
     ],
@@ -654,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //Docente 
+  //Docente
   {
     path: '',
     title: 'Home',
