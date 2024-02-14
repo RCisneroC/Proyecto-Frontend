@@ -755,7 +755,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Tutor',
+    Role: 'Administrador',
     submenu: [
       {
         path: "/intranet-academic/list-task-subject",
@@ -766,7 +766,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Tutor',
+        Role: 'Administrador',
         submenu: [],
       },
       {
@@ -778,7 +778,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Tutor',
+        Role: 'Administrador',
         submenu: [],
       },
 

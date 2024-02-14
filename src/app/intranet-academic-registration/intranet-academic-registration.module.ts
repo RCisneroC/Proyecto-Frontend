@@ -12,6 +12,10 @@ import { SharedModule } from '@shared';
 import { ListTaskActivityComponent } from './Task/Activity/list-task-activity/list-task-activity.component';
 import { ListTaskSubjectComponent } from './Task/Subject/list-task-subject/list-task-subject.component';
 import { FormsCreateTaskComponent } from './Task/Activity/Forms/forms-create-task/forms-create-task.component';
+import { DetailsInfoTaskComponent } from './Task/Subject/details-info-task/details-info-task.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { CreateTaskSubjectComponent } from './Task/Subject/Forms/create-task-subject/create-task-subject.component';
+import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-task-activity/details-info-task-activity.component';
 
 
 @NgModule({
@@ -23,14 +27,18 @@ import { FormsCreateTaskComponent } from './Task/Activity/Forms/forms-create-tas
     ListTaskActivityComponent,
     ListTaskSubjectComponent,
     FormsCreateTaskComponent,
+    DetailsInfoTaskComponent,
+    CreateTaskSubjectComponent,
+    DetailsInfoTaskActivityComponent,
   ],
+  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
+    IntranetAcademicRegistrationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    IntranetAcademicRegistrationRoutingModule,
   ]
 })
 export class IntranetAcademicRegistrationModule { }

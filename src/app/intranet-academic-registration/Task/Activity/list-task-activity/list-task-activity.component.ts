@@ -44,7 +44,7 @@ export class ListTaskActivityComponent extends UnsubscribeOnDestroyAdapter
     public _ActivityListService: ActivityListService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private _nav: Router
+    public _router: Router,
   ) {
     super();
   }
@@ -61,7 +61,9 @@ export class ListTaskActivityComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  addNew() {
+  addNew(row: GetOneActivity) {
+    localStorage.setItem('ActivityTask', JSON.stringify(row));
+    this._router.navigate(['/intranet-academic/details-task-activity/' + row.id])
   }
 
   editCall(row: GetOneActivity) {

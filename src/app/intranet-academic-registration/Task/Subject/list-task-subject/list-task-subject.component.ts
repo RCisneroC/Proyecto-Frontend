@@ -12,6 +12,8 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-task-subject',
@@ -55,6 +57,7 @@ export class ListTaskSubjectComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    localStorage.removeItem('asignaturaTask');
     this.loadData();
   }
   refresh() {
@@ -66,7 +69,10 @@ export class ListTaskSubjectComponent extends UnsubscribeOnDestroyAdapter
   }
 
 
-  addNew() {
+  addNew(row: Subject) {
+    localStorage.setItem('asignaturaTask', JSON.stringify(row));
+    this._router.navigate(['/intranet-academic/details-task-subject/' + row.id])
+
   }
   dependecias(row: Subject) {
   }

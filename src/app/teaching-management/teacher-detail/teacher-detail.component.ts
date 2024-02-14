@@ -214,7 +214,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
 
-        if (this.typeUser == "Administrator") {
+        if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
             if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
               this.selectedOption = "3";
