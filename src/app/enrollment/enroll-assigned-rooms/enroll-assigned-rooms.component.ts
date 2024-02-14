@@ -47,6 +47,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   enrollDummyList: EnrollDummy[] = [];
   classshiftSelect: string = '1';
   studentId:string = "";
+  recordId:string = "";
 
   constructor(
     public httpClient: HttpClient,
@@ -119,6 +120,19 @@ const stdid = localStorage.getItem('enroll-studentID');
         }
       })
 
+    }
+    const rcdid = localStorage.getItem('enroll-recordID');
+    if(rcdid){
+      this.recordId = rcdid;
+    }
+    else {
+      this._RoomService.CreateEFAcademicRecord({}).subscribe({
+        next:(res)=>{
+          console.log(res);
+          this.recordId = res.id.toString();
+          localStorage.setItem('enroll-recordID', this.recordId);
+      }
+      })
     }
   }
 
