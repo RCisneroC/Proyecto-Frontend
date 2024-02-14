@@ -11,6 +11,8 @@ import { ComponentsModule } from "@shared/components/components.module";
 import { SharedModule } from "@shared";
 import { StatusPipePipe } from "../pipes/status-pipe.pipe";
 import { EnrollDetailsComponent } from './enroll-details/enroll-details.component';
+import { EncuestaSubjectComponent } from './Encuestas/encuesta-subject/encuesta-subject.component';
+import { EncuestaActivityComponent } from './Encuestas/encuesta-activity/encuesta-activity.component';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { EnrollDetailsComponent } from './enroll-details/enroll-details.componen
     EnrollSubjectsComponent,
     EnrollAssignedRoomsComponent,
     EnrollDetailsComponent,
+    EncuestaSubjectComponent,
+    EncuestaActivityComponent,
   ],
   imports: [
     CommonModule,

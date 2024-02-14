@@ -7,6 +7,7 @@ import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
+import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +78,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
 
   searchSubjectTask(filter: any) {
-    return this.httpClient.post(environment.apiUrlSubjectTask, filter);
+    return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
   addUpdateTeacher(teacher: Teacher) {
 
@@ -153,6 +154,18 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<User[]>(environment.apiUrl + '/GetUsersBy?RoleName=' + rolname);
   }
 
+  getStudentSubject(SubjectId: number): Observable<any> {
+    return this.httpClient.get(environment.apiEC + "EJMatricula/GetDegreeSubject?SubjectId=" + SubjectId);
+  }
 
+  getStudentSubjectAct(ActId: number): Observable<any> {
+
+    return this.httpClient.get(environment.apiEC + "ContinuingEducation/GetActivityStudents?ActivityId=" + ActId);
+  }
+
+  GetAcademicSubject(data: any) {
+    return this.httpClient
+      .post(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
+  }
 
 }
