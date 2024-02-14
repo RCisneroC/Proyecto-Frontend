@@ -11,13 +11,14 @@ import {
   InscriptionResponse,
 } from "../../admission/models/ParticipantesEF";
 import {documentosIncripcion} from "../../admission/models/documentosIncripcion";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
-import {ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
+import {CreateEnrollmentResult, ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
 import {Room} from "../models/Room";
 import {Career, CareerResponse} from "../models/Career";
+import {an} from "@fullcalendar/core/internal-common";
 
 @Injectable({
   providedIn: 'root'
@@ -103,13 +104,19 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  CreateEnrollment(createEnrollmentdDta: any): Observable<any> {
+  CreateEnrollment(createEnrollmentdDta: any) {
 
     const url = `${environment.apiEC}`;
-    return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/CreateEnrollment", createEnrollmentdDta);
+    return this.httpClient.post<CreateEnrollmentResult>(url + "EJMatricula/CreateEnrollment", createEnrollmentdDta);
   }
 
-  AddSubjectStudent(createEnrollmentdSubjectDta: any): Observable<any> {
+  CreateEFAcademicRecord(CreateEFAcademicRecorddata: any) {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<CreateEnrollmentResult>(url + "CreateEFAcademicRecord", CreateEFAcademicRecorddata);
+  }
+
+  AddSubjectStudent(createEnrollmentdSubjectDta: any) {
 
     const url = `${environment.apiEC}`;
     return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/AddSubjectStudent", createEnrollmentdSubjectDta);

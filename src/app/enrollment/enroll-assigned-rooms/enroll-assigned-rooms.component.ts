@@ -20,6 +20,7 @@ import {Room} from "../models/Room";
 import {Subject} from "../models/Subject";
 import {EnrollDummy} from "../models/EnrollDummy";
 import {Career} from "../models/Career";
+import {AuthService} from "@core";
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -45,6 +46,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   CareerIten!:Career;
   enrollDummyList: EnrollDummy[] = [];
   classshiftSelect: string = '1';
+  studentId:string = "";
 
   constructor(
     public httpClient: HttpClient,
@@ -52,6 +54,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     public _RoomService: EnrollmentService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private _router: Router
   ) {
     super();
@@ -87,6 +90,38 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     this._router.navigate([uri]);
   }
 
+  matricular(row: Room){
+
+    const itemSubject = localStorage.getItem('enroll-subject');
+    const itemCareer = localStorage.getItem('enroll-career');
+    if (itemSubject != null){
+      this.SubjectItem = JSON.parse(itemSubject);
+    }
+    if(itemCareer != null){
+      this.CareerIten = JSON.parse(itemCareer);
+    }
+const stdid = localStorage.getItem('enroll-studentID');
+    if(stdid){
+      this.studentId = stdid;
+    }
+    else {
+      const reqiestObj = {
+        cedula:this.authService.currentUserValue.cedula,
+        degreeId: this.CareerIten.degreeCurriculumDesignId,
+        createdBy: this.authService.currentUserValue.id
+      }
+      this._RoomService.CreateEnrollment(reqiestObj).subscribe({
+        next:(res)=>{
+          console.log(res);
+          this.studentId =  res.enrollmentResult[0].studentId.toString();
+          localStorage.setItem('enroll-studentID', this.studentId);
+
+        }
+      })
+
+    }
+  }
+
   seleccionar(row: Room) {
 
     const itemList = localStorage.getItem('enroll-dummy');
@@ -108,7 +143,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
       SubjectId: this.SubjectItem.id,
       SubjectName: this.SubjectItem.name,
       createDate: new Date(),
-      ClassShift : "1"
+      ClassShift : this.classshiftSelect
     })
     const enrollDummyListItem = JSON.stringify(this.enrollDummyList);
     localStorage.setItem('enroll-dummy', enrollDummyListItem);
