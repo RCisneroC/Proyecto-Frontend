@@ -112,7 +112,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   CreateEFAcademicRecord(CreateEFAcademicRecorddata: any) {
 
-    const url = `${environment.apiUrlSubjectTask}`;
+    const url = `${environment.apiEira}`;
     return this.httpClient.post<any>(url + "CreateEFAcademicRecord", CreateEFAcademicRecorddata);
   }
 
