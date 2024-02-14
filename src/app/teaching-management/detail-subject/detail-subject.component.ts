@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { MatPaginator } from '@angular/material/paginator';
+import { TeacherService } from '../services/teacher.service';
+import { UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-detail-subject',
@@ -44,7 +46,7 @@ export class DetailSubjectComponent implements OnInit {
   ]
   public id: string = '';
   TaskSubjectArray: TaskSubject[] = [];
-  TaskSubject!: TaskSubject;;
+  TaskSubject!: TaskSubject;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -53,7 +55,9 @@ export class DetailSubjectComponent implements OnInit {
   }
   constructor(private _nav: Router,
     public _dialog: MatDialog,
-    public activeRouter: ActivatedRoute
+    public activeRouter: ActivatedRoute,
+    public _teacherService: TeacherService,
+    private fb: UntypedFormBuilder,
   ) {
     this.activeRouter.params.subscribe((params) => {
 
@@ -73,14 +77,45 @@ export class DetailSubjectComponent implements OnInit {
       console.log(localStorage.getItem('tipoSolicitud') || '1');
       let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
       this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
+      this.getTaskBySubject();
       this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
     } else {
       this.dataSou = new MatTableDataSource<TaskSubject>([]);
     }
   }
+  
+  
+  async getTaskBySubject() {
+
+    const filter = this.fb.group({
+      finalDate:'',
+      taskTypeId:0,
+      subjectId:this.id,
+      observation:"",
+      id:1,
+      title:"",
+      description:"",
+      pageNumber:0,
+      pageSize:0,
+    });
+    this._teacherService.searchSubjectTask(filter).subscribe({
+       next: (res) => {
+      const data=res;
+     console.log(data);
+     console.log("data1");
+       // this.TaskSubjectArray = res;
+        //  this.fechaA=res.applicationDate;
+        //  this.teacherForm = this.createTeacherForm();
+        //  //this.documentForm = this.createDocumentForm();
+        //  this._teacherService.isTblLoading = false;
+       }
+     })
+   }
   addNew() {
 
   }
+  
+  
 
   volverAtras() {
     this._nav.navigate(['/teaching-management/teacher-history-list/']);

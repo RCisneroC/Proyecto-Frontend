@@ -75,6 +75,10 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+
+  searchSubjectTask(filter: any) {
+    return this.httpClient.post(environment.apiUrlSubjectTask, filter);
+  }
   addUpdateTeacher(teacher: Teacher) {
 
     return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'Save', teacher);
