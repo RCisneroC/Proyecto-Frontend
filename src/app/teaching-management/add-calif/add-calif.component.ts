@@ -49,18 +49,21 @@ export class AddCalifComponent {
     public dialogRef: MatDialogRef<AddCalifComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
-    public _TeacherService:TeacherService,
+    public _TeacherService: TeacherService,
     public authservice: AuthService
   ) {
     // Set the defaults
+    console.log('====================================');
+    console.log(data.taskSubject);
+    console.log('====================================');
     this.action = data.accion;
     if (this.action == 'add-calificacion') {
       this.dialogTitle = "Agregar calificación";
-      
+
     } else if (this.action == 'view') {
       this.dialogTitle = "Ver calificación";
       this.getCalificacion();
-      
+
     }
 
     this.user = data.user;
@@ -94,20 +97,20 @@ export class AddCalifComponent {
     console.log('====================================');
   }
   getRecordAcademic() {
-   
 
-    const data = this.fb.group({
+
+    let data = {
       subjectId: 1,
       studentId: 1,
-    });
-    
+    }
+
     this._TeacherService.GetAcademicSubject(data).subscribe({
       next: (res) => {
         console.log(res);
       }
     })
   }
-  
+
 
   submit() {
     // emppty stuff

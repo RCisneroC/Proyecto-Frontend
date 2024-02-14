@@ -51,18 +51,18 @@ export class DetailTaskComponent implements OnInit {
     public _dialog: MatDialog,
     public _TeacherService: TeacherService, private activatedRoute: ActivatedRoute
   ) {
-   
+
     this.activatedRoute.params.subscribe((params) => {
       //this.getOneLocal();
       this.id = params['id'];
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
-      if(local=="1"){
-        this.getOneStudents();
-      }else{
-      this.getOneStudentsAct();
+        if (local == "1") {
+          this.getOneStudents();
+        } else {
+          this.getOneStudentsAct();
+        }
       }
-    }
     });
   }
 
@@ -106,8 +106,8 @@ export class DetailTaskComponent implements OnInit {
 
   }
   AddCalif(row: User) {
-  this.taskSubject.idAsignatura=this.id;
-  this.taskSubject.tipoTarea="1";
+    this.taskSubject.idAsignatura = "1";
+    this.taskSubject.tipoTarea = this.id;
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
         user: row,

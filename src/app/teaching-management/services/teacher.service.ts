@@ -78,7 +78,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
 
   searchSubjectTask(filter: any) {
-    return this.httpClient.post(environment.apiIntranet+"SearchSubjectTask", filter);
+    return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
   addUpdateTeacher(teacher: Teacher) {
 
@@ -157,12 +157,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   getStudentSubject(SubjectId: number): Observable<any> {
     return this.httpClient.get(environment.apiEC + "EJMatricula/GetDegreeSubject?SubjectId=" + SubjectId);
   }
-  
+
   getStudentSubjectAct(ActId: number): Observable<any> {
 
-    return this.httpClient.get(environment.apiEC + "ContinuingEducation/GetActivityStudents?ActivityId="+ ActId);
+    return this.httpClient.get(environment.apiEC + "ContinuingEducation/GetActivityStudents?ActivityId=" + ActId);
   }
-  
+
   GetAcademicSubject(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);

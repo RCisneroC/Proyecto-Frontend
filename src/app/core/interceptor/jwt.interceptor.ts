@@ -21,10 +21,10 @@ export class JwtInterceptor implements HttpInterceptor {
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsIm5hbWUiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmFkb3IiLCJleHAiOjE3Njc5MTI1OTUsImlzcyI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSIsImF1ZCI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSJ9.Ec5RLg8RbqJ4gPwOfmbiiT3dS-DKAKixqDyJ3rIknB0'}`,
+          Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsIm5hbWUiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmFkb3IiLCJleHAiOjE3Njc5NDg1MDcsImlzcyI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSIsImF1ZCI6IkF1dGhlbnRpY2F0aW9uU2VydmljZSJ9.chk3dzqlA6nYGQOncMsxkYkGQbA_xIhEK6qB68cymyk'}`,
 
         },
-      });''
+      }); ''
     }
 
     return next.handle(request);

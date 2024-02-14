@@ -325,6 +325,15 @@
         "hash": "sha512-B+WY/cT2VgEaz9HfJitBmgdk4I333XG/ybC98CMC4Wz8E49T8yzivmmxXB3OD6qvjcOB6ftuicl6WBqLbZNg2w=="
       }
     },
+    "npm:@angular/common@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/common@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/common",
+        "hash": "sha512-LniJjGAeftUJDJh+2+LEjltcGen08C/VMxQ/eUYmesytKy1sN+MWzh3GbpKfEWtWmyUsYTG9lAAJNo3L3jPwsw=="
+      }
+    },
     "npm:@angular/compiler": {
       "type": "npm",
       "name": "npm:@angular/compiler",
@@ -332,6 +341,15 @@
         "version": "16.2.12",
         "packageName": "@angular/compiler",
         "hash": "sha512-6SMXUgSVekGM7R6l1Z9rCtUGtlg58GFmgbpMCsGf+VXxP468Njw8rjT2YZkf5aEPxEuRpSHhDYjqz7n14cwCXQ=="
+      }
+    },
+    "npm:@angular/compiler@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/compiler@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/compiler",
+        "hash": "sha512-ICvB1ud1mxaXUYLb8vhJqiLhGBVocAZGxoHTglv6hMkbrRYcnlB3FZJFOzBvtj+krkd1jamoYLI43UAmesqQ6Q=="
       }
     },
     "npm:@angular/compiler-cli": {
@@ -424,6 +442,15 @@
         "hash": "sha512-GLLlDeke/NjroaLYOks0uyzFVo6HyLl7VOm0K1QpLXnYvW63W9Ql/T3yguRZa7tRkOAeFZ3jw+1wnBD4O8MoUA=="
       }
     },
+    "npm:@angular/core@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/core@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/core",
+        "hash": "sha512-h2vpvXNAdOqKzbVaZcHnHGMT5A8uDnizk6FgGq6SPyw9s3d+/VxZ9LJaPjUk3g2lICA7og1tUel+2YfF971MlQ=="
+      }
+    },
     "npm:@angular/forms": {
       "type": "npm",
       "name": "npm:@angular/forms",
@@ -433,6 +460,15 @@
         "hash": "sha512-1Eao89hlBgLR3v8tU91vccn21BBKL06WWxl7zLpQmG6Hun+2jrThgOE4Pf3os4fkkbH4Apj0tWL2fNIWe/blbw=="
       }
     },
+    "npm:@angular/forms@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/forms@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/forms",
+        "hash": "sha512-wBllFlIubPclAFRXUc84Kc7TMeKOftzrQraVZ7ooTNeFLLa/FZLN2K8HGyRde8X/XDsMu1XAmjNfkz++spwTzA=="
+      }
+    },
     "npm:@angular/google-maps": {
       "type": "npm",
       "name": "npm:@angular/google-maps",
@@ -440,6 +476,15 @@
         "version": "16.2.12",
         "packageName": "@angular/google-maps",
         "hash": "sha512-Ift6PbHYUhmM7fU6EVKt0IEFI5Pw7PHwh+V4buygwpCUcY4wvQkpIoKRierE0M6e+hNTLAUdyuxBET8qlZh7tA=="
+      }
+    },
+    "npm:@angular/http": {
+      "type": "npm",
+      "name": "npm:@angular/http",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/http",
+        "hash": "sha512-eR7wNXh1+6MpcQNb3sq4bJVX03dx50Wl3kpPG+Q7N1VSL0oPQSobaTrR17ac3oFCEfSJn6kkUCqtUXha6wcNHg=="
       }
     },
     "npm:@angular/localize": {
@@ -496,6 +541,15 @@
         "hash": "sha512-NnH7ju1iirmVEsUq432DTm0nZBGQsBrU40M3ZeVHMQ2subnGiyUs3QyzDz8+VWLL/T5xTxWLt9BkDn65vgzlIQ=="
       }
     },
+    "npm:@angular/platform-browser@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/platform-browser@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/platform-browser",
+        "hash": "sha512-6YZ4IpBFqXx88vEzBZG2WWnaSYXbFWDgG0iT+bZPHAfwsbmqbcMcs7Ogu+XZ4VmK02dTqbrFh7U4P2W+sqrzow=="
+      }
+    },
     "npm:@angular/platform-browser-dynamic": {
       "type": "npm",
       "name": "npm:@angular/platform-browser-dynamic",
@@ -505,6 +559,15 @@
         "hash": "sha512-ya54jerNgreCVAR278wZavwjrUWImMr2F8yM5n9HBvsMBbFaAQ83anwbOEiHEF2BlR+gJiEBLfpuPRMw20pHqw=="
       }
     },
+    "npm:@angular/platform-browser-dynamic@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/platform-browser-dynamic@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/platform-browser-dynamic",
+        "hash": "sha512-5kKPNULcXNwkyBjpHfF+pq+Yxi8Zl866YSOK9t8txoiQ9Ctw97kMkEJcTetk6MJgBp/NP3YyjtoTAm8oXLerug=="
+      }
+    },
     "npm:@angular/router": {
       "type": "npm",
       "name": "npm:@angular/router",
@@ -512,6 +575,15 @@
         "version": "16.2.12",
         "packageName": "@angular/router",
         "hash": "sha512-aU6QnYSza005V9P3W6PpkieL56O0IHps96DjqI1RS8yOJUl3THmokqYN4Fm5+HXy4f390FN9i6ftadYQDKeWmA=="
+      }
+    },
+    "npm:@angular/router@5.2.11": {
+      "type": "npm",
+      "name": "npm:@angular/router@5.2.11",
+      "data": {
+        "version": "5.2.11",
+        "packageName": "@angular/router",
+        "hash": "sha512-NT8xYl7Vr3qPygisek3PlXqNROEjg48GXOEsDEc7c8lDBo3EB9Tf328fWJD0GbLtXZNhmmNNxwIe+qqPFFhFAA=="
       }
     },
     "npm:@assemblyscript/loader": {
@@ -4132,6 +4204,15 @@
         "hash": "sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w=="
       }
     },
+    "npm:@types/moment-timezone": {
+      "type": "npm",
+      "name": "npm:@types/moment-timezone",
+      "data": {
+        "version": "0.5.30",
+        "packageName": "@types/moment-timezone",
+        "hash": "sha512-aDVfCsjYnAQaV/E9Qc24C5Njx1CoDjXsEgkxtp9NyXDpYu4CCbmclb6QhWloS9UTU/8YROUEEdEkWI0D7DxnKg=="
+      }
+    },
     "npm:@types/node": {
       "type": "npm",
       "name": "npm:@types/node",
@@ -4868,6 +4949,96 @@
         "version": "3.0.2",
         "packageName": "angular-material-fileupload",
         "hash": "sha512-N1jUvFGxxHpD8AwyAHlhoBpYbtIfWBn9OnVJZUt+NjkG4YaBkHmq5Jy/nqzaytu6V1tt/K3cYjmnzDKVLDxT/g=="
+      }
+    },
+    "npm:angular-moment-timezone": {
+      "type": "npm",
+      "name": "npm:angular-moment-timezone",
+      "data": {
+        "version": "1.7.1",
+        "packageName": "angular-moment-timezone",
+        "hash": "sha512-YrEd5g02gIEZt4Xz+lwTenmfdyfHxBfYEocnysbhJXc8R4xcviUi6d8joIDZKFoLpnEm0wqE9C18+zUG28pq6Q=="
+      }
+    },
+    "npm:core-js@2.6.12": {
+      "type": "npm",
+      "name": "npm:core-js@2.6.12",
+      "data": {
+        "version": "2.6.12",
+        "packageName": "core-js",
+        "hash": "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
+      }
+    },
+    "npm:core-js": {
+      "type": "npm",
+      "name": "npm:core-js",
+      "data": {
+        "version": "3.33.3",
+        "packageName": "core-js",
+        "hash": "sha512-lo0kOocUlLKmm6kv/FswQL8zbkH7mVsLJ/FULClOhv8WRVmKLVcs6XPNQAzstfeJTCHMyButEwG+z1kHxHoDZw=="
+      }
+    },
+    "npm:rxjs@5.5.12": {
+      "type": "npm",
+      "name": "npm:rxjs@5.5.12",
+      "data": {
+        "version": "5.5.12",
+        "packageName": "rxjs",
+        "hash": "sha512-xx2itnL5sBbqeeiVgNPVuQQ1nC8Jp2WfNJhXWHmElW9YmrpS9UVnNzhP3EH3HFqexO5Tlp8GhYY+WEcqcVMvGw=="
+      }
+    },
+    "npm:rxjs": {
+      "type": "npm",
+      "name": "npm:rxjs",
+      "data": {
+        "version": "7.8.1",
+        "packageName": "rxjs",
+        "hash": "sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg=="
+      }
+    },
+    "npm:symbol-observable@1.0.1": {
+      "type": "npm",
+      "name": "npm:symbol-observable@1.0.1",
+      "data": {
+        "version": "1.0.1",
+        "packageName": "symbol-observable",
+        "hash": "sha512-Kb3PrPYz4HanVF1LVGuAdW6LoVgIwjUYJGzFe7NDrBLCN4lsV/5J0MFurV+ygS4bRVwrCEt2c7MQ1R2a72oJDw=="
+      }
+    },
+    "npm:symbol-observable": {
+      "type": "npm",
+      "name": "npm:symbol-observable",
+      "data": {
+        "version": "4.0.0",
+        "packageName": "symbol-observable",
+        "hash": "sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ=="
+      }
+    },
+    "npm:zone.js@0.8.29": {
+      "type": "npm",
+      "name": "npm:zone.js@0.8.29",
+      "data": {
+        "version": "0.8.29",
+        "packageName": "zone.js",
+        "hash": "sha512-mla2acNCMkWXBD+c+yeUrBUrzOxYMNFdQ6FGfigGGtEVBPJx07BQeJekjt9DmH1FtZek4E9rE1eRR9qQpxACOQ=="
+      }
+    },
+    "npm:zone.js": {
+      "type": "npm",
+      "name": "npm:zone.js",
+      "data": {
+        "version": "0.13.3",
+        "packageName": "zone.js",
+        "hash": "sha512-MKPbmZie6fASC/ps4dkmIhaT5eonHkEt6eAy80K42tAm0G2W+AahLJjbfi6X9NPdciOE9GRFTTM8u2IiF6O3ww=="
+      }
+    },
+    "npm:angular2-moment": {
+      "type": "npm",
+      "name": "npm:angular2-moment",
+      "data": {
+        "version": "1.9.0",
+        "packageName": "angular2-moment",
+        "hash": "sha512-ybPjYizpKVWAI2Z4AqxAS6s3FMkF3+zRpfvxX1wIdSJUFjl83XxQ5f2yn7retX68NSYZZ/JTK9KGnvOzZfrIZw=="
       }
     },
     "npm:ansi-colors": {
@@ -5930,15 +6101,6 @@
         "version": "3.0.0",
         "packageName": "slash",
         "hash": "sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q=="
-      }
-    },
-    "npm:core-js": {
-      "type": "npm",
-      "name": "npm:core-js",
-      "data": {
-        "version": "3.33.3",
-        "packageName": "core-js",
-        "hash": "sha512-lo0kOocUlLKmm6kv/FswQL8zbkH7mVsLJ/FULClOhv8WRVmKLVcs6XPNQAzstfeJTCHMyButEwG+z1kHxHoDZw=="
       }
     },
     "npm:core-js-compat": {
@@ -10693,15 +10855,6 @@
         "hash": "sha512-CiaiuN6gapkdl+cZUr67W6I8jquN4lkak3vtIsIWCl4XIPP8ffsoyN6/+PuGXnQy8Cu8W2y9Xxh31Rq4M6wUug=="
       }
     },
-    "npm:rxjs": {
-      "type": "npm",
-      "name": "npm:rxjs",
-      "data": {
-        "version": "7.8.1",
-        "packageName": "rxjs",
-        "hash": "sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg=="
-      }
-    },
     "npm:safer-buffer": {
       "type": "npm",
       "name": "npm:safer-buffer",
@@ -11267,15 +11420,6 @@
         "version": "11.10.1",
         "packageName": "sweetalert2",
         "hash": "sha512-qu145oBuFfjYr5yZW9OSdG6YmRxDf8CnkgT/sXMfrXGe+asFy2imC2vlaLQ/L/naZ/JZna1MPAY56G4qYM0VUQ=="
-      }
-    },
-    "npm:symbol-observable": {
-      "type": "npm",
-      "name": "npm:symbol-observable",
-      "data": {
-        "version": "4.0.0",
-        "packageName": "symbol-observable",
-        "hash": "sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ=="
       }
     },
     "npm:symbol-tree": {
@@ -11942,15 +12086,6 @@
         "version": "5.0.8",
         "packageName": "y18n",
         "hash": "sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA=="
-      }
-    },
-    "npm:zone.js": {
-      "type": "npm",
-      "name": "npm:zone.js",
-      "data": {
-        "version": "0.13.3",
-        "packageName": "zone.js",
-        "hash": "sha512-MKPbmZie6fASC/ps4dkmIhaT5eonHkEt6eAy80K42tAm0G2W+AahLJjbfi6X9NPdciOE9GRFTTM8u2IiF6O3ww=="
       }
     },
     "npm:zrender": {
@@ -13054,6 +13189,13 @@
       {
         "source": "npm:@angular/google-maps",
         "target": "npm:tslib",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/http": [
+      {
+        "source": "npm:@angular/http",
+        "target": "npm:tslib@1.14.1",
         "type": "static"
       }
     ],
@@ -19859,6 +20001,13 @@
         "type": "static"
       }
     ],
+    "npm:@types/moment-timezone": [
+      {
+        "source": "npm:@types/moment-timezone",
+        "target": "npm:moment-timezone",
+        "type": "static"
+      }
+    ],
     "npm:@types/node": [
       {
         "source": "npm:@types/node",
@@ -20728,6 +20877,236 @@
       {
         "source": "npm:angular-material-fileupload",
         "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:angular-moment-timezone": [
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/common@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/compiler@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/forms@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/http",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/platform-browser@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@angular/router@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:@types/moment-timezone",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:angular2-moment",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:core-js@2.6.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:moment",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:moment-timezone",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:rxjs@5.5.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:angular-moment-timezone",
+        "target": "npm:zone.js@0.8.29",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/common@5.2.11": [
+      {
+        "source": "npm:@angular/common@5.2.11",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/common@5.2.11",
+        "target": "npm:rxjs@5.5.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/common@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/compiler@5.2.11": [
+      {
+        "source": "npm:@angular/compiler@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/core@5.2.11": [
+      {
+        "source": "npm:@angular/core@5.2.11",
+        "target": "npm:rxjs@5.5.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/core@5.2.11",
+        "target": "npm:zone.js@0.8.29",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/core@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/forms@5.2.11": [
+      {
+        "source": "npm:@angular/forms@5.2.11",
+        "target": "npm:@angular/common@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/forms@5.2.11",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/forms@5.2.11",
+        "target": "npm:@angular/platform-browser@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/forms@5.2.11",
+        "target": "npm:rxjs@5.5.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/forms@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/platform-browser@5.2.11": [
+      {
+        "source": "npm:@angular/platform-browser@5.2.11",
+        "target": "npm:@angular/common@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser@5.2.11",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/platform-browser-dynamic@5.2.11": [
+      {
+        "source": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "target": "npm:@angular/common@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "target": "npm:@angular/compiler@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "target": "npm:@angular/platform-browser@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/platform-browser-dynamic@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:@angular/router@5.2.11": [
+      {
+        "source": "npm:@angular/router@5.2.11",
+        "target": "npm:@angular/common@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/router@5.2.11",
+        "target": "npm:@angular/core@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/router@5.2.11",
+        "target": "npm:@angular/platform-browser@5.2.11",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/router@5.2.11",
+        "target": "npm:rxjs@5.5.12",
+        "type": "static"
+      },
+      {
+        "source": "npm:@angular/router@5.2.11",
+        "target": "npm:tslib@1.14.1",
+        "type": "static"
+      }
+    ],
+    "npm:rxjs@5.5.12": [
+      {
+        "source": "npm:rxjs@5.5.12",
+        "target": "npm:symbol-observable@1.0.1",
+        "type": "static"
+      }
+    ],
+    "npm:angular2-moment": [
+      {
+        "source": "npm:angular2-moment",
+        "target": "npm:moment",
         "type": "static"
       }
     ],

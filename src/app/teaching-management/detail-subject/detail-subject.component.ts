@@ -48,8 +48,8 @@ export class DetailSubjectComponent implements OnInit {
     'actions'
 
   ]
-  
-  displayedColumns:string[] = [
+
+  displayedColumns: string[] = [
     'name',
     'tipo',
     'subject',
@@ -58,7 +58,7 @@ export class DetailSubjectComponent implements OnInit {
     'finalDate',
     'accion',
   ]
-  
+
   dataSourceEvent: DataTaskSubject[] = [
     {
       id: 0,
@@ -122,24 +122,24 @@ export class DetailSubjectComponent implements OnInit {
   }
 
   load() {
-     let local = localStorage.getItem('tipoSolicitud') || '';
-     if (local != '') {
-     if(local=="1"){
-      this.getAllTaskSubject();
-     }else{
-     this.getAllTaskActivity();
-     }
-    //   this.TaskSubjectArray = JSON.parse(local);
-  
-       //let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
-    //   this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
-    //   this.getTaskBySubject();
-    //   this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
-    // } else {
-    //   this.dataSou = new MatTableDataSource<TaskSubject>([]);
-     }
-    
-    
+    let local = localStorage.getItem('tipoSolicitud') || '';
+    if (local != '') {
+      if (local == "1") {
+        this.getAllTaskSubject();
+      } else {
+        this.getAllTaskActivity();
+      }
+      //   this.TaskSubjectArray = JSON.parse(local);
+
+      //let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
+      //   this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
+      //   this.getTaskBySubject();
+      //   this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
+      // } else {
+      //   this.dataSou = new MatTableDataSource<TaskSubject>([]);
+    }
+
+
   }
   getAllTaskSubject() {
     const data = {
@@ -153,12 +153,12 @@ export class DetailSubjectComponent implements OnInit {
       }
     })
   }
-  
+
   getAllTaskActivity() {
     const data = {
       activityId: this.id
     }
-    this._ActivityListService.GetTaskSubject(data).subscribe({
+    this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
         console.log('====================================');
         console.log(res);
@@ -169,12 +169,12 @@ export class DetailSubjectComponent implements OnInit {
       }
     })
   }
- 
+
   addNew() {
 
   }
-  
-  
+
+
 
   volverAtras() {
     this._nav.navigate(['/teaching-management/teacher-history-list/']);
