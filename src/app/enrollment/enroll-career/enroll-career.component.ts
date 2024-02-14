@@ -71,7 +71,7 @@ export class EnrollCareerComponent extends UnsubscribeOnDestroyAdapter
 
     const CareerItem = JSON.stringify(row);
     localStorage.setItem('enroll-career', CareerItem);
-    this._router.navigate(['/enrollment/enroll-subject/'+ row.degreeId]);
+    this._router.navigate(['/enrollment/enroll-subject/'+ row.degreeCurriculumDesignId]);
 
   }
 
