@@ -232,6 +232,7 @@ export class ExampleDataSource extends DataSource<Room> {
     if (item != null){
       this.SubjectItem = JSON.parse(item);
     }
+    console.log("Subjectobj",this.SubjectItem);
     this.exampleDatabase.GetAssignedRoomsBy(1,this.SubjectItem.periodId,1,this.SubjectItem.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
