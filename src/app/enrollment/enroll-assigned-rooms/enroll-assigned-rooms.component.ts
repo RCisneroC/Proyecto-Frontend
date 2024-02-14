@@ -44,6 +44,8 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   SubjectItem!: Subject;
   CareerIten!:Career;
   enrollDummyList: EnrollDummy[] = [];
+  classshiftSelect: string = '1';
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -61,6 +63,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    localStorage.setItem("classhiftvalue", this.classshiftSelect);
     this.loadData();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
@@ -71,6 +74,13 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   refresh() {
     this.loadData();
   }
+
+  changeclasshift(){
+    console.log("Classhift",this.classshiftSelect);
+    localStorage.setItem("classhiftvalue", this.classshiftSelect);
+    this.loadData();
+  }
+
 
   volverAtras(){
     const uri = localStorage.getItem('enroll-subject-url');
@@ -197,6 +207,7 @@ export class ExampleDataSource extends DataSource<Room> {
   filterChange = new BehaviorSubject('');
   id!: number;
   SubjectItem!: Subject;
+  classhift!: number;
   get filter(): string {
     return this.filterChange.value;
   }
@@ -232,8 +243,13 @@ export class ExampleDataSource extends DataSource<Room> {
     if (item != null){
       this.SubjectItem = JSON.parse(item);
     }
+    const clashift = localStorage.getItem("classhiftvalue");
+    if(clashift){
+      this.classhift = +clashift
+    }
+
     console.log("Subjectobj",this.SubjectItem);
-    this.exampleDatabase.GetAssignedRoomsBy(1,this.SubjectItem.periodId,1,this.SubjectItem.id);
+    this.exampleDatabase.GetAssignedRoomsBy(this.classhift,this.SubjectItem.periodId,1,this.SubjectItem.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
