@@ -114,11 +114,8 @@ export class DetailsInfoTaskActivityComponent extends UnsubscribeOnDestroyAdapte
     let data = {
       activityId: this._OneActivity.id
     }
-    this._ActivityListService.GetTaskSubject(data).subscribe({
+    this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
-        console.log('====================================');
-        console.log(res);
-        console.log('====================================');
         this.dataTask = new MatTableDataSource<TaskActivityData>(res.data);
         this.dataTask.paginator = this.paginator_;
 

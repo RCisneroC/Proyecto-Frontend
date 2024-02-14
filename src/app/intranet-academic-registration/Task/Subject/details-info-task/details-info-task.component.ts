@@ -90,6 +90,7 @@ export class DetailsInfoTaskComponent extends UnsubscribeOnDestroyAdapter
       this._SubjectService.init_Subject()
     }
   }
+
   ngOnInit(): void {
     this.getTypeTask();
     this.getAllTaskSubject();
@@ -120,6 +121,7 @@ export class DetailsInfoTaskComponent extends UnsubscribeOnDestroyAdapter
       }
     })
   }
+
   NewTask() {
     const dialogRef = this._dialog.open(CreateTaskSubjectComponent, {
       data: {

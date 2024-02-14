@@ -98,7 +98,7 @@ export class ActivityListService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  GetTaskSubject(data: any) {
+  GetTaskActivity(data: any) {
     return this.httpClient
       .post<ResponseListActivity>(environment.apiIntranet + 'SearchActivityTask', data);
   }
