@@ -10,9 +10,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2 class="text-uppercase" *ngIf="_typeUser!='Administrador'"><strong>Mis Solicitudes</strong>
+                        <h2 class="text-uppercase" *ngIf="_typeUser!='Administrator'"><strong>Mis Solicitudes</strong>
                         </h2>
-                        <h2 class="text-uppercase" *ngIf="_typeUser=='Administrador'"><strong>Todas las
+                        <h2 class="text-uppercase" *ngIf="_typeUser=='Administrator'"><strong>Todas las
                                 Solicitudes</strong></h2>
                     </div>
                     <div class="body">
@@ -133,7 +133,7 @@
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
 
-                                                        <button *ngIf="_typeUser=='Administrador' && row.statusId == 3"
+                                                        <button *ngIf="_typeUser=='Administrator' && row.statusId == 3"
                                                             mat-mini-fab color="warn" matTooltip="Aprobar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="aprobar(row,i)"
                                                             class="tbl-action-btn">

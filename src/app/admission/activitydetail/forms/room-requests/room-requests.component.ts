@@ -34,10 +34,10 @@ export class RoomRequestsComponent {
     }
   ];
   dataRooms = new MatTableDataSource<ActivityRequirement>(this.dataSoruceRoomList);
-     @ViewChild(MatPaginator) 
+  @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
-      this.dataRooms.paginator = value;
-     }
+    this.dataRooms.paginator = value;
+  }
   public step = 0;
   public hrefApproved: boolean = false;
   constructor(
@@ -45,13 +45,13 @@ export class RoomRequestsComponent {
     public _ActivityService: ActivityDetailService,
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
-    public _CooperatingOrganizationService:CooperationgOrganizationService,
+    public _CooperatingOrganizationService: CooperationgOrganizationService,
     public _router: Router,
     public _suppleService: SuppliesService,
-    public _masterLounge:MasterService
+    public _masterLounge: MasterService
 
   ) {
-     this.paramsId = Path.snapshot.params['id'];
+    this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       const url_storage = localStorage.getItem('url');
       console.log(url_storage);
@@ -68,84 +68,86 @@ export class RoomRequestsComponent {
     }
   }
 
- setStep(index: number) {
+  setStep(index: number) {
     this.step = index;
   }
-   volverAtras() {
-     let url = localStorage.getItem('url') || '';
-     console.log(url);
-     
+  volverAtras() {
+    let url = localStorage.getItem('url') || '';
+    console.log(url);
+
     this._router.navigate([url]);
-   }
+  }
   nuevaSolicitud() {
     this._ActivityService.init_RequestRooms();
-     const dialogRef = this._dialog.open(NuevaSolicitudComponent, {
-       data: {
-         accion: 'add-room',
-         id_actividad: this.paramsId,
-         requestRooms: this._ActivityService._RequestRooms,
-       },
-       disableClose: true,
-     });
-    
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    const dialogRef = this._dialog.open(NuevaSolicitudComponent, {
+      data: {
+        accion: 'add-room',
+        id_actividad: this.paramsId,
+        requestRooms: this._ActivityService._RequestRooms,
+        actividad: this._ActivityService._GetOneActivity
+      },
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getOneActivity();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getOneActivity();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
-  
+
 
   editarSolicitud(item: RequestRooms) {
     console.log(item);
-  //  this._ActivityService.init_RequestRooms();
-     const dialogRef = this._dialog.open(NuevaSolicitudComponent, {
-       data: {
-         accion: 'edit-room',
-         id_actividad: this.paramsId,
-         requestRooms: item,
-       },
-       disableClose: true,
-     });
-    
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    //  this._ActivityService.init_RequestRooms();
+    const dialogRef = this._dialog.open(NuevaSolicitudComponent, {
+      data: {
+        accion: 'edit-room',
+        id_actividad: this.paramsId,
+        requestRooms: item,
+        actividad: this._ActivityService._GetOneActivity
+      },
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getOneActivity();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getOneActivity();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
 
   }
-  
+
   deleteRooms(item: RequestRooms) {
-     Swal.fire({
+    Swal.fire({
       title: "¿Estas seguro?",
       text: "Se Eliminara la solicitud",
       icon: "warning",
@@ -156,91 +158,92 @@ export class RoomRequestsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this._ActivityService.DeleteRequestRooms(item.id).subscribe({
-        next:(res:ResponseGenerica)=>{
-             Swal.fire({
+          next: (res: ResponseGenerica) => {
+            Swal.fire({
               title: "Escuela Judicial!",
               text: "Eliminado.",
               icon: "success"
             });
             this.getOneActivity();
           },
-          error: (err:any) => {
-             Swal.fire({
+          error: (err: any) => {
+            Swal.fire({
               title: "Intente nuevamente!",
-              text:"no se pudo eliminar.",
+              text: "no se pudo eliminar.",
               icon: "warning"
             });
           }
-      })
+        })
       } else {
       }
     });
   }
 
   requiremitRooms(item: RequestRooms) {
-     const dialogRef = this._dialog.open(RequerimientoSalonesComponent, {
-       data: {
-         accion: 'add-requirement',
-         id_actividad: this.paramsId,
-         requestRooms: item,
-       },
-       disableClose: true,
-     });
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    const dialogRef = this._dialog.open(RequerimientoSalonesComponent, {
+      data: {
+        accion: 'add-requirement',
+        id_actividad: this.paramsId,
+        requestRooms: item,
+
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getOneActivity();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getOneActivity();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
 
-    AddSalones(item: RequestRooms) {
-     const dialogRef = this._dialog.open(ReservaSalonesComponent, {
-       data: {
-         accion: 'add-rooms',
-         id_actividad: this.paramsId,
-         requestRooms: item,
-       },
-       disableClose: true,
-     });
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+  AddSalones(item: RequestRooms) {
+    const dialogRef = this._dialog.open(ReservaSalonesComponent, {
+      data: {
+        accion: 'add-rooms',
+        id_actividad: this.paramsId,
+        requestRooms: item,
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getOneActivity();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getOneActivity();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
-    }
-  
-  
-  
-  
-    getOneActivity() {
+  }
+
+
+
+
+  getOneActivity() {
     this._ActivityService.loading = true;
     this._ActivityService.GetOneActivity(this.paramsId).
       subscribe({
@@ -259,51 +262,51 @@ export class RoomRequestsComponent {
           this._router.navigate(['/admission/schedule-activities-list']);
         },
         complete: () => {
-           this._ActivityService.loading = false;
+          this._ActivityService.loading = false;
         }
       })
-    }
+  }
   deleteRomsAsignado(rooms: RoomRequestRoom, id: any) {
     this._masterLounge.DeleteRoomsRequirement(rooms.room.id, id).subscribe({
       next: () => {
         Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Eliminado correctamente.',
-                icon: "success"
-            });
-          this.getOneActivity();
+          title: "Escuela Judicial",
+          text: 'Eliminado correctamente.',
+          icon: "success"
+        });
+        this.getOneActivity();
       },
       error: () => {
         Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Intente nuevamente.',
-              icon: "warning"
-            });
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
       }
-     })
+    })
   }
-  deleteRequirement(requirement:RoomRequestRoomRequirement,id:any) {
+  deleteRequirement(requirement: RoomRequestRoomRequirement, id: any) {
     this._suppleService.DeleteSuppliesRequirement(requirement.roomRequirement.id, id).subscribe({
       next: () => {
         Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Eliminado correctamente.',
-                icon: "success"
-            });
-          this.getOneActivity();
+          title: "Escuela Judicial",
+          text: 'Eliminado correctamente.',
+          icon: "success"
+        });
+        this.getOneActivity();
       },
       error: () => {
         Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Intente nuevamente.',
-              icon: "warning"
-            });
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
       }
-     })
+    })
   }
-  irDetalle(id:any) {
+  irDetalle(id: any) {
     //abrir modals.
   }
 
-  
+
 }

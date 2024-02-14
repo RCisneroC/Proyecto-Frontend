@@ -61,7 +61,8 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
                         <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Fecha Final Clases</mat-label>
-                            <input readonly="true" matInput [matDatepicker]="fechaFin" formControlName="endDate">
+                            <input [min]="PeriodForm.get('startDate')?.value" readonly="true" matInput
+                                [matDatepicker]="fechaFin" formControlName="endDate">
                             <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
                             <mat-datepicker #fechaFin></mat-datepicker>
                             <mat-error *ngIf="PeriodForm.get('endDate')?.hasError('required')">
@@ -72,7 +73,8 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6 mb-2">
                         <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Fecha de Examen</mat-label>
-                            <input matInput [matDatepicker]="finExamen" formControlName="examDate">
+                            <input matInput [min]="PeriodForm.get('endDate')?.value" [matDatepicker]="finExamen"
+                                formControlName="examDate">
                             <mat-datepicker-toggle matSuffix [for]="finExamen"></mat-datepicker-toggle>
                             <mat-datepicker #finExamen></mat-datepicker>
                             <mat-error *ngIf="PeriodForm.get('examDate')?.hasError('required')">

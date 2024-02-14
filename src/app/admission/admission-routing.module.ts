@@ -61,6 +61,7 @@ import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create
 import { DetailsEventsComponent } from './activitydetail/details-events/details-events.component';
 import { DesignCurriculunComponent } from './activitydetail/design-curriculun/design-curriculun.component';
 import { DetailsModulesComponent } from './activitydetail/design-curriculun/Module/details-modules/details-modules.component';
+import { RequiredDocumentListComponent } from '../teaching-management/required-document-list/required-document-list.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -144,6 +145,10 @@ const routes: Routes = [
   {
     path: 'type-activity-list',
     component: TypeActivityListComponent,
+  },
+  {
+    path: 'required-document-list',
+    component: RequiredDocumentListComponent,
   },
   {
     path: 'reason-list',

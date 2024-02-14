@@ -91,7 +91,8 @@
                     </div>
                 </div>
             </div>
-            <button mat-raised-button color="primary" (click)="submit()">Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!NewEventsActivity.valid"
+                (click)="submit()">Guardar</button>
         </form>
     </div>
 </div>
