@@ -1,24 +1,25 @@
 import { Component, Inject } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GetOneActivity } from 'app/admission/models/GetOneActivity';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { TaskActivity } from 'app/intranet-academic-registration/Models/TaskSubject';
+import { TaskSubject } from '../../../../Models/TaskSubject';
+import { Subject } from '../../../../../admission/FormalEducations/Models/Subject';
 import { ApiResponseInternal } from 'app/intranet-academic-registration/Models/TypeTask';
-import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
+import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+
 export interface DialogData {
-  task: TaskActivity;
+  task: TaskSubject;
   action: string,
-  activity: GetOneActivity,
+  subject: Subject,
   TypeTask: ApiResponseInternal;
 }
 @Component({
-  selector: 'app-forms-create-task',
-  templateUrl: './forms-create-task.component.html',
-  styleUrls: ['./forms-create-task.component.scss']
+  selector: 'app-create-task-subject',
+  templateUrl: './create-task-subject.component.html',
+  styleUrls: ['./create-task-subject.component.scss']
 })
-export class FormsCreateTaskComponent {
+export class CreateTaskSubjectComponent {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: ''
@@ -29,9 +30,9 @@ export class FormsCreateTaskComponent {
   dialogTitle: string = '';
   trainingForm: UntypedFormGroup;
   constructor(
-    public dialogRef: MatDialogRef<FormsCreateTaskComponent>,
+    public dialogRef: MatDialogRef<CreateTaskSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _ActivityListService: ActivityListService,
+    public _ActivityService: SubjectListService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
@@ -40,6 +41,7 @@ export class FormsCreateTaskComponent {
     if (this.action === 'add') {
       this.dialogTitle = "Agregar Nueva Tarea";
     } else {
+      console.log(data);
 
       this.dialogTitle = "Editar Tarea";
     }
@@ -49,7 +51,7 @@ export class FormsCreateTaskComponent {
       FinalDate: [data.task.finalDate, [Validators.required]],
       TaskTypeId: [data.task.taskTypeId, [Validators.required]],
       Description: [data.task.description, [Validators.required]],
-      ActivityId: [data.activity.id, [Validators.required]],
+      SubjectId: [data.subject.id, [Validators.required]],
       Observation: [data.task.observation, [Validators.required]],
       Content: [[]]
     });
@@ -62,7 +64,7 @@ export class FormsCreateTaskComponent {
       formData.append('FinalDate', this.trainingForm.controls['FinalDate'].value);
       formData.append('TaskTypeId', this.trainingForm.controls['TaskTypeId'].value);
       formData.append('Description', this.trainingForm.controls['Description'].value);
-      formData.append('ActivityId', this.trainingForm.controls['ActivityId'].value);
+      formData.append('SubjectId', this.trainingForm.controls['SubjectId'].value);
       formData.append('Observation', this.trainingForm.controls['Observation'].value);
       this._File.forEach((file) => {
         formData.append('Content', file);
@@ -70,7 +72,7 @@ export class FormsCreateTaskComponent {
       console.log('====================================');
       console.log(formData);
       console.log('====================================');
-      this._ActivityListService.SaveTask(formData).subscribe({
+      this._ActivityService.SaveTask(formData).subscribe({
         next: (res) => {
           if (res.success) {
             this.ResponseMessage.CodError = res.statusCode;
@@ -89,7 +91,7 @@ export class FormsCreateTaskComponent {
       })
     } else {
 
-      this._ActivityListService.UpdateTask(this.trainingForm.getRawValue()).subscribe({
+      this._ActivityService.UpdateTask(this.trainingForm.getRawValue()).subscribe({
         next: (res) => {
           if (res.success) {
             this.ResponseMessage.CodError = res.statusCode;

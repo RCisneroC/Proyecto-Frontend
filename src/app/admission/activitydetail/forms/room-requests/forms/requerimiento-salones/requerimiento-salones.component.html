@@ -18,7 +18,7 @@
                     <div class="body table-responsive">
                         <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Filtro</mat-label>
-                            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                            <input matInput (keyup)="applyFilter($event)" placeholder=".....">
                         </mat-form-field>
                         <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
                         <table *ngIf="!IsLoading" mat-table [dataSource]="ListadoSupplies" class="w-100">
