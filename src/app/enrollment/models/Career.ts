@@ -8,7 +8,6 @@ export interface Career {
   mCurriculumName: string,
   descriptionName: string,
   degreeId: number,
-  name: string,
   cedula: string,
   telephoneNumber: string,
   email: string,
@@ -22,7 +21,7 @@ export interface Career {
 
 
 export interface CareerResponse {
-  studentInfo: Career[],
+  studentInnfo: Career[],
   message: string,
   isError: boolean,
   statusCode: number

@@ -654,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //Docente 
+  //Docente
   {
     path: '',
     title: 'Home',
