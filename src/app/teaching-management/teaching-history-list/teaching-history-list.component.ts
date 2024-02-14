@@ -129,7 +129,12 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   Detail(row: Subject) {
+    localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', JSON.stringify(row));
+    this._nav.navigate(['/teaching-management/detail-subject/', row.id]);
+  }
+  Detail2(row: Activity) {
+    localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-subject/', row.id]);
   }
   async getSubjects() {

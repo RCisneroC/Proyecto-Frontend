@@ -654,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //Docente 
+  //Profesor 
   {
     path: '',
     title: 'Home',
@@ -664,7 +664,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Docente',
+    Role: 'Profesor',
     submenu: [
       {
         path: '/teaching-management/info-teacher',
@@ -675,7 +675,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Docente',
+        Role: 'Profesor',
         submenu: [],
       },
       {
@@ -687,7 +687,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        Role: 'Docente',
+        Role: 'Profesor',
         submenu: [],
       },
     ],

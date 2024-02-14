@@ -5,6 +5,7 @@ import { TaskSubject } from '../models/Teacher';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, User } from '@core';
 import { CalificacionEstudiante } from '../models/Asistencias';
+import { TeacherService } from '../services/teacher.service';
 export interface DialogData {
   id: string;
   accion: string;
@@ -48,20 +49,24 @@ export class AddCalifComponent {
     public dialogRef: MatDialogRef<AddCalifComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
+    public _TeacherService:TeacherService,
     public authservice: AuthService
   ) {
     // Set the defaults
     this.action = data.accion;
     if (this.action == 'add-calificacion') {
       this.dialogTitle = "Agregar calificación";
+      
     } else if (this.action == 'view') {
       this.dialogTitle = "Ver calificación";
       this.getCalificacion();
+      
     }
 
     this.user = data.user;
 
     this.FormsCalificacion = this.createContactForm();
+    this.getRecordAcademic();
   }
 
 
@@ -88,7 +93,21 @@ export class AddCalifComponent {
     console.log(this._CalificacionEstudianteOne);
     console.log('====================================');
   }
+  getRecordAcademic() {
+   
 
+    const data = this.fb.group({
+      subjectId: 1,
+      studentId: 1,
+    });
+    
+    this._TeacherService.GetAcademicSubject(data).subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    })
+  }
+  
 
   submit() {
     // emppty stuff

@@ -43,18 +43,26 @@ export class DetailTaskComponent implements OnInit {
   public id: string = '';
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    setTimeout(() => {
-      this.dataSou.paginator = value;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.dataSou.paginator = value;
+    // }, 1000);
   }
   constructor(private _nav: Router,
     public _dialog: MatDialog,
     public _TeacherService: TeacherService, private activatedRoute: ActivatedRoute
   ) {
-    this.getOneStudents();
+   
     this.activatedRoute.params.subscribe((params) => {
-      this.getOneLocal();
+      //this.getOneLocal();
       this.id = params['id'];
+      const local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+      if(local=="1"){
+        this.getOneStudents();
+      }else{
+      this.getOneStudentsAct();
+      }
+    }
     });
   }
 
@@ -66,9 +74,16 @@ export class DetailTaskComponent implements OnInit {
     this.dataSou.paginator = this.paginator;
   }
   getOneStudents() {
-    this._TeacherService.getStudents("Estudiante").subscribe({
+    this._TeacherService.getStudentSubject(Number(this.id)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+        this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
+      }
+    })
+  }
+  getOneStudentsAct() {
+    this._TeacherService.getStudentSubjectAct(Number(this.id)).subscribe({
+      next: (res) => {
+        this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
       }
     })
   }
@@ -91,6 +106,8 @@ export class DetailTaskComponent implements OnInit {
 
   }
   AddCalif(row: User) {
+  this.taskSubject.idAsignatura=this.id;
+  this.taskSubject.tipoTarea="1";
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
         user: row,
@@ -120,7 +137,7 @@ export class DetailTaskComponent implements OnInit {
     });
   }
   volverAtras() {
-    this._nav.navigate(['/teaching-management/detail-subject/' + this.taskSubject.idAsignatura]);
+    this._nav.navigate(['/teaching-management/detail-subject/' + this.id]);
   }
 
   editCall(row: User) {
