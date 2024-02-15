@@ -182,7 +182,8 @@ export class DetailSubjectComponent implements OnInit {
 
   Detail(row: TaskSubject): void {
     localStorage.setItem('details_task', JSON.stringify(row));
-    this._nav.navigate(['/teaching-management/detail-task/', this.id]);
+    localStorage.setItem('id', this.id);
+    this._nav.navigate(['/teaching-management/detail-task/', row.id]);
   }
 
   editCall(row: TaskSubject) {
