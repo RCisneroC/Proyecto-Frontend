@@ -4,13 +4,20 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { TaskSubject } from '../models/Teacher';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, User } from '@core';
-import { CalificacionEstudiante } from '../models/Asistencias';
+import { AcademicRecord, CalificacionEstudiante, Student } from '../models/Asistencias';
 import { TeacherService } from '../services/teacher.service';
 export interface DialogData {
   id: string;
   accion: string;
-  user: User;
+  student: Student;
   taskSubject: TaskSubject
+}
+
+
+
+export interface RespuestaServicio {
+  id: number;
+  ///edad: number;
 }
 @Component({
   selector: 'app-add-calif',
@@ -43,7 +50,7 @@ export class AddCalifComponent {
   action: string;
   dialogTitle: string = '';
   FormsCalificacion!: UntypedFormGroup;
-  user!: User;
+  student!: Student;
 
   constructor(
     public dialogRef: MatDialogRef<AddCalifComponent>,
@@ -66,10 +73,10 @@ export class AddCalifComponent {
 
     }
 
-    this.user = data.user;
+    this.student = data.student;
 
     this.FormsCalificacion = this.createContactForm();
-    this.getRecordAcademic();
+    //this.getRecordAcademic();
   }
 
 
@@ -86,9 +93,9 @@ export class AddCalifComponent {
 
     this._CalificacionEstudiante = JSON.parse(local);
     console.log('====================================');
-    console.log(this.data.user.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
+    console.log(this.data.student.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
     console.log('====================================');
-    let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
+    let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
     if (existe.length > 0) {
       this._CalificacionEstudianteOne = existe[0];
     }
@@ -97,18 +104,38 @@ export class AddCalifComponent {
     console.log('====================================');
   }
   getRecordAcademic() {
-
-
-    let data = {
-      subjectId: 1,
-      studentId: 1,
+  
+    const data = {
+      subjectId:this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
     }
 
-    this._TeacherService.GetAcademicSubject(data).subscribe({
-      next: (res) => {
+    this._TeacherService.GetAcademicSubject(data).subscribe(
+      (res:AcademicRecord) => {
         console.log(res);
+        
+       
+          const datos = {
+            academicSubjectRecordId:res["data"][0].id,
+            score: this.FormsCalificacion.get("calif")?.value,
+            scoreTypeId: 1,
+            subjectTaskId: this.data.taskSubject.id,
+          }
+        this._TeacherService.AddCalifTask(datos).subscribe(
+          (data) => {
+            console.log(data)
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'calificacion correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
       }
-    })
+    )
   }
 
 
@@ -119,63 +146,63 @@ export class AddCalifComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
+this.getRecordAcademic();
+    // let type = localStorage.getItem('tipoSolicitud') || '1';
+    // let local = localStorage.getItem('calificaciones') || '';
+    // console.log(local);
 
-    let type = localStorage.getItem('tipoSolicitud') || '1';
-    let local = localStorage.getItem('calificaciones') || '';
-    console.log(local);
-
-    if (local != '') {
-      this._CalificacionEstudiante = JSON.parse(local);
-      let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
-      if (existe.length > 0) {
-        this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = 'Ya mantiene una calificación.';
-        this.dialogRef.close(this.ResponseMessage);
-      } else {
-        this._CalificacionEstudianteOne = {
-          statusId: 1,
-          startDate: new Date(),
-          idEstudiante: this.data.user.id,
-          cedula: this.data.user.cedula,
-          name: this.data.user.firstName,
-          lastname: this.data.user.lastName,
-          id: this._CalificacionEstudiante.length + 1,
-          idasignatura: this.data.taskSubject.idAsignatura,
-          docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
-          type: type,
-          calificacion: this.FormsCalificacion.controls['calif'].value,
-          nameTarea: this.data.taskSubject.Titulo,
-          idTask: this.data.taskSubject.id
-        };
-        this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
-        localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante));
-        this.ResponseMessage.CodError = 200;
-        this.ResponseMessage.Message = 'Calificación creada correctamente..';
-        this.dialogRef.close(this.ResponseMessage);
-      }
+    // if (local != '') {
+    //   this._CalificacionEstudiante = JSON.parse(local);
+    //   let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.user.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
+    //   if (existe.length > 0) {
+    //     this.ResponseMessage.CodError = 500;
+    //     this.ResponseMessage.Message = 'Ya mantiene una calificación.';
+    //     this.dialogRef.close(this.ResponseMessage);
+    //   } else {
+    //     this._CalificacionEstudianteOne = {
+    //       statusId: 1,
+    //       startDate: new Date(),
+    //       idEstudiante: this.data.user.id,
+    //       cedula: this.data.user.cedula,
+    //       name: this.data.user.firstName,
+    //       lastname: this.data.user.lastName,
+    //       id: this._CalificacionEstudiante.length + 1,
+    //       idasignatura: this.data.taskSubject.idAsignatura,
+    //       docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
+    //       type: type,
+    //       calificacion: this.FormsCalificacion.controls['calif'].value,
+    //       nameTarea: this.data.taskSubject.Titulo,
+    //       idTask: this.data.taskSubject.id
+    //     };
+    //     this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
+    //     localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante));
+    //     this.ResponseMessage.CodError = 200;
+    //     this.ResponseMessage.Message = 'Calificación creada correctamente..';
+    //     this.dialogRef.close(this.ResponseMessage);
+    //   }
 
 
-    } else {
-      this._CalificacionEstudianteOne = {
-        statusId: 1,
-        startDate: new Date(),
-        idEstudiante: this.data.user.id,
-        cedula: this.data.user.cedula,
-        name: this.data.user.firstName,
-        lastname: this.data.user.lastName,
-        id: 1,
-        idasignatura: this.data.taskSubject.idAsignatura,
-        docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
-        type: type,
-        calificacion: this.FormsCalificacion.controls['calif'].value,
-        nameTarea: this.data.taskSubject.Titulo,
-        idTask: this.data.taskSubject.id
-      };
-      this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
-      localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante))
-      console.log(this._CalificacionEstudianteOne);
+    // } else {
+    //   this._CalificacionEstudianteOne = {
+    //     statusId: 1,
+    //     startDate: new Date(),
+    //     idEstudiante: this.data.user.id,
+    //     cedula: this.data.user.cedula,
+    //     name: this.data.user.firstName,
+    //     lastname: this.data.user.lastName,
+    //     id: 1,
+    //     idasignatura: this.data.taskSubject.idAsignatura,
+    //     docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.firstName,
+    //     type: type,
+    //     calificacion: this.FormsCalificacion.controls['calif'].value,
+    //     nameTarea: this.data.taskSubject.Titulo,
+    //     idTask: this.data.taskSubject.id
+    //   };
+    //   this._CalificacionEstudiante.push(this._CalificacionEstudianteOne);
+    //   localStorage.setItem('calificaciones', JSON.stringify(this._CalificacionEstudiante))
+    //   console.log(this._CalificacionEstudianteOne);
 
-    }
+    // }
   }
 
 

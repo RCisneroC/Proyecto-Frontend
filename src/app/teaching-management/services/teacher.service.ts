@@ -8,6 +8,8 @@ import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
 import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
+import { RespuestaServicio } from '../add-calif/add-calif.component';
+import { AcademicRecord } from '../models/Asistencias';
 
 @Injectable({
   providedIn: 'root'
@@ -165,7 +167,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   GetAcademicSubject(data: any) {
     return this.httpClient
-      .post(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
+      .post<AcademicRecord>(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
+  }
+  
+  AddCalifTask(data: any) {
+    return this.httpClient
+      .post(environment.apiIntranet + 'CreateSubjectRecordScores', data);
   }
 
 }

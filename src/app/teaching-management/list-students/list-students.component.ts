@@ -29,6 +29,7 @@ export class ListStudentsComponent implements OnInit {
   dataSourseUser: User[] = []
   dataSou = new MatTableDataSource<User>(this.dataSourseUser);
   public id: string = '';
+  idGeneral!: number;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -37,10 +38,21 @@ export class ListStudentsComponent implements OnInit {
   }
 
   constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
-    this.getOneStudents();
+    //this.getOneStudents();
     this.activatedRoute.params.subscribe((params) => {
 
       this.id = params['id'];
+      this.idGeneral = Number(localStorage.getItem('id')) || 0;
+      
+      const local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+        if (local == "1") {
+          this.getOneStudents();
+        } else {
+          this.getOneStudentsAct();
+        }
+      }
+      
     });
   }
   applyFilter(event: Event) {
@@ -50,10 +62,25 @@ export class ListStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSou.paginator = this.paginator;
   }
+  // getOneStudents() {
+  //   this._TeacherService.getStudents("Estudiante").subscribe({
+  //     next: (res) => {
+  //       this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+  //     }
+  //   })
+  // }
+  
   getOneStudents() {
-    this._TeacherService.getStudents("Estudiante").subscribe({
+    this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+        this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
+      }
+    })
+  }
+  getOneStudentsAct() {
+    this._TeacherService.getStudentSubjectAct(Number(this.idGeneral)).subscribe({
+      next: (res) => {
+        this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
       }
     })
   }
