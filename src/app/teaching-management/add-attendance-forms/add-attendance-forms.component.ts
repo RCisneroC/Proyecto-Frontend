@@ -279,7 +279,5 @@ export class AddAttendanceFormsComponent implements OnInit {
       console.log('asistencialist',this.data.asistence);
       this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
       this.ListAsistence.paginator = this.paginator;
-
-
   }
 }
