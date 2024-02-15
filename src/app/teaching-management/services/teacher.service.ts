@@ -174,5 +174,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateSubjectRecordScores', data);
   }
+  
+  AddAsistStudent(data: any) {
+    return this.httpClient
+      .post(environment.apiIntranet + 'CreateAcademicSubjectAttendanceRecord', data);
+  }
+
 
 }

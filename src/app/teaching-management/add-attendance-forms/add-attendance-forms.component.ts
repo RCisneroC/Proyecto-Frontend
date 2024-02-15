@@ -4,13 +4,14 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AnnualPlanService } from 'app/admission/FormalEducations/Services/annual-plan.service';
-import { StudenAsistence } from '../models/Asistencias';
+import { AcademicRecord, StudenAsistence, Student } from '../models/Asistencias';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { TeacherService } from '../services/teacher.service';
 export interface DialogData {
   id: string;
   action: string;
-  students: User;
+  student: Student;
 }
 @Component({
   selector: 'app-add-attendance-forms',
@@ -63,7 +64,8 @@ export class AddAttendanceFormsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _AnnualPlanService: AnnualPlanService,
     private fb: UntypedFormBuilder,
-    public authservice: AuthService
+    public authservice: AuthService,
+    public _TeacherService: TeacherService,
   ) {
     this.action = data.action;
     if (this.action === 'add') {
@@ -79,13 +81,9 @@ export class AddAttendanceFormsComponent implements OnInit {
     this.AsistenciaForms = this.fb.group({
       statusId: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
-      idEstudiante: [data.students.id, [Validators.required]],
-      cedula: [data.students.cedula, [Validators.required]],
-      name: [data.students.firstName, [Validators.required]],
-      lastname: [data.students.lastName, [Validators.required]],
-      docente: [this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName, [Validators.required]],
-      idasignatura: [this.data.id, [Validators.required]],
-      type: [localStorage.getItem('tipoSolicitud') || '', [Validators.required]]
+      // docente: [this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName, [Validators.required]],
+      // idasignatura: [this.data.id, [Validators.required]],
+      // type: [localStorage.getItem('tipoSolicitud') || '', [Validators.required]]
     });
   }
   ngOnInit(): void {
@@ -95,44 +93,84 @@ export class AddAttendanceFormsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListAsistence.filter = filterValue.trim().toLowerCase();
   }
-  submit() {
-    let type = localStorage.getItem('tipoSolicitud');
-    let local = localStorage.getItem('asitencias') || '';
-    if (local != '') {
-      this.Asistencia = JSON.parse(local);
-      let fecha = this.AsistenciaForms.controls['startDate'].value;
-      let existe = this.Asistencia.filter(x => this.formatearFecha(x.startDate.toString()) == this.formatearFecha(fecha) && x.cedula == this.AsistenciaForms.controls['cedula'].value && x.idasignatura == this.data.id && x.type == type);
-      if (existe.length > 0) {
-        this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = 'Ya mantiene una asistencia para la fecha seleccionada.';
-        this.dialogRef.close(this.ResponseMessage);
-        return;
-      }
-      this.AsistenciaOne = {
-        statusId: this.AsistenciaForms.controls['statusId'].value,
-        startDate: this.AsistenciaForms.controls['startDate'].value,
-        idEstudiante: this.AsistenciaForms.controls['idEstudiante'].value,
-        cedula: this.AsistenciaForms.controls['cedula'].value,
-        name: this.AsistenciaForms.controls['name'].value,
-        lastname: this.AsistenciaForms.controls['lastname'].value,
-        id: this.Asistencia.length + 1,
-        docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName,
-        idasignatura: this.data.id,
-        type: localStorage.getItem('tipoSolicitud') || ''
-
-      };
-      this.Asistencia.push(this.AsistenciaOne);
-      localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Registrado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
-    } else {
-      this.Asistencia.push(this.AsistenciaForms.getRawValue());
-      localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Cargado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
+  
+  getRecordAcademic() {
+  
+    const data = {
+      subjectId:this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
     }
+
+    this._TeacherService.GetAcademicSubject(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+       
+          const datos = {
+            academicSubjectRecordId:res["data"][0].id,
+            date: this.AsistenciaForms.get("startDate")?.value,
+            attended: this.AsistenciaForms.get("statusId")?.value,
+
+          }
+          
+        this._TeacherService.AddAsistStudent(datos).subscribe(
+          (data) => {
+            console.log(data)
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Asistencia correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+
+  
+  submit() {
+  
+    this.getRecordAcademic()
+    // let type = localStorage.getItem('tipoSolicitud');
+    // let local = localStorage.getItem('asitencias') || '';
+    // if (local != '') {
+    //   this.Asistencia = JSON.parse(local);
+    //   let fecha = this.AsistenciaForms.controls['startDate'].value;
+    //   let existe = this.Asistencia.filter(x => this.formatearFecha(x.startDate.toString()) == this.formatearFecha(fecha) && x.cedula == this.AsistenciaForms.controls['cedula'].value && x.idasignatura == this.data.id && x.type == type);
+    //   if (existe.length > 0) {
+    //     this.ResponseMessage.CodError = 500;
+    //     this.ResponseMessage.Message = 'Ya mantiene una asistencia para la fecha seleccionada.';
+    //     this.dialogRef.close(this.ResponseMessage);
+    //     return;
+    //   }
+    //   this.AsistenciaOne = {
+    //     statusId: this.AsistenciaForms.controls['statusId'].value,
+    //     startDate: this.AsistenciaForms.controls['startDate'].value,
+    //     idEstudiante: this.AsistenciaForms.controls['idEstudiante'].value,
+    //     cedula: this.AsistenciaForms.controls['cedula'].value,
+    //     name: this.AsistenciaForms.controls['name'].value,
+    //     lastname: this.AsistenciaForms.controls['lastname'].value,
+    //     id: this.Asistencia.length + 1,
+    //     docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName,
+    //     idasignatura: this.data.id,
+    //     type: localStorage.getItem('tipoSolicitud') || ''
+
+    //   };
+    //   this.Asistencia.push(this.AsistenciaOne);
+    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
+    //   this.ResponseMessage.CodError = 200;
+    //   this.ResponseMessage.Message = 'Registrado correctamente.';
+    //   this.dialogRef.close(this.ResponseMessage);
+    // } else {
+    //   this.Asistencia.push(this.AsistenciaForms.getRawValue());
+    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
+    //   this.ResponseMessage.CodError = 200;
+    //   this.ResponseMessage.Message = 'Cargado correctamente.';
+    //   this.dialogRef.close(this.ResponseMessage);
+    // }
 
 
 
@@ -178,7 +216,7 @@ export class AddAttendanceFormsComponent implements OnInit {
       let type = localStorage.getItem('tipoSolicitud');
       console.log(type);
 
-      this.AsistenciaUser = this.Asistencia.filter(x => x.cedula == this.data.students.cedula && x.idasignatura == this.data.id && x.type == type);
+      this.AsistenciaUser = this.Asistencia.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.id && x.type == type);
       console.log('====================================');
       console.log(this.AsistenciaUser);
       console.log('====================================');

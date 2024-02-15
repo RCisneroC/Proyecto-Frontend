@@ -34,10 +34,10 @@
                     <mat-form-field class="example-full-width " appearance="outline">
                         <mat-label>Asistio</mat-label>
                         <mat-select formControlName="statusId">
-                            <mat-option value="Si">
+                            <mat-option [value]="true">
                                 Si
                             </mat-option>
-                            <mat-option value="No">
+                            <mat-option [value]="false">
                                 No
                             </mat-option>
                         </mat-select>

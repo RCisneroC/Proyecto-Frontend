@@ -9,7 +9,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudenAsistence } from '../models/Asistencias';
+import { StudenAsistence, Student } from '../models/Asistencias';
 
 @Component({
   selector: 'app-list-students',
@@ -87,7 +87,9 @@ export class ListStudentsComponent implements OnInit {
   volverAtras() {
     this._Router.navigate(['/teaching-management/teacher-history-list']);
   }
-  Addasistencia(row: User) {
+  
+  
+  Addasistencia(row: Student) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -96,7 +98,7 @@ export class ListStudentsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
       data: {
-        students: row,
+        student: row,
         action: 'add',
         id: this.id
       },
@@ -122,7 +124,7 @@ export class ListStudentsComponent implements OnInit {
     });
   }
 
-  verAsignatura(row: User) {
+  verAsignatura(row: Student) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -131,7 +133,7 @@ export class ListStudentsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
       data: {
-        students: row,
+        student: row,
         action: 'view',
         id: this.id,
       },
