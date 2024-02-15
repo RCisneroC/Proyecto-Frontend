@@ -184,7 +184,17 @@ export class AddCalifComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-this.getRecordAcademic();
+  
+  
+    let local = localStorage.getItem('tipoSolicitud') || '';
+    if (local != '') {
+      if (local == "1") {
+        this.getRecordAcademic();
+      } else {
+        this.getRecordAcademicAct()
+      }
+    } 
+
     // let type = localStorage.getItem('tipoSolicitud') || '1';
     // let local = localStorage.getItem('calificaciones') || '';
     // console.log(local);
