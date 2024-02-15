@@ -8,10 +8,12 @@ import { AcademicRecord, StudenAsistence, Student } from '../models/Asistencias'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
+import {AttenderResponse} from "../../enrollment/models/Career";
 export interface DialogData {
   id: string;
   action: string;
   student: Student;
+  asistence: AttenderResponse[];
 }
 @Component({
   selector: 'app-add-attendance-forms',
@@ -93,9 +95,9 @@ export class AddAttendanceFormsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListAsistence.filter = filterValue.trim().toLowerCase();
   }
-  
+
   getRecordAcademic() {
-  
+
     const data = {
       subjectId:this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
@@ -105,15 +107,15 @@ export class AddAttendanceFormsComponent implements OnInit {
     this._TeacherService.GetAcademicSubject(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
-        
-       
+
+
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
             date: this.AsistenciaForms.get("startDate")?.value,
             attended: this.AsistenciaForms.get("statusId")?.value,
 
           }
-          
+
         this._TeacherService.AddAsistStudent(datos).subscribe(
           (data) => {
             console.log(data)
@@ -129,22 +131,22 @@ export class AddAttendanceFormsComponent implements OnInit {
       }
     )
   }
-  
-  
+
+
   getRecordAcademicAct() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId:idGeneral,
       //studentId: this.data.student.studentId,
     }
-    
-    
+
+
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
-        
-       
+
+
           const datos = {
             ecAcademicRecordId:res["data"][0].id,
             date: this.AsistenciaForms.get("startDate")?.value,
@@ -168,9 +170,9 @@ export class AddAttendanceFormsComponent implements OnInit {
   }
 
 
-  
+
   submit() {
-  
+
     let local = localStorage.getItem('tipoSolicitud') || '';
     if (local != '') {
       if (local == "1") {
@@ -178,9 +180,9 @@ export class AddAttendanceFormsComponent implements OnInit {
       } else {
         this.getRecordAcademicAct()
       }
-    } 
-      
-    
+    }
+
+
     // let type = localStorage.getItem('tipoSolicitud');
     // let local = localStorage.getItem('asitencias') || '';
     // if (local != '') {

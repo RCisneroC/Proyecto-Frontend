@@ -66,6 +66,9 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     type: ''
   }
   id: string = '';
+  efAcademicRecordId:number=0;
+  academicSubjectRecordId:number=0;
+
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
@@ -149,23 +152,42 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     })
   }
 
-  verAsignatura(row: EnrollDummy) {
+  verAsignatura(row: subjectEnrollmentResult) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
+
     this._StudenAsistence.cedula = this._ActivityService._DetailsResponseEF.cedula;
     localStorage.setItem('tipoSolicitud', '1');
-    const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
-      data: {
-        students: this._StudenAsistence,
-        action: 'view',
-        id: row.SubjectId,
-      },
-      direction: tempDirection,
-    });
+
+    this._enrollservice.SearchEFAcademicRecordMethod(row.studentId,row.mallaId).subscribe({
+      next:(res)=>{
+        this.efAcademicRecordId = + res.data[0].id;
+        this._enrollservice.SearchAcademicSubjectRecordMethod(this.efAcademicRecordId,row.asignaturaId,row.mallaId,row.studentId).subscribe({
+          next:(res)=>{
+            this.academicSubjectRecordId = + res.data[0].id;
+            this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId,row.mallaId,row.asignaturaId,row.studentId).subscribe({
+              next:(res)=>{
+                const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
+                  data: {
+                    students: this._StudenAsistence,
+                    action: 'view',
+                    id: row.asignaturaId,
+                    asistence: res.data
+                  },
+                  direction: tempDirection,
+                });
+              }
+            })
+          }
+        })
+      }
+    })
+
+
   }
 
   verCalificaciones(row: subjectEnrollmentResult) {
