@@ -90,6 +90,7 @@ export class ListStudentsComponent implements OnInit {
   
   
   Addasistencia(row: Student) {
+ 
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';

@@ -170,6 +170,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post<AcademicRecord>(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
   }
   
+  GetAcademicSubject2(data: any) {
+    return this.httpClient
+      .post<AcademicRecord>(environment.apiIntranet + 'SearchEFAcademicRecord', data);
+  }
+  
+  
+  
+  
   GetAcademicActivity(data: any) {
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
@@ -198,14 +206,27 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   
   GetAsistStudentAct(data: any) {
     return this.httpClient
-      .post<StudenAsistence[]>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
+      .post<Asist>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
   }
   
   GetAsistStudentSubject(data: any) {
     return this.httpClient
       .post<Asist>(environment.apiIntranet + 'SearchAcademicSubjectAttendanceRecord', data);
   }
+  
+  GetCalifSubject(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchSubjectRecordScores', data);
+  }
+  
+  GetCalifActi(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchActivityRecordScores', data);
+  }
 
+
+
+  
 
   
   
