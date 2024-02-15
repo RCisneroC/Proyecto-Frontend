@@ -114,6 +114,7 @@ export class EnrollDetailsComponent {
     //tomar degree id del path de la ruta
     this._enrollservice.GetStudentsSubjects(id,this._ActivityService._DetailsResponseEF.cedula).subscribe({
       next:(res)=>{
+        console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
       }
     })
