@@ -56,10 +56,16 @@ export interface Student {
 }
 
 export interface AcademicRecord {
- data:generico[];
+  data:generico[];
  
   }
   
+  
+  export interface Asist {
+    data:StudenAsistence[];
+    
+ }
+     
   export interface generico{
     id: number;
     createdDate: string;

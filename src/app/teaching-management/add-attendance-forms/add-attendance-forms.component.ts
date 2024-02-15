@@ -4,7 +4,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AnnualPlanService } from 'app/admission/FormalEducations/Services/annual-plan.service';
-import { AcademicRecord, StudenAsistence, Student } from '../models/Asistencias';
+import { AcademicRecord, Asist, StudenAsistence, Student } from '../models/Asistencias';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
@@ -315,8 +315,8 @@ export class AddAttendanceFormsComponent implements OnInit {
           }
 
         this._TeacherService.GetAsistStudentSubject(datos).subscribe(
-          (data) => {
-            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data);
+          (res:Asist) => {
+            this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
             this.ListAsistence.paginator = this.paginator;
           },
           (error) => {
