@@ -27,12 +27,12 @@ export class AddAttendanceFormsComponent implements OnInit {
   public AsistenciaUser: StudenAsistence[] = [];
   public AsistenciaOne!: StudenAsistence;
   displayedColumns: string[] = [
-    'cedula',
-    'name',
-    'lastname',
-    'fecha',
-    'asistio',
-    'profesor',
+    // 'cedula',
+    // 'name',
+    // 'lastname',
+    'date',
+    'attended',
+    //'profesor',
   ]
   StudenAsistenceSource: StudenAsistence[] = [
     {
@@ -45,7 +45,9 @@ export class AddAttendanceFormsComponent implements OnInit {
       id: 0,
       docente: '',
       idasignatura: '',
-      type: ''
+      type: '',
+      attended:false,
+      date:new Date()
     }
   ]
   IsLoading: boolean = false;
@@ -55,9 +57,9 @@ export class AddAttendanceFormsComponent implements OnInit {
   ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    setTimeout(() => {
-      this.ListAsistence.paginator = value;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.ListAsistence.paginator = value;
+    // }, 1000);
   }
   constructor(
     public dialogRef: MatDialogRef<AddAttendanceFormsComponent>,
@@ -74,7 +76,15 @@ export class AddAttendanceFormsComponent implements OnInit {
       this.dialogTitle = "Editar Registro de Asistencia";
     } else if (this.action === 'view') {
       this.dialogTitle = "Detalle de Asistencia.";
-      this.getAsistencias();
+     
+      let local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+        if (local == "1") {
+          this.getAsisSubject();
+        } else {
+          this.getasistAct();
+        }
+      } 
     }
     console.log(data);
 
@@ -255,21 +265,68 @@ export class AddAttendanceFormsComponent implements OnInit {
     const fecha = new Date(fechaString);
     return fecha.toISOString().split('T')[0];
   }
+  
+  getasistAct() {
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
+    const data = {
+      activityId:idGeneral,
+      //studentId: this.data.student.studentId,
+    }
+    
+    this._TeacherService.GetAcademicActivity(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+      
+          const datos = {
+            ecAcademicRecordId:res["data"][0].id,
+            studentId: this.data.student.studentId,
+          }
 
-  getAsistencias() {
-    let local = localStorage.getItem('asitencias') || '';
-    if (local != '') {
-      this.Asistencia = JSON.parse(local);
-      let type = localStorage.getItem('tipoSolicitud');
-      console.log(type);
-
-      this.AsistenciaUser = this.Asistencia.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.id && x.type == type);
-      console.log('====================================');
-      console.log(this.AsistenciaUser);
-      console.log('====================================');
-      this.ListAsistence = new MatTableDataSource<StudenAsistence>(this.AsistenciaUser);
-      this.ListAsistence.paginator = this.paginator;
+        this._TeacherService.GetAsistStudentAct(datos).subscribe(
+          (data:StudenAsistence[]) => {
+          
+            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data);
+            this.ListAsistence.paginator = this.paginator;
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+  
+  getAsisSubject() {
+  
+    const data = {
+      subjectId:this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
     }
 
+    this._TeacherService.GetAcademicSubject(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+       
+          const datos = {
+            academicSubjectRecordId:res["data"][0].id,
+          }
+
+        this._TeacherService.GetAsistStudentSubject(datos).subscribe(
+          (data) => {
+            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data);
+            this.ListAsistence.paginator = this.paginator;
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
   }
+  
+  
 }

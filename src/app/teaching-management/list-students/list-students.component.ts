@@ -32,9 +32,9 @@ export class ListStudentsComponent implements OnInit {
   idGeneral!: number;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    setTimeout(() => {
-      this.dataSou.paginator = value;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.dataSou.paginator = value;
+    // }, 1000);
   }
 
   constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
