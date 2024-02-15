@@ -109,6 +109,12 @@ export class EncuestaSubjectComponent {
     this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId).subscribe({
       next: (res) => {
         console.log(res);
+        if (res.length == 0) {
+          this.makeSurvey = true;
+        } else {
+
+          this.makeSurvey = false;
+        }
 
       }
     });

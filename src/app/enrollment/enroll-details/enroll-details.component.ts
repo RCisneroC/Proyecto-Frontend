@@ -120,15 +120,9 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
 
   getInfo(id: string) {
     //tomar degree id del path de la ruta
-<<<<<<< HEAD
-    this._enrollservice.GetStudentsSubjects('3', this.authService.currentUserValue.cedula).subscribe({
+    this._enrollservice.GetStudentsSubjects(id, this._ActivityService._DetailsResponseEF.cedula).subscribe({
       next: (res) => {
         this.dataSourceInfo = res.subjectEnrollmentResult;
-        console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
-=======
-    this._enrollservice.GetStudentsSubjects(id,this._ActivityService._DetailsResponseEF.cedula).subscribe({
-      next:(res)=>{
->>>>>>> e464aa0dace36c956db53add03926598bb088b18
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
         this.EncuestForms();
       }
@@ -164,7 +158,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
         subject: this.dataSourceInfo,
         action: 'encuesta',
       },
-      width: '900px',
+      width: '1200px',
       disableClose: true
     });
 
