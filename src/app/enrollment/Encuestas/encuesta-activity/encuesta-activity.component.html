@@ -1,1 +1,77 @@
-<p>encuesta-activity works!</p>
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-12" *ngIf="makeSurvey">
+                <p style="font-weight: bold;">Organización del evento: {{ QuestionsSubject[0].CapacitacionVirtual }}</p>
+                <br>
+            </div>
+            <table class="table" *ngIf="makeSurvey">
+                <thead>
+                    <th>N°</th>
+                    <th>Efectividad</th>
+                    <th>Puntaje 1-5</th>
+                    <th>Acción</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of QuestionsSubject[0].ListQuestins">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <input matInput id="pregunta_{{ item.id }}" type="number">
+                        </td>
+                        <td>
+                            <button id="button_{{ item.id }}" mat-raised-button color="accent"
+                                (click)="calificar(item)">
+                                Confirmar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-12" *ngIf="makeSurvey">
+                <p style="font-weight: bold;">Docente o Facilitador: {{ QuestionsSubject[1].CapacitacionVirtual }}</p>
+                <br>
+            </div>
+            <table class="table" *ngIf="makeSurvey">
+                <thead>
+                    <th>N°</th>
+                    <th>Conocimientos impartidos</th>
+                    <th>Puntaje 1-5</th>
+                    <th>Acción</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of QuestionsSubject[1].ListQuestins">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <input matInput id="pregunta_{{ item.id }}" type="number">
+                        </td>
+                        <td>
+                            <button id="button_{{ item.id }}" mat-raised-button color="accent"
+                                (click)="calificar(item)">
+                                Confirmar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button mat-raised-button color="accent" (click)="dialogRef.close()">
+            Salir, encuesta realiza
+        </button>
+
+    </div>
+</div>

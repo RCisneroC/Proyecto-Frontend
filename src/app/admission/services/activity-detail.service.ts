@@ -771,7 +771,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   GetEventsActivity(id: any) {
     return this.httpClient.get<EventsActivity[]>(environment.apiUrlSchedule + 'Activity/GetEventsBy?ActivityId=' + id);
   }
-
+  GetEncuestaLista(StudentId: any, ActivityId: any) {
+    return this.httpClient.get<any>(environment.apiUrlSchedule + `Survey/GetSurveysBy?StudentId=${StudentId}&ActivityId=${ActivityId}`);
+  }
 
 
 
