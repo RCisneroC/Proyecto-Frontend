@@ -54,25 +54,11 @@ export class AddAttendanceFormsComponent implements OnInit {
       date: new Date()
     }
   ]
-
-  AsistenceSource: AttenderResponse[] = [
-    {
-      id: 0,
-      createdDate: new Date(),
-      createdBy: '',
-      lastModifiedDate: new Date(),
-      lastModifiedBy: '',
-      totalRecords: 0,
-      academicSubjectRecordId: 0,
-      date: new Date(),
-      attended: true
-    }
-  ]
   IsLoading: boolean = false;
   action: string;
   dialogTitle: string = '';
   AsistenciaForms: UntypedFormGroup;
-  ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
+  ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
