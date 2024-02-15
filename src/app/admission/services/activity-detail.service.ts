@@ -775,7 +775,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlSchedule + `Survey/GetSurveysBy?StudentId=${StudentId}&ActivityId=${ActivityId}`);
   }
 
-
+  SaveEncuesta(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Survey/Create', data);
+  }
 
 
   initService() {

@@ -109,7 +109,7 @@ export class EncuestaSubjectComponent {
         score: elementText.value,
         questionId: row.id,
         studentId: this._subjectEnrollmentResult.studentId,
-        teacherCedula: "string",
+        teacherCedula: "21324339",
         periodId: this._subjectEnrollmentResult.periodsId,
         year: 1,
         subjectId: this._subjectEnrollmentResult.asignaturaId

@@ -105,60 +105,58 @@ export class EncuestaActivityComponent {
   }
 
   calificar(row: ListQuestins) {
-    // const elementText = this.elm.nativeElement.querySelector('#pregunta_' + row.id);
-    // const button = this.elm.nativeElement.querySelector('#button_' + row.id);
+    const elementText = this.elm.nativeElement.querySelector('#pregunta_' + row.id);
+    const button = this.elm.nativeElement.querySelector('#button_' + row.id);
 
 
-    // if (elementText.value != '') {
-    //   if (elementText.value < 0 || elementText.value > 5) {
-    //     Swal.fire({
-    //       title: "Escuela Judicial",
-    //       text: "El valor debe ser entre 1 a 5.",
-    //       icon: "warning"
-    //     });
-    //     return;
-    //   }
-    //   let data = {
-    //     name: '.......',
-    //     description: '.........',
-    //     questionNumber: row.id,
-    //     score: elementText.value,
-    //     questionId: row.id,
-    //     studentId: this._subjectEnrollmentResult.studentId,
-    //     teacherCedula: "string",
-    //     periodId: this._subjectEnrollmentResult.periodsId,
-    //     year: 1,
-    //     subjectId: this._subjectEnrollmentResult.asignaturaId
-    //   };
+    if (elementText.value != '') {
+      if (elementText.value < 0 || elementText.value > 5) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "El valor debe ser entre 1 a 5.",
+          icon: "warning"
+        });
+        return;
+      }
+      let data = {
+        name: '.....',
+        description: '.....',
+        questionNumber: row.id,
+        score: elementText.value,
+        questionId: row.id,
+        studentId: this.Id,
+        teacherCedula: '21324339',
+        activityId: this.data.activity.degreeCurriculumDesignId,
+      };
 
-    //   this._SubjectService.SaveEncuesta(data).subscribe({
-    //     next: (res) => {
-    //       Swal.fire({
-    //         title: "Escuela Judicial",
-    //         text: "Calificación Registrada.",
-    //         icon: "success"
-    //       });
-    //       button.disabled = true;
-    //     }
-    //   })
-    // } else {
-    //   Swal.fire({
-    //     title: "Escuela Judicial",
-    //     text: "Debe ingresar la valoración.",
-    //     icon: "warning"
-    //   });
-    // }
+      this._ActivityService.SaveEncuesta(data).subscribe({
+        next: (res) => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Calificación Registrada.",
+            icon: "success"
+          });
+          button.disabled = true;
+        }
+      })
+    } else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: "Debe ingresar la valoración.",
+        icon: "warning"
+      });
+    }
   }
 
 
-  // volverDisabledFalse() {
-  //   for (let index = 1; index <= 8; index++) {
-  //     const button = this.elm.nativeElement.querySelector('#button_' + index);
-  //     if (button != null) {
-  //       button.disabled = false;
-  //     }
-  //   }
-  // }
+  volverDisabledFalse() {
+    for (let index = 1; index <= 12; index++) {
+      const button = this.elm.nativeElement.querySelector('#button_' + index);
+      if (button != null) {
+        button.disabled = false;
+      }
+    }
+  }
 
   // EventSelect(event: any) {
   //   let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
@@ -172,12 +170,12 @@ export class EncuestaActivityComponent {
     this._ActivityService.GetEncuestaLista(this.Id, this.data.activity.degreeCurriculumDesignId).subscribe({
       next: (res) => {
         console.log(res);
-        if (res.length < 8) {
+        if (res.length < 12) {
           this.makeSurvey = true;
         } else {
           Swal.fire({
             title: "Escuela Judicial",
-            text: "La encuesta para esta asignatura ya fue registrada.",
+            text: "La encuesta para esta Actividad ya fue registrada.",
             icon: "warning"
           });
           this.makeSurvey = false;
@@ -185,7 +183,7 @@ export class EncuestaActivityComponent {
 
       },
       complete: () => {
-        // this.volverDisabledFalse();
+        this.volverDisabledFalse();
       }
     });
   }
