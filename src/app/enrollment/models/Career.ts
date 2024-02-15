@@ -39,7 +39,7 @@ export interface SearchAcademicSubjectAttendanceRecord{
 
 
 export interface AttenderResponse {
-  id: 11,
+  id: number,
   createdDate: Date,
   createdBy: string,
   lastModifiedDate: Date,

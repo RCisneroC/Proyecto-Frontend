@@ -9,11 +9,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
 import {AttenderResponse} from "../../enrollment/models/Career";
+import {DetailsResponseEF} from "../../admission/models/participant";
 export interface DialogData {
   id: string;
   action: string;
   student: Student;
   asistence: AttenderResponse[];
+  details:DetailsResponseEF
 }
 @Component({
   selector: 'app-add-attendance-forms',
@@ -50,11 +52,25 @@ export class AddAttendanceFormsComponent implements OnInit {
       type: ''
     }
   ]
+
+  AsistenceSource: AttenderResponse[] = [
+    {
+      id: 0,
+      createdDate: new Date(),
+      createdBy: '',
+      lastModifiedDate: new Date(),
+      lastModifiedBy: '',
+      totalRecords: 0,
+      academicSubjectRecordId: 0,
+      date: new Date(),
+      attended: true
+    }
+  ]
   IsLoading: boolean = false;
   action: string;
   dialogTitle: string = '';
   AsistenciaForms: UntypedFormGroup;
-  ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
+  ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -259,19 +275,11 @@ export class AddAttendanceFormsComponent implements OnInit {
   }
 
   getAsistencias() {
-    let local = localStorage.getItem('asitencias') || '';
-    if (local != '') {
-      this.Asistencia = JSON.parse(local);
-      let type = localStorage.getItem('tipoSolicitud');
-      console.log(type);
 
-      this.AsistenciaUser = this.Asistencia.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.id && x.type == type);
-      console.log('====================================');
-      console.log(this.AsistenciaUser);
-      console.log('====================================');
-      this.ListAsistence = new MatTableDataSource<StudenAsistence>(this.AsistenciaUser);
+      console.log('asistencialist',this.data.asistence);
+      this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
       this.ListAsistence.paginator = this.paginator;
-    }
+
 
   }
 }

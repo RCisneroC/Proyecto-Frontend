@@ -176,7 +176,8 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
                     students: this._StudenAsistence,
                     action: 'view',
                     id: row.asignaturaId,
-                    asistence: res.data
+                    asistence: res.data,
+                    details: this._ActivityService._DetailsResponseEF
                   },
                   direction: tempDirection,
                 });
