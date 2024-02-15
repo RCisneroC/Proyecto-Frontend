@@ -70,7 +70,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
   dataInfo = new MatTableDataSource<subjectEnrollmentResult>(this.dataSourceInfo);
-
+  public _RecordIdEF: number = 0;
   @ViewChild('ListaInfo')
   set paginatorInfo(value: MatPaginator) {
     this.dataInfo.paginator = value;
@@ -92,7 +92,20 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
 
   }
   ngOnInit(): void {
+  }
 
+  GetRecordIdStuudent(id_estudiante: any, id_degree: any) {
+    //traer el recordidEF
+    this._enrollservice.GetRecordIdStuudent(id_estudiante, id_degree).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this._RecordIdEF = res.data[0].id
+          console.log("recordId");
+          console.log(this._RecordIdEF);
+        }
+
+      }
+    })
   }
 
   getDetails() {
@@ -126,6 +139,12 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
         this.dataSourceInfo = res.subjectEnrollmentResult;
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
         this.EncuestForms();
+      },
+      complete: () => {
+        if (this.dataSourceInfo.length > 0) {
+
+          this.GetRecordIdStuudent(this.dataSourceInfo[0].studentId, this.dataSourceInfo[0].mallaId);
+        }
       }
     })
   }
@@ -149,8 +168,34 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  verCalificaciones(row: EnrollDummy) {
-
+  verCalificaciones(row: subjectEnrollmentResult) {
+    let recordSubjectId = 0;
+    let data = {
+      "efAcademicRecordId": this._RecordIdEF,
+      "subjectId": row.asignaturaId,
+      "degreeCurriculumDesignId": row.mallaId,
+      "studentId": row.studentId
+    };
+    //traer el recordSubjectid
+    this._enrollservice.SearchAcademicSubjectRecord(data).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res.success) {
+          recordSubjectId = res.data[0].id;
+          console.log(recordSubjectId, this._RecordIdEF);
+        }
+      },
+      complete: () => {
+        let data_calificacion = {
+          "academicSubjectRecordId": recordSubjectId
+        }
+        //traer las calificaciones.
+        this._enrollservice.SearchSubjectRecordScores(data_calificacion).subscribe({
+          next: (res) => {
+          }
+        });
+      }
+    })
   }
 
   EncuestForms() {

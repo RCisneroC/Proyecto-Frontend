@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {UnsubscribeOnDestroyAdapter} from "@shared";
-import {Mesh} from "../../admission/FormalEducations/Models/Degree";
-import {VerificarDocumentacion} from "../../admission/models/VerificacionDocumentacion";
-import {BehaviorSubject, Observable} from "rxjs";
+import { UnsubscribeOnDestroyAdapter } from "@shared";
+import { Mesh } from "../../admission/FormalEducations/Models/Degree";
+import { VerificarDocumentacion } from "../../admission/models/VerificacionDocumentacion";
+import { BehaviorSubject, Observable } from "rxjs";
 import {
   GetDataResultResponse,
   Participant,
@@ -10,19 +10,19 @@ import {
 import {
   InscriptionResponse,
 } from "../../admission/models/ParticipantesEF";
-import {documentosIncripcion} from "../../admission/models/documentosIncripcion";
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../../environments/environment.development";
+import { documentosIncripcion } from "../../admission/models/documentosIncripcion";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment.development";
 import {
   CreateEnrollmentResult, GetStudentsActivityResponse,
   GetSubjectEnrollmentResult,
   ResponseAddEFcademicInfo
 } from "../../admission/models/AddEFacademicResponse";
-import {Period} from "../models/Period";
-import {Subject} from "../models/Subject";
-import {Room} from "../models/Room";
-import {Career, CareerResponse} from "../models/Career";
-import {an} from "@fullcalendar/core/internal-common";
+import { Period } from "../models/Period";
+import { Subject } from "../models/Subject";
+import { Room } from "../models/Room";
+import { Career, CareerResponse } from "../models/Career";
+import { an } from "@fullcalendar/core/internal-common";
 
 @Injectable({
   providedIn: 'root'
@@ -94,7 +94,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   GetSubjectDegree(id: string): void {
     this.subs.sink = this.httpClient
-      .post<CareerResponse>(environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id})
+      .post<CareerResponse>(environment.apiEC + 'EJMatricula/GetSubjectDegree', { cedula: id })
       .subscribe({
         next: (data) => {
           console.log(data.studentInnfo);
@@ -126,27 +126,27 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/AddSubjectStudent", createEnrollmentdSubjectDta);
   }
 
-  GetStudentsActivity( id: string) {
+  GetStudentsActivity(id: string) {
     return this.httpClient.get<GetStudentsActivityResponse>(
-      environment.apiEC + 'ContinuingEducation/GetStudentsActivity?Cedula='+id
+      environment.apiEC + 'ContinuingEducation/GetStudentsActivity?Cedula=' + id
     );
   }
 
   GetStudentsSubjects(DegreeId: string, id: string) {
     return this.httpClient.get<GetSubjectEnrollmentResult>(
-      environment.apiEC + 'EJMatricula/GetSubjectEnrollment?DegreeId=' + DegreeId +'&Cedula='+id
+      environment.apiEC + 'EJMatricula/GetSubjectEnrollment?DegreeId=' + DegreeId + '&Cedula=' + id
     );
   }
 
-  GetStudentsmesh( id: string) {
+  GetStudentsmesh(id: string) {
     return this.httpClient.post<CareerResponse>(
-      environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id}
+      environment.apiEC + 'EJMatricula/GetSubjectDegree', { cedula: id }
     );
   }
 
   getPeriodCurriculumdesingById(id: number): void {
     this.subs.sink = this.httpClient
-      .get<Period[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPeriodsBy?DegreeCurriculumDesignId='+id)
+      .get<Period[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPeriodsBy?DegreeCurriculumDesignId=' + id)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -160,9 +160,9 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  GetSubjectsBy(year: number,id: number): void {
+  GetSubjectsBy(year: number, id: number): void {
     this.subs.sink = this.httpClient
-      .get<Subject[]>(environment.apiEF + 'Period/GetSubjectsBy?Year='+year+'&DegreeCurriculumDesignId='+id)
+      .get<Subject[]>(environment.apiEF + 'Period/GetSubjectsBy?Year=' + year + '&DegreeCurriculumDesignId=' + id)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -176,9 +176,9 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  GetAssignedRoomsBy(classshift: number,periodid: number,year:number,subjectid: number): void {
+  GetAssignedRoomsBy(classshift: number, periodid: number, year: number, subjectid: number): void {
     this.subs.sink = this.httpClient
-      .get<Room[]>(environment.apiEF + 'Period/GetAssignedRoomsBy?ClassShift='+classshift+'&PeriodId='+periodid+'&Year='+year+'&SubjectId=' +subjectid)
+      .get<Room[]>(environment.apiEF + 'Period/GetAssignedRoomsBy?ClassShift=' + classshift + '&PeriodId=' + periodid + '&Year=' + year + '&SubjectId=' + subjectid)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -191,6 +191,25 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  GetRecordIdStuudent(studentId: any, degreeCurriculumDesignId: any) {
+    let data = {
+      studentId,
+      degreeCurriculumDesignId
+    }
+    const url = `${environment.apiIntranet}`;
+    return this.httpClient.post<any>(url + "SearchEFAcademicRecord", data);
+  }
+  SearchAcademicSubjectRecord(data: any) {
+    const url = `${environment.apiIntranet}`;
+    return this.httpClient.post<any>(url + "SearchAcademicSubjectRecord", data);
+  }
+  SearchSubjectRecordScores(data: any) {
+    const url = `${environment.apiIntranet}`;
+    return this.httpClient.post<any>(url + "SearchSubjectRecordScores", data);
+  }
+
+
 
 }
 
