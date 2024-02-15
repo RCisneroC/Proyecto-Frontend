@@ -84,13 +84,7 @@ export class EnrollDetailsComponent {
   ) {
 
     this.getDetails();
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-      if(this.id){
-        this.getInfo(this.id)
-      }
 
-    })
   }
 
   getDetails() {
@@ -103,6 +97,13 @@ export class EnrollDetailsComponent {
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
         }
         this._ActivityService.loading = false;
+        this.activatedRoute.params.subscribe((params) => {
+          this.id = params['id'];
+          if(this.id){
+            this.getInfo(this.id)
+          }
+
+        })
       },
       error: (err) => {
       }
@@ -111,9 +112,8 @@ export class EnrollDetailsComponent {
 
   getInfo(id: string) {
     //tomar degree id del path de la ruta
-    this._enrollservice.GetStudentsSubjects(id,this.authService.currentUserValue.cedula).subscribe({
+    this._enrollservice.GetStudentsSubjects(id,this._ActivityService._DetailsResponseEF.cedula).subscribe({
       next:(res)=>{
-        console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
       }
     })
