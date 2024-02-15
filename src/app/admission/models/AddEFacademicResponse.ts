@@ -23,3 +23,30 @@ export interface enrollmentResult{
   enrollmentId: number,
   studentId: number
 }
+
+
+export interface GetSubjectEnrollmentResult{
+  message:      string;
+  isError:      boolean;
+  statusCode:   number;
+  subjectEnrollmentResult: subjectEnrollmentResult[]
+}
+
+
+export interface subjectEnrollmentResult{
+  studentId: number,
+  firstName: string,
+  lastName: string,
+  cedula: string,
+  asignaturaId: 1,
+  asignatura: string,
+  codigo: string,
+  descriptionSuject: string,
+  periodsId: number,
+  periodName: string,
+  periodDescription: string,
+  mallaId: number,
+  mallaName: string,
+  degreeId: number,
+  nAmeDegree: string
+}

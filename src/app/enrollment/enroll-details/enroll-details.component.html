@@ -98,24 +98,24 @@
               <table mat-table [dataSource]="dataInfo" class="w-100">
                 <ng-container matColumnDef="SubjectName">
                   <th mat-header-cell *matHeaderCellDef> Asignatura </th>
-                  <td mat-cell *matCellDef="let element">{{ element.SubjectName }} </td>
+                  <td mat-cell *matCellDef="let element">{{ element.asignatura }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="DegreeName">
                   <th mat-header-cell *matHeaderCellDef> Carrera </th>
-                  <td mat-cell *matCellDef="let element">{{ _ActivityService._DetailsResponseEF.degreeName }} </td>
+                  <td mat-cell *matCellDef="let element">{{ element.nAmeDegree }} </td>
                 </ng-container>
                 <ng-container matColumnDef="ClassShift">
-                  <th mat-header-cell *matHeaderCellDef> Sesión </th>
-                  <td mat-cell *matCellDef="let element">{{ element.ClassShift}}</td>
+                  <th mat-header-cell *matHeaderCellDef> Período </th>
+                  <td mat-cell *matCellDef="let element">{{ element.periodName}}</td>
                 </ng-container>
                 <ng-container matColumnDef="RoomName">
-                  <th mat-header-cell *matHeaderCellDef> Salón</th>
-                  <td mat-cell *matCellDef="let element">{{ element.RoomName }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Código de asignatura</th>
+                  <td mat-cell *matCellDef="let element">{{ element.codigo }} </td>
                 </ng-container>
                 <ng-container matColumnDef="createDate">
                   <th mat-header-cell *matHeaderCellDef> Fecha de matrícula</th>
-                  <td mat-cell *matCellDef="let element">{{ element.createDate | date:'dd/M/yyyy' }} </td>
+                  <td mat-cell *matCellDef="let element">{{ Date.now() | date:'dd/M/yyyy' }} </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                   <th mat-header-cell *matHeaderCellDef> Acción</th>

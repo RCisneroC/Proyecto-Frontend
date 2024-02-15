@@ -16,5 +16,6 @@ export const environment = {
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
   apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
   apiIntranet: 'https://eira-api.azurewebsites.net/',
-  apiUrlSubjectTask:"https://eira-api.azurewebsites.net/SearchSubjectTask"
+  apiUrlSubjectTask:"https://eira-api.azurewebsites.net/SearchSubjectTask",
+  apiEira:'https://eira-api.azurewebsites.net/'
 };

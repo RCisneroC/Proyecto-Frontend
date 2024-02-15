@@ -21,6 +21,8 @@ import {Subject} from "../models/Subject";
 import {EnrollDummy} from "../models/EnrollDummy";
 import {Career} from "../models/Career";
 import {AuthService} from "@core";
+import _default from "chart.js/dist/plugins/plugin.tooltip";
+import numbers = _default.defaults.animations.numbers;
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -47,6 +49,9 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   enrollDummyList: EnrollDummy[] = [];
   classshiftSelect: string = '1';
   studentId:string = "";
+  enrollmentId:number = 0;
+  recordId:string = "";
+  messageDuplicidad: string = "Registro creado exitosamente"
 
   constructor(
     public httpClient: HttpClient,
@@ -100,11 +105,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     if(itemCareer != null){
       this.CareerIten = JSON.parse(itemCareer);
     }
-const stdid = localStorage.getItem('enroll-studentID');
-    if(stdid){
-      this.studentId = stdid;
-    }
-    else {
+
       const reqiestObj = {
         cedula:this.authService.currentUserValue.cedula,
         degreeId: this.CareerIten.degreeCurriculumDesignId,
@@ -112,14 +113,77 @@ const stdid = localStorage.getItem('enroll-studentID');
       }
       this._RoomService.CreateEnrollment(reqiestObj).subscribe({
         next:(res)=>{
-          console.log(res);
-          this.studentId =  res.enrollmentResult[0].studentId.toString();
-          localStorage.setItem('enroll-studentID', this.studentId);
+          console.log("CreateEnrollmentResp",res);
+          if(res.enrollmentResult){
+            this.studentId =  res.enrollmentResult[0].studentId.toString();
+            localStorage.setItem('enroll-studentID', this.studentId);
+            this.enrollmentId =  res.enrollmentResult[0].enrollmentId;
+            localStorage.setItem('enroll-enrollmentID', this.studentId);
+          }
+
+
+          if(res.message === this.messageDuplicidad && res.statusCode === 200){
+            const reqOBJ = {
+              studentId: this.studentId,
+              degreeCurriculumDesignId: this.CareerIten.degreeCurriculumDesignId,
+              isReentry: false
+            }
+            this._RoomService.CreateEFAcademicRecord(reqOBJ).subscribe({
+              next:(res)=>{
+                console.log("CreateEFAcademicRecordResp",res);
+                this.recordId = res.data.id.toString();
+                localStorage.setItem('enroll-recordID', this.recordId);
+              }
+            })
+          }
+
+          if(res.statusCode == 200){
+            const requestSubjes = {
+              enrollmentId: this.enrollmentId,
+              ejStudentId: this.studentId,
+              subjectEnrollment: {
+                additionalProp1: {
+                  periodId: this.SubjectItem.periodId,
+                  subjectId: this.SubjectItem.id,
+                  roomId: row.id,
+                  periodyearsubjectroom: 2024
+                }
+              },
+              createdBy: this.authService.currentUserValue.id
+            }
+            this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
+              next:(res)=>{
+                console.log("AddSubjectStudentResp",res);
+              }
+            })
+          }
+
+          console.log(res.statusCode);
+          if (res.statusCode === 200){
+            const uri = localStorage.getItem('enroll-subject-url');
+            this._router.navigate([uri]);
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Matricula completada con éxito",
+              icon: "success"
+            });
+          }
+          else if(res.statusCode === 500) {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Matricula no fue completada",
+              icon: "warning"
+            });
+          }
+
 
         }
       })
 
-    }
+
+
+
+
   }
 
   seleccionar(row: Room) {
