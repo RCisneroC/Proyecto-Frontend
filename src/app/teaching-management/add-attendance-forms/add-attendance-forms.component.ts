@@ -132,26 +132,26 @@ export class AddAttendanceFormsComponent implements OnInit {
   
   
   getRecordAcademicAct() {
-  
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      subjectId:this.data.student.asignaturaId,
-      studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      activityId:idGeneral,
+      //studentId: this.data.student.studentId,
     }
+    
+    
 
-    this._TeacherService.GetAcademicSubject(data).subscribe(
+    this._TeacherService.GetAcademicActivity(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
         
        
           const datos = {
-            academicSubjectRecordId:res["data"][0].id,
+            ecAcademicRecordId:res["data"][0].id,
             date: this.AsistenciaForms.get("startDate")?.value,
             attended: this.AsistenciaForms.get("statusId")?.value,
-
           }
-          
-        this._TeacherService.AddAsistStudent(datos).subscribe(
+
+        this._TeacherService.AddAsistStudentAct(datos).subscribe(
           (data) => {
             console.log(data)
             this.ResponseMessage.CodError = 200;
@@ -171,7 +171,16 @@ export class AddAttendanceFormsComponent implements OnInit {
   
   submit() {
   
-    this.getRecordAcademic()
+    let local = localStorage.getItem('tipoSolicitud') || '';
+    if (local != '') {
+      if (local == "1") {
+        this.getRecordAcademic()
+      } else {
+        this.getRecordAcademicAct()
+      }
+    } 
+      
+    
     // let type = localStorage.getItem('tipoSolicitud');
     // let local = localStorage.getItem('asitencias') || '';
     // if (local != '') {
