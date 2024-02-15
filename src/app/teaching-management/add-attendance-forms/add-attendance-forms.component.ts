@@ -4,18 +4,18 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AnnualPlanService } from 'app/admission/FormalEducations/Services/annual-plan.service';
-import { AcademicRecord, StudenAsistence, Student } from '../models/Asistencias';
+import { AcademicRecord, Asist, StudenAsistence, Student } from '../models/Asistencias';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
-import {AttenderResponse} from "../../enrollment/models/Career";
-import {DetailsResponseEF} from "../../admission/models/participant";
+import { AttenderResponse } from "../../enrollment/models/Career";
+import { DetailsResponseEF } from "../../admission/models/participant";
 export interface DialogData {
   id: string;
   action: string;
   student: Student;
   asistence: AttenderResponse[];
-  details:DetailsResponseEF
+  details: DetailsResponseEF
 }
 @Component({
   selector: 'app-add-attendance-forms',
@@ -31,12 +31,12 @@ export class AddAttendanceFormsComponent implements OnInit {
   public AsistenciaUser: StudenAsistence[] = [];
   public AsistenciaOne!: StudenAsistence;
   displayedColumns: string[] = [
-    'cedula',
-    'name',
-    'lastname',
-    'fecha',
-    'asistio',
-    'profesor',
+    // 'cedula',
+    // 'name',
+    // 'lastname',
+    'date',
+    'attended',
+    //'profesor',
   ]
   StudenAsistenceSource: StudenAsistence[] = [
     {
@@ -49,33 +49,21 @@ export class AddAttendanceFormsComponent implements OnInit {
       id: 0,
       docente: '',
       idasignatura: '',
-      type: ''
-    }
-  ]
-
-  AsistenceSource: AttenderResponse[] = [
-    {
-      id: 0,
-      createdDate: new Date(),
-      createdBy: '',
-      lastModifiedDate: new Date(),
-      lastModifiedBy: '',
-      totalRecords: 0,
-      academicSubjectRecordId: 0,
-      date: new Date(),
-      attended: true
+      type: '',
+      attended: false,
+      date: new Date()
     }
   ]
   IsLoading: boolean = false;
   action: string;
   dialogTitle: string = '';
   AsistenciaForms: UntypedFormGroup;
-  ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
+  ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    setTimeout(() => {
-      this.ListAsistence.paginator = value;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.ListAsistence.paginator = value;
+    // }, 1000);
   }
   constructor(
     public dialogRef: MatDialogRef<AddAttendanceFormsComponent>,
@@ -85,6 +73,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     public authservice: AuthService,
     public _TeacherService: TeacherService,
   ) {
+
     this.action = data.action;
     if (this.action === 'add') {
       this.dialogTitle = "Nuevo Registro de asistencia";
@@ -92,7 +81,15 @@ export class AddAttendanceFormsComponent implements OnInit {
       this.dialogTitle = "Editar Registro de Asistencia";
     } else if (this.action === 'view') {
       this.dialogTitle = "Detalle de Asistencia.";
-      this.getAsistencias();
+
+      let local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+        if (local == "1") {
+          this.getAsisSubject();
+        } else {
+          this.getasistAct();
+        }
+      }
     }
     console.log(data);
 
@@ -115,18 +112,18 @@ export class AddAttendanceFormsComponent implements OnInit {
   getRecordAcademic() {
 
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId: this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
 
 
         const datos = {
-          academicSubjectRecordId:res["data"][0].id,
+          academicSubjectRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
           attended: this.AsistenciaForms.get("statusId")?.value,
 
@@ -152,19 +149,19 @@ export class AddAttendanceFormsComponent implements OnInit {
   getRecordAcademicAct() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       //studentId: this.data.student.studentId,
     }
 
 
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
 
 
         const datos = {
-          ecAcademicRecordId:res["data"][0].id,
+          ecAcademicRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
           attended: this.AsistenciaForms.get("statusId")?.value,
         }
@@ -197,88 +194,85 @@ export class AddAttendanceFormsComponent implements OnInit {
         this.getRecordAcademicAct()
       }
     }
-
-
-    // let type = localStorage.getItem('tipoSolicitud');
-    // let local = localStorage.getItem('asitencias') || '';
-    // if (local != '') {
-    //   this.Asistencia = JSON.parse(local);
-    //   let fecha = this.AsistenciaForms.controls['startDate'].value;
-    //   let existe = this.Asistencia.filter(x => this.formatearFecha(x.startDate.toString()) == this.formatearFecha(fecha) && x.cedula == this.AsistenciaForms.controls['cedula'].value && x.idasignatura == this.data.id && x.type == type);
-    //   if (existe.length > 0) {
-    //     this.ResponseMessage.CodError = 500;
-    //     this.ResponseMessage.Message = 'Ya mantiene una asistencia para la fecha seleccionada.';
-    //     this.dialogRef.close(this.ResponseMessage);
-    //     return;
-    //   }
-    //   this.AsistenciaOne = {
-    //     statusId: this.AsistenciaForms.controls['statusId'].value,
-    //     startDate: this.AsistenciaForms.controls['startDate'].value,
-    //     idEstudiante: this.AsistenciaForms.controls['idEstudiante'].value,
-    //     cedula: this.AsistenciaForms.controls['cedula'].value,
-    //     name: this.AsistenciaForms.controls['name'].value,
-    //     lastname: this.AsistenciaForms.controls['lastname'].value,
-    //     id: this.Asistencia.length + 1,
-    //     docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName,
-    //     idasignatura: this.data.id,
-    //     type: localStorage.getItem('tipoSolicitud') || ''
-
-    //   };
-    //   this.Asistencia.push(this.AsistenciaOne);
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Registrado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // } else {
-    //   this.Asistencia.push(this.AsistenciaForms.getRawValue());
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Cargado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // }
-
-
-
-    // Asistencia
-
-    // if (this.action === 'add') {
-    //   this._AnnualPlanService.addAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Cargado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // } else {
-    //   this._AnnualPlanService.updateAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Editado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // }
   }
   formatearFecha(fechaString: string): string {
     const fecha = new Date(fechaString);
     return fecha.toISOString().split('T')[0];
   }
 
-  getAsistencias() {
+  getasistAct() {
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
+    const data = {
+      activityId: idGeneral,
+      studentId: this.data.student.studentId,
+    }
 
-    console.log('asistencialist',this.data.asistence);
-    this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
-    this.ListAsistence.paginator = this.paginator;
+    this._TeacherService.GetAcademicActivity(data).subscribe(
+      (res: AcademicRecord) => {
+        console.log(res);
+
+        const datos = {
+          ecAcademicRecordId: res["data"][0].id,
+          studentId: this.data.student.studentId,
+        }
+
+        this._TeacherService.GetAsistStudentAct(datos).subscribe(
+          (data: Asist) => {
+
+            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data.data);
+            this.ListAsistence.paginator = this.paginator;
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
   }
-}
 
+  getAsisSubject() {
+
+    const data = {
+      subjectId: this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
+    }
+
+    this._TeacherService.GetAcademicSubject2(data).subscribe(
+      (res: AcademicRecord) => {
+        console.log(res);
+
+        const datos = {
+          efAcademicRecordId: res["data"][0]?.id,
+          subjectId: this.data.student.asignaturaId,
+          studentId: this.data.student.studentId,
+          degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
+        }
+
+        this._TeacherService.GetAcademicSubject(datos).subscribe(
+          (res: AcademicRecord) => {
+
+            const datos = {
+              academicSubjectRecordId: res["data"][0]?.id,
+            }
+
+            this._TeacherService.GetAsistStudentSubject(datos).subscribe(
+              (res: Asist) => {
+                console.log(res);
+
+                this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
+                this.ListAsistence.paginator = this.paginator;
+              })
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+
+
+}

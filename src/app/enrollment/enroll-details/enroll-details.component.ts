@@ -18,6 +18,7 @@ import { EncuestaSubjectComponent } from '../Encuestas/encuesta-subject/encuesta
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { ViewCalificacionesComponent } from '../Forms/view-calificaciones/view-calificaciones.component';
 
 @Component({
   selector: 'app-enroll-details',
@@ -192,6 +193,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
   }
 
   verCalificaciones(row: subjectEnrollmentResult) {
+    this._enrollservice.init_ResponseSubjectRecord();
     let recordSubjectId = 0;
     let data = {
       "efAcademicRecordId": this._RecordIdEF,
@@ -215,6 +217,19 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
         //traer las calificaciones.
         this._enrollservice.SearchSubjectRecordScores(data_calificacion).subscribe({
           next: (res) => {
+            this._enrollservice._ResponseSubjectRecord = res
+            console.log(this._enrollservice._ResponseSubjectRecord.data);
+
+          },
+          complete: () => {
+            this._StudenAsistence.cedula = this._ActivityService._DetailsResponseEF.cedula;
+            localStorage.setItem('tipoSolicitud', '1');
+            const dialogRef = this.dialog.open(ViewCalificacionesComponent, {
+              data: {
+                calificaciones: this._enrollservice._ResponseSubjectRecord.data,
+                action: 'view',
+              }
+            });
           }
         });
       }
