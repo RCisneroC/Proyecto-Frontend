@@ -9,10 +9,10 @@ import { EnrollAssignedRoomsComponent } from './enroll-assigned-rooms/enroll-ass
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ComponentsModule } from "@shared/components/components.module";
 import { SharedModule } from "@shared";
-import { StatusPipePipe } from "../pipes/status-pipe.pipe";
 import { EnrollDetailsComponent } from './enroll-details/enroll-details.component';
 import { EncuestaSubjectComponent } from './Encuestas/encuesta-subject/encuesta-subject.component';
 import { EncuestaActivityComponent } from './Encuestas/encuesta-activity/encuesta-activity.component';
+import { EnrollDetailsMeshComponent } from './enroll-details-mesh/enroll-details-mesh.component';
 
 
 @NgModule({
@@ -24,6 +24,7 @@ import { EncuestaActivityComponent } from './Encuestas/encuesta-activity/encuest
     EnrollDetailsComponent,
     EncuestaSubjectComponent,
     EncuestaActivityComponent,
+    EnrollDetailsMeshComponent,
   ],
   imports: [
     CommonModule,

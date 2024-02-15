@@ -65,6 +65,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     idasignatura: '',
     type: ''
   }
+  id: string = '';
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
@@ -83,11 +84,12 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     private _inscriptionService: InscriptionService,
     private _enrollservice: EnrollmentService,
     private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) {
     super();
     this.getDetails();
-    this.getInfo();
+
   }
   ngOnInit(): void {
 
@@ -103,18 +105,30 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
         }
         this._ActivityService.loading = false;
+        this.activatedRoute.params.subscribe((params) => {
+          this.id = params['id'];
+          if (this.id) {
+            this.getInfo(this.id)
+          }
+
+        })
       },
       error: (err) => {
       }
     })
   }
 
-  getInfo() {
+  getInfo(id: string) {
     //tomar degree id del path de la ruta
+<<<<<<< HEAD
     this._enrollservice.GetStudentsSubjects('3', this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
         this.dataSourceInfo = res.subjectEnrollmentResult;
         console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
+=======
+    this._enrollservice.GetStudentsSubjects(id,this._ActivityService._DetailsResponseEF.cedula).subscribe({
+      next:(res)=>{
+>>>>>>> e464aa0dace36c956db53add03926598bb088b18
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
         this.EncuestForms();
       }

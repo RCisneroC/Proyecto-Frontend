@@ -3,7 +3,7 @@
     <div class="block-header">
       <!-- breadcrumb -->
       <app-breadcrumb [title]="'Matrícula'" [items]="['Inicio','Admisión','Cronograma']"
-        [active_item]="'Detalle del Matrícula'">
+                      [active_item]="'Detalle del Matrícula'">
       </app-breadcrumb>
     </div>
 
@@ -97,30 +97,30 @@
             <div class="body table-responsive " *ngIf="_ActivityService.loading==false">
               <table mat-table [dataSource]="dataInfo" class="w-100">
                 <ng-container matColumnDef="SubjectName">
-                  <th mat-header-cell *matHeaderCellDef> Asignatura </th>
-                  <td mat-cell *matCellDef="let element">{{ element.asignatura }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element">{{ element.degreeName }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="DegreeName">
-                  <th mat-header-cell *matHeaderCellDef> Carrera </th>
-                  <td mat-cell *matCellDef="let element">{{ element.nAmeDegree }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+                  <td mat-cell *matCellDef="let element">{{ element.descriptionName }} </td>
                 </ng-container>
                 <ng-container matColumnDef="ClassShift">
-                  <th mat-header-cell *matHeaderCellDef> Período </th>
-                  <td mat-cell *matCellDef="let element">{{ element.periodName}}</td>
+                  <th mat-header-cell *matHeaderCellDef> Estado</th>
+                  <td mat-cell *matCellDef="let element">{{ element.statusDegreeCurriculumDesign |statusPipe }}</td>
                 </ng-container>
                 <ng-container matColumnDef="RoomName">
-                  <th mat-header-cell *matHeaderCellDef> Código de asignatura</th>
-                  <td mat-cell *matCellDef="let element">{{ element.codigo }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Fecha de Inicio</th>
+                  <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy' }} </td>
                 </ng-container>
                 <ng-container matColumnDef="createDate">
-                  <th mat-header-cell *matHeaderCellDef> Id de malla</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mallaId }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Fecha de Fin</th>
+                  <td mat-cell *matCellDef="let element">{{ element.endDate | date:'dd/M/yyyy' }} </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                   <th mat-header-cell *matHeaderCellDef> Acción</th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-mini-fab color="primary" (click)="verAsignatura(element)" matTooltip="Ver Asistencia">
+                    <button mat-mini-fab color="primary" (click)="goSubjects(element)" matTooltip="Ver Asignaturas">
                       <mat-icon>remove_red_eye</mat-icon>
                     </button>
                     <!-- <button mat-mini-fab color="primary" (click)="verCalificaciones(element)"
