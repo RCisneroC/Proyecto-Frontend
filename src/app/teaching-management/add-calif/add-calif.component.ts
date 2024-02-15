@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService, User } from '@core';
 import { AcademicRecord, CalificacionEstudiante, Student } from '../models/Asistencias';
 import { TeacherService } from '../services/teacher.service';
+import { ActivatedRoute } from '@angular/router';
 export interface DialogData {
   id: string;
   accion: string;
@@ -51,26 +52,34 @@ export class AddCalifComponent {
   dialogTitle: string = '';
   FormsCalificacion!: UntypedFormGroup;
   student!: Student;
+  id!: number;
 
   constructor(
     public dialogRef: MatDialogRef<AddCalifComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
     public _TeacherService: TeacherService,
-    public authservice: AuthService
+    public authservice: AuthService,
+    private activatedRoute: ActivatedRoute
   ) {
     // Set the defaults
     console.log('====================================');
     console.log(data.taskSubject);
     console.log('====================================');
     this.action = data.accion;
+    this.activatedRoute.params.subscribe((params) => {
+
+      this.id = params['id'];
+    });
     if (this.action == 'add-calificacion') {
       this.dialogTitle = "Agregar calificación";
 
     } else if (this.action == 'view') {
       this.dialogTitle = "Ver calificación";
       this.student = data.student;
-      this.getCalificacion();
+      //this.getCalificacion();
+      this.FormsCalificacion = this.createContactForm();
+      this.getCalificacionActi();
 
     }
 
@@ -88,21 +97,11 @@ export class AddCalifComponent {
     });
   }
 
-  getCalificacion() {
+
+   getCalificacionAct() {
     let type = localStorage.getItem('tipoSolicitud') || '1';
     let local = localStorage.getItem('calificaciones') || '';
-
-    //this._CalificacionEstudiante = JSON.parse(local);
-    // console.log('====================================');
-    // console.log(this.data.student.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
-    // console.log('====================================');
-  //   let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
-  //   if (existe.length > 0) {
-  //     this._CalificacionEstudianteOne = existe[0];
-  //   }
-  //   console.log('====================================');
-  //   console.log(this._CalificacionEstudianteOne);
-  //   console.log('====================================');
+    
    }
   getRecordAcademic() {
   
@@ -116,7 +115,6 @@ export class AddCalifComponent {
       (res:AcademicRecord) => {
         console.log(res);
         
-       
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
             score: this.FormsCalificacion.get("calif")?.value,
@@ -139,11 +137,10 @@ export class AddCalifComponent {
     )
   }
   
-  
-  getRecordAcademicAct() {
-  
+  getCalificacionSubj() {
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId:idGeneral,
       studentId: this.data.student.studentId,
       degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
     }
@@ -152,14 +149,83 @@ export class AddCalifComponent {
       (res:AcademicRecord) => {
         console.log(res);
         
-       
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
-            score: this.FormsCalificacion.get("calif")?.value,
-            scoreTypeId: 1,
             subjectTaskId: this.data.taskSubject.id,
           }
-        this._TeacherService.AddCalifTask(datos).subscribe(
+  
+          
+        this._TeacherService.GetCalifSubject(datos).subscribe(
+          (data:any) => {
+            this._CalificacionEstudianteOne.calificacion=data.data[0]?.score;
+          
+          
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+  
+  getCalificacionActi() {
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
+    const data = {
+      activityId:idGeneral,
+      studentId: this.data.student.studentId,
+    }
+    
+    this._TeacherService.GetAcademicActivity(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+          const datos = {
+            efAcademicRecordId:res["data"][0].id,
+            activityTaskId: this.data.taskSubject.id,
+          }
+  
+          
+        this._TeacherService.GetCalifActi(datos).subscribe(
+          (data:any) => {
+            this._CalificacionEstudianteOne.calificacion=data.data[0]?.score;
+          
+          
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+  
+  
+
+  
+  
+  getRecordAcademicAct() {
+  
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
+    const data = {
+      activityId:idGeneral,
+      studentId: this.data.student.studentId,
+    }
+    
+
+    this._TeacherService.GetAcademicActivity(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+          const datos = {
+            ecAcademicRecordId:res["data"][0].id,
+            score: this.FormsCalificacion.get("calif")?.value,
+            scoreTypeId: 1,
+            activityTaskId: this.data.taskSubject.id,
+          }
+        this._TeacherService.AddCalifTaskActi(datos).subscribe(
           (data) => {
             console.log(data)
             this.ResponseMessage.CodError = 200;

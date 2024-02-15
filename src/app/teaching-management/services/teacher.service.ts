@@ -9,7 +9,7 @@ import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
 import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
 import { RespuestaServicio } from '../add-calif/add-calif.component';
-import { AcademicRecord } from '../models/Asistencias';
+import { AcademicRecord, Asist, StudenAsistence } from '../models/Asistencias';
 
 @Injectable({
   providedIn: 'root'
@@ -170,6 +170,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post<AcademicRecord>(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
   }
   
+  GetAcademicSubject2(data: any) {
+    return this.httpClient
+      .post<AcademicRecord>(environment.apiIntranet + 'SearchEFAcademicRecord', data);
+  }
+  
+  
+  
+  
   GetAcademicActivity(data: any) {
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
@@ -181,6 +189,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post(environment.apiIntranet + 'CreateSubjectRecordScores', data);
   }
   
+  AddCalifTaskActi(data: any) {
+    return this.httpClient
+      .post(environment.apiIntranet + 'CreateActivityRecordScores', data);
+  }
+  
   AddAsistStudent(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicSubjectAttendanceRecord', data);
@@ -190,8 +203,32 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicActivityAttendanceRecord', data);
   }
+  
+  GetAsistStudentAct(data: any) {
+    return this.httpClient
+      .post<Asist>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
+  }
+  
+  GetAsistStudentSubject(data: any) {
+    return this.httpClient
+      .post<Asist>(environment.apiIntranet + 'SearchAcademicSubjectAttendanceRecord', data);
+  }
+  
+  GetCalifSubject(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchSubjectRecordScores', data);
+  }
+  
+  GetCalifActi(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchActivityRecordScores', data);
+  }
 
 
+
+  
+
+  
   
 
 }

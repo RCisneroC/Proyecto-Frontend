@@ -1,5 +1,5 @@
 export interface StudenAsistence {
-    statusId: number;
+    statusId?: number;
     startDate: Date;
     idEstudiante: string;
     cedula: string;
@@ -9,6 +9,8 @@ export interface StudenAsistence {
     idasignatura: string;
     docente: string;
     type: string;
+    date?: Date;
+    attended?: boolean;
 }
 
 export interface CalificacionEstudiante {
@@ -54,10 +56,16 @@ export interface Student {
 }
 
 export interface AcademicRecord {
- data:generico[];
+  data:generico[];
  
   }
   
+  
+  export interface Asist {
+    data:StudenAsistence[];
+    
+ }
+     
   export interface generico{
     id: number;
     createdDate: string;

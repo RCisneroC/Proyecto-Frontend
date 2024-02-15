@@ -70,13 +70,21 @@
                     <th mat-header-cell *matHeaderCellDef>apelldio </th>
                     <td mat-cell *matCellDef="let element"> {{data.details.lastName}} </td>
                 </ng-container>
-                <ng-container matColumnDef="fecha">
+                <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef>Fecha Creación </th>
+<<<<<<< HEAD
                     <td mat-cell *matCellDef="let element"> {{element.createdDate | date:'dd/M/yyyy'}} </td>
+=======
+                    <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/M/yyyy'}} </td>
+>>>>>>> Gestion-Docente
                 </ng-container>
-                <ng-container matColumnDef="asistio">
+                <ng-container matColumnDef="attended">
                     <th mat-header-cell *matHeaderCellDef>Asistio/No Asistio. </th>
+<<<<<<< HEAD
                     <td mat-cell *matCellDef="let element"> {{element.attended===true?"Si":"No"}}  </td>
+=======
+                    <td mat-cell *matCellDef="let element"> {{element.attended===true?"Si":"No"}} </td>
+>>>>>>> Gestion-Docente
                 </ng-container>
                 <ng-container matColumnDef="profesor">
                     <th mat-header-cell *matHeaderCellDef>Total Record </th>
