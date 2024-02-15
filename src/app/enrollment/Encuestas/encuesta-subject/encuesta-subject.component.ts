@@ -1,5 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { QuestionSubject } from 'app/enrollment/models/QuestionsSubject';
+import { Subject } from 'app/admission/FormalEducations/Models/Subject';
+import { ListQuestins } from '../../models/QuestionsSubject';
+export interface DialogData {
+  id: string;
+  scheduleActivity: Subject;
+  accion: string;
+}
 
 @Component({
   selector: 'app-encuesta-subject',
@@ -7,6 +18,15 @@ import { QuestionSubject } from 'app/enrollment/models/QuestionsSubject';
   styleUrls: ['./encuesta-subject.component.scss']
 })
 export class EncuestaSubjectComponent {
+
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message: ''
+  }
+
+  action: string;
+  dialogTitle: string = '';
+  id_cronograma: number = 0;
 
   public QuestionsSubject: QuestionSubject = {
     CapacitacionVirtual: '',
@@ -45,7 +65,23 @@ export class EncuestaSubjectComponent {
       }
     ]
   }
-  constructor() {
+  constructor(
+    public dialogRef: MatDialogRef<EncuestaSubjectComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    public _ActivityService: ActivityDetailService,
+    private fb: UntypedFormBuilder
+  ) {
+    console.log(this.QuestionsSubject);
+
+    // Set the defaults
+    this.action = data.accion;
+
+    if (this.action === 'encuesta') {
+      this.dialogTitle = "EVALUACIÓN DE SATISFACCIÓN DEL DOCENTE CON LA PLATAFORMA TECNOLÓGICA ";
+    }
+  }
+
+  Calificar(po: number) {
 
   }
 }
