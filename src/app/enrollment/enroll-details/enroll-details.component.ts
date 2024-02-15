@@ -12,6 +12,8 @@ import { EnrollDummy } from "../models/EnrollDummy";
 import { AddAttendanceFormsComponent } from 'app/teaching-management/add-attendance-forms/add-attendance-forms.component';
 import { Direction } from '@angular/cdk/bidi';
 import { StudenAsistence } from 'app/teaching-management/models/Asistencias';
+import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
+import {EnrollmentService} from "../services/enrollment.service";
 
 @Component({
   selector: 'app-enroll-details',
@@ -29,13 +31,22 @@ export class EnrollDetailsComponent {
     'accion'
   ];
 
-  dataSourceInfo: EnrollDummy[] = [{
-    SubjectId: 0,
-    SubjectName: '',
-    DegreeName: '',
-    ClassShift: '',
-    RoomName: '',
-    createDate: new Date()
+  dataSourceInfo: subjectEnrollmentResult[] = [{
+    studentId: 0,
+    firstName: '',
+    lastName: '',
+    cedula: '',
+    asignaturaId: 1,
+    asignatura: '',
+    codigo: '',
+    descriptionSuject: '',
+    periodsId: 0,
+    periodName: '',
+    periodDescription: '',
+    mallaId: 0,
+    mallaName: '',
+    degreeId: 0,
+    nAmeDegree: ''
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,
@@ -50,8 +61,9 @@ export class EnrollDetailsComponent {
     type: ''
   }
   enrollDummyList: EnrollDummy[] = [];
+  subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
-  dataInfo = new MatTableDataSource<EnrollDummy>(this.dataSourceInfo);
+  dataInfo = new MatTableDataSource<subjectEnrollmentResult>(this.dataSourceInfo);
 
   @ViewChild('ListaInfo')
   set paginatorInfo(value: MatPaginator) {
@@ -64,6 +76,7 @@ export class EnrollDetailsComponent {
     public _ActivityService: ActivityDetailService,
     public elm: ElementRef,
     private _inscriptionService: InscriptionService,
+    private _enrollservice: EnrollmentService,
     private authService: AuthService,
     public dialog: MatDialog
   ) {
@@ -88,11 +101,16 @@ export class EnrollDetailsComponent {
   }
 
   getInfo() {
-    const itemList = localStorage.getItem('enroll-dummy');
-    if (itemList != null) {
-      this.enrollDummyList = JSON.parse(itemList);
-      this.dataInfo = new MatTableDataSource<EnrollDummy>(this.enrollDummyList);
-    }
+    //tomar degree id del path de la ruta
+    this._enrollservice.GetStudentsSubjects('3',this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
+        this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
+      }
+    })
+
+
+
   }
 
   verAsignatura(row: EnrollDummy) {
@@ -117,4 +135,6 @@ export class EnrollDetailsComponent {
   verCalificaciones(row: EnrollDummy) {
 
   }
+
+  protected readonly Date = Date;
 }
