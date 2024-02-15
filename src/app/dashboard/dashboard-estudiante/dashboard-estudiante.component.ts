@@ -1,22 +1,23 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Career} from "../../enrollment/models/Career";
-import {MatPaginator} from "@angular/material/paginator";
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Career } from "../../enrollment/models/Career";
+import { MatPaginator } from "@angular/material/paginator";
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
 import {
   ApprovedDegreeComponent
 } from "../../admission/FormalEducations/Approvals/Forms/approved-degree/approved-degree.component";
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
+import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {EnrollmentService} from "../../enrollment/services/enrollment.service";
-import {AuthService} from "@core";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import { EnrollmentService } from "../../enrollment/services/enrollment.service";
+import { AuthService } from "@core";
+import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
 
 @Component({
   selector: 'app-dashboard-estudiante',
@@ -71,7 +72,7 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
 
     const CareerItem = JSON.stringify(row);
     localStorage.setItem('enroll-career', CareerItem);
-    this._router.navigate(['/enrollment/enroll-subject/'+ row.degreeId]);
+    this._router.navigate(['/enrollment/enroll-subject/' + row.degreeId]);
 
   }
 
@@ -105,6 +106,8 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+
+
 
 
   private refreshTable() {
@@ -196,7 +199,7 @@ export class ExampleDataSource extends DataSource<Career> {
         // Filter data
         this.filteredData = this.exampleDatabase.dataCareer
           .slice()
-          .filter((_Career:Career) => {
+          .filter((_Career: Career) => {
             const searchStr = (_Career.mCurriculumName).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });

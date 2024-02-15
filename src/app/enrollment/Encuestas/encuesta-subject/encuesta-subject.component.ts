@@ -1,5 +1,18 @@
-import { Component } from '@angular/core';
+import { subjectEnrollmentResult } from './../../../admission/models/AddEFacademicResponse';
+import { Component, ElementRef, Inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { QuestionSubject } from 'app/enrollment/models/QuestionsSubject';
+import { Subject } from 'app/admission/FormalEducations/Models/Subject';
+import { ListQuestins } from '../../models/QuestionsSubject';
+import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
+export interface DialogData {
+  id: string;
+  subject: subjectEnrollmentResult[];
+  action: string;
+}
 
 @Component({
   selector: 'app-encuesta-subject',
@@ -7,9 +20,19 @@ import { QuestionSubject } from 'app/enrollment/models/QuestionsSubject';
   styleUrls: ['./encuesta-subject.component.scss']
 })
 export class EncuestaSubjectComponent {
+  public _subjectEnrollmentResult!: subjectEnrollmentResult;
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message: ''
+  }
 
+  action: string;
+  dialogTitle: string = '';
+  id_cronograma: number = 0;
+  public subjectSelect: any;
+  public makeSurvey: boolean = false;
   public QuestionsSubject: QuestionSubject = {
-    CapacitacionVirtual: '',
+    CapacitacionVirtual: 'Configuración y desarrollo',
     ListQuestins: [
       {
         id: 1,
@@ -45,7 +68,57 @@ export class EncuestaSubjectComponent {
       }
     ]
   }
-  constructor() {
+  constructor(
+    public dialogRef: MatDialogRef<EncuestaSubjectComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    public _ActivityService: ActivityDetailService,
+    public _SubjectService: SubjectServiceService,
+    private fb: UntypedFormBuilder,
+    public elm: ElementRef
+  ) {
+    console.log(this.QuestionsSubject);
+    console.log(this.data);
+
+    // Set the defaults
+    this.action = data.action;
+
+    if (this.action === 'encuesta') {
+      this.dialogTitle = "EVALUACIÓN DE SATISFACCIÓN DEL DOCENTE CON LA PLATAFORMA TECNOLÓGICA ";
+    }
+  }
+
+  calificar(row: ListQuestins) {
+    const elementText = this.elm.nativeElement.querySelector('#pregunta_' + row.id);
+    console.log(elementText.value);
 
   }
+
+  EventSelect(event: any) {
+    let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
+    console.log('====================================');
+    console.log(asignaturaSelect[0]);
+    // console.log('====================================');
+    // if (asignaturaSelect.length > 0) [
+    this._subjectEnrollmentResult = asignaturaSelect[0];
+    // ]
+    this.getEncuesta();
+    console.log(this.makeSurvey);
+  }
+
+  getEncuesta() {
+    this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res.length == 0) {
+          this.makeSurvey = true;
+        } else {
+
+          this.makeSurvey = false;
+        }
+
+      }
+    });
+  }
+
+
 }

@@ -657,7 +657,7 @@ export const ROUTES: RouteInfo[] = [
   //Docente
   {
     path: '',
-    title: 'Home',
+    title: 'Inicio',
     iconType: 'feather',
     icon: 'folder',
     class: 'menu-toggle',

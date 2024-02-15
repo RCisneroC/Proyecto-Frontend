@@ -9,6 +9,7 @@ import { User } from '@core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { StudenAsistence, Student } from '../models/Asistencias';
 
 @Component({
   selector: 'app-detail-task',
@@ -41,6 +42,7 @@ export class DetailTaskComponent implements OnInit {
   dataSourseUser: User[] = []
   dataSou = new MatTableDataSource<User>(this.dataSourseUser);
   public id: string = '';
+  idGeneral!: number;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
@@ -55,6 +57,8 @@ export class DetailTaskComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       //this.getOneLocal();
       this.id = params['id'];
+      this.idGeneral = Number(localStorage.getItem('id')) || 0;
+      
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
@@ -74,14 +78,14 @@ export class DetailTaskComponent implements OnInit {
     this.dataSou.paginator = this.paginator;
   }
   getOneStudents() {
-    this._TeacherService.getStudentSubject(Number(this.id)).subscribe({
+    this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
         this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
       }
     })
   }
   getOneStudentsAct() {
-    this._TeacherService.getStudentSubjectAct(Number(this.id)).subscribe({
+    this._TeacherService.getStudentSubjectAct(Number(this.idGeneral)).subscribe({
       next: (res) => {
         this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
       }
@@ -105,12 +109,13 @@ export class DetailTaskComponent implements OnInit {
   addNew() {
 
   }
-  AddCalif(row: User) {
-    this.taskSubject.idAsignatura = "1";
-    this.taskSubject.tipoTarea = this.id;
+  AddCalif(row: Student) {
+    this.taskSubject.idAsignatura = this.idGeneral.toString();
+    this.taskSubject.tipoTarea = "1";
+    this.taskSubject.id = Number(this.id);
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
-        user: row,
+        student: row,
         taskSubject: this.taskSubject,
         accion: 'add-calificacion'
       },
@@ -137,7 +142,7 @@ export class DetailTaskComponent implements OnInit {
     });
   }
   volverAtras() {
-    this._nav.navigate(['/teaching-management/detail-subject/' + this.id]);
+    this._nav.navigate(['/teaching-management/detail-subject/' + this.idGeneral]);
   }
 
   editCall(row: User) {

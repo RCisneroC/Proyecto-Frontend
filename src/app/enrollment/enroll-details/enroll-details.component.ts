@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AcadInfoEF, DetailsParticipanteEF } from "../../admission/models/participant";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
@@ -12,15 +12,20 @@ import { EnrollDummy } from "../models/EnrollDummy";
 import { AddAttendanceFormsComponent } from 'app/teaching-management/add-attendance-forms/add-attendance-forms.component';
 import { Direction } from '@angular/cdk/bidi';
 import { StudenAsistence } from 'app/teaching-management/models/Asistencias';
-import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
-import {EnrollmentService} from "../services/enrollment.service";
+import { subjectEnrollmentResult } from "../../admission/models/AddEFacademicResponse";
+import { EnrollmentService } from "../services/enrollment.service";
+import { EncuestaSubjectComponent } from '../Encuestas/encuesta-subject/encuesta-subject.component';
+import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-enroll-details',
   templateUrl: './enroll-details.component.html',
   styleUrls: ['./enroll-details.component.scss']
 })
-export class EnrollDetailsComponent {
+export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
+  implements OnInit {
 
   DisplayNameInfo: string[] = [
     'SubjectName',
@@ -82,8 +87,11 @@ export class EnrollDetailsComponent {
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) {
-
+    super();
     this.getDetails();
+
+  }
+  ngOnInit(): void {
 
   }
 
@@ -99,7 +107,7 @@ export class EnrollDetailsComponent {
         this._ActivityService.loading = false;
         this.activatedRoute.params.subscribe((params) => {
           this.id = params['id'];
-          if(this.id){
+          if (this.id) {
             this.getInfo(this.id)
           }
 
@@ -112,15 +120,13 @@ export class EnrollDetailsComponent {
 
   getInfo(id: string) {
     //tomar degree id del path de la ruta
-    this._enrollservice.GetStudentsSubjects(id,this._ActivityService._DetailsResponseEF.cedula).subscribe({
-      next:(res)=>{
-        console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
+    this._enrollservice.GetStudentsSubjects(id, this._ActivityService._DetailsResponseEF.cedula).subscribe({
+      next: (res) => {
+        this.dataSourceInfo = res.subjectEnrollmentResult;
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
+        this.EncuestForms();
       }
     })
-
-
-
   }
 
   verAsignatura(row: EnrollDummy) {
@@ -145,6 +151,37 @@ export class EnrollDetailsComponent {
   verCalificaciones(row: EnrollDummy) {
 
   }
+
+  EncuestForms() {
+    const dialogRef = this.dialog.open(EncuestaSubjectComponent, {
+      data: {
+        subject: this.dataSourceInfo,
+        action: 'encuesta',
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
 
   protected readonly Date = Date;
 }

@@ -9,7 +9,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudenAsistence } from '../models/Asistencias';
+import { StudenAsistence, Student } from '../models/Asistencias';
 
 @Component({
   selector: 'app-list-students',
@@ -29,6 +29,7 @@ export class ListStudentsComponent implements OnInit {
   dataSourseUser: User[] = []
   dataSou = new MatTableDataSource<User>(this.dataSourseUser);
   public id: string = '';
+  idGeneral!: number;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -37,10 +38,21 @@ export class ListStudentsComponent implements OnInit {
   }
 
   constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
-    this.getOneStudents();
+    //this.getOneStudents();
     this.activatedRoute.params.subscribe((params) => {
 
       this.id = params['id'];
+      this.idGeneral = Number(localStorage.getItem('id')) || 0;
+      
+      const local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+        if (local == "1") {
+          this.getOneStudents();
+        } else {
+          this.getOneStudentsAct();
+        }
+      }
+      
     });
   }
   applyFilter(event: Event) {
@@ -50,17 +62,34 @@ export class ListStudentsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSou.paginator = this.paginator;
   }
+  // getOneStudents() {
+  //   this._TeacherService.getStudents("Estudiante").subscribe({
+  //     next: (res) => {
+  //       this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+  //     }
+  //   })
+  // }
+  
   getOneStudents() {
-    this._TeacherService.getStudents("Estudiante").subscribe({
+    this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res.filter((x) => x.cedula != null));
+        this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
+      }
+    })
+  }
+  getOneStudentsAct() {
+    this._TeacherService.getStudentSubjectAct(Number(this.idGeneral)).subscribe({
+      next: (res) => {
+        this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
       }
     })
   }
   volverAtras() {
     this._Router.navigate(['/teaching-management/teacher-history-list']);
   }
-  Addasistencia(row: User) {
+  
+  
+  Addasistencia(row: Student) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -69,7 +98,7 @@ export class ListStudentsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
       data: {
-        students: row,
+        student: row,
         action: 'add',
         id: this.id
       },
@@ -95,7 +124,7 @@ export class ListStudentsComponent implements OnInit {
     });
   }
 
-  verAsignatura(row: User) {
+  verAsignatura(row: Student) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -104,7 +133,7 @@ export class ListStudentsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
       data: {
-        students: row,
+        student: row,
         action: 'view',
         id: this.id,
       },
