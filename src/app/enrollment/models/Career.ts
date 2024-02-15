@@ -29,4 +29,27 @@ export interface CareerResponse {
 
 
 
+export interface SearchAcademicSubjectAttendanceRecord{
+  statusCode: number,
+  success: boolean,
+  message: string,
+  data: AttenderResponse[],
+  errors: string
+}
+
+
+export interface AttenderResponse {
+  id: number,
+  createdDate: Date,
+  createdBy: string,
+  lastModifiedDate: Date,
+  lastModifiedBy: string,
+  totalRecords: number,
+  academicSubjectRecordId: number,
+  date: Date,
+  attended: boolean
+}
+
+
+
 

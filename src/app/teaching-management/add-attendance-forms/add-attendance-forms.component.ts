@@ -8,10 +8,14 @@ import { AcademicRecord, Asist, StudenAsistence, Student } from '../models/Asist
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
+import { AttenderResponse } from "../../enrollment/models/Career";
+import { DetailsResponseEF } from "../../admission/models/participant";
 export interface DialogData {
   id: string;
   action: string;
   student: Student;
+  asistence: AttenderResponse[];
+  details: DetailsResponseEF
 }
 @Component({
   selector: 'app-add-attendance-forms',
@@ -46,15 +50,29 @@ export class AddAttendanceFormsComponent implements OnInit {
       docente: '',
       idasignatura: '',
       type: '',
-      attended:false,
-      date:new Date()
+      attended: false,
+      date: new Date()
+    }
+  ]
+
+  AsistenceSource: AttenderResponse[] = [
+    {
+      id: 0,
+      createdDate: new Date(),
+      createdBy: '',
+      lastModifiedDate: new Date(),
+      lastModifiedBy: '',
+      totalRecords: 0,
+      academicSubjectRecordId: 0,
+      date: new Date(),
+      attended: true
     }
   ]
   IsLoading: boolean = false;
   action: string;
   dialogTitle: string = '';
   AsistenciaForms: UntypedFormGroup;
-  ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
+  ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
@@ -76,7 +94,7 @@ export class AddAttendanceFormsComponent implements OnInit {
       this.dialogTitle = "Editar Registro de Asistencia";
     } else if (this.action === 'view') {
       this.dialogTitle = "Detalle de Asistencia.";
-     
+
       let local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
@@ -84,7 +102,7 @@ export class AddAttendanceFormsComponent implements OnInit {
         } else {
           this.getasistAct();
         }
-      } 
+      }
     }
     console.log(data);
 
@@ -194,26 +212,26 @@ export class AddAttendanceFormsComponent implements OnInit {
     const fecha = new Date(fechaString);
     return fecha.toISOString().split('T')[0];
   }
-  
+
   getasistAct() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       //studentId: this.data.student.studentId,
     }
-    
+
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-      
-          const datos = {
-            ecAcademicRecordId:res["data"][0].id,
-            studentId: this.data.student.studentId,
-          }
+
+        const datos = {
+          ecAcademicRecordId: res["data"][0].id,
+          studentId: this.data.student.studentId,
+        }
 
         this._TeacherService.GetAsistStudentAct(datos).subscribe(
-          (data:StudenAsistence[]) => {
-          
+          (data: StudenAsistence[]) => {
+
             this.ListAsistence = new MatTableDataSource<StudenAsistence>(data);
             this.ListAsistence.paginator = this.paginator;
           },
@@ -225,26 +243,26 @@ export class AddAttendanceFormsComponent implements OnInit {
       }
     )
   }
-  
+
   getAsisSubject() {
-  
+
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId: this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-       
-          const datos = {
-            academicSubjectRecordId:res["data"][0].id,
-          }
+
+
+        const datos = {
+          academicSubjectRecordId: res["data"][0].id,
+        }
 
         this._TeacherService.GetAsistStudentSubject(datos).subscribe(
-          (res:Asist) => {
+          (res: Asist) => {
             this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
             this.ListAsistence.paginator = this.paginator;
           },
@@ -256,6 +274,6 @@ export class AddAttendanceFormsComponent implements OnInit {
       }
     )
   }
-  
-  
+
+
 }

@@ -21,7 +21,7 @@ import {
 import { Period } from "../models/Period";
 import { Subject } from "../models/Subject";
 import { Room } from "../models/Room";
-import { Career, CareerResponse } from "../models/Career";
+import {Career, CareerResponse, SearchAcademicSubjectAttendanceRecord} from "../models/Career";
 import { an } from "@fullcalendar/core/internal-common";
 import { ResponseSubjectRecord } from '../models/calificacion';
 
@@ -177,6 +177,24 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   GetStudentsmesh(id: string) {
     return this.httpClient.post<CareerResponse>(
       environment.apiEC + 'EJMatricula/GetSubjectDegree', { cedula: id }
+    );
+  }
+
+  SearchEFAcademicRecordMethod(studentId: number, degreeCurriculumDesignId: number) {
+    return this.httpClient.post<any>(
+      environment.apiEira + 'SearchEFAcademicRecord', {   studentId: studentId,   degreeCurriculumDesignId: degreeCurriculumDesignId }
+    );
+  }
+
+  SearchAcademicSubjectRecordMethod(efAcademicRecordId: number ,subjectId: number , degreeCurriculumDesignId: number, studentId: number) {
+    return this.httpClient.post<any>(
+      environment.apiEira + 'SearchAcademicSubjectRecord', {   efAcademicRecordId: efAcademicRecordId,   subjectId: subjectId,   degreeCurriculumDesignId: degreeCurriculumDesignId,   studentId: studentId }
+    );
+  }
+
+  SearchAcademicSubjectAttendanceRecordMethod(academicSubjectRecordId: number ,degreeCurriculumDesignId: number , subjectId: number, studentId: number) {
+    return this.httpClient.post<SearchAcademicSubjectAttendanceRecord>(
+      environment.apiEira + 'SearchAcademicSubjectAttendanceRecord', {   academicSubjectRecordId: academicSubjectRecordId,   degreeCurriculumDesignId: degreeCurriculumDesignId,   subjectId: subjectId,   studentId: studentId }
     );
   }
 
