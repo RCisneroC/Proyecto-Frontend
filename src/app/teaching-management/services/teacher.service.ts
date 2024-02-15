@@ -169,45 +169,66 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchAcademicSubjectRecord', data);
   }
-  
+
+  GetAcademicSubject2(data: any) {
+    return this.httpClient
+      .post<AcademicRecord>(environment.apiIntranet + 'SearchEFAcademicRecord', data);
+  }
+
+
+
+
   GetAcademicActivity(data: any) {
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
   }
-  
-  
+
+
   AddCalifTask(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateSubjectRecordScores', data);
   }
-  
+
   AddCalifTaskActi(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateActivityRecordScores', data);
   }
-  
+
   AddAsistStudent(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicSubjectAttendanceRecord', data);
   }
-  
+
   AddAsistStudentAct(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicActivityAttendanceRecord', data);
   }
-  
+
   GetAsistStudentAct(data: any) {
     return this.httpClient
-      .post<StudenAsistence[]>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
+      .post<Asist>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
   }
-  
+
   GetAsistStudentSubject(data: any) {
     return this.httpClient
       .post<Asist>(environment.apiIntranet + 'SearchAcademicSubjectAttendanceRecord', data);
   }
 
+  GetCalifSubject(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchSubjectRecordScores', data);
+  }
 
-  
-  
+  GetCalifActi(data: any) {
+    return this.httpClient
+      .post<any>(environment.apiIntranet + 'SearchActivityRecordScores', data);
+  }
+
+
+
+
+
+
+
 
 }

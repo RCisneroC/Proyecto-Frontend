@@ -73,6 +73,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     public authservice: AuthService,
     public _TeacherService: TeacherService,
   ) {
+
     this.action = data.action;
     if (this.action === 'add') {
       this.dialogTitle = "Nuevo Registro de asistencia";
@@ -203,7 +204,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId: idGeneral,
-      //studentId: this.data.student.studentId,
+      studentId: this.data.student.studentId,
     }
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
@@ -216,9 +217,9 @@ export class AddAttendanceFormsComponent implements OnInit {
         }
 
         this._TeacherService.GetAsistStudentAct(datos).subscribe(
-          (data: StudenAsistence[]) => {
+          (data: Asist) => {
 
-            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data);
+            this.ListAsistence = new MatTableDataSource<StudenAsistence>(data.data);
             this.ListAsistence.paginator = this.paginator;
           },
           (error) => {
@@ -238,19 +239,31 @@ export class AddAttendanceFormsComponent implements OnInit {
       degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
-    this._TeacherService.GetAcademicSubject(data).subscribe(
+    this._TeacherService.GetAcademicSubject2(data).subscribe(
       (res: AcademicRecord) => {
         console.log(res);
 
-
         const datos = {
-          academicSubjectRecordId: res["data"][0].id,
+          efAcademicRecordId: res["data"][0]?.id,
+          subjectId: this.data.student.asignaturaId,
+          studentId: this.data.student.studentId,
+          degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
         }
 
-        this._TeacherService.GetAsistStudentSubject(datos).subscribe(
-          (res: Asist) => {
-            this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
-            this.ListAsistence.paginator = this.paginator;
+        this._TeacherService.GetAcademicSubject(datos).subscribe(
+          (res: AcademicRecord) => {
+
+            const datos = {
+              academicSubjectRecordId: res["data"][0]?.id,
+            }
+
+            this._TeacherService.GetAsistStudentSubject(datos).subscribe(
+              (res: Asist) => {
+                console.log(res);
+
+                this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
+                this.ListAsistence.paginator = this.paginator;
+              })
           },
           (error) => {
             this.ResponseMessage.CodError = 500;

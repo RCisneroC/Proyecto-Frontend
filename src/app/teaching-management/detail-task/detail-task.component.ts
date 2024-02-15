@@ -39,8 +39,8 @@ export class DetailTaskComponent implements OnInit {
     idAsignatura: '',
     type: '',
   };
-  dataSourseUser: User[] = []
-  dataSou = new MatTableDataSource<User>(this.dataSourseUser);
+  dataSourseUser: Student[] = []
+  dataSou = new MatTableDataSource<Student>(this.dataSourseUser);
   public id: string = '';
   idGeneral!: number;
   @ViewChild('pagination')
@@ -80,32 +80,18 @@ export class DetailTaskComponent implements OnInit {
   getOneStudents() {
     this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
+        this.dataSou = new MatTableDataSource<Student>(res["getDegreeSubject"]);
       }
     })
   }
   getOneStudentsAct() {
     this._TeacherService.getStudentSubjectAct(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
+        this.dataSou = new MatTableDataSource<Student>(res["getStudentsActivityResponse"]);
       }
     })
   }
 
-  // ngOnInit() {
-  //   this.dataSou = new MatTableDataSource<any>(this.users);
-  //   //   //this.dataSou.paginator = this.paginator;
-  // }
-  getOneLocal() {
-    let dataLocal = localStorage.getItem('details_task') || '';
-    if (dataLocal != '') {
-      this.taskSubject = JSON.parse(dataLocal);
-      console.log(this.taskSubject);
-
-    } else {
-      this._nav.navigate(['/teaching-management/detail-subject/', 1]);
-    }
-  }
   addNew() {
 
   }
@@ -116,6 +102,7 @@ export class DetailTaskComponent implements OnInit {
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
         student: row,
+        studentId: row.studentId,
         taskSubject: this.taskSubject,
         accion: 'add-calificacion'
       },
@@ -147,10 +134,14 @@ export class DetailTaskComponent implements OnInit {
 
   editCall(row: User) {
   }
-  verAsignatura(row: User) {
+  verAsignatura(row: Student) {
+    this.taskSubject.idAsignatura = this.idGeneral.toString();
+    this.taskSubject.tipoTarea = "1";
+    this.taskSubject.id = Number(this.id);
     const dialogRef = this._dialog.open(AddCalifComponent, {
       data: {
-        user: row,
+        student: row,
+        studentId: row.studentId,
         taskSubject: this.taskSubject,
         accion: 'view'
       },
