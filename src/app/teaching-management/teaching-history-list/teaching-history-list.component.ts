@@ -120,11 +120,13 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     // console.log(row);
     localStorage.setItem('actividadEscogida', JSON.stringify(row));
     localStorage.setItem('id', row.id.toString());
+     localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
   }
 
 
   calificacionesAasignatura(row: Subject) {
+    localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', JSON.stringify(row));
     localStorage.setItem('id', row.id.toString());
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);

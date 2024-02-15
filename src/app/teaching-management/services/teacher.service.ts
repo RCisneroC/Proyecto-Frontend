@@ -181,6 +181,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post(environment.apiIntranet + 'CreateSubjectRecordScores', data);
   }
   
+  AddCalifTaskActi(data: any) {
+    return this.httpClient
+      .post(environment.apiIntranet + 'CreateActivityRecordScores', data);
+  }
+  
   AddAsistStudent(data: any) {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicSubjectAttendanceRecord', data);
