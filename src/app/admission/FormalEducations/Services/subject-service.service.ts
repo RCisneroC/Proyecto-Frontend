@@ -174,6 +174,9 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       .get<Subject[]>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}`);
   }
 
+  SaveEncuesta(data: any) {
+    return this.httpClient.post(environment.apiEF + 'Survey/Create', data);
+  }
   init_Subject() {
     this._Subject = {
       statusId: 0,

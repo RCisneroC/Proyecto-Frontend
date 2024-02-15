@@ -774,6 +774,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
 
 
 
+
+
   initService() {
     this._GetOneActivity = {
       statusId: 0,

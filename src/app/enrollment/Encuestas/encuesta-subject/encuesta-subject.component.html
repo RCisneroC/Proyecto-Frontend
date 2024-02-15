@@ -7,15 +7,12 @@
                 </div>
             </div>
         </div>
-        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
-            <mat-icon>close</mat-icon>
-        </button>
     </div>
     <div mat-dialog-content>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Estado</mat-label>
+                    <mat-label>Asignaturas</mat-label>
                     <mat-select [(ngModel)]="subjectSelect" (ngModelChange)="EventSelect($event)">
                         <mat-option value="">.........</mat-option>
                         <mat-option *ngFor="let item of data.subject" value="{{ item.asignaturaId }}">{{ item.asignatura
@@ -43,7 +40,8 @@
                             <input matInput id="pregunta_{{ item.id }}" type="number">
                         </td>
                         <td>
-                            <button mat-raised-button color="accent" (click)="calificar(item)">
+                            <button id="button_{{ item.id }}" mat-raised-button color="accent"
+                                (click)="calificar(item)">
                                 Confirmar
                             </button>
                         </td>
@@ -51,5 +49,9 @@
                 </tbody>
             </table>
         </div>
+        <button mat-raised-button color="accent" (click)="dialogRef.close()">
+            Salir, encuesta realiza
+        </button>
+
     </div>
 </div>
