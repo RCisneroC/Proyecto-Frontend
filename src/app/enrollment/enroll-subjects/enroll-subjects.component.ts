@@ -13,6 +13,8 @@ import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {Subject} from "../models/Subject";
 import {EnrollDummy} from "../models/EnrollDummy";
 import Swal from "sweetalert2";
+import {AuthService} from "@core";
+import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
 
 @Component({
   selector: 'app-enroll-subjects',
@@ -37,12 +39,14 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   id?: number;
   requirement?: Subject = this._SubjectService._Subject;
   enrollDummyList: EnrollDummy[] = [];
+  subjectEnrollment: subjectEnrollmentResult[] = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _SubjectService: EnrollmentService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private _router: Router
   ) {
     super();
@@ -57,10 +61,23 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
+      if(this.id){
+        this.loadMatriculadas(this.id.toString())
+      }
+
     })
   }
   refresh() {
     this.loadData();
+  }
+
+  loadMatriculadas(id: string){
+    const cedula = this.authService.currentUserValue.cedula;
+    this._SubjectService.GetStudentsSubjects(id, cedula).subscribe({
+      next:(res)=>{
+        this.subjectEnrollment = res.subjectEnrollmentResult;
+      }
+    })
   }
 
   volverAtras(){
@@ -69,12 +86,9 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
 
   detalle(row: Subject) {
     let exist = false
-    const itemList = localStorage.getItem('enroll-dummy');
-    if (itemList != null){
-      this.enrollDummyList = JSON.parse(itemList);
-      console.log(this.enrollDummyList);
-      this.enrollDummyList.forEach(function (value){
-        if (value.SubjectId === row.id){
+      console.log(this.subjectEnrollment);
+      this.subjectEnrollment.forEach(function (value){
+        if (value.asignaturaId === row.id){
           exist = true
           Swal.fire({
             title: "Escuela Judicial",
@@ -84,7 +98,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
         }
 
       });
-    }
+
       if(!exist){
         const SubjectItem = JSON.stringify(row);
         localStorage.setItem('enroll-subject', SubjectItem);
