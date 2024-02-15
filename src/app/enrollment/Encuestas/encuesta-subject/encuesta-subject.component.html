@@ -1,1 +1,55 @@
-<p>encuesta-subject works!</p>
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Estado</mat-label>
+                    <mat-select [(ngModel)]="subjectSelect" (ngModelChange)="EventSelect($event)">
+                        <mat-option value="">.........</mat-option>
+                        <mat-option *ngFor="let item of data.subject" value="{{ item.asignaturaId }}">{{ item.asignatura
+                            }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="col-12" *ngIf="makeSurvey">
+                {{ QuestionsSubject.CapacitacionVirtual }}
+            </div>
+            <table class="table" *ngIf="makeSurvey">
+                <thead>
+                    <th>N°</th>
+                    <th>Indicadores de Efectividad</th>
+                    <th>Puntaje 1-5</th>
+                    <th>Acción</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of QuestionsSubject.ListQuestins">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            <input matInput id="pregunta_{{ item.id }}" type="number">
+                        </td>
+                        <td>
+                            <button mat-raised-button color="accent" (click)="calificar(item)">
+                                Confirmar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

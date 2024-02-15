@@ -62,7 +62,6 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-      this.EncuestForms();
     })
   }
   refresh() {
@@ -108,35 +107,7 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
-  EncuestForms() {
-    const dialogRef = this.dialog.open(EncuestaSubjectComponent, {
-      data: {
-        subject: [],
-        action: 'encuesta',
-      },
-      width: '900px',
-      disableClose: false
-    });
 
-    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
 
 
   private refreshTable() {
