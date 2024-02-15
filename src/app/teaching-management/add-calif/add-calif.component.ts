@@ -116,7 +116,6 @@ export class AddCalifComponent {
       (res:AcademicRecord) => {
         console.log(res);
         
-       
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
             score: this.FormsCalificacion.get("calif")?.value,
@@ -142,24 +141,24 @@ export class AddCalifComponent {
   
   getRecordAcademicAct() {
   
+    const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      subjectId:this.data.student.asignaturaId,
-      studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      activityId:idGeneral,
+      //studentId: this.data.student.studentId,
     }
+    
 
-    this._TeacherService.GetAcademicSubject(data).subscribe(
+    this._TeacherService.GetAcademicActivity(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
         
-       
           const datos = {
-            academicSubjectRecordId:res["data"][0].id,
+            ecAcademicRecordId:res["data"][0].id,
             score: this.FormsCalificacion.get("calif")?.value,
             scoreTypeId: 1,
-            subjectTaskId: this.data.taskSubject.id,
+            activityTaskId: this.data.taskSubject.id,
           }
-        this._TeacherService.AddCalifTask(datos).subscribe(
+        this._TeacherService.AddCalifTaskActi(datos).subscribe(
           (data) => {
             console.log(data)
             this.ResponseMessage.CodError = 200;
