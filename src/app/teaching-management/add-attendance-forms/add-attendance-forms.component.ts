@@ -129,6 +129,44 @@ export class AddAttendanceFormsComponent implements OnInit {
       }
     )
   }
+  
+  
+  getRecordAcademicAct() {
+  
+    const data = {
+      subjectId:this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+    }
+
+    this._TeacherService.GetAcademicSubject(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+       
+          const datos = {
+            academicSubjectRecordId:res["data"][0].id,
+            date: this.AsistenciaForms.get("startDate")?.value,
+            attended: this.AsistenciaForms.get("statusId")?.value,
+
+          }
+          
+        this._TeacherService.AddAsistStudent(datos).subscribe(
+          (data) => {
+            console.log(data)
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Asistencia correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+
 
   
   submit() {

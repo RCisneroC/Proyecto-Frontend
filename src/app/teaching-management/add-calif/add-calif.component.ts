@@ -69,6 +69,7 @@ export class AddCalifComponent {
 
     } else if (this.action == 'view') {
       this.dialogTitle = "Ver calificación";
+      this.student = data.student;
       this.getCalificacion();
 
     }
@@ -91,18 +92,18 @@ export class AddCalifComponent {
     let type = localStorage.getItem('tipoSolicitud') || '1';
     let local = localStorage.getItem('calificaciones') || '';
 
-    this._CalificacionEstudiante = JSON.parse(local);
-    console.log('====================================');
-    console.log(this.data.student.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
-    console.log('====================================');
-    let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
-    if (existe.length > 0) {
-      this._CalificacionEstudianteOne = existe[0];
-    }
-    console.log('====================================');
-    console.log(this._CalificacionEstudianteOne);
-    console.log('====================================');
-  }
+    //this._CalificacionEstudiante = JSON.parse(local);
+    // console.log('====================================');
+    // console.log(this.data.student.cedula, this.data.taskSubject.idAsignatura, this.data.taskSubject.id);
+    // console.log('====================================');
+  //   let existe = this._CalificacionEstudiante.filter(x => x.cedula == this.data.student.cedula && x.idasignatura == this.data.taskSubject.idAsignatura && x.idTask == this.data.taskSubject.id);
+  //   if (existe.length > 0) {
+  //     this._CalificacionEstudianteOne = existe[0];
+  //   }
+  //   console.log('====================================');
+  //   console.log(this._CalificacionEstudianteOne);
+  //   console.log('====================================');
+   }
   getRecordAcademic() {
   
     const data = {
@@ -137,6 +138,43 @@ export class AddCalifComponent {
       }
     )
   }
+  
+  
+  getRecordAcademicAct() {
+  
+    const data = {
+      subjectId:this.data.student.asignaturaId,
+      studentId: this.data.student.studentId,
+      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+    }
+
+    this._TeacherService.GetAcademicSubject(data).subscribe(
+      (res:AcademicRecord) => {
+        console.log(res);
+        
+       
+          const datos = {
+            academicSubjectRecordId:res["data"][0].id,
+            score: this.FormsCalificacion.get("calif")?.value,
+            scoreTypeId: 1,
+            subjectTaskId: this.data.taskSubject.id,
+          }
+        this._TeacherService.AddCalifTask(datos).subscribe(
+          (data) => {
+            console.log(data)
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'calificacion correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          (error) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error;
+            this.dialogRef.close(this.ResponseMessage);
+          })
+      }
+    )
+  }
+  
 
 
   submit() {
