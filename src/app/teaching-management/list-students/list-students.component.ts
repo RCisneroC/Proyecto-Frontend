@@ -26,8 +26,8 @@ export class ListStudentsComponent implements OnInit {
     'actions'
 
   ]
-  dataSourseUser: User[] = []
-  dataSou = new MatTableDataSource<User>(this.dataSourseUser);
+  dataSourseUser: Student[] = []
+  dataSou = new MatTableDataSource<Student>(this.dataSourseUser);
   public id: string = '';
   idGeneral!: number;
   @ViewChild('pagination')
@@ -73,14 +73,14 @@ export class ListStudentsComponent implements OnInit {
   getOneStudents() {
     this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res["getDegreeSubject"]);
+        this.dataSou = new MatTableDataSource<Student>(res["getDegreeSubject"]);
       }
     })
   }
   getOneStudentsAct() {
     this._TeacherService.getStudentSubjectAct(Number(this.idGeneral)).subscribe({
       next: (res) => {
-        this.dataSou = new MatTableDataSource<User>(res["getStudentsActivityResponse"]);
+        this.dataSou = new MatTableDataSource<Student>(res["getStudentsActivityResponse"]);
       }
     })
   }
