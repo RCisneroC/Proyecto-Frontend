@@ -146,6 +146,44 @@
                     </mat-paginator>
                   </div>
                 </div>
+                <div class="card">
+                  <div class="header">
+                    <h2 class="text-uppercase"><strong>Listado de Actividades</strong>
+                    </h2>
+                  </div>
+                  <div class="body">
+                    <div class="body table-responsive " >
+                      <table mat-table [dataSource]="dataInfo" class="w-100">
+                        <ng-container matColumnDef="SubjectName">
+                          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                          <td mat-cell *matCellDef="let element">{{ element.acitityName }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="DegreeName">
+                          <th mat-header-cell *matHeaderCellDef> Modo </th>
+                          <td mat-cell *matCellDef="let element">{{ element.activityModeName }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ClassShift">
+                          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                          <td mat-cell *matCellDef="let element">{{ element.activityTypeName}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="RoomName">
+                          <th mat-header-cell *matHeaderCellDef> Localización</th>
+                          <td mat-cell *matCellDef="let element">{{ element.activityLocationName }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="createDate">
+                          <th mat-header-cell *matHeaderCellDef> Total de horas</th>
+                          <td mat-cell *matCellDef="let element">{{ element.totalHours }} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="DisplayNameInfo"></tr>
+                        <tr mat-row *matRowDef="let row; columns: DisplayNameInfo;"></tr>
+                      </table>
+                      <mat-paginator #ListaInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+                  </div>
+                  <mat-progress-bar mode="indeterminate" *ngIf="loading==true"></mat-progress-bar>
+                </div>
               </div>
             </div>
           </div>
