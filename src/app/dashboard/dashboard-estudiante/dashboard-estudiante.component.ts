@@ -18,6 +18,8 @@ import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
 import { EnrollmentService } from "../../enrollment/services/enrollment.service";
 import { AuthService } from "@core";
 import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
+import {getStudentsActivityResponse} from "../../admission/models/AddEFacademicResponse";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-dashboard-estudiante',
@@ -34,6 +36,31 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     'FechaFin',
     'statusId',
   ];
+
+  DisplayNameInfo: string[] = [
+    'SubjectName',
+    'DegreeName',
+    'ClassShift',
+    'RoomName',
+    'createDate',
+  ];
+
+  dataSourceInfo: getStudentsActivityResponse[] = [{
+    cedula: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    email: '',
+    acitityName: '',
+    duration: 0,
+    totalHours: 0,
+    activityModeName: '',
+    activityTypeName: '',
+    activityLocationName: ''
+  }];
+
+  dataInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceInfo);
+  loading : boolean = true;
 
   exampleDatabase?: EnrollmentService;
   dataSource!: ExampleDataSource;
@@ -60,14 +87,25 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+    this.loadactivity();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     })
   }
   refresh() {
     this.loadData();
+    this.loadactivity()
   }
 
+  loadactivity(){
+    this._EnrollmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        this.dataSourceInfo = res.getStudentsActivityResponse;
+        this.dataInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        this.loading = false;
+      }
+    })
+  }
   seleccionar(row: Career) {
 
     const CareerItem = JSON.stringify(row);

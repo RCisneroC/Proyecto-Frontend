@@ -50,3 +50,26 @@ export interface subjectEnrollmentResult{
   degreeId: number,
   nAmeDegree: string
 }
+
+
+export interface GetStudentsActivityResponse {
+  message:      string;
+  isError:      boolean;
+  statusCode:   number;
+  getStudentsActivityResponse: getStudentsActivityResponse[]
+}
+
+
+export  interface getStudentsActivityResponse{
+  cedula: string,
+  firstName: string,
+  lastName: string,
+  gender: string,
+  email: string,
+  acitityName: string,
+  duration: number,
+  totalHours: number,
+  activityModeName: string,
+  activityTypeName: string,
+  activityLocationName: string
+}
