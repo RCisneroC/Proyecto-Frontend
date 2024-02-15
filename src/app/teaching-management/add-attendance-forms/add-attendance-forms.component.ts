@@ -31,12 +31,12 @@ export class AddAttendanceFormsComponent implements OnInit {
   public AsistenciaUser: StudenAsistence[] = [];
   public AsistenciaOne!: StudenAsistence;
   displayedColumns: string[] = [
-    'cedula',
-    'name',
-    'lastname',
-    'fecha',
-    'asistio',
-    'profesor',
+    // 'cedula',
+    // 'name',
+    // 'lastname',
+    'date',
+    'attended',
+    //'profesor',
   ]
   StudenAsistenceSource: StudenAsistence[] = [
     {
@@ -49,21 +49,9 @@ export class AddAttendanceFormsComponent implements OnInit {
       id: 0,
       docente: '',
       idasignatura: '',
-      type: ''
-    }
-  ]
-
-  AsistenceSource: AttenderResponse[] = [
-    {
-      id: 0,
-      createdDate: new Date(),
-      createdBy: '',
-      lastModifiedDate: new Date(),
-      lastModifiedBy: '',
-      totalRecords: 0,
-      academicSubjectRecordId: 0,
-      date: new Date(),
-      attended: true
+      type: '',
+      attended: false,
+      date: new Date()
     }
   ]
   IsLoading: boolean = false;
@@ -73,9 +61,9 @@ export class AddAttendanceFormsComponent implements OnInit {
   ListAsistence = new MatTableDataSource<StudenAsistence>(this.StudenAsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    setTimeout(() => {
-      this.ListAsistence.paginator = value;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.ListAsistence.paginator = value;
+    // }, 1000);
   }
   constructor(
     public dialogRef: MatDialogRef<AddAttendanceFormsComponent>,
@@ -85,6 +73,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     public authservice: AuthService,
     public _TeacherService: TeacherService,
   ) {
+
     this.action = data.action;
     if (this.action === 'add') {
       this.dialogTitle = "Nuevo Registro de asistencia";
@@ -287,4 +276,3 @@ export class AddAttendanceFormsComponent implements OnInit {
 
 
 }
-
