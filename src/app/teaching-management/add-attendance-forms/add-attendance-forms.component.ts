@@ -4,7 +4,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AnnualPlanService } from 'app/admission/FormalEducations/Services/annual-plan.service';
-import { AcademicRecord, Asist, StudenAsistence, Student } from '../models/Asistencias';
+import { AcademicRecord, StudenAsistence, Student } from '../models/Asistencias';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TeacherService } from '../services/teacher.service';
@@ -31,12 +31,12 @@ export class AddAttendanceFormsComponent implements OnInit {
   public AsistenciaUser: StudenAsistence[] = [];
   public AsistenciaOne!: StudenAsistence;
   displayedColumns: string[] = [
-    // 'cedula',
-    // 'name',
-    // 'lastname',
-    'date',
-    'attended',
-    //'profesor',
+    'cedula',
+    'name',
+    'lastname',
+    'fecha',
+    'asistio',
+    'profesor',
   ]
   StudenAsistenceSource: StudenAsistence[] = [
     {
@@ -49,9 +49,7 @@ export class AddAttendanceFormsComponent implements OnInit {
       id: 0,
       docente: '',
       idasignatura: '',
-      type: '',
-      attended:false,
-      date:new Date()
+      type: ''
     }
   ]
 
@@ -75,9 +73,9 @@ export class AddAttendanceFormsComponent implements OnInit {
   ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
-    // setTimeout(() => {
-    //   this.ListAsistence.paginator = value;
-    // }, 1000);
+    setTimeout(() => {
+      this.ListAsistence.paginator = value;
+    }, 1000);
   }
   constructor(
     public dialogRef: MatDialogRef<AddAttendanceFormsComponent>,
@@ -87,7 +85,6 @@ export class AddAttendanceFormsComponent implements OnInit {
     public authservice: AuthService,
     public _TeacherService: TeacherService,
   ) {
-   
     this.action = data.action;
     if (this.action === 'add') {
       this.dialogTitle = "Nuevo Registro de asistencia";
@@ -95,15 +92,7 @@ export class AddAttendanceFormsComponent implements OnInit {
       this.dialogTitle = "Editar Registro de Asistencia";
     } else if (this.action === 'view') {
       this.dialogTitle = "Detalle de Asistencia.";
-     
-      let local = localStorage.getItem('tipoSolicitud') || '';
-      if (local != '') {
-        if (local == "1") {
-          this.getAsisSubject();
-        } else {
-          this.getasistAct();
-        }
-      } 
+      this.getAsistencias();
     }
     console.log(data);
 
@@ -136,12 +125,12 @@ export class AddAttendanceFormsComponent implements OnInit {
         console.log(res);
 
 
-          const datos = {
-            academicSubjectRecordId:res["data"][0].id,
-            date: this.AsistenciaForms.get("startDate")?.value,
-            attended: this.AsistenciaForms.get("statusId")?.value,
+        const datos = {
+          academicSubjectRecordId:res["data"][0].id,
+          date: this.AsistenciaForms.get("startDate")?.value,
+          attended: this.AsistenciaForms.get("statusId")?.value,
 
-          }
+        }
 
         this._TeacherService.AddAsistStudent(datos).subscribe(
           (data) => {
@@ -174,11 +163,11 @@ export class AddAttendanceFormsComponent implements OnInit {
         console.log(res);
 
 
-          const datos = {
-            ecAcademicRecordId:res["data"][0].id,
-            date: this.AsistenciaForms.get("startDate")?.value,
-            attended: this.AsistenciaForms.get("statusId")?.value,
-          }
+        const datos = {
+          ecAcademicRecordId:res["data"][0].id,
+          date: this.AsistenciaForms.get("startDate")?.value,
+          attended: this.AsistenciaForms.get("statusId")?.value,
+        }
 
         this._TeacherService.AddAsistStudentAct(datos).subscribe(
           (data) => {
@@ -284,87 +273,12 @@ export class AddAttendanceFormsComponent implements OnInit {
     const fecha = new Date(fechaString);
     return fecha.toISOString().split('T')[0];
   }
-  
-  getasistAct() {
-    const idGeneral = Number(localStorage.getItem('id')) || 0;
-    const data = {
-      activityId:idGeneral,
-      studentId: this.data.student.studentId,
-    }
-    
-    this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
-        console.log(res);
-      
-          const datos = {
-            ecAcademicRecordId:res["data"][0].id,
-            studentId: this.data.student.studentId,
-          }
 
-<<<<<<< HEAD
   getAsistencias() {
 
-      console.log('asistencialist',this.data.asistence);
-      this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
-      this.ListAsistence.paginator = this.paginator;
-=======
-        this._TeacherService.GetAsistStudentAct(datos).subscribe(
-          (res:Asist) => {
-          
-            this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
-            this.ListAsistence.paginator = this.paginator;
-          },
-          (error) => {
-            this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
-            this.dialogRef.close(this.ResponseMessage);
-          })
-      }
-    )
+    console.log('asistencialist',this.data.asistence);
+    this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
+    this.ListAsistence.paginator = this.paginator;
   }
-  
-  getAsisSubject() {
-  
-    const data = {
-      //subjectId:this.data.student.asignaturaId,
-      studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
-    }
-
-    this._TeacherService.GetAcademicSubject2(data).subscribe(
-      (res:AcademicRecord) => {
-        console.log(res);
-        
-          const datos = {
-            efAcademicRecordId:res["data"][0]?.id,
-            subjectId:this.data.student.asignaturaId,
-            studentId: this.data.student.studentId,
-            degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
-          }
-
-        this._TeacherService.GetAcademicSubject(datos).subscribe(
-          (res:AcademicRecord) => {
-          
-            const datos = {
-              academicSubjectRecordId:res["data"][0]?.id,
-            }
-          
-            this._TeacherService.GetAsistStudentSubject(datos).subscribe(
-              (res:Asist) => {
-                console.log(res);
-                  
-            this.ListAsistence = new MatTableDataSource<StudenAsistence>(res["data"]);
-            this.ListAsistence.paginator = this.paginator;
-          })},
-          (error) => {
-            this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
-            this.dialogRef.close(this.ResponseMessage);
-          })
-      }
-    )
->>>>>>> Gestion-Docente
-  }
-  
-  
 }
+
