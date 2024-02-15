@@ -51,6 +51,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   studentId:string = "";
   enrollmentId:number = 0;
   recordId:string = "";
+  messageDuplicidad: string = "Registro creado exitosamente"
 
   constructor(
     public httpClient: HttpClient,
@@ -104,7 +105,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     if(itemCareer != null){
       this.CareerIten = JSON.parse(itemCareer);
     }
-    
+
       const reqiestObj = {
         cedula:this.authService.currentUserValue.cedula,
         degreeId: this.CareerIten.degreeCurriculumDesignId,
@@ -113,42 +114,68 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
       this._RoomService.CreateEnrollment(reqiestObj).subscribe({
         next:(res)=>{
           console.log("CreateEnrollmentResp",res);
-          this.studentId =  res.enrollmentResult[0].studentId.toString();
-          localStorage.setItem('enroll-studentID', this.studentId);
-          this.enrollmentId =  res.enrollmentResult[0].enrollmentId;
-          localStorage.setItem('enroll-enrollmentID', this.studentId);
-
-          const reqOBJ = {
-            studentId: this.studentId,
-            degreeCurriculumDesignId: this.CareerIten.degreeCurriculumDesignId,
-            isReentry: false
+          if(res.enrollmentResult){
+            this.studentId =  res.enrollmentResult[0].studentId.toString();
+            localStorage.setItem('enroll-studentID', this.studentId);
+            this.enrollmentId =  res.enrollmentResult[0].enrollmentId;
+            localStorage.setItem('enroll-enrollmentID', this.studentId);
           }
-          this._RoomService.CreateEFAcademicRecord(reqOBJ).subscribe({
-            next:(res)=>{
-              console.log("CreateEFAcademicRecordResp",res);
-              this.recordId = res.data.id.toString();
-              localStorage.setItem('enroll-recordID', this.recordId);
-            }
-          })
 
-          const requestSubjes = {
-            enrollmentId: this.enrollmentId,
-            ejStudentId: this.studentId,
-            subjectEnrollment: {
-              additionalProp1: {
-                periodId: this.SubjectItem.periodId,
-                subjectId: this.SubjectItem.id,
-                roomId: row.id,
-                periodyearsubjectroom: 2024
+
+          if(res.message === this.messageDuplicidad && res.statusCode === 200){
+            const reqOBJ = {
+              studentId: this.studentId,
+              degreeCurriculumDesignId: this.CareerIten.degreeCurriculumDesignId,
+              isReentry: false
+            }
+            this._RoomService.CreateEFAcademicRecord(reqOBJ).subscribe({
+              next:(res)=>{
+                console.log("CreateEFAcademicRecordResp",res);
+                this.recordId = res.data.id.toString();
+                localStorage.setItem('enroll-recordID', this.recordId);
               }
-            },
-            createdBy: this.authService.currentUserValue.id
+            })
           }
-          this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
-            next:(res)=>{
-              console.log("AddSubjectStudentResp",res);
+
+          if(res.statusCode == 200){
+            const requestSubjes = {
+              enrollmentId: this.enrollmentId,
+              ejStudentId: this.studentId,
+              subjectEnrollment: {
+                additionalProp1: {
+                  periodId: this.SubjectItem.periodId,
+                  subjectId: this.SubjectItem.id,
+                  roomId: row.id,
+                  periodyearsubjectroom: 2024
+                }
+              },
+              createdBy: this.authService.currentUserValue.id
             }
-          })
+            this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
+              next:(res)=>{
+                console.log("AddSubjectStudentResp",res);
+              }
+            })
+          }
+
+          console.log(res.statusCode);
+          if (res.statusCode === 200){
+            const uri = localStorage.getItem('enroll-subject-url');
+            this._router.navigate([uri]);
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Matricula completada con éxito",
+              icon: "success"
+            });
+          }
+          else if(res.statusCode === 500) {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Matricula no fue completada",
+              icon: "warning"
+            });
+          }
+
 
         }
       })
@@ -156,13 +183,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
 
 
 
-    const uri = localStorage.getItem('enroll-subject-url');
-    this._router.navigate([uri]);
-    Swal.fire({
-      title: "Escuela Judicial",
-      text: "Matricula completada con éxito",
-      icon: "success"
-    });
+
   }
 
   seleccionar(row: Room) {
