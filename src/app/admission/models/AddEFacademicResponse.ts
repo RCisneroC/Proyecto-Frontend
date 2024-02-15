@@ -1,23 +1,23 @@
-export interface ResponseAddEFcademicInfo{
-  message:      string;
-  isError:      boolean;
-  statusCode:   number;
-  mssg:         string;
+export interface ResponseAddEFcademicInfo {
+  message: string;
+  isError: boolean;
+  statusCode: number;
+  mssg: string;
 }
 
 
-export interface CreateEnrollmentResult{
-  message:      string;
-  isError:      boolean;
-  statusCode:   number;
+export interface CreateEnrollmentResult {
+  message: string;
+  isError: boolean;
+  statusCode: number;
   enrollmentResult: enrollmentResult[]
 }
 
 
-export interface enrollmentResult{
+export interface enrollmentResult {
   ejInscriptionId: number,
   degreeId: number,
-  status:number,
+  status: number,
   createdBy: string,
   createdDate: Date,
   enrollmentId: number,
@@ -25,15 +25,15 @@ export interface enrollmentResult{
 }
 
 
-export interface GetSubjectEnrollmentResult{
-  message:      string;
-  isError:      boolean;
-  statusCode:   number;
+export interface GetSubjectEnrollmentResult {
+  message: string;
+  isError: boolean;
+  statusCode: number;
   subjectEnrollmentResult: subjectEnrollmentResult[]
 }
 
 
-export interface subjectEnrollmentResult{
+export interface subjectEnrollmentResult {
   studentId: number,
   firstName: string,
   lastName: string,
@@ -53,14 +53,14 @@ export interface subjectEnrollmentResult{
 
 
 export interface GetStudentsActivityResponse {
-  message:      string;
-  isError:      boolean;
-  statusCode:   number;
+  message: string;
+  isError: boolean;
+  statusCode: number;
   getStudentsActivityResponse: getStudentsActivityResponse[]
 }
 
 
-export  interface getStudentsActivityResponse{
+export interface getStudentsActivityResponse {
   cedula: string,
   firstName: string,
   lastName: string,
@@ -72,4 +72,5 @@ export  interface getStudentsActivityResponse{
   activityModeName: string,
   activityTypeName: string,
   activityLocationName: string
+  degreeCurriculumDesignId: number;
 }

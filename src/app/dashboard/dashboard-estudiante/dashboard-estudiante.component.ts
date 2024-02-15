@@ -18,8 +18,9 @@ import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
 import { EnrollmentService } from "../../enrollment/services/enrollment.service";
 import { AuthService } from "@core";
 import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
-import {getStudentsActivityResponse} from "../../admission/models/AddEFacademicResponse";
-import {MatTableDataSource} from "@angular/material/table";
+import { getStudentsActivityResponse } from "../../admission/models/AddEFacademicResponse";
+import { MatTableDataSource } from "@angular/material/table";
+import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-activity/encuesta-activity.component';
 
 @Component({
   selector: 'app-dashboard-estudiante',
@@ -43,6 +44,7 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     'ClassShift',
     'RoomName',
     'createDate',
+    'accion',
   ];
 
   dataSourceInfo: getStudentsActivityResponse[] = [{
@@ -56,11 +58,12 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     totalHours: 0,
     activityModeName: '',
     activityTypeName: '',
-    activityLocationName: ''
+    activityLocationName: '',
+    degreeCurriculumDesignId: 0
   }];
 
   dataInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceInfo);
-  loading : boolean = true;
+  loading: boolean = true;
 
   exampleDatabase?: EnrollmentService;
   dataSource!: ExampleDataSource;
@@ -97,9 +100,9 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     this.loadactivity()
   }
 
-  loadactivity(){
+  loadactivity() {
     this._EnrollmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.dataSourceInfo = res.getStudentsActivityResponse;
         this.dataInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
         this.loading = false;
@@ -144,7 +147,37 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+  encuestaActivity(row: getStudentsActivityResponse) {
+    const dialogRef = this.dialog.open(EncuestaActivityComponent, {
+      data: {
+        activity: row,
+        accion: 'encuesta',
+      },
+      width: '1200px',
+      disableClose: true
+    });
 
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
 
 
 
