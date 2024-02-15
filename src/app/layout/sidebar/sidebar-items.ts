@@ -616,7 +616,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/enrollment/enroll-details',
+        path: '/enrollment/enroll-details-mesh',
         title: 'Mi Matricula',
         iconType: '',
         icon: '',
@@ -654,7 +654,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //Docente 
+  //Docente
   {
     path: '',
     title: 'Home',

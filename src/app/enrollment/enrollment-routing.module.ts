@@ -5,6 +5,7 @@ import {EnrollPeriodComponent} from "./enroll-period/enroll-period.component";
 import {EnrollSubjectsComponent} from "./enroll-subjects/enroll-subjects.component";
 import {EnrollAssignedRoomsComponent} from "./enroll-assigned-rooms/enroll-assigned-rooms.component";
 import {EnrollDetailsComponent} from "./enroll-details/enroll-details.component";
+import {EnrollDetailsMeshComponent} from "./enroll-details-mesh/enroll-details-mesh.component";
 
 const routes: Routes = [
   {
@@ -24,8 +25,12 @@ const routes: Routes = [
     component: EnrollAssignedRoomsComponent
   },
   {
-    path:"enroll-details",
+    path:"enroll-details/:id",
     component: EnrollDetailsComponent
+  },
+  {
+    path:"enroll-details-mesh",
+    component: EnrollDetailsMeshComponent
   }
 ];
 

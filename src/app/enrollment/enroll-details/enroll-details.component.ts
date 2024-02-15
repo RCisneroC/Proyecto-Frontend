@@ -60,6 +60,7 @@ export class EnrollDetailsComponent {
     idasignatura: '',
     type: ''
   }
+  id: string = '';
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
@@ -78,10 +79,18 @@ export class EnrollDetailsComponent {
     private _inscriptionService: InscriptionService,
     private _enrollservice: EnrollmentService,
     private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) {
+
     this.getDetails();
-    this.getInfo();
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+      if(this.id){
+        this.getInfo(this.id)
+      }
+
+    })
   }
 
   getDetails() {
@@ -100,9 +109,9 @@ export class EnrollDetailsComponent {
     })
   }
 
-  getInfo() {
+  getInfo(id: string) {
     //tomar degree id del path de la ruta
-    this._enrollservice.GetStudentsSubjects('3',this.authService.currentUserValue.cedula).subscribe({
+    this._enrollservice.GetStudentsSubjects(id,this.authService.currentUserValue.cedula).subscribe({
       next:(res)=>{
         console.log("subjectEnrollmentResult", res.subjectEnrollmentResult);
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);

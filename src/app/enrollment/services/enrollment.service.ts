@@ -132,6 +132,12 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  GetStudentsmesh( id: string) {
+    return this.httpClient.post<CareerResponse>(
+      environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id}
+    );
+  }
+
   getPeriodCurriculumdesingById(id: number): void {
     this.subs.sink = this.httpClient
       .get<Period[]>(environment.apiEF + 'DegreeCurriculumDesign/GetPeriodsBy?DegreeCurriculumDesignId='+id)
