@@ -23,6 +23,7 @@ import { Subject } from "../models/Subject";
 import { Room } from "../models/Room";
 import { Career, CareerResponse } from "../models/Career";
 import { an } from "@fullcalendar/core/internal-common";
+import { ResponseSubjectRecord } from '../models/calificacion';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,41 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   public _Period!: Period;
   public _Subject!: Subject;
   public _Room!: Room;
+  public _ResponseSubjectRecord: ResponseSubjectRecord =
+    {
+      statusCode: 0,
+      success: false,
+      message: '',
+      data: [{
+        id: 0,
+        createdDate: new Date(),
+        createdBy: '',
+        lastModifiedDate: '',
+        lastModifiedBy: '',
+        totalRecords: 0,
+        scoreType: {
+          id: 0,
+          name: '',
+        },
+        academicSubjectRecords: {
+          id: 0,
+          academicRecord: '',
+          efAcademicRecordId: 0,
+          subjectId: 0,
+        },
+        subjectTask: {
+          title: '',
+          subjectId: 0,
+          taskType: '',
+          description: ''
+        },
+        academicSubjectRecordId: 0,
+        score: 0,
+        scoreTypeId: 0,
+        subjectTaskId: 0,
+      }],
+      errors: '',
+    };
   public _VerificarDocumentacion!: VerificarDocumentacion;
   dataChange: BehaviorSubject<Participant[]> = new BehaviorSubject<Participant[]>([]);
   dataChangeMesh: BehaviorSubject<Mesh[]> = new BehaviorSubject<Mesh[]>([]);
@@ -206,10 +242,45 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   }
   SearchSubjectRecordScores(data: any) {
     const url = `${environment.apiIntranet}`;
-    return this.httpClient.post<any>(url + "SearchSubjectRecordScores", data);
+    return this.httpClient.post<ResponseSubjectRecord>(url + "SearchSubjectRecordScores", data);
   }
 
-
+  init_ResponseSubjectRecord() {
+    this._ResponseSubjectRecord = {
+      statusCode: 0,
+      success: false,
+      message: '',
+      data: [{
+        id: 0,
+        createdDate: new Date(),
+        createdBy: '',
+        lastModifiedDate: '',
+        lastModifiedBy: '',
+        totalRecords: 0,
+        scoreType: {
+          id: 0,
+          name: '',
+        },
+        academicSubjectRecords: {
+          id: 0,
+          academicRecord: '',
+          efAcademicRecordId: 0,
+          subjectId: 0,
+        },
+        subjectTask: {
+          title: '',
+          subjectId: 0,
+          taskType: '',
+          description: ''
+        },
+        academicSubjectRecordId: 0,
+        score: 0,
+        scoreTypeId: 0,
+        subjectTaskId: 0,
+      }],
+      errors: '',
+    }
+  }
 
 }
 

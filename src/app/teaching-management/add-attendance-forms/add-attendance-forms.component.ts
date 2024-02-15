@@ -93,27 +93,27 @@ export class AddAttendanceFormsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListAsistence.filter = filterValue.trim().toLowerCase();
   }
-  
+
   getRecordAcademic() {
-  
+
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId: this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-       
-          const datos = {
-            academicSubjectRecordId:res["data"][0].id,
-            date: this.AsistenciaForms.get("startDate")?.value,
-            attended: this.AsistenciaForms.get("statusId")?.value,
 
-          }
-          
+
+        const datos = {
+          academicSubjectRecordId: res["data"][0].id,
+          date: this.AsistenciaForms.get("startDate")?.value,
+          attended: this.AsistenciaForms.get("statusId")?.value,
+
+        }
+
         this._TeacherService.AddAsistStudent(datos).subscribe(
           (data) => {
             console.log(data)
@@ -129,27 +129,27 @@ export class AddAttendanceFormsComponent implements OnInit {
       }
     )
   }
-  
-  
+
+
   getRecordAcademicAct() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       //studentId: this.data.student.studentId,
     }
-    
-    
+
+
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-       
-          const datos = {
-            ecAcademicRecordId:res["data"][0].id,
-            date: this.AsistenciaForms.get("startDate")?.value,
-            attended: this.AsistenciaForms.get("statusId")?.value,
-          }
+
+
+        const datos = {
+          ecAcademicRecordId: res["data"][0].id,
+          date: this.AsistenciaForms.get("startDate")?.value,
+          attended: this.AsistenciaForms.get("statusId")?.value,
+        }
 
         this._TeacherService.AddAsistStudentAct(datos).subscribe(
           (data) => {
@@ -168,9 +168,9 @@ export class AddAttendanceFormsComponent implements OnInit {
   }
 
 
-  
+
   submit() {
-  
+
     let local = localStorage.getItem('tipoSolicitud') || '';
     if (local != '') {
       if (local == "1") {
@@ -178,78 +178,7 @@ export class AddAttendanceFormsComponent implements OnInit {
       } else {
         this.getRecordAcademicAct()
       }
-    } 
-      
-    
-    // let type = localStorage.getItem('tipoSolicitud');
-    // let local = localStorage.getItem('asitencias') || '';
-    // if (local != '') {
-    //   this.Asistencia = JSON.parse(local);
-    //   let fecha = this.AsistenciaForms.controls['startDate'].value;
-    //   let existe = this.Asistencia.filter(x => this.formatearFecha(x.startDate.toString()) == this.formatearFecha(fecha) && x.cedula == this.AsistenciaForms.controls['cedula'].value && x.idasignatura == this.data.id && x.type == type);
-    //   if (existe.length > 0) {
-    //     this.ResponseMessage.CodError = 500;
-    //     this.ResponseMessage.Message = 'Ya mantiene una asistencia para la fecha seleccionada.';
-    //     this.dialogRef.close(this.ResponseMessage);
-    //     return;
-    //   }
-    //   this.AsistenciaOne = {
-    //     statusId: this.AsistenciaForms.controls['statusId'].value,
-    //     startDate: this.AsistenciaForms.controls['startDate'].value,
-    //     idEstudiante: this.AsistenciaForms.controls['idEstudiante'].value,
-    //     cedula: this.AsistenciaForms.controls['cedula'].value,
-    //     name: this.AsistenciaForms.controls['name'].value,
-    //     lastname: this.AsistenciaForms.controls['lastname'].value,
-    //     id: this.Asistencia.length + 1,
-    //     docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName,
-    //     idasignatura: this.data.id,
-    //     type: localStorage.getItem('tipoSolicitud') || ''
-
-    //   };
-    //   this.Asistencia.push(this.AsistenciaOne);
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Registrado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // } else {
-    //   this.Asistencia.push(this.AsistenciaForms.getRawValue());
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Cargado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // }
-
-
-
-    // Asistencia
-
-    // if (this.action === 'add') {
-    //   this._AnnualPlanService.addAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Cargado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // } else {
-    //   this._AnnualPlanService.updateAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Editado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // }
+    }
   }
   formatearFecha(fechaString: string): string {
     const fecha = new Date(fechaString);
