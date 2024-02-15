@@ -13,7 +13,11 @@ import {
 import {documentosIncripcion} from "../../admission/models/documentosIncripcion";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
-import {CreateEnrollmentResult, ResponseAddEFcademicInfo} from "../../admission/models/AddEFacademicResponse";
+import {
+  CreateEnrollmentResult, GetStudentsActivityResponse,
+  GetSubjectEnrollmentResult,
+  ResponseAddEFcademicInfo
+} from "../../admission/models/AddEFacademicResponse";
 import {Period} from "../models/Period";
 import {Subject} from "../models/Subject";
 import {Room} from "../models/Room";
@@ -112,8 +116,8 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   CreateEFAcademicRecord(CreateEFAcademicRecorddata: any) {
 
-    const url = `${environment.apiEC}`;
-    return this.httpClient.post<CreateEnrollmentResult>(url + "CreateEFAcademicRecord", CreateEFAcademicRecorddata);
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<any>(url + "CreateEFAcademicRecord", CreateEFAcademicRecorddata);
   }
 
   AddSubjectStudent(createEnrollmentdSubjectDta: any) {
@@ -122,9 +126,21 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseAddEFcademicInfo>(url + "EJMatricula/AddSubjectStudent", createEnrollmentdSubjectDta);
   }
 
-  GetStudentsSubjects(id: any) {
-    return this.httpClient.get<any>(
-      environment.apiEC + 'EJMatricula/GetStudentsSubjects?Cedula=' + id
+  GetStudentsActivity( id: string) {
+    return this.httpClient.get<GetStudentsActivityResponse>(
+      environment.apiEC + 'ContinuingEducation/GetStudentsActivity?Cedula='+id
+    );
+  }
+
+  GetStudentsSubjects(DegreeId: string, id: string) {
+    return this.httpClient.get<GetSubjectEnrollmentResult>(
+      environment.apiEC + 'EJMatricula/GetSubjectEnrollment?DegreeId=' + DegreeId +'&Cedula='+id
+    );
+  }
+
+  GetStudentsmesh( id: string) {
+    return this.httpClient.post<CareerResponse>(
+      environment.apiEC + 'EJMatricula/GetSubjectDegree',{cedula:id}
     );
   }
 

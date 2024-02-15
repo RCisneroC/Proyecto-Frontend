@@ -47,7 +47,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
       .get<Subject[]>(environment.apiEF + 'Subject/GetAll?StatusId=' + id);
   }
 
- 
+
   getAllSubjectNotPendingDegree(id: any) {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'DegreeCurriculumDesign/GetSubjectsBy?DegreeCurriculumDesignId=' + id);
@@ -168,6 +168,15 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Period/DeleteSubject', options);
   }
 
+
+  getEncuestaLista(StudentId: any, PeriodId: any, Year: any, SubjectId: any) {
+    return this.httpClient
+      .get<Subject[]>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}`);
+  }
+
+  SaveEncuesta(data: any) {
+    return this.httpClient.post(environment.apiEF + 'Survey/Create', data);
+  }
   init_Subject() {
     this._Subject = {
       statusId: 0,

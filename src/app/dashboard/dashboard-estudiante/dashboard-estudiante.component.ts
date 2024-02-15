@@ -1,22 +1,26 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Career} from "../../enrollment/models/Career";
-import {MatPaginator} from "@angular/material/paginator";
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Career } from "../../enrollment/models/Career";
+import { MatPaginator } from "@angular/material/paginator";
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
 import {
   ApprovedDegreeComponent
 } from "../../admission/FormalEducations/Approvals/Forms/approved-degree/approved-degree.component";
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
+import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {EnrollmentService} from "../../enrollment/services/enrollment.service";
-import {AuthService} from "@core";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import { EnrollmentService } from "../../enrollment/services/enrollment.service";
+import { AuthService } from "@core";
+import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
+import { getStudentsActivityResponse } from "../../admission/models/AddEFacademicResponse";
+import { MatTableDataSource } from "@angular/material/table";
+import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-activity/encuesta-activity.component';
 
 @Component({
   selector: 'app-dashboard-estudiante',
@@ -33,6 +37,33 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     'FechaFin',
     'statusId',
   ];
+
+  DisplayNameInfo: string[] = [
+    'SubjectName',
+    'DegreeName',
+    'ClassShift',
+    'RoomName',
+    'createDate',
+    'accion',
+  ];
+
+  dataSourceInfo: getStudentsActivityResponse[] = [{
+    cedula: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    email: '',
+    acitityName: '',
+    duration: 0,
+    totalHours: 0,
+    activityModeName: '',
+    activityTypeName: '',
+    activityLocationName: '',
+    degreeCurriculumDesignId: 0
+  }];
+
+  dataInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceInfo);
+  loading: boolean = true;
 
   exampleDatabase?: EnrollmentService;
   dataSource!: ExampleDataSource;
@@ -59,19 +90,30 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
+    this.loadactivity();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     })
   }
   refresh() {
     this.loadData();
+    this.loadactivity()
   }
 
+  loadactivity() {
+    this._EnrollmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
+        this.dataSourceInfo = res.getStudentsActivityResponse;
+        this.dataInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        this.loading = false;
+      }
+    })
+  }
   seleccionar(row: Career) {
 
     const CareerItem = JSON.stringify(row);
     localStorage.setItem('enroll-career', CareerItem);
-    this._router.navigate(['/enrollment/enroll-subject/'+ row.degreeId]);
+    this._router.navigate(['/enrollment/enroll-subject/' + row.degreeId]);
 
   }
 
@@ -105,6 +147,38 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+  encuestaActivity(row: getStudentsActivityResponse) {
+    const dialogRef = this.dialog.open(EncuestaActivityComponent, {
+      data: {
+        activity: row,
+        accion: 'encuesta',
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
+
 
 
   private refreshTable() {
@@ -196,7 +270,7 @@ export class ExampleDataSource extends DataSource<Career> {
         // Filter data
         this.filteredData = this.exampleDatabase.dataCareer
           .slice()
-          .filter((_Career:Career) => {
+          .filter((_Career: Career) => {
             const searchStr = (_Career.mCurriculumName).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });

@@ -1,18 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {EnrollmentService} from "../services/enrollment.service";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {Subject} from "../models/Subject";
-import {EnrollDummy} from "../models/EnrollDummy";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { EnrollmentService } from "../services/enrollment.service";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import { Subject } from "../models/Subject";
+import { EnrollDummy } from "../models/EnrollDummy";
 import Swal from "sweetalert2";
+import { AuthService } from "@core";
+import { subjectEnrollmentResult } from "../../admission/models/AddEFacademicResponse";
 
 @Component({
   selector: 'app-enroll-subjects',
@@ -37,12 +39,14 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   id?: number;
   requirement?: Subject = this._SubjectService._Subject;
   enrollDummyList: EnrollDummy[] = [];
+  subjectEnrollment: subjectEnrollmentResult[] = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _SubjectService: EnrollmentService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private _router: Router
   ) {
     super();
@@ -57,40 +61,50 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
+      if (this.id) {
+        this.loadMatriculadas(this.id.toString())
+      }
+
     })
   }
   refresh() {
     this.loadData();
   }
 
-  volverAtras(){
+  loadMatriculadas(id: string) {
+    const cedula = this.authService.currentUserValue.cedula;
+    this._SubjectService.GetStudentsSubjects(id, cedula).subscribe({
+      next: (res) => {
+        this.subjectEnrollment = res.subjectEnrollmentResult;
+      }
+    })
+  }
+
+  volverAtras() {
     this._router.navigate(['/enrollment/enroll-career']);
   }
 
   detalle(row: Subject) {
     let exist = false
-    const itemList = localStorage.getItem('enroll-dummy');
-    if (itemList != null){
-      this.enrollDummyList = JSON.parse(itemList);
-      console.log(this.enrollDummyList);
-      this.enrollDummyList.forEach(function (value){
-        if (value.SubjectId === row.id){
-          exist = true
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "La asignatura ya fue matriculada",
-            icon: "warning"
-          });
-        }
-
-      });
-    }
-      if(!exist){
-        const SubjectItem = JSON.stringify(row);
-        localStorage.setItem('enroll-subject', SubjectItem);
-        localStorage.setItem('enroll-subject-url', 'enrollment/enroll-subject/'+ this.id);
-        this._router.navigate(['enrollment/enroll-room/']);
+    console.log(this.subjectEnrollment);
+    this.subjectEnrollment.forEach(function (value) {
+      if (value.asignaturaId === row.id) {
+        exist = true
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "La asignatura ya fue matriculada",
+          icon: "warning"
+        });
       }
+
+    });
+
+    if (!exist) {
+      const SubjectItem = JSON.stringify(row);
+      localStorage.setItem('enroll-subject', SubjectItem);
+      localStorage.setItem('enroll-subject-url', 'enrollment/enroll-subject/' + this.id);
+      this._router.navigate(['enrollment/enroll-room/']);
+    }
 
 
   }
@@ -178,13 +192,13 @@ export class ExampleDataSource extends DataSource<Subject> {
       this.id = params['id'];
     });
     console.log(this.id);
-    this.exampleDatabase.GetSubjectsBy(1,this.id);
+    this.exampleDatabase.GetSubjectsBy(1, this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.dataSubject
           .slice()
-          .filter((_Subject:Subject) => {
+          .filter((_Subject: Subject) => {
             const searchStr = (_Subject.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
