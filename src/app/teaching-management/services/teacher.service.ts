@@ -9,7 +9,7 @@ import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
 import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
 import { RespuestaServicio } from '../add-calif/add-calif.component';
-import { AcademicRecord } from '../models/Asistencias';
+import { AcademicRecord, Asist, StudenAsistence } from '../models/Asistencias';
 
 @Injectable({
   providedIn: 'root'
@@ -190,8 +190,19 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .post(environment.apiIntranet + 'CreateAcademicActivityAttendanceRecord', data);
   }
+  
+  GetAsistStudentAct(data: any) {
+    return this.httpClient
+      .post<StudenAsistence[]>(environment.apiIntranet + 'SearchAcademicActivityAttendanceRecord', data);
+  }
+  
+  GetAsistStudentSubject(data: any) {
+    return this.httpClient
+      .post<Asist>(environment.apiIntranet + 'SearchAcademicSubjectAttendanceRecord', data);
+  }
 
 
+  
   
 
 }
