@@ -120,7 +120,7 @@
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
+                            <button mat-mini-fab color="accent" (click)="godetails(row)"
                                      class="tbl-action-btn">
                               <mat-icon>visibility</mat-icon>
                             </button>

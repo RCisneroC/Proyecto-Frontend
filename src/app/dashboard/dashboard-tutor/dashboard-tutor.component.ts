@@ -14,6 +14,8 @@ import {UserFormComponent} from "../../security/user/user-form/user-form.compone
 import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {Career} from "../../enrollment/models/Career";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-tutor',
@@ -42,6 +44,7 @@ export class DashboardTutorComponent extends UnsubscribeOnDestroyAdapter
 
   constructor(
     public httpClient: HttpClient,
+    public _router: Router,
     public dialog: MatDialog,
     public userService: UserService,
     private snackBar: MatSnackBar
@@ -134,6 +137,10 @@ export class DashboardTutorComponent extends UnsubscribeOnDestroyAdapter
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
+  }
+
+  godetails(row:User){
+    this._router.navigate(['/tutor/student-detail/'+ row.cedula]);
   }
 
   public loadData() {
