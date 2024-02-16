@@ -148,7 +148,9 @@ export class TutorStudentDetailComponent {
   }
 
   goSubjects(row:Career){
-    this._router.navigate(['/enrollment/enroll-details/'+ row.degreeCurriculumDesignId]);
+    localStorage.setItem('tutor-student-uri-selected','/tutor/student-detail/'+this._ActivityService._DetailsResponseEF.cedula);
+    localStorage.setItem('tutor-student-selected',this._ActivityService._DetailsResponseEF.cedula);
+    this._router.navigate(['/tutor/subject-detail/'+ row.degreeCurriculumDesignId]);
   }
 
 
