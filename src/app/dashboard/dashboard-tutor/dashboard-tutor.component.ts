@@ -28,11 +28,9 @@ export class DashboardTutorComponent extends UnsubscribeOnDestroyAdapter
     'firstName',
     'lastName',
     'email',
-    'phoneNumber',
     'roles',
     'gender',
     'userStatusId',
-    'createdDate',
     'actions'
   ];
 
@@ -210,7 +208,7 @@ export class ExampleDataSource extends DataSource<User> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.userService.getAllUsers();
+    this.userService.getAllEstudents();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

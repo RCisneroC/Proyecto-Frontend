@@ -5,6 +5,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { environment } from 'environments/environment.development';
 
 import { BehaviorSubject } from 'rxjs';
+import {an} from "@fullcalendar/core/internal-common";
 
 @Injectable({
   providedIn: 'root'
@@ -43,15 +44,35 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  
+
+   isStudentFilter(element:User, index: any, array: any) {
+    return (element.roles[0] === "Estudiante");
+  }
+  getAllEstudents(): void {
+    this.subs.sink = this.httpClient
+      .get<User[]>(environment.apiUrl+'GetAllUsers')
+      .subscribe({
+        next: (data) => {
+          const dataFiltered = data.filter(this.isStudentFilter);
+          this.isTblLoading = false;
+          this.dataChange.next(dataFiltered);
+          console.log("exito")
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
   getAllUsers2() {
     return this.httpClient
-      .get<User[]>(environment.apiUrl+'GetAllUsers');  
+      .get<User[]>(environment.apiUrl+'GetAllUsers');
   }
 
   getAllUsersRol() {
     return this.httpClient
-      .get<User[]>(environment.apiUrl+'GetAllUsers');  
+      .get<User[]>(environment.apiUrl+'GetAllUsers');
   }
 
   addUser(user: User) {
@@ -64,9 +85,9 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put(environment.apiUrl + 'UpdateUser', user);
   }
-  
+
   changePassword(user: User): void {
-    
+
 
     this.httpClient.put(environment.apiUrl+'ChangePassword', user)
         .subscribe({
