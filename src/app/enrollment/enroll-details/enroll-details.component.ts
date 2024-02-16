@@ -19,6 +19,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ViewCalificacionesComponent } from '../Forms/view-calificaciones/view-calificaciones.component';
+import {EnrollAttendenceFormComponent} from "../enroll-attendence-form/enroll-attendence-form.component";
 
 @Component({
   selector: 'app-enroll-details',
@@ -172,7 +173,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
             this.academicSubjectRecordId = + res.data[0].id;
             this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId,row.mallaId,row.asignaturaId,row.studentId).subscribe({
               next:(res)=>{
-                const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
+                const dialogRef = this.dialog.open(EnrollAttendenceFormComponent, {
                   data: {
                     students: this._StudenAsistence,
                     action: 'view',
