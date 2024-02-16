@@ -33,6 +33,11 @@ const routes: Routes = [
           import('./enrollment/enrollment.module').then((m) => m.EnrollmentModule),
       },
       {
+        path: 'tutor',
+        loadChildren: () =>
+          import('./tutor/tutor.module').then((m) => m.TutorModule),
+      },
+      {
         path: 'intranet-academic',
         loadChildren: () =>
           import('./intranet-academic-registration/intranet-academic-registration.module').then((m) => m.IntranetAcademicRegistrationModule),
@@ -60,7 +65,7 @@ const routes: Routes = [
       ),
   },
 
-  //Colocar el path aca 
+  //Colocar el path aca
   {
     path: 'student',
     component: AuthLayoutComponent,
