@@ -61,7 +61,11 @@ export class SigninComponent
 
                   if (type == 'Estudiante') {
                     this.router.navigate(['/dashboard/dashboard-student']);
-                  } else {
+                  }
+                  if (type == 'Tutor') {
+                    this.router.navigate(['/dashboard/dashboard-tutor']);
+                  }
+                  else {
                     this.router.navigate(['/dashboard/dashboard1']);
                   }
                 } else {

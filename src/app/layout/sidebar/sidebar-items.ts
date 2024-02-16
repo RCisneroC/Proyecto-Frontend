@@ -629,6 +629,18 @@ export const ROUTES: RouteInfo[] = [
       }
     ],
   },
+  {
+    path: '/dashboard/dashboard-tutor',
+    title: 'Panel control',
+    iconType: 'feather',
+    icon: 'calendar',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Tutor',
+    submenu: [],
+  },
   // {
   //   path: '',
   //   title: 'Solicitudes',

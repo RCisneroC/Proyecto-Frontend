@@ -10,9 +10,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
 import { DashboardEstudianteComponent } from './dashboard-estudiante/dashboard-estudiante.component';
+import { DashboardTutorComponent } from './dashboard-tutor/dashboard-tutor.component';
 
 @NgModule({
-  declarations: [Dashboard1Component, DashboardEstudianteComponent],
+  declarations: [Dashboard1Component, DashboardEstudianteComponent, DashboardTutorComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
