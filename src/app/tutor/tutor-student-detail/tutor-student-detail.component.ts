@@ -10,7 +10,7 @@ import {EnrollmentService} from "../../enrollment/services/enrollment.service";
 import {AuthService} from "@core";
 import {MatDialog} from "@angular/material/dialog";
 import {DetailsParticipanteEF} from "../../admission/models/participant";
-import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
+import {getStudentsActivityResponse, subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
 
 @Component({
   selector: 'app-tutor-student-detail',
@@ -27,6 +27,24 @@ export class TutorStudentDetailComponent {
     'createDate',
     'accion'
   ];
+
+  dataSourceActInfo: getStudentsActivityResponse[] = [{
+    cedula: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    email: '',
+    acitityName: '',
+    duration: 0,
+    totalHours: 0,
+    activityModeName: '',
+    activityTypeName: '',
+    activityLocationName: '',
+    degreeCurriculumDesignId: 0
+  }];
+
+  dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceActInfo);
+  loading: boolean = true;
 
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
@@ -78,6 +96,7 @@ export class TutorStudentDetailComponent {
     private _enrollservice: EnrollmentService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    public _EnrollmentService: EnrollmentService,
     public dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe((params) => {
@@ -98,8 +117,19 @@ export class TutorStudentDetailComponent {
         }
         this._ActivityService.loading = false;
         this.getInfo();
+        this.loadactivity();
       },
       error: (err) => {
+      }
+    })
+  }
+
+  loadactivity() {
+    this._EnrollmentService.GetStudentsActivity(this.id).subscribe({
+      next: (res) => {
+        this.dataSourceActInfo = res.getStudentsActivityResponse;
+        this.dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        this.loading = false;
       }
     })
   }
