@@ -29,6 +29,8 @@ export class TutorStudentDetailComponent {
   ];
 
   dataSourceActInfo: getStudentsActivityResponse[] = [{
+    participantId:'',
+    acivityId: 0,
     cedula: '',
     firstName: '',
     lastName: '',
