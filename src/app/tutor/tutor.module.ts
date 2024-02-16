@@ -5,12 +5,14 @@ import {ComponentsModule} from "@shared/components/components.module";
 import {SharedModule} from "@shared";
 import {TutorRoutingModule} from "./tutor-routing.module";
 import { TutorStudentDetailComponent } from './tutor-student-detail/tutor-student-detail.component';
+import { TutorStudentSubjectDetailComponent } from './tutor-student-subject-detail/tutor-student-subject-detail.component';
 
 
 
 @NgModule({
   declarations: [
-    TutorStudentDetailComponent
+    TutorStudentDetailComponent,
+    TutorStudentSubjectDetailComponent
   ],
   imports: [
     CommonModule,
