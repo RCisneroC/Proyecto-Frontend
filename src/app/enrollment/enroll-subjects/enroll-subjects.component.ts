@@ -87,18 +87,19 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   detalle(row: Subject) {
     let exist = false
     console.log(this.subjectEnrollment);
-    this.subjectEnrollment.forEach(function (value) {
-      if (value.asignaturaId === row.id) {
-        exist = true
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: "La asignatura ya fue matriculada",
-          icon: "warning"
-        });
-      }
+    if(this.subjectEnrollment){
+      this.subjectEnrollment.forEach(function (value) {
+        if (value.asignaturaId === row.id) {
+          exist = true
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "La asignatura ya fue matriculada",
+            icon: "warning"
+          });
+        }
 
-    });
-
+      });
+    }
     if (!exist) {
       const SubjectItem = JSON.stringify(row);
       localStorage.setItem('enroll-subject', SubjectItem);
