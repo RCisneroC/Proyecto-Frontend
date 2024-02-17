@@ -229,8 +229,6 @@ export class AddCalifComponent {
   
   
 
-  
-  
   getRecordAcademicAct() {
   
     const idGeneral = Number(localStorage.getItem('id')) || 0;
