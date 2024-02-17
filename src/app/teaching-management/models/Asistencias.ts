@@ -52,6 +52,7 @@ export interface Student {
   roomId: number;
   salonGrupo: string;
   studentId: number;
+  participantId: string;
 
 }
 
