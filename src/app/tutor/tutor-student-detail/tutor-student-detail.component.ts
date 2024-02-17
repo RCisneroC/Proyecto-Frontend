@@ -14,6 +14,8 @@ import {getStudentsActivityResponse, subjectEnrollmentResult} from "../../admiss
 import {EnrollAttendenceFormComponent} from "../../enrollment/enroll-attendence-form/enroll-attendence-form.component";
 import {Direction} from "@angular/cdk/bidi";
 import {TutorECAttendenceFormComponent} from "../tutor-ecattendence-form/tutor-ecattendence-form.component";
+import {ViewCalificacionesComponent} from "../../enrollment/Forms/view-calificaciones/view-calificaciones.component";
+import {TutorECCalificationFormComponent} from "../tutor-eccalification-form/tutor-eccalification-form.component";
 
 @Component({
   selector: 'app-tutor-student-detail',
@@ -184,6 +186,27 @@ export class TutorStudentDetailComponent {
                 },
                 direction: tempDirection,
               });
+            }
+          })
+        }
+      }
+    })
+  }
+
+  verCalificaciones(row:getStudentsActivityResponse){
+    this._enrollservice.SearchECAcademicRecordMethod(row.acivityId, false, row.participantId).subscribe({
+      next:(res)=>{
+        this.eCAcademicRecordId = + res.data[0].id;
+        if(this.eCAcademicRecordId){
+          this._enrollservice.SearchActivityRecordScoresMethod(this.eCAcademicRecordId).subscribe({
+            next:(res)=>{
+              const dialogRef = this.dialog.open(TutorECCalificationFormComponent, {
+                data: {
+                  calificaciones: res.data,
+                  action: 'view',
+                }
+              });
+
             }
           })
         }
