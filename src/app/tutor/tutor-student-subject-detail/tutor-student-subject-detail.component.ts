@@ -240,36 +240,6 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     })
   }
 
-  EncuestForms() {
-    const dialogRef = this.dialog.open(EncuestaSubjectComponent, {
-      data: {
-        subject: this.dataSourceInfo,
-        action: 'encuesta',
-      },
-      width: '1200px',
-      disableClose: true
-    });
-
-    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
-
 
   protected readonly Date = Date;
 }

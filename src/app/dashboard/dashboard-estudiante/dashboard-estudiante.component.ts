@@ -48,6 +48,8 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   dataSourceInfo: getStudentsActivityResponse[] = [{
+    participantId:'',
+    acivityId: 0,
     cedula: '',
     firstName: '',
     lastName: '',

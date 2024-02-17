@@ -180,9 +180,9 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseEF>(url + "EJMatricula/EnrollmentAction?InscriptionId=" + InscriptionId, null);
   }
 
-  CreateUserEC(InscriptionId: number, StatusID: number): Observable<any> {
+  CreateUserEC(InscriptionId: number, StatusID: number, MoodleCourseId: number, CreatedBy: string ): Observable<any> {
     const url = `${environment.apiEC}`;
-    return this.httpClient.post<ResponseEF>(url + "EJMatricula/CreateUserEC?InscriptionId=" + InscriptionId + "&StatusId=" + StatusID, null);
+    return this.httpClient.post<ResponseEF>(url + "EJMatricula/CreateUserEC?InscriptionId=" + InscriptionId + "&StatusId=" + StatusID+ '&MoodleCourseId='+MoodleCourseId+'&CreatedBy='+CreatedBy, null);
   }
 
   CreateECAcademicRecord(CreateECAcademicRecorddata: any) {

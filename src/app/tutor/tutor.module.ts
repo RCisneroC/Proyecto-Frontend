@@ -6,13 +6,17 @@ import {SharedModule} from "@shared";
 import {TutorRoutingModule} from "./tutor-routing.module";
 import { TutorStudentDetailComponent } from './tutor-student-detail/tutor-student-detail.component';
 import { TutorStudentSubjectDetailComponent } from './tutor-student-subject-detail/tutor-student-subject-detail.component';
+import { TutorECAttendenceFormComponent } from './tutor-ecattendence-form/tutor-ecattendence-form.component';
+import { TutorECCalificationFormComponent } from './tutor-eccalification-form/tutor-eccalification-form.component';
 
 
 
 @NgModule({
   declarations: [
     TutorStudentDetailComponent,
-    TutorStudentSubjectDetailComponent
+    TutorStudentSubjectDetailComponent,
+    TutorECAttendenceFormComponent,
+    TutorECCalificationFormComponent
   ],
   imports: [
     CommonModule,
