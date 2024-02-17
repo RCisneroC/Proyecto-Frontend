@@ -9730,6 +9730,15 @@
         "hash": "sha512-y8qk2sI2E77uLOphw21IhmMelGmsRS1Xpm3+utXXYXlxj6D7Bcyc8Y6gPN0TrUQ0tlVwqwrTZ3iqDILXq2P/EA=="
       }
     },
+    "npm:ngx-file-drop": {
+      "type": "npm",
+      "name": "npm:ngx-file-drop",
+      "data": {
+        "version": "16.0.0",
+        "packageName": "ngx-file-drop",
+        "hash": "sha512-33RPoZBAiMkV110Rzu3iOrzGcG5M20S4sAiwLzNylfJobu9qVw5XR83FhUelSeqJRoaDxXBRKAozYCSnUf2CNw=="
+      }
+    },
     "npm:ngx-gauge": {
       "type": "npm",
       "name": "npm:ngx-gauge",
@@ -9755,6 +9764,15 @@
         "version": "13.0.3",
         "packageName": "ngx-scrollbar",
         "hash": "sha512-ZpjNm9y7F5OSQh7p4x2PrwRkNl5zARPqPbRdkS5HjP8lHpG7hAFpbsjW+WlsM/6lAL5pesfVRCSlvcRJihM2sg=="
+      }
+    },
+    "npm:ngx-treeview": {
+      "type": "npm",
+      "name": "npm:ngx-treeview",
+      "data": {
+        "version": "10.0.2",
+        "packageName": "ngx-treeview",
+        "hash": "sha512-vuSaJ3mqQOsosQE8tWhyPbfNvrUYgdy+YNxUWdaAvwX+Oucwe+xqfMT6J//jx0SI1u3GqOCXZDN+XMK813Hvhw=="
       }
     },
     "npm:nice-napi": {
@@ -26189,6 +26207,23 @@
         "type": "static"
       }
     ],
+    "npm:ngx-file-drop": [
+      {
+        "source": "npm:ngx-file-drop",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-file-drop",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-file-drop",
+        "target": "npm:tslib",
+        "type": "static"
+      }
+    ],
     "npm:ngx-gauge": [
       {
         "source": "npm:ngx-gauge",
@@ -26251,6 +26286,18 @@
       },
       {
         "source": "npm:ngx-scrollbar",
+        "target": "npm:tslib",
+        "type": "static"
+      }
+    ],
+    "npm:ngx-treeview": [
+      {
+        "source": "npm:ngx-treeview",
+        "target": "npm:lodash",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-treeview",
         "target": "npm:tslib",
         "type": "static"
       }
