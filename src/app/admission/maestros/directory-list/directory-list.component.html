@@ -1,0 +1,85 @@
+
+  <section class="content">
+    <div class="content-block">
+      <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Directorios'" [items]="['Inicio','Admisión','Directorios']" [active_item]="'Directorio'">
+        </app-breadcrumb>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="header">
+              <h2 class="text-uppercase"><strong>Listado de directorios</strong></h2>
+            </div>
+            <div class="body">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="card">
+                   
+                    <div class="body overflow-auto">
+                      <div class="responsive_table">
+                   
+                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                            <!-- Leaf node -->
+                            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                              <button mat-icon-button disabled></button>
+                              {{node.item}}
+                              <button mat-mini-fab color="primary" 
+                              matTooltip="Ver Calificación">
+                              <mat-icon>remove_red_eye</mat-icon>
+
+                            </button>
+                            </mat-tree-node>
+                          
+                            <!-- expandable node -->
+                            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                              <button mat-icon-button
+                                      [attr.aria-label]="'Toggle ' + node.item"
+                                      (click)="loadChildren(node)"
+                                      matTreeNodeToggle>
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                              </button>
+                              {{node.item}}
+                            </mat-tree-node>
+                          
+                            <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore">
+                              <button mat-button (click)="loadMore(node.loadMoreParentItem)">
+                                Load more...
+                              </button>
+                            </mat-tree-node>
+                          </mat-tree>
+                      </div>
+                      <!-- Loading spinner -->
+                    
+                      <!-- context menu start -->
+                  
+                      
+                      <mat-menu #nestedmenu="matMenu">
+                        <button mat-menu-item>
+                          <mat-icon>mail_outline</mat-icon>
+                          <span>Item 1</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>call</mat-icon>
+                          <span>Item 2</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>chat</mat-icon>
+                          <span>Item 3</span>
+                        </button>
+                      </mat-menu>
+                      <!-- context menu end -->
+              
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

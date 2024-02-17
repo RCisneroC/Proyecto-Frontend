@@ -9,7 +9,9 @@ import { User } from '@core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
-import { StudenAsistence, Student } from '../models/Asistencias';
+import { Student } from '../models/Asistencias';
+import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
+import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
 
 @Component({
   selector: 'app-detail-task',
@@ -43,6 +45,7 @@ export class DetailTaskComponent implements OnInit {
   dataSou = new MatTableDataSource<Student>(this.dataSourseUser);
   public id: string = '';
   idGeneral!: number;
+  title!: string;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
@@ -51,6 +54,8 @@ export class DetailTaskComponent implements OnInit {
   }
   constructor(private _nav: Router,
     public _dialog: MatDialog,
+    public _SubjectService: SubjectListService,
+    public _ActivityListService: ActivityListService,
     public _TeacherService: TeacherService, private activatedRoute: ActivatedRoute
   ) {
 
@@ -62,9 +67,13 @@ export class DetailTaskComponent implements OnInit {
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
+           this.title="Listado de Estudiantes";
           this.getOneStudents();
+          this.getAllTaskSubject()
         } else {
+          this.title="Listado de Participantes";
           this.getOneStudentsAct();
+          this.getAllTaskActivity();
         }
       }
     });
@@ -92,6 +101,37 @@ export class DetailTaskComponent implements OnInit {
     })
   }
 
+  getAllTaskSubject() {
+    const data = {
+      subjectId: this.idGeneral
+    }
+    this._SubjectService.GetTaskSubject(data).subscribe({
+      next: (res) => {
+      this.taskSubject.Titulo=res.data[0].title;
+      this.taskSubject.observacion=res.data[0].observation;
+      this.taskSubject.fechaEntrega=res.data[0].finalDate;
+      this.taskSubject.tipoTarea=res.data[0].taskType.name;
+      }
+    })
+  }
+
+  getAllTaskActivity() {
+    const data = {
+      activityId: this.idGeneral
+    }
+    this._ActivityListService.GetTaskActivity(data).subscribe({
+      next: (res) => {
+   
+        this.taskSubject.Titulo=res.data[0].title;
+        this.taskSubject.observacion=res.data[0].observation;
+        this.taskSubject.fechaEntrega=res.data[0].finalDate;
+        this.taskSubject.tipoTarea=res.data[0].taskType.name;
+      
+
+      }
+    })
+  }
+
   addNew() {
 
   }
@@ -103,6 +143,7 @@ export class DetailTaskComponent implements OnInit {
       data: {
         student: row,
         studentId: row.studentId,
+        participantId: row.participantId,
         taskSubject: this.taskSubject,
         accion: 'add-calificacion'
       },
@@ -113,12 +154,14 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-        this.getOneStudents();
+       
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
+        this.getOneStudents();
+       
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -142,6 +185,7 @@ export class DetailTaskComponent implements OnInit {
       data: {
         student: row,
         studentId: row.studentId,
+        participantId: row.participantId,
         taskSubject: this.taskSubject,
         accion: 'view'
       },
@@ -152,12 +196,13 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-        this.getOneStudents();
+      
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
+        this.getOneStudents();
       } else {
         Swal.fire({
           title: "Escuela Judicial",

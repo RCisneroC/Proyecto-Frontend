@@ -115,9 +115,6 @@ import { CreateRoomsComponent } from './FormalEducations/Gestions/Details/create
 import { CreateRoomsPeriodComponent } from './FormalEducations/Gestions/Forms/create-rooms-period/create-rooms-period.component';
 import { CreteAsignacionDocenteComponent } from './FormalEducations/Gestions/Forms/crete-asignacion-docente/crete-asignacion-docente.component';
 import { ShowDocentesAsignadoComponent } from './FormalEducations/Gestions/Forms/show-docentes-asignado/show-docentes-asignado.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { FormsCertificateComponent } from './activitydetail/forms/forms-certificate/forms-certificate.component';
 import {
@@ -133,7 +130,9 @@ import { CreateModulesComponent } from './activitydetail/design-curriculun/Forms
 import { CreatePlanStudyFormsComponent } from './activitydetail/design-curriculun/Forms/create-plan-study-forms/create-plan-study-forms.component';
 import { DetailsModulesComponent } from './activitydetail/design-curriculun/Module/details-modules/details-modules.component';
 import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
-import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component'; @NgModule({
+import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
+import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component'; @NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -257,6 +256,8 @@ import { ActivityLearningFormsComponent } from './activitydetail/design-curricul
     DetailsModulesComponent,
     EvaluationsCriteriaFormsComponent,
     ActivityLearningFormsComponent,
+    DirectoryListComponent,
+    DirectoryFormComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [
@@ -269,6 +270,7 @@ import { ActivityLearningFormsComponent } from './activitydetail/design-curricul
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     CKEditorModule
+    
   ]
 })
 export class AdmissionModule { }

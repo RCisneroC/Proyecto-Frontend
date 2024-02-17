@@ -52,8 +52,6 @@ export class DetailSubjectComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'tipo',
-    'subject',
-    'observacion',
     'observation',
     'finalDate',
     'accion',
@@ -149,6 +147,7 @@ export class DetailSubjectComponent implements OnInit {
       next: (res) => {
         this.dataTask = new MatTableDataSource<DataTaskSubject>(res.data);
         this.dataTask.paginator = this.paginator;
+        this.taskSubject.nombre=res.data[0].subject.name
 
       }
     })
@@ -164,6 +163,7 @@ export class DetailSubjectComponent implements OnInit {
         console.log(res);
         console.log('====================================');
         this.dataTask = new MatTableDataSource<any>(res.data);
+        this.taskSubject.nombre=res.data[0].activity.name
         //this.dataTask.paginator = this.paginator_;
 
       }
