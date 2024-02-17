@@ -103,6 +103,7 @@ export class DetailTaskComponent implements OnInit {
       data: {
         student: row,
         studentId: row.studentId,
+        participantId: row.participantId,
         taskSubject: this.taskSubject,
         accion: 'add-calificacion'
       },
@@ -113,12 +114,14 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-        this.getOneStudents();
+       
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
+        this.getOneStudents();
+       
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -142,6 +145,7 @@ export class DetailTaskComponent implements OnInit {
       data: {
         student: row,
         studentId: row.studentId,
+        participantId: row.participantId,
         taskSubject: this.taskSubject,
         accion: 'view'
       },
@@ -152,12 +156,13 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-        this.getOneStudents();
+      
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
+        this.getOneStudents();
       } else {
         Swal.fire({
           title: "Escuela Judicial",

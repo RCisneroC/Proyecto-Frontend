@@ -11,6 +11,8 @@ export interface DialogData {
   id: string;
   accion: string;
   student: Student;
+  studentId: number;
+  participantId: string;
   taskSubject: TaskSubject
 }
 
@@ -115,6 +117,12 @@ export class AddCalifComponent {
       (res:AcademicRecord) => {
         console.log(res);
         
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Estudiante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
             score: this.FormsCalificacion.get("calif")?.value,
@@ -149,6 +157,12 @@ export class AddCalifComponent {
       (res:AcademicRecord) => {
         console.log(res);
         
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Estudiante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
           const datos = {
             academicSubjectRecordId:res["data"][0].id,
             subjectTaskId: this.data.taskSubject.id,
@@ -174,15 +188,22 @@ export class AddCalifComponent {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId:idGeneral,
-      studentId: this.data.student.studentId,
+      participantId: this.data.participantId,
     }
     
     this._TeacherService.GetAcademicActivity(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
         
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Participante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
+    
           const datos = {
-            efAcademicRecordId:res["data"][0].id,
+            efAcademicRecordId:res["data"][0]?.id,
             activityTaskId: this.data.taskSubject.id,
           }
   
@@ -211,16 +232,22 @@ export class AddCalifComponent {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId:idGeneral,
-      studentId: this.data.student.studentId,
+      participantId: this.data.participantId,
     }
     
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
       (res:AcademicRecord) => {
         console.log(res);
-        
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Participante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
+    
           const datos = {
-            ecAcademicRecordId:res["data"][0].id,
+            ecAcademicRecordId:res["data"][0]?.id,
             score: this.FormsCalificacion.get("calif")?.value,
             scoreTypeId: 1,
             activityTaskId: this.data.taskSubject.id,

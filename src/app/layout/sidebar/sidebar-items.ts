@@ -215,7 +215,20 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: "",
         Role: 'Administrador',
         submenu: []
-      }, {
+      },
+      // {
+      //   path: "/admission/directory-list",
+      //   title: "Directorios",
+      //   iconType: "",
+      //   icon: "",
+      //   class: "ml-menu",
+      //   groupTitle: false,
+      //   badge: "",
+      //   badgeClass: "",
+      //   Role: 'Administrador',
+      //   submenu: []
+      // }
+      {
         path: "/admission/activity-ubication-list",
         title: "Ubicación Actividades",
         iconType: "",

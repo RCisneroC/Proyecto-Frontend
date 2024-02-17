@@ -14,6 +14,7 @@ export interface DialogData {
   id: string;
   action: string;
   student: Student;
+  participantId:number;
   asistence: AttenderResponse[];
   details: DetailsResponseEF
 }
@@ -121,7 +122,12 @@ export class AddAttendanceFormsComponent implements OnInit {
       (res: AcademicRecord) => {
         console.log(res);
 
-
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Estudiante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
         const datos = {
           academicSubjectRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
@@ -137,8 +143,9 @@ export class AddAttendanceFormsComponent implements OnInit {
             this.dialogRef.close(this.ResponseMessage);
           },
           (error) => {
+
             this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
+            this.ResponseMessage.Message = "El estudiante ya mantiene una asistencia, en esta actividad para el día"+this.AsistenciaForms.get("startDate")?.value.toLocaleDateString();
             this.dialogRef.close(this.ResponseMessage);
           })
       }
@@ -150,7 +157,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId: idGeneral,
-      //studentId: this.data.student.studentId,
+      participantId: this.data.participantId,
     }
 
 
@@ -159,7 +166,12 @@ export class AddAttendanceFormsComponent implements OnInit {
       (res: AcademicRecord) => {
         console.log(res);
 
-
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Participante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
         const datos = {
           ecAcademicRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
@@ -173,9 +185,9 @@ export class AddAttendanceFormsComponent implements OnInit {
             this.ResponseMessage.Message = 'Asistencia correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
-          (error) => {
+          (error:any) => {
             this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
+            this.ResponseMessage.Message = "El participante ya mantiene una asistencia, en esta actividad para el día "+this.AsistenciaForms.get("startDate")?.value.toLocaleDateString();
             this.dialogRef.close(this.ResponseMessage);
           })
       }
@@ -204,13 +216,18 @@ export class AddAttendanceFormsComponent implements OnInit {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId: idGeneral,
-      studentId: this.data.student.studentId,
+      participantId: this.data.student.participantId,
     }
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
       (res: AcademicRecord) => {
         console.log(res);
-
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Participante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
         const datos = {
           ecAcademicRecordId: res["data"][0].id,
           studentId: this.data.student.studentId,
@@ -242,7 +259,12 @@ export class AddAttendanceFormsComponent implements OnInit {
     this._TeacherService.GetAcademicSubject2(data).subscribe(
       (res: AcademicRecord) => {
         console.log(res);
-
+        if(res["data"].length==0){
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = "Estudiante sin registro academico";
+          this.dialogRef.close(this.ResponseMessage);
+          return;
+        }
         const datos = {
           efAcademicRecordId: res["data"][0]?.id,
           subjectId: this.data.student.asignaturaId,
