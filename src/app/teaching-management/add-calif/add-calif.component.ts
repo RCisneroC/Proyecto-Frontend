@@ -81,7 +81,15 @@ export class AddCalifComponent {
       this.student = data.student;
       //this.getCalificacion();
       this.FormsCalificacion = this.createContactForm();
-      this.getCalificacionActi();
+      let local = localStorage.getItem('tipoSolicitud') || '';
+      if (local != '') {
+        if (local == "1") {
+          this.getCalificacionSubj();
+        } else {
+          this.getCalificacionActi();
+        }
+      } 
+   
 
     }
 
@@ -100,11 +108,7 @@ export class AddCalifComponent {
   }
 
 
-   getCalificacionAct() {
-    let type = localStorage.getItem('tipoSolicitud') || '1';
-    let local = localStorage.getItem('calificaciones') || '';
-    
-   }
+
   getRecordAcademic() {
   
     const data = {
