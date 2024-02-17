@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import {AcademicRecord, StudenAsistence, Student} from "../../teaching-management/models/Asistencias";
-import {AttenderResponse} from "../models/Career";
+import {AttenderECResponse} from "../../enrollment/models/Career";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -15,46 +15,29 @@ export interface DialogData {
   id: string;
   action: string;
   student: Student;
-  asistence: AttenderResponse[];
+  asistence: AttenderECResponse[];
   details: DetailsResponseEF
 }
 @Component({
-  selector: 'app-enroll-attendence-form',
-  templateUrl: './enroll-attendence-form.component.html',
-  styleUrls: ['./enroll-attendence-form.component.scss']
+  selector: 'app-tutor-ecattendence-form',
+  templateUrl: './tutor-ecattendence-form.component.html',
+  styleUrls: ['./tutor-ecattendence-form.component.scss']
 })
-export class EnrollAttendenceFormComponent implements OnInit {
+export class TutorECAttendenceFormComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: ''
   }
   public Asistencia: StudenAsistence[] = [];
-  public AsistenciaUser: StudenAsistence[] = [];
-  public AsistenciaOne!: StudenAsistence;
   displayedColumns: string[] = [
     'cedula',
     'name',
     'lastname',
     'fecha',
     'asistio',
-    'profesor',
-  ]
-  StudenAsistenceSource: StudenAsistence[] = [
-    {
-      statusId: 0,
-      startDate: new Date(),
-      idEstudiante: '',
-      cedula: '',
-      name: '',
-      lastname: '',
-      id: 0,
-      docente: '',
-      idasignatura: '',
-      type: ''
-    }
   ]
 
-  AsistenceSource: AttenderResponse[] = [
+  AsistenceSource: AttenderECResponse[] = [
     {
       id: 0,
       createdDate: new Date(),
@@ -62,7 +45,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
       lastModifiedDate: new Date(),
       lastModifiedBy: '',
       totalRecords: 0,
-      academicSubjectRecordId: 0,
+      ecAcademicRecordId: 0,
       date: new Date(),
       attended: true
     }
@@ -71,7 +54,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
   action: string;
   dialogTitle: string = '';
   AsistenciaForms: UntypedFormGroup;
-  ListAsistence = new MatTableDataSource<AttenderResponse>(this.AsistenceSource);
+  ListAsistence = new MatTableDataSource<AttenderECResponse>(this.AsistenceSource);
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -79,7 +62,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
     }, 1000);
   }
   constructor(
-    public dialogRef: MatDialogRef<EnrollAttendenceFormComponent>,
+    public dialogRef: MatDialogRef<TutorECAttendenceFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _AnnualPlanService: AnnualPlanService,
     private fb: UntypedFormBuilder,
@@ -100,9 +83,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
     this.AsistenciaForms = this.fb.group({
       statusId: ['', [Validators.required]],
       startDate: ['', [Validators.required]],
-      // docente: [this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName, [Validators.required]],
-      // idasignatura: [this.data.id, [Validators.required]],
-      // type: [localStorage.getItem('tipoSolicitud') || '', [Validators.required]]
+
     });
   }
   ngOnInit(): void {
@@ -187,7 +168,6 @@ export class EnrollAttendenceFormComponent implements OnInit {
   }
 
 
-
   submit() {
 
     let local = localStorage.getItem('tipoSolicitud') || '';
@@ -199,76 +179,6 @@ export class EnrollAttendenceFormComponent implements OnInit {
       }
     }
 
-
-    // let type = localStorage.getItem('tipoSolicitud');
-    // let local = localStorage.getItem('asitencias') || '';
-    // if (local != '') {
-    //   this.Asistencia = JSON.parse(local);
-    //   let fecha = this.AsistenciaForms.controls['startDate'].value;
-    //   let existe = this.Asistencia.filter(x => this.formatearFecha(x.startDate.toString()) == this.formatearFecha(fecha) && x.cedula == this.AsistenciaForms.controls['cedula'].value && x.idasignatura == this.data.id && x.type == type);
-    //   if (existe.length > 0) {
-    //     this.ResponseMessage.CodError = 500;
-    //     this.ResponseMessage.Message = 'Ya mantiene una asistencia para la fecha seleccionada.';
-    //     this.dialogRef.close(this.ResponseMessage);
-    //     return;
-    //   }
-    //   this.AsistenciaOne = {
-    //     statusId: this.AsistenciaForms.controls['statusId'].value,
-    //     startDate: this.AsistenciaForms.controls['startDate'].value,
-    //     idEstudiante: this.AsistenciaForms.controls['idEstudiante'].value,
-    //     cedula: this.AsistenciaForms.controls['cedula'].value,
-    //     name: this.AsistenciaForms.controls['name'].value,
-    //     lastname: this.AsistenciaForms.controls['lastname'].value,
-    //     id: this.Asistencia.length + 1,
-    //     docente: this.authservice.currentUserValue.firstName + ' ' + this.authservice.currentUserValue.lastName,
-    //     idasignatura: this.data.id,
-    //     type: localStorage.getItem('tipoSolicitud') || ''
-
-    //   };
-    //   this.Asistencia.push(this.AsistenciaOne);
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Registrado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // } else {
-    //   this.Asistencia.push(this.AsistenciaForms.getRawValue());
-    //   localStorage.setItem('asitencias', JSON.stringify(this.Asistencia));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Cargado correctamente.';
-    //   this.dialogRef.close(this.ResponseMessage);
-    // }
-
-
-
-    // Asistencia
-
-    // if (this.action === 'add') {
-    //   this._AnnualPlanService.addAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Cargado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // } else {
-    //   this._AnnualPlanService.updateAnnualPlanPeriod(this.PeriodForm.getRawValue()).subscribe({
-    //     next: (res: any) => {
-    //       this.ResponseMessage.CodError = 200;
-    //       this.ResponseMessage.Message = 'Editado correctamente.';
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     },
-    //     error: (err: any) => {
-    //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
-    //       this.dialogRef.close(this.ResponseMessage);
-    //     }
-    //   });
-    // }
   }
   formatearFecha(fechaString: string): string {
     const fecha = new Date(fechaString);
@@ -278,10 +188,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
   getAsistencias() {
 
     console.log('asistencialist',this.data.asistence);
-    this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
+    this.ListAsistence = new MatTableDataSource<AttenderECResponse>(this.data.asistence);
     this.ListAsistence.paginator = this.paginator;
   }
 }
-
-
-

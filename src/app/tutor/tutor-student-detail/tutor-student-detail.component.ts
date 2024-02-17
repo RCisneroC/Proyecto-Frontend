@@ -11,6 +11,9 @@ import {AuthService} from "@core";
 import {MatDialog} from "@angular/material/dialog";
 import {DetailsParticipanteEF} from "../../admission/models/participant";
 import {getStudentsActivityResponse, subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
+import {EnrollAttendenceFormComponent} from "../../enrollment/enroll-attendence-form/enroll-attendence-form.component";
+import {Direction} from "@angular/cdk/bidi";
+import {TutorECAttendenceFormComponent} from "../tutor-ecattendence-form/tutor-ecattendence-form.component";
 
 @Component({
   selector: 'app-tutor-student-detail',
@@ -47,7 +50,7 @@ export class TutorStudentDetailComponent {
 
   dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceActInfo);
   loading: boolean = true;
-
+  eCAcademicRecordId:number=0;
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
     ejInscriptionId: 0,
@@ -153,6 +156,39 @@ export class TutorStudentDetailComponent {
     localStorage.setItem('tutor-student-uri-selected','/tutor/student-detail/'+this._ActivityService._DetailsResponseEF.cedula);
     localStorage.setItem('tutor-student-selected',this._ActivityService._DetailsResponseEF.cedula);
     this._router.navigate(['/tutor/subject-detail/'+ row.degreeCurriculumDesignId]);
+  }
+
+
+  verAsistencia(row:getStudentsActivityResponse){
+
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+
+    this._enrollservice.SearchECAcademicRecordMethod(row.acivityId, false, row.participantId).subscribe({
+      next:(res)=>{
+        this.eCAcademicRecordId = + res.data[0].id;
+        if(this.eCAcademicRecordId){
+          this._enrollservice.SearchAcademicActivityAttendanceRecordMethod(this.eCAcademicRecordId).subscribe({
+            next:(res)=>{
+              const dialogRef = this.dialog.open(TutorECAttendenceFormComponent, {
+                data: {
+                  students: this._StudenAsistence,
+                  action: 'view',
+                  id: row.acivityId,
+                  asistence: res.data,
+                  details: this._ActivityService._DetailsResponseEF
+                },
+                direction: tempDirection,
+              });
+            }
+          })
+        }
+      }
+    })
   }
 
 

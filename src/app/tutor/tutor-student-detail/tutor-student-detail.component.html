@@ -174,10 +174,14 @@
                   <td mat-cell *matCellDef="let element">{{ element.totalHours }} </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
-                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <th mat-header-cell *matHeaderCellDef> Acción</th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" >
-                      Actividad
+                    <button mat-mini-fab color="primary" (click)="verAsistencia(element)" matTooltip="Ver Asistencia">
+                      <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="accent"
+                            matTooltip="Ver Caificaciones">
+                      <mat-icon>mobile_friendly</mat-icon>
                     </button>
                   </td>
                 </ng-container>
