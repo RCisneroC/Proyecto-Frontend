@@ -719,14 +719,14 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '',
-    title: 'Profesor',
+    title: 'Solicitudes',
     iconType: 'feather',
     icon: 'folder',
     class: 'menu-toggle',
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    Role: 'Estudiante',
+    Role: 'Profesor',
     submenu: [
       {
         path: '/intranet-academic/list-requests-various',
