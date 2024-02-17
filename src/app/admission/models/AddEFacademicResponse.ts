@@ -61,6 +61,8 @@ export interface GetStudentsActivityResponse {
 
 
 export interface getStudentsActivityResponse {
+  participantId:string,
+  acivityId: number,
   cedula: string,
   firstName: string,
   lastName: string,

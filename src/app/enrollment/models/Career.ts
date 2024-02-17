@@ -51,5 +51,26 @@ export interface AttenderResponse {
 }
 
 
+export interface SearchAcademicActivityAttendanceRecord{
+  statusCode: number,
+  success: boolean,
+  message: string,
+  data: AttenderECResponse[],
+  errors: string
+}
+
+export interface AttenderECResponse {
+  id: number,
+  createdDate: Date,
+  createdBy: string,
+  lastModifiedDate: Date,
+  lastModifiedBy: string,
+  totalRecords: number,
+  ecAcademicRecordId: number,
+  date: Date,
+  attended: boolean
+}
+
+
 
 
