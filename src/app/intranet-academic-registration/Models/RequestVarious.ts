@@ -48,7 +48,25 @@ export interface RequestVariousItem {
   reentryAll: boolean,
   response: string,
   responseDate: Date
+  infoUserRquest: infoUserRquestModel
+  subject: subjectModel,
+  activity: activityModel
 }
+
+export interface infoUserRquestModel{
+  firstName: string,
+  lastName: string,
+  email: string
+}
+export interface subjectModel{
+  name: string
+}
+
+export interface activityModel{
+  name: string
+}
+
+
 
 //tipo solicitante
 // 1 docente

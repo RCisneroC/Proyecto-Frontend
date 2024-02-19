@@ -61,7 +61,10 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     ecAcademicRecordId: 0,
     reentryAll: false,
     response: '',
-    responseDate: new Date
+    responseDate: new Date,
+    infoUserRquest:{ firstName:'', lastName:'', email: ''},
+    activity:{name:''},
+    subject:{name:''}
   };
   public _typeUser: string = '';
   constructor(

@@ -214,7 +214,8 @@ export class CreateSolicitudComponent {
           userRequest: value.idSolicitante,
           description: value.comments,
           requestVariousTypeId: value.typeRequest,
-          requestVariousApplicantUserTypeId: this.IdTypeUser
+          requestVariousApplicantUserTypeId: this.IdTypeUser,
+          subjectId: value.idSubjectOrActivity
         }
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
           next:(res)=>{

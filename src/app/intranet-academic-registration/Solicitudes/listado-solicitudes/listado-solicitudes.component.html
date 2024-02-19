@@ -66,7 +66,7 @@
                                                 <ng-container matColumnDef="name">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.name }} {{ row.lastname
+                                                    <mat-cell *matCellDef="let row">{{ row.infoUserRquest.firstName }} {{ row.infoUserRquest.lastName
                                                         }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="tiposolicitud">
@@ -83,14 +83,14 @@
                                                     <mat-header-cell *matHeaderCellDef
                                                         mat-sort-header>Acitividad/Asignatura
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.idSubjectOrActivity
-                                                        }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.subject ? row.subject.name: ''
+                                                        }} {{row.activity ? row.activity.name: ''}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="email">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Correo
                                                         Electrónico
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{ row.infoUserRquest.email }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="fechacreacion">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Creación
@@ -114,7 +114,7 @@
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                                         <button mat-mini-fab color="accent"
-                                                            *ngIf="authService.currentUserValue.id == row.idSolicitante"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
                                                             (click)="$event.stopPropagation()" (click)="editCall(row,i)"
                                                             matTooltip="Editar solicitud" class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'edit'"></app-feather-icons>
@@ -126,7 +126,7 @@
                                                             <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                         </button>
                                                         <button
-                                                            *ngIf="authService.currentUserValue.id == row.idSolicitante"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
                                                             mat-mini-fab color="primary" matTooltip="Eliminar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="delete(i)"
                                                             class="tbl-action-btn">
