@@ -1,3 +1,5 @@
+import {CalificacionesECModels} from "../../enrollment/models/calificacionEC";
+
 export interface RequestVarious {
     id: number;
     name: string;
@@ -14,6 +16,38 @@ export interface RequestVarious {
     dateCreate: Date;
     statusId: number;
     comments: string;
+}
+
+
+export interface SearchRequestVariousResponse{
+  statusCode: number;
+  success: boolean;
+  message: string;
+  data: RequestVariousItem[]
+  errors: string;
+}
+
+export interface RequestVariousItem {
+  id: number,
+  createdDate: Date,
+  createdBy: string,
+  lastModifiedDate: Date,
+  lastModifiedBy: string,
+  totalRecords: number,
+  userRequest: string,
+  description: string,
+  assignedUser: string,
+  requestVariousTypeId: number,
+  requestVariousApplicantUserTypeId: number,
+  requestVariousStatusTypeId: number,
+  requestDate: Date,
+  subjectId: number,
+  activityId: number,
+  efAcademicRecordId: number,
+  ecAcademicRecordId: number,
+  reentryAll: boolean,
+  response: string,
+  responseDate: Date
 }
 
 //tipo solicitante

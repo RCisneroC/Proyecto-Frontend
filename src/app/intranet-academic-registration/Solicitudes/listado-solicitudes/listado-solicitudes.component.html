@@ -72,12 +72,12 @@
                                                 <ng-container matColumnDef="tiposolicitud">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Solicitud
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.typeRequest }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.requestVariousTypeId | requestVariousTypeIdPipe }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="tipousuario">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Origen
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.typeUser }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.requestVariousApplicantUserTypeId | requestVariousApplicantUserPipe }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="Actividad_Asignatura">
                                                     <mat-header-cell *matHeaderCellDef
@@ -95,7 +95,7 @@
                                                 <ng-container matColumnDef="fechacreacion">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Creación
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.dateCreate |
+                                                    <mat-cell *matCellDef="let row">{{ row.createdDate |
                                                         date:'dd/M/yyyy'}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="estado">
@@ -103,7 +103,7 @@
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="badge badge-solid-green">
-                                                            {{row.statusId | statusPipe }}
+                                                            {{row.requestVariousStatusTypeId | statusPipe }}
                                                         </span>
                                                     </mat-cell>
                                                 </ng-container>
