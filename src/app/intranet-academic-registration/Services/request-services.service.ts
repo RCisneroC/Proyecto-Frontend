@@ -115,6 +115,18 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  CreateGeneralRequestVarious(CreateGeneralRequestVariousData: any) {
+
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<any>(url + "CreateGeneralRequestVarious", CreateGeneralRequestVariousData);
+  }
+
+  EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData: any) {
+
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<any>(url + "EFCreateWithdrawalAndReentryRequest", EFCreateWithdrawalAndReentryRequestData);
+  }
   getAllRequestVarious2() {
     return this.httpClient
       .get<Modality[]>(this.API_URL);

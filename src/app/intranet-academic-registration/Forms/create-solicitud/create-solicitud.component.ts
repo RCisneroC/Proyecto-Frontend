@@ -207,13 +207,28 @@ export class CreateSolicitudComponent {
       this.ResponseMessage.Message = 'Editado correctamente.';
       this.dialogRef.close(this.ResponseMessage);
     } else {
-      console.log(this._DataLocal);
+      const value = this.RequestVariousForm.getRawValue();
+      if(value.typeRequest != 5 && value.typeRequest != 6){
 
-      this._DataLocal.push(this.RequestVariousForm.getRawValue());
-      localStorage.setItem('solicitudes', JSON.stringify(this._DataLocal));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Creado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
+        const generalrequest = {
+          userRequest: value.idSolicitante,
+          description: value.comments,
+          requestVariousTypeId: value.typeRequest,
+          requestVariousApplicantUserTypeId: this.IdTypeUser
+        }
+        this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
+          next:(res)=>{
+            console.log(res);
+            if(res.statusCode == 200){
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Creado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+            }
+          }
+        })
+      }
+
+
     }
 
   }
