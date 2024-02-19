@@ -13,9 +13,10 @@ import { StatusPipePipe } from "../pipes/status-pipe.pipe";
 import { VerificarBS64Pipe } from "app/pipes/verificar-bs64.pipe";
 import {RequestVariousTypeIdPipe} from "../pipes/request-various-type-id.pipe";
 import {RequestVariousApplicantUserTypeIdPipe} from "../pipes/request-various-applicant-user-type-id.pipe";
+import {RequestVariousStatusPipe} from "../pipes/request-various-status.pipe";
 
 @NgModule({
-  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe,RequestVariousApplicantUserTypeIdPipe,],
+  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe,RequestVariousApplicantUserTypeIdPipe,RequestVariousStatusPipe,],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -34,6 +35,7 @@ import {RequestVariousApplicantUserTypeIdPipe} from "../pipes/request-various-ap
     VerificarBS64Pipe,
     RequestVariousTypeIdPipe,
     RequestVariousApplicantUserTypeIdPipe,
+    RequestVariousStatusPipe,
 
 
   ],
