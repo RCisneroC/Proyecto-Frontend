@@ -10,6 +10,7 @@ import { ActivityDetailService } from 'app/admission/services/activity-detail.se
 import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {EnrollmentService} from "../../../enrollment/services/enrollment.service";
 export interface DialogData {
   id: string;
   action: string;
@@ -29,11 +30,11 @@ export class CreateSolicitudComponent {
   public typeActivityAcademy = [
     {
       id: 1,
-      name: 'Formación Especializada'
+      name: 'Formación Especializada' //EF
     },
     {
       id: 2,
-      name: 'Entrenamiento'
+      name: 'Entrenamiento' //EC
     }
   ];
 
@@ -116,6 +117,9 @@ export class CreateSolicitudComponent {
 
   public userType: string = '';
   public IdTypeUser: number = 0;
+  public EFRecordID: number = 0;
+  public ECRecordID: number = 0;
+
   constructor(
     public dialogRef: MatDialogRef<CreateSolicitudComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -123,7 +127,8 @@ export class CreateSolicitudComponent {
     private fb: UntypedFormBuilder,
     public authService: AuthService,
     public _SubjectService: SubjectServiceService,
-    public _ActivityService: ActivityDetailService
+    public _ActivityService: ActivityDetailService,
+    public _EnrolmentService: EnrollmentService
   ) {
     // Set the defaults
 
@@ -145,6 +150,40 @@ export class CreateSolicitudComponent {
     this.getSubjectStatus();
     this.RequestVarious.statusId = 1;
     this.RequestVariousForm = this.createContactForm();
+    this.loadNeededData();
+  }
+
+  loadNeededData(){
+    this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res.studentInnfo){
+          this._EnrolmentService.SearchEFAcademicRecordMethod(res.studentInnfo[0].aspirantId,res.studentInnfo[0].degreeCurriculumDesignId).subscribe({
+            next:(res)=>{
+              if(res.data){
+                this.EFRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
+
+      }
+    })
+
+    this._EnrolmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res.getStudentsActivityResponse){
+          this._EnrolmentService.SearchECAcademicRecordMethod(res.getStudentsActivityResponse[0].acivityId,false, res.getStudentsActivityResponse[0].participantId).subscribe({
+            next:(res)=>{
+              if(res.data){
+                this.ECRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
+      }
+    })
   }
 
   createContactForm(): UntypedFormGroup {
@@ -227,6 +266,47 @@ export class CreateSolicitudComponent {
             }
           }
         })
+      }
+      else {
+        if(value.typeActivityAcademy == 1){
+          const EFCreateWithdrawalAndReentryRequestData = {
+            userRequest: value.idSolicitante,
+            description: value.comments,
+            requestVariousTypeId: value.typeRequest,
+            requestVariousApplicantUserTypeId: this.IdTypeUser,
+            subjectId: value.idSubjectOrActivity,
+            efAcademicRecordId: this.EFRecordID
+          }
+          this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+            next:(res)=>{
+              console.log(res);
+              if(res.statusCode == 200){
+                this.ResponseMessage.CodError = 200;
+                this.ResponseMessage.Message = 'Creado correctamente.';
+                this.dialogRef.close(this.ResponseMessage);
+              }
+            }
+          })
+        }
+        if(value.typeActivityAcademy == 2){
+          const ECCreateWithdrawalAndReentryRequestData = {
+            userRequest: value.idSolicitante,
+            description: value.comments,
+            requestVariousTypeId: value.typeRequest,
+            requestVariousApplicantUserTypeId: this.IdTypeUser,
+            ecAcademicRecordId: this.ECRecordID
+          }
+          this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
+            next:(res)=>{
+              console.log(res);
+              if(res.statusCode == 200){
+                this.ResponseMessage.CodError = 200;
+                this.ResponseMessage.Message = 'Creado correctamente.';
+                this.dialogRef.close(this.ResponseMessage);
+              }
+            }
+          })
+        }
       }
 
 

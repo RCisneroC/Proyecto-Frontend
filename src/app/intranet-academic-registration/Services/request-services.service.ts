@@ -127,6 +127,13 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiEira}`;
     return this.httpClient.post<any>(url + "EFCreateWithdrawalAndReentryRequest", EFCreateWithdrawalAndReentryRequestData);
   }
+
+  ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData: any) {
+
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<any>(url + "ECCreateWithdrawalAndReentryRequest", ECCreateWithdrawalAndReentryRequestData);
+  }
+
   getAllRequestVarious2() {
     return this.httpClient
       .get<Modality[]>(this.API_URL);
