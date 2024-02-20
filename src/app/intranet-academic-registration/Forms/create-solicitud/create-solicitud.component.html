@@ -51,7 +51,7 @@
                         <mat-label>Actividad</mat-label>
                         <mat-select formControlName="idSubjectOrActivity">
                             <mat-option value="">-----------</mat-option>
-                            <mat-option *ngFor="let item of _GetOneActivity" [value]="item.name"> {{ item.name
+                            <mat-option *ngFor="let item of _GetOneActivity" [value]="item.id"> {{ item.name
                                 }}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('idSubjectOrActivity')?.hasError('required')">

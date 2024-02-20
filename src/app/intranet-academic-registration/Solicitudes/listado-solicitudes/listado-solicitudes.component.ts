@@ -124,7 +124,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-  editCall(row: RequestVarious, id: number) {
+  editCall(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';

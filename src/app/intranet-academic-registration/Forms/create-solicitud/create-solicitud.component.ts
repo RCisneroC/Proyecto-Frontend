@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
-import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
+import {RequestVarious, RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { ActivityService } from '../../../admission/maestros/services/activity.service';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
@@ -14,7 +14,7 @@ import {EnrollmentService} from "../../../enrollment/services/enrollment.service
 export interface DialogData {
   id: string;
   action: string;
-  request: RequestVarious;
+  request: RequestVariousItem;
 }
 @Component({
   selector: 'app-create-solicitud',
@@ -25,7 +25,7 @@ export class CreateSolicitudComponent {
   action: string;
   dialogTitle: string;
   RequestVariousForm: UntypedFormGroup;
-  RequestVarious: RequestVarious;
+  RequestVarious: RequestVariousItem;
 
   public typeActivityAcademy = [
     {
@@ -75,7 +75,7 @@ export class CreateSolicitudComponent {
   public _GetOneActivity: GetOneActivity[] = [
     this._ActivityService._GetOneActivity
   ];
-  public _DataLocal: RequestVarious[] = [
+  public _DataLocal: RequestVariousItem[] = [
     // {
     //   id: 0,
     //   name: '',
@@ -148,7 +148,7 @@ export class CreateSolicitudComponent {
       this.IdTypeUser = 2;
     } this.getActivityOneStatus();
     this.getSubjectStatus();
-    this.RequestVarious.statusId = 1;
+    this.RequestVarious.requestVariousStatusTypeId = 1;
     this.RequestVariousForm = this.createContactForm();
     this.loadNeededData();
   }
@@ -188,20 +188,20 @@ export class CreateSolicitudComponent {
 
   createContactForm(): UntypedFormGroup {
     if (this.action === 'edit') {
-      console.log(this.data.request);
+      console.log('Update request',this.data.request);
 
       return this.fb.group({
-        idSolicitante: [this.data.request.idSolicitante, [Validators.required]],
+        idSolicitante: [this.data.request.userRequest, [Validators.required]],
         name: [this.authService.currentUserValue.firstName, [Validators.required]],
         lastname: [this.authService.currentUserValue.lastName, [Validators.required]],
-        typeUser: [this.data.request.typeUser, [Validators.required]],
-        typeRequest: [this.data.request.typeRequest, [Validators.required]],
-        typeActivityAcademy: [this.data.request.typeActivityAcademy, [Validators.required]],
-        idSubjectOrActivity: [this.data.request.idSubjectOrActivity, [Validators.required]],
-        dateCreate: [this.data.request.dateCreate, [Validators.required]],
-        statusId: [this.data.request.statusId, [Validators.required]],
-        comments: [this.data.request.comments, [Validators.required]],
-        email: [this.data.request.email, [Validators.required]],
+        typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
+        typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
+        typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
+        idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId: this.data.request.activityId , [Validators.required]],
+        dateCreate: [this.data.request.createdDate, [Validators.required]],
+        statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
+        comments: [this.data.request.description, [Validators.required]],
+        email: [this.data.request.infoUserRquest.email, [Validators.required]],
       });
     } else {
       return this.fb.group({
