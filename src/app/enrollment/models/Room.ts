@@ -4,5 +4,6 @@ export interface Room {
   id: number,
   name: string,
   description: string,
-  maxNumOfStudents: number
+  maxNumOfStudents: number,
+  moodleCourseId: number
 }
