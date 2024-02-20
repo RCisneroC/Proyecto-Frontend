@@ -21,10 +21,10 @@
                     <mat-label style="font-weight: bold;">Archivo</mat-label>
                     <app-file-upload (change)="onFileSelected($event)"
                         formControlName="file"></app-file-upload>
-                    <!-- <mat-error
-                        *ngIf="FormsEFDocument.get(item.documentId.toString())?.hasError('required')">
-                        es requerido
-                    </mat-error> -->
+                        <mat-error *ngIf="FormsEFDocument.get('file')?.hasError('required')">
+                            es  requerido
+                          </mat-error>
+                 
                 
 
 
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
               <div class="example-button-row">
-                <button mat-raised-button color="primary" [disabled]="!roleForm.valid" 
+                <button mat-raised-button color="primary" [disabled]="!FormsEFDocument.valid" 
                   (click)="confirmAdd()">Guardar</button>
                 <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
               </div>

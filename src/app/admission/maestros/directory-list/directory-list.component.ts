@@ -16,58 +16,26 @@ import { MatTableDataSource } from "@angular/material/table";
 import { AnyCatcher } from "rxjs/internal/AnyCatcher";
 import { AddFileComponent } from "./add-file/add-file.component";
 import * as JSZip from 'jszip';
+import { map } from "rxjs";
 
 export interface FoodNode {
-  idFolder:number;
-  idChildren:number;
-  name: string;
+  folderId:number;
+  fileId:number;
+  folderName: string;
   extension?: string;
-  children?: FoodNode[];
+  files?: FoodNode[];
 }
-
-// const TREE_DATA: FoodNode[] = [
-//   {
-//     name: 'Fruit',
-//     children: [
-//       {name: 'Apple', extension: ".PDF"},
-//       {name: 'Banana',children: [
-       
-//       ]},
-//       {name: 'Fruit loops', extension: ".PDF"},
-      
-//     ],
-   
-//   }, {
-//     name: 'Vegetables',
-//     children: [
-//       {
-//         name: 'Green',
-//         children: [
-//           {name: 'Broccoli', extension: ".PDF"},
-//           {name: 'Brussel sprouts', extension: ".PDF"},
-//         ]
-//       }, {
-//         name: 'Orange',
-//         children: [
-//           {name: 'Pumpkins', children: [
-//             {name: 'Pumpkins', extension: ".PDF"},
-//             {name: 'Carrots', extension: ".PDF"},
-//           ]},
-//           {name: 'Carrots', extension: ".PDF"},
-//         ]
-//       },
-//     ]
-//   },
-// ];
 
 export interface ExampleFlatNode {
   expandable: boolean;
-  idFolder:number;
-  idChildren:number;
-  name: string;
+  folderId:number;
+  fileId:number;
+  folderName: string;
   extension: string | undefined;
   level: number;
 }
+
+
 
 @Component({
   selector: 'app-directory-list',
@@ -75,25 +43,26 @@ export interface ExampleFlatNode {
   styleUrls: ['./directory-list.component.scss']
 })
 export class DirectoryListComponent  implements OnInit   { 
-  displayedColumns: string[] = ['name', 'extension','action'];
+  displayedColumns: string[] = ['folderName', 'extension','action'];
   
   private transformer = (node: FoodNode, level: number) => {
     return {
-      expandable: !!node.children && node.children.length >= 0,
-      name: node.name,
+      expandable: !!node.files && node.files.length >= 0,
+      folderName: node.folderName,
       extension: node.extension,
       level: level,
-      idFolder:node.idFolder,
-      idChildren:node.idChildren,
+      folderId:node.folderId,
+      fileId:node.fileId,
     };
   }
+
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
       node => node.level, node => node.expandable);
 
   treeFlattener = new MatTreeFlattener(
       this.transformer, node => node.level,
-      node => node.expandable, node => node.children);
+      node => node.expandable, node => node.files);
 
   dataSource = new MatTreeFlatDataSource(this.treeControl,this.treeFlattener);
   valor!: string;
@@ -110,22 +79,21 @@ export class DirectoryListComponent  implements OnInit   {
   }
   ngOnInit() {
     const miPersona: any[] = [{
-      idFolder:0,
-      name: 'Documentos',
-      children: [
-        {idChildren:1,name: 'Aval', extension: ".PDF"},
-        {idChildren:2,name: 'Titulo', extension: ".PDF"},
-        {idChildren:3,name: 'CV', extension: ".PDF"},
-        //{idChildren:4,name: 'pop',children: []},
+      folderId:0,
+      folderName: 'Documentos',
+      file: [
+        {fileId:1,folderName: 'Aval', extension: ".PDF"},
+        {fileId:2,folderName: 'Titulo', extension: ".PDF"},
+        {fileId:3,folderName: 'CV', extension: ".PDF"},
       ],
     },
     {
-      idFolder:1,
-      name: 'Proceso',
-      children: [
-        {idChildren:1,name: 'Cedula', extension: ".PDF"},
-        {idChildren:3,name: 'Carta de trabajo', extension: ".PDF"},
-        {idChildren:3,name: 'Afiche', extension: ".PDF"},
+      folderId:1,
+      folderName: 'Proceso',
+      file: [
+        {fileId:1,fileName: 'Cedula', extension: ".PDF"},
+        {fileId:3,fileName: 'Carta de trabajo', extension: ".PDF"},
+        {fileId:3,fileName: 'Afiche', extension: ".PDF"},
     
         
       ],
@@ -151,12 +119,12 @@ export class DirectoryListComponent  implements OnInit   {
   
   
   getAllDirectory() {
-    this.dataSource.data = JSON.parse(localStorage.getItem("Raiz")||'');
+    //this.dataSource.data = JSON.parse(localStorage.getItem("Raiz")||'');
     this._directoryService.getAllDirectory2().subscribe({
       next: (res:any) => {
       console.log(res);
         //res=localStorage.getItem("Raiz");
-        //this.dataSource.data = res;
+        this.dataSource.data = res["dataResult"];
         console.log("data de servicio:"+res);
         //this.dataTask.paginator = this.paginator;
 
@@ -237,69 +205,57 @@ export class DirectoryListComponent  implements OnInit   {
   
 }
   
-  viewDocumento(row: Documents) {
-
-    if (this._verificarBS64.transform(this.valor) != "pdf") {
-       this._dialog.open(ViewPosterComponent, {
-        data: {
-          type: this._verificarBS64.transform(this.valor),
-          accion: 'view-poster',
-          posterFile: this.valor,
-          comment: "",
-          poster: row,
-        },
-        disableClose: true,
-      });
-    } else {
-     this._dialog.open(ViewPosterPDFComponent, {
-        data: {
-          type: this._verificarBS64.transform(this.valor),
-          accion: 'view-poster',
-          posterFile: this.valor,
-          comment: "",
-          poster: row,
-        },
-        width: '1000px',
-        disableClose: true,
-      });
-    }
+  viewDocumento(row: FoodNode) {
+   //this._directoryService.getDirectorybyId(row.fileId).pipe();
+    this._directoryService.getfilebyId(row.fileId).pipe(
+      map(item => {
+        this.valor=item.dataResult[0].file
+        if (this._verificarBS64.transform(this.valor) != "pdf") {
+          this._dialog.open(ViewPosterComponent, {
+           data: {
+             type: this._verificarBS64.transform(this.valor),
+             accion: 'view-poster',
+             posterFile: this.valor,
+             comment: "",
+             poster: row,
+           },
+           disableClose: true,
+         });
+       } else {
+        this._dialog.open(ViewPosterPDFComponent, {
+           data: {
+             type: this._verificarBS64.transform(this.valor),
+             accion: 'view-poster',
+             posterFile: this.valor,
+             comment: "",
+             poster: row,
+           },
+           width: '1000px',
+           disableClose: true,
+         });
+       }
+    
+      })
+    ).subscribe();
 
   }
   
   
-  dowload(){
-    // const byteArray = new Uint8Array(
-    //   atob(this.valor)
-    //     .split("")
-    //     .map(char => char.charCodeAt(0))
-    // );
-    const downloadLink = document.createElement('a');
-    const fileName = 'Nodo.png';
-    //const blob = new Blob([byteArray], { type: 'image/png' });
-    downloadLink.href = 'data:image/png;base64,'+this.valor;
-    //downloadLink.href =window.URL.createObjectURL(blob)
-    downloadLink.download = fileName;
-    downloadLink.click();
-  }
-  
-  // download = async () => {
-  //   const zip = new JSZip();
-  //   // create a file
-  //   zip.file('hello.txt', 'Hello[p my)6cxsw2q');
-  //   // oops, cat on keyboard. Fixing !
-  //   zip.file('hello.txt', 'Hello World\n');
+  download(row:FoodNode){
+    this._directoryService.getfilebyId(row.fileId).pipe(
+      map(item => {
+        this.valor=item.dataResult[0].file
+        const downloadLink = document.createElement('a');
+        const fileName = item.dataResult[0].fileName;
+        //const blob = new Blob([byteArray], { type: 'image/png' });
+          downloadLink.href = 'data:'+item.dataResult[0].contentType+';base64,'+this.valor;
+        //downloadLink.href =window.URL.createObjectURL(blob)
+          downloadLink.download = fileName;
+          downloadLink.click();
+          })
+    ).subscribe();
 
-  //   // create a file and a folder
-  //   zip.file('nested/hello.txt', 'Hello World\n');
-  //   // same as
-  //   zip.folder('nested').file('hello.txt', 'Hello World\n');
-  //   zip.folder('nested').folder('hello');
-  //   zip.generateAsync({ type: 'blob' }).then(function (content) {
-  //     // see FileSaver.js
-  //     saveAs(content, 'example.zip');
-  //   });
-  // };
-  
+  }
   
    downloadZip = (event:FoodNode) => {
     const zip = new JSZip();
@@ -311,7 +267,7 @@ export class DirectoryListComponent  implements OnInit   {
     zip.generateAsync({ type: 'arraybuffer' }).then((zipBytes) => {
       const downloadLink = document.createElement('a');
       downloadLink.href = window.URL.createObjectURL(new Blob([zipBytes], { type: 'application/zip' }));
-      downloadLink.download = event.name+'.zip';
+      downloadLink.download = event.folderName+'.zip';
       downloadLink.click();
   
       // Eliminar el enlace de descarga después de la descarga

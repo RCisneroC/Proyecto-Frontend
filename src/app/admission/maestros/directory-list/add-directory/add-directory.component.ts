@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FoodNode } from '../directory-list.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { DirectoryService } from '../../services/directory.service';
 interface DialogData {
   idChildren:number;
   name: string;
@@ -23,6 +24,7 @@ export class AddDirectoryComponent {
   }
   id!:number;
   constructor(private fb: FormBuilder,
+    public _directoryService:DirectoryService,
     public dialogRef: MatDialogRef<AddDirectoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
@@ -30,17 +32,16 @@ export class AddDirectoryComponent {
   if(data.folder==undefined){
   this.id=localStorage.getItem("Raiz")?.length||0;
   this.id=this.id+1;
-  }else if(data.folder.idFolder==undefined){
-  this.id=data.folder.idChildren;
+  }else if(data.folder.folderId==undefined){
+  this.id=data.folder.fileId;
   }else{
-  this.id=data.folder.idFolder;
+  this.id=data.folder.folderId;
   }
   
  
     this.folderForm = this.fb.group({
-      idFolder:[this.id, Validators.required],
-      name: ['', Validators.required],
-      children:[[]],
+      //parentId:[null],
+      folderName: ['', Validators.required],
     });
   }
   
@@ -50,26 +51,20 @@ export class AddDirectoryComponent {
  
     if (this.folderForm.valid) {
     
-      const storedData: any[] = JSON.parse(localStorage.getItem('Raiz')||'');
-      //localStorage.setItem("Raiz",this.folderForm.getRawValue());
-      let filteredFolders = storedData.filter((folder) => folder.idFolder === this.folderForm.get("idFolder")?.value);
-      if(filteredFolders.length===0){
-      
-       filteredFolders = storedData.filter((folder) => folder.children.idChildren === this.folderForm.get("idFolder")?.value);
-      }
-     const data ={
-        idFolder:storedData.length+1,
-        name: this.folderForm.get("name")?.value,
-        children: [],
-      }
-     // filteredFolders.push(data);
-      storedData.push(data);
-      localStorage.setItem('Raiz',JSON.stringify(storedData));
-      
-      console.log(localStorage.getItem("Raiz"));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Carpeta guardada.';
-      this.dialogRef.close(this.ResponseMessage);
+      this._directoryService.addFolder(this.folderForm.getRawValue()).subscribe({
+        next: () => {
+        
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Archivo cargado.';
+          this.dialogRef.close(this.ResponseMessage);
+        
+         },
+         error: (err:any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = err;
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
       //this.folderForm.reset();
     }
     

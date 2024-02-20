@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Role } from 'app/security/models/role';
 import { FoodNode } from '../directory-list.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { DirectoryService } from '../../services/directory.service';
 interface DialogData {
-  idChildren:number;
-  name: string;
+  fileId:number;
+  folderName: string;
   folder:FoodNode;
  
   // Add other properties as needed, like path, parent folder, etc.
@@ -33,7 +34,7 @@ export class AddFileComponent {
   constructor(
     public dialogRef: MatDialogRef<AddFileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    //public roleService: RoleService,
+    public _directoryService: DirectoryService,
     private fb: UntypedFormBuilder
   ) { 
   
@@ -46,19 +47,20 @@ export class AddFileComponent {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      id: [this.data.folder.idFolder],
-      name: [this.data.folder.name, [Validators.required]],
+      id: [this.data.folder.folderId],
+      name: [this.data.folder.folderName, [Validators.required]],
     });
   }
   submit() {
     // emppty stuff
   }
-  
+  tmp_files :any[50] = [];
   onFileSelected(event:any){
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       const file = target?.files[0];
       this.fileName = file.name;
+      this.tmp_files[0]=(event.target.files[0]);
       //const extension = getExtension(file.name);
       //const extension = file.type.split('/')[1];
       this.fileExtension = file.type.split('/')[1];
@@ -66,36 +68,61 @@ export class AddFileComponent {
     }
   
   }
+  
+  
+
   onNoClick(): void {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
     if (this.FormsEFDocument.valid) {
+      const formdata=new FormData();
+       if(this.tmp_files[0]!=undefined){
+         formdata.append('FolderId',this.data.folder.folderId.toString());
+         formdata.append('File',this.tmp_files[0]);
     
-      const storedData: any[] = JSON.parse(localStorage.getItem('Raiz')||'');
-      //localStorage.setItem("Raiz",this.folderForm.getRawValue());
-      let filteredFolders = storedData.filter((folder) => folder.idFolder === this.data.folder.idFolder);
-      if(filteredFolders.length===0){
-      
-       filteredFolders = storedData.filter((folder) => folder.children.idChildren === this.data.folder.idFolder);
-      }
-     const data ={
-        idChildren:this.data.folder.idFolder+1,
-        name: this.fileName,
-        extension: this.fileExtension,
-      }
-     // filteredFolders.push(data);
-      filteredFolders[0].children?.push(data);
-    
-      //const allObjects = storedData.concat(filteredFolders[0]);
-      localStorage.setItem('Raiz',JSON.stringify(storedData));
-      
-      console.log(localStorage.getItem("Raiz"));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Carpeta guardada.';
-      this.dialogRef.close(this.ResponseMessage);
-      //this.folderForm.reset();
+      this._directoryService.addFile(formdata).subscribe({
+        next: () => {
+        
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Archivo cargado.';
+          this.dialogRef.close(this.ResponseMessage);
+        
+         },
+         error: (err:any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = err;
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
+     
     }
-
-  }
 }
+}   
+} 
+    //   const storedData: any[] = JSON.parse(localStorage.getItem('Raiz')||'');
+    //   //localStorage.setItem("Raiz",this.folderForm.getRawValue());
+    //   let filteredFolders = storedData.filter((folder) => folder.idFolder === this.data.folder.folderId);
+    //   if(filteredFolders.length===0){
+      
+    //    filteredFolders = storedData.filter((folder) => folder.children.idChildren === this.data.folder.folderId);
+    //   }
+    //  const data ={
+    //     idChildren:this.data.folder.folderId+1,
+    //     name: this.fileName,
+    //     extension: this.fileExtension,
+    //   }
+    //  // filteredFolders.push(data);
+    //   filteredFolders[0].children?.push(data);
+    
+    //   //const allObjects = storedData.concat(filteredFolders[0]);
+    //   localStorage.setItem('Raiz',JSON.stringify(storedData));
+      
+    //   console.log(localStorage.getItem("Raiz"));
+    //   this.ResponseMessage.CodError = 200;
+    //   this.ResponseMessage.Message = 'Carpeta guardada.';
+    //   this.dialogRef.close(this.ResponseMessage);
+      //this.folderForm.reset();
+    
+
+  
