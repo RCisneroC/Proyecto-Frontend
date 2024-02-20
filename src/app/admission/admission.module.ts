@@ -132,7 +132,10 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
 import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
-import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component'; @NgModule({
+import {CdkMenuModule} from '@angular/cdk/menu';
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
+import { AddDirectoryComponent } from './maestros/directory-list/add-directory/add-directory.component';
+import { AddFileComponent } from './maestros/directory-list/add-file/add-file.component'; @NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -258,6 +261,8 @@ import { DirectoryFormComponent } from './maestros/directory-form/directory-form
     ActivityLearningFormsComponent,
     DirectoryListComponent,
     DirectoryFormComponent,
+    AddDirectoryComponent,
+    AddFileComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [
@@ -269,7 +274,8 @@ import { DirectoryFormComponent } from './maestros/directory-form/directory-form
     SharedModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    CKEditorModule
+    CKEditorModule,
+    CdkMenuModule
     
   ]
 })
