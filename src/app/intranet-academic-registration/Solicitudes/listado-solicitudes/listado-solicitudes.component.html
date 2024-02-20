@@ -128,7 +128,7 @@
                                                         <button
                                                             *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
                                                             mat-mini-fab color="primary" matTooltip="Eliminar solicitud"
-                                                            (click)="$event.stopPropagation()" (click)="delete(i)"
+                                                            (click)="$event.stopPropagation()" (click)="delete(row)"
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>

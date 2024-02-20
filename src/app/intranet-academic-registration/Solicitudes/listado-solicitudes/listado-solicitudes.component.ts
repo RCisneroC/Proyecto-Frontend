@@ -160,7 +160,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  delete(row: number) {
+  delete(row: RequestVariousItem ) {
     Swal.fire({
       title: "¿Estas seguro?",
       text: "Eliminar",
@@ -171,34 +171,21 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
+        this._RequestServicesService.DeleteRequestVariousMethod({id: row.id}).subscribe({
+          next:(res)=>{
+            console.log(res);
+            if(res.statusCode == 200){
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: "Eliminado Correctamente",
+                icon: "success"
+              });
+              this.loadData();
+            }
 
-        let dataL = localStorage.getItem('solicitudes') || '';
-        if (dataL != '') {
-          this._DataLocal = JSON.parse(dataL);
-          this._DataLocal.splice(row, 1);
-          localStorage.setItem('solicitudes', JSON.stringify(this._DataLocal));
-          this.loadData();
-        }
 
-        //   this._RequestServicesService.DeleteRequestVarious(row.id).subscribe({
-        //     next: (res: ResponseGenerica) => {
-        //       Swal.fire({
-        //         title: "Eliminado!",
-        //         text: row.name + " fue eliminado.",
-        //         icon: "success"
-        //       });
-        //       this.loadData();
-        //     },
-        //     error: (err: any) => {
-        //       console.log(err);
-        //       Swal.fire({
-        //         title: "Intente nuevamente!",
-        //         text: row.name + " no se pudo eliminar.",
-        //         icon: "warning"
-        //       });
-        //     }
-        //   })
-        // } else {
+          }
+        })
       }
     });
   }

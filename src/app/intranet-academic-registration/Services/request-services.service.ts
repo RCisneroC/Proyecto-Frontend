@@ -139,6 +139,19 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiEira}`;
     return this.httpClient.put<any>(url + "UpdateRequestVarious", UpdateRequestVariousData);
   }
+  DeleteRequestVariousMethod(DeleteRequestVariousData: any) {
+    let data = {
+      id: DeleteRequestVariousData.id,
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    const url = `${environment.apiEira}`;
+    return this.httpClient.delete<any>(url + "DeleteRequestVarious", options);
+  }
 
   getAllRequestVarious2() {
     return this.httpClient
