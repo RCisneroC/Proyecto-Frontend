@@ -3,7 +3,11 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
-import {RequestVarious, RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
+import {
+  RequestVarious,
+  RequestVariousItem,
+  RequestVariousType
+} from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { ActivityService } from '../../../admission/maestros/services/activity.service';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
@@ -37,62 +41,11 @@ export class CreateSolicitudComponent {
       name: 'Entrenamiento'
     }
   ];
-
-  public TypeRequest = [
-    {
-      id: 1,
-      name: 'Peticiones informativas',
-    },
-    {
-      id: 2,
-      name: 'Quejas',
-    },
-    {
-      id: 3,
-      name: 'Sugerencias',
-    },
-    {
-      id: 4,
-      name: 'Reclamos por actividad o examen en plataforma',
-    },
-    {
-      id: 5,
-      name: 'Retiros',
-    },
-    {
-      id: 6,
-      name: 'Reingresos',
-    },
-    {
-      id: 7,
-      name: 'Reclamos por deficiencias de servicios tecnologicas de la entidad educativa',
-    },
-    {
-      id: 8,
-      name: 'Solicitudes de estudiantes y participantes',
-    },
-  ];
+  
   public _GetOneActivity: GetOneActivity[] = [
     this._ActivityService._GetOneActivity
   ];
   public _DataLocal: RequestVariousItem[] = [
-    // {
-    //   id: 0,
-    //   name: '',
-    //   lastname: '',
-    //   idSolicitante: 0,
-    //   numberPhone: '',
-    //   email: '',
-    //   typeUser: 0,
-    //   typeRequest: 0,
-    //   nameTypeRequest: '',
-    //   typeActivityAcademy: 0,
-    //   idSubjectOrActivity: 0,
-    //   nameActivitySubject: '',
-    //   dateCreate: new Date(),
-    //   statusId: 0,
-    //   comments: ''
-    // }
   ];
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
@@ -119,6 +72,7 @@ export class CreateSolicitudComponent {
   public IdTypeUser: number = 0;
   public EFRecordID: number = 0;
   public ECRecordID: number = 0;
+  public RequesttypeList: RequestVariousType[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<CreateSolicitudComponent>,
@@ -146,11 +100,16 @@ export class CreateSolicitudComponent {
     }
     if (this.userType == 'Estudiante') {
       this.IdTypeUser = 2;
-    } this.getActivityOneStatus();
+    }
+    if (this.userType == 'Profesor') {
+      this.IdTypeUser = 1;
+    }
+    this.getActivityOneStatus();
     this.getSubjectStatus();
     this.RequestVarious.requestVariousStatusTypeId = 1;
     this.RequestVariousForm = this.createContactForm();
     this.loadNeededData();
+    this.loadrequestType();
   }
 
   loadNeededData(){
@@ -182,6 +141,14 @@ export class CreateSolicitudComponent {
             }
           })
         }
+      }
+    })
+  }
+
+  loadrequestType(){
+    this.RequestVariousService.GetAllRequestVariousType().subscribe({
+      next:(res)=>{
+        this.RequesttypeList = res.data;
       }
     })
   }

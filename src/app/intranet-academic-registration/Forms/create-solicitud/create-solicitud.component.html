@@ -32,7 +32,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Tipo de Solicitud</mat-label>
                         <mat-select formControlName="typeRequest">
-                            <mat-option *ngFor="let item of TypeRequest" [value]="item.id"> {{
+                            <mat-option *ngFor="let item of RequesttypeList" [value]="item.id"> {{
                                 item.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('typeRequest')?.hasError('required')">
