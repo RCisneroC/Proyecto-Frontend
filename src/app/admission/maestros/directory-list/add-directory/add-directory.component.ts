@@ -8,6 +8,7 @@ interface DialogData {
   idChildren:number;
   name: string;
   folder:FoodNode;
+  action:string;
  
   // Add other properties as needed, like path, parent folder, etc.
 }
@@ -41,21 +42,34 @@ export class AddDirectoryComponent {
  
     this.folderForm = this.fb.group({
       //parentId:[null],
-      folderName: ['', Validators.required],
+      folderName: [data.folder==null?'':data.folder.folderName, Validators.required],
     });
   }
   
   folderForm: FormGroup;
   
+  
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  
   onSubmit() {
  
     if (this.folderForm.valid) {
     
-      this._directoryService.addFolder(this.folderForm.getRawValue()).subscribe({
+    if(this.data.action==='file'){
+    
+      const data={
+        folderId:this.data.folder.folderId,
+        fileId:this.data.folder.fileId,
+        newName:this.folderForm.get('folderName')?.value,
+      }
+
+      this._directoryService.UpdateFile(data).subscribe({
         next: () => {
         
           this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Archivo cargado.';
+          this.ResponseMessage.Message = 'carpeta guardada.';
           this.dialogRef.close(this.ResponseMessage);
         
          },
@@ -65,9 +79,49 @@ export class AddDirectoryComponent {
           this.dialogRef.close(this.ResponseMessage);
         }
       });
-      //this.folderForm.reset();
+    }else{
+
+    if(this.data.folder===null){
+  
+    this._directoryService.addFolder(this.folderForm.getRawValue()).subscribe({
+      next: () => {
+      
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'carpeta guardada.';
+        this.dialogRef.close(this.ResponseMessage);
+      
+       },
+       error: (err:any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
+    }else{
+    
+      const data={
+        FolderId:this.data.folder.folderId,
+        NewFolderName:this.folderForm.get('folderName')?.value,
+        ModifiedBy:"Ricardo cisnero"
+    
+      }
+      this._directoryService.UpdateFolder(data).subscribe({
+        next: () => {
+        
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'nombre actualizado.';
+          this.dialogRef.close(this.ResponseMessage);
+        
+         },
+         error: (err:any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = err;
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
     }
     
-   
   }
+  }
+}
 }

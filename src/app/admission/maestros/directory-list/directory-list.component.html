@@ -3,7 +3,7 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Gestión documentaria'" [items]="['Inicio','Admisión','Ajustes']" [active_item]="'Gestión documentaria'">
+        <app-breadcrumb [title]="'Gestión documentaria'" [items]="['Inicio','Ajustes']" [active_item]="'Gestión documentaria'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
@@ -68,6 +68,7 @@
                             <td mat-cell *matCellDef="let data">
                               <mat-icon (click)="viewDocumento(data)"  *ngIf="data.extension!==undefined">remove_red_eye</mat-icon>
                               <mat-icon (click)="download(data)"  *ngIf="data.extension!==undefined">file_download</mat-icon>
+                              <mat-icon [cdkMenuTriggerFor]="menu2" *ngIf="data.extension!==undefined" class="example-standalone-trigger">more_vert</mat-icon>
                              
                               <div *ngIf="data.extension===undefined">
                               <mat-icon [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">more_vert</mat-icon>
@@ -75,8 +76,17 @@
                               <ng-template #menu>
                                 <div class="example-menu" cdkMenu>
                                   <!-- <button class="example-menu-item" (click)="newFolder(data)" cdkMenuItem>Carpeta</button> -->
-                                  <button class="example-menu-item" (click)="downloadZip(data)" cdkMenuItem>Descargar zip</button>
-                                  <button class="example-menu-item" (click)="newfile(data)" cdkMenuItem>Subir archivo</button>
+                                  <!-- <button class="example-menu-item" (click)="downloadZip(data)" cdkMenuItem>Descargar zip</button> -->
+                                  <button class="example-menu-item" (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
+                                  <button class="example-menu-item" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
+                                </div>
+                              </ng-template>
+                              
+                              <ng-template #menu2>
+                                <div class="example-menu" cdkMenu2>
+                                 
+                                  <button class="example-menu-item" (click)="newfile(data,'file')" cdkMenuItem>Remplazar archivo</button>
+                                  <button class="example-menu-item" (click)="newFolder(data,'file')" cdkMenuItem>Cambiar nombre</button>
                                 </div>
                               </ng-template>
                          
@@ -85,8 +95,8 @@
                       
                           <ng-template #menu>
                             <div class="example-menu" cdkMenu>
-                              <button class="example-menu-item" (click)="newFolder(null)" cdkMenuItem> Nueva carpeta</button>
-                              <!-- <button class="example-menu-item" (click)="newfile($event)" cdkMenuItem>Subir archivo</button> -->
+                              <button class="example-menu-item" (click)="newFolder(null,'raiz')" cdkMenuItem> Nueva carpeta</button>
+                          
                             </div>
                           </ng-template>
                       

@@ -15,19 +15,12 @@
         <form [formGroup]="FormsEFDocument!">
             <ng-template matStepLabel>Documentos</ng-template>
             <div class="row">
-
-               
-
                     <mat-label style="font-weight: bold;">Archivo</mat-label>
                     <app-file-upload (change)="onFileSelected($event)"
                         formControlName="file"></app-file-upload>
                         <mat-error *ngIf="FormsEFDocument.get('file')?.hasError('required')">
                             es  requerido
                           </mat-error>
-                 
-                
-
-
             </div>
         
      

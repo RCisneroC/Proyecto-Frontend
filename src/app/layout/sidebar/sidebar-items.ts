@@ -218,7 +218,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "/admission/directory-list",
-        title: "Directorios",
+        title: "Gestión Documentaria",
         iconType: "",
         icon: "",
         class: "ml-menu",

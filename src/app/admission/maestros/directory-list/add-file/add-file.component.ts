@@ -9,6 +9,7 @@ interface DialogData {
   fileId:number;
   folderName: string;
   folder:FoodNode;
+  action:string;
  
   // Add other properties as needed, like path, parent folder, etc.
 }
@@ -76,8 +77,33 @@ export class AddFileComponent {
   }
   public confirmAdd(): void {
     if (this.FormsEFDocument.valid) {
-      const formdata=new FormData();
+    
+      if(this.data.action==='file'){
+    
+        const formdata=new FormData();
+        formdata.append('FolderId',this.data.folder.folderId.toString());
+        formdata.append('FileId',this.data.folder.fileId.toString());
+        formdata.append('File',this.tmp_files[0]);
+  
+        this._directoryService.UpdateFile(formdata).subscribe({
+          next: () => {
+          
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Archivo remplazado.';
+            this.dialogRef.close(this.ResponseMessage);
+          
+           },
+           error: (err:any) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = err;
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        });
+      }else{
+      
+    
        if(this.tmp_files[0]!=undefined){
+        const formdata=new FormData();
          formdata.append('FolderId',this.data.folder.folderId.toString());
          formdata.append('File',this.tmp_files[0]);
     
@@ -97,6 +123,8 @@ export class AddFileComponent {
       });
      
     }
+}
+
 }
 }   
 } 

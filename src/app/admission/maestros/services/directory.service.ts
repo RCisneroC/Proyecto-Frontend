@@ -63,6 +63,18 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post(environment.apiDocument+'Folder/AddFolder',data)
    }
    
+   UpdateFolder(data:any) {
+   
+    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
+    return this.httpClient.put(environment.apiDocument+'Folder/UpdateFolder',data);
+   }
+   
+   UpdateFile(data:any) {
+   
+    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
+    return this.httpClient.put(environment.apiDocument+'Files/UpdateFile',data);
+   }
+   
    
   
   addDirectory(directory: Directory){
