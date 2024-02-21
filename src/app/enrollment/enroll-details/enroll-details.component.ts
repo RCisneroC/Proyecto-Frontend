@@ -19,7 +19,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ViewCalificacionesComponent } from '../Forms/view-calificaciones/view-calificaciones.component';
-import {EnrollAttendenceFormComponent} from "../enroll-attendence-form/enroll-attendence-form.component";
+import { EnrollAttendenceFormComponent } from "../enroll-attendence-form/enroll-attendence-form.component";
 
 @Component({
   selector: 'app-enroll-details',
@@ -53,7 +53,8 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     mallaId: 0,
     mallaName: '',
     degreeId: 0,
-    nAmeDegree: ''
+    nAmeDegree: '',
+    teacherCedula: ''
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,
@@ -68,8 +69,8 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     type: ''
   }
   id: string = '';
-  efAcademicRecordId:number=0;
-  academicSubjectRecordId:number=0;
+  efAcademicRecordId: number = 0;
+  academicSubjectRecordId: number = 0;
 
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
@@ -165,14 +166,14 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     this._StudenAsistence.cedula = this._ActivityService._DetailsResponseEF.cedula;
     localStorage.setItem('tipoSolicitud', '1');
 
-    this._enrollservice.SearchEFAcademicRecordMethod(row.studentId,row.mallaId).subscribe({
-      next:(res)=>{
+    this._enrollservice.SearchEFAcademicRecordMethod(row.studentId, row.mallaId).subscribe({
+      next: (res) => {
         this.efAcademicRecordId = + res.data[0].id;
-        this._enrollservice.SearchAcademicSubjectRecordMethod(this.efAcademicRecordId,row.asignaturaId,row.mallaId,row.studentId).subscribe({
-          next:(res)=>{
+        this._enrollservice.SearchAcademicSubjectRecordMethod(this.efAcademicRecordId, row.asignaturaId, row.mallaId, row.studentId).subscribe({
+          next: (res) => {
             this.academicSubjectRecordId = + res.data[0].id;
-            this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId,row.mallaId,row.asignaturaId,row.studentId).subscribe({
-              next:(res)=>{
+            this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId, row.mallaId, row.asignaturaId, row.studentId).subscribe({
+              next: (res) => {
                 const dialogRef = this.dialog.open(EnrollAttendenceFormComponent, {
                   data: {
                     students: this._StudenAsistence,

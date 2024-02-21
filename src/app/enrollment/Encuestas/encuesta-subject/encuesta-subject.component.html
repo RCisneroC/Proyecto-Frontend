@@ -14,7 +14,6 @@
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Asignaturas</mat-label>
                     <mat-select [(ngModel)]="subjectSelect" (ngModelChange)="EventSelect($event)">
-                        <mat-option value="">.........</mat-option>
                         <mat-option *ngFor="let item of data.subject" value="{{ item.asignaturaId }}">{{ item.asignatura
                             }}</mat-option>
                     </mat-select>

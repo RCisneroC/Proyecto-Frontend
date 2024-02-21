@@ -109,7 +109,7 @@ export class EncuestaSubjectComponent {
         score: elementText.value,
         questionId: row.id,
         studentId: this._subjectEnrollmentResult.studentId,
-        teacherCedula: "21324339",
+        teacherCedula: this._subjectEnrollmentResult.teacherCedula,
         periodId: this._subjectEnrollmentResult.periodsId,
         year: 1,
         subjectId: this._subjectEnrollmentResult.asignaturaId
@@ -145,18 +145,19 @@ export class EncuestaSubjectComponent {
   }
 
   EventSelect(event: any) {
-    let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
-    this._subjectEnrollmentResult = asignaturaSelect[0];
+    if (event != '') {
+      let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
+      this._subjectEnrollmentResult = asignaturaSelect[0];
 
-    this.getEncuesta();
-    console.log(this.makeSurvey);
+      this.getEncuesta();
+      console.log(this.makeSurvey);
+    }
   }
 
   getEncuesta() {
     this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId).subscribe({
       next: (res) => {
-        console.log(res);
-        if (res.length < 8) {
+        if (res.surveys.length < 8) {
           this.makeSurvey = true;
         } else {
           Swal.fire({

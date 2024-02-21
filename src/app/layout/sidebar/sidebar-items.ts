@@ -27,7 +27,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: '/admission/schedule-activities-list',
-        title: 'Cronograma de actividades',
+        title: 'Cronograma de Entrenamiento',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -39,7 +39,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: '/admission/AnnualPlan',
-        title: 'Cronograma Anual EF',
+        title: 'Cronograma Educación Especializada',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -55,7 +55,7 @@ export const ROUTES: RouteInfo[] = [
   // Incripcion
   {
     path: 'admission/',
-    title: 'Inscripciones',
+    title: 'Inscripciones EC',
     iconType: '',
     icon: 'user-check',
     class: 'menu-toggle',
@@ -141,10 +141,11 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Director',
     submenu: [],
   },
+
   //aprobaciones
   {
     path: '',
-    title: 'Aprobaciones',
+    title: 'Aprobaciones EC',
     iconType: 'feather',
     icon: 'check-circle',
     class: 'menu-toggle',
@@ -155,7 +156,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: 'admission/list-curriculum-approve',
-        title: 'Cronograma de actividades',
+        title: 'Cronograma de Entrenamiento',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -195,7 +196,7 @@ export const ROUTES: RouteInfo[] = [
   //ajustes EC
   {
     path: "",
-    title: "Ajustes",
+    title: "Ajustes EC",
     iconType: "",
     icon: "database",
     class: "menu-toggle",
@@ -349,6 +350,19 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
+      {
+        path: '/admission/firma',
+        title: 'Firma',
+        iconType: 'feather',
+        icon: 'calendar',
+        class: '',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+
 
     ]
   },

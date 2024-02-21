@@ -21,7 +21,7 @@ export class EncuestaActivityComponent {
     CodError: 0,
     Message: ''
   }
-  Id: number = 7;
+  Id: string = '';
   action: string;
   dialogTitle: string = '';
   id_cronograma: number = 0;
@@ -100,6 +100,9 @@ export class EncuestaActivityComponent {
     this.action = data.accion;
     if (this.action === 'encuesta') {
       this.dialogTitle = "ENCUESTA DE SATISFACCIÓN DE ACTIVIDAD ACADÉMICA";
+      if (localStorage.getItem('id_participante') != '') {
+        this.Id = localStorage.getItem('id_participante') || '';
+      }
       this.getEncuesta();
     }
   }
@@ -170,7 +173,7 @@ export class EncuestaActivityComponent {
     this._ActivityService.GetEncuestaLista(this.Id, this.data.activity.degreeCurriculumDesignId).subscribe({
       next: (res) => {
         console.log(res);
-        if (res.length < 12) {
+        if (res.surveys.length < 12) {
           this.makeSurvey = true;
         } else {
           Swal.fire({

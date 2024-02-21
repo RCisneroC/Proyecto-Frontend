@@ -171,7 +171,7 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
 
   getEncuestaLista(StudentId: any, PeriodId: any, Year: any, SubjectId: any) {
     return this.httpClient
-      .get<Subject[]>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}`);
+      .get<any>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}`);
   }
 
   SaveEncuesta(data: any) {
