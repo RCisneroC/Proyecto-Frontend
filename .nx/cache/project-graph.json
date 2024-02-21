@@ -8281,6 +8281,15 @@
         "hash": "sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ=="
       }
     },
+    "npm:immediate": {
+      "type": "npm",
+      "name": "npm:immediate",
+      "data": {
+        "version": "3.0.6",
+        "packageName": "immediate",
+        "hash": "sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ=="
+      }
+    },
     "npm:immutable": {
       "type": "npm",
       "name": "npm:immutable",
@@ -9028,6 +9037,15 @@
         "hash": "sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg=="
       }
     },
+    "npm:jszip": {
+      "type": "npm",
+      "name": "npm:jszip",
+      "data": {
+        "version": "3.10.1",
+        "packageName": "jszip",
+        "hash": "sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g=="
+      }
+    },
     "npm:karma": {
       "type": "npm",
       "name": "npm:karma",
@@ -9233,6 +9251,15 @@
         "version": "4.0.2",
         "packageName": "license-webpack-plugin",
         "hash": "sha512-771TFWFD70G1wLTC4oU2Cw4qvtmNrIw+wRvBtn+okgHl7slJVi7zfNcdmqDL72BojM30VNJ2UHylr1o77U37Jw=="
+      }
+    },
+    "npm:lie": {
+      "type": "npm",
+      "name": "npm:lie",
+      "data": {
+        "version": "3.3.0",
+        "packageName": "lie",
+        "hash": "sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ=="
       }
     },
     "npm:limiter": {
@@ -11033,6 +11060,15 @@
         "version": "2.0.1",
         "packageName": "set-function-name",
         "hash": "sha512-tMNCiqYVkXIZgc2Hnoy2IvC/f8ezc5koaRFkCjrpWzGpCd3qbZXPzVy9MAZzK1ch/X0jvSkojys3oqJN0qCmdA=="
+      }
+    },
+    "npm:setimmediate": {
+      "type": "npm",
+      "name": "npm:setimmediate",
+      "data": {
+        "version": "1.0.5",
+        "packageName": "setimmediate",
+        "hash": "sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA=="
       }
     },
     "npm:shallow-clone": {
@@ -25096,6 +25132,28 @@
         "type": "static"
       }
     ],
+    "npm:jszip": [
+      {
+        "source": "npm:jszip",
+        "target": "npm:lie",
+        "type": "static"
+      },
+      {
+        "source": "npm:jszip",
+        "target": "npm:pako",
+        "type": "static"
+      },
+      {
+        "source": "npm:jszip",
+        "target": "npm:readable-stream@2.3.8",
+        "type": "static"
+      },
+      {
+        "source": "npm:jszip",
+        "target": "npm:setimmediate",
+        "type": "static"
+      }
+    ],
     "npm:karma": [
       {
         "source": "npm:karma",
@@ -25512,6 +25570,13 @@
       {
         "source": "npm:license-webpack-plugin",
         "target": "npm:webpack-sources",
+        "type": "static"
+      }
+    ],
+    "npm:lie": [
+      {
+        "source": "npm:lie",
+        "target": "npm:immediate",
         "type": "static"
       }
     ],
