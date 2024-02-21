@@ -83,8 +83,9 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
-    this.loadData();
     this._typeUser = this._RequestServicesService.getRoleFromToken(this.authService.currentUserValue.token);
+    console.log("Tipo de usuario", this._typeUser);
+    this.loadData();
   }
   refresh() {
     this.loadData();

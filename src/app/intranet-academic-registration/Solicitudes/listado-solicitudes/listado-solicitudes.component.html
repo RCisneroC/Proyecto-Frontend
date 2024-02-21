@@ -133,7 +133,7 @@
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
 
-                                                        <button *ngIf="_typeUser=='Administrador' && row.statusId == 3"
+                                                        <button *ngIf="_typeUser ==='Administrador' && row.requestVariousStatusTypeId === 1"
                                                             mat-mini-fab color="warn" matTooltip="Aprobar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="aprobar(row,i)"
                                                             class="tbl-action-btn">
