@@ -116,6 +116,11 @@
                               (click)="calificacionesAasignatura(row)" class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>
                             </button>
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Encuesta"
+                              (click)="sendEncuestaSubject(row)" class="tbl-action-btn">
+                              <mat-icon>file_copy</mat-icon>
+                            </button>
 
                           </mat-cell>
                         </ng-container>

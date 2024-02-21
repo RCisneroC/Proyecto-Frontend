@@ -14,6 +14,9 @@ export interface DialogData {
   id: string;
   subject: subjectEnrollmentResult[];
   action: string;
+  typeUser?: string;
+  docente?: string;
+  id_asignatura?: string;
 }
 
 @Component({
@@ -37,6 +40,7 @@ export class EncuestaSubjectComponent {
   public makeSurvey: boolean = false;
   habilitarBoton: boolean = true;
   bloquear: boolean = false;
+  dataSend: any;
   public QuestionsSubject: QuestionSubject[] = [
     {
       CapacitacionVirtual: 'Planeación y desarrollo de la actividad académica',
@@ -274,21 +278,38 @@ export class EncuestaSubjectComponent {
         });
         return;
       }
-      let data = {
-        name: row.name,
-        description: row.name,
-        questionNumber: row.id,
-        score: elementText.value,
-        questionId: row.id,
-        studentId: this._subjectEnrollmentResult.studentId.toString(),
-        teacherCedula: this._subjectEnrollmentResult.teacherCedula,
-        periodId: this._subjectEnrollmentResult.periodsId,
-        year: 1,
-        subjectId: this._subjectEnrollmentResult.asignaturaId,
-        SurveyType: this.SelectType
-      };
+      if (this.data.typeUser == 'Profesor') {
+        this.dataSend = {
+          name: row.name,
+          description: row.name,
+          questionNumber: row.id,
+          score: elementText.value,
+          questionId: row.id,
+          studentId: '0',
+          teacherCedula: this.data.docente,
+          periodId: 0,
+          year: 1,
+          subjectId: this.data.id_asignatura,
+          SurveyType: this.SelectType
+        };
+      } else {
+        this.dataSend = {
+          name: row.name,
+          description: row.name,
+          questionNumber: row.id,
+          score: elementText.value,
+          questionId: row.id,
+          studentId: this._subjectEnrollmentResult.studentId.toString(),
+          teacherCedula: this._subjectEnrollmentResult.teacherCedula,
+          periodId: this._subjectEnrollmentResult.periodsId,
+          year: 1,
+          subjectId: this._subjectEnrollmentResult.asignaturaId,
+          SurveyType: this.SelectType
+        };
+      }
 
-      this._SubjectService.SaveEncuesta(data).subscribe({
+
+      this._SubjectService.SaveEncuesta(this.dataSend).subscribe({
         next: (res) => {
           if (row.id == 8 && this.SelectType == 1) {
             this.habilitarBoton = false;
@@ -327,9 +348,11 @@ export class EncuestaSubjectComponent {
   }
 
   EventSelectType(event: any) {
-    if (event != '') {
+
+    if (this.data.typeUser == 'Profesor') {
       this.makeSurvey = true;
-      // this.getEncuesta();
+      //verificar si el docente ya la relizo.
+    } else {
     }
   }
 

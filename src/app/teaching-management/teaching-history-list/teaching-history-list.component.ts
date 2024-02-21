@@ -10,6 +10,7 @@ import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-act
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
 
 
 @Component({
@@ -204,5 +205,40 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+
+  sendEncuestaSubject(row: Subject) {
+    const dialogRef = this.dialog.open(EncuestaSubjectComponent, {
+      data: {
+        subject: [],
+        action: 'encuesta',
+        typeUser: 'Profesor',
+        docente: this.cedula,
+        id_asignatura: row.id
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
+
 }
 

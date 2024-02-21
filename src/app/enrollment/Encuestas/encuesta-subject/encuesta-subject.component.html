@@ -13,7 +13,8 @@
         </button>
     </div>
     <div mat-dialog-content>
-        <div class="row">
+
+        <div class="row" *ngIf="data.typeUser != 'Profesor'">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Tipo de Encuesta</mat-label>
@@ -26,8 +27,23 @@
                 </mat-form-field>
 
             </div>
+        </div>
 
+        <div class="row" *ngIf="data.typeUser == 'Profesor'">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Tipo de Encuesta</mat-label>
+                    <mat-select [(ngModel)]="SelectType" (ngModelChange)="EventSelectType($event)">
+                        <mat-option value="3">Satisfación del docente con la plataforma tecnólogica</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div *ngIf="data.subject.length>0" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Asignaturas</mat-label>
                     <mat-select [(ngModel)]="subjectSelect" (ngModelChange)="EventSelect($event)">
@@ -60,7 +76,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -89,7 +105,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -145,7 +161,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -175,7 +191,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -205,7 +221,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -235,7 +251,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
@@ -266,7 +282,7 @@
                         <td>
                             <button id="button_{{ item.id }}" mat-raised-button color="accent"
                                 (click)="calificar(item)">
-                                Confirmar
+                                Calificar
                             </button>
                         </td>
                     </tr>
