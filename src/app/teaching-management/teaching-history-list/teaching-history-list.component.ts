@@ -6,6 +6,10 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/form
 import { Activity, Subject } from '../models/Teacher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-activity/encuesta-activity.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -61,15 +65,16 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     private fb: UntypedFormBuilder,
     public _RequestService: RequestServicesService,
     private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
   ) {
     super()
   }
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
-    this.cedula=this.activatedRoute.snapshot.params["cedula"];
-    if(this.cedula==undefined){
-    this.cedula=this.user.cedula;
+    this.cedula = this.activatedRoute.snapshot.params["cedula"];
+    if (this.cedula == undefined) {
+      this.cedula = this.user.cedula;
     }
     this.docForm = this.fb.group({
       code: new FormControl(""),
@@ -78,8 +83,8 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     });
 
     //this.guardarTemporal()
-     this.getSubjects(); 
-     this.getActivities();
+    this.getSubjects();
+    this.getActivities();
 
     // const subjectStr = localStorage.getItem('subjects');
     // const activitiesStr = localStorage.getItem('activities');
@@ -120,7 +125,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     // console.log(row);
     localStorage.setItem('actividadEscogida', JSON.stringify(row));
     localStorage.setItem('id', row.id.toString());
-     localStorage.setItem('tipoSolicitud', "2");
+    localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
   }
 
@@ -165,4 +170,39 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       }
     })
   }
+
+  sendEncuestas(row: Activity) {
+    const dialogRef = this.dialog.open(EncuestaActivityComponent, {
+      data: {
+        activity: row,
+        accion: 'encuesta',
+        typeUser: 'Profesor',
+        docente: this.cedula,
+        id_actividad: row.id
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
 }
+

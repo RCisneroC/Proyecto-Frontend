@@ -6,9 +6,13 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { ListQuestins, QuestionSubject } from 'app/enrollment/models/QuestionsSubject';
 import Swal from 'sweetalert2';
+import { TypeSurvey } from '../../models/TypeSurvey';
 export interface DialogData {
   activity: getStudentsActivityResponse;
   accion: string;
+  typeUser?: string;
+  docente?: string;
+  id_actividad?: string;
 }
 @Component({
   selector: 'app-encuesta-activity',
@@ -25,6 +29,9 @@ export class EncuestaActivityComponent {
   action: string;
   dialogTitle: string = '';
   id_cronograma: number = 0;
+  habilitarBoton: boolean = true;
+  bloquear: boolean = false;
+  dataSend: any;
   public subjectSelect: any;
   public makeSurvey: boolean = false;
   public QuestionsSubject: QuestionSubject[] = [
@@ -86,7 +93,153 @@ export class EncuestaActivityComponent {
         }
       ]
     }
-  ]
+  ];
+  public QuestionsSubject_three: QuestionSubject = {
+    CapacitacionVirtual: 'Configuración y desarrollo',
+    ListQuestins: [
+      {
+        id: 1,
+        name: 'La navegación por la plataforma virtual ha resultado sencilla y clara.',
+      },
+      {
+        id: 2,
+        name: 'La plataforma virtual permite la adecuada integración de recursos educativos y herramientas didácticas.',
+      },
+      {
+        id: 3,
+        name: 'El diseño estético del entorno (Tamaño y tipo de letras, colores), facilita la interacción con la plataforma.',
+      },
+      {
+        id: 4,
+        name: 'Los tiempos de respuesta de la plataforma virtual (espera para acceder a un vínculo, acceso a diferentes herramientas, etc.) han sido adecuados.',
+      },
+      {
+        id: 5,
+        name: 'Las herramientas de comunicación (correo, foro, chat) de la plataforma virtual han resultado de fácil manejo.',
+      },
+      {
+        id: 6,
+        name: 'El personal técnico ha atendido oportuna y eficientemente a las sugerencias, demandas y dificultades presentadas durante la ejecución de la actividad académica.',
+      },
+      {
+        id: 7,
+        name: 'El personal técnico ha suministrado la capacitación necesaria para el manejo de la plataforma virtual.',
+      },
+      {
+        id: 8,
+        name: 'Participaría como docente en otra actividad académica con esta plataforma virtual.',
+      }
+    ]
+  };
+  public QuestionsSubject_Two: QuestionSubject[] = [
+    {
+      CapacitacionVirtual: 'Capacitación virtual - Configuración y desarrollo',
+      ListQuestins: [
+        {
+          id: 1,
+          name: 'La plataforma es atractiva, amigable y despierta mi interés.',
+        },
+        {
+          id: 2,
+          name: 'La plataforma incluye ejemplos y tutoriales que facilitan el aprendizaje.',
+        },
+        {
+          id: 3,
+          name: 'La navegación es sencilla y clara para cumplir los objetivos.',
+        },
+        {
+          id: 4,
+          name: 'Las lecturas y dinámicas de aprendizajes de instrucción y prácticas, se vinculan a la temática de capacitación.',
+        },
+        {
+          id: 5,
+          name: 'Participaría de otra capacitación en modalidad virtual.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Tutor virtual - Orientación y seguimiento',
+      ListQuestins: [
+        {
+          id: 6,
+          name: 'Proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación.',
+        },
+        {
+          id: 7,
+          name: 'Mantuvo al día las calificaciones y corrigió según las rúbricas prediseñadas, señalando la retroalimentación correspondiente.',
+        },
+        {
+          id: 8,
+          name: 'Proporcionó seguimiento a la actividad académica mediante mensajes y avisos específicos.',
+        },
+        {
+          id: 9,
+          name: 'Se comunica de forma afable en cada comunicado que envía.',
+        },
+        {
+          id: 10,
+          name: 'Fomentó mi interacción con los demás estudiantes durante el desarrollo de la actividad académica.',
+        },
+        {
+          id: 11,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        },
+        {
+          id: 12,
+          name: 'Tomaría otra actividad académica facilitada por el mismo tutor.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Coordinador académico',
+      ListQuestins: [
+        {
+          id: 13,
+          name: 'El coordinador académico proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación oportunamente.',
+        },
+        {
+          id: 14,
+          name: 'Se comunica de forma afable en cada comunicado que envía.',
+        },
+        {
+          id: 15,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Soporte técnico',
+      ListQuestins: [
+        {
+          id: 16,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        },
+        {
+          id: 17,
+          name: 'Resolvió de forma oportuna los inconvenientes presentados.',
+        }
+      ]
+    }
+  ];
+  public _TypeSurvey: TypeSurvey[] = [
+    {
+      id: 1,
+      description: 'Encuesta de Satisfacción',
+      modalidad: 'Presencial'
+    },
+    {
+      id: 2,
+      description: 'Desempeño de la plataforma y actividad Virtual',
+      modalidad: 'Virtual'
+    }
+    // ,{
+    //   id: 3,
+    //   description: 'Satisfación del docente con la plataforma tecnólogica.',
+    //   modalidad: 'Virtual'
+    // }
+  ];
+  public commetOne: string = '';
+  public commetTwo: string = '';
   constructor(
     public dialogRef: MatDialogRef<EncuestaActivityComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -99,11 +252,11 @@ export class EncuestaActivityComponent {
     // Set the defaults
     this.action = data.accion;
     if (this.action === 'encuesta') {
-      this.dialogTitle = "ENCUESTA DE SATISFACCIÓN DE ACTIVIDAD ACADÉMICA";
+      this.dialogTitle = "ENCUESTAS";
       if (localStorage.getItem('id_participante') != '') {
         this.Id = localStorage.getItem('id_participante') || '';
       }
-      this.getEncuesta();
+
     }
   }
 
@@ -121,24 +274,42 @@ export class EncuestaActivityComponent {
         });
         return;
       }
-      let data = {
-        name: '.....',
-        description: '.....',
-        questionNumber: row.id,
-        score: elementText.value,
-        questionId: row.id,
-        studentId: this.Id,
-        teacherCedula: '21324339',
-        activityId: this.data.activity.degreeCurriculumDesignId,
-      };
+      if (this.data.typeUser == 'Profesor') {
+        this.dataSend = {
+          name: row.name,
+          description: row.name,
+          questionNumber: row.id,
+          score: elementText.value,
+          questionId: row.id,
+          studentId: '0',
+          teacherCedula: this.data.docente,
+          activityId: this.data.id_actividad,
+          SurveyType: this.subjectSelect
+        };
+        console.log(this.dataSend);
+      } else {
+        this.dataSend = {
+          name: row.name,
+          description: row.name,
+          questionNumber: row.id,
+          score: elementText.value,
+          questionId: row.id,
+          studentId: this.Id,
+          teacherCedula: '21324339',
+          activityId: this.data.activity.degreeCurriculumDesignId,
+          SurveyType: this.subjectSelect
+        };
+      }
 
-      this._ActivityService.SaveEncuesta(data).subscribe({
+
+      this.bloquear = true;
+      this._ActivityService.SaveEncuesta(this.dataSend).subscribe({
         next: (res) => {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "Calificación Registrada.",
-            icon: "success"
-          });
+          if (row.id == 8) {
+            this.habilitarBoton = false;
+          } else if (row.id == 17) {
+            this.habilitarBoton = false;
+          }
           button.disabled = true;
         }
       })
@@ -149,6 +320,50 @@ export class EncuestaActivityComponent {
         icon: "warning"
       });
     }
+  }
+  finaliarEncuesta3() {
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: "Encuesta realizada correctamente.",
+      icon: "success"
+    });
+    this.dialogRef.close();
+  }
+  finaliarEncuestaOne() {
+    let data = {
+      name: '.....',
+      description: '.....',
+      comment: this.commetOne,
+      studentId: this.Id,
+      teacherCedula: '21324339',
+      activityId: this.data.activity.degreeCurriculumDesignId,
+    };
+
+    this._ActivityService.SaveComment(data).subscribe({
+      next: (res) => {
+      },
+      complete: () => {
+        let dataTwo = {
+          name: '.....',
+          description: '.....',
+          comment: this.commetTwo,
+          studentId: this.Id,
+          teacherCedula: '21324339',
+          activityId: this.data.activity.degreeCurriculumDesignId,
+        };
+        this._ActivityService.SaveComment(data).subscribe({
+          next: (res) => {
+          }, complete: () => {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Calificación Registrada.",
+              icon: "success"
+            });
+            this.dialogRef.close();
+          }
+        });
+      }
+    })
   }
 
 
@@ -161,19 +376,24 @@ export class EncuestaActivityComponent {
     }
   }
 
-  // EventSelect(event: any) {
-  //   let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
-  //   this._subjectEnrollmentResult = asignaturaSelect[0];
+  EventSelect(event: any) {
+    if (this.data.typeUser == 'Profesor') {
+      this.makeSurvey = true;
+      //verificar si el docente ya la relizo.
+    } else {
+      this.getEncuesta(event);
+    }
+  }
 
-  //   this.getEncuesta();
-  //   console.log(this.makeSurvey);
-  // }
-
-  getEncuesta() {
-    this._ActivityService.GetEncuestaLista(this.Id, this.data.activity.degreeCurriculumDesignId).subscribe({
+  getEncuesta(type: any) {
+    this._ActivityService.GetEncuestaLista(this.Id, this.data.activity.degreeCurriculumDesignId, type).subscribe({
       next: (res) => {
-        console.log(res);
-        if (res.surveys.length < 12) {
+
+        if (res.surveys.length < 12 && type == 1) {
+          this.makeSurvey = true;
+        } else if (res.surveys.length < 17 && type == 2) {
+          this.makeSurvey = true;
+        } else if (res.surveys.length < 8 && type == 3) {
           this.makeSurvey = true;
         } else {
           Swal.fire({
@@ -183,7 +403,6 @@ export class EncuestaActivityComponent {
           });
           this.makeSurvey = false;
         }
-
       },
       complete: () => {
         this.volverDisabledFalse();

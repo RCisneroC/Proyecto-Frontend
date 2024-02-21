@@ -9,6 +9,7 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ListQuestins } from '../../models/QuestionsSubject';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
 import Swal from 'sweetalert2';
+import { TypeSurvey } from 'app/enrollment/models/TypeSurvey';
 export interface DialogData {
   id: string;
   subject: subjectEnrollmentResult[];
@@ -26,13 +27,77 @@ export class EncuestaSubjectComponent {
     CodError: 0,
     Message: ''
   }
-
+  public commetOne: string = '';
+  public commetTwo: string = '';
   action: string;
   dialogTitle: string = '';
   id_cronograma: number = 0;
   public subjectSelect: any;
+  public SelectType: any;
   public makeSurvey: boolean = false;
-  public QuestionsSubject: QuestionSubject = {
+  habilitarBoton: boolean = true;
+  bloquear: boolean = false;
+  public QuestionsSubject: QuestionSubject[] = [
+    {
+      CapacitacionVirtual: 'Planeación y desarrollo de la actividad académica',
+      ListQuestins: [
+        {
+          id: 1,
+          name: 'Los contenidos de esta actividad responden a las necesidades de su cargo.',
+        },
+        {
+          id: 2,
+          name: 'El desarrollo de la actividad académica respondió a los contenidos programados.',
+        },
+        {
+          id: 3,
+          name: 'El tiempo dedicado fue adecuado.',
+        },
+        {
+          id: 4,
+          name: 'Los recursos utilizados(materiales, textos, ayuda tecnológica) contribuyeron al aprendizaje.',
+        },
+        {
+          id: 5,
+          name: 'Los conocimientos adquiridos son aplicables a su trabajo.',
+        },
+        {
+          id: 6,
+          name: 'La organización de la actividad académica cumplió sus expectativas.',
+        },
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Dominio de conocimiento',
+      ListQuestins: [
+        {
+          id: 7,
+          name: 'Transmitió los conceptos con claridad y precisión.',
+        },
+        {
+          id: 8,
+          name: 'Impartió los contenidos con fluidez y elocuencia.',
+        },
+        {
+          id: 9,
+          name: 'Fomentó su reflexión frente a los temas planteados.',
+        },
+        {
+          id: 10,
+          name: 'Escuchó, atendió y solucionó sus inquietudes relacionadas con la actividad académica.',
+        },
+        {
+          id: 11,
+          name: 'Promovió el trabajo en equipo.',
+        },
+        {
+          id: 12,
+          name: 'Motivó su participación.',
+        }
+      ]
+    }
+  ];
+  public QuestionsSubject_three: QuestionSubject = {
     CapacitacionVirtual: 'Configuración y desarrollo',
     ListQuestins: [
       {
@@ -68,7 +133,114 @@ export class EncuestaSubjectComponent {
         name: 'Participaría como docente en otra actividad académica con esta plataforma virtual.',
       }
     ]
-  }
+  };
+  public QuestionsSubject_Two: QuestionSubject[] = [
+    {
+      CapacitacionVirtual: 'Capacitación virtual - Configuración y desarrollo',
+      ListQuestins: [
+        {
+          id: 1,
+          name: 'La plataforma es atractiva, amigable y despierta mi interés.',
+        },
+        {
+          id: 2,
+          name: 'La plataforma incluye ejemplos y tutoriales que facilitan el aprendizaje.',
+        },
+        {
+          id: 3,
+          name: 'La navegación es sencilla y clara para cumplir los objetivos.',
+        },
+        {
+          id: 4,
+          name: 'Las lecturas y dinámicas de aprendizajes de instrucción y prácticas, se vinculan a la temática de capacitación.',
+        },
+        {
+          id: 5,
+          name: 'Participaría de otra capacitación en modalidad virtual.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Tutor virtual - Orientación y seguimiento',
+      ListQuestins: [
+        {
+          id: 6,
+          name: 'Proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación.',
+        },
+        {
+          id: 7,
+          name: 'Mantuvo al día las calificaciones y corrigió según las rúbricas prediseñadas, señalando la retroalimentación correspondiente.',
+        },
+        {
+          id: 8,
+          name: 'Proporcionó seguimiento a la actividad académica mediante mensajes y avisos específicos.',
+        },
+        {
+          id: 9,
+          name: 'Se comunica de forma afable en cada comunicado que envía.',
+        },
+        {
+          id: 10,
+          name: 'Fomentó mi interacción con los demás estudiantes durante el desarrollo de la actividad académica.',
+        },
+        {
+          id: 11,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        },
+        {
+          id: 12,
+          name: 'Tomaría otra actividad académica facilitada por el mismo tutor.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Coordinador académico',
+      ListQuestins: [
+        {
+          id: 13,
+          name: 'El coordinador académico proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación oportunamente.',
+        },
+        {
+          id: 14,
+          name: 'Se comunica de forma afable en cada comunicado que envía.',
+        },
+        {
+          id: 15,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        }
+      ]
+    },
+    {
+      CapacitacionVirtual: 'Soporte técnico',
+      ListQuestins: [
+        {
+          id: 16,
+          name: 'Estuvo disponible durante el desarrollo de la actividad académica para consultas, sugerencias y opiniones.',
+        },
+        {
+          id: 17,
+          name: 'Resolvió de forma oportuna los inconvenientes presentados.',
+        }
+      ]
+    }
+  ];
+  public _TypeSurvey: TypeSurvey[] = [
+    {
+      id: 1,
+      description: 'Encuesta de Satisfacción',
+      modalidad: 'Presencial'
+    },
+    {
+      id: 2,
+      description: 'Desempeño de la plataforma y actividad Virtual',
+      modalidad: 'Virtual'
+    }
+    // ,{
+    //   id: 3,
+    //   description: 'Satisfación del docente con la plataforma tecnólogica.',
+    //   modalidad: 'Virtual'
+    // }
+  ];
   constructor(
     public dialogRef: MatDialogRef<EncuestaSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -84,7 +256,7 @@ export class EncuestaSubjectComponent {
     this.action = data.action;
 
     if (this.action === 'encuesta') {
-      this.dialogTitle = "EVALUACIÓN DE SATISFACCIÓN DEL DOCENTE CON LA PLATAFORMA TECNOLÓGICA ";
+      this.dialogTitle = "ENCUESTAS ";
     }
   }
 
@@ -103,26 +275,28 @@ export class EncuestaSubjectComponent {
         return;
       }
       let data = {
-        name: '.......',
-        description: '.........',
+        name: row.name,
+        description: row.name,
         questionNumber: row.id,
         score: elementText.value,
         questionId: row.id,
-        studentId: this._subjectEnrollmentResult.studentId,
+        studentId: this._subjectEnrollmentResult.studentId.toString(),
         teacherCedula: this._subjectEnrollmentResult.teacherCedula,
         periodId: this._subjectEnrollmentResult.periodsId,
         year: 1,
-        subjectId: this._subjectEnrollmentResult.asignaturaId
+        subjectId: this._subjectEnrollmentResult.asignaturaId,
+        SurveyType: this.SelectType
       };
 
       this._SubjectService.SaveEncuesta(data).subscribe({
         next: (res) => {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "Calificación Registrada.",
-            icon: "success"
-          });
+          if (row.id == 8 && this.SelectType == 1) {
+            this.habilitarBoton = false;
+          } else if (row.id == 17 && this.SelectType == 2) {
+            this.habilitarBoton = false;
+          }
           button.disabled = true;
+          this.bloquear = true;
         }
       })
     } else {
@@ -148,11 +322,17 @@ export class EncuestaSubjectComponent {
     if (event != '') {
       let asignaturaSelect: any = this.data.subject.filter(x => x.asignaturaId == event);
       this._subjectEnrollmentResult = asignaturaSelect[0];
-
       this.getEncuesta();
-      console.log(this.makeSurvey);
     }
   }
+
+  EventSelectType(event: any) {
+    if (event != '') {
+      this.makeSurvey = true;
+      // this.getEncuesta();
+    }
+  }
+
 
   getEncuesta() {
     this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId).subscribe({
@@ -174,6 +354,49 @@ export class EncuestaSubjectComponent {
       }
     });
   }
+  finaliarEncuestaOne() {
+    let data = {
+      name: ".......",
+      description: ".......",
+      comment: this.commetOne,
+      studentId: this._subjectEnrollmentResult.studentId.toString(),
+      teacherCedula: this._subjectEnrollmentResult.teacherCedula,
+      periodId: this._subjectEnrollmentResult.periodsId,
+      year: 1,
+      subjectId: this._subjectEnrollmentResult.asignaturaId
+    };
 
+    this._ActivityService.SaveCommentEF(data).subscribe({
+      next: (res) => {
+      },
+      complete: () => {
+        let dataTwo = {
+          name: ".......",
+          description: ".......",
+          comment: this.commetTwo,
+          studentId: this._subjectEnrollmentResult.studentId.toString(),
+          teacherCedula: this._subjectEnrollmentResult.teacherCedula,
+          periodId: this._subjectEnrollmentResult.periodsId,
+          year: 1,
+          subjectId: this._subjectEnrollmentResult.asignaturaId
+        };
+        this._ActivityService.SaveCommentEF(data).subscribe({
+          next: (res) => {
+          }, complete: () => {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "Calificación Registrada.",
+              icon: "success"
+            });
+            this.dialogRef.close();
+          }
+        });
+      }
+    })
+  }
+
+  finaliarEncuesta3() {
+    this.dialogRef.close();
+  }
 
 }
