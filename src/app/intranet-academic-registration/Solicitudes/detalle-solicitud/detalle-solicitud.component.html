@@ -30,11 +30,12 @@
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <p><strong>Tipo de Actividad Académica</strong></p>
-                <label for="">{{ data.request.subject ? 1:2 }}</label>
+                <label *ngIf="data.request.subject" for="">{{ 1 | requestVariousActivityAcademicTypePipe}}</label>
+              <label *ngIf="data.request.activity" for="">{{  2  | requestVariousActivityAcademicTypePipe}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <p><strong>Tipo de Solicitud</strong></p>
-                <label for="">{{ data.request.requestVariousTypeId }}</label>
+                <label for="">{{ data.request.requestVariousTypeId | requestVariousTypePipe}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <p><strong>Asignatura o Actividad</strong></p>

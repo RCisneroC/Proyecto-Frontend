@@ -30,11 +30,11 @@ export class CreateSolicitudComponent {
   public typeActivityAcademy = [
     {
       id: 1,
-      name: 'Formación Especializada' //EF
+      name: 'Formación Especializada'
     },
     {
       id: 2,
-      name: 'Entrenamiento' //EC
+      name: 'Entrenamiento'
     }
   ];
 
