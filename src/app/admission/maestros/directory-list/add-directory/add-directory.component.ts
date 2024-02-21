@@ -59,17 +59,16 @@ export class AddDirectoryComponent {
     
     if(this.data.action==='file'){
     
-      const data={
-        folderId:this.data.folder.folderId,
-        fileId:this.data.folder.fileId,
-        newName:this.folderForm.get('folderName')?.value,
-      }
+      const formdata=new FormData();
+      formdata.append('FolderId',this.data.folder.folderId.toString());
+      formdata.append('FileId',this.data.folder.fileId.toString());
+      formdata.append('NewName',this.folderForm.get('folderName')?.value);
 
-      this._directoryService.UpdateFile(data).subscribe({
+      this._directoryService.UpdateFile(formdata).subscribe({
         next: () => {
         
           this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'carpeta guardada.';
+          this.ResponseMessage.Message = 'Archivo guardado.';
           this.dialogRef.close(this.ResponseMessage);
         
          },
