@@ -230,7 +230,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  aprobar(row: RequestVarious, id: number) {
+  aprobar(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
