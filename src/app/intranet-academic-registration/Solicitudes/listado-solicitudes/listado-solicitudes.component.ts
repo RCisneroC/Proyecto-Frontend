@@ -265,7 +265,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  detalleSolicitud(row: RequestVarious, id: number) {
+  detalleSolicitud(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
