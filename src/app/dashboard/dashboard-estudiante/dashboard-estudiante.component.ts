@@ -48,7 +48,7 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   dataSourceInfo: getStudentsActivityResponse[] = [{
-    participantId:'',
+    participantId: '',
     acivityId: 0,
     cedula: '',
     firstName: '',
@@ -105,6 +105,9 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   loadactivity() {
     this._EnrollmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
+        if (res.getStudentsActivityResponse.length > 0) {
+          localStorage.setItem('id_participante', res.getStudentsActivityResponse[0].participantId);
+        }
         this.dataSourceInfo = res.getStudentsActivityResponse;
         this.dataInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
         this.loading = false;

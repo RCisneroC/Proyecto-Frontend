@@ -12,7 +12,7 @@ import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@sha
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { ApprovedSolicitudComponent } from 'app/intranet-academic-registration/Forms/approved-solicitud/approved-solicitud.component';
 import { CreateSolicitudComponent } from 'app/intranet-academic-registration/Forms/create-solicitud/create-solicitud.component';
-import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
+import {RequestVarious, RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -36,27 +36,35 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     'fechacreacion',
     'accion',
   ];
-  public _DataLocal: RequestVarious[] = [];
+  public _DataLocal: RequestVariousItem[] = [];
   exampleDatabase?: RequestServicesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<RequestVarious>(true, []);
+  selection = new SelectionModel<RequestVariousItem>(true, []);
   id?: number;
-  requestVarious?: RequestVarious = {
+  requestVarious?: RequestVariousItem = {
     id: 0,
-    name: '',
-    lastname: '',
-    idSolicitante: '',
-    numberPhone: '',
-    email: '',
-    typeUser: 0,
-    typeRequest: 0,
-    nameTypeRequest: '',
-    typeActivityAcademy: 0,
-    idSubjectOrActivity: 0,
-    nameActivitySubject: '',
-    dateCreate: new Date(),
-    statusId: 0,
-    comments: ''
+    createdDate:new Date,
+    createdBy: '',
+    lastModifiedDate: new Date,
+    lastModifiedBy: '',
+    totalRecords: 0,
+    userRequest: '',
+    description: '',
+    assignedUser: '',
+    requestVariousTypeId: 0,
+    requestVariousApplicantUserTypeId: 0,
+    requestVariousStatusTypeId: 0,
+    requestDate:new Date,
+    subjectId: 0,
+    activityId: 0,
+    efAcademicRecordId: 0,
+    ecAcademicRecordId: 0,
+    reentryAll: false,
+    response: '',
+    responseDate: new Date,
+    infoUserRquest:{ firstName:'', lastName:'', email: ''},
+    activity:{name:''},
+    subject:{name:''}
   };
   public _typeUser: string = '';
   constructor(
@@ -75,8 +83,9 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
-    this.loadData();
     this._typeUser = this._RequestServicesService.getRoleFromToken(this.authService.currentUserValue.token);
+    console.log("Tipo de usuario", this._typeUser);
+    this.loadData();
   }
   refresh() {
     this.loadData();
@@ -116,7 +125,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-  editCall(row: RequestVarious, id: number) {
+  editCall(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -152,7 +161,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  delete(row: number) {
+  delete(row: RequestVariousItem ) {
     Swal.fire({
       title: "¿Estas seguro?",
       text: "Eliminar",
@@ -163,34 +172,21 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
+        this._RequestServicesService.DeleteRequestVariousMethod({id: row.id}).subscribe({
+          next:(res)=>{
+            console.log(res);
+            if(res.statusCode == 200){
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: "Eliminado Correctamente",
+                icon: "success"
+              });
+              this.loadData();
+            }
 
-        let dataL = localStorage.getItem('solicitudes') || '';
-        if (dataL != '') {
-          this._DataLocal = JSON.parse(dataL);
-          this._DataLocal.splice(row, 1);
-          localStorage.setItem('solicitudes', JSON.stringify(this._DataLocal));
-          this.loadData();
-        }
 
-        //   this._RequestServicesService.DeleteRequestVarious(row.id).subscribe({
-        //     next: (res: ResponseGenerica) => {
-        //       Swal.fire({
-        //         title: "Eliminado!",
-        //         text: row.name + " fue eliminado.",
-        //         icon: "success"
-        //       });
-        //       this.loadData();
-        //     },
-        //     error: (err: any) => {
-        //       console.log(err);
-        //       Swal.fire({
-        //         title: "Intente nuevamente!",
-        //         text: row.name + " no se pudo eliminar.",
-        //         icon: "warning"
-        //       });
-        //     }
-        //   })
-        // } else {
+          }
+        })
       }
     });
   }
@@ -234,7 +230,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  aprobar(row: RequestVarious, id: number) {
+  aprobar(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -270,7 +266,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  detalleSolicitud(row: RequestVarious, id: number) {
+  detalleSolicitud(row: RequestVariousItem, id: number) {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -293,7 +289,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.name,
+        'Nombre': x.description,
 
       }));
 
@@ -302,7 +298,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
 
 
 }
-export class ExampleDataSource extends DataSource<RequestVarious> {
+export class ExampleDataSource extends DataSource<RequestVariousItem> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -310,8 +306,8 @@ export class ExampleDataSource extends DataSource<RequestVarious> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: RequestVarious[] = [];
-  renderedData: RequestVarious[] = [];
+  filteredData: RequestVariousItem[] = [];
+  renderedData: RequestVariousItem[] = [];
   constructor(
     public exampleDatabase: RequestServicesService,
     public paginator: MatPaginator,
@@ -322,22 +318,22 @@ export class ExampleDataSource extends DataSource<RequestVarious> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<RequestVarious[]> {
+  connect(): Observable<RequestVariousItem[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChange,
+      this.exampleDatabase.dataChangeRequestVarious,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllRequestVarious();
+    this.exampleDatabase.getAllRequestVariousEIRA();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.exampleDatabase.data
+        this.filteredData = this.exampleDatabase.dataRequestVarious
           .slice()
-          .filter((_RequestVarious: RequestVarious) => {
-            const searchStr = (_RequestVarious.name).toLowerCase();
+          .filter((_RequestVariousItem: RequestVariousItem) => {
+            const searchStr = (_RequestVariousItem.description).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -356,7 +352,7 @@ export class ExampleDataSource extends DataSource<RequestVarious> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: RequestVarious[]): RequestVarious[] {
+  sortData(data: RequestVariousItem[]): RequestVariousItem[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -368,7 +364,7 @@ export class ExampleDataSource extends DataSource<RequestVarious> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+          [propertyA, propertyB] = [a.description, b.description];
           break;
 
       }

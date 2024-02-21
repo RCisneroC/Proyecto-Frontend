@@ -48,8 +48,10 @@ export interface subjectEnrollmentResult {
   mallaId: number,
   mallaName: string,
   degreeId: number,
-  nAmeDegree: string
+  nAmeDegree: string;
+  teacherCedula: string;
 }
+
 
 
 export interface GetStudentsActivityResponse {
@@ -61,7 +63,7 @@ export interface GetStudentsActivityResponse {
 
 
 export interface getStudentsActivityResponse {
-  participantId:string,
+  participantId: string,
   acivityId: number,
   cedula: string,
   firstName: string,

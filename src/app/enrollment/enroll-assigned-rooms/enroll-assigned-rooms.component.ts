@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
 import {EnrollmentService} from "../services/enrollment.service";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Degree, Mesh} from "../../admission/FormalEducations/Models/Degree";
+import {Degree} from "../../admission/FormalEducations/Models/Degree";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
@@ -21,8 +21,6 @@ import {Subject} from "../models/Subject";
 import {EnrollDummy} from "../models/EnrollDummy";
 import {Career} from "../models/Career";
 import {AuthService} from "@core";
-import _default from "chart.js/dist/plugins/plugin.tooltip";
-import numbers = _default.defaults.animations.numbers;
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -146,6 +144,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
                   periodId: this.SubjectItem.periodId,
                   subjectId: this.SubjectItem.id,
                   roomId: row.id,
+                  moodleCourseId: row.moodleCourseId,
                   periodyearsubjectroom: 2024
                 }
               },

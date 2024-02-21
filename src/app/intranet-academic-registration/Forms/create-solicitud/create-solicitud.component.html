@@ -18,7 +18,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Tipo de Actividad Académica</mat-label>
                         <mat-select formControlName="typeActivityAcademy">
-                            <mat-option *ngFor="let item of typeActivityAcademy" [value]="item.name">
+                            <mat-option *ngFor="let item of typeActivityAcademy" [value]="item.id">
                                 {{item.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('typeActivityAcademy')?.hasError('required')">
@@ -32,7 +32,7 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Tipo de Solicitud</mat-label>
                         <mat-select formControlName="typeRequest">
-                            <mat-option *ngFor="let item of TypeRequest" [value]="item.name"> {{
+                            <mat-option *ngFor="let item of TypeRequest" [value]="item.id"> {{
                                 item.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('typeRequest')?.hasError('required')">
@@ -45,13 +45,13 @@
 
 
             <div class="row">
-                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value == 'Entrenamiento'"
+                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 2"
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Actividad</mat-label>
                         <mat-select formControlName="idSubjectOrActivity">
                             <mat-option value="">-----------</mat-option>
-                            <mat-option *ngFor="let item of _GetOneActivity" [value]="item.name"> {{ item.name
+                            <mat-option *ngFor="let item of _GetOneActivity" [value]="item.id"> {{ item.name
                                 }}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('idSubjectOrActivity')?.hasError('required')">
@@ -59,13 +59,13 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value == 'Formación Especializada'"
+                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1"
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Asignaturas</mat-label>
                         <mat-select formControlName="idSubjectOrActivity">
                             <mat-option value="">-----------</mat-option>
-                            <mat-option *ngFor="let item of _Subject" [value]="item.name"> {{ item.name}}</mat-option>
+                            <mat-option *ngFor="let item of _Subject" [value]="item.id"> {{ item.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="RequestVariousForm.get('idSubjectOrActivity')?.hasError('required')">
                             Es requerido

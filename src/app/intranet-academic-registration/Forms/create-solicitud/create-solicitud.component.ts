@@ -3,17 +3,18 @@ import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
-import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
+import {RequestVarious, RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { ActivityService } from '../../../admission/maestros/services/activity.service';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {EnrollmentService} from "../../../enrollment/services/enrollment.service";
 export interface DialogData {
   id: string;
   action: string;
-  request: RequestVarious;
+  request: RequestVariousItem;
 }
 @Component({
   selector: 'app-create-solicitud',
@@ -24,7 +25,7 @@ export class CreateSolicitudComponent {
   action: string;
   dialogTitle: string;
   RequestVariousForm: UntypedFormGroup;
-  RequestVarious: RequestVarious;
+  RequestVarious: RequestVariousItem;
 
   public typeActivityAcademy = [
     {
@@ -74,7 +75,7 @@ export class CreateSolicitudComponent {
   public _GetOneActivity: GetOneActivity[] = [
     this._ActivityService._GetOneActivity
   ];
-  public _DataLocal: RequestVarious[] = [
+  public _DataLocal: RequestVariousItem[] = [
     // {
     //   id: 0,
     //   name: '',
@@ -116,6 +117,9 @@ export class CreateSolicitudComponent {
 
   public userType: string = '';
   public IdTypeUser: number = 0;
+  public EFRecordID: number = 0;
+  public ECRecordID: number = 0;
+
   constructor(
     public dialogRef: MatDialogRef<CreateSolicitudComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -123,7 +127,8 @@ export class CreateSolicitudComponent {
     private fb: UntypedFormBuilder,
     public authService: AuthService,
     public _SubjectService: SubjectServiceService,
-    public _ActivityService: ActivityDetailService
+    public _ActivityService: ActivityDetailService,
+    public _EnrolmentService: EnrollmentService
   ) {
     // Set the defaults
 
@@ -143,26 +148,60 @@ export class CreateSolicitudComponent {
       this.IdTypeUser = 2;
     } this.getActivityOneStatus();
     this.getSubjectStatus();
-    this.RequestVarious.statusId = 1;
+    this.RequestVarious.requestVariousStatusTypeId = 1;
     this.RequestVariousForm = this.createContactForm();
+    this.loadNeededData();
+  }
+
+  loadNeededData(){
+    this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res.studentInnfo){
+          this._EnrolmentService.SearchEFAcademicRecordMethod(res.studentInnfo[0].aspirantId,res.studentInnfo[0].degreeCurriculumDesignId).subscribe({
+            next:(res)=>{
+              if(res.data){
+                this.EFRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
+
+      }
+    })
+
+    this._EnrolmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res.getStudentsActivityResponse){
+          this._EnrolmentService.SearchECAcademicRecordMethod(res.getStudentsActivityResponse[0].acivityId,false, res.getStudentsActivityResponse[0].participantId).subscribe({
+            next:(res)=>{
+              if(res.data){
+                this.ECRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
+      }
+    })
   }
 
   createContactForm(): UntypedFormGroup {
     if (this.action === 'edit') {
-      console.log(this.data.request);
+      console.log('Update request',this.data.request);
 
       return this.fb.group({
-        idSolicitante: [this.data.request.idSolicitante, [Validators.required]],
+        idSolicitante: [this.data.request.userRequest, [Validators.required]],
         name: [this.authService.currentUserValue.firstName, [Validators.required]],
         lastname: [this.authService.currentUserValue.lastName, [Validators.required]],
-        typeUser: [this.data.request.typeUser, [Validators.required]],
-        typeRequest: [this.data.request.typeRequest, [Validators.required]],
-        typeActivityAcademy: [this.data.request.typeActivityAcademy, [Validators.required]],
-        idSubjectOrActivity: [this.data.request.idSubjectOrActivity, [Validators.required]],
-        dateCreate: [this.data.request.dateCreate, [Validators.required]],
-        statusId: [this.data.request.statusId, [Validators.required]],
-        comments: [this.data.request.comments, [Validators.required]],
-        email: [this.data.request.email, [Validators.required]],
+        typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
+        typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
+        typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
+        idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId: this.data.request.activityId , [Validators.required]],
+        dateCreate: [this.data.request.createdDate, [Validators.required]],
+        statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
+        comments: [this.data.request.description, [Validators.required]],
+        email: [this.data.request.infoUserRquest.email, [Validators.required]],
       });
     } else {
       return this.fb.group({
@@ -197,23 +236,89 @@ export class CreateSolicitudComponent {
     // emppty stuff
     if (this.action === 'edit') {
       console.log(this.data);
+      const value = this.RequestVariousForm.getRawValue();
+      const UpdateRequestVariousData = {
+        id: this.data.request.id,
+        description: value.comments,
+        assignedUser: value.idSolicitante,
+        requestVariousStatusTypeId: value.statusId,
+        response: "pendiente"
+      }
+      this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
+        next:(res)=>{
+          if(res.statusCode == 200){
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Editado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        }
+      })
 
-      this._DataLocal[parseInt(this.data.id)] = this.RequestVariousForm.getRawValue();
-      console.log('====================================');
-      console.log(this._DataLocal);
-      console.log('====================================');
-      localStorage.setItem('solicitudes', JSON.stringify(this._DataLocal));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Editado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
     } else {
-      console.log(this._DataLocal);
+      const value = this.RequestVariousForm.getRawValue();
+      if(value.typeRequest != 5 && value.typeRequest != 6){
 
-      this._DataLocal.push(this.RequestVariousForm.getRawValue());
-      localStorage.setItem('solicitudes', JSON.stringify(this._DataLocal));
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Creado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
+        const generalrequest = {
+          userRequest: value.idSolicitante,
+          description: value.comments,
+          requestVariousTypeId: value.typeRequest,
+          requestVariousApplicantUserTypeId: this.IdTypeUser,
+          subjectId: value.idSubjectOrActivity
+        }
+        this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
+          next:(res)=>{
+            console.log(res);
+            if(res.statusCode == 200){
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Creado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+            }
+          }
+        })
+      }
+      else {
+        if(value.typeActivityAcademy == 1){
+          const EFCreateWithdrawalAndReentryRequestData = {
+            userRequest: value.idSolicitante,
+            description: value.comments,
+            requestVariousTypeId: value.typeRequest,
+            requestVariousApplicantUserTypeId: this.IdTypeUser,
+            subjectId: value.idSubjectOrActivity,
+            efAcademicRecordId: this.EFRecordID
+          }
+          this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+            next:(res)=>{
+              console.log(res);
+              if(res.statusCode == 200){
+                this.ResponseMessage.CodError = 200;
+                this.ResponseMessage.Message = 'Creado correctamente.';
+                this.dialogRef.close(this.ResponseMessage);
+              }
+            }
+          })
+        }
+        if(value.typeActivityAcademy == 2){
+          const ECCreateWithdrawalAndReentryRequestData = {
+            userRequest: value.idSolicitante,
+            description: value.comments,
+            requestVariousTypeId: value.typeRequest,
+            requestVariousApplicantUserTypeId: this.IdTypeUser,
+            ecAcademicRecordId: this.ECRecordID
+          }
+          this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
+            next:(res)=>{
+              console.log(res);
+              if(res.statusCode == 200){
+                this.ResponseMessage.CodError = 200;
+                this.ResponseMessage.Message = 'Creado correctamente.';
+                this.dialogRef.close(this.ResponseMessage);
+              }
+            }
+          })
+        }
+      }
+
+
     }
 
   }

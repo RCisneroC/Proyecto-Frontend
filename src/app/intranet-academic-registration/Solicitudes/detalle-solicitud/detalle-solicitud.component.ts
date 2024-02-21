@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RequestVarious } from 'app/intranet-academic-registration/Models/RequestVarious';
+import { RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
 export interface DialogData {
   id: string;
   action: string;
-  request: RequestVarious;
+  request: RequestVariousItem;
 }
 @Component({
   selector: 'app-detalle-solicitud',

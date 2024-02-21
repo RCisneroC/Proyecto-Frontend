@@ -1,23 +1,23 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UnsubscribeOnDestroyAdapter} from "@shared";
-import {StudenAsistence} from "../../teaching-management/models/Asistencias";
-import {EnrollDummy} from "../../enrollment/models/EnrollDummy";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActivityDetailService} from "../../admission/services/activity-detail.service";
-import {InscriptionService} from "../../admission/inscription/services/inscription.service";
-import {EnrollmentService} from "../../enrollment/services/enrollment.service";
-import {AuthService} from "@core";
-import {MatDialog} from "@angular/material/dialog";
-import {DetailsParticipanteEF} from "../../admission/models/participant";
-import {Direction} from "@angular/cdk/bidi";
-import {EnrollAttendenceFormComponent} from "../../enrollment/enroll-attendence-form/enroll-attendence-form.component";
-import {ViewCalificacionesComponent} from "../../enrollment/Forms/view-calificaciones/view-calificaciones.component";
-import {EncuestaSubjectComponent} from "../../enrollment/Encuestas/encuesta-subject/encuesta-subject.component";
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { UnsubscribeOnDestroyAdapter } from "@shared";
+import { StudenAsistence } from "../../teaching-management/models/Asistencias";
+import { EnrollDummy } from "../../enrollment/models/EnrollDummy";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActivityDetailService } from "../../admission/services/activity-detail.service";
+import { InscriptionService } from "../../admission/inscription/services/inscription.service";
+import { EnrollmentService } from "../../enrollment/services/enrollment.service";
+import { AuthService } from "@core";
+import { MatDialog } from "@angular/material/dialog";
+import { DetailsParticipanteEF } from "../../admission/models/participant";
+import { Direction } from "@angular/cdk/bidi";
+import { EnrollAttendenceFormComponent } from "../../enrollment/enroll-attendence-form/enroll-attendence-form.component";
+import { ViewCalificacionesComponent } from "../../enrollment/Forms/view-calificaciones/view-calificaciones.component";
+import { EncuestaSubjectComponent } from "../../enrollment/Encuestas/encuesta-subject/encuesta-subject.component";
+import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
-import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
+import { subjectEnrollmentResult } from "../../admission/models/AddEFacademicResponse";
 
 @Component({
   selector: 'app-tutor-student-subject-detail',
@@ -51,7 +51,8 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     mallaId: 0,
     mallaName: '',
     degreeId: 0,
-    nAmeDegree: ''
+    nAmeDegree: '',
+    teacherCedula: ''
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,
@@ -67,8 +68,8 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
   }
   id: string = '';
   Uriback: string = '';
-  efAcademicRecordId:number=0;
-  academicSubjectRecordId:number=0;
+  efAcademicRecordId: number = 0;
+  academicSubjectRecordId: number = 0;
 
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
@@ -116,7 +117,7 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     this._ActivityService.loading = true;
     const cedulaActual = localStorage.getItem('tutor-student-selected');
     const urlItem = localStorage.getItem('tutor-student-uri-selected');
-    if(urlItem){
+    if (urlItem) {
       this.Uriback = urlItem;
     }
     this._ActivityService.GetDetailsEFCedula(cedulaActual).subscribe({
@@ -168,14 +169,14 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     this._StudenAsistence.cedula = this._ActivityService._DetailsResponseEF.cedula;
     localStorage.setItem('tipoSolicitud', '1');
 
-    this._enrollservice.SearchEFAcademicRecordMethod(row.studentId,row.mallaId).subscribe({
-      next:(res)=>{
+    this._enrollservice.SearchEFAcademicRecordMethod(row.studentId, row.mallaId).subscribe({
+      next: (res) => {
         this.efAcademicRecordId = + res.data[0].id;
-        this._enrollservice.SearchAcademicSubjectRecordMethod(this.efAcademicRecordId,row.asignaturaId,row.mallaId,row.studentId).subscribe({
-          next:(res)=>{
+        this._enrollservice.SearchAcademicSubjectRecordMethod(this.efAcademicRecordId, row.asignaturaId, row.mallaId, row.studentId).subscribe({
+          next: (res) => {
             this.academicSubjectRecordId = + res.data[0].id;
-            this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId,row.mallaId,row.asignaturaId,row.studentId).subscribe({
-              next:(res)=>{
+            this._enrollservice.SearchAcademicSubjectAttendanceRecordMethod(this.academicSubjectRecordId, row.mallaId, row.asignaturaId, row.studentId).subscribe({
+              next: (res) => {
                 const dialogRef = this.dialog.open(EnrollAttendenceFormComponent, {
                   data: {
                     students: this._StudenAsistence,
