@@ -11,9 +11,14 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
 import { StatusPipePipe } from "../pipes/status-pipe.pipe";
 import { VerificarBS64Pipe } from "app/pipes/verificar-bs64.pipe";
+import {RequestVariousTypeIdPipe} from "../pipes/request-various-type-id.pipe";
+import {RequestVariousApplicantUserTypeIdPipe} from "../pipes/request-various-applicant-user-type-id.pipe";
+import {RequestVariousStatusPipe} from "../pipes/request-various-status.pipe";
+import {RequestVariousActivityAcademicTypePipe} from "../pipes/request-various-activity-academic-type.pipe";
+import {RequestVariousTypePipe} from "../pipes/request-various-type.pipe";
 
 @NgModule({
-  declarations: [StatusPipePipe, VerificarBS64Pipe],
+  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe,RequestVariousApplicantUserTypeIdPipe,RequestVariousStatusPipe,RequestVariousActivityAcademicTypePipe,RequestVariousTypePipe,],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -29,8 +34,12 @@ import { VerificarBS64Pipe } from "app/pipes/verificar-bs64.pipe";
     MatProgressSpinnerModule,
     MatTableModule,
     StatusPipePipe,
-    VerificarBS64Pipe
-
+    VerificarBS64Pipe,
+    RequestVariousTypeIdPipe,
+    RequestVariousApplicantUserTypeIdPipe,
+    RequestVariousStatusPipe,
+    RequestVariousActivityAcademicTypePipe,
+    RequestVariousTypePipe,
 
   ],
 })

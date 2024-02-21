@@ -66,36 +66,36 @@
                                                 <ng-container matColumnDef="name">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.name }} {{ row.lastname
+                                                    <mat-cell *matCellDef="let row">{{ row.infoUserRquest.firstName }} {{ row.infoUserRquest.lastName
                                                         }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="tiposolicitud">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Solicitud
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.typeRequest }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.requestVariousTypeId | requestVariousTypeIdPipe }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="tipousuario">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Origen
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.typeUser }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.requestVariousApplicantUserTypeId | requestVariousApplicantUserPipe }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="Actividad_Asignatura">
                                                     <mat-header-cell *matHeaderCellDef
                                                         mat-sort-header>Acitividad/Asignatura
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.idSubjectOrActivity
-                                                        }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row">{{ row.subject ? row.subject.name: ''
+                                                        }} {{row.activity ? row.activity.name: ''}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="email">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Correo
                                                         Electrónico
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{ row.infoUserRquest.email }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="fechacreacion">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Creación
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">{{ row.dateCreate |
+                                                    <mat-cell *matCellDef="let row">{{ row.createdDate |
                                                         date:'dd/M/yyyy'}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="estado">
@@ -103,7 +103,7 @@
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="badge badge-solid-green">
-                                                            {{row.statusId | statusPipe }}
+                                                            {{row.requestVariousStatusTypeId | requestVariousStatusPipe }}
                                                         </span>
                                                     </mat-cell>
                                                 </ng-container>
@@ -114,7 +114,7 @@
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                                         <button mat-mini-fab color="accent"
-                                                            *ngIf="authService.currentUserValue.id == row.idSolicitante"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
                                                             (click)="$event.stopPropagation()" (click)="editCall(row,i)"
                                                             matTooltip="Editar solicitud" class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'edit'"></app-feather-icons>
@@ -126,14 +126,14 @@
                                                             <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                         </button>
                                                         <button
-                                                            *ngIf="authService.currentUserValue.id == row.idSolicitante"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
                                                             mat-mini-fab color="primary" matTooltip="Eliminar solicitud"
-                                                            (click)="$event.stopPropagation()" (click)="delete(i)"
+                                                            (click)="$event.stopPropagation()" (click)="delete(row)"
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
 
-                                                        <button *ngIf="_typeUser=='Administrador' && row.statusId == 3"
+                                                        <button *ngIf="_typeUser ==='Administrador' && row.requestVariousStatusTypeId === 1"
                                                             mat-mini-fab color="warn" matTooltip="Aprobar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="aprobar(row,i)"
                                                             class="tbl-action-btn">
