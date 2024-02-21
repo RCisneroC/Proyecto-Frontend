@@ -41,7 +41,7 @@ export class CreateSolicitudComponent {
       name: 'Entrenamiento'
     }
   ];
-  
+
   public _GetOneActivity: GetOneActivity[] = [
     this._ActivityService._GetOneActivity
   ];
