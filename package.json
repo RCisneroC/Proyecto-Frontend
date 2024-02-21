@@ -49,6 +49,7 @@
     "core-js": "^3.32.0",
     "crypto-js": "^4.2.0",
     "echarts": "^5.4.3",
+    "jszip": "^3.10.1",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.45",
     "ng-apexcharts": "^1.8.0",

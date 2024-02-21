@@ -2,9 +2,10 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
-import { Directory } from 'app/admission/models/directory';
+import { Data, Directory, FileData } from 'app/admission/models/directory';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
+import { FoodNode } from '../directory-list/directory-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +44,39 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllDirectory2() {
-   return this.httpClient
-      .get<Directory[]>(environment.apiUrlSchedule+'ActivityMode/GetAll');
-     
+   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolderId=0')
   }
+  
+  getfilebyId(fileId:number) {
+    return this.httpClient.get<Data>(environment.apiDocument+'Files/GetFile?FileId='+fileId)
+   }
+   
+   getFolderbyId(folderId:number) {
+    return this.httpClient.get<Data>(environment.apiDocument+'Folder/GetFolder?FolferId='+folderId)
+   }
+   
+   addFile(data:any) {
+    return this.httpClient.post(environment.apiDocument+'Files/AddFile',data)
+   }
+   
+   addFolder(data:any) {
+    return this.httpClient.post(environment.apiDocument+'Folder/AddFolder',data)
+   }
+   
+   UpdateFolder(data:any) {
+   
+    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
+    return this.httpClient.put(environment.apiDocument+'Folder/UpdateFolder',data);
+   }
+   
+   UpdateFile(data:any) {
+   
+    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
+    return this.httpClient.put(environment.apiDocument+'Files/UpdateFile',data);
+   }
+   
+   
+  
   addDirectory(directory: Directory){
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Create', directory);
   }
