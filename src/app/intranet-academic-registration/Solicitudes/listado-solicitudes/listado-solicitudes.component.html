@@ -114,7 +114,7 @@
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                                                         <button mat-mini-fab color="accent"
-                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 1"
                                                             (click)="$event.stopPropagation()" (click)="editCall(row,i)"
                                                             matTooltip="Editar solicitud" class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'edit'"></app-feather-icons>
@@ -126,7 +126,7 @@
                                                             <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                         </button>
                                                         <button
-                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id"
+                                                            *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 1"
                                                             mat-mini-fab color="primary" matTooltip="Eliminar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="delete(row)"
                                                             class="tbl-action-btn">

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import {RequestVarious, RequestVariousItem, SearchRequestVariousResponse} from '../Models/RequestVarious';
+import {
+  RequestVarious,
+  RequestVariousItem,
+  RequestVariousType,
+  SearchRequestVariousResponse
+} from '../Models/RequestVarious';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Modality } from 'app/admission/models/modality';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
@@ -151,6 +156,12 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     };
     const url = `${environment.apiEira}`;
     return this.httpClient.delete<any>(url + "DeleteRequestVarious", options);
+  }
+
+  GetAllRequestVariousType() {
+
+    const url = `${environment.apiEira}`;
+    return this.httpClient.get<any>(url + "GetAllRequestVariousType");
   }
 
   getAllRequestVarious2() {
