@@ -20,6 +20,9 @@ import {TutorECAttendenceFormComponent} from "../../tutor/tutor-ecattendence-for
 import {
   TutorECCalificationFormComponent
 } from "../../tutor/tutor-eccalification-form/tutor-eccalification-form.component";
+import {ViewPosterPDFComponent} from "../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {VerificarBS64Pipe} from "../../pipes/verificar-bs64.pipe";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-enroll-details-mesh',
@@ -103,8 +106,8 @@ export class EnrollDetailsMeshComponent {
     public _router: Router,
     public _ActivityService: ActivityDetailService,
     public elm: ElementRef,
-    private _inscriptionService: InscriptionService,
     private _enrollservice: EnrollmentService,
+    public _dialog: MatDialog,
     private authService: AuthService,
     public dialog: MatDialog
   ) {
@@ -203,6 +206,40 @@ export class EnrollDetailsMeshComponent {
             }
           })
         }
+      }
+    })
+  }
+
+  generarcertificado(row:getStudentsActivityResponse){
+    const CreateCertificateData = {
+      activityId: row.acivityId,
+      studentFullName: row.firstName + ' ' + row.lastName,
+      studentCedula: row.cedula
+    }
+    this._enrollservice.CreateCertificate(CreateCertificateData).subscribe({
+      next:(res)=>{
+        console.log('Certificado', res)
+        if(res.certificate){
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.certificate.fileContents,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "La actividad tiene que estar finalizada para generar el certificado",
+            icon: "warning"
+          });
+        }
+
       }
     })
   }

@@ -14,6 +14,7 @@ import { documentosIncripcion } from "../../admission/models/documentosIncripcio
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment.development";
 import {
+  CreateCertificateResponse,
   CreateEnrollmentResult, GetStudentsActivityResponse,
   GetSubjectEnrollmentResult,
   ResponseAddEFcademicInfo
@@ -286,7 +287,10 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiIntranet}`;
     return this.httpClient.post<ResponseSubjectRecord>(url + "SearchSubjectRecordScores", data);
   }
-
+  CreateCertificate(CreateCertificateDta: any) {
+    const url = `${environment.apiUrlSchedule}`;
+    return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificate", CreateCertificateDta);
+  }
 
   init_ResponseSubjectRecord() {
     this._ResponseSubjectRecord = {
