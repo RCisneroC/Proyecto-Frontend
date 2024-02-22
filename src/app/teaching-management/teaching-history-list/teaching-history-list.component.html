@@ -105,15 +105,21 @@
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" matTooltip="Ver Detalle"
-                              (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              matTooltip="Ver Detalle" (click)="$event.stopPropagation()" (click)="Detail(row)"
+                              class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
 
                             </button>
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" (click)="$event.stopPropagation()"
-                              matTooltip="Ingresar Asistencia" (click)="calificacionesAasignatura(row)"
-                              class="tbl-action-btn">
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
+                              (click)="calificacionesAasignatura(row)" class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>
+                            </button>
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Encuesta"
+                              (click)="sendEncuestaSubject(row)" class="tbl-action-btn">
+                              <mat-icon>file_copy</mat-icon>
                             </button>
 
                           </mat-cell>
@@ -173,8 +179,9 @@
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary" (click)="$event.stopPropagation()"
-                              matTooltip="Ver Detalle" (click)="Detail2(row)" class="tbl-action-btn">
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Ver Detalle" (click)="Detail2(row)"
+                              class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
                             </button>
 
@@ -182,6 +189,11 @@
                               (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
                               (click)="calificacionesActividades(row)" class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>
+                            </button>
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Encuesta" (click)="sendEncuestas(row)"
+                              class="tbl-action-btn">
+                              <mat-icon>file_copy</mat-icon>
                             </button>
 
 

@@ -58,15 +58,41 @@ export class SigninComponent
 
                 if (token) {
                   let type = this._RequestServicesService.getRoleFromToken(token);
+                  console.log(type);
 
-                  if (type == 'Estudiante') {
-                    this.router.navigate(['/dashboard/dashboard-student']);
-                  }
-                  if (type == 'Tutor') {
-                    this.router.navigate(['/dashboard/dashboard-tutor']);
-                  }
-                  else {
-                    this.router.navigate(['/dashboard/dashboard1']);
+                  switch (type) {
+                    case 'Estudiante':
+                      this.router.navigate(['/dashboard/dashboard-student']);
+                      break;
+                    case 'Tutor':
+                      this.router.navigate(['/dashboard/dashboard-tutor']);
+                      break;
+                    case 'Tecnologia':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Profesor':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Graduados':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Docente':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Director':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Curriculistas':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Coordinador':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    case 'Administrador':
+                      this.router.navigate(['/dashboard/dashboard1']);
+                      break;
+                    default:
+                      break;
                   }
                 } else {
                   this.error = 'Login invalido';

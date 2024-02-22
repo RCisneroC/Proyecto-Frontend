@@ -82,7 +82,7 @@ export class DirectoryListComponent  implements OnInit   {
     this._directoryService.getAllDirectory2().subscribe({
       next: (res:any) => {
       console.log(res);
-        this.dataSource.data = res["dataResult"];
+        this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];
         //this.dataTask.paginator = this.paginator;
 
       }

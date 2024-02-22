@@ -63,6 +63,7 @@ import { DesignCurriculunComponent } from './activitydetail/design-curriculun/de
 import { DetailsModulesComponent } from './activitydetail/design-curriculun/Module/details-modules/details-modules.component';
 import { RequiredDocumentListComponent } from '../teaching-management/required-document-list/required-document-list.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
+import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -305,6 +306,10 @@ const routes: Routes = [
   {
     path: 'directory-list',
     component: DirectoryListComponent,
+  },
+  {
+    path: 'firma',
+    component: FirnaDirectoraComponent,
   }
 
 ];
