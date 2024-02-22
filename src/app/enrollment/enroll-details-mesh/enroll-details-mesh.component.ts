@@ -14,8 +14,12 @@ import {Direction} from "@angular/cdk/bidi";
 import {
   AddAttendanceFormsComponent
 } from "../../teaching-management/add-attendance-forms/add-attendance-forms.component";
-import {subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
+import {getStudentsActivityResponse, subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
 import {Career} from "../models/Career";
+import {TutorECAttendenceFormComponent} from "../../tutor/tutor-ecattendence-form/tutor-ecattendence-form.component";
+import {
+  TutorECCalificationFormComponent
+} from "../../tutor/tutor-eccalification-form/tutor-eccalification-form.component";
 
 @Component({
   selector: 'app-enroll-details-mesh',
@@ -33,6 +37,26 @@ export class EnrollDetailsMeshComponent {
     'accion'
   ];
 
+  dataSourceActInfo: getStudentsActivityResponse[] = [{
+    participantId:'',
+    acivityId: 0,
+    cedula: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    email: '',
+    acitityName: '',
+    duration: 0,
+    totalHours: 0,
+    activityModeName: '',
+    activityTypeName: '',
+    activityLocationName: '',
+    degreeCurriculumDesignId: 0
+  }];
+
+  dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceActInfo);
+  loading: boolean = true;
+  eCAcademicRecordId:number=0;
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
     ejInscriptionId: 0,
@@ -98,6 +122,7 @@ export class EnrollDetailsMeshComponent {
         }
         this._ActivityService.loading = false;
         this.getInfo();
+        this.loadactivity();
       },
       error: (err) => {
       }
@@ -113,13 +138,75 @@ export class EnrollDetailsMeshComponent {
       }
     })
 
+  }
 
-
+  loadactivity() {
+    this._enrollservice.GetStudentsActivity(this._ActivityService._DetailsResponseEF.cedula).subscribe({
+      next: (res) => {
+        this.dataSourceActInfo = res.getStudentsActivityResponse;
+        this.dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        this.loading = false;
+      }
+    })
   }
 
   goSubjects(row:Career){
     this._router.navigate(['/enrollment/enroll-details/'+ row.degreeCurriculumDesignId]);
   }
+
+  verAsistencia(row:getStudentsActivityResponse){
+
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+
+    this._enrollservice.SearchECAcademicRecordMethod(row.acivityId, false, row.participantId).subscribe({
+      next:(res)=>{
+        this.eCAcademicRecordId = + res.data[0].id;
+        if(this.eCAcademicRecordId){
+          this._enrollservice.SearchAcademicActivityAttendanceRecordMethod(this.eCAcademicRecordId).subscribe({
+            next:(res)=>{
+              const dialogRef = this.dialog.open(TutorECAttendenceFormComponent, {
+                data: {
+                  students: this._StudenAsistence,
+                  action: 'view',
+                  id: row.acivityId,
+                  asistence: res.data,
+                  details: this._ActivityService._DetailsResponseEF
+                },
+                direction: tempDirection,
+              });
+            }
+          })
+        }
+      }
+    })
+  }
+
+  verCalificaciones(row:getStudentsActivityResponse){
+    this._enrollservice.SearchECAcademicRecordMethod(row.acivityId, false, row.participantId).subscribe({
+      next:(res)=>{
+        this.eCAcademicRecordId = + res.data[0].id;
+        if(this.eCAcademicRecordId){
+          this._enrollservice.SearchActivityRecordScoresMethod(this.eCAcademicRecordId).subscribe({
+            next:(res)=>{
+              const dialogRef = this.dialog.open(TutorECCalificationFormComponent, {
+                data: {
+                  calificaciones: res.data,
+                  action: 'view',
+                }
+              });
+
+            }
+          })
+        }
+      }
+    })
+  }
+
 
 
   protected readonly Date = Date;
