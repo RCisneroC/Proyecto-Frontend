@@ -132,4 +132,25 @@ export interface RequestSubjectTeacher {
 
 
 
-
+export interface SubjectResponse {
+    startDate: Date;
+    endDate: Date;
+    examDate: Date;
+    classShift: number;
+    teacherCedula: string;
+    moodleCourseId: number;
+    periodId: number;
+    year: number;
+    roomId: number;
+    subjectStatusId: number;
+    subjectId: number;
+    subjectName: string;
+    subjectDescription: string;
+    subjectAcronym: string;
+    subjectCode: string;
+    subjectNumOfCredits: number;
+    subjectNumOfHours: number;
+    subjectNumOfClasses: number;
+    subjectHasLaboratory: boolean;
+    subjectEvaluationCriteria: string;
+}

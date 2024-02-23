@@ -46,7 +46,8 @@
             <div *ngIf="data.subject.length>0" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Asignaturas</mat-label>
-                    <mat-select [(ngModel)]="subjectSelect" (ngModelChange)="EventSelect($event)">
+                    <mat-select [disabled]="typeSur ==0" [(ngModel)]="subjectSelect"
+                        (ngModelChange)="EventSelect($event)">
                         <mat-option *ngFor="let item of data.subject" value="{{ item.asignaturaId }}">{{ item.asignatura
                             }}</mat-option>
                     </mat-select>
@@ -288,9 +289,9 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- <button mat-raised-button color="accent" (click)="finaliarEncuestaOne()" [disabled]="habilitarBoton">
+            <button mat-raised-button color="accent" (click)="finaliarEncuesta3()" [disabled]="habilitarBoton">
                 Guardar y finalizar
-            </button> -->
+            </button>
         </div>
     </div>
 </div>

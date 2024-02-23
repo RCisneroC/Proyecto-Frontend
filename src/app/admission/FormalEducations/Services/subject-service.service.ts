@@ -169,9 +169,12 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  getEncuestaLista(StudentId: any, PeriodId: any, Year: any, SubjectId: any) {
-    return this.httpClient
-      .get<any>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}`);
+  getEncuestaLista(StudentId: any, PeriodId: any, Year: any, SubjectId: any, type: number) {
+    if (type == 3) {
+      return this.httpClient.get<any>(environment.apiEF + `Survey/GetSurveysBy?PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}&SurveyType=${type}&TeacherCedula=${StudentId}`);
+    } else {
+      return this.httpClient.get<any>(environment.apiEF + `Survey/GetSurveysBy?StudentId=${StudentId}&PeriodId=${PeriodId}&Year=${Year}&SubjectId=${SubjectId}&SurveyType=${type}`);
+    }
   }
 
   SaveEncuesta(data: any) {

@@ -43,7 +43,7 @@ export class ListStudentsComponent implements OnInit {
 
       this.id = params['id'];
       this.idGeneral = Number(localStorage.getItem('id')) || 0;
-      
+
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
@@ -52,7 +52,7 @@ export class ListStudentsComponent implements OnInit {
           this.getOneStudentsAct();
         }
       }
-      
+
     });
   }
   applyFilter(event: Event) {
@@ -69,7 +69,7 @@ export class ListStudentsComponent implements OnInit {
   //     }
   //   })
   // }
-  
+
   getOneStudents() {
     this._TeacherService.getStudentSubject(Number(this.idGeneral)).subscribe({
       next: (res) => {
@@ -87,10 +87,10 @@ export class ListStudentsComponent implements OnInit {
   volverAtras() {
     this._Router.navigate(['/teaching-management/teacher-history-list']);
   }
-  
-  
+
+
   Addasistencia(row: Student) {
- 
+
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';

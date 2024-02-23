@@ -281,7 +281,6 @@ export class EncuestaActivityComponent {
           questionNumber: row.id,
           score: elementText.value,
           questionId: row.id,
-          studentId: '0',
           teacherCedula: this.data.docente,
           activityId: this.data.id_actividad,
           SurveyType: this.subjectSelect
@@ -380,13 +379,20 @@ export class EncuestaActivityComponent {
     if (this.data.typeUser == 'Profesor') {
       this.makeSurvey = true;
       //verificar si el docente ya la relizo.
+      this.getEncuesta(event);
     } else {
       this.getEncuesta(event);
     }
   }
 
   getEncuesta(type: any) {
-    this._ActivityService.GetEncuestaLista(this.Id, this.data.activity.degreeCurriculumDesignId, type).subscribe({
+    let id_actividad: any = 0;
+    if (this.data.activity.degreeCurriculumDesignId == undefined) {
+      id_actividad = this.data.id_actividad;
+    } else {
+      id_actividad = this.data.activity.degreeCurriculumDesignId;
+    }
+    this._ActivityService.GetEncuestaLista(this.Id, id_actividad, type, this.data.docente).subscribe({
       next: (res) => {
 
         if (res.surveys.length < 12 && type == 1) {
