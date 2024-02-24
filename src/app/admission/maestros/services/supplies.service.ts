@@ -66,7 +66,9 @@ export class SuppliesService extends UnsubscribeOnDestroyAdapter {
   addSuppliesRequirement(data:any) {
     return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRequirement',data);
   }
-  
+
+
+
     DeleteSuppliesRequirement(id_supplies:any,id_request:any) {
     let data = {
       roomRequestId: id_request,

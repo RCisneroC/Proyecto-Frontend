@@ -102,6 +102,12 @@
                               (click)="delete(row)" class="tbl-action-btn">
                               <app-feather-icons [icon]="'trash'"></app-feather-icons>
                             </button>
+                            <button mat-mini-fab color="primary" title="Franja Horaria" (click)="$event.stopPropagation()"
+                            (click)="selectToTimeSlot(row)" class="tbl-action-btn">
+                            <app-feather-icons [icon]="'clock'"></app-feather-icons>
+                           </button>
+
+
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdmissionRoutingModule } from './admission-routing.module';
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
@@ -132,7 +132,11 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
 import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
-import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component'; @NgModule({
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
+import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
+import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
+
+@NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -258,8 +262,10 @@ import { DirectoryFormComponent } from './maestros/directory-form/directory-form
     ActivityLearningFormsComponent,
     DirectoryListComponent,
     DirectoryFormComponent,
+    TimeSlotsComponent,
+    FranjaHorariaComponent
   ],
-  providers: [VerificarBS64Pipe],
+  providers: [VerificarBS64Pipe,DatePipe],
   imports: [
     CommonModule,
     AdmissionRoutingModule,
@@ -270,7 +276,6 @@ import { DirectoryFormComponent } from './maestros/directory-form/directory-form
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     CKEditorModule
-    
   ]
 })
 export class AdmissionModule { }
