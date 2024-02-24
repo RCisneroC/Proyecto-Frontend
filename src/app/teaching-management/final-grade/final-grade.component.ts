@@ -1,22 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TeacherService } from '../services/teacher.service';
+import { Student } from '../models/Asistencias';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { User } from '@core';
-import { AddAttendanceFormsComponent } from '../add-attendance-forms/add-attendance-forms.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { Direction } from '@angular/cdk/bidi';
+import { TeacherService } from '../services/teacher.service';
 import { MatDialog } from '@angular/material/dialog';
-import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudenAsistence, Student } from '../models/Asistencias';
+import { Direction } from '@angular/cdk/bidi';
+import { AddFinalGradeComponent } from '../add-final-grade/add-final-grade.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-list-students',
-  templateUrl: './list-students.component.html',
-  styleUrls: ['./list-students.component.scss']
+  selector: 'app-final-grade',
+  templateUrl: './final-grade.component.html',
+  styleUrls: ['./final-grade.component.scss']
 })
-export class ListStudentsComponent implements OnInit {
+export class FinalGradeComponent implements OnInit {
   displayedColumns: string[] = [
     'cedula',
     'firstName',
@@ -46,13 +45,14 @@ export class ListStudentsComponent implements OnInit {
       this.idGeneral = Number(localStorage.getItem('id')) || 0;
 
       const local = localStorage.getItem('tipoSolicitud') || '';
+      const nameLocal = localStorage.getItem('actividadEscogida') || '';
       if (local != '') {
         if (local == "1") {
           this.getOneStudents();
-          this.ubicacion = 'Asignaturas';
+          this.ubicacion = 'Asignatura ' + nameLocal;
         } else {
           this.getOneStudentsAct();
-          this.ubicacion = 'Actividad';
+          this.ubicacion = 'Actividad ' + nameLocal;
         }
       }
 
@@ -93,21 +93,27 @@ export class ListStudentsComponent implements OnInit {
 
 
   Addasistencia(row: Student) {
+    console.log(row);
 
+    const local = localStorage.getItem('tipoSolicitud') || '';
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
+    const dialogRef = this.dialog.open(AddFinalGradeComponent, {
       data: {
-        student: row,
-        action: 'add',
-        id: this.id
+        accion: 'add',
+        studentId: row.studentId,
+        participantId: row.participantId,
+        id: this.id,
+        tipo_solicitud: local,
+        mallaId: row.mallaId
       },
       direction: tempDirection,
     });
+
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
@@ -135,7 +141,7 @@ export class ListStudentsComponent implements OnInit {
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(AddAttendanceFormsComponent, {
+    const dialogRef = this.dialog.open(AddFinalGradeComponent, {
       data: {
         student: row,
         action: 'view',

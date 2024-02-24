@@ -186,6 +186,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
   }
 
+  UpdateECAcademicRecord(data: any) {
+    return this.httpClient
+      .put<any>(environment.apiIntranet + 'UpdateECAcademicRecord', data);
+  }
+
+
 
   AddCalifTask(data: any) {
     return this.httpClient

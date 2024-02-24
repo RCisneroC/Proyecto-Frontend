@@ -2,7 +2,7 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Asistencias para la '+ubicacion" [items]="['Inicio','Gestión Docente']"
+            <app-breadcrumb [title]="'Calificación Final para la '+ubicacion" [items]="['Inicio','Gestión Docente']"
                 [active_item]="'Listado'">
             </app-breadcrumb>
         </div>
@@ -84,13 +84,13 @@
                                                     <td mat-cell *matCellDef="let element">
                                                         <button mat-mini-fab color="accent"
                                                             (click)="Addasistencia(element)"
-                                                            matTooltip="Añadir Asistencia">
+                                                            matTooltip="Añadir Calificación Final">
                                                             <mat-icon>mobile_friendly</mat-icon>
                                                         </button>
 
                                                         <button mat-mini-fab color="primary"
                                                             (click)="verAsignatura(element)"
-                                                            matTooltip="Ver Asistencia">
+                                                            matTooltip="Ver Calificación Final">
                                                             <mat-icon>remove_red_eye</mat-icon>
 
                                                         </button>

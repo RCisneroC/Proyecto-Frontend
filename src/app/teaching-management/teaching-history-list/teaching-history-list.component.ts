@@ -209,6 +209,23 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
+  calificacionFinalSubject(row: SubjectResponse) {
+    localStorage.setItem('tipoSolicitud', "1");
+    localStorage.setItem('actividadEscogida', row.subjectName);
+    localStorage.setItem('id', row.subjectId.toString());
+    this._nav.navigate(['/teaching-management/list-students/', row.subjectId]);
+  }
+
+  calificacionFinalActivity(row: Activity) {
+    localStorage.setItem('tipoSolicitud', "2");
+    localStorage.setItem('actividadEscogida', row.name);
+    localStorage.setItem('id', row.id.toString());
+    this._nav.navigate(['/teaching-management/list-students//', row.id]);
+
+  }
+
+
+
   sendEncuestaSubject(row: SubjectResponse) {
     console.log('====================================');
     console.log(row);

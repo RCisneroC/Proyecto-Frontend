@@ -121,6 +121,12 @@
                               (click)="sendEncuestaSubject(row)" class="tbl-action-btn">
                               <mat-icon>file_copy</mat-icon>
                             </button>
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                              (click)="$event.stopPropagation()" matTooltip="Calificación Final"
+                              (click)="calificacionFinalSubject(row)" class="tbl-action-btn">
+                              <mat-icon>av_timer</mat-icon>
+
+                            </button>
 
                           </mat-cell>
                         </ng-container>
@@ -195,6 +201,13 @@
                               class="tbl-action-btn">
                               <mat-icon>file_copy</mat-icon>
                             </button>
+
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                              (click)="$event.stopPropagation()" matTooltip="Calificación Final"
+                              (click)="calificacionFinalActivity(row)" class="tbl-action-btn">
+                              <mat-icon>av_timer</mat-icon>
+                            </button>
+
 
 
 
