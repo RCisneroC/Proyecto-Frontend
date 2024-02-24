@@ -23,7 +23,7 @@
                             }}</span> <br>
                         Cronograma <strong>{{ _ActivityService._GetOneActivity.curriculumDesignName }}</strong>
                     </h2>
-                    <button *ngIf="!hrefApproved" matTooltip="Regresar" mat-raised-button color="primary"
+                    <button *ngIf="!hrefApproved" matTooltip="Nueva Solicitud" mat-raised-button color="primary"
                         (click)="nuevaSolicitud()">
                         <mat-icon>add</mat-icon> Nueva solicitud
                     </button>
@@ -62,7 +62,11 @@
                                 </button>
                                 <button (click)="AddSalones(item)" matTooltip="Detalle de Salones" mat-raised-button
                                     color="accent">
-                                    <mat-icon>room_service</mat-icon> Salón.
+                                    <mat-icon>room_service</mat-icon> Salón
+                                </button>
+                                <button (click)="AddFranjaHoraria(item)"  matTooltip="Franja Horaria" mat-raised-button
+                                color="primary">
+                                <mat-icon>add</mat-icon> Franja Horaria
                                 </button>
                                 <button (click)="requiremitRooms(item)" matTooltip="Detalle de Requerimientos"
                                     mat-raised-button color="primary">
@@ -72,7 +76,7 @@
                         </div>
                         <div class="body">
                             <mat-accordion>
-                                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(1)" hideToggle>
+                                <mat-expansion-panel  hideToggle>
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             Salón / Salones Asignados
@@ -102,7 +106,7 @@
 
                         <div class="body">
                             <mat-accordion>
-                                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(1)" hideToggle>
+                                <mat-expansion-panel  hideToggle>
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             Requerimientos/Suplementos del salón
@@ -130,6 +134,39 @@
                             </mat-accordion>
                         </div>
 
+                        <div class="body">
+                          <mat-accordion>
+                              <mat-expansion-panel [expanded]="step === 0" (opened)="getRoomRequestRoomDateTimeSlots(item.id)" hideToggle>
+                                  <mat-expansion-panel-header>
+                                      <mat-panel-title>
+                                          Franja Horaria
+                                      </mat-panel-title>
+                                  </mat-expansion-panel-header>
+                                  <table class="table">
+                                      <thead>
+                                          <th>Salón</th>
+                                          <th>Fecha</th>
+                                          <th>Hora Inicio</th>
+                                          <th>Hora Fin</th>
+                                          <th>Acción</th>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let itemRoms of lstRoomRequestRoomDateTimeSlots[item.id]">
+                                          <td>{{ itemRoms.roomName }}</td>
+                                          <td>{{ itemRoms.date | date:'shortDate' }}</td>
+                                          <td>{{ itemRoms.startTime| date:'shortTime' }}</td>
+                                          <td>{{ itemRoms.endTime| date:'shortTime' }}</td>
+                                          <td>
+                                              <button (click)="OndeleteRoomRequestRoomDateTimeSlots(itemRoms.roomRequestRoomDateTimeId)"
+                                                  matTooltip="Eliminar Franja Horaria" mat-mini-fab
+                                                  color="accent"><mat-icon>delete</mat-icon></button>
+                                          </td>
+                                      </tr>
+                                      </tbody>
+                                  </table>
+                              </mat-expansion-panel>
+                          </mat-accordion>
+                      </div>
                     </div>
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>

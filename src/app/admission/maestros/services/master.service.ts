@@ -4,7 +4,9 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { Lounge } from 'app/admission/models/lounge';
 import { environment } from 'environments/environment.development';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { TimeSlot } from 'app/admission/models/TimeSlot';
+import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/data-master.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<Lounge[]> = new BehaviorSubject<
-  Lounge[]
+    Lounge[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: Lounge;
@@ -29,15 +31,20 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
 
-    getRoomsFilter(id:any) {
-   return this.httpClient
-      .get<Lounge[]>(environment.apiUrlSchedule+'Room/GetAll?StatusId='+id);
+  getRoomsFilter(id: any) {
+    return this.httpClient
+      .get<Lounge[]>(environment.apiUrlSchedule + 'Room/GetAll?StatusId=' + id);
+  }
+
+  getRoomsFilterRangeDate(startDate: Date, endDate: Date) {
+    return this.httpClient
+      .get<Lounge[]>(environment.apiUrlSchedule + 'Room/GetAvailableRoomsBy?StartDate=' + startDate + "&EndDate=" + endDate);
   }
 
   /** CRUD METHODS */
   getAllLounge(): void {
     this.subs.sink = this.httpClient
-      .get<Lounge[]>(environment.apiUrlSchedule+'Room/GetAll')
+      .get<Lounge[]>(environment.apiUrlSchedule + 'Room/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -49,7 +56,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  addLounge(lounge: Lounge){
+  addLounge(lounge: Lounge) {
     this.dialogData = lounge;
     return this.httpClient.post(environment.apiUrlSchedule + 'Room/Create', lounge);
   }
@@ -57,12 +64,12 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     this.dialogData = lounge;
     return this.httpClient.put(environment.apiUrlSchedule + 'Room/Update', lounge);
   }
-  
-  addRoomsRequestRooms(data:any) {
-    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoom',data);
+
+  addRoomsRequestRooms(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoomDate', data);
   }
 
-    DeleteLounge(Id: number) {
+  DeleteLounge(Id: number) {
     let data = {
       id: Id
     };
@@ -72,12 +79,12 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Room/Delete', options);
   }
 
 
-     DeleteRoomsRequirement(id_rooms:any,id_request:any) {
+  DeleteRoomsRequirement(id_rooms: any, id_request: any) {
     let data = {
       roomRequestId: id_request,
       roomId: id_rooms
@@ -88,10 +95,87 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    return this.httpClient.delete(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoom',options);
+    return this.httpClient.delete(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoom', options);
   }
-  
 
+
+  createTimeSlot(id_rooms: number, startDate: string, endDate: string) {
+
+    let data = {
+      roomId: id_rooms,
+      startTime: startDate,
+      endTime: endDate
+    };
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    return this.httpClient.post(environment.apiUrlSchedule
+      + 'Room/CreateTimeSlot', data, options);
+  }
+
+  getTimeSlotByRoom(id_rooms: number) {
+    return this.httpClient
+      .get<TimeSlot[]>(environment.apiUrlSchedule + 'Room/GetTimeSlotsBy?RoomId=' + id_rooms);
+  }
+
+  getTimeSlotByRoomAndDate(id_rooms: number, date: string) {
+    return this.httpClient
+      .get<TimeSlot[]>(environment.apiUrlSchedule + 'Room/GetTimeSlotsBy?RoomId=' + id_rooms + "&Date=" + date);
+  }
+
+  deleteTimeSlot(id_rooms: number) {
+
+    let data = {
+      id: id_rooms,
+    };
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+
+    return this.httpClient.delete(environment.apiUrlSchedule
+      + 'Room/DeleteTimeSlot', options);
+  }
+
+  updateTimeSlot(timeSlot: TimeSlot) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'Room/UpdatetimeSlot', timeSlot);
+  }
+
+
+  getAvalableDateByRoom(id_rooms: number) {
+    return this.httpClient
+      .get<any[]>(environment.apiUrlSchedule + 'Room/GetDaysWithoutAvailableTimeSlotsBy?RoomId=' + id_rooms);
+  }
+
+  addRequestRoomDate(data: any) {
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoomDate', data);
+  }
+
+
+  getRoomRequestRoomDateTimeSlots(id:number){
+    return this.httpClient.get<RoomRequestRoomDateTimeSlots[]>(environment.apiUrlSchedule + 'Room/GetRoomRequestRoomDateTimeSlotsBy?RoomRequestId=' + id);
+  }
+
+  deleteRoomRequestRoomDateTimeSlots(Id: number) {
+    let data = {
+      id: Id
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+
+    return this.httpClient.delete<any>(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoomDate', options);
+  }
 
 }
 
