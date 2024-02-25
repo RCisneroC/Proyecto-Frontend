@@ -17,6 +17,12 @@
         <form class="register-form m-4" [formGroup]="FormsCalificacion" (ngSubmit)="submit" *ngIf="action == 'add'">
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-12">
+
+                    <p><strong>Nombre</strong>: {{ data.estudiante.firstName }} {{ data.estudiante.lastName }}</p>
+                    <p><strong>Correo Electrónico</strong>: {{ data.estudiante.email }}</p>
+                    <p><strong>Cédula</strong>: {{ data.estudiante.cedula }}</p>
+                    <hr>
+
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Nota Final</mat-label>
                         <input matInput formControlName="calif" type="number">
@@ -41,14 +47,17 @@
                 </div>
             </div>
         </form>
-        <!-- <div *ngIf="action == 'view'">
+        <div *ngIf="action == 'view'">
             <div class="row">
                 <div class="col-lg-6">
-                    <p><strong>Calificación</strong>:</p>
-                    <label for="">{{ _CalificacionEstudianteOne.calificacion || 0 }}</label>
+                    <p><strong>Nombre</strong>: {{ data.estudiante.firstName }} {{ data.estudiante.lastName }}</p>
+                    <p><strong>Correo Electrónico</strong>: {{ data.estudiante.email }}</p>
+                    <p><strong>Cédula</strong>: {{ data.estudiante.cedula }}</p>
+                    <hr>
+                    <label for=""><strong>Nota</strong>: {{gradeFinal }}</label>
                 </div>
             </div>
-        </div> -->
+        </div>
 
     </div>
 </div>

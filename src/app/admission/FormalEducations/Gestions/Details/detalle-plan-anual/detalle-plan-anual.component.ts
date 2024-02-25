@@ -249,22 +249,42 @@ export class DetallePlanAnualComponent {
   }
 
   deleteMallaCurricular(row: DegreeCurriculumDesign) {
-    this._AnnualPlanService.DesvincularMalla(this.id, row.id).subscribe({
-      next: () => {
-        Swal.fire({
-          title: 'Escuela Judicial',
-          text: 'Eliminado correctamente.',
-          icon: 'success',
+
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Se Desvinculará la malla curricular de plan anual.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._AnnualPlanService.DesvincularMalla(this.id, row.id).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Escuela Judicial',
+              text: 'Eliminado correctamente.',
+              icon: 'success',
+            });
+            this.getMallaCurriculo();
+          },
+          error: () => {
+            Swal.fire({
+              title: 'Escuela Judicial',
+              text: 'Intente nuevamente.',
+              icon: 'warning',
+            });
+          },
         });
-        this.getMallaCurriculo();
-      },
-      error: () => {
+      } else {
         Swal.fire({
-          title: 'Escuela Judicial',
-          text: 'Intente nuevamente.',
-          icon: 'warning',
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
         });
-      },
+      }
     });
   }
   detalleGeneral(row: DegreeCurriculumDesign) {

@@ -109,9 +109,11 @@ export class FinalGradeComponent implements OnInit {
         participantId: row.participantId,
         id: this.id,
         tipo_solicitud: local,
+        estudiante: row,
         mallaId: row.mallaId
       },
       direction: tempDirection,
+      width: "400px"
     });
 
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
@@ -135,6 +137,7 @@ export class FinalGradeComponent implements OnInit {
   }
 
   verAsignatura(row: Student) {
+    const local = localStorage.getItem('tipoSolicitud') || '';
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -143,11 +146,16 @@ export class FinalGradeComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(AddFinalGradeComponent, {
       data: {
-        student: row,
-        action: 'view',
+        accion: 'view',
+        studentId: row.studentId,
+        participantId: row.participantId,
         id: this.id,
+        tipo_solicitud: local,
+        estudiante: row,
+        mallaId: row.mallaId
       },
       direction: tempDirection,
+      width: "400px"
     });
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {

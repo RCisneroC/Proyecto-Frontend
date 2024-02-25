@@ -133,10 +133,10 @@ import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curri
 import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { AddDirectoryComponent } from './maestros/directory-list/add-directory/add-directory.component';
 import { AddFileComponent } from './maestros/directory-list/add-file/add-file.component';
 import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
 import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
 

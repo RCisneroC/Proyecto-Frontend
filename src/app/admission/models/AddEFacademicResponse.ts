@@ -50,6 +50,7 @@ export interface subjectEnrollmentResult {
   degreeId: number,
   nAmeDegree: string;
   teacherCedula: string;
+  years: number;
 }
 
 
