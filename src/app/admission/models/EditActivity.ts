@@ -49,4 +49,5 @@ export interface EditActivity {
     participantGraduateProfile: string; // LUEGO ->LISTO
     teachingMethodology: string; // LUEGO ->LISTO
     certificatesReceived: number; // LUEGO
+    activityTrainingType: number;
 }

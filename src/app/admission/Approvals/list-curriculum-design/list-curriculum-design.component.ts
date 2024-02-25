@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-curriculum-design.component.scss']
 })
 export class ListCurriculumDesignComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
     'name',
@@ -31,7 +31,7 @@ implements OnInit{
     'statusId',
     'actions',
   ];
-  
+
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivity>(true, []);
@@ -41,7 +41,7 @@ implements OnInit{
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public scheduleActivitiesService:ScheduleActivitiesService ,
+    public scheduleActivitiesService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
     private router: Router,
   ) {
@@ -59,37 +59,37 @@ implements OnInit{
   refresh() {
     this.loadData();
   }
- 
-  ViewDetail(row:ScheduleActivity) {
-    this.router.navigate(['/admission/list-curriculum-approve',row.id]);
+
+  ViewDetail(row: ScheduleActivity) {
+    this.router.navigate(['/admission/list-curriculum-approve', row.id]);
   }
-  aprobar(row:ScheduleActivity) {
+  aprobar(row: ScheduleActivity) {
     const dialogRef = this.dialog.open(ApprovedCurriculumComponent, {
       data: {
-        scheduleActivity : row,
+        scheduleActivity: row,
         accion: 'approved',
       },
-      disableClose:true
+      disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
 
@@ -101,7 +101,7 @@ implements OnInit{
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
 
- 
+
   public loadData() {
     this.exampleDatabase = new ScheduleActivitiesService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -140,7 +140,7 @@ implements OnInit{
         'Nombre': x.name,
         'Despcrión': x.description,
         'Año': x.year,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -176,10 +176,10 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllScheduleId('3');
+    this.exampleDatabase.getAllScheduleIdPedding();
     return merge(...displayDataChanges).pipe(
       map(() => {
-       
+
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
@@ -217,7 +217,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivity> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
