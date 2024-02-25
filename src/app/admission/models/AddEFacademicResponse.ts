@@ -79,3 +79,12 @@ export interface getStudentsActivityResponse {
   activityLocationName: string
   degreeCurriculumDesignId: number;
 }
+
+export interface  CreateCertificateResponse {
+  certificate: {
+    fileContents: string,
+    contentType: string,
+    fileDownloadName: string,
+    enableRangeProcessing: boolean
+  }
+}
