@@ -14,5 +14,24 @@ export interface Directory {
   }
   export interface Data {
     dataResult:FileData[]
-  
+    
   }
+  export interface DataD {
+    dataResult:DirectoryData[]
+    
+  }
+  
+
+export interface DirectoryData {
+  id: number;
+  changeType: string;
+  fileName: string;
+  extension: string;
+  createdDate: string;
+  by: string;
+  lastModifiedDate: string;
+  fileId: number;
+  folderId: number;
+  action: string;
+  folder:DirectoryData;
+}

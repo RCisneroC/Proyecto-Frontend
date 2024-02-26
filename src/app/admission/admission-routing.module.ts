@@ -64,6 +64,7 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { RequiredDocumentListComponent } from '../teaching-management/required-document-list/required-document-list.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
 import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import { AuditListComponent } from './maestros/audit-list/audit-list.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -310,6 +311,10 @@ const routes: Routes = [
   {
     path: 'firma',
     component: FirnaDirectoraComponent,
+  },
+  {
+    path: 'audit-list',
+    component: AuditListComponent,
   }
 
 ];

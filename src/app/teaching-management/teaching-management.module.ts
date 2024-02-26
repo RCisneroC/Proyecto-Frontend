@@ -30,6 +30,7 @@ import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.component';
 
 
+
 @NgModule({
   declarations: [
     TeacherListComponent,
