@@ -77,6 +77,18 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
+        path: 'admission/ed-schedule-list',
+        title: 'Certificación o Recertificación',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+      {
         path: 'admission/activity-participants-list',
         title: 'Participantes',
         iconType: '',
@@ -790,7 +802,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  //Gestion de Tareas 
+  //Gestion de Tareas
   {
     path: '',
     title: 'Intranet',

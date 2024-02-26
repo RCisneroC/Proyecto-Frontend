@@ -139,6 +139,9 @@ import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-direct
 import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
 import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
+import { EnrollmentDirectScheduleListComponent } from './enrollment-direct/enrollment-direct-schedule-list/enrollment-direct-schedule-list.component';
+import { EnrollmentDirectActivityListComponent } from './enrollment-direct/enrollment-direct-activity-list/enrollment-direct-activity-list.component';
+import { EnrollmentDirectBackofficeComponent } from './enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component';
 
 @NgModule({
   declarations: [
@@ -270,7 +273,10 @@ import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/for
     AddFileComponent,
     FirnaDirectoraComponent,
     TimeSlotsComponent,
-    FranjaHorariaComponent
+    FranjaHorariaComponent,
+    EnrollmentDirectScheduleListComponent,
+    EnrollmentDirectActivityListComponent,
+    EnrollmentDirectBackofficeComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

@@ -64,6 +64,15 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { RequiredDocumentListComponent } from '../teaching-management/required-document-list/required-document-list.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
 import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import {
+  EnrollmentDirectScheduleListComponent
+} from "./enrollment-direct/enrollment-direct-schedule-list/enrollment-direct-schedule-list.component";
+import {
+  EnrollmentDirectActivityListComponent
+} from "./enrollment-direct/enrollment-direct-activity-list/enrollment-direct-activity-list.component";
+import {
+  EnrollmentDirectBackofficeComponent
+} from "./enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component";
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -167,6 +176,18 @@ const routes: Routes = [
   {
     path: 'schedule-list',
     component: ScheduleListComponent,
+  },
+  {
+    path: 'ed-schedule-list',
+    component: EnrollmentDirectScheduleListComponent,
+  },
+  {
+    path: 'ed-activity-list-inscription/:id',
+    component: EnrollmentDirectActivityListComponent,
+  },
+  {
+    path: 'ed-backoffice/:id',
+    component: EnrollmentDirectBackofficeComponent,
   },
   {
     path: 'activity-participants-list',
