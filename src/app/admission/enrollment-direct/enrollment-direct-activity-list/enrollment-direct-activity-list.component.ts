@@ -169,7 +169,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     });
-    this.exampleDatabase.getAllActivityDetail(this.id);
+    this.exampleDatabase.getAllActivityDetailED(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
