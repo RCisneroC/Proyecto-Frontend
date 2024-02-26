@@ -78,13 +78,13 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    GetHistoryFile(id:number) {
    
     //UpdateFolder?FolderId=6&NewFolderName=newfoldername
-    return this.httpClient.get<DataD>(environment.apiDocument+'Folder/GetAuditFile?FileId='+id)
+    return this.httpClient.get<DataD>(environment.apiDocument+'Files/GetAuditFile?FileId='+id)
   }
    
    
    GetHistoryFolder(id:number) {
    
-    return this.httpClient.get<DataD>(environment.apiDocument+'Files/GetAuditFolder?FolderId='+id)
+    return this.httpClient.get<DataD>(environment.apiDocument+'Folder/GetAuditFolder?FolderId='+id)
    }
    
    
