@@ -4,6 +4,7 @@ export class ScheduleActivity {
   description!: string;
   year!: number;
   statusId!: number;
+  moodleCourseId!:number;
   curriculumDesignActivities!: ScheduleActivityDetail[];
 }
 
@@ -39,5 +40,7 @@ export class ScheduleActivityDetail {
   inscriptionEndDate!: string;
   activityTrainingType!: number;
   statusId!: number;
+  hasDirectEnrollment!: boolean;
+  moodleCourseId!:number;
 }
 

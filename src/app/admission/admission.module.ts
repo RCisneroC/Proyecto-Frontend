@@ -142,6 +142,9 @@ import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
 import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
 import { SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
+import { EnrollmentDirectScheduleListComponent } from './enrollment-direct/enrollment-direct-schedule-list/enrollment-direct-schedule-list.component';
+import { EnrollmentDirectActivityListComponent } from './enrollment-direct/enrollment-direct-activity-list/enrollment-direct-activity-list.component';
+import { EnrollmentDirectBackofficeComponent } from './enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component';
 
 @NgModule({
   declarations: [
@@ -275,7 +278,10 @@ import { ComponentsModule } from '@shared/components/components.module';
     AuditListComponent,
     ViewHistoryAuditComponent,
     TimeSlotsComponent,
-    FranjaHorariaComponent
+    FranjaHorariaComponent,
+    EnrollmentDirectScheduleListComponent,
+    EnrollmentDirectActivityListComponent,
+    EnrollmentDirectBackofficeComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
