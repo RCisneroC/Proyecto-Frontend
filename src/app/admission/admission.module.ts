@@ -136,7 +136,9 @@ import {CdkMenuModule} from '@angular/cdk/menu';
 import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { AddDirectoryComponent } from './maestros/directory-list/add-directory/add-directory.component';
 import { AddFileComponent } from './maestros/directory-list/add-file/add-file.component';
-import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component'; @NgModule({
+import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import { AuditListComponent } from './maestros/audit-list/audit-list.component';
+import { ViewHistoryAuditComponent } from './maestros/audit-list/view-history-audit/view-history-audit.component'; @NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -265,6 +267,8 @@ import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-direct
     AddDirectoryComponent,
     AddFileComponent,
     FirnaDirectoraComponent,
+    AuditListComponent,
+    ViewHistoryAuditComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [
