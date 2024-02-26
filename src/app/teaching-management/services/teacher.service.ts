@@ -108,7 +108,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
 
 
-  archivo(data: any): Observable<any> {
+  archivo(data: any) {
 
     return this.httpClient.post(environment.apiUrlTeacher + 'archivo', data);
   }
