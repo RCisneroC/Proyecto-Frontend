@@ -40,7 +40,7 @@ export class ViewHistoryAuditComponent  implements OnInit{
 
   
   getHistoryAudFile() {
-    this._directoryService.GetHistoryFile(this.data.fileId).subscribe({
+    this._directoryService.GetHistoryFile(this.data.folder.fileId).subscribe({
       next: (res) => {
 
         this.dataSource = res["dataResult"];
@@ -51,7 +51,7 @@ export class ViewHistoryAuditComponent  implements OnInit{
     });  
 }
 getHistoryAudFolder() {
-  this._directoryService.GetHistoryFolder(this.data.folderId).subscribe({
+  this._directoryService.GetHistoryFolder(this.data.folder.folderId).subscribe({
     next: (res) => {
       //this.dataSource = [];
         this.dataSource = res["dataResult"];
