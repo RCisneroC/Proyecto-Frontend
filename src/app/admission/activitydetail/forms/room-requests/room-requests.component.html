@@ -76,7 +76,7 @@
                         </div>
                         <div class="body">
                             <mat-accordion>
-                                <mat-expansion-panel  hideToggle>
+                                <mat-expansion-panel [expanded]="false"  hideToggle>
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             Salón / Salones Asignados
@@ -106,7 +106,7 @@
 
                         <div class="body">
                             <mat-accordion>
-                                <mat-expansion-panel  hideToggle>
+                                <mat-expansion-panel [expanded]="false"   hideToggle>
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             Requerimientos/Suplementos del salón
@@ -136,7 +136,7 @@
 
                         <div class="body">
                           <mat-accordion>
-                              <mat-expansion-panel [expanded]="step === 0" (opened)="getRoomRequestRoomDateTimeSlots(item.id)" hideToggle>
+                              <mat-expansion-panel [expanded]="false"  (opened)="getRoomRequestRoomDateTimeSlots(item.id)" hideToggle>
                                   <mat-expansion-panel-header>
                                       <mat-panel-title>
                                           Franja Horaria
@@ -157,7 +157,7 @@
                                           <td>{{ itemRoms.startTime| date:'shortTime' }}</td>
                                           <td>{{ itemRoms.endTime| date:'shortTime' }}</td>
                                           <td>
-                                              <button (click)="OndeleteRoomRequestRoomDateTimeSlots(itemRoms.roomRequestRoomDateTimeId)"
+                                              <button (click)="OndeleteRoomRequestRoomDateTimeSlots(itemRoms.roomRequestRoomDateTimeId,itemRoms.roomTimeSlotId)"
                                                   matTooltip="Eliminar Franja Horaria" mat-mini-fab
                                                   color="accent"><mat-icon>delete</mat-icon></button>
                                           </td>
