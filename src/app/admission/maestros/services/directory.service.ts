@@ -84,7 +84,7 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    
    GetHistoryFolder(id:number) {
    
-    return this.httpClient.get<DataD>(environment.apiDocument+'Folder/GetAuditFolder?FolderId='+id)
+    return this.httpClient.get<DataD>(environment.apiDocument+'Files/GetAuditFolder?FolderId='+id)
    }
    
    
