@@ -12,13 +12,13 @@
     </button>
   </div>
   <div mat-dialog-content>
-    <form  class="register-form m-4" [formGroup]="timeSlotsForm">
+    <form class="register-form m-4" [formGroup]="timeSlotsForm">
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field appearance="outline">
             <mat-label>Fecha Inicial</mat-label>
-            <input matInput   appearance="outline" [ngxMatTimepicker]="pickerA"
-              formControlName="fechaHoraInicial" placeholder="HH:MM" readonly />
+            <input matInput appearance="outline" [ngxMatTimepicker]="pickerA" formControlName="fechaHoraInicial"
+              placeholder="HH:MM" readonly />
             <mat-icon matSuffix (click)="pickerA.open()">
               watch_later
             </mat-icon>
@@ -29,11 +29,10 @@
           <ngx-mat-timepicker #pickerA></ngx-mat-timepicker>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field  appearance="outline">
+          <mat-form-field appearance="outline">
             <mat-label>Fecha final </mat-label>
-            <input matInput  appearance="outline" [ngxMatTimepicker]="pickerB"
-              formControlName="fechaHoraFinal" placeholder="HH:MM" readonly
-              />
+            <input matInput appearance="outline" [ngxMatTimepicker]="pickerB" formControlName="fechaHoraFinal"
+              placeholder="HH:MM" readonly />
             <mat-icon matSuffix (click)="pickerB.open()">
               watch_later
             </mat-icon>
@@ -72,8 +71,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          <mat-paginator #paginatorTimeSlot [pageSizeOptions]="[5]"
-                            showFirstLastButtons></mat-paginator>
+          <mat-paginator #paginatorTimeSlot [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
       <div class="row">
