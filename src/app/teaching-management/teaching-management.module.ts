@@ -26,6 +26,8 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { AddAttendanceFormsComponent } from './add-attendance-forms/add-attendance-forms.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { AddCalifComponent } from './add-calif/add-calif.component';
+import { FinalGradeComponent } from './final-grade/final-grade.component';
+import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { AddCalifComponent } from './add-calif/add-calif.component';
     AddTaskComponent,
     AddCalifComponent,
     AddAttendanceFormsComponent,
-    ListStudentsComponent
+    ListStudentsComponent,
+    FinalGradeComponent,
+    AddFinalGradeComponent
   ],
   providers: [VerificarBS64Pipe],
   imports: [

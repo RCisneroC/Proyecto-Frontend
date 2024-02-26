@@ -9,13 +9,15 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { RoleFormComponent } from './role/role-form/role-form.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
+import { FormsAsignedRolesComponent } from './role/forms-asigned-roles/forms-asigned-roles.component';
 
 @NgModule({
   declarations: [
     UserListComponent,
     RoleListComponent,
     RoleFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    FormsAsignedRolesComponent
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,7 @@ import { InfoTeacherComponent } from './info-teacher/info-teacher.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { DetailTaskComponent } from './detail-task/detail-task.component';
 import { ListStudentsComponent } from './list-students/list-students.component';
+import { FinalGradeComponent } from './final-grade/final-grade.component';
 
 const routes: Routes = [
   {
@@ -45,7 +46,10 @@ const routes: Routes = [
   {
     path: "detail-asignatura/:id",
     component: ListStudentsComponent,
-
+  },
+  {
+    path: "list-students/:id",
+    component: FinalGradeComponent,
   }
 ];
 

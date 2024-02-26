@@ -14,6 +14,7 @@ import { documentosIncripcion } from "../../admission/models/documentosIncripcio
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment.development";
 import {
+  CreateCertificateResponse,
   CreateEnrollmentResult, GetStudentsActivityResponse,
   GetSubjectEnrollmentResult,
   ResponseAddEFcademicInfo
@@ -29,7 +30,7 @@ import {
 } from "../models/Career";
 import { an } from "@fullcalendar/core/internal-common";
 import { ResponseSubjectRecord } from '../models/calificacion';
-import {ResponseActivityRecord} from "../models/calificacionEC";
+import { ResponseActivityRecord } from "../models/calificacionEC";
 
 @Injectable({
   providedIn: 'root'
@@ -188,37 +189,37 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   SearchEFAcademicRecordMethod(studentId: number, degreeCurriculumDesignId: number) {
     return this.httpClient.post<any>(
-      environment.apiEira + 'SearchEFAcademicRecord', {   studentId: studentId,   degreeCurriculumDesignId: degreeCurriculumDesignId }
+      environment.apiEira + 'SearchEFAcademicRecord', { studentId: studentId, degreeCurriculumDesignId: degreeCurriculumDesignId }
     );
   }
 
-  SearchAcademicSubjectRecordMethod(efAcademicRecordId: number ,subjectId: number , degreeCurriculumDesignId: number, studentId: number) {
+  SearchAcademicSubjectRecordMethod(efAcademicRecordId: number, subjectId: number, degreeCurriculumDesignId: number, studentId: number) {
     return this.httpClient.post<any>(
-      environment.apiEira + 'SearchAcademicSubjectRecord', {   efAcademicRecordId: efAcademicRecordId,   subjectId: subjectId,   degreeCurriculumDesignId: degreeCurriculumDesignId,   studentId: studentId }
+      environment.apiEira + 'SearchAcademicSubjectRecord', { efAcademicRecordId: efAcademicRecordId, subjectId: subjectId, degreeCurriculumDesignId: degreeCurriculumDesignId, studentId: studentId }
     );
   }
 
-  SearchAcademicSubjectAttendanceRecordMethod(academicSubjectRecordId: number ,degreeCurriculumDesignId: number , subjectId: number, studentId: number) {
+  SearchAcademicSubjectAttendanceRecordMethod(academicSubjectRecordId: number, degreeCurriculumDesignId: number, subjectId: number, studentId: number) {
     return this.httpClient.post<SearchAcademicSubjectAttendanceRecord>(
-      environment.apiEira + 'SearchAcademicSubjectAttendanceRecord', {   academicSubjectRecordId: academicSubjectRecordId,   degreeCurriculumDesignId: degreeCurriculumDesignId,   subjectId: subjectId,   studentId: studentId }
+      environment.apiEira + 'SearchAcademicSubjectAttendanceRecord', { academicSubjectRecordId: academicSubjectRecordId, degreeCurriculumDesignId: degreeCurriculumDesignId, subjectId: subjectId, studentId: studentId }
     );
   }
 
-  SearchECAcademicRecordMethod(activityId: number,isReentry:boolean, participantId: string) {
+  SearchECAcademicRecordMethod(activityId: number, isReentry: boolean, participantId: string) {
     return this.httpClient.post<any>(
-      environment.apiEira + 'SearchECAcademicRecord', {   activityId: activityId, isReentry: isReentry,  participantId: participantId }
+      environment.apiEira + 'SearchECAcademicRecord', { activityId: activityId, isReentry: isReentry, participantId: participantId }
     );
   }
 
   SearchAcademicActivityAttendanceRecordMethod(recordId: number) {
     return this.httpClient.post<SearchAcademicActivityAttendanceRecord>(
-      environment.apiEira + 'SearchAcademicActivityAttendanceRecord', {   ecAcademicRecordId: recordId }
+      environment.apiEira + 'SearchAcademicActivityAttendanceRecord', { ecAcademicRecordId: recordId }
     );
   }
 
   SearchActivityRecordScoresMethod(recordId: number) {
     return this.httpClient.post<ResponseActivityRecord>(
-      environment.apiEira + 'SearchActivityRecordScores', {   ecAcademicRecordId: recordId }
+      environment.apiEira + 'SearchActivityRecordScores', { ecAcademicRecordId: recordId }
     );
   }
 
@@ -285,6 +286,10 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   SearchSubjectRecordScores(data: any) {
     const url = `${environment.apiIntranet}`;
     return this.httpClient.post<ResponseSubjectRecord>(url + "SearchSubjectRecordScores", data);
+  }
+  CreateCertificate(CreateCertificateDta: any) {
+    const url = `${environment.apiUrlSchedule}`;
+    return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificate", CreateCertificateDta);
   }
 
   init_ResponseSubjectRecord() {

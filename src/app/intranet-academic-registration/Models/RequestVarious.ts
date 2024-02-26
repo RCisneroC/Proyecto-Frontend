@@ -66,6 +66,11 @@ export interface activityModel{
   name: string
 }
 
+ export  interface RequestVariousType{
+  id: number,
+   name: string,
+   description: string
+ }
 
 
 //tipo solicitante

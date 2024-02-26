@@ -20,6 +20,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { ViewCalificacionesComponent } from '../Forms/view-calificaciones/view-calificaciones.component';
 import { EnrollAttendenceFormComponent } from "../enroll-attendence-form/enroll-attendence-form.component";
+import { AddFinalGradeComponent } from 'app/teaching-management/add-final-grade/add-final-grade.component';
 
 @Component({
   selector: 'app-enroll-details',
@@ -54,7 +55,8 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     mallaName: '',
     degreeId: 0,
     nAmeDegree: '',
-    teacherCedula: ''
+    teacherCedula: '',
+    years: 0
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,
@@ -144,7 +146,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
         console.log(res.subjectEnrollmentResult);
         this.dataSourceInfo = res.subjectEnrollmentResult;
         this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
-        this.EncuestForms();
+        // this.EncuestForms();
       },
       complete: () => {
         if (this.dataSourceInfo.length > 0) {
@@ -265,6 +267,31 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
           icon: "warning"
         });
       }
+    });
+  }
+
+  VerNotaFinal(row: subjectEnrollmentResult) {
+    const local = "1";
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    console.log(row);
+
+    const dialogRef = this.dialog.open(AddFinalGradeComponent, {
+      data: {
+        accion: 'view',
+        studentId: row.studentId,
+        participantId: null,
+        id: row.asignaturaId,
+        tipo_solicitud: local,
+        estudiante: row,
+        mallaId: row.mallaId
+      },
+      direction: tempDirection,
+      width: "400px"
     });
   }
 

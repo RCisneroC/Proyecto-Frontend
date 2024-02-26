@@ -63,6 +63,7 @@ export interface GetOneActivity {
     participants: number;
     male: number;
     female: number;
+    activityTrainingType: number;
     certificatesReceived: number;
     roomRequests: RoomRequest[];
     posterRequests: PosterRequest[];

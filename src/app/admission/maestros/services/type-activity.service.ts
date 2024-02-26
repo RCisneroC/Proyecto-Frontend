@@ -14,7 +14,7 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<TypeActivity[]> = new BehaviorSubject<
-  TypeActivity[]
+    TypeActivity[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: TypeActivity;
@@ -30,7 +30,7 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllTypeActivity(): void {
     this.subs.sink = this.httpClient
-      .get<TypeActivity[]>(environment.apiUrlSchedule+'ActivityType/GetAll')
+      .get<TypeActivity[]>(environment.apiUrlSchedule + 'ActivityType/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -42,14 +42,14 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllTypeActivity2() {
-   return this.httpClient
-      .get<TypeActivity[]>(environment.apiUrlSchedule+'ActivityType/GetAll');
-     
+  getAllTypeActivity2(id: number) {
+    return this.httpClient
+      .get<TypeActivity[]>(environment.apiUrlSchedule + 'ActivityType/GetAll?StatusId=' + id);
+
   }
 
   addTypeActivity(typeActivity: TypeActivity) {
-      return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Create', typeActivity);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Create', typeActivity);
   }
 
   updateTypeActivity(typeActivity: TypeActivity) {
@@ -66,8 +66,8 @@ export class TypeActivityService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityType/Delete', options);
   }
-  
+
 }

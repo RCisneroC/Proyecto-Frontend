@@ -47,7 +47,7 @@
           </mat-form-field>
         </div>
         <button mat-raised-button color="primary" [disabled]="!AsistenciaForms.valid"
-                (click)="submit()">Guardar</button>
+          (click)="submit()">Guardar</button>
       </div>
     </form>
 
@@ -72,11 +72,11 @@
         </ng-container>
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef>Fecha Creación </th>
-          <td mat-cell *matCellDef="let element"> {{element.createdDate | date:'dd/M/yyyy'}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/M/yyyy'}} </td>
         </ng-container>
         <ng-container matColumnDef="asistio">
           <th mat-header-cell *matHeaderCellDef>Asistio/No Asistio. </th>
-          <td mat-cell *matCellDef="let element"> {{element.attended===true?"Si":"No"}}  </td>
+          <td mat-cell *matCellDef="let element"> {{element.attended===true?"Si":"No"}} </td>
         </ng-container>
         <ng-container matColumnDef="profesor">
           <th mat-header-cell *matHeaderCellDef>Total Record </th>
@@ -89,4 +89,3 @@
     </div>
   </div>
 </div>
-

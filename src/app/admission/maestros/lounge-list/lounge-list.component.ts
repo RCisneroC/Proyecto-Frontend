@@ -14,6 +14,7 @@ import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { LoungeFormComponent } from '../lounge-form/lounge-form.component';
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2'
+import { TimeSlotsComponent } from '../time-slots/time-slots.component';
 @Component({
   selector: 'app-lounge-list',
   templateUrl: './lounge-list.component.html',
@@ -27,7 +28,7 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
     'statusId',
     'actions',
   ];
-  
+
   exampleDatabase?: MasterService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Lounge>(true, []);
@@ -157,6 +158,23 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
     });
   }
 
+  selectToTimeSlot(row:Lounge){
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(TimeSlotsComponent, {
+      data: {
+        lounge: row,
+        action: 'nuevo',
+      },
+      direction: tempDirection,
+      height: '750px',
+      width: '650px',
+    });
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -199,7 +217,7 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
       this.dataSource.filteredData.map((x) => ({
         'Nombre Salón': x.name,
         'Descripción': x.description,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

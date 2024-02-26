@@ -79,6 +79,12 @@
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
 
+
+                            <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
+                              (click)="addPermisos(row)" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'lock'"></app-feather-icons>
+                            </button>
+
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

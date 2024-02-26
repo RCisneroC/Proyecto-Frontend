@@ -21,23 +21,23 @@ import Swal from 'sweetalert2';
   styleUrls: ['./deatil-activity-curriculum-design.component.scss']
 })
 export class DeatilActivityCurriculumDesignComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
-         'planningDate',
-         'activityModeName',
-         'activityTypeName',
-         'activityName',
-         'activityLocationName',
-        //  'assignedCoordinatorName',
-         'activityReasonName',
-         'activityFundsSourceName',
-         'inscriptionStartDate',
-         'inscriptionEndDate',
-         'status',
-         'actions',
+    'planningDate',
+    'activityModeName',
+    'activityTypeName',
+    'activityName',
+    'activityLocationName',
+    //  'assignedCoordinatorName',
+    'activityReasonName',
+    'activityFundsSourceName',
+    'inscriptionStartDate',
+    'inscriptionEndDate',
+    'status',
+    'actions',
   ];
-  
+
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<ScheduleActivityDetail>(true, []);
@@ -50,7 +50,7 @@ implements OnInit{
     public activityDetailService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private _nav:Router
+    private _nav: Router
   ) {
     super();
   }
@@ -63,12 +63,12 @@ implements OnInit{
   ngOnInit() {
     this.activityDetailService.init_DetailCurriculum();
     this.loadData();
-   
+
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.getOne();
-  })
-  
+    })
+
   }
   refresh() {
     this.loadData();
@@ -82,39 +82,39 @@ implements OnInit{
     })
   }
   ViewDetail(row: ScheduleActivityDetail) {
-    localStorage.setItem('url','/admission/list-curriculum-approve/'+this.id)
-     this._nav.navigate(['/admission/activity-detail/' + row.id]);
-    }
-    approved(row:ScheduleActivityDetail){
+    localStorage.setItem('url', '/admission/list-curriculum-approve/' + this.id)
+    this._nav.navigate(['/admission/activity-detail/' + row.id]);
+  }
+  approved(row: ScheduleActivityDetail) {
     const dialogRef = this.dialog.open(ApprovedActivityComponent, {
       data: {
-        scheduleActivity : row,
+        scheduleActivity: row,
         accion: 'approved',
       },
-      disableClose:true
-    });
-      
-      dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.loadData();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      disableClose: true
     });
 
-    }
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
 
 
 
@@ -164,12 +164,12 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.curriculumDesignId,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
- 
+
 }
 export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
   filterChange = new BehaviorSubject('');
@@ -201,9 +201,9 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       this.filterChange,
       this.paginator.page,
     ];
-    
+
     this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id']; 
+      this.id = params['id'];
     });
     this.exampleDatabase.getAllActivityDetail(this.id);
     return merge(...displayDataChanges).pipe(
@@ -244,7 +244,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
         case 'curriculumDesignId':
           [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

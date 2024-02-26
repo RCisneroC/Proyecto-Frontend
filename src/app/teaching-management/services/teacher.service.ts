@@ -118,13 +118,16 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<Teacher>(environment.apiUrlTeacher + 'Aproved', data);
   }
   getTeacherByCedula(cedula: string) {
-
     return this.httpClient.get<Teacher>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula=' + cedula);
   }
 
   getSubjectsByCedula(data: any) {
 
     return this.httpClient.post(environment.apiUrlEF + 'GetSubjectsBy', data);
+  }
+  getSubjectsByCedulaNewApi(cedula: any) {
+
+    return this.httpClient.get(environment.apiEF + 'Period/GetPeriodSubjectRoomTeachersBy?TeacherCedula=' + cedula);
   }
 
   getActivitiesByCedula(cedula: string) {
@@ -182,6 +185,17 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
   }
+
+  UpdateECAcademicRecord(data: any) {
+    return this.httpClient
+      .put<any>(environment.apiIntranet + 'UpdateECAcademicRecord', data);
+  }
+
+  UpdateAcademicSubjectRecord(data: any) {
+    return this.httpClient
+      .put<any>(environment.apiIntranet + 'UpdateAcademicSubjectRecord', data);
+  }
+
 
 
   AddCalifTask(data: any) {

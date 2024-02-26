@@ -3,9 +3,14 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { TeacherService } from '../services/teacher.service';
 import { AuthService, User } from '@core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { Activity, Subject } from '../models/Teacher';
+import { Activity, Subject, SubjectResponse } from '../models/Teacher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-activity/encuesta-activity.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
 
 
 @Component({
@@ -49,7 +54,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   //subjects:Subject[] = [];
   DataActivities!: any;
   //activities:Activity[] = [];
-  docForm!: UntypedFormGroup;
+  // docForm!: UntypedFormGroup;
   view: boolean = false;
   selectedOption: number = 2;
 
@@ -61,25 +66,27 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     private fb: UntypedFormBuilder,
     public _RequestService: RequestServicesService,
     private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
   ) {
     super()
   }
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
-    this.cedula=this.activatedRoute.snapshot.params["cedula"];
-    if(this.cedula==undefined){
-    this.cedula=this.user.cedula;
+    this.cedula = this.activatedRoute.snapshot.params["cedula"];
+    if (this.cedula == undefined) {
+      this.cedula = this.user.cedula;
+      this.getSubjects();
+      this.getActivities();
     }
-    this.docForm = this.fb.group({
-      code: new FormControl(""),
-      name: new FormControl(""),
-      teacherCedula: new FormControl(this.cedula),
-    });
+    // this.docForm = this.fb.group({
+    //   code: new FormControl(""),
+    //   name: new FormControl(""),
+    //   teacherCedula: new FormControl(this.cedula),
+    // });
 
     //this.guardarTemporal()
-     this.getSubjects(); 
-     this.getActivities();
+
 
     // const subjectStr = localStorage.getItem('subjects');
     // const activitiesStr = localStorage.getItem('activities');
@@ -118,33 +125,35 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
   calificacionesActividades(row: Activity) {
     // console.log(row);
-    localStorage.setItem('actividadEscogida', JSON.stringify(row));
+    localStorage.setItem('actividadEscogida', row.name);
     localStorage.setItem('id', row.id.toString());
-     localStorage.setItem('tipoSolicitud', "2");
+    localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
   }
 
 
-  calificacionesAasignatura(row: Subject) {
+  calificacionesAasignatura(row: SubjectResponse) {
     localStorage.setItem('tipoSolicitud', "1");
-    localStorage.setItem('actividadEscogida', JSON.stringify(row));
-    localStorage.setItem('id', row.id.toString());
-    this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
+    localStorage.setItem('actividadEscogida', row.subjectName);
+    localStorage.setItem('id', row.subjectId.toString());
+    this._nav.navigate(['/teaching-management/detail-asignatura/', row.subjectId]);
   }
 
-  Detail(row: Subject) {
+  Detail(row: SubjectResponse) {
     localStorage.setItem('tipoSolicitud', "1");
-    localStorage.setItem('actividadEscogida', JSON.stringify(row));
-    localStorage.setItem('id', row.id.toString());
-    this._nav.navigate(['/teaching-management/detail-subject/', row.id]);
+    localStorage.setItem('actividadEscogida', row.subjectName);
+    localStorage.setItem('id', row.subjectId.toString());
+    this._nav.navigate(['/teaching-management/detail-subject/', row.subjectId]);
   }
   Detail2(row: Activity) {
     localStorage.setItem('tipoSolicitud', "2");
+    localStorage.setItem('actividadEscogida', row.name);
     localStorage.setItem('id', row.id.toString());
     this._nav.navigate(['/teaching-management/detail-subject/', row.id]);
   }
   async getSubjects() {
-    this._teacherService.getSubjectsByCedula(this.docForm.value).subscribe({
+
+    this._teacherService.getSubjectsByCedulaNewApi(this.cedula).subscribe({
       next: (res) => {
 
         this.DataSubjects = res;
@@ -165,4 +174,95 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       }
     })
   }
+
+  sendEncuestas(row: Activity) {
+    const dialogRef = this.dialog.open(EncuestaActivityComponent, {
+      data: {
+        activity: row,
+        accion: 'encuesta',
+        typeUser: 'Profesor',
+        docente: this.cedula,
+        id_actividad: row.id
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
+
+  calificacionFinalSubject(row: SubjectResponse) {
+    localStorage.setItem('tipoSolicitud', "1");
+    localStorage.setItem('actividadEscogida', row.subjectName);
+    localStorage.setItem('id', row.subjectId.toString());
+    this._nav.navigate(['/teaching-management/list-students/', row.subjectId]);
+  }
+
+  calificacionFinalActivity(row: Activity) {
+    localStorage.setItem('tipoSolicitud', "2");
+    localStorage.setItem('actividadEscogida', row.name);
+    localStorage.setItem('id', row.id.toString());
+    this._nav.navigate(['/teaching-management/list-students//', row.id]);
+
+  }
+
+
+
+  sendEncuestaSubject(row: SubjectResponse) {
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
+    const dialogRef = this.dialog.open(EncuestaSubjectComponent, {
+      data: {
+        subject: [],
+        action: 'encuesta',
+        typeUser: 'Profesor',
+        docente: this.cedula,
+        id_asignatura: row.subjectId,
+        subjectRow: row
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+  }
+
 }
+

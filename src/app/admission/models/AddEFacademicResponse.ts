@@ -50,6 +50,7 @@ export interface subjectEnrollmentResult {
   degreeId: number,
   nAmeDegree: string;
   teacherCedula: string;
+  years: number;
 }
 
 
@@ -77,4 +78,13 @@ export interface getStudentsActivityResponse {
   activityTypeName: string,
   activityLocationName: string
   degreeCurriculumDesignId: number;
+}
+
+export interface  CreateCertificateResponse {
+  certificate: {
+    fileContents: string,
+    contentType: string,
+    fileDownloadName: string,
+    enableRangeProcessing: boolean
+  }
 }
