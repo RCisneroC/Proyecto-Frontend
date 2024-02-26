@@ -10,13 +10,15 @@ import { ListQuestins } from '../../models/QuestionsSubject';
 import { SubjectServiceService } from 'app/admission/FormalEducations/Services/subject-service.service';
 import Swal from 'sweetalert2';
 import { TypeSurvey } from 'app/enrollment/models/TypeSurvey';
+import { SubjectResponse } from 'app/teaching-management/models/Teacher';
 export interface DialogData {
   id: string;
   subject: subjectEnrollmentResult[];
   action: string;
   typeUser?: string;
   docente?: string;
-  id_asignatura?: string;
+  id_asignatura: string;
+  subjectRow?: SubjectResponse;
 }
 
 @Component({
@@ -36,11 +38,12 @@ export class EncuestaSubjectComponent {
   dialogTitle: string = '';
   id_cronograma: number = 0;
   public subjectSelect: any;
-  public SelectType: any;
+  public SelectType: any = '';
   public makeSurvey: boolean = false;
   habilitarBoton: boolean = true;
   bloquear: boolean = false;
   dataSend: any;
+  public typeSur: number = 0;
   public QuestionsSubject: QuestionSubject[] = [
     {
       CapacitacionVirtual: 'Planeación y desarrollo de la actividad académica',
@@ -285,10 +288,9 @@ export class EncuestaSubjectComponent {
           questionNumber: row.id,
           score: elementText.value,
           questionId: row.id,
-          studentId: '0',
           teacherCedula: this.data.docente,
-          periodId: 0,
-          year: 1,
+          periodId: this.data.subjectRow?.periodId,
+          year: this.data.subjectRow?.year,
           subjectId: this.data.id_asignatura,
           SurveyType: this.SelectType
         };
@@ -302,7 +304,7 @@ export class EncuestaSubjectComponent {
           studentId: this._subjectEnrollmentResult.studentId.toString(),
           teacherCedula: this._subjectEnrollmentResult.teacherCedula,
           periodId: this._subjectEnrollmentResult.periodsId,
-          year: 1,
+          year: this._subjectEnrollmentResult.years,
           subjectId: this._subjectEnrollmentResult.asignaturaId,
           SurveyType: this.SelectType
         };
@@ -348,34 +350,78 @@ export class EncuestaSubjectComponent {
   }
 
   EventSelectType(event: any) {
-
+    this.typeSur = event;
     if (this.data.typeUser == 'Profesor') {
       this.makeSurvey = true;
+      if (this.data.id_asignatura != '') {
+        let data_final = parseInt(this.data.id_asignatura);
+        let asignaturaSelect = this.data.subject.filter(x => x.asignaturaId == data_final);
+        this._subjectEnrollmentResult = asignaturaSelect[0];
+
+        this.getEncuesta();
+      }
+
       //verificar si el docente ya la relizo.
     } else {
+      this.getEncuesta();
     }
   }
 
 
   getEncuesta() {
-    this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId).subscribe({
-      next: (res) => {
-        if (res.surveys.length < 8) {
-          this.makeSurvey = true;
-        } else {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "La encuesta para esta asignatura ya fue registrada.",
-            icon: "warning"
-          });
-          this.makeSurvey = false;
-        }
+    if (this.data.typeUser == 'Profesor') {
+      this._SubjectService.getEncuestaLista(this.data.docente, this.data.subjectRow?.periodId, this.data.subjectRow?.year, this.data.subjectRow?.subjectId, this.typeSur).subscribe({
+        next: (res) => {
+          console.log(res);
 
-      },
-      complete: () => {
-        this.volverDisabledFalse();
+          if (res.surveys.length < 12 && this.typeSur == 1) {
+            this.makeSurvey = true;
+          } else if (res.surveys.length < 17 && this.typeSur == 2) {
+            this.makeSurvey = true;
+          } else if (res.surveys.length < 8 && this.typeSur == 3) {
+            this.makeSurvey = true;
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: "La encuesta para esta asignatura ya fue registrada.",
+              icon: "warning"
+            });
+            this.makeSurvey = false;
+          }
+
+        },
+        complete: () => {
+          this.volverDisabledFalse();
+        }
+      });
+    } else {
+      if (this._subjectEnrollmentResult != undefined) {
+        this._SubjectService.getEncuestaLista(this._subjectEnrollmentResult.studentId, this._subjectEnrollmentResult.periodsId, 1, this._subjectEnrollmentResult.asignaturaId, this.typeSur).subscribe({
+          next: (res) => {
+            console.log(res);
+
+            if (res.surveys.length < 12 && this.typeSur == 1) {
+              this.makeSurvey = true;
+            } else if (res.surveys.length < 17 && this.typeSur == 2) {
+              this.makeSurvey = true;
+            } else if (res.surveys.length < 8 && this.typeSur == 3) {
+              this.makeSurvey = true;
+            } else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: "La encuesta para esta asignatura ya fue registrada.",
+                icon: "warning"
+              });
+              this.makeSurvey = false;
+            }
+
+          },
+          complete: () => {
+            this.volverDisabledFalse();
+          }
+        });
       }
-    });
+    }
   }
   finaliarEncuestaOne() {
     let data = {
@@ -385,7 +431,7 @@ export class EncuestaSubjectComponent {
       studentId: this._subjectEnrollmentResult.studentId.toString(),
       teacherCedula: this._subjectEnrollmentResult.teacherCedula,
       periodId: this._subjectEnrollmentResult.periodsId,
-      year: 1,
+      year: this._subjectEnrollmentResult.years,
       subjectId: this._subjectEnrollmentResult.asignaturaId
     };
 
@@ -400,7 +446,7 @@ export class EncuestaSubjectComponent {
           studentId: this._subjectEnrollmentResult.studentId.toString(),
           teacherCedula: this._subjectEnrollmentResult.teacherCedula,
           periodId: this._subjectEnrollmentResult.periodsId,
-          year: 1,
+          year: this._subjectEnrollmentResult.years,
           subjectId: this._subjectEnrollmentResult.asignaturaId
         };
         this._ActivityService.SaveCommentEF(data).subscribe({
@@ -419,6 +465,11 @@ export class EncuestaSubjectComponent {
   }
 
   finaliarEncuesta3() {
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: "Calificación Registrada.",
+      icon: "success"
+    });
     this.dialogRef.close();
   }
 

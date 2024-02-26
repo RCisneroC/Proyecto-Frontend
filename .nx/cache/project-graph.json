@@ -2521,6 +2521,15 @@
         "hash": "sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A=="
       }
     },
+    "npm:@mat-datetimepicker/moment": {
+      "type": "npm",
+      "name": "npm:@mat-datetimepicker/moment",
+      "data": {
+        "version": "13.0.1",
+        "packageName": "@mat-datetimepicker/moment",
+        "hash": "sha512-VIGouW0G+6XkQXzq1o4vi44kGhAQ3UGLBVTFDENT8s1GceSda+XABoUHbqncVU1C9Ci76CPVYhks9/Sw6ybL8g=="
+      }
+    },
     "npm:@material/animation": {
       "type": "npm",
       "name": "npm:@material/animation",
@@ -9617,9 +9626,9 @@
       "type": "npm",
       "name": "npm:moment",
       "data": {
-        "version": "2.29.4",
+        "version": "2.30.1",
         "packageName": "moment",
-        "hash": "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
+        "hash": "sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how=="
       }
     },
     "npm:moment-timezone": {
@@ -9782,6 +9791,15 @@
         "version": "16.4.2",
         "packageName": "ngx-mask",
         "hash": "sha512-mQjcsTpctGu6HYKLf6/gjEUvW65D+46xvPIMYz0BDZXqHXrqKVluHXR3KF++TNOfdLLXwW6SvuHWd91NZN/C1A=="
+      }
+    },
+    "npm:ngx-mat-timepicker": {
+      "type": "npm",
+      "name": "npm:ngx-mat-timepicker",
+      "data": {
+        "version": "17.0.3",
+        "packageName": "ngx-mat-timepicker",
+        "hash": "sha512-8VInY0bge988/fnG0QSKBF2cx0R5XkkAS7IB3vnAtTjRYPhxYSdZz++xB+iHO9hwPgae6dWlZD4WJWVCsG0K2g=="
       }
     },
     "npm:ngx-scrollbar": {
@@ -11627,6 +11645,15 @@
         "version": "1.0.3",
         "packageName": "ts-api-utils",
         "hash": "sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg=="
+      }
+    },
+    "npm:ts-luxon": {
+      "type": "npm",
+      "name": "npm:ts-luxon",
+      "data": {
+        "version": "4.5.2",
+        "packageName": "ts-luxon",
+        "hash": "sha512-PqVfo1yiwAa1nYeyK/k4rOgHPGIqJQpGbOMA/+nLcpS2aXEO2mTSvBKUjPyo1PWCTD2/K2iH4OuRo3md344IoA=="
       }
     },
     "npm:tsconfig-paths": {
@@ -16702,6 +16729,13 @@
       {
         "source": "npm:@jridgewell/trace-mapping",
         "target": "npm:@jridgewell/sourcemap-codec",
+        "type": "static"
+      }
+    ],
+    "npm:@mat-datetimepicker/moment": [
+      {
+        "source": "npm:@mat-datetimepicker/moment",
+        "target": "npm:tslib",
         "type": "static"
       }
     ],
@@ -26324,6 +26358,18 @@
       },
       {
         "source": "npm:ngx-mask",
+        "target": "npm:tslib",
+        "type": "static"
+      }
+    ],
+    "npm:ngx-mat-timepicker": [
+      {
+        "source": "npm:ngx-mat-timepicker",
+        "target": "npm:ts-luxon",
+        "type": "static"
+      },
+      {
+        "source": "npm:ngx-mat-timepicker",
         "target": "npm:tslib",
         "type": "static"
       }

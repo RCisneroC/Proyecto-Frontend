@@ -1,0 +1,63 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+
+        <form class="register-form m-4" [formGroup]="FormsCalificacion" (ngSubmit)="submit" *ngIf="action == 'add'">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-12">
+
+                    <p><strong>Nombre</strong>: {{ data.estudiante.firstName }} {{ data.estudiante.lastName }}</p>
+                    <p><strong>Correo Electrónico</strong>: {{ data.estudiante.email }}</p>
+                    <p><strong>Cédula</strong>: {{ data.estudiante.cedula }}</p>
+                    <hr>
+
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Nota Final</mat-label>
+                        <input matInput formControlName="calif" type="number">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="FormsCalificacion.get('calif')?.hasError('required')">
+                            Es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-12">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [disabled]="!FormsCalificacion.valid"
+                            (click)="confirmAdd()">Guardar</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="action == 'view'">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p><strong>Nombre</strong>: {{ data.estudiante.firstName }} {{ data.estudiante.lastName }}</p>
+                    <p><strong>Correo Electrónico</strong>: {{ data.estudiante.email }}</p>
+                    <p><strong>Cédula</strong>: {{ data.estudiante.cedula }}</p>
+                    <hr>
+                    <label for=""><strong>Nota</strong>: {{gradeFinal }}</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

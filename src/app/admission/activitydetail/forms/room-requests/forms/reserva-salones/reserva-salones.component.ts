@@ -28,7 +28,7 @@ export class ReservaSalonesComponent implements OnInit {
     'name',
     'description',
     ];
-  
+
   action: string='';
   dialogTitle: string='';
   requiremetForm!: UntypedFormGroup;
@@ -49,7 +49,7 @@ export class ReservaSalonesComponent implements OnInit {
        this.IsLoading = false;
      }, 3000);
   }
-  
+
   constructor(
     public dialogRef: MatDialogRef<ReservaSalonesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -71,7 +71,7 @@ export class ReservaSalonesComponent implements OnInit {
   ngOnInit(): void {
 
     this.ListadoLounge.paginator = this.paginator;
-   
+
   }
      applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -79,10 +79,11 @@ export class ReservaSalonesComponent implements OnInit {
   }
 
   LoadRooms() {
-    this._RoomServices.getRoomsFilter(1).subscribe({
+    this._RoomServices.getRoomsFilterRangeDate(this.data.requestRooms.startDate,
+      this.data.requestRooms.endDate).subscribe({
       next: (res) => {
         this.ListadoLounge = new MatTableDataSource<Lounge>(res);
-        
+
       }
     });
   }

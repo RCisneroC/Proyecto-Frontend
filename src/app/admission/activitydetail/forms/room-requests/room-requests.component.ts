@@ -13,9 +13,10 @@ import { RequestRooms } from 'app/admission/models/RequestRooms';
 import Swal from 'sweetalert2';
 import { RequerimientoSalonesComponent } from './forms/requerimiento-salones/requerimiento-salones.component';
 import { ReservaSalonesComponent } from './forms/reserva-salones/reserva-salones.component';
-import { Lounge } from 'app/admission/models/lounge';
 import { SuppliesService } from 'app/admission/maestros/services/supplies.service';
 import { MasterService } from 'app/admission/maestros/services/master.service';
+import { FranjaHorariaComponent } from './forms/franja-horaria/franja-horaria.component';
+import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
 
 @Component({
   selector: 'app-room-requests',
@@ -40,6 +41,8 @@ export class RoomRequestsComponent {
   }
   public step = 0;
   public hrefApproved: boolean = false;
+  public lstRoomRequestRoomDateTimeSlots: any[]=[];
+
   constructor(
     private Path: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -71,12 +74,12 @@ export class RoomRequestsComponent {
   setStep(index: number) {
     this.step = index;
   }
+
   volverAtras() {
     let url = localStorage.getItem('url') || '';
-    console.log(url);
-
     this._router.navigate([url]);
   }
+
   nuevaSolicitud() {
     this._ActivityService.init_RequestRooms();
     const dialogRef = this._dialog.open(NuevaSolicitudComponent, {
@@ -240,7 +243,18 @@ export class RoomRequestsComponent {
     });
   }
 
-
+  AddFranjaHoraria(item: RequestRooms) {
+    const dialogRef = this._dialog.open(FranjaHorariaComponent, {
+      data: {
+        accion: 'add-timeslot',
+        id_actividad: this.paramsId,
+        requestRooms: item,
+      },
+      disableClose: true,
+      height:"650px",
+      width:"750px"
+    });
+  }
 
 
   getOneActivity() {
@@ -266,6 +280,7 @@ export class RoomRequestsComponent {
         }
       })
   }
+
   deleteRomsAsignado(rooms: RoomRequestRoom, id: any) {
     this._masterLounge.DeleteRoomsRequirement(rooms.room.id, id).subscribe({
       next: () => {
@@ -285,6 +300,7 @@ export class RoomRequestsComponent {
       }
     })
   }
+
   deleteRequirement(requirement: RoomRequestRoomRequirement, id: any) {
     this._suppleService.DeleteSuppliesRequirement(requirement.roomRequirement.id, id).subscribe({
       next: () => {
@@ -308,5 +324,43 @@ export class RoomRequestsComponent {
     //abrir modals.
   }
 
+ public getRoomRequestRoomDateTimeSlots(id:number):void {
+
+    this._masterLounge.getRoomRequestRoomDateTimeSlots(id).subscribe({
+      next: (request) => {
+        this.lstRoomRequestRoomDateTimeSlots[id] = request as RoomRequestRoomDateTimeSlots[];
+      },
+      error: () => {
+        const temp :RoomRequestRoomDateTimeSlots[] = [];
+        this.lstRoomRequestRoomDateTimeSlots[id] = temp;
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+
+  OndeleteRoomRequestRoomDateTimeSlots(id:number) {
+    this._masterLounge.deleteRoomRequestRoomDateTimeSlots(id).subscribe({
+      next: () => {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Eliminado correctamente.',
+          icon: "success"
+        });
+        this.getOneActivity();
+      },
+      error: () => {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
+      }
+    })
+  }
 
 }

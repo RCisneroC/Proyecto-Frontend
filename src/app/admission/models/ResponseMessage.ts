@@ -16,6 +16,12 @@ export interface ResponseGenerica {
   StatusCode: number;
 }
 
+export interface ResponseError {
+  Message?: string;
+  Details?: string;
+  StatusCode?: number;
+}
+
 export interface DataModal {
    id: string;
     action: string;

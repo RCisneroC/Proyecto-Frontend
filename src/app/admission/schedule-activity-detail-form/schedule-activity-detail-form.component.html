@@ -15,6 +15,21 @@
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="scheduleForm" (ngSubmit)="submit">
       <div class="row">
+        <div class="col-12">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Certificación o Recertificación</mat-label>
+              <mat-select formControlName="activityTrainingType">
+                <mat-option value="">-----</mat-option>
+                <mat-option value="1">SI</mat-option>
+                <mat-option value="2">NO</mat-option>
+              </mat-select>
+              <mat-error *ngIf="scheduleForm.get('activityTrainingType')?.hasError('required')">
+                Es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
 
           <mat-form-field class="example-full-width" appearance="outline">
@@ -41,7 +56,8 @@
           </mat-form-field>
 
         </div>
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"
+          *ngIf="scheduleForm.controls['activityTrainingType'].value=='2'">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Tipo de actividad</mat-label>
             <mat-select formControlName="activityTypeId">
@@ -51,9 +67,21 @@
               el tipo de actividad es requerida
             </mat-error>
           </mat-form-field>
-
-
         </div>
+
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"
+          *ngIf="scheduleForm.controls['activityTrainingType'].value=='1'">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Tipo de actividad</mat-label>
+            <mat-select formControlName="activityTypeId">
+              <mat-option *ngFor="let row of typeActivityListTyp2" [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityTypeId')?.hasError('required')">
+              El tipo de actividad es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Nombre de la actividad</mat-label>

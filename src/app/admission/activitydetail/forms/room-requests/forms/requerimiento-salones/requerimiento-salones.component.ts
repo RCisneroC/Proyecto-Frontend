@@ -20,60 +20,60 @@ export interface DialogData {
   styleUrls: ['./requerimiento-salones.component.scss']
 })
 export class RequerimientoSalonesComponent implements OnInit {
-   public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
-    displayedColumns: string[] = [
+  displayedColumns: string[] = [
     'id',
     'name',
     'description',
-    ];
-  
-  action: string='';
-  dialogTitle: string='';
+  ];
+
+  action: string = '';
+  dialogTitle: string = '';
   requiremetForm!: UntypedFormGroup;
   id_actividad: string = '';
   dataSourceSuppliesRequirement: Supplies[] = [
     this._RequirementService.dialogData
   ];
-  ListadoSupplies= new MatTableDataSource<Supplies>(this.dataSourceSuppliesRequirement);
+  ListadoSupplies = new MatTableDataSource<Supplies>(this.dataSourceSuppliesRequirement);
   public IsLoading: boolean = true;
   @ViewChild('paginatorRequirement') set paginator(value: MatPaginator) {
-      console.log(value);
-     setTimeout(() => {
-       this.ListadoSupplies.paginator = value;
-       this.IsLoading = false;
-     }, 3000);
+    console.log(value);
+    setTimeout(() => {
+      this.ListadoSupplies.paginator = value;
+      this.IsLoading = false;
+    }, 3000);
   }
-  
+
   constructor(
     public dialogRef: MatDialogRef<RequerimientoSalonesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _RequirementService:SuppliesService,
-    public _ActivityDetailService:ActivityDetailService,
+    public _RequirementService: SuppliesService,
+    public _ActivityDetailService: ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
     console.log('====================================');
     console.log(data);
     console.log('====================================');
-   this.requiremetForm =this.fb.group({
+    this.requiremetForm = this.fb.group({
       roomRequirementsIds: this.fb.array([]),
-      roomRequestId:[this.data.requestRooms.id,Validators.required]
-   });
+      roomRequestId: [this.data.requestRooms.id, Validators.required]
+    });
     this.action = this.data.accion;
     if (this.action === 'add-requirement') {
-      this.dialogTitle ="Agregar Requerimientos";
+      this.dialogTitle = "Agregar Requerimientos";
       this.id_actividad = this.data.id_actividad;
     }
-     this.LoadDocumentRequirement();
+    this.LoadDocumentRequirement();
   }
   ngOnInit(): void {
 
     this.ListadoSupplies.paginator = this.paginator;
-   
+
   }
-     applyFilter(event: Event) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoSupplies.filter = filterValue.trim().toLowerCase();
   }
@@ -83,7 +83,7 @@ export class RequerimientoSalonesComponent implements OnInit {
       next: (res) => {
         this.ListadoSupplies = new MatTableDataSource<Supplies>(res);
         console.log(this.ListadoSupplies);
-        
+
       }
     });
   }
@@ -105,7 +105,7 @@ export class RequerimientoSalonesComponent implements OnInit {
     return this.requiremetForm.get('roomRequirementsIds') as UntypedFormArray;
   }
 
-    checkboxChange(event: any, checkboxId: any): void {
+  checkboxChange(event: any, checkboxId: any): void {
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
     } else {

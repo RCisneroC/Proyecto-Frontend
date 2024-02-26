@@ -44,9 +44,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
 
 @NgModule({
   exports: [
+    NgxMatTimepickerModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -82,9 +84,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    MatNativeDateModule
-    
-   
+    MatNativeDateModule,
+
   ],
   providers: [
     {
@@ -113,4 +114,4 @@ import { MatNativeDateModule } from '@angular/material/core';
     },
   ],
 })
-export class MaterialModule {}
+export class MaterialModule { }

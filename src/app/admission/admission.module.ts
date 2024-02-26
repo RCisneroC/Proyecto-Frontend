@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdmissionRoutingModule } from './admission-routing.module';
 import { ActivityListComponent } from './maestros/activity-list/activity-list.component';
@@ -132,11 +132,15 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
 import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
-import {CdkMenuModule} from '@angular/cdk/menu';
-import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
+import { CdkMenuModule } from '@angular/cdk/menu';
 import { AddDirectoryComponent } from './maestros/directory-list/add-directory/add-directory.component';
 import { AddFileComponent } from './maestros/directory-list/add-file/add-file.component';
-import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component'; @NgModule({
+import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
+import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
+import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
+
+@NgModule({
   declarations: [
     ActivityListComponent,
     LoungeListComponent,
@@ -265,8 +269,10 @@ import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-direct
     AddDirectoryComponent,
     AddFileComponent,
     FirnaDirectoraComponent,
+    TimeSlotsComponent,
+    FranjaHorariaComponent
   ],
-  providers: [VerificarBS64Pipe],
+  providers: [VerificarBS64Pipe, DatePipe],
   imports: [
     CommonModule,
     AdmissionRoutingModule,
@@ -278,7 +284,6 @@ import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-direct
     OwlNativeDateTimeModule,
     CKEditorModule,
     CdkMenuModule
-    
   ]
 })
 export class AdmissionModule { }

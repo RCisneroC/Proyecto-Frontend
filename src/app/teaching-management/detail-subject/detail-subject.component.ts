@@ -92,6 +92,8 @@ export class DetailSubjectComponent implements OnInit {
   ]
   dataTask = new MatTableDataSource<any>(this.dataSourceEvent);
   public id: string = '';
+  public NameActivitySubject: string = '';
+  public pantalla: string = '';
   TaskSubjectArray: TaskSubject[] = [];
   TaskSubject!: TaskSubject;
   @ViewChild('pagination')
@@ -121,11 +123,14 @@ export class DetailSubjectComponent implements OnInit {
 
   load() {
     let local = localStorage.getItem('tipoSolicitud') || '';
+    this.NameActivitySubject = localStorage.getItem('actividadEscogida') || '';
     if (local != '') {
       if (local == "1") {
         this.getAllTaskSubject();
+        this.pantalla = 'de asignatura';
       } else {
         this.getAllTaskActivity();
+        this.pantalla = 'de actividades';
       }
       //   this.TaskSubjectArray = JSON.parse(local);
 
@@ -145,9 +150,14 @@ export class DetailSubjectComponent implements OnInit {
     }
     this._SubjectService.GetTaskSubject(data).subscribe({
       next: (res) => {
-        this.dataTask = new MatTableDataSource<DataTaskSubject>(res.data);
-        this.dataTask.paginator = this.paginator;
-        this.taskSubject.nombre=res.data[0].subject.name
+        console.log(res);
+        if (res.data.length > 0) {
+          this.dataTask = new MatTableDataSource<DataTaskSubject>(res.data);
+          this.dataTask.paginator = this.paginator;
+          this.taskSubject.nombre = res.data[0].subject.name
+        } else {
+          this.taskSubject.nombre = this.NameActivitySubject;
+        }
 
       }
     })
@@ -159,13 +169,14 @@ export class DetailSubjectComponent implements OnInit {
     }
     this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
-        console.log('====================================');
-        console.log(res);
-        console.log('====================================');
-        this.dataTask = new MatTableDataSource<any>(res.data);
-        this.taskSubject.nombre=res.data[0].activity.name
-        //this.dataTask.paginator = this.paginator_;
-
+        if (res.data.length > 0) {
+          this.dataTask = new MatTableDataSource<any>(res.data);
+          this.taskSubject.nombre = res.data[0].activity.name
+          //this.dataTask.paginator = this.paginator_;
+        } else {
+          this.taskSubject.nombre = this.NameActivitySubject;
+          //this.dataTask.paginator = this.paginator_;
+        }
       }
     })
   }
