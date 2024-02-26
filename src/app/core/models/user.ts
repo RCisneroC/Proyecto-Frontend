@@ -4,19 +4,19 @@ export class User {
    cedula!: string;
    userName!: string;
    password!: string;
-   firstName!: string; 
+   firstName!: string;
    lastName!: string;
-   emailConfirm!:boolean;
-   email!:string;
-   statusId!:number;
-   gender!:string;
-   phoneNumber!:null;
-   createdDate!:string;
-   isRegistered!:boolean;
+   emailConfirm!: boolean;
+   email!: string;
+   statusId!: number;
+   gender!: string;
+   phoneNumber!: string;
+   createdDate!: string;
+   isRegistered!: boolean;
    token!: string;
    roles!: string[];
- 
-  
+
+
 }
 
 

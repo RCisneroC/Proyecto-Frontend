@@ -12,10 +12,13 @@ import { MatSort } from '@angular/material/sort';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 
 import { RoleService } from './services/role.service';
-import { Role } from 'app/security/models/role';
+import { Menu, Role, SubMenu } from 'app/security/models/role';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { Direction } from '@angular/cdk/bidi';
 import { RoleFormComponent } from '../role-form/role-form.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { FormsAsignedRolesComponent } from '../forms-asigned-roles/forms-asigned-roles.component';
+import Swal from 'sweetalert2';
 
 
 
@@ -24,14 +27,143 @@ import { RoleFormComponent } from '../role-form/role-form.component';
   templateUrl: './role-list.component.html',
   styleUrls: ['./role-list.component.scss']
 })
-export class RoleListComponent  extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+export class RoleListComponent extends UnsubscribeOnDestroyAdapter
+  implements OnInit {
 
   displayedColumns = [
     'name',
     'actions',
   ];
-  
+
+  public _menu: Menu[] = [
+    {
+      id: 1,
+      name: 'Planificación',
+    },
+    {
+      id: 2,
+      name: 'Inscripción de Entrenamiento',
+    },
+    {
+      id: 3,
+      name: 'Inscripción de Educación Especializada',
+    },
+    {
+      id: 4,
+      name: 'Aprobaciones de Entrenamiento',
+    },
+    {
+      id: 5,
+      name: 'Aprobaciones de Educación Especializada',
+    },
+    {
+      id: 6,
+      name: 'Ajustes Educación Especializada',
+    },
+    {
+      id: 8,
+      name: 'Ajustes Educación Especializada',
+    },
+    {
+      id: 9,
+      name: 'Gestión de Solicitudes Varias',
+    },
+    {
+      id: 10,
+      name: 'Panel de control del estudiante',
+    },
+    {
+      id: 12,
+      name: 'Matricula del estudiante',
+    },
+    {
+      id: 13,
+      name: 'Historial Academido del estudiante',
+    },
+    {
+      id: 14,
+      name: 'Perfil del docente',
+    },
+    {
+      id: 15,
+      name: 'Solicitudes de docentes',
+    },
+    {
+      id: 16,
+      name: 'Historial del docente',
+    },
+    {
+      id: 17,
+      name: 'Intranet',
+    },
+    {
+      id: 18,
+      name: 'Seguridad',
+    },
+
+  ]
+  public _SubMenu: SubMenu[] = [
+    {
+      id: 1,
+      name: 'Cronograma de Entrenamieno',
+      idMenu: 1
+    },
+    {
+      id: 2,
+      name: 'Cronograma de Educación Especializada',
+      idMenu: 1
+    },
+    {
+      id: 3,
+      name: 'Incripción por Backoffice',
+      idMenu: 2
+    },
+    {
+      id: 4,
+      name: 'Listado de participantes',
+      idMenu: 2
+    },
+    {
+      id: 5,
+      name: 'Incripción por Backoffice',
+      idMenu: 3
+    },
+    {
+      id: 6,
+      name: 'Listado de participantes',
+      idMenu: 3
+    },
+    {
+      id: 5,
+      name: 'Cronograma de Entrenamiento',
+      idMenu: 4
+    },
+    {
+      id: 6,
+      name: 'Solicitudes de Salones',
+      idMenu: 4
+    },
+    {
+      id: 5,
+      name: 'Solicitudes de Afiches',
+      idMenu: 4
+    },
+    {
+      id: 6,
+      name: 'Plan Anual',
+      idMenu: 5
+    },
+    {
+      id: 5,
+      name: 'Mallas Curriculares',
+      idMenu: 5
+    },
+    {
+      id: 6,
+      name: 'Solicitud de Afiches',
+      idMenu: 5
+    }
+  ]
   exampleDatabase?: RoleService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Role>(true, []);
@@ -53,6 +185,9 @@ implements OnInit{
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+    console.log('====================================');
+    console.log(this._menu, this._SubMenu);
+    console.log('====================================');
     this.loadData();
   }
   refresh() {
@@ -126,6 +261,44 @@ implements OnInit{
       }
     });
   }
+  addPermisos(row: Role) {
+    this.id = row.id;
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(FormsAsignedRolesComponent, {
+      data: {
+        role: row,
+        action: 'nuevo',
+        submenu: this._SubMenu,
+        menu: this._menu
+      },
+      direction: tempDirection,
+      width: "900px"
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.loadData();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -172,7 +345,7 @@ implements OnInit{
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'First Name': x.name,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -248,7 +421,7 @@ export class ExampleDataSource extends DataSource<Role> {
         case 'name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
