@@ -6,6 +6,8 @@ import {EnrollSubjectsComponent} from "./enroll-subjects/enroll-subjects.compone
 import {EnrollAssignedRoomsComponent} from "./enroll-assigned-rooms/enroll-assigned-rooms.component";
 import {EnrollDetailsComponent} from "./enroll-details/enroll-details.component";
 import {EnrollDetailsMeshComponent} from "./enroll-details-mesh/enroll-details-mesh.component";
+import { OfertasCarrerasComponent } from './OfertasAcademicas/ofertas-carreras/ofertas-carreras.component';
+import { OfertasActividadesComponent } from './OfertasAcademicas/ofertas-actividades/ofertas-actividades.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
   {
     path:"enroll-details-mesh",
     component: EnrollDetailsMeshComponent
+  },
+  {
+    path:"ofertasacademicas/ofertas-carreras",
+    component: OfertasCarrerasComponent
+  },
+  {
+    path:"ofertasacademicas/ofertas-actividades",
+    component: OfertasActividadesComponent
   }
 ];
 
