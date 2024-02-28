@@ -73,6 +73,7 @@ import {
 import {
   EnrollmentDirectBackofficeComponent
 } from "./enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component";
+import { AuditListComponent } from './maestros/audit-list/audit-list.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -331,6 +332,10 @@ const routes: Routes = [
   {
     path: 'firma',
     component: FirnaDirectoraComponent,
+  },
+  {
+    path: 'audit-list',
+    component: AuditListComponent,
   }
 
 ];

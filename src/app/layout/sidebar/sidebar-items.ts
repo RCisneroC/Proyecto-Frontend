@@ -242,6 +242,19 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
+      
+      {
+        path: "/admission/audit-list",
+        title: "Auditoria GD",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        Role: 'Administrador',
+        submenu: []
+      },
       {
         path: "/admission/activity-ubication-list",
         title: "Ubicación Actividades",

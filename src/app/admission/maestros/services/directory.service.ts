@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
-import { Data, Directory, FileData } from 'app/admission/models/directory';
+import { Data, DataD, Directory, FileData } from 'app/admission/models/directory';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
 import { FoodNode } from '../directory-list/directory-list.component';
@@ -74,6 +74,19 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
     //UpdateFolder?FolderId=6&NewFolderName=newfoldername
     return this.httpClient.put(environment.apiDocument+'Files/UpdateFile',data);
    }
+   
+   GetHistoryFile(id:number) {
+   
+    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
+    return this.httpClient.get<DataD>(environment.apiDocument+'Files/GetAuditFile?FileId='+id)
+  }
+   
+   
+   GetHistoryFolder(id:number) {
+   
+    return this.httpClient.get<DataD>(environment.apiDocument+'Folder/GetAuditFolder?FolderId='+id)
+   }
+   
    
    
   
