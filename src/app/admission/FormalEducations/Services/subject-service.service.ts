@@ -5,6 +5,8 @@ import { Subject } from '../Models/Subject';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
+import { SubjectResponse } from 'app/teaching-management/models/Teacher';
+import { SurveyResponse } from 'app/enrollment/models/QuestionsSubject';
 
 @Injectable({
   providedIn: 'root'
@@ -177,6 +179,14 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     }
   }
 
+
+viewSurveySub(periodId:number,year:number,subjectId:number,teacherCedula:string){
+  return this.httpClient.get(environment.apiEF + 'Survey/GetAllQuestionScoreCountBy?PeriodId='+periodId+'&Year='+year+'&SubjectId='+subjectId+'&TeacherCedula='+teacherCedula);
+}
+
+viewSurveyAct(actId:number,teacherCedula:string){
+  return this.httpClient.get(environment.apiUrlSchedule + 'Survey/GetAllQuestionScoreCountBy?ActivityId='+actId+'&TeacherCedula='+teacherCedula);
+}
   SaveEncuesta(data: any) {
     return this.httpClient.post(environment.apiEF + 'Survey/Create', data);
   }

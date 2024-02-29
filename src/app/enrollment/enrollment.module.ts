@@ -15,6 +15,7 @@ import { EncuestaActivityComponent } from './Encuestas/encuesta-activity/encuest
 import { EnrollDetailsMeshComponent } from './enroll-details-mesh/enroll-details-mesh.component';
 import { ViewCalificacionesComponent } from './Forms/view-calificaciones/view-calificaciones.component';
 import { EnrollAttendenceFormComponent } from './enroll-attendence-form/enroll-attendence-form.component';
+import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { EnrollAttendenceFormComponent } from './enroll-attendence-form/enroll-a
     EnrollDetailsMeshComponent,
     ViewCalificacionesComponent,
     EnrollAttendenceFormComponent,
+    ViewSurveyComponent,
   ],
   imports: [
     CommonModule,

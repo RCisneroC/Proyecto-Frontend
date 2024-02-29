@@ -22,29 +22,38 @@
             
             
               <ng-container matColumnDef="by">
-                <mat-header-cell *matHeaderCellDef> by </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Creado por </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{ element.by }} </mat-cell>
               </ng-container>
             
               <ng-container matColumnDef="lastModifiedDate">
-                <mat-header-cell *matHeaderCellDef> Fecha de modificacion </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{ element.lastModifiedDate }} </mat-cell>
+                <mat-header-cell *matHeaderCellDef> Fecha de modificación </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.lastModifiedDate===null?(element.createdDate |
+                  date:'dd/M/yyyy'
+                ):element.lastModifiedDate |
+                  date:'dd/M/yyyy'}} </mat-cell>
               </ng-container>
               
               <ng-container matColumnDef="createdDate">
                 <mat-header-cell *matHeaderCellDef> Fecha de creación</mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{ element.createdDate }} </mat-cell>
+                <mat-cell *matCellDef="let element"> {{ element.createdDate |
+                  date:'dd/M/yyyy' }} </mat-cell>
               </ng-container>
             
           
             <ng-container matColumnDef="changeType">
-              <mat-header-cell *matHeaderCellDef> tipo de cambio </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Tipo de cambio </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{ element.changeType }} </mat-cell>
             </ng-container>
           
-            <ng-container matColumnDef="fileName">
-              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.fileName }} </mat-cell>
+            <ng-container *ngIf="data.action==='file'" matColumnDef="fileName">
+              <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.fileName}} </mat-cell>
+            </ng-container>
+            
+            <ng-container  *ngIf="data.action!=='file'" matColumnDef="folderName">
+              <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.folderName}} </mat-cell>
             </ng-container>
           
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

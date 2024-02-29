@@ -11,6 +11,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
+import { ViewSurveyComponent } from 'app/enrollment/Encuestas/view-survey/view-survey.component';
 
 
 @Component({
@@ -208,6 +209,52 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+  
+  
+  ViewSurveyAct(row: Activity) {
+    const dialogRef = this.dialog.open(ViewSurveyComponent, {
+      data: {
+        activity: row,
+        action: "A",
+        subject: null,
+        cedula:this.cedula
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+   
+    });
+
+  }
+  
+
+  ViewSurveySub(row: SubjectResponse) {
+   
+    const dialogRef = this.dialog.open(ViewSurveyComponent, {
+      data: {
+        activity: null,
+        action: "S",
+        subject: row,
+        cedula:this.cedula
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+    
+    });
+
+  }
+
 
   calificacionFinalSubject(row: SubjectResponse) {
     localStorage.setItem('tipoSolicitud', "1");

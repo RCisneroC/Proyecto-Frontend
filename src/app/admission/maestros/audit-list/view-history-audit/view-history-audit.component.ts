@@ -24,13 +24,15 @@ export class ViewHistoryAuditComponent  implements OnInit{
 
 
 
-  displayedColumns: string[] = ['changeType', 'fileName', 'createdDate', 'by', 'lastModifiedDate'];
+  displayedColumns: string[] = [];
   
   ngOnInit(): void {
   if(this.data.action==="file"){
+  this.displayedColumns=['changeType', 'fileName', 'createdDate', 'by', 'lastModifiedDate'];
     this.getHistoryAudFile();
     this.dialogTitle = 'Historial archivo';
   }else{
+    this.displayedColumns=['changeType', 'folderName', 'createdDate', 'by', 'lastModifiedDate'];
     this.getHistoryAudFolder();
     this.dialogTitle = 'Historial carpeta';
   }
