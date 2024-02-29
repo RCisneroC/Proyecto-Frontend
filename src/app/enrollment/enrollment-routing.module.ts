@@ -8,6 +8,10 @@ import {EnrollDetailsComponent} from "./enroll-details/enroll-details.component"
 import {EnrollDetailsMeshComponent} from "./enroll-details-mesh/enroll-details-mesh.component";
 import { OfertasCarrerasComponent } from './OfertasAcademicas/ofertas-carreras/ofertas-carreras.component';
 import { OfertasActividadesComponent } from './OfertasAcademicas/ofertas-actividades/ofertas-actividades.component';
+import { BackofficeEFComponent } from './OfertasAcademicas/inscripcion/backoffice-ef.component';
+import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcion-actividades/activity-list-inscription.component';
+import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
+import { InfoStudentComponent } from './info-student/info-student.component';
 
 const routes: Routes = [
   {
@@ -41,6 +45,22 @@ const routes: Routes = [
   {
     path:"ofertasacademicas/ofertas-actividades",
     component: OfertasActividadesComponent
+  },
+  {
+    path:"ofertasacademicas/inscripcion/:id",
+    component: BackofficeEFComponent
+  },
+  {
+    path:"ofertasacademicas/inscripcion-actividades/:id",
+    component: ActivityListInscriptionComponent
+  },
+  {
+    path:"ofertasacademicas/inscripcion-actividades/backoffice/:id",
+    component: BackofficeComponent
+  },
+  {
+    path:"info-student",
+    component: InfoStudentComponent
   }
 ];
 

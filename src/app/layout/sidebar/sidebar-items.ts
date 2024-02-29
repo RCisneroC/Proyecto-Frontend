@@ -660,7 +660,7 @@ export const ROUTES: RouteInfo[] = [
     path: '',
     title: 'Ofertas Académicas',
     iconType: 'feather',
-    icon: 'table',
+    icon: 'bell',
     class: 'menu-toggle',
     groupTitle: false,
     badge: '',
@@ -669,7 +669,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: '/enrollment/ofertasacademicas/ofertas-carreras',
-        title: 'Carreras',
+        title: 'Formación Especializada',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -719,6 +719,18 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/intranet-academic/list-requests-various',
         title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/intranet-academic/creditos-no-oficiales',
+        title: 'Créditos no oficiales',
         iconType: '',
         icon: '',
         class: 'ml-menu',

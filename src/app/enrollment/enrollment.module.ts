@@ -17,7 +17,11 @@ import { ViewCalificacionesComponent } from './Forms/view-calificaciones/view-ca
 import { EnrollAttendenceFormComponent } from './enroll-attendence-form/enroll-attendence-form.component';
 import { OfertasCarrerasComponent } from './OfertasAcademicas/ofertas-carreras/ofertas-carreras.component';
 import { OfertasActividadesComponent } from './OfertasAcademicas/ofertas-actividades/ofertas-actividades.component';
-
+import { BackofficeEFComponent } from './OfertasAcademicas/inscripcion/backoffice-ef.component';
+import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcion-actividades/activity-list-inscription.component';
+import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
+import { InfoStudentComponent } from './info-student/info-student.component';
+import { AddExperienceComponent } from './info-student/components/add-experience/add-experience.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,11 @@ import { OfertasActividadesComponent } from './OfertasAcademicas/ofertas-activid
     EnrollAttendenceFormComponent,
     OfertasCarrerasComponent,
     OfertasActividadesComponent,
+    BackofficeEFComponent,
+    ActivityListInscriptionComponent,
+    BackofficeComponent,
+    InfoStudentComponent,
+    AddExperienceComponent
   ],
   imports: [
     CommonModule,

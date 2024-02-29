@@ -1,6 +1,10 @@
 <section class="content">
   <div class="content-block">
     <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Formación Especializada'" [items]="['Inicio','Ofertas Académicas']"
+        [active_item]="'Listado Carreras'">
+      </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -14,21 +18,26 @@
                 <div class="card">
                   <div class="body overflow-auto">
                     <div class="responsive_table">
-                      <table class="table">
+                      <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
+                      <table class="table" *ngIf="!IsLoading">
                         <thead>
                             <th>Descripción</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Fin</th>
+                            <th>Estado</th>
                             <th>Acción</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of lstCarreras">
                                 <td>{{ item.description }}</td>
-                                <td>{{ item.startDate | date:'shortDate' }}</td>
-                                <td>{{ item.endDate| date:'shortDate' }}</td>
+                                <td>{{ item.startDate | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ item.endDate| date:'dd/MM/yyyy' }}</td>
+                                <td>
+                                  <span class="badge badge-solid-green">{{ item.statusId|statusPipe }}</span>
+                                </td>
                                 <td>
                                 <button mat-mini-fab color="primary" title="Ver Carrera"
-                                (click)="$event.stopPropagation()" class="tbl-action-btn">
+                                (click)="inscribirse(item.id)" class="tbl-action-btn">
                                 <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                 </button>
                                 </td>
