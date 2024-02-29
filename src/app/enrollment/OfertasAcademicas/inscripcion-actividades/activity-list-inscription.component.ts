@@ -84,6 +84,8 @@ implements OnInit{
 
   public loadData() {
     this.exampleDatabase = new ScheduleActivitiesService(this.httpClient);
+
+
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -98,6 +100,7 @@ implements OnInit{
         this.dataSource.filter = this.filter.nativeElement.value;
       }
     );
+    console.log(this.dataSource)
   }
   showNotification(
     colorName: string,

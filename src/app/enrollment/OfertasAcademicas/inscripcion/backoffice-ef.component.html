@@ -26,26 +26,8 @@
                 <mat-step [stepControl]="FormsEF!">
                   <form [formGroup]="FormsEF!">
                     <ng-template matStepLabel>Datos Personales</ng-template>
-                    <div class="row">
-                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                        <mat-form-field class="example-full-width " appearance="outline">
-                          <mat-label>Documento de Identidad (Unico)</mat-label>
-                          <input #filter matInput formControlName="cedula">
-                          <mat-icon (click)="getPersonData(filter.value)" class="material-icons-two-tone color-icon p-3"
-                            matSuffix>search</mat-icon>
-                          <mat-error *ngIf="FormsEF.get('cedula')?.hasError('required')">
-                            Requerido
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                        <mat-spinner diameter="45" *ngIf="loading"> </mat-spinner>
-                      </div>
-
-                    </div>
+                    <br />
                     <div *ngIf="tribunalReady" class="row">
-
-
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Nombre</mat-label>
