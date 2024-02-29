@@ -59,6 +59,28 @@ export class EditActivityFormsComponent implements OnInit {
     language: 'es',
     toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed'],
   }
+  typeActivityListTyp2: TypeActivity[] = [
+    {
+      id: 5,
+      name: 'Formación por competencia',
+      statusId: 1,
+    },
+    {
+      id: 6,
+      name: 'Concurso abierto fase 3',
+      statusId: 1,
+    },
+    {
+      id: 7,
+      name: 'Curso de Integración',
+      statusId: 1,
+    },
+    {
+      id: 8,
+      name: 'Nuevos Abogados',
+      statusId: 1,
+    }
+  ];
   @ViewChild('stepper') stepper: MatStepper | undefined;
   constructor(
     public dialogRef: MatDialogRef<EditActivityFormsComponent>,
@@ -146,6 +168,7 @@ export class EditActivityFormsComponent implements OnInit {
       participantAdmissionProfile: [data.actividad.participantAdmissionProfile],//
       participantGraduateProfile: [data.actividad.participantGraduateProfile],//
       teachingMethodology: [data.actividad.teachingMethodology],//
+      activityTrainingType: [data.actividad.activityTrainingType.toString()]
 
     });
     this.action = this.data.accion;
@@ -223,6 +246,7 @@ export class EditActivityFormsComponent implements OnInit {
       participantGraduateProfile: this.editActivity.controls['participantGraduateProfile'].value,
       teachingMethodology: this.editActivity.controls['teachingMethodology'].value,
       certificatesReceived: 0,
+      activityTrainingType: this.editActivity.controls['activityTrainingType'].value,
     };
     this._ActivityDetailService.UpdateActivity(this.RoweditActivity).subscribe({
       next: () => {
@@ -287,7 +311,7 @@ export class EditActivityFormsComponent implements OnInit {
   }
 
   loadTypeActivity() {
-    this._typeActivityService.getAllTypeActivity2().subscribe({
+    this._typeActivityService.getAllTypeActivity2(1).subscribe({
       next: (data) => {
         this.typeActivityList = data;
       },

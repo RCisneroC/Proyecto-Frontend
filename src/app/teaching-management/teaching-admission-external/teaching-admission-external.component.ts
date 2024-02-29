@@ -303,8 +303,9 @@ FormsEFDocument!: UntypedFormGroup;
     if(TeacherId>0){
    
      for (let i = 0; i < tem.length ; i++) {
-      const formdata=new FormData();
+      
       if(tem[i]!=undefined){
+        const formdata=new FormData();
         formdata.append('FileDetails',tem[i]);
         formdata.append('TeacherId',TeacherId.toString());
         formdata.append('DocTypeId',this.tmp_docType[i]);

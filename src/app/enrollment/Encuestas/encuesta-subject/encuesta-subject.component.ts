@@ -304,7 +304,7 @@ export class EncuestaSubjectComponent {
           studentId: this._subjectEnrollmentResult.studentId.toString(),
           teacherCedula: this._subjectEnrollmentResult.teacherCedula,
           periodId: this._subjectEnrollmentResult.periodsId,
-          year: 1,
+          year: this._subjectEnrollmentResult.years,
           subjectId: this._subjectEnrollmentResult.asignaturaId,
           SurveyType: this.SelectType
         };
@@ -431,7 +431,7 @@ export class EncuestaSubjectComponent {
       studentId: this._subjectEnrollmentResult.studentId.toString(),
       teacherCedula: this._subjectEnrollmentResult.teacherCedula,
       periodId: this._subjectEnrollmentResult.periodsId,
-      year: 1,
+      year: this._subjectEnrollmentResult.years,
       subjectId: this._subjectEnrollmentResult.asignaturaId
     };
 
@@ -446,7 +446,7 @@ export class EncuestaSubjectComponent {
           studentId: this._subjectEnrollmentResult.studentId.toString(),
           teacherCedula: this._subjectEnrollmentResult.teacherCedula,
           periodId: this._subjectEnrollmentResult.periodsId,
-          year: 1,
+          year: this._subjectEnrollmentResult.years,
           subjectId: this._subjectEnrollmentResult.asignaturaId
         };
         this._ActivityService.SaveCommentEF(data).subscribe({

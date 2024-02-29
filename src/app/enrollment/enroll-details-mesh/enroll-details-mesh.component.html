@@ -3,7 +3,7 @@
     <div class="block-header">
       <!-- breadcrumb -->
       <app-breadcrumb [title]="'Matrícula'" [items]="['Inicio','Admisión','Cronograma']"
-                      [active_item]="'Detalle del Matrícula'">
+        [active_item]="'Detalle del Matrícula'">
       </app-breadcrumb>
     </div>
 
@@ -173,8 +173,15 @@
                       <mat-icon>remove_red_eye</mat-icon>
                     </button>
                     <button mat-mini-fab color="accent" (click)="verCalificaciones(element)"
-                            matTooltip="Ver Caificaciones">
+                      matTooltip="Ver Caificaciones">
                       <mat-icon>mobile_friendly</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="accent" (click)="VerNotaFinal(element)" matTooltip="Nota Final">
+                      <mat-icon>receipt</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="accent" (click)="generarcertificado(element)"
+                      matTooltip="Generar Certificado">
+                      <mat-icon>school</mat-icon>
                     </button>
                   </td>
                 </ng-container>

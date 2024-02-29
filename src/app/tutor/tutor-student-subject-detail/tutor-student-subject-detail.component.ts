@@ -52,7 +52,8 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     mallaName: '',
     degreeId: 0,
     nAmeDegree: '',
-    teacherCedula: ''
+    teacherCedula: '',
+    years: 0
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,

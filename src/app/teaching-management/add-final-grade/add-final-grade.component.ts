@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { Student } from '../models/Asistencias';
+import { Student, generico } from '../models/Asistencias';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TeacherService } from '../services/teacher.service';
@@ -12,6 +12,7 @@ export interface DialogData {
   id: string;
   tipo_solicitud: string;
   mallaId: number;
+  estudiante: Student;
 }
 
 @Component({
@@ -29,7 +30,9 @@ export class AddFinalGradeComponent {
   dialogTitle: string = '';
   FormsCalificacion!: UntypedFormGroup;
   student!: Student;
+  RecordId!: generico;
   id!: number;
+  gradeFinal: number = 0;;
 
   constructor(
     public dialogRef: MatDialogRef<AddFinalGradeComponent>,
@@ -38,9 +41,6 @@ export class AddFinalGradeComponent {
     public _ServiceTecher: TeacherService
   ) {
     // Set the defaults
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
     this.action = data.accion;
 
     if (this.action == 'add') {
@@ -49,22 +49,17 @@ export class AddFinalGradeComponent {
         this.SearchECAcademicRecord();
       }
       if (data.tipo_solicitud == '1') {
-        this.SearchECAcademicRecord();
+        this.GetAcademicSubject();
       }
 
     } else if (this.action == 'view') {
-      // this.dialogTitle = "Ver calificación";
-      // this.student = data.student;
-      // //this.getCalificacion();
-      // this.FormsCalificacion = this.createContactForm();
-      // let local = localStorage.getItem('tipoSolicitud') || '';
-      // if (local != '') {
-      //   if (local == "1") {
-      //     this.getCalificacionSubj();
-      //   } else {
-      //     this.getCalificacionActi();
-      //   }
-      // }
+      this.dialogTitle = "Ver nota final";
+      if (data.tipo_solicitud == '2') {
+        this.SearchECAcademicRecord();
+      }
+      if (data.tipo_solicitud == '1') {
+        this.GetAcademicSubject();
+      }
     }
     this.FormsCalificacion = this.createContactForm();
     //this.getRecordAcademic();
@@ -118,7 +113,35 @@ export class AddFinalGradeComponent {
           }
         });
       } else if (this.data.tipo_solicitud == "1") {
-
+        let dataSearch = {
+          activityId: this.data.id,
+          participantId: this.data.participantId
+        }
+        if (this.FormsCalificacion.controls['calif'].value > 60) {
+          paso = true;
+        }
+        let datasend = {
+          academicRecordId: this.RecordId.efAcademicRecordId,
+          isReentry: this.RecordId.isReentry,
+          activityApproved: paso,
+          subjectApproved: paso,
+          finalScore: this.FormsCalificacion.controls['calif'].value,
+          entryYear: this.RecordId.entryYear,
+          id: this.RecordId.id
+        };
+        this._ServiceTecher.UpdateAcademicSubjectRecord(datasend).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Ingresado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          }, error: (err) => {
+            console.log(err);
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        });
       }
     }
   }
@@ -146,6 +169,7 @@ export class AddFinalGradeComponent {
           });
           this.dialogRef.close();
         } else {
+          this.gradeFinal = res.data[0].finalScore;
           if (res.data[0].finalScore > 0) {
             this.FormsCalificacion.controls['calif'].setValue(res.data[0].finalScore)
           }
@@ -153,5 +177,43 @@ export class AddFinalGradeComponent {
       }
     });
   }
+
+  GetAcademicSubject() {
+    let dataSearch = {
+      studentId: this.data.studentId,
+      degreeCurriculumDesignId: this.data.mallaId
+    }
+    console.log(dataSearch);
+
+    this._ServiceTecher.GetAcademicSubject(dataSearch).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res != null) {
+          if (res.data.length == 0) {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'No mantiene Record Academico',
+              icon: "warning"
+            });
+            this.dialogRef.close();
+          } else {
+            res.data.forEach((item: generico) => {
+              if (!item.isReentry && item.subjectId == parseInt(this.data.id)) {
+                this.RecordId = item;
+                this.FormsCalificacion.controls['calif'].setValue(this.RecordId.finalScore);
+                this.gradeFinal = item.finalScore;
+              }
+
+            })
+          }
+        }
+
+      }
+    });
+  }
+
 }
+
+
+
 

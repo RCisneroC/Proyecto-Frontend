@@ -150,7 +150,7 @@
                                 <label for="">{{ _ActivityService._GetOneActivity.endTime |date:'shortTime' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-                                <h6>Recurso</h6>
+                                <h6>Recursos</h6>
                                 <div class="row g-0 p-1">
                                     <div class="col-12" class="app-icons">
                                         <mat-form-field>
@@ -162,6 +162,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                <h6>Certificación o Recertificación</h6>
+                                <label for=""
+                                    *ngIf="_ActivityService._GetOneActivity.activityTrainingType==1">Si</label>
+                                <label for=""
+                                    *ngIf="_ActivityService._GetOneActivity.activityTrainingType==2">No</label>
+                            </div>
+
                             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="HasCertificate">
                                 <h6>Ver Certificado</h6>
                                 <button style="margin-bottom: 10px;" matTooltip="Gestionar Salones" mat-raised-button
@@ -272,14 +281,27 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
-                        <h2 class="text-uppercase"><strong>Documentos requeridos por ISJUP ( <span
-                                    class="badge badge-solid-red">REQUERIDO</span> )</strong>
+                        <ng-container
+                            *ngIf="_ActivityService._GetOneActivity.activityTrainingType==2; else elseTemplate">
+                            <h2 class="text-uppercase"><strong>Documentos requeridos por ISJUP ( <span
+                                        class="badge badge-solid-green">OPCIONAL</span> )</strong>
 
-                            <button (click)="AddDocumentos()" matTooltip="Agregar Documentos"
-                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h2>
+                                <button (click)="AddDocumentos()" matTooltip="Agregar Documentos"
+                                    style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </h2>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <h2 class="text-uppercase"><strong>Documentos requeridos por ISJUP ( <span
+                                        class="badge badge-solid-green">OPCIONAL</span> )</strong>
+
+                                <button (click)="AddDocumentos()" matTooltip="Agregar Documentos"
+                                    style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </h2>
+                        </ng-template>
                     </div>
                     <div class="body" *ngIf="_ActivityService.loading==false">
                         <div class="body table-responsive">
@@ -307,7 +329,8 @@
                     <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                *ngIf="_ActivityService._GetOneActivity.activityTrainingType==2">
                 <div class="card">
                     <div class="header" *ngIf="_ActivityService.loading==false">
                         <h2 class="text-uppercase"><strong>Afiches ( <span
@@ -487,8 +510,10 @@
             color="accent" (click)="editarActividad(_ActivityService._GetOneActivity)">
             <mat-icon>edit</mat-icon> Editar Actividad.
         </button>
-        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.statusId != 3" matTooltip="Crear Convocatoria"
-            color="primary" (click)="generarConvocatoria(_ActivityService._GetOneActivity)">
+        <button mat-menu-item
+            *ngIf="_ActivityService._GetOneActivity.statusId != 3 && _ActivityService._GetOneActivity.activityTrainingType==2"
+            matTooltip="Crear Convocatoria" color="primary"
+            (click)="generarConvocatoria(_ActivityService._GetOneActivity)">
             <mat-icon>refresh</mat-icon> Generar Convocatoria.
         </button>
 
@@ -503,7 +528,8 @@
             <mat-icon>add_alarm</mat-icon>Planificar Horas
         </button>
 
-        <button mat-menu-item *ngIf="_ActivityService._GetOneActivity.totalHours>80"
+        <button mat-menu-item
+            *ngIf="_ActivityService._GetOneActivity.totalHours>80 && _ActivityService._GetOneActivity.activityTypeId!=7"
             matTooltip="Crear Diseño Curricular" color="primary"
             (click)="GoDesignCurriculum(_ActivityService._GetOneActivity)">
             <mat-icon>add_to_queue</mat-icon>Crear Diseño Curricular.

@@ -47,7 +47,9 @@
                                   >folder </mat-icon
                                 >
                               </button>
-                             
+                             <ng-container *ngFor="let file of  data.files">
+                              {{file.folderName}}
+                             </ng-container>
                               {{data.folderName}}
                         
                             </td>
@@ -85,6 +87,7 @@
                                   <!-- <button class="example-menu-item" (click)="downloadZip(data)" cdkMenuItem>Descargar zip</button> -->
                                   <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
                                   <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
+                                  <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newFolder(data,'newfolder')" cdkMenuItem>Nueva carpeta</button>
                                 
                                   <button class="example-menu-item" *ngIf="data.extension!==undefined" (click)="newfile(data,'file')" cdkMenu2Item>Remplazar archivo</button>
                                   <button class="example-menu-item" *ngIf="data.extension!==undefined"(click)="newFolder(data,'file')" cdkMenu2Item>Cambiar nombre</button>

@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit {
+  implements OnInit {
 
   displayedColumns = [
     'userName',
@@ -36,7 +36,7 @@ implements OnInit {
     'createdDate',
     'actions'
   ];
-  
+
   exampleDatabase?: UserService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<User>(true, []);
@@ -78,19 +78,19 @@ implements OnInit {
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-       if (result == undefined) {
+      if (result == undefined) {
         return;
       }
-      
+
       if (result.CodError == 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
         this.loadData();
       } else {
-         Swal.fire({
+        Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "warning"
@@ -113,20 +113,20 @@ implements OnInit {
       },
       direction: tempDirection,
     });
-     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-       if (result == undefined) {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
         return;
       }
-      
+
       if (result.CodError == 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
         this.loadData();
       } else {
-         Swal.fire({
+        Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "warning"
@@ -174,8 +174,15 @@ implements OnInit {
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.userName,
-       
+        'usuario': x.userName,
+        'nombre': x.firstName,
+        'Apellido': x.lastName,
+        'Correo': x.email,
+        'Cedula': x.cedula,
+        'telefono': x.phoneNumber,
+        'rol': x.roles[0],
+        'Genero': x.gender,
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -219,8 +226,8 @@ export class ExampleDataSource extends DataSource<User> {
           .slice()
           .filter((user: User) => {
             const searchStr = (
-              user.email 
-              
+              user.email
+
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -254,7 +261,7 @@ export class ExampleDataSource extends DataSource<User> {
         case 'userName':
           [propertyA, propertyB] = [a.userName, b.userName];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

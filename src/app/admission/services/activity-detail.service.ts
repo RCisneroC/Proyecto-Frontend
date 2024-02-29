@@ -178,7 +178,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     specificGoals: '',
     teachingMethodology: '',
     virtualRoom: '',
-
+    activityTrainingType: 0,
     roomRequests: [
       this._RoomRequest
     ],
@@ -859,6 +859,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       specificGoals: '',
       teachingMethodology: '',
       virtualRoom: '',
+      activityTrainingType: 0,
       roomRequests: [
         this._RoomRequest
       ],
@@ -999,6 +1000,7 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       specificGoals: '',
       teachingMethodology: '',
       virtualRoom: '',
+      activityTrainingType: 0
     }
   }
   init_RequestRooms() {

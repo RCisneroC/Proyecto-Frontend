@@ -46,7 +46,28 @@ export class ScheduleActivityDetailFormComponent {
   userList!: User[];
   reasonList!: Reason[];
   sourceFundsList!: SourceFunds[];
-
+  typeActivityListTyp2: TypeActivity[] = [
+    {
+      id: 5,
+      name: 'Formación por competencia',
+      statusId: 1,
+    },
+    {
+      id: 6,
+      name: 'Concurso abierto fase 3',
+      statusId: 1,
+    },
+    {
+      id: 7,
+      name: 'Curso de Integración',
+      statusId: 1,
+    },
+    {
+      id: 8,
+      name: 'Nuevos Abogados',
+      statusId: 1,
+    }
+  ];
   id!: number;
 
   constructor(
@@ -100,6 +121,9 @@ export class ScheduleActivityDetailFormComponent {
         : '';
   }
   createContactForm(): UntypedFormGroup {
+    if (this.schedule.activityTrainingType == null) {
+      this.schedule.activityTrainingType = 2;
+    }
     return this.fb.group({
       curriculumDesignId: new FormControl(this.action == "edit" ? this.schedule.curriculumDesignId : this.id, Validators.required),
       id: new FormControl(this.schedule.id),
@@ -120,6 +144,7 @@ export class ScheduleActivityDetailFormComponent {
       hasDataSheet: new FormControl(false),
       dataSheetDeliveryDate: new FormControl(this.schedule.dataSheetDeliveryDate),
       isEvaluation: new FormControl(false),
+      activityTrainingType: new FormControl(this.schedule.activityTrainingType.toString(), Validators.required),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
       observations: new FormControl(this.schedule.observations)
@@ -199,7 +224,7 @@ export class ScheduleActivityDetailFormComponent {
   }
 
   loadTypeActivity() {
-    this._typeActivityService.getAllTypeActivity2().subscribe({
+    this._typeActivityService.getAllTypeActivity2(1).subscribe({
       next: (data) => {
         this.typeActivityList = data;
       },

@@ -52,7 +52,7 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
 
-  // Incripcion
+  // Incripcion EC
   {
     path: 'admission/',
     title: 'Inscripciones EC',
@@ -129,6 +129,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+  // DASHBOARD.
   {
     path: '/dashboard/dashboard1',
     title: 'Panel control',
@@ -142,7 +143,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
 
-  //aprobaciones
+  //aprobaciones EC
   {
     path: '',
     title: 'Aprobaciones EC',
@@ -220,6 +221,19 @@ export const ROUTES: RouteInfo[] = [
       {
         path: "/admission/directory-list",
         title: "Gestión Documentaria",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        Role: 'Administrador',
+        submenu: []
+      },
+      
+      {
+        path: "/admission/audit-list",
+        title: "Auditoria GD",
         iconType: "",
         icon: "",
         class: "ml-menu",
@@ -350,18 +364,18 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
-      {
-        path: '/admission/firma',
-        title: 'Firma',
-        iconType: 'feather',
-        icon: 'calendar',
-        class: '',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        Role: 'Administrador',
-        submenu: [],
-      },
+      // {
+      //   path: '/admission/firma',
+      //   title: 'Firma',
+      //   iconType: 'feather',
+      //   icon: 'calendar',
+      //   class: '',
+      //   groupTitle: false,
+      //   badge: '',
+      //   badgeClass: '',
+      //   Role: 'Administrador',
+      //   submenu: [],
+      // },
 
 
     ]
@@ -453,7 +467,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //aprobaciones
+  //aprobaciones EF
   {
     path: '',
     title: 'Aprobaciones EF',
@@ -503,7 +517,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //gestion docente.
+  //Solicitudes de docentes.
   {
     path: "",
     title: "Gestión Docente",
@@ -542,7 +556,7 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
 
-  //Seguridad
+  //Seguridad administrador
   {
     path: '',
     title: 'Seguridad',
@@ -580,7 +594,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  // Solicitudes
+  // Gestion de Solicitudes
   {
     path: '',
     title: 'Solicitudes',
@@ -606,7 +620,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //estudiante
+  //dashboard Estudiante
   {
     path: '/dashboard/dashboard-student',
     title: 'Panel control',
@@ -619,6 +633,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [],
   },
+  // Matricula Estudiante
   {
     path: '',
     title: 'Matricula',
@@ -656,6 +671,8 @@ export const ROUTES: RouteInfo[] = [
       }
     ],
   },
+
+  //Historial Academico
   {
     path: '',
     title: 'Ofertas Académicas',
@@ -695,7 +712,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '/dashboard/dashboard-tutor',
-    title: 'Panel control',
+    title: 'Historial Academico',
     iconType: 'feather',
     icon: 'calendar',
     class: '',
@@ -705,6 +722,7 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Tutor',
     submenu: [],
   },
+  // Solicitudes Varias
   {
     path: '',
     title: 'Solicitudes',
@@ -780,6 +798,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+  // Solicitudes Varias
   {
     path: '',
     title: 'Solicitudes',
@@ -805,7 +824,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //Coordinador
+  //Historial Profesor  detalle general
   {
     path: '',
     title: 'Docentes',
@@ -833,7 +852,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  //Tutor
+  //Gestion de Tareas 
   {
     path: '',
     title: 'Intranet',

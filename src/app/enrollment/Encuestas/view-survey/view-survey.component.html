@@ -1,0 +1,80 @@
+<div class="addContainer">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+
+          <div class="modal-about">
+            {{dialogTitle}}
+          </div>
+        </div>
+      </div>
+      <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+        <mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="description"  >
+              <mat-header-cell class="description" *matHeaderCellDef> Pregunta </mat-header-cell>
+              <mat-cell class="description" *matCellDef="let element ;let i = index"> {{i + 1+")"+ element.description }} </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="1">
+              <mat-header-cell class="description" *matHeaderCellDef> 1 </mat-header-cell>
+              <!-- <mat-cell *matCellDef="let element ;let i = index"> {{ element.scores[i]===undefined?0:element.scores[i].score===1?element.scores[i].totalStudentCount:0 }} </mat-cell> -->
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let score of element.scores">
+                  {{ score.score===undefined?0:score.score===1?score.totalStudentCount:0 }}
+                </ng-container>
+               </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="2">
+              <mat-header-cell class="description" *matHeaderCellDef> 2 </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let score of element.scores">
+                  {{ score.score===undefined?0:score.score===2?score.totalStudentCount:0 }}
+                </ng-container>
+               </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="3">
+              <mat-header-cell class="description" *matHeaderCellDef> 3 </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let score of element.scores">
+                  {{ score.score===undefined?0:score.score===3?score.totalStudentCount:0 }}
+                </ng-container>
+               </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="4">
+              <mat-header-cell class="description" *matHeaderCellDef> 4 </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let score of element.scores">
+                  {{ score.score===undefined?0:score.score===4?score.totalStudentCount:0 }}
+                </ng-container>
+               </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="5">
+              <mat-header-cell class="description" *matHeaderCellDef> 5 </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let score of element.scores">
+                  {{ score.score===undefined?0:score.score===5?score.totalStudentCount:0 }}
+                </ng-container>
+               </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <div style="display: flex; justify-content: center; align-items: center;" *ngIf="dataSource.data?.length === 0">
+            {{ noDataMessage }}
+          </div>
+    </div>
+  </div>
+  
+
+
+

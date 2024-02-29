@@ -505,7 +505,8 @@ export class ActivitydetailComponent implements OnInit {
       specificGoals: row.specificGoals,
       teachingMethodology: row.teachingMethodology,
       virtualRoom: row.virtualRoom,
-      certificatesReceived: 0
+      certificatesReceived: 0,
+      activityTrainingType: row.activityTrainingType
     }
     const dialogRef = this._dialog.open(EditActivityFormsComponent, {
       data: {

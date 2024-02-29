@@ -22,6 +22,8 @@ import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcio
 import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
 import { InfoStudentComponent } from './info-student/info-student.component';
 import { AddExperienceComponent } from './info-student/components/add-experience/add-experience.component';
+import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { AddExperienceComponent } from './info-student/components/add-experience
     ActivityListInscriptionComponent,
     BackofficeComponent,
     InfoStudentComponent,
-    AddExperienceComponent
+    AddExperienceComponent,
+    ViewSurveyComponent,
   ],
   imports: [
     CommonModule,

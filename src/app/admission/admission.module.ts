@@ -9,8 +9,7 @@ import { TypeActivityListComponent } from './maestros/type-activity-list/type-ac
 import { ModalityListComponent } from './maestros/modality-list/modality-list.component';
 import { LoungeFormComponent } from './maestros/lounge-form/lounge-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@shared/components/components.module';
-import { SharedModule } from '@shared';
+
 import { ScheduleActivityFormComponent } from './schedule-activity-form/schedule-activity-form.component';
 import { ScheduleActivitiesListComponent } from './schedule-activities-list/schedule-activities-list.component';
 import { ActivityFormComponent } from './maestros/activity-form/activity-form.component';
@@ -133,12 +132,16 @@ import { EvaluationsCriteriaFormsComponent } from './activitydetail/design-curri
 import { ActivityLearningFormsComponent } from './activitydetail/design-curriculun/Module/Foms/activity-learning-forms/activity-learning-forms.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { AddDirectoryComponent } from './maestros/directory-list/add-directory/add-directory.component';
 import { AddFileComponent } from './maestros/directory-list/add-file/add-file.component';
 import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
+import { AuditListComponent } from './maestros/audit-list/audit-list.component';
+import { ViewHistoryAuditComponent } from './maestros/audit-list/view-history-audit/view-history-audit.component';
+import { DirectoryFormComponent } from './maestros/directory-form/directory-form.component';
 import { TimeSlotsComponent } from './maestros/time-slots/time-slots.component';
 import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/forms/franja-horaria/franja-horaria.component';
+import { SharedModule } from '@shared';
+import { ComponentsModule } from '@shared/components/components.module';
 
 @NgModule({
   declarations: [
@@ -269,6 +272,8 @@ import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/for
     AddDirectoryComponent,
     AddFileComponent,
     FirnaDirectoraComponent,
+    AuditListComponent,
+    ViewHistoryAuditComponent,
     TimeSlotsComponent,
     FranjaHorariaComponent
   ],
@@ -278,8 +283,8 @@ import { FranjaHorariaComponent } from './activitydetail/forms/room-requests/for
     AdmissionRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule,
     SharedModule,
+    ComponentsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     CKEditorModule,

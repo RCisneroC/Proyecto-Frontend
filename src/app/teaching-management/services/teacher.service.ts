@@ -108,7 +108,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
 
 
-  archivo(data: any): Observable<any> {
+  archivo(data: any) {
 
     return this.httpClient.post(environment.apiUrlTeacher + 'archivo', data);
   }
@@ -189,6 +189,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   UpdateECAcademicRecord(data: any) {
     return this.httpClient
       .put<any>(environment.apiIntranet + 'UpdateECAcademicRecord', data);
+  }
+
+  UpdateAcademicSubjectRecord(data: any) {
+    return this.httpClient
+      .put<any>(environment.apiIntranet + 'UpdateAcademicSubjectRecord', data);
   }
 
 
