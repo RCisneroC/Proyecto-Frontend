@@ -244,6 +244,7 @@ export class BackofficeComponent implements OnInit {
           this.activityRequirements = res;
         },
         error: (err: any) => {
+          console.log(err)
         },
         complete: () => {
           this._ActivityDetailService.loading = false;

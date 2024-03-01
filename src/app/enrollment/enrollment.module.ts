@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { EnrollmentRoutingModule } from './enrollment-routing.module';
 import { EnrollCareerComponent } from './enroll-career/enroll-career.component';
@@ -23,7 +23,7 @@ import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades
 import { InfoStudentComponent } from './info-student/info-student.component';
 import { AddExperienceComponent } from './info-student/components/add-experience/add-experience.component';
 import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
-
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.compone
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-  ]
+  ],
+  providers: [VerificarBS64Pipe, DatePipe],
 })
 export class EnrollmentModule { }

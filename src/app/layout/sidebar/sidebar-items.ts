@@ -230,7 +230,7 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
-      
+
       {
         path: "/admission/audit-list",
         title: "Auditoria GD",
@@ -633,6 +633,18 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [],
   },
+  {
+    path: '/enrollment/info-student',
+    title: 'Actualizar datos',
+    iconType: 'feather',
+    icon: 'edit',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [],
+  },
   // Matricula Estudiante
   {
     path: '',
@@ -852,7 +864,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  //Gestion de Tareas 
+  //Gestion de Tareas
   {
     path: '',
     title: 'Intranet',

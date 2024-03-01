@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import {  Documents, Experience, Teacher, Training } from './models/Teacher';
+import {  Documents, Experience, Student, Training } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { TeacherService } from './services/teacher.service';
+import { StudentService } from './services/student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { MatAccordion } from '@angular/material/expansion';
@@ -24,7 +24,7 @@ import { User } from '@core/models/user';
 export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
-  teacherForm!: UntypedFormGroup;
+  studentForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
     { id: 1, name: 'Formación' },
@@ -49,7 +49,6 @@ implements OnInit{
     'degreeObtained',
     'actions'
   ];
-
 
 
   displayedColumnsSpecialty = [
@@ -87,7 +86,7 @@ implements OnInit{
     'actions',
   ];
 
-DataTeacher!:Teacher;
+DataStudent!:Student;
 DataExperience:Experience[]= [];
 DataDocument:RequiredDocument[]= [];
 DataTraining:Training[]= [];
@@ -106,7 +105,7 @@ user!:User;
 
 constructor( private activatedRoute: ActivatedRoute,
 public _ActivityService: ActivityDetailService,
-public _teacherService: TeacherService,
+public _studentService: StudentService,
 private authenticationService: AuthService,
 public _dialog: MatDialog,
 private _nav:Router,
@@ -121,11 +120,11 @@ public _verificarBS64: VerificarBS64Pipe,
 @ViewChild(MatAccordion) accordion?: MatAccordion;
   async ngOnInit() {
     this.user =this.authenticationService.currentUserValue;
-    this.DataTeacher=new Teacher();
+    this.DataStudent=new Student();
     const fechaActual = new Date();
     this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
-    this.teacherForm = this.createTeacherForm();
+    this.studentForm = this.createstudentForm();
     //this.documentForm = this.createDocumentForm();
 
 
@@ -142,7 +141,7 @@ public _verificarBS64: VerificarBS64Pipe,
   }
 
   async getRequiredDocuments() {
-    this._teacherService.getRequiredDocument().subscribe({
+    this._studentService.getRequiredDocument().subscribe({
        next: (res) => {
 
          this.DataDocument = res;
@@ -157,14 +156,14 @@ public _verificarBS64: VerificarBS64Pipe,
   }
   async getTeacherByCedula() {
 
-   this._teacherService.getTeacherByCedula(this.user.cedula).subscribe({
+   this._studentService.getTeacherByCedula(this.user.cedula).subscribe({
       next: (res) => {
 
-        this.DataTeacher = res;
+        this.DataStudent = res;
         this.fechaA=res.applicationDate;
-        this.teacherForm = this.createTeacherForm();
+        this.studentForm = this.createstudentForm();
         //this.documentForm = this.createDocumentForm();
-        this._teacherService.isTblLoading = false;
+        this._studentService.isTblLoading = false;
       }
     })
   }
@@ -213,8 +212,8 @@ public _verificarBS64: VerificarBS64Pipe,
         }
         this.DataExperience=[];
 
-        if(this.DataTeacher.listExperience.length>0){
-          const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
+        if(this.DataStudent.listExperience.length>0){
+          const IdMayor = this.DataStudent.listExperience.reduce((previous, current) => {
             return current.experienceId > previous.experienceId ? current : previous;
           });
           result.experienceId=IdMayor.experienceId+1;
@@ -224,7 +223,7 @@ public _verificarBS64: VerificarBS64Pipe,
 
         this.DataExperience.push(result);
 
-        this.DataTeacher.listExperience=[...this.DataTeacher.listExperience, ...this.DataExperience]
+        this.DataStudent.listExperience=[...this.DataStudent.listExperience, ...this.DataExperience]
 
     });
   }
@@ -233,8 +232,8 @@ public _verificarBS64: VerificarBS64Pipe,
   RemoveExperience(row:Experience){
 
         this.DataExperience=[];
-        this.DataExperience=this.DataTeacher.listExperience.filter(x=>x.experienceId!=row.experienceId)
-        this.DataTeacher.listExperience=[...this.DataExperience]
+        this.DataExperience=this.DataStudent.listExperience.filter(x=>x.experienceId!=row.experienceId)
+        this.DataStudent.listExperience=[...this.DataExperience]
 
   }
   Regresar(){
@@ -243,47 +242,36 @@ public _verificarBS64: VerificarBS64Pipe,
 
 
 
-  createTeacherForm(): UntypedFormGroup{
+  createstudentForm(): UntypedFormGroup{
     return this.fb.group({
-      teacherId: new FormControl(this.DataTeacher.teacherId),
-      cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
-      name: new FormControl(this.DataTeacher?.name, [Validators.required]),
-      lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
+      studentId: new FormControl(this.DataStudent.studentId),
+      cedula: new FormControl(this.DataStudent?.cedula, [Validators.required]),
+      name: new FormControl(this.DataStudent?.name, [Validators.required]),
+      lastName: new FormControl(this.DataStudent?.lastName, [Validators.required]),
       placeOfBirth:['Panama',[Validators.required]],
-      dateOfBirth:[this.DataTeacher?.dischargeDate],
-      email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
+      dateOfBirth:[this.DataStudent?.dischargeDate],
+      email: new FormControl(this.DataStudent?.email, [Validators.required,Validators.email]),
       telephoneNumber:['+50742487558',[Validators.required]],
-      selected: new FormControl(this.DataTeacher?.selected),
-      //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
-      placeResidence: new FormControl(this.DataTeacher?.placeResidence),
-      listCourse: new FormControl(this.DataTeacher?.listCourse||[]),
-      listTraining: new FormControl(this.DataTeacher?.listTraining||[]),
-      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty||[]),
-      listExperience: new FormControl(this.DataTeacher?.listExperience||[]),
-      listDocument: new FormControl(this.DataTeacher?.listDocument||[]),
-      listActivity: new FormControl(this.DataTeacher?.listActivity||[]),
-      listSubject: new FormControl(this.DataTeacher?.listSubject||[]),
-      process: new FormControl(this.DataTeacher.process),
-      createdBy: new FormControl(this.DataTeacher?.name)
-
+      selected: new FormControl(this.DataStudent?.selected),
+      placeResidence: new FormControl(this.DataStudent?.placeResidence),
+      listCourse: new FormControl(this.DataStudent?.listCourse||[]),
+      listTraining: new FormControl(this.DataStudent?.listTraining||[]),
+      listSpecialty: new FormControl(this.DataStudent?.listSpecialty||[]),
+      listExperience: new FormControl(this.DataStudent?.listExperience||[]),
+      listDocument: new FormControl(this.DataStudent?.listDocument||[]),
+      listActivity: new FormControl(this.DataStudent?.listActivity||[]),
+      listSubject: new FormControl(this.DataStudent?.listSubject||[]),
+      process: new FormControl(this.DataStudent.process),
+      createdBy: new FormControl(this.DataStudent?.name)
     });
   }
 
-  onFileSelected(event: any) {
 
-
-     const file = event.target.files[0];
-  //   console.log(this.documentForm.getRawValue());
-    const formdata=new FormData();
-  //  const list: fileDetails[]=[];
-  //   list[0].fileDetails=File1;
-  //   list[0].fileType=1
+public  onFileSelected(event: any):void {
+   const file = event.target.files[0];
+   const formdata=new FormData();
    formdata.append('FileDetails', file);
-
-
-
-
- this._teacherService.archivo(formdata).subscribe({
+ this._studentService.archivo(formdata).subscribe({
   next: () => {
    console.log("guardado");
   },
@@ -291,19 +279,19 @@ public _verificarBS64: VerificarBS64Pipe,
 
   }
 })
-  }
+}
 
-  submit() {
+public submit():void {
 
-  this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
-  this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
-  this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
-  this.teacherForm?.get('listDocument')?.setValue([]);
-  this.teacherForm?.get('listSubject')?.setValue([]);
-  //this.teacherForm?.get('listSubject')?.setValue([]);
-  if(this.teacherForm.valid)
+  this.studentForm?.get('listDocument')?.setValue(this.DataStudent?.listDocument);
+  this.studentForm?.get('listExperience')?.setValue(this.DataStudent?.listExperience);
+  this.studentForm?.get('listTraining')?.setValue(this.DataStudent?.listTraining);
+  this.studentForm?.get('listDocument')?.setValue([]);
+  this.studentForm?.get('listSubject')?.setValue([]);
 
-  this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
+  if(this.studentForm.valid)
+
+  this._studentService.addUpdateTeacher(this.studentForm.value).subscribe({
     next: () => {
       Swal.fire({
               title: "Escuela Judicial",
