@@ -16,6 +16,11 @@ import Swal from 'sweetalert2';
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
 
+
+import { AddActivityComponent } from 'app/teaching-management/add-activity/add-activity.component';
+import { AddSubjectComponent } from 'app/teaching-management/add-subject/add-subject.component';
+import { AddTrainingComponent } from 'app/teaching-management/add-training/add-training.component';
+
 @Component({
   selector: 'app-info-student',
   templateUrl: './info-student.component.html',
@@ -49,6 +54,7 @@ implements OnInit{
     'degreeObtained',
     'actions'
   ];
+
 
 
   displayedColumnsSpecialty = [
@@ -113,7 +119,6 @@ private fb: UntypedFormBuilder,
 public _verificarBS64: VerificarBS64Pipe,
 ){
   super();
-
 }
 
 
@@ -196,7 +201,6 @@ public _verificarBS64: VerificarBS64Pipe,
     }
 
   }
-
 
   AddExperience(){
     const dialogRef = this._dialog.open(AddExperienceComponent, {

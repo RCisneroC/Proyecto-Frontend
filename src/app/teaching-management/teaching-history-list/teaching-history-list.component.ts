@@ -61,6 +61,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
 
   public typeUser: string = '';
+  idCareer!: number;
   constructor(public _teacherService: TeacherService,
     private authenticationService: AuthService,
     private _nav: Router,
@@ -75,40 +76,17 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activatedRoute.snapshot.params["cedula"];
+    this.idCareer = Number(localStorage.getItem("idCareer"));
+    
     if (this.cedula == undefined) {
       this.cedula = this.user.cedula;
       this.getSubjects();
       this.getActivities();
     }
-    // this.docForm = this.fb.group({
-    //   code: new FormControl(""),
-    //   name: new FormControl(""),
-    //   teacherCedula: new FormControl(this.cedula),
-    // });
-
-    //this.guardarTemporal()
-
-
-    // const subjectStr = localStorage.getItem('subjects');
-    // const activitiesStr = localStorage.getItem('activities');
-    // if (subjectStr) {
-    //   this.subjects = JSON.parse(subjectStr);
-    // }
-
-    // if (activitiesStr) {
-    //   this.activities = JSON.parse(activitiesStr);
-    // }
-    // this.DataSubjects = new MatTableDataSource<Subject>(this.subjects);
-    // this.DataActivities = new MatTableDataSource<any>(this.activities);
+   
 
   }
 
-  guardarTemporal() {
-    // const subjectStr = JSON.stringify(this.subjects);
-    // const activitiesStr = JSON.stringify(this.activities);
-    // localStorage.setItem('subjects', subjectStr);
-    // localStorage.setItem('activities', activitiesStr);
-  }
 
   viewTable(id: number) {
     console.log('====================================');
@@ -130,6 +108,10 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('id', row.id.toString());
     localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
+  }
+  
+  volverAtras(){
+    this._nav.navigate(['/teaching-management/career-list/']);
   }
 
 
@@ -154,7 +136,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
   async getSubjects() {
 
-    this._teacherService.getSubjectsByCedulaNewApi(this.cedula).subscribe({
+    this._teacherService.getSubjectsByCedulaNewApi(this.cedula,this.idCareer).subscribe({
       next: (res) => {
 
         this.DataSubjects = res;

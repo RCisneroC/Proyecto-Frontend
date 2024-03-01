@@ -680,7 +680,19 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: '',
         Role: 'Estudiante',
         submenu: [],
-      }
+      },
+      {
+        path: '/enrollment/info-student',
+        title: 'Actualizar datos',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
     ],
   },
 
@@ -797,7 +809,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/teaching-management/teacher-history-list',
+        path: '/teaching-management/career-list',
         title: 'Historial Docente',
         iconType: '',
         icon: '',

@@ -28,6 +28,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
 import { AddCalifComponent } from './add-calif/add-calif.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.component';
+import { CareerListComponent } from './career-list/career-list.component';
 
 
 
@@ -54,7 +55,8 @@ import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.compon
     AddAttendanceFormsComponent,
     ListStudentsComponent,
     FinalGradeComponent,
-    AddFinalGradeComponent
+    AddFinalGradeComponent,
+    CareerListComponent
   ],
   providers: [VerificarBS64Pipe],
   imports: [

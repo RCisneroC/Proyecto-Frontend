@@ -25,6 +25,8 @@ import { AddExperienceComponent } from './info-student/components/add-experience
 import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
+
+
 @NgModule({
   declarations: [
     EnrollCareerComponent,
@@ -45,7 +47,9 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     InfoStudentComponent,
     AddExperienceComponent,
     ViewSurveyComponent,
+    InfoStudentComponent,
   ],
+  providers: [VerificarBS64Pipe, DatePipe],
   imports: [
     CommonModule,
     EnrollmentRoutingModule,
@@ -53,7 +57,6 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-  ],
-  providers: [VerificarBS64Pipe, DatePipe],
+  ]
 })
 export class EnrollmentModule { }
