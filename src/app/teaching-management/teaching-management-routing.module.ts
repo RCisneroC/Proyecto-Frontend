@@ -9,6 +9,7 @@ import { DetailSubjectComponent } from './detail-subject/detail-subject.componen
 import { DetailTaskComponent } from './detail-task/detail-task.component';
 import { ListStudentsComponent } from './list-students/list-students.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
+import { CareerListComponent } from './career-list/career-list.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,11 @@ const routes: Routes = [
   {
     path: "list-students/:id",
     component: FinalGradeComponent,
-  }
+  },
+  {
+    path: "career-list",
+    component: CareerListComponent,
+  },
 ];
 
 @NgModule({

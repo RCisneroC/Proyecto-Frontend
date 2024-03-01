@@ -16,6 +16,8 @@ import { EnrollDetailsMeshComponent } from './enroll-details-mesh/enroll-details
 import { ViewCalificacionesComponent } from './Forms/view-calificaciones/view-calificaciones.component';
 import { EnrollAttendenceFormComponent } from './enroll-attendence-form/enroll-attendence-form.component';
 import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
+import { InfoStudentComponent } from './info-student/info-student.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.compone
     ViewCalificacionesComponent,
     EnrollAttendenceFormComponent,
     ViewSurveyComponent,
+    InfoStudentComponent,
   ],
+  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
     EnrollmentRoutingModule,
