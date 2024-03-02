@@ -8,7 +8,7 @@ import {
 } from '../Models/RequestVarious';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Modality } from 'app/admission/models/modality';
-import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
+import {ResponseGenerica, ResponseGetAllRequestVariousType} from 'app/admission/models/ResponseMessage';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '@core';
 import {CareerResponse} from "../../enrollment/models/Career";
@@ -167,7 +167,7 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
   GetAllRequestVariousType() {
 
     const url = `${environment.apiEira}`;
-    return this.httpClient.get<any>(url + "GetAllRequestVariousType");
+    return this.httpClient.get<ResponseGetAllRequestVariousType>(url + "GetAllRequestVariousType");
   }
 
   getAllRequestVarious2() {
