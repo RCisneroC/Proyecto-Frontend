@@ -145,6 +145,9 @@ import { EnrollmentDirectActivityListComponent } from './enrollment-direct/enrol
 import { EnrollmentDirectBackofficeComponent } from './enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component';
 import { SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
+import { CertificateListScheduleComponent } from './certificates/certificate-list-schedule/certificate-list-schedule.component';
+import { CertificateListActivityComponent } from './certificates/certificate-list-activity/certificate-list-activity.component';
+import { CertificateListPartakerComponent } from './certificates/certificate-list-partaker/certificate-list-partaker.component';
 
 @NgModule({
   declarations: [
@@ -281,7 +284,10 @@ import { ComponentsModule } from '@shared/components/components.module';
     FranjaHorariaComponent,
     EnrollmentDirectScheduleListComponent,
     EnrollmentDirectActivityListComponent,
-    EnrollmentDirectBackofficeComponent
+    EnrollmentDirectBackofficeComponent,
+    CertificateListScheduleComponent,
+    CertificateListActivityComponent,
+    CertificateListPartakerComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

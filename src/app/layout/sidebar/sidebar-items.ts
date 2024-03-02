@@ -100,6 +100,18 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: [],
       },
+      {
+        path: 'admission/certificate-activity-participants-list',
+        title: 'Certificados de estudiantes',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
     ],
   },
 
@@ -242,7 +254,7 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
-      
+
       {
         path: "/admission/audit-list",
         title: "Auditoria GD",
