@@ -15,6 +15,7 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import {EnrollmentService} from "../../../enrollment/services/enrollment.service";
+import {pdfDefaultOptions} from "ngx-extended-pdf-viewer";
 export interface DialogData {
   id: string;
   action: string;
@@ -73,6 +74,11 @@ export class CreateSolicitudComponent {
   public EFRecordID: number = 0;
   public ECRecordID: number = 0;
   public RequesttypeList: RequestVariousType[] = [];
+  public RequesttypeSelect: number = 0;
+  public typeActivityAcademySelected: number = 1;
+  public idSubjectOrActivity: number = 1;
+  public valueDesabled: boolean = false;
+  public typeDesabled: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<CreateSolicitudComponent>,
@@ -165,6 +171,82 @@ export class CreateSolicitudComponent {
     })
   }
 
+  changeRequesttype(){
+    console.log(this.RequesttypeSelect);
+    switch ( this.RequesttypeSelect ) {
+      case 1:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 2:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 3:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 7:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 10:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 11:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 12:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 13:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 14:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = false;
+        break;
+      case 15:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 16:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 5:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 6:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 9:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      default:
+        this.valueDesabled = false;
+        this.typeDesabled = false;
+        break;
+    }
+  }
+
   createContactForm(): UntypedFormGroup {
     if (this.action === 'edit') {
       console.log('Update request',this.data.request);
@@ -235,7 +317,7 @@ export class CreateSolicitudComponent {
 
     } else {
       const value = this.RequestVariousForm.getRawValue();
-      if(value.typeRequest != 5 && value.typeRequest != 6){
+      if(value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7){
 
         const generalrequest = {
           userRequest: value.idSolicitante,
@@ -331,4 +413,5 @@ export class CreateSolicitudComponent {
     return JSON.parse(decodedPayload);
   }
 
+  protected readonly pdfDefaultOptions = pdfDefaultOptions;
 }
