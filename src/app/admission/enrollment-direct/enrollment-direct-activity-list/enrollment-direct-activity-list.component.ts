@@ -1,16 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {ScheduleActivitiesService} from "../../services/schedule-activities.service";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {ScheduleActivity, ScheduleActivityDetail} from "../../models/scheduleActivity";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { ScheduleActivitiesService } from "../../services/schedule-activities.service";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { ScheduleActivity, ScheduleActivityDetail } from "../../models/scheduleActivity";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
 
 @Component({
   selector: 'app-enrollment-direct-activity-list',
@@ -18,7 +18,7 @@ import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
   styleUrls: ['./enrollment-direct-activity-list.component.scss']
 })
 export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyAdapter
-  implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
     'planningDate',
@@ -68,16 +68,16 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
   }
 
   ViewDetail(row: ScheduleActivity) {
-    localStorage.setItem('ruta_local','/admission/ed-activity-list-inscription/'+this.id);
-    localStorage.setItem('moodle_course_id',row.moodleCourseId.toString());
-    this.router.navigate(['/admission/ed-backoffice',row.id]);
+    localStorage.setItem('ruta_local', '/admission/ed-activity-list-inscription/' + this.id);
+    localStorage.setItem('moodle_course_id', row.moodleCourseId.toString());
+    this.router.navigate(['/admission/ed-backoffice', row.id]);
   }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
-  addNew(){
+  addNew() {
 
   }
   editCall(row: ScheduleActivityDetail) {

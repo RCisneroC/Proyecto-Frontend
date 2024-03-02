@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Role } from 'app/security/models/role';
+import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
+import { MenuResponse, Role } from 'app/security/models/role';
+import { SubjectResponse } from 'app/teaching-management/models/Teacher';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -29,7 +31,7 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllRols() {
     this.subs.sink = this.httpClient
-      .get<Role[]>(environment.apiUrl+'GetAllRoles')
+      .get<Role[]>(environment.apiUrl + 'GetAllRoles')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -41,16 +43,16 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  
+
   getAllRols2(): Observable<Role[]> {
     //return this.http.post(`${environment.apiUrl+'Login'}`, data);
     return this.httpClient.get<Role[]>(`${environment.apiUrl + 'GetAllRoles'}`);
   }
-  
+
   addRole(role: Role): void {
     this.dialogData = role;
 
-    this.httpClient.post(environment.apiUrl+'CreateRole', role)
+    this.httpClient.post(environment.apiUrl + 'CreateRole', role)
       .subscribe({
         next: () => {
           this.dialogData = role;
@@ -64,16 +66,30 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
   updateRole(role: Role): void {
     this.dialogData = role;
 
-    this.httpClient.put(environment.apiUrl+'UpdateRole', role)
-        .subscribe({
-          next: () => {
-            this.dialogData = role;
-          },
-          error: (error: HttpErrorResponse) => {
-            this.isTblLoading = false;
-            console.log(error.name + ' ' + error.message);
-          },
-        });
+    this.httpClient.put(environment.apiUrl + 'UpdateRole', role)
+      .subscribe({
+        next: () => {
+          this.dialogData = role;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
   }
+  // SubjectResponse
+  MenuResponseF() {
+    return this.httpClient.get<MenuResponse[]>(environment.apiUrlRol + 'Menu/GetBy');
+  }
+
+  MenuResponseFParentMenuId(id: number) {
+    return this.httpClient.get<MenuResponse[]>(environment.apiUrlRol + 'Menu/GetBy?ParentMenuId=' + id);
+  }
+
+  addPermisseRol(data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlRol + 'Menu/CreateRoleSubMenus', data);
+  }
+
+
 
 }

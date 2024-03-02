@@ -17,8 +17,8 @@
                 <div class="col-xl12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Seleccione Funcionalidad</mat-label>
-                        <mat-select (ngModelChange)="menuSelect($event)" formControlName="id_menu">
-                            <mat-option *ngFor="let row of data.menu" [value]="row.id">{{row.name}}</mat-option>
+                        <mat-select (ngModelChange)="menuSelect($event)" formControlName="MenuId">
+                            <mat-option *ngFor="let row of _SubjectResponse" [value]="row.id">{{row.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -45,7 +45,7 @@
                                     <!-- name Column -->
                                     <ng-container matColumnDef="name">
                                         <th mat-header-cell *matHeaderCellDef>Nombre </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
                                     </ng-container>
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

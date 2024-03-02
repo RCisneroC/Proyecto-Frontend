@@ -262,6 +262,7 @@ export class RoleListComponent extends UnsubscribeOnDestroyAdapter
     });
   }
   addPermisos(row: Role) {
+
     this.id = row.id;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -272,9 +273,7 @@ export class RoleListComponent extends UnsubscribeOnDestroyAdapter
     const dialogRef = this.dialog.open(FormsAsignedRolesComponent, {
       data: {
         role: row,
-        action: 'nuevo',
-        submenu: this._SubMenu,
-        menu: this._menu
+        action: 'nuevo'
       },
       direction: tempDirection,
       width: "900px"
