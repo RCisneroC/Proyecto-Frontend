@@ -29,8 +29,6 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     'numOfClasses',
     'hasLaboratory',
     'actions',
-
-
   ];
 
   displayedColumns2 = [
@@ -74,8 +72,19 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activatedRoute.snapshot.params["cedula"];
+    console.log(this.cedula);
+    if (this.typeUser != 'Profesor') {
+      this.displayedColumns.splice(5, 1);
+      this.displayedColumns2.splice(5, 1);
+
+    }
+
     if (this.cedula == undefined) {
       this.cedula = this.user.cedula;
+      this.getSubjects();
+      this.getActivities();
+
+    } if (this.cedula != undefined && this.cedula != '') {
       this.getSubjects();
       this.getActivities();
     }

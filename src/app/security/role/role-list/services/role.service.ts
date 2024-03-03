@@ -55,6 +55,7 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
     this.httpClient.post(environment.apiUrl + 'CreateRole', role)
       .subscribe({
         next: () => {
+          location.reload();
           this.dialogData = role;
         },
         error: (error: HttpErrorResponse) => {

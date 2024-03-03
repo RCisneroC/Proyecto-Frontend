@@ -92,6 +92,7 @@ export class SigninComponent
                       this.router.navigate(['/dashboard/dashboard1']);
                       break;
                     default:
+                      this.router.navigate(['/dashboard/dashboard1']);
                       break;
                   }
                 } else {

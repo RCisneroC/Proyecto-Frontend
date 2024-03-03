@@ -180,6 +180,7 @@ export class MenuComponent extends UnsubscribeOnDestroyAdapter
               text: res.message,
               icon: "success"
             });
+            this.loadData();
           },
           error: (err: any) => {
             console.log(err);
