@@ -20,7 +20,9 @@ export interface FoodNode {
   fileId:number;
   folderName: string;
   extension?: string;
-  files?: FoodNode[];
+  parentId?: number;
+  files: FoodNode[];
+  folders: FoodNode[];
 }
 
 export interface ExampleFlatNode {
@@ -30,6 +32,15 @@ export interface ExampleFlatNode {
   folderName: string;
   extension: string | undefined;
   level: number;
+  //files: FoodNode[];
+  folders?: FoodNode[];
+}
+
+export interface folder {
+  nombre: string;
+  tipo: "carpeta" | "archivo";
+  folders?: folder[];
+  files?: folder[];
 }
 
 
@@ -44,12 +55,12 @@ export class DirectoryListComponent  implements OnInit   {
   
   private transformer = (node: FoodNode, level: number) => {
     return {
-      expandable: !!node.files && node.files.length >= 0,
+      expandable: !!node.folders && node.folders.length >= 0 ,
       folderName: node.folderName,
       extension: node.extension,
       level: level,
       folderId:node.folderId,
-      fileId:node.fileId,
+      fileId:node.fileId
     };
   }
 
@@ -59,10 +70,14 @@ export class DirectoryListComponent  implements OnInit   {
 
   treeFlattener = new MatTreeFlattener(
       this.transformer, node => node.level,
-      node => node.expandable, node => node.files);
+      node => node.expandable, node => node.folders);
 
   dataSource = new MatTreeFlatDataSource(this.treeControl,this.treeFlattener);
+
   valor!: string;
+  carpetas: any;
+  dataSource2: any;
+
 
   constructor( 
     public _verificarBS64: VerificarBS64Pipe,
@@ -88,6 +103,12 @@ export class DirectoryListComponent  implements OnInit   {
       }
     })
   }
+  
+  
+  
+  
+ 
+
   
   newFolder(event:any,file:string){
       let tempDirection: Direction;

@@ -4,6 +4,7 @@ import { FoodNode } from '../directory-list.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { DirectoryService } from '../../services/directory.service';
+import { AuthService, User } from '@core';
 interface DialogData {
   idChildren:number;
   name: string;
@@ -24,7 +25,9 @@ export class AddDirectoryComponent {
     Message:''
   }
   id!:number;
+  user: User;
   constructor(private fb: FormBuilder,
+    public authenticationService:AuthService,
     public _directoryService:DirectoryService,
     public dialogRef: MatDialogRef<AddDirectoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -39,10 +42,11 @@ export class AddDirectoryComponent {
   this.id=data.folder.folderId;
   }
   
- 
+  this.user = this.authenticationService.currentUserValue;
+  
     this.folderForm = this.fb.group({
-      //parentId:[null],
-      folderName: [data.folder==null?'':data.folder.folderName, Validators.required],
+      //parentId:[data.folder==null?null:data.folder.folderId],
+      folderName: [data.folder==null  || this.data.action==='newfolder'?'':data.folder.folderName, Validators.required],
     });
   }
   
@@ -98,6 +102,31 @@ export class AddDirectoryComponent {
     });
     }else{
     
+    if(this.data.action==='newfolder'){
+    
+      const data={
+        parentId:this.data.folder.folderId,
+        folderName:this.folderForm.get('folderName')?.value,
+        createdBy:this.user.id
+    
+      }
+      this._directoryService.addFolder(data).subscribe({
+        next: () => {
+        
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'carpeta guardada.';
+          this.dialogRef.close(this.ResponseMessage);
+        
+         },
+         error: (err:any) => {
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = err;
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      });
+    }else{
+    
+   
       const data={
         FolderId:this.data.folder.folderId,
         NewFolderName:this.folderForm.get('folderName')?.value,
@@ -119,6 +148,7 @@ export class AddDirectoryComponent {
         }
       });
     }
+  }
     
   }
   }

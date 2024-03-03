@@ -6,6 +6,7 @@ import {EnrollSubjectsComponent} from "./enroll-subjects/enroll-subjects.compone
 import {EnrollAssignedRoomsComponent} from "./enroll-assigned-rooms/enroll-assigned-rooms.component";
 import {EnrollDetailsComponent} from "./enroll-details/enroll-details.component";
 import {EnrollDetailsMeshComponent} from "./enroll-details-mesh/enroll-details-mesh.component";
+import { InfoStudentComponent } from './info-student/info-student.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path:"enroll-details-mesh",
     component: EnrollDetailsMeshComponent
+  },
+  {
+    path:"info-student",
+    component: InfoStudentComponent
   }
 ];
 

@@ -11,6 +11,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
+import { ViewSurveyComponent } from 'app/enrollment/Encuestas/view-survey/view-survey.component';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
 
   public typeUser: string = '';
+  idCareer!: number;
   constructor(public _teacherService: TeacherService,
     private authenticationService: AuthService,
     private _nav: Router,
@@ -72,12 +74,12 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activatedRoute.snapshot.params["cedula"];
-    console.log(this.cedula);
     if (this.typeUser != 'Profesor') {
       this.displayedColumns.splice(5, 1);
       this.displayedColumns2.splice(5, 1);
 
     }
+    this.idCareer = Number(localStorage.getItem("idCareer"));
 
     if (this.cedula == undefined) {
       this.cedula = this.user.cedula;
@@ -88,35 +90,10 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       this.getSubjects();
       this.getActivities();
     }
-    // this.docForm = this.fb.group({
-    //   code: new FormControl(""),
-    //   name: new FormControl(""),
-    //   teacherCedula: new FormControl(this.cedula),
-    // });
 
-    //this.guardarTemporal()
-
-
-    // const subjectStr = localStorage.getItem('subjects');
-    // const activitiesStr = localStorage.getItem('activities');
-    // if (subjectStr) {
-    //   this.subjects = JSON.parse(subjectStr);
-    // }
-
-    // if (activitiesStr) {
-    //   this.activities = JSON.parse(activitiesStr);
-    // }
-    // this.DataSubjects = new MatTableDataSource<Subject>(this.subjects);
-    // this.DataActivities = new MatTableDataSource<any>(this.activities);
 
   }
 
-  guardarTemporal() {
-    // const subjectStr = JSON.stringify(this.subjects);
-    // const activitiesStr = JSON.stringify(this.activities);
-    // localStorage.setItem('subjects', subjectStr);
-    // localStorage.setItem('activities', activitiesStr);
-  }
 
   viewTable(id: number) {
     console.log('====================================');
@@ -138,6 +115,10 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('id', row.id.toString());
     localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
+  }
+
+  volverAtras() {
+    this._nav.navigate(['/teaching-management/career-list/']);
   }
 
 
@@ -162,7 +143,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
   async getSubjects() {
 
-    this._teacherService.getSubjectsByCedulaNewApi(this.cedula).subscribe({
+    this._teacherService.getSubjectsByCedulaNewApi(this.cedula, this.idCareer).subscribe({
       next: (res) => {
 
         this.DataSubjects = res;
@@ -217,6 +198,52 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+
+
+  ViewSurveyAct(row: Activity) {
+    const dialogRef = this.dialog.open(ViewSurveyComponent, {
+      data: {
+        activity: row,
+        action: "A",
+        subject: null,
+        cedula: this.cedula
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+
+    });
+
+  }
+
+
+  ViewSurveySub(row: SubjectResponse) {
+
+    const dialogRef = this.dialog.open(ViewSurveyComponent, {
+      data: {
+        activity: null,
+        action: "S",
+        subject: row,
+        cedula: this.cedula
+      },
+      width: '1200px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+
+    });
+
+  }
+
 
   calificacionFinalSubject(row: SubjectResponse) {
     localStorage.setItem('tipoSolicitud', "1");

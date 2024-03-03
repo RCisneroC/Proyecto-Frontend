@@ -2,15 +2,21 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Historial Docente'" [items]="['Inicio','Gestión Docente']"
-        [active_item]="'Historial docente'">
+      <app-breadcrumb [title]="'Historial asignatura'" [items]="['Inicio','Historial Docente']"
+        [active_item]="'Historial asignatura'">
       </app-breadcrumb>
+    </div>
+    <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+      <div class="">
+        <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtras()">
+          <mat-icon>keyboard_backspace</mat-icon> Regresar
+        </button>
+      </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div>
-
 
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6" style="margin: auto;margin-top: 15px;">
               <mat-form-field class="example-full-width" appearance="outline">
@@ -26,7 +32,7 @@
             </div>
           </div>
           <div class="header">
-            <h2 class="text-uppercase"><strong>Historial docentes</strong></h2>
+            <h2 class="text-uppercase"><strong>Historial Asignaturas</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -47,8 +53,6 @@
                     </div>
                     <div class="right">
                       <ul class="tbl-export-btn">
-
-
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
                             <img src="assets/images/icons/xlsx.png" alt="" />
@@ -60,7 +64,6 @@
                   <div class="body overflow-auto">
                     <div class="responsive_table">
                       <table *ngIf="view" mat-table [dataSource]="DataSubjects" matSort class="mat-cell advance-table">
-
 
                         <ng-container matColumnDef="name">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura
@@ -74,7 +77,6 @@
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Creditos:</span>{{row.subjectNumOfCredits}}</mat-cell>
                         </ng-container>
-
 
                         <ng-container matColumnDef="numOfHours">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Horas
@@ -127,6 +129,12 @@
                               <mat-icon>av_timer</mat-icon>
 
                             </button>
+                            
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                            (click)="$event.stopPropagation()" matTooltip="Ver estadisticas encuesta"
+                            (click)="ViewSurveySub(row)" class="tbl-action-btn">
+                            <mat-icon>fact_check</mat-icon>
+                          </button>
 
                           </mat-cell>
                         </ng-container>
@@ -207,9 +215,12 @@
                               (click)="calificacionFinalActivity(row)" class="tbl-action-btn">
                               <mat-icon>av_timer</mat-icon>
                             </button>
-
-
-
+                            
+                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                            (click)="$event.stopPropagation()" matTooltip="Ver estadisticas de encuesta"
+                            (click)="ViewSurveyAct(row)" class="tbl-action-btn">
+                            <mat-icon>fact_check</mat-icon>
+                          </button>
 
                           </mat-cell>
                         </ng-container>
