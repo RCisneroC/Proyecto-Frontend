@@ -1,14 +1,16 @@
-import { Component, Inject, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit,OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Lounge } from 'app/admission/models/lounge';
 import { MasterService } from '../services/master.service';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 
 export interface DialogData {
@@ -21,7 +23,7 @@ export interface DialogData {
   templateUrl: './time-slots.component.html',
   styleUrls: ['./time-slots.component.scss']
 })
-export class TimeSlotsComponent implements OnInit,  AfterViewInit {
+export class TimeSlotsComponent implements OnInit,  AfterViewInit, OnDestroy {
 
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
@@ -34,6 +36,7 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
   lstTimeSlots: TimeSlot[] = [];
   public IsLoading: boolean = true;
   public pressSave: boolean = true;
+  subscriptions: Subscription[] = [];
   dataSource = new MatTableDataSource<TimeSlot>(this.lstTimeSlots);
   displayedColumns = [
     'startTime',
@@ -98,37 +101,44 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
     }
 
   if(this.action == "nuevo"){
-    this.timeslotService.createTimeSlot(this.data.lounge.id,
-      this.timeSlotsForm.controls["fechaHoraInicial"].value,
-      this.timeSlotsForm.controls["fechaHoraFinal"].value
-    )
-      .subscribe(
-        {
-          next: (request: any) => {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Creado correctamente.',
-              icon: "success"
-            });
-            this.getTimeSlots();
-            this.Limpiar();
-            this.IsLoading = false;
-            this.ngAfterViewInit();
-          },
-          error: (err: any) => {
-            this.IsLoading = false;
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: "No se puedo crear la franja de horas",
-              icon: "warning"
-            });
-          }
-        }
-      );
+    try{
+        this.subscriptions.push(
+          this.timeslotService.createTimeSlot(this.data.lounge.id,
+            this.timeSlotsForm.controls["fechaHoraInicial"].value,
+            this.timeSlotsForm.controls["fechaHoraFinal"].value
+          )
+            .subscribe(
+              {
+                next: (request: any) => {
+                  Swal.fire({
+                    title: "Escuela Judicial",
+                    text: 'Creado correctamente.',
+                    icon: "success"
+                  });
+                  this.getTimeSlots();
+                  this.Limpiar();
+                  this.IsLoading = false;
+                  this.ngAfterViewInit();
+                },
+                error: (err: HttpErrorResponse) => {
+                  this.IsLoading = false;
+                  Swal.fire({
+                    title: "Escuela Judicial",
+                    text: err.error.Message,
+                    icon: "warning"
+                  });
+                }
+              }
+            )
+        );
+    }
+    catch(ex){
+       console.log("Error capturado "+ ex)
+    }
   }
   else if(this.action == "editar"){
-
-    this.timeslotService.updateTimeSlot(this.filaSeleccionada).subscribe(
+    this.subscriptions.push(
+      this.timeslotService.updateTimeSlot(this.filaSeleccionada).subscribe(
       {
         next: (request: any) => {
           Swal.fire({
@@ -141,25 +151,23 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
                 this.IsLoading = false;
                 this.ngAfterViewInit();
         },
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           this.IsLoading = false;
           Swal.fire({
             title: "Escuela Judicial",
-            text: "No se puedo actualizar la franja de horas",
+            text: err.error.Message,
             icon: "warning"
           });
         }
       }
+    )
     );
-
   }
-
-
-
-  }
+}
 
   public getTimeSlots() {
     this.IsLoading = true;
+    this.subscriptions.push(
     this.timeslotService.getTimeSlotByRoom(this.data.lounge.id).subscribe(
       {
         next: (request: TimeSlot[]) => {
@@ -169,9 +177,12 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
         }
       }
     )
+    );
+
   }
 
   public eliminar(fila: TimeSlot) {
+    this.subscriptions.push(
    this.timeslotService.deleteTimeSlot(fila.id).subscribe(
     {
       next: (request: any) => {
@@ -185,21 +196,21 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
               this.IsLoading = false;
               this.ngAfterViewInit();
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
               this.IsLoading = false;
         Swal.fire({
           title: "Escuela Judicial",
-          text: "No se puedo borrar la franja de horas",
+          text: err.error.Message,
           icon: "warning"
         });
       }
     }
-  );
+    )
+    );
   }
 
   public editar(fila: TimeSlot) {
     this.dialogTitle = "Editar Franja horaria";
-
     this.timeSlotsForm.controls["fechaHoraInicial"].patchValue(this.date.transform(fila.startTime,"shortTime"));
     this.timeSlotsForm.controls["fechaHoraFinal"].patchValue(this.date.transform(fila.endTime,"shortTime"));
     this.action = "editar";
@@ -213,6 +224,10 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit {
       this.IsLoading = false;
     },2000
   );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe())
   }
 
 }

@@ -4,7 +4,7 @@ import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { Lounge } from 'app/admission/models/lounge';
 import { environment } from 'environments/environment.development';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
 import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
 
@@ -66,7 +66,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
   }
 
   addRoomsRequestRooms(data: any) {
-    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoomDate', data);
+    return this.httpClient.post(environment.apiUrlSchedule + 'Room/CreateRoomRequestRoom', data);
   }
 
   DeleteLounge(Id: number) {
@@ -113,8 +113,15 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       })
     };
 
-    return this.httpClient.post(environment.apiUrlSchedule
-      + 'Room/CreateTimeSlot', data, options);
+    try{
+      return this.httpClient.post(environment.apiUrlSchedule
+        + 'Room/CreateTimeSlot', data, options);
+    }
+    catch(ex){
+     console.log("Excepcion " + ex)
+     throw(ex)
+    }
+
   }
 
   getTimeSlotByRoom(id_rooms: number) {
@@ -163,9 +170,10 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<RoomRequestRoomDateTimeSlots[]>(environment.apiUrlSchedule + 'Room/GetRoomRequestRoomDateTimeSlotsBy?RoomRequestId=' + id);
   }
 
-  deleteRoomRequestRoomDateTimeSlots(Id: number) {
+  deleteRoomRequestRoomDateTimeSlots(Id: number, timeSloteId:number) {
     let data = {
-      id: Id
+      id: Id,
+      roomTimeSlotId : timeSloteId
     };
     const options = {
       headers: new HttpHeaders({

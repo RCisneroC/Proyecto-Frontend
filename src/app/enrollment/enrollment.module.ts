@@ -15,8 +15,14 @@ import { EncuestaActivityComponent } from './Encuestas/encuesta-activity/encuest
 import { EnrollDetailsMeshComponent } from './enroll-details-mesh/enroll-details-mesh.component';
 import { ViewCalificacionesComponent } from './Forms/view-calificaciones/view-calificaciones.component';
 import { EnrollAttendenceFormComponent } from './enroll-attendence-form/enroll-attendence-form.component';
-import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
+import { OfertasCarrerasComponent } from './OfertasAcademicas/ofertas-carreras/ofertas-carreras.component';
+import { OfertasActividadesComponent } from './OfertasAcademicas/ofertas-actividades/ofertas-actividades.component';
+import { BackofficeEFComponent } from './OfertasAcademicas/inscripcion/backoffice-ef.component';
+import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcion-actividades/activity-list-inscription.component';
+import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
 import { InfoStudentComponent } from './info-student/info-student.component';
+import { AddExperienceComponent } from './info-student/components/add-experience/add-experience.component';
+import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 
@@ -32,6 +38,13 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     EnrollDetailsMeshComponent,
     ViewCalificacionesComponent,
     EnrollAttendenceFormComponent,
+    OfertasCarrerasComponent,
+    OfertasActividadesComponent,
+    BackofficeEFComponent,
+    ActivityListInscriptionComponent,
+    BackofficeComponent,
+    InfoStudentComponent,
+    AddExperienceComponent,
     ViewSurveyComponent,
     InfoStudentComponent,
   ],

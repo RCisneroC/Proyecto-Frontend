@@ -5,6 +5,7 @@ import { ListTaskActivityComponent } from './Task/Activity/list-task-activity/li
 import { ListTaskSubjectComponent } from './Task/Subject/list-task-subject/list-task-subject.component';
 import { DetailsInfoTaskComponent } from './Task/Subject/details-info-task/details-info-task.component';
 import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-task-activity/details-info-task-activity.component';
+import { CreditosNoOficialesComponent } from './creditos-no-oficiales/creditos-no-oficiales.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'list-task-activity',
     component: ListTaskActivityComponent,
+  },
+  {
+    path: 'creditos-no-oficiales',
+    component: CreditosNoOficialesComponent,
   },
 ];
 

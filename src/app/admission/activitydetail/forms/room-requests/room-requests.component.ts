@@ -343,8 +343,8 @@ export class RoomRequestsComponent {
   }
 
 
-  OndeleteRoomRequestRoomDateTimeSlots(id:number) {
-    this._masterLounge.deleteRoomRequestRoomDateTimeSlots(id).subscribe({
+  OndeleteRoomRequestRoomDateTimeSlots(id:number, timeSloteId:number) {
+    this._masterLounge.deleteRoomRequestRoomDateTimeSlots(id,timeSloteId).subscribe({
       next: () => {
         Swal.fire({
           title: "Escuela Judicial",

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from "@shared";
-import { Mesh } from "../../admission/FormalEducations/Models/Degree";
+import {  Mesh } from "../../admission/FormalEducations/Models/Degree";
 import { VerificarDocumentacion } from "../../admission/models/VerificacionDocumentacion";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import {
   GetDataResultResponse,
   Participant,
@@ -31,6 +31,8 @@ import {
 import { an } from "@fullcalendar/core/internal-common";
 import { ResponseSubjectRecord } from '../models/calificacion';
 import { ResponseActivityRecord } from "../models/calificacionEC";
+import { CurriculumDesign } from '../models/CurriculumDesign';
+import { DegreeCurriculumDesignEnrollment } from '../models/DegreeCurriculumDesignEnrollment';
 
 @Injectable({
   providedIn: 'root'
@@ -287,6 +289,14 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiIntranet}`;
     return this.httpClient.post<ResponseSubjectRecord>(url + "SearchSubjectRecordScores", data);
   }
+  getDegreeCurriculumDesign() {
+    const url = `${environment.apiEF}`;
+    return this.httpClient.get<DegreeCurriculumDesignEnrollment[]>(url + "DegreeCurriculumDesign/GetAll?StatusId=5");
+  }
+  getCurriculumDesign() {
+    const url = `${environment.apiUrlSchedule}`;
+    return this.httpClient.get<CurriculumDesign[]>(url + "CurriculumDesign/GetAll?StatusId=5");
+  }
   CreateCertificate(CreateCertificateDta: any) {
     const url = `${environment.apiUrlSchedule}`;
     return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificate", CreateCertificateDta);
@@ -328,6 +338,5 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       errors: '',
     }
   }
-
 }
 

@@ -1,0 +1,56 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+       <!-- breadcrumb -->
+       <app-breadcrumb [title]="'Entrenamiento'" [items]="['Inicio','Ofertas Académicas']"
+       [active_item]="'Listado Actividades'">
+     </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Listado de Actividades</strong></h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="body overflow-auto">
+                    <div class="responsive_table">
+                      <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
+                      <table class="table" *ngIf="!IsLoading">
+                        <thead>
+                            <th>Descripción</th>
+                            <th>Año</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lstActividades">
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.year }}</td>
+                                <td>
+                                  <span class="badge badge-solid-green">{{ item.statusId|statusPipe }}</span>
+                                </td>
+                                <td>
+                                <button mat-mini-fab color="primary" title="Ver actividades"
+                                (click)="inscribirse(item.id)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

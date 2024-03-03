@@ -722,6 +722,43 @@ export const ROUTES: RouteInfo[] = [
 
   //Historial Academico
   {
+    path: '',
+    title: 'Ofertas Académicas',
+    iconType: 'feather',
+    icon: 'bell',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [
+      {
+        path: '/enrollment/ofertasacademicas/ofertas-carreras',
+        title: 'Formación Especializada',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/enrollment/ofertasacademicas/ofertas-actividades',
+        title: 'Entrenamiento',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      }
+    ],
+  },
+  {
     path: '/dashboard/dashboard-tutor',
     title: 'Historial Academico',
     iconType: 'feather',
@@ -748,6 +785,18 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/intranet-academic/list-requests-various',
         title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/intranet-academic/creditos-no-oficiales',
+        title: 'Créditos no oficiales',
         iconType: '',
         icon: '',
         class: 'ml-menu',
