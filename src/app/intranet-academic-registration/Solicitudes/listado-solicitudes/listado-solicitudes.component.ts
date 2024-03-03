@@ -17,6 +17,9 @@ import { RequestServicesService } from 'app/intranet-academic-registration/Servi
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import Swal from 'sweetalert2';
 import { DetalleSolicitudComponent } from '../detalle-solicitud/detalle-solicitud.component';
+import {
+  ViewPosterPDFComponent
+} from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -72,6 +75,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     public dialog: MatDialog,
     public _RequestServicesService: RequestServicesService,
     private snackBar: MatSnackBar,
+    public _dialog: MatDialog,
     public authService: AuthService
   ) {
     super();
@@ -191,6 +195,37 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+ generateRequestVariousResolution(row: RequestVariousItem, id: number){
+  const DownloadRequestVariousResolutionData = {
+    requestVariousId: row.id
+  }
+    this._RequestServicesService.DownloadRequestVariousResolution(DownloadRequestVariousResolutionData).subscribe({
+      next:(res)=>{
+        console.log('Resolucion',res.data.pdfContentInBase64);
+        if (res.data.pdfContentInBase64) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.data.pdfContentInBase64,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Ocurrio un error al generar la Resolución",
+            icon: "warning"
+          });
+        }
+      }
+    })
+ }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
@@ -267,6 +302,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   }
 
   detalleSolicitud(row: RequestVariousItem, id: number) {
+    console.log(row.id);
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';

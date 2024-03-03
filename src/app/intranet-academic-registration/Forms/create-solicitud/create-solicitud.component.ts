@@ -15,6 +15,7 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import {EnrollmentService} from "../../../enrollment/services/enrollment.service";
+import {pdfDefaultOptions} from "ngx-extended-pdf-viewer";
 export interface DialogData {
   id: string;
   action: string;
@@ -73,6 +74,11 @@ export class CreateSolicitudComponent {
   public EFRecordID: number = 0;
   public ECRecordID: number = 0;
   public RequesttypeList: RequestVariousType[] = [];
+  public RequesttypeSelect: number = 0;
+  public typeActivityAcademySelected: number = 1;
+  public idSubjectOrActivity: number = 1;
+  public valueDesabled: boolean = false;
+  public typeDesabled: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<CreateSolicitudComponent>,
@@ -97,6 +103,9 @@ export class CreateSolicitudComponent {
       this.dialogTitle = 'Crear Solicitud';
       this.RequestVarious = data.request;
 
+    }
+    if (this.userType == 'Administrador') {
+      this.IdTypeUser = 3;
     }
     if (this.userType == 'Estudiante') {
       this.IdTypeUser = 2;
@@ -148,9 +157,94 @@ export class CreateSolicitudComponent {
   loadrequestType(){
     this.RequestVariousService.GetAllRequestVariousType().subscribe({
       next:(res)=>{
-        this.RequesttypeList = res.data;
+        if(this.IdTypeUser == 1){
+          this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16|| x.id == 3 || x.id == 2|| x.id == 3 || x.id == 1);
+        }
+        if(this.IdTypeUser == 2){
+          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6  || x.id == 9 || x.id == 8 || x.id == 7|| x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1);
+        }
+        if(this.IdTypeUser == 3){
+          this.RequesttypeList = res.data
+        }
+
       }
     })
+  }
+
+  changeRequesttype(){
+    console.log(this.RequesttypeSelect);
+    switch ( this.RequesttypeSelect ) {
+      case 1:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 2:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 3:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 7:
+        this.valueDesabled = true;
+        this.typeDesabled = true;
+        break;
+      case 10:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 11:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 12:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 13:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 14:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = false;
+        break;
+      case 15:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 16:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 2
+        this.typeDesabled = true;
+        break;
+      case 5:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 6:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      case 9:
+        this.valueDesabled = false;
+        this.typeActivityAcademySelected = 1
+        this.typeDesabled = true;
+        break;
+      default:
+        this.valueDesabled = false;
+        this.typeDesabled = false;
+        break;
+    }
   }
 
   createContactForm(): UntypedFormGroup {
@@ -223,7 +317,7 @@ export class CreateSolicitudComponent {
 
     } else {
       const value = this.RequestVariousForm.getRawValue();
-      if(value.typeRequest != 5 && value.typeRequest != 6){
+      if(value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7){
 
         const generalrequest = {
           userRequest: value.idSolicitante,
@@ -319,4 +413,5 @@ export class CreateSolicitudComponent {
     return JSON.parse(decodedPayload);
   }
 
+  protected readonly pdfDefaultOptions = pdfDefaultOptions;
 }

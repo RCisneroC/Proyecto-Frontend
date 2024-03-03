@@ -1,23 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
-import { ScheduleActivitiesService } from "../../services/schedule-activities.service";
-import { DataSource, SelectionModel } from "@angular/cdk/collections";
-import { ScheduleActivity, ScheduleActivityDetail } from "../../models/scheduleActivity";
-import { HttpClient } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatMenuTrigger } from "@angular/material/menu";
-import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
+import {ScheduleActivitiesService} from "../../services/schedule-activities.service";
+import {DataSource, SelectionModel} from "@angular/cdk/collections";
+import {ScheduleActivityDetail} from "../../models/scheduleActivity";
+import {HttpClient} from "@angular/common/http";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 
 @Component({
-  selector: 'app-enrollment-direct-activity-list',
-  templateUrl: './enrollment-direct-activity-list.component.html',
-  styleUrls: ['./enrollment-direct-activity-list.component.scss']
+  selector: 'app-certificate-list-activity',
+  templateUrl: './certificate-list-activity.component.html',
+  styleUrls: ['./certificate-list-activity.component.scss']
 })
-export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyAdapter
+export class CertificateListActivityComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   displayedColumns = [
@@ -58,8 +58,6 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
 
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
-
-
     })
 
   }
@@ -67,10 +65,13 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
     this.loadData();
   }
 
-  ViewDetail(row: ScheduleActivity) {
-    localStorage.setItem('ruta_local', '/admission/ed-activity-list-inscription/' + this.id);
-    localStorage.setItem('moodle_course_id', row.moodleCourseId.toString());
-    this.router.navigate(['/admission/ed-backoffice', row.id]);
+  ViewDetail(row: ScheduleActivityDetail) {
+    localStorage.setItem('ruta_local', '/admission/certificate-activity-inscription/' + this.id);
+    localStorage.setItem('name_actividad', row.name);
+    this.router.navigate(['/admission/certificate-listado-participans/' + row.id]);
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
   }
 
   private refreshTable() {
@@ -169,14 +170,14 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     });
-    this.exampleDatabase.getAllActivityDetailED(this.id);
+    this.exampleDatabase.getAllActivityDetailStatusAprove(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {
-            const observations = activity.observations || '';
+            const observations = activity.name || '';
             const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -218,4 +219,6 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
     });
   }
 }
+
+
 

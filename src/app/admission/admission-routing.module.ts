@@ -64,7 +64,6 @@ import { DetailsModulesComponent } from './activitydetail/design-curriculun/Modu
 import { RequiredDocumentListComponent } from '../teaching-management/required-document-list/required-document-list.component';
 import { DirectoryListComponent } from './maestros/directory-list/directory-list.component';
 import { FirnaDirectoraComponent } from './maestros/firna-directora/firna-directora.component';
-import { AuditListComponent } from './maestros/audit-list/audit-list.component';
 import {
   EnrollmentDirectScheduleListComponent
 } from "./enrollment-direct/enrollment-direct-schedule-list/enrollment-direct-schedule-list.component";
@@ -74,6 +73,16 @@ import {
 import {
   EnrollmentDirectBackofficeComponent
 } from "./enrollment-direct/enrollment-direct-backoffice/enrollment-direct-backoffice.component";
+import { AuditListComponent } from './maestros/audit-list/audit-list.component';
+import {
+  CertificateListScheduleComponent
+} from "./certificates/certificate-list-schedule/certificate-list-schedule.component";
+import {
+  CertificateListPartakerComponent
+} from "./certificates/certificate-list-partaker/certificate-list-partaker.component";
+import {
+  CertificateListActivityComponent
+} from "./certificates/certificate-list-activity/certificate-list-activity.component";
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -197,6 +206,18 @@ const routes: Routes = [
   {
     path: 'listado-participans/:id', //listo.
     component: ActivityParticipantsListComponent,
+  },
+  {
+    path: 'certificate-activity-participants-list',
+    component: CertificateListScheduleComponent,
+  },
+  {
+    path: 'certificate-activity-inscription/:id',
+    component: CertificateListActivityComponent,
+  },
+  {
+    path: 'certificate-listado-participans/:id', //listo.
+    component: CertificateListPartakerComponent,
   },
   {
     path: 'detalle-participans/:id', //listo.

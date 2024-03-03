@@ -1,48 +1,44 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
-import { ScheduleActivitiesService } from "../../services/schedule-activities.service";
-import { DataSource, SelectionModel } from "@angular/cdk/collections";
-import { ScheduleActivity, ScheduleActivityDetail } from "../../models/scheduleActivity";
-import { HttpClient } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatMenuTrigger } from "@angular/material/menu";
-import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
+import {ScheduleActivitiesService} from "../../services/schedule-activities.service";
+import {DataSource, SelectionModel} from "@angular/cdk/collections";
+import {ScheduleActivity} from "../../models/scheduleActivity";
+import {HttpClient} from "@angular/common/http";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {Direction} from "@angular/cdk/bidi";
+import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 
 @Component({
-  selector: 'app-enrollment-direct-activity-list',
-  templateUrl: './enrollment-direct-activity-list.component.html',
-  styleUrls: ['./enrollment-direct-activity-list.component.scss']
+  selector: 'app-certificate-list-schedule',
+  templateUrl: './certificate-list-schedule.component.html',
+  styleUrls: ['./certificate-list-schedule.component.scss']
 })
-export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyAdapter
+export class CertificateListScheduleComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
-
   displayedColumns = [
-    'planningDate',
-    'activityModeName',
-    'activityTypeName',
-    'activityName',
-    'activityLocationName',
-    'startDate',
-    'status',
+    'name',
+    'description',
+    'year',
+    'statusId',
     'actions',
   ];
 
   exampleDatabase?: ScheduleActivitiesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<ScheduleActivityDetail>(true, []);
+  selection = new SelectionModel<ScheduleActivity>(true, []);
   id?: number;
-  activityDetail?: ScheduleActivityDetail;
+  schedule?: ScheduleActivity;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public activityDetailService: ScheduleActivitiesService,
+    public scheduleActivitiesService: ScheduleActivitiesService,
     private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
     super();
@@ -55,35 +51,26 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
-
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-
-
-    })
-
   }
   refresh() {
     this.loadData();
   }
-
   ViewDetail(row: ScheduleActivity) {
-    localStorage.setItem('ruta_local', '/admission/ed-activity-list-inscription/' + this.id);
-    localStorage.setItem('moodle_course_id', row.moodleCourseId.toString());
-    this.router.navigate(['/admission/ed-backoffice', row.id]);
+    this.router.navigate(['/admission/certificate-activity-inscription', row.id]);
   }
+  editCall(row: ScheduleActivity) {
+    this.id = row.id;
+
+  }
+  addNew() {
+    let tempDirection: Direction;
+
+  }
+
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-
-  addNew() {
-
-  }
-  editCall(row: ScheduleActivityDetail) {
-
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
 
 
@@ -95,9 +82,9 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
-      this.sort,
-      this.activatedRoute
+      this.sort
     );
+    console.log(this.dataSource)
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
         if (!this.dataSource) {
@@ -126,61 +113,54 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.curriculumDesignId,
+        'First Name': x.name,
 
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-}
 
-export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
+
+}
+export class ExampleDataSource extends DataSource<ScheduleActivity> {
   filterChange = new BehaviorSubject('');
-  id!: number;
   get filter(): string {
     return this.filterChange.value;
   }
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: ScheduleActivityDetail[] = [];
-  renderedData: ScheduleActivityDetail[] = [];
+  filteredData: ScheduleActivity[] = [];
+  renderedData: ScheduleActivity[] = [];
   constructor(
     public exampleDatabase: ScheduleActivitiesService,
     public paginator: MatPaginator,
-    public _sort: MatSort,
-    public activatedRoute: ActivatedRoute
+    public _sort: MatSort
   ) {
     super();
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<ScheduleActivityDetail[]> {
+  connect(): Observable<ScheduleActivity[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataChange2,
+      this.exampleDatabase.dataChange,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-    });
-    this.exampleDatabase.getAllActivityDetailED(this.id);
+    this.exampleDatabase.getAllScheduleId('5');
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.exampleDatabase.data2
+        this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((activity: ScheduleActivityDetail) => {
-            const observations = activity.observations || '';
-            const searchStr = observations.toLowerCase();
+          .filter((role: ScheduleActivity) => {
+            const searchStr = (role.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
-
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.
@@ -197,7 +177,7 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: ScheduleActivityDetail[]): ScheduleActivityDetail[] {
+  sortData(data: ScheduleActivity[]): ScheduleActivity[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -205,8 +185,11 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
       switch (this._sort.active) {
-        case 'curriculumDesignId':
-          [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
+        case 'id':
+          [propertyA, propertyB] = [a.id, b.id];
+          break;
+        case 'name':
+          [propertyA, propertyB] = [a.name, b.name];
           break;
 
       }
