@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule , ErrorHandler } from "@angular/core";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -18,8 +18,8 @@ import { JwtInterceptor } from "./core/interceptor/jwt.interceptor";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GlobalErrorHandler } from './core/global-error-handler';
 
 import {
   HttpClientModule,
@@ -72,11 +72,13 @@ export function createTranslateLoader(http: HttpClient) {
     // core & shared
     CoreModule,
     SharedModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
 
 
   ],

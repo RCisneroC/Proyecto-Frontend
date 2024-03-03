@@ -102,7 +102,7 @@
                         </ng-container>
 
                         <!-- actions -->
-                        <ng-container matColumnDef="actions">
+                        <ng-container matColumnDef="actions" *ngIf="typeUser === 'Profesor'">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
@@ -188,7 +188,7 @@
 
 
                         <!-- actions -->
-                        <ng-container matColumnDef="actions">
+                        <ng-container matColumnDef="actions" *ngIf="typeUser === 'Profesor'">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 

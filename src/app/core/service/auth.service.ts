@@ -56,6 +56,7 @@ export class AuthService {
     // remove user from local storage to log user out
     // localStorage.clear();
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('menu');
     this.currentUserSubject.next(this.currentUserValue);
     return of({ success: false });
   }

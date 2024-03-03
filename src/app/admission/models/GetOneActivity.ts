@@ -65,6 +65,10 @@ export interface GetOneActivity {
     female: number;
     activityTrainingType: number;
     certificatesReceived: number;
+    evaluation: string;
+    bibliographicCitation: string;
+    rubric: boolean;
+    activityClass: number;
     roomRequests: RoomRequest[];
     posterRequests: PosterRequest[];
     activityActivityRequirements: ActivityActivityRequirement[];

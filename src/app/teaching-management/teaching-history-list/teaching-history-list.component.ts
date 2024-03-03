@@ -30,8 +30,6 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     'numOfClasses',
     'hasLaboratory',
     'actions',
-
-
   ];
 
   displayedColumns2 = [
@@ -76,14 +74,23 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activatedRoute.snapshot.params["cedula"];
+    if (this.typeUser != 'Profesor') {
+      this.displayedColumns.splice(5, 1);
+      this.displayedColumns2.splice(5, 1);
+
+    }
     this.idCareer = Number(localStorage.getItem("idCareer"));
-    
+
     if (this.cedula == undefined) {
       this.cedula = this.user.cedula;
       this.getSubjects();
       this.getActivities();
+
+    } if (this.cedula != undefined && this.cedula != '') {
+      this.getSubjects();
+      this.getActivities();
     }
-   
+
 
   }
 
@@ -109,8 +116,8 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('tipoSolicitud', "2");
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
   }
-  
-  volverAtras(){
+
+  volverAtras() {
     this._nav.navigate(['/teaching-management/career-list/']);
   }
 
@@ -136,7 +143,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
   async getSubjects() {
 
-    this._teacherService.getSubjectsByCedulaNewApi(this.cedula,this.idCareer).subscribe({
+    this._teacherService.getSubjectsByCedulaNewApi(this.cedula, this.idCareer).subscribe({
       next: (res) => {
 
         this.DataSubjects = res;
@@ -191,15 +198,15 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
-  
-  
+
+
   ViewSurveyAct(row: Activity) {
     const dialogRef = this.dialog.open(ViewSurveyComponent, {
       data: {
         activity: row,
         action: "A",
         subject: null,
-        cedula:this.cedula
+        cedula: this.cedula
       },
       width: '1200px',
       disableClose: true
@@ -209,20 +216,20 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       if (result == undefined) {
         return;
       }
-   
+
     });
 
   }
-  
+
 
   ViewSurveySub(row: SubjectResponse) {
-   
+
     const dialogRef = this.dialog.open(ViewSurveyComponent, {
       data: {
         activity: null,
         action: "S",
         subject: row,
-        cedula:this.cedula
+        cedula: this.cedula
       },
       width: '1200px',
       disableClose: true
@@ -232,7 +239,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       if (result == undefined) {
         return;
       }
-    
+
     });
 
   }

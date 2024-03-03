@@ -12,7 +12,19 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Administrador',
     submenu: [],
   },
-
+  // DASHBOARD.
+  {
+    path: '/dashboard/dashboard1',
+    title: 'Panel control',
+    iconType: 'feather',
+    icon: 'calendar',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Director',
+    submenu: [],
+  },
   //incripción
   {
     path: '',
@@ -77,8 +89,32 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
+        path: 'admission/ed-schedule-list',
+        title: 'Certificación o Recertificación',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+      {
         path: 'admission/activity-participants-list',
         title: 'Participantes',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+      {
+        path: 'admission/certificate-activity-participants-list',
+        title: 'Certificados de estudiantes',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -129,19 +165,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  // DASHBOARD.
-  {
-    path: '/dashboard/dashboard1',
-    title: 'Panel control',
-    iconType: 'feather',
-    icon: 'calendar',
-    class: '',
-    groupTitle: false,
-    badge: '',
-    badgeClass: '',
-    Role: 'Director',
-    submenu: [],
-  },
+
 
   //aprobaciones EC
   {
@@ -193,7 +217,56 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-
+  //aprobaciones EF
+  {
+    path: '',
+    title: 'Aprobaciones EF',
+    iconType: 'feather',
+    icon: 'check-circle',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Director',
+    submenu: [
+      {
+        path: 'admission/approved-annualplan',
+        title: 'Plan Anual',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Director',
+        submenu: [],
+      },
+      {
+        path: 'admission/approved-degree',
+        title: 'Mallas Curriculares',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Director',
+        submenu: [],
+      },
+      {
+        path: 'admission/approved-poster',
+        title: 'Solicitud de Afiche',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Director',
+        submenu: [],
+      },
+    ],
+  },
   //ajustes EC
   {
     path: "",
@@ -230,7 +303,6 @@ export const ROUTES: RouteInfo[] = [
         Role: 'Administrador',
         submenu: []
       },
-      
       {
         path: "/admission/audit-list",
         title: "Auditoria GD",
@@ -467,56 +539,8 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  //aprobaciones EF
-  {
-    path: '',
-    title: 'Aprobaciones EF',
-    iconType: 'feather',
-    icon: 'check-circle',
-    class: 'menu-toggle',
-    groupTitle: false,
-    badge: '',
-    badgeClass: '',
-    Role: 'Director',
-    submenu: [
-      {
-        path: 'admission/approved-annualplan',
-        title: 'Plan Anual',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        Role: 'Director',
-        submenu: [],
-      },
-      {
-        path: 'admission/approved-degree',
-        title: 'Mallas Curriculares',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        Role: 'Director',
-        submenu: [],
-      },
-      {
-        path: 'admission/approved-poster',
-        title: 'Solicitud de Afiche',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        Role: 'Director',
-        submenu: [],
-      },
-    ],
-  },
+
+  // --------------------------------//
   //Solicitudes de docentes.
   {
     path: "",
@@ -583,6 +607,18 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/security/role-list',
         title: 'Rol',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Administrador',
+        submenu: [],
+      },
+      {
+        path: '/security/list-menu',
+        title: 'Menu',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -686,6 +722,43 @@ export const ROUTES: RouteInfo[] = [
 
   //Historial Academico
   {
+    path: '',
+    title: 'Ofertas Académicas',
+    iconType: 'feather',
+    icon: 'bell',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [
+      {
+        path: '/enrollment/ofertasacademicas/ofertas-carreras',
+        title: 'Formación Especializada',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/enrollment/ofertasacademicas/ofertas-actividades',
+        title: 'Entrenamiento',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      }
+    ],
+  },
+  {
     path: '/dashboard/dashboard-tutor',
     title: 'Historial Academico',
     iconType: 'feather',
@@ -712,6 +785,18 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/intranet-academic/list-requests-various',
         title: 'Solicitudes Varias',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        Role: 'Estudiante',
+        submenu: [],
+      },
+      {
+        path: '/intranet-academic/creditos-no-oficiales',
+        title: 'Créditos no oficiales',
         iconType: '',
         icon: '',
         class: 'ml-menu',
@@ -815,7 +900,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  //Gestion de Tareas 
+  //Gestion de Tareas
   {
     path: '',
     title: 'Intranet',

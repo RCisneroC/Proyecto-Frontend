@@ -55,7 +55,7 @@ export class SigninComponent
             if (res) {
               if (res) {
                 const token = this.authService.currentUserValue.token
-
+                localStorage.setItem('menu', JSON.stringify(res.menus));
                 if (token) {
                   let type = this._RequestServicesService.getRoleFromToken(token);
                   console.log(type);
@@ -92,6 +92,7 @@ export class SigninComponent
                       this.router.navigate(['/dashboard/dashboard1']);
                       break;
                     default:
+                      this.router.navigate(['/dashboard/dashboard1']);
                       break;
                   }
                 } else {

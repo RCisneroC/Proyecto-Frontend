@@ -10,16 +10,16 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
-import { ROUTES } from './sidebar-items';
+// import { ROUTES } from './sidebar-items';
 import { AuthService } from '@core';
-import { RouteInfo } from './sidebar.metadata';
+import { MenuResponse } from 'app/security/models/role';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  public sidebarItems!: RouteInfo[];
+  public sidebarItems!: MenuResponse[];
   public innerHeight?: number;
   public bodyTag!: HTMLElement;
   listMaxHeight?: string;
@@ -74,16 +74,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     if (this.authService.currentUserValue) {
       this.userType = this.getRoleFromToken(this.authService.currentUserValue.token);
-      console.log('====================================');
-      console.log(this.userType);
-      console.log('====================================');
       this.userFullName =
         this.authService.currentUserValue.firstName +
         ' ' +
         this.authService.currentUserValue.lastName;
       this.userImg = this.authService.currentUserValue.img;
       // this.userType = 'Admin';
-      this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem.Role == this.userType);
+      let menuLocal = localStorage.getItem('menu');
+      if (menuLocal != null) {
+        this.sidebarItems = JSON.parse(menuLocal);
+        console.log(this.sidebarItems);
+
+      } else {
+        this.logout();
+      }
     }
 
     // this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);

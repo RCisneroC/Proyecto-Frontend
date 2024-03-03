@@ -44,7 +44,7 @@ export class PosterRequeridosComponent {
   }
 
   submit() {
-    console.log(this.PosterForm.getRawValue());
+    console.log(this.PosterForm.get('Poster')?.value);
     var _Form_Data = new FormData();
     _Form_Data.append('ActivityId', this.PosterForm.get('ActivityId')?.value);
     _Form_Data.append('Comment', this.PosterForm.get('Comment')?.value);

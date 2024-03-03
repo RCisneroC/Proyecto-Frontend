@@ -1,3 +1,5 @@
+import { MenuResponse } from "app/security/models/role";
+
 export class User {
    id!: string;
    img!: string;
@@ -15,6 +17,7 @@ export class User {
    isRegistered!: boolean;
    token!: string;
    roles!: string[];
+   menus!: MenuResponse[];
 
 
 }

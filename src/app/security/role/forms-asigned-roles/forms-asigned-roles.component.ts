@@ -1,14 +1,14 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Menu, Role, SubMenu } from 'app/security/models/role';
+import { Menu, MenuResponse, Role, SubMenu } from 'app/security/models/role';
 import { RoleService } from '../role-list/services/role.service';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { SubjectResponse } from 'app/teaching-management/models/Teacher';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   action: string;
-  submenu: SubMenu[];
-  menu: Menu[];
   role: Role
 }
 @Component({
@@ -33,15 +33,48 @@ export class FormsAsignedRolesComponent {
       name: ''
     }
   ];
-  ListadoSubMenu = new MatTableDataSource<SubMenu>(this.Submenu);
+  _SubjectResponse: MenuResponse[] = [{
+    statusId: 0,
+    id: 0,
+    path: '',
+    title: '',
+    iconType: '',
+    icon: '',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    parentApplicationMenuId: 0,
+    subMenus: [{
+      statusId: 0,
+      id: 0,
+      path: '',
+      title: '',
+      iconType: '',
+      icon: '',
+      class: '',
+      groupTitle: false,
+      badge: '',
+      badgeClass: '',
+      parentApplicationMenuId: 0,
+      subMenus: [],
+      message: '',
+      isError: false,
+      statusCode: '',
+    }],
+    message: '',
+    isError: false,
+    statusCode: '',
+  }]
+  ListadoSubMenu = new MatTableDataSource<MenuResponse>(this._SubjectResponse);
   @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
-    console.log(value);
-    setTimeout(() => {
-      this.ListadoSubMenu.paginator = value;
-      this.IsLoading = false;
-    }, 3000);
+    this.ListadoSubMenu.paginator = value;
   }
   public IsLoading: boolean = true;
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message: ''
+  }
   constructor(
     public dialogRef: MatDialogRef<FormsAsignedRolesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -54,6 +87,7 @@ export class FormsAsignedRolesComponent {
     if (this.action === 'nuevo') {
       this.dialogTitle = "Asignar Permisos para el ROL: " + data.role.name;
       this.role = data.role;
+      this.buscarMenu();
     } else {
       this.dialogTitle = 'Crear rol';
       //const blankObject = {} as Role;
@@ -63,26 +97,56 @@ export class FormsAsignedRolesComponent {
   }
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      id_rol: [this.data.role.id],
-      id_menu: [this.role.name, [Validators.required]],
-      subMenuId: this.fb.array([]),
+      RoleId: [this.data.role.id],
+      MenuId: [0, [Validators.required]],
+      SubMenuIds: this.fb.array([]),
     });
+  }
+  buscarMenu() {
+    this.roleService.MenuResponseF().subscribe({
+      next: (res) => {
+        this._SubjectResponse = res;
+        console.log(this._SubjectResponse);
+      },
+      complete: () => {
+
+      }
+    })
   }
   submit() {
     // emppty stuff
+    console.log('====================================');
+    console.log(this.roleForm.getRawValue());
+    console.log('====================================');
+    this.roleService.addPermisseRol(this.roleForm.getRawValue()).subscribe({
+      next: (res: ResponseGenerica) => {
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Creado correctamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err: any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = 'Intente nuevamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
+
+
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-
+    console.log('====================================');
+    console.log(this.roleForm.getRawValue());
+    console.log('====================================');
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.ListadoSubMenu.filter = filterValue.trim().toLowerCase();
   }
   get checkboxesFormArray(): UntypedFormArray {
-    return this.roleForm.get('subMenuId') as UntypedFormArray;
+    return this.roleForm.get('SubMenuIds') as UntypedFormArray;
   }
 
   checkboxChange(event: any, checkboxId: any): void {
@@ -97,12 +161,18 @@ export class FormsAsignedRolesComponent {
   }
 
   menuSelect(event: any) {
-
-    let sub = this.data.submenu.filter(x => x.idMenu == event);
-    this.ListadoSubMenu = new MatTableDataSource<SubMenu>(sub);
-    this.ListadoSubMenu.paginator = this.paginator;
-    this.IsLoading = false;
-    console.log(sub);
-
+    this.roleForm = this.createContactForm();
+    this.roleForm.controls['MenuId'].setValue(event);
+    this.roleService.MenuResponseFParentMenuId(event).subscribe({
+      next: (res) => {
+        this.ListadoSubMenu = new MatTableDataSource<MenuResponse>(res);
+        setTimeout(() => {
+          this.ListadoSubMenu.paginator = this.paginator;
+          this.IsLoading = false;
+        }, 3000);
+      },
+      complete: () => {
+      }
+    })
   }
 }

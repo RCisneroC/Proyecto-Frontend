@@ -1,15 +1,17 @@
-import { Component, Inject, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RequestRooms } from 'app/admission/models/RequestRooms';
 import { MasterService } from 'app/admission/maestros/services/master.service';
-import { ResponseError, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {  ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Lounge } from 'app/admission/models/lounge';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
+import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+
 
 export interface DialogData {
   id: string;
@@ -22,7 +24,7 @@ export interface DialogData {
   templateUrl: './franja-horaria.component.html',
   styleUrls: ['./franja-horaria.component.scss']
 })
-export class FranjaHorariaComponent implements OnInit, AfterViewInit {
+export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: ''
@@ -45,6 +47,7 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit {
     'startTime',
     'endTime',
   ];
+  subscriptions: Subscription[] = [];
 
   constructor(public dialogRef: MatDialogRef<FranjaHorariaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -73,12 +76,14 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit {
   }
 
   LoadRooms() {
-    this.RoomServices.getRoomsFilterRangeDate(this.data.requestRooms.startDate,
-      this.data.requestRooms.endDate).subscribe({
-        next: (res) => {
-          this.lstRooms = res as Lounge[];
-        }
-      });
+    this.subscriptions.push(
+      this.RoomServices.getRoomsFilterRangeDate(this.data.requestRooms.startDate,
+        this.data.requestRooms.endDate).subscribe({
+          next: (res) => {
+            this.lstRooms = res as Lounge[];
+          }
+        })
+    );
   }
 
 
@@ -86,22 +91,25 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit {
     if (!this.timeSlotsForm.controls["salon"].value)
       return;
 
-    this.RoomServices.getAvalableDateByRoom(parseInt(this.timeSlotsForm.controls["salon"].value)).subscribe({
-      next: (res) => {
-        this.lstFechasNoDisponibles = res as any[];
+    this.subscriptions.push(
+      this.RoomServices.getAvalableDateByRoom(parseInt(this.timeSlotsForm.controls["salon"].value)).subscribe({
+        next: (res) => {
 
-        if (this.lstFechasNoDisponibles.length > 0) {
+          if (res != null)
+            this.lstFechasNoDisponibles = res as any[]
           this.deshabilitarFecha = false;
           this.dtc.detectChanges();
+
         }
-      }
-    });
+      })
+    );
   }
 
 
   public FiltrarFechas = (d: Date | null): boolean => {
 
     let data: boolean = true;
+
 
     if (this.lstFechasNoDisponibles.length == 0)
       return true;
@@ -118,17 +126,21 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit {
 
   LoadTimeSlot() {
     this.IsLoading = true;
-    this.RoomServices.getTimeSlotByRoomAndDate(
-      parseInt(this.timeSlotsForm.controls["salon"].value),
-      this.timeSlotsForm.controls["fecha"].value).subscribe({
-        next: (request) => {
-          this.dataSource = new MatTableDataSource<TimeSlot>(request);
-          this.lstTimeSlots = request;
-          this.dtc.detectChanges();
-          this.IsLoading = false;
-         this.ngAfterViewInit();
-        }
-      });
+    this.checkboxesFormArray.clear();
+    this.subscriptions.push(
+      this.RoomServices.getTimeSlotByRoomAndDate(
+        parseInt(this.timeSlotsForm.controls["salon"].value),
+        this.timeSlotsForm.controls["fecha"].value).subscribe({
+          next: (request) => {
+
+            this.dataSource = new MatTableDataSource<TimeSlot>(request);
+            this.lstTimeSlots = request;
+            this.dtc.detectChanges();
+            this.IsLoading = false;
+            this.ngAfterViewInit();
+          }
+        })
+    );
   }
 
   ngAfterViewInit() {
@@ -158,39 +170,41 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit {
     return (this.checkboxesFormArray.controls.findIndex(x => x.value === id) >= 0);
   }
 
-  guardar():void {
+  guardar(): void {
     const data = {
       roomRequestId: this.data.requestRooms.id,
       roomId: this.timeSlotsForm.controls["salon"].value,
       date: this.timeSlotsForm.controls["fecha"].value,
       roomTimeSlotIds: this.timeSlotsForm.getRawValue().timeslotsId as number[]
     };
+    this.subscriptions.push(
+      this.RoomServices.addRequestRoomDate(data).subscribe(
+        {
+          next: (request: any) => {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Creado correctamente.',
+              icon: "success"
+            });
+            this.IsLoading = false;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Creado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.IsLoading = false;
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: err.error.Message,
+              icon: "warning"
+            });
+          }
+        })
+    );
+  }
 
-    this.RoomServices.addRoomsRequestRooms(data).subscribe(
-      {
-        next: (request: any) => {
-          console.log(request)
-
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: 'Creado correctamente.',
-            icon: "success"
-          });
-          this.IsLoading = false;
-          this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Creado correctamente.';
-          this.dialogRef.close(this.ResponseMessage);
-        },
-        error: (err: HttpErrorResponse) => {
-          this.IsLoading = false;
-          console.log("error " + err)
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "No se pudo crear la franja horaria",
-            icon: "warning"
-          });
-        }
-      });
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe())
   }
 
 }
