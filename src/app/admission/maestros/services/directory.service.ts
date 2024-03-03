@@ -44,55 +44,7 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllDirectory2() {
-    // return this.httpClient.get(environment.apiDocument + 'Folder/GetFolder?FolderId=0')
     return this.httpClient.get(environment.apiDocument + 'Folder/GetFolderV2?FolderId=0')
-  }
-
-  getfilebyId(fileId: number) {
-    return this.httpClient.get<Data>(environment.apiDocument + 'Files/GetFile?FileId=' + fileId)
-  }
-
-  getFolderbyId(folderId: number) {
-    return this.httpClient.get<Data>(environment.apiDocument + 'Folder/GetFolder?FolferId=' + folderId)
-  }
-
-  addFile(data: any) {
-    return this.httpClient.post(environment.apiDocument + 'Files/AddFile', data)
-  }
-
-  addFolder(data: any) {
-    return this.httpClient.post(environment.apiDocument + 'Folder/AddFolder', data)
-  }
-
-  UpdateFolder(data: any) {
-
-    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
-    return this.httpClient.put(environment.apiDocument + 'Folder/UpdateFolder', data);
-  }
-
-  UpdateFile(data: any) {
-
-    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
-    return this.httpClient.put(environment.apiDocument + 'Files/UpdateFile', data);
-  }
-
-  GetHistoryFile(id: number) {
-
-    //UpdateFolder?FolderId=6&NewFolderName=newfoldername
-    return this.httpClient.get<DataD>(environment.apiDocument + 'Files/GetAuditFile?FileId=' + id)
-  }
-
-
-  GetHistoryFolder(id: number) {
-
-    return this.httpClient.get<DataD>(environment.apiDocument + 'Folder/GetAuditFolder?FolderId=' + id)
-  }
-
-
-
-
-  addDirectory(directory: Directory) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityMode/Create', directory);
   }
 
   getfilebyId(fileId: number) {
