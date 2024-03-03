@@ -61,22 +61,22 @@ export class EditActivityFormsComponent implements OnInit {
   }
   typeActivityListTyp2: TypeActivity[] = [
     {
-      id: 5,
+      id: 2,
       name: 'Formación por competencia',
       statusId: 1,
     },
     {
-      id: 6,
+      id: 3,
       name: 'Concurso abierto fase 3',
       statusId: 1,
     },
     {
-      id: 7,
+      id: 4,
       name: 'Curso de Integración',
       statusId: 1,
     },
     {
-      id: 8,
+      id: 1,
       name: 'Nuevos Abogados',
       statusId: 1,
     }
@@ -168,8 +168,11 @@ export class EditActivityFormsComponent implements OnInit {
       participantAdmissionProfile: [data.actividad.participantAdmissionProfile],//
       participantGraduateProfile: [data.actividad.participantGraduateProfile],//
       teachingMethodology: [data.actividad.teachingMethodology],//
-      activityTrainingType: [data.actividad.activityTrainingType.toString()]
-
+      activityTrainingType: [data.actividad.activityTrainingType.toString()],
+      evaluation: [data.actividad.evaluation],
+      bibliographicCitation: [data.actividad.bibliographicCitation],
+      rubric: [data.actividad.rubric],
+      activityClass: [data.actividad.activityClass],
     });
     this.action = this.data.accion;
     if (this.action === 'add-document') {
@@ -247,6 +250,10 @@ export class EditActivityFormsComponent implements OnInit {
       teachingMethodology: this.editActivity.controls['teachingMethodology'].value,
       certificatesReceived: 0,
       activityTrainingType: this.editActivity.controls['activityTrainingType'].value,
+      evaluation: this.editActivity.controls['evaluation'].value,
+      bibliographicCitation: this.editActivity.controls['bibliographicCitation'].value,
+      rubric: this.editActivity.controls['rubric'].value,
+      activityClass: this.editActivity.controls['activityClass'].value,
     };
     this._ActivityDetailService.UpdateActivity(this.RoweditActivity).subscribe({
       next: () => {

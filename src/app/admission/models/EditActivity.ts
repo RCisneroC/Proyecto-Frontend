@@ -50,4 +50,8 @@ export interface EditActivity {
     teachingMethodology: string; // LUEGO ->LISTO
     certificatesReceived: number; // LUEGO
     activityTrainingType: number;
+    evaluation: string;
+    bibliographicCitation: string;
+    rubric: boolean;
+    activityClass: number;
 }

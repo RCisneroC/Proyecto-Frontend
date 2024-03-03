@@ -529,7 +529,7 @@
         </button>
 
         <button mat-menu-item
-            *ngIf="_ActivityService._GetOneActivity.totalHours>80 && _ActivityService._GetOneActivity.activityTypeId!=7"
+            *ngIf="_ActivityService._GetOneActivity.totalHours>80 && _ActivityService._GetOneActivity.activityClass!=4"
             matTooltip="Crear Diseño Curricular" color="primary"
             (click)="GoDesignCurriculum(_ActivityService._GetOneActivity)">
             <mat-icon>add_to_queue</mat-icon>Crear Diseño Curricular.
