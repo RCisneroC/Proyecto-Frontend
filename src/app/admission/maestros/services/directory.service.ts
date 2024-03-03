@@ -5,7 +5,7 @@ import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 import { Data, DataD, Directory, FileData } from 'app/admission/models/directory';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
-import { FoodNode } from '../directory-list/directory-list.component';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +43,8 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllDirectory2() {
-   return this.httpClient.get(environment.apiDocument+'Folder/GetFolderV2?FolderId=0')
+  getAllDirectory2(userId:string) {
+   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolderId=0')
   }
   
   getfilebyId(fileId:number) {
@@ -78,7 +78,7 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    GetHistoryFile(id:number) {
    
     //UpdateFolder?FolderId=6&NewFolderName=newfoldername
-    return this.httpClient.get<DataD>(environment.apiDocument+'Files/GetAuditFile?FileId='+id)
+    return this.httpClient.get<DataD>(environment.apiDocument+'FileAudit/GetAuditFile?FileId='+id)
   }
    
    
