@@ -29,6 +29,7 @@ import { AddCalifComponent } from './add-calif/add-calif.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.component';
 import { CareerListComponent } from './career-list/career-list.component';
+import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 
 
 
@@ -56,7 +57,8 @@ import { CareerListComponent } from './career-list/career-list.component';
     ListStudentsComponent,
     FinalGradeComponent,
     AddFinalGradeComponent,
-    CareerListComponent
+    CareerListComponent,
+    StatisticsListComponent
   ],
   providers: [VerificarBS64Pipe],
   imports: [

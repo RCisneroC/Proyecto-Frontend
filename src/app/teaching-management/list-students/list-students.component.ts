@@ -88,7 +88,14 @@ export class ListStudentsComponent implements OnInit {
     })
   }
   volverAtras() {
-    this._Router.navigate(['/teaching-management/teacher-history-list']);
+   
+    const local = localStorage.getItem('tipoSolicitud')
+    if(local==="1"){
+      this._Router.navigate(['/teaching-management/teacher-history-list/']);
+    }else{
+      this._Router.navigate(['/teaching-management/career-list/']);
+    }
+    
   }
 
 
