@@ -19,14 +19,12 @@
                   <div class="body overflow-auto">
                     <form class="register-form m-4" [formGroup]="creditosNoOficialesForm">
                       <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                        <div class="col-xl-4 col-lg-4 col-md-4 row-cols-sm-4  mb-2">
                           <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Formación Especializada</mat-label>
-                            <mat-select formControlName="salon">
+                            <mat-select formControlName="formacionEspecializada">
                               <mat-option [value]="" selected></mat-option>
-                              <!--
-                              <mat-option *ngFor="let item of lstRooms" [value]="item.id">{{item.name}}</mat-option>
-                             -->
+                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecord">{{item.degree.name}}</mat-option>
                             </mat-select>
                             <mat-error *ngIf="creditosNoOficialesForm.get('formacionEspecializada')?.hasError('required')">
                               Seleccione la formación especializada
@@ -34,11 +32,10 @@
                           </mat-form-field>
                         </div>
                       </div>
-
                       <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                           <div class="example-button-row">
-                            <button (click)="guardar()" mat-raised-button color="primary"
+                            <button (click)="generarNoOficialCredit()" mat-raised-button color="primary"
                               [disabled]="!creditosNoOficialesForm.valid">
                               <app-feather-icons
                               [icon]="'download'"></app-feather-icons>
@@ -46,7 +43,6 @@
                           </div>
                         </div>
                       </div>
-
                     </form>
                   </div>
                 </div>
