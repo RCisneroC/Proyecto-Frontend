@@ -10,6 +10,7 @@ import { DetailTaskComponent } from './detail-task/detail-task.component';
 import { ListStudentsComponent } from './list-students/list-students.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { CareerListComponent } from './career-list/career-list.component';
+import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,12 @@ const routes: Routes = [
     path: "career-list",
     component: CareerListComponent,
   },
+  {
+    path: "statistics-list",
+    component: StatisticsListComponent,
+  },
+  
+  
 ];
 
 @NgModule({

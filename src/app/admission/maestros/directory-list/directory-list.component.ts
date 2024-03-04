@@ -14,6 +14,7 @@ import { DirectoryService } from "../services/directory.service";
 import { AddFileComponent } from "./add-file/add-file.component";
 import * as JSZip from 'jszip';
 import { map } from "rxjs";
+import { AuthService, User } from "@core";
 
 export interface FoodNode {
   folderId:number;
@@ -77,14 +78,16 @@ export class DirectoryListComponent  implements OnInit   {
   valor!: string;
   carpetas: any;
   dataSource2: any;
+  user: User;
 
 
   constructor( 
     public _verificarBS64: VerificarBS64Pipe,
     public _dialog: MatDialog,
-    public _directoryService:DirectoryService
+    public _directoryService:DirectoryService,
+    public authenticationService:AuthService
   ) {
-
+    this.user = this.authenticationService.currentUserValue;
   }
   ngOnInit() {
 
@@ -94,7 +97,7 @@ export class DirectoryListComponent  implements OnInit   {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   
   getAllDirectory() {
-    this._directoryService.getAllDirectory2().subscribe({
+    this._directoryService.getAllDirectory2(this.user.id).subscribe({
       next: (res:any) => {
       console.log(res);
         this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];

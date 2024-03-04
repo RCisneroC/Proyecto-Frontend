@@ -70,27 +70,26 @@
                             <td mat-cell *matCellDef="let data">
                             
                               <mat-button-toggle-group  >
-                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==undefined" value="bold"><mat-icon (click)="viewDocumento(data)"  *ngIf="data.extension!==undefined">remove_red_eye</mat-icon></mat-button-toggle>
-                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==undefined" value="italic"><mat-icon (click)="download(data)"  *ngIf="data.extension!==undefined">file_download</mat-icon></mat-button-toggle>
-                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==undefined" value="underline"> <mat-icon [cdkMenuTriggerFor]="menu" *ngIf="data.extension!==undefined" class="example-standalone-trigger">more_vert</mat-icon></mat-button-toggle>
+                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null" value="bold"><mat-icon (click)="viewDocumento(data)"  >remove_red_eye</mat-icon></mat-button-toggle>
+                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null" value="italic"><mat-icon (click)="download(data)"  >file_download</mat-icon></mat-button-toggle>
+                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null" value="underline"> <mat-icon [cdkMenuTriggerFor]="menu"  class="example-standalone-trigger">more_vert</mat-icon></mat-button-toggle>
                               </mat-button-toggle-group>
                               <!-- <mat-icon (click)="viewDocumento(data)"  *ngIf="data.extension!==undefined">remove_red_eye</mat-icon>
                               <mat-icon (click)="download(data)"  *ngIf="data.extension!==undefined">file_download</mat-icon>
                               <mat-icon [cdkMenuTriggerFor]="menu" *ngIf="data.extension!==undefined" class="example-standalone-trigger">more_vert</mat-icon>
                               -->
-                              <div *ngIf="data.extension===undefined">
+                              <div *ngIf="data.extension===null">
                               <mat-icon [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">more_vert</mat-icon>
                               </div>
                               <ng-template #menu>
                                 <div class="example-menu" cdkMenu>
                                   <!-- <button class="example-menu-item" (click)="newFolder(data)" cdkMenuItem>Carpeta</button> -->
                                   <!-- <button class="example-menu-item" (click)="downloadZip(data)" cdkMenuItem>Descargar zip</button> -->
-                                  <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
-                                  <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
-                                  <button class="example-menu-item" *ngIf="data.extension===undefined" (click)="newFolder(data,'newfolder')" cdkMenuItem>Nueva carpeta</button>
-                                
-                                  <button class="example-menu-item" *ngIf="data.extension!==undefined" (click)="newfile(data,'file')" cdkMenu2Item>Remplazar archivo</button>
-                                  <button class="example-menu-item" *ngIf="data.extension!==undefined"(click)="newFolder(data,'file')" cdkMenu2Item>Cambiar nombre</button>
+                                  <button class="example-menu-item" *ngIf="data.extension===null" (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
+                                 <button class="example-menu-item" *ngIf="data.extension===null" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
+                                   <button class="example-menu-item" *ngIf="data.extension===null" (click)="newFolder(data,'newfolder')" cdkMenuItem>Nueva carpeta</button>
+                                  <button class="example-menu-item" *ngIf="data.extension!==null" (click)="newfile(data,'file')" cdkMenu2Item>Remplazar archivo</button>
+                                  <button class="example-menu-item" *ngIf="data.extension!==null"(click)="newFolder(data,'file')" cdkMenu2Item>Cambiar nombre</button> 
                                 </div>
                               </ng-template>
                               

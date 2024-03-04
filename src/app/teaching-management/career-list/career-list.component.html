@@ -74,9 +74,9 @@
                           <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                           </mat-row>
                         </table>
-  
                      
                       </div>
+                      
                       <!-- Loading spinner -->
                       <!-- <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
                               <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
@@ -90,11 +90,103 @@
   
   
                     </div>
+                 
+                 
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="card">
+            <div class="header">
+              <h2 class="text-uppercase"><strong>Listado de Actividades</strong>
+              </h2>
+            </div>
+            <div class="body">
+              <div class="body table-responsive ">
+                <table *ngIf="!view" mat-table [dataSource]="DataActivities" matSort
+                class="mat-cell advance-table">
+
+
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de actividad
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span class="mobile-label">Nombre de actividad:</span>{{row.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activityModeName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad de la actividad
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span class="mobile-label">Modalidad de la
+                      actividad:</span>{{row.activityModeName}}</mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="activityTypeName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de actividad
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span class="mobile-label">Tipo de actividad:</span>{{row.activityTypeName}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activityLocationName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="isExecuted">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Ejecutada
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span class="mobile-label">Ejecutada:</span>{{row.isExecuted===true?"Si":"No"}}</mat-cell>
+                </ng-container>
+
+
+                <!-- actions -->
+                <ng-container matColumnDef="actions" *ngIf="typeUser === 'Profesor'">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+
+
+                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                      (click)="$event.stopPropagation()" matTooltip="Ver Detalle" (click)="Detail2(row)"
+                      class="tbl-action-btn">
+                      <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+
+                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                      (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
+                      (click)="calificacionesActividades(row)" class="tbl-action-btn">
+                      <mat-icon>dvr</mat-icon>
+                    </button>
+                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                      (click)="$event.stopPropagation()" matTooltip="Encuesta" (click)="sendEncuestas(row)"
+                      class="tbl-action-btn">
+                      <mat-icon>file_copy</mat-icon>
+                    </button>
+
+                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                      (click)="$event.stopPropagation()" matTooltip="Calificación Final"
+                      (click)="calificacionFinalActivity(row)" class="tbl-action-btn">
+                      <mat-icon>av_timer</mat-icon>
+                    </button>
+                
+
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns2;" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+              </table>
+              </div>
+            </div>
+        </div>
+            
         </div>
       </div>
     </div>

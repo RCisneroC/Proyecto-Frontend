@@ -45,7 +45,8 @@ export class AddDirectoryComponent {
   this.user = this.authenticationService.currentUserValue;
   
     this.folderForm = this.fb.group({
-      //parentId:[data.folder==null?null:data.folder.folderId],
+      parentId:null,// agregue este parametro null
+      createdBy:this.user.id,
       folderName: [data.folder==null  || this.data.action==='newfolder'?'':data.folder.folderName, Validators.required],
     });
   }
@@ -67,7 +68,7 @@ export class AddDirectoryComponent {
       formdata.append('FolderId',this.data.folder.folderId.toString());
       formdata.append('FileId',this.data.folder.fileId.toString());
       formdata.append('NewName',this.folderForm.get('folderName')?.value);
-
+      formdata.append('modifiedBy',this.user.id);
       this._directoryService.UpdateFile(formdata).subscribe({
         next: () => {
         
@@ -130,7 +131,8 @@ export class AddDirectoryComponent {
       const data={
         FolderId:this.data.folder.folderId,
         NewFolderName:this.folderForm.get('folderName')?.value,
-        ModifiedBy:"Ricardo cisnero"
+        modifiedBy:this.user.id,
+        statusId:1
     
       }
       this._directoryService.UpdateFolder(data).subscribe({

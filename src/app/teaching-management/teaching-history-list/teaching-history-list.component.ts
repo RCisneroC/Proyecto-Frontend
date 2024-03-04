@@ -4,7 +4,7 @@ import { TeacherService } from '../services/teacher.service';
 import { AuthService, User } from '@core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Activity, SubjectResponse } from '../models/Teacher';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { EncuestaActivityComponent } from 'app/enrollment/Encuestas/encuesta-activity/encuesta-activity.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { EncuestaSubjectComponent } from 'app/enrollment/Encuestas/encuesta-subject/encuesta-subject.component';
 import { ViewSurveyComponent } from 'app/enrollment/Encuestas/view-survey/view-survey.component';
+import { filter } from 'rxjs';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
   public typeUser: string = '';
   idCareer!: number;
+  from!: string | null;
   constructor(public _teacherService: TeacherService,
     private authenticationService: AuthService,
     private _nav: Router,
@@ -68,7 +70,10 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
   ) {
-    super()
+  
+    super();
+   let mi = this.activatedRoute.snapshot.url.map(segment => segment.path);
+    // ...
   }
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
@@ -80,18 +85,22 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
     }
     this.idCareer = Number(localStorage.getItem("idCareer"));
-
+    
+    
     if (this.cedula == undefined) {
+
       this.cedula = this.user.cedula;
       this.getSubjects();
-      this.getActivities();
+      
 
     } if (this.cedula != undefined && this.cedula != '') {
+     
+      this.cedula = this.user.cedula;
       this.getSubjects();
-      this.getActivities();
+     
     }
-
-
+   
+    
   }
 
 
@@ -256,7 +265,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('tipoSolicitud', "2");
     localStorage.setItem('actividadEscogida', row.name);
     localStorage.setItem('id', row.id.toString());
-    this._nav.navigate(['/teaching-management/list-students//', row.id]);
+    this._nav.navigate(['/teaching-management/list-students/', row.id]);
 
   }
 

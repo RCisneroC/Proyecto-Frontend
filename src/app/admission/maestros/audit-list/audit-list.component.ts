@@ -8,12 +8,14 @@ import { Direction } from '@angular/cdk/bidi';
 import { ViewHistoryAuditComponent } from './view-history-audit/view-history-audit.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { AuthService, User } from '@core';
 export interface FoodNode {
   folderId: number;
   fileId: number;
   folderName: string;
   extension?: string;
-  files?: FoodNode[];
+  files: FoodNode[];
+  folders: FoodNode[];
 }
 
 export interface ExampleFlatNode {
@@ -35,7 +37,7 @@ export class AuditListComponent implements OnInit {
 
   private transformer = (node: FoodNode, level: number) => {
     return {
-      expandable: !!node.files && node.files.length >= 0,
+      expandable: !!node.folders && node.folders.length >= 0,
       folderName: node.folderName,
       extension: node.extension,
       level: level,
@@ -49,18 +51,20 @@ export class AuditListComponent implements OnInit {
     node => node.level, node => node.expandable);
 
   treeFlattener = new MatTreeFlattener(
-    this.transformer, node => node.level,
-    node => node.expandable, node => node.files);
+      this.transformer, node => node.level,
+      node => node.expandable, node => node.folders);
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   valor!: string;
+  user: User;
 
   constructor(
     public _verificarBS64: VerificarBS64Pipe,
     public _dialog: MatDialog,
-    public _directoryService: DirectoryService
+    public _directoryService:DirectoryService,
+    public authenticationService:AuthService
   ) {
-
+    this.user = this.authenticationService.currentUserValue;
   }
   ngOnInit() {
 
@@ -70,10 +74,10 @@ export class AuditListComponent implements OnInit {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
   getAllDirectory() {
-    this._directoryService.getAllDirectory2().subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.dataSource.data = res["dataResult"] == null ? [] : res["dataResult"];
+    this._directoryService.getAllDirectory2(this.user.id).subscribe({
+      next: (res:any) => {
+      console.log(res);
+        this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];
         //this.dataTask.paginator = this.paginator;
 
       }

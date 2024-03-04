@@ -5,6 +5,7 @@ import { Role } from 'app/security/models/role';
 import { FoodNode } from '../directory-list.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { DirectoryService } from '../../services/directory.service';
+import { AuthService, User } from '@core';
 interface DialogData {
   fileId:number;
   folderName: string;
@@ -31,14 +32,17 @@ export class AddFileComponent {
   FormsEFDocument: UntypedFormGroup;
   fileName!: string;
   fileExtension!: string;
+  user!: User;
   
   constructor(
     public dialogRef: MatDialogRef<AddFileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _directoryService: DirectoryService,
+    public authenticationService: AuthService,
     private fb: UntypedFormBuilder
   ) { 
   
+    this.user = this.authenticationService.currentUserValue;
     this.roleForm = this.createContactForm();
     this.FormsEFDocument = this.fb.group({
       file: [[],[Validators.required]]
@@ -84,6 +88,7 @@ export class AddFileComponent {
         formdata.append('FolderId',this.data.folder.folderId.toString());
         formdata.append('FileId',this.data.folder.fileId.toString());
         formdata.append('File',this.tmp_files[0]);
+        formdata.append('modifiedBy',this.user.id);
   
         this._directoryService.UpdateFile(formdata).subscribe({
           next: () => {
@@ -106,6 +111,8 @@ export class AddFileComponent {
         const formdata=new FormData();
          formdata.append('FolderId',this.data.folder.folderId.toString());
          formdata.append('File',this.tmp_files[0]);
+         formdata.append('createdBy',this.user.id);
+         
     
       this._directoryService.addFile(formdata).subscribe({
         next: () => {
@@ -128,29 +135,7 @@ export class AddFileComponent {
 }
 }   
 } 
-    //   const storedData: any[] = JSON.parse(localStorage.getItem('Raiz')||'');
-    //   //localStorage.setItem("Raiz",this.folderForm.getRawValue());
-    //   let filteredFolders = storedData.filter((folder) => folder.idFolder === this.data.folder.folderId);
-    //   if(filteredFolders.length===0){
-      
-    //    filteredFolders = storedData.filter((folder) => folder.children.idChildren === this.data.folder.folderId);
-    //   }
-    //  const data ={
-    //     idChildren:this.data.folder.folderId+1,
-    //     name: this.fileName,
-    //     extension: this.fileExtension,
-    //   }
-    //  // filteredFolders.push(data);
-    //   filteredFolders[0].children?.push(data);
-    
-    //   //const allObjects = storedData.concat(filteredFolders[0]);
-    //   localStorage.setItem('Raiz',JSON.stringify(storedData));
-      
-    //   console.log(localStorage.getItem("Raiz"));
-    //   this.ResponseMessage.CodError = 200;
-    //   this.ResponseMessage.Message = 'Carpeta guardada.';
-    //   this.dialogRef.close(this.ResponseMessage);
-      //this.folderForm.reset();
+
     
 
   

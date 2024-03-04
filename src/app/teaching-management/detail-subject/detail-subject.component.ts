@@ -132,14 +132,7 @@ export class DetailSubjectComponent implements OnInit {
         this.getAllTaskActivity();
         this.pantalla = 'de actividades';
       }
-      //   this.TaskSubjectArray = JSON.parse(local);
-
-      //let tipoSolicitud = localStorage.getItem('tipoSolicitud') || '1';
-      //   this.TaskSubjectArray = this.TaskSubjectArray.filter(x => x.idAsignatura == this.id && x.type == tipoSolicitud.toString());
-      //   this.getTaskBySubject();
-      //   this.dataSou = new MatTableDataSource<TaskSubject>(this.TaskSubjectArray);
-      // } else {
-      //   this.dataSou = new MatTableDataSource<TaskSubject>([]);
+    
     }
 
 
@@ -188,7 +181,13 @@ export class DetailSubjectComponent implements OnInit {
 
 
   volverAtras() {
-    this._nav.navigate(['/teaching-management/teacher-history-list/']);
+    const local = localStorage.getItem('tipoSolicitud')
+    if(local=="1"){
+      this._nav.navigate(['/teaching-management/teacher-history-list/']);
+    }else{
+      this._nav.navigate(['/teaching-management/career-list/']);
+    }
+    
   }
 
   Detail(row: TaskSubject): void {
@@ -225,20 +224,6 @@ export class DetailSubjectComponent implements OnInit {
           icon: "warning"
         });
       }
-      // this.DataTraining=[];
-
-      // if(this.DataTeacher.listTraining.length>0){
-      //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-      //     return current.trainingId > previous.trainingId ? current : previous;
-      //   });
-      //   result.trainingId=IdMayor.trainingId+1;
-      // }else{
-      //   result.trainingId=1;
-      // }
-
-      // this.DataTraining.push(result);
-
-      // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
 
     });
   }
@@ -274,25 +259,7 @@ export class DetailSubjectComponent implements OnInit {
           this.load();
         }
 
-        //   this._RequestServicesService.DeleteRequestVarious(row.id).subscribe({
-        //     next: (res: ResponseGenerica) => {
-        //       Swal.fire({
-        //         title: "Eliminado!",
-        //         text: row.name + " fue eliminado.",
-        //         icon: "success"
-        //       });
-        //       this.loadData();
-        //     },
-        //     error: (err: any) => {
-        //       console.log(err);
-        //       Swal.fire({
-        //         title: "Intente nuevamente!",
-        //         text: row.name + " no se pudo eliminar.",
-        //         icon: "warning"
-        //       });
-        //     }
-        //   })
-        // } else {
+       
       }
     });
   }
@@ -325,20 +292,7 @@ export class DetailSubjectComponent implements OnInit {
           icon: "warning"
         });
       }
-      // this.DataTraining=[];
-
-      // if(this.DataTeacher.listTraining.length>0){
-      //   const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-      //     return current.trainingId > previous.trainingId ? current : previous;
-      //   });
-      //   result.trainingId=IdMayor.trainingId+1;
-      // }else{
-      //   result.trainingId=1;
-      // }
-
-      // this.DataTraining.push(result);
-
-      // this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
+    
 
     });
   }
