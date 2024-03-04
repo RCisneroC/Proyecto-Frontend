@@ -44,7 +44,7 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllDirectory2(userId:string) {
-   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolderId=0')
+   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId=0&UserId='+userId)
   }
   
   getfilebyId(fileId:number) {
