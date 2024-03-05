@@ -214,6 +214,7 @@ export class RoomRequestsComponent {
   }
 
   AddSalones(item: RequestRooms) {
+
     const dialogRef = this._dialog.open(ReservaSalonesComponent, {
       data: {
         accion: 'add-rooms',
@@ -253,6 +254,26 @@ export class RoomRequestsComponent {
       disableClose: true,
       height:"650px",
       width:"750px"
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getOneActivity();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
   }
 

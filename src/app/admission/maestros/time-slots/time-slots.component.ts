@@ -174,6 +174,9 @@ export class TimeSlotsComponent implements OnInit,  AfterViewInit, OnDestroy {
           this.dataSource = new MatTableDataSource<TimeSlot>(request);
           this.lstTimeSlots = request;
           this.dtc.detectChanges();
+        },
+        error : (err:HttpErrorResponse) =>{
+          console.log(err);
         }
       }
     )

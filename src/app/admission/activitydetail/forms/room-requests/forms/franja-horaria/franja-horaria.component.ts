@@ -181,6 +181,7 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
       this.RoomServices.addRequestRoomDate(data).subscribe(
         {
           next: (request: any) => {
+
             Swal.fire({
               title: "Escuela Judicial",
               text: 'Creado correctamente.',
