@@ -1,22 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { UnsubscribeOnDestroyAdapter } from '@shared';
 import {  Documents, Experience, Student, Training } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { StudentService } from './services/student.service';
-import { MatDialog } from '@angular/material/dialog';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
-import { MatAccordion } from '@angular/material/expansion';
-import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
-import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { AddExperienceComponent } from './components/add-experience/add-experience.component';
 import Swal from 'sweetalert2';
-import { AuthService } from '@core/service/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@core/models/user';
-
-
+import { AuthService } from '@core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '@shared/UnsubscribeOnDestroyAdapter';
+import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { AddActivityComponent } from 'app/teaching-management/add-activity/add-activity.component';
 import { AddSubjectComponent } from 'app/teaching-management/add-subject/add-subject.component';
 import { AddTrainingComponent } from 'app/teaching-management/add-training/add-training.component';
@@ -122,7 +120,7 @@ public _verificarBS64: VerificarBS64Pipe,
 }
 
 
-@ViewChild(MatAccordion) accordion?: MatAccordion;
+  @ViewChild(MatAccordion) accordion?: MatAccordion;
   async ngOnInit() {
     this.user =this.authenticationService.currentUserValue;
     this.DataStudent=new Student();
@@ -133,8 +131,8 @@ public _verificarBS64: VerificarBS64Pipe,
     //this.documentForm = this.createDocumentForm();
 
 
-     this.header="Actualizar Datos";
-     await this.getTeacherByCedula();
+    this.header = "Actualizar Datos";
+    await this.getTeacherByCedula();
 
 
 
@@ -149,15 +147,15 @@ public _verificarBS64: VerificarBS64Pipe,
     this._studentService.getRequiredDocument().subscribe({
        next: (res) => {
 
-         this.DataDocument = res;
+        this.DataDocument = res;
 
-       }
-     })
-   }
+      }
+    })
+  }
 
-   GetName(type:number){
+  GetName(type: number) {
 
-  return this.DataDocument.find(x=>x.documentId===type)?.name
+    return this.DataDocument.find(x => x.documentId === type)?.name
   }
   async getTeacherByCedula() {
 
@@ -177,27 +175,27 @@ public _verificarBS64: VerificarBS64Pipe,
 
     if (this._verificarBS64.transform(row.docResult.fileContents) != "pdf") {
       const dialogRef = this._dialog.open(ViewPosterComponent, {
-       data: {
-         type: this._verificarBS64.transform(row.docResult.fileContents),
-         accion: 'view-poster',
-         posterFile: row.docResult.fileContents,
-         comment: "",
-         poster: row,
-       },
-       disableClose: true,
-     });
+        data: {
+          type: this._verificarBS64.transform(row.docResult.fileContents),
+          accion: 'view-poster',
+          posterFile: row.docResult.fileContents,
+          comment: "",
+          poster: row,
+        },
+        disableClose: true,
+      });
     } else {
       const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-       data: {
-         type: this._verificarBS64.transform(row.docResult.fileContents),
-         accion: 'view-poster',
-         posterFile: row.docResult.fileContents,
-         comment: "",
-         poster: row,
+        data: {
+          type: this._verificarBS64.transform(row.docResult.fileContents),
+          accion: 'view-poster',
+          posterFile: row.docResult.fileContents,
+          comment: "",
+          poster: row,
         },
-        width:'1000px',
-       disableClose: true,
-     });
+        width: '1000px',
+        disableClose: true,
+      });
     }
 
   }
@@ -210,7 +208,7 @@ public _verificarBS64: VerificarBS64Pipe,
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result:Experience) => {
+    dialogRef.afterClosed().subscribe((result: Experience) => {
       if (result == undefined) {
         return;
         }
@@ -225,7 +223,7 @@ public _verificarBS64: VerificarBS64Pipe,
           result.experienceId=1;
         }
 
-        this.DataExperience.push(result);
+      this.DataExperience.push(result);
 
         this.DataStudent.listExperience=[...this.DataStudent.listExperience, ...this.DataExperience]
 
@@ -240,7 +238,7 @@ public _verificarBS64: VerificarBS64Pipe,
         this.DataStudent.listExperience=[...this.DataExperience]
 
   }
-  Regresar(){
+  Regresar() {
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
 
@@ -315,7 +313,14 @@ public submit():void {
 
   }
 
-  public AddTraining():void{
+  AddTraining(){
+
+  }
+
+  removeTraining(row: Training) {
+    this.DataTraining = [];
+    this.DataTraining = this.DataStudent.listTraining.filter(x => x.trainingId != row.trainingId)
+    this.DataStudent.listTraining = [...this.DataTraining]
 
   }
 

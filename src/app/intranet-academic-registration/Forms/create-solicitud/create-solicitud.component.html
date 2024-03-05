@@ -14,10 +14,10 @@
     <div mat-dialog-content>
         <form class="register-form m-4" [formGroup]="RequestVariousForm" (ngSubmit)="submit">
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2" >
+                    <mat-form-field class="example-full-width" appearance="outline" >
                         <mat-label>Tipo de Actividad Académica</mat-label>
-                        <mat-select formControlName="typeActivityAcademy">
+                        <mat-select formControlName="typeActivityAcademy" [(ngModel)]="typeActivityAcademySelected" [disabled] = typeDesabled>
                             <mat-option *ngFor="let item of typeActivityAcademy" [value]="item.id">
                                 {{item.name}}</mat-option>
                         </mat-select>
@@ -31,7 +31,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Tipo de Solicitud</mat-label>
-                        <mat-select formControlName="typeRequest">
+                        <mat-select [(ngModel)]="RequesttypeSelect" formControlName="typeRequest" (ngModelChange)="changeRequesttype()">
                             <mat-option *ngFor="let item of RequesttypeList" [value]="item.id"> {{
                                 item.name}}</mat-option>
                         </mat-select>
@@ -49,7 +49,7 @@
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Actividad</mat-label>
-                        <mat-select formControlName="idSubjectOrActivity">
+                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
                             <mat-option value="">-----------</mat-option>
                             <mat-option *ngFor="let item of _GetOneActivity" [value]="item.id"> {{ item.name
                                 }}</mat-option>
@@ -63,7 +63,7 @@
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Asignaturas</mat-label>
-                        <mat-select formControlName="idSubjectOrActivity">
+                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
                             <mat-option value="">-----------</mat-option>
                             <mat-option *ngFor="let item of _Subject" [value]="item.id"> {{ item.name}}</mat-option>
                         </mat-select>

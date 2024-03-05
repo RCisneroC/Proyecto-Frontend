@@ -69,8 +69,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"
-                                        *ngIf="editActivity.controls['activityTrainingType'].value=='2'">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
                                         <mat-form-field class="example-full-width" appearance="outline">
                                             <mat-label>Tipo de actividad</mat-label>
                                             <mat-select formControlName="activityTypeId">
@@ -83,15 +82,14 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"
-                                        *ngIf="editActivity.controls['activityTrainingType'].value=='1'">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
                                         <mat-form-field class="example-full-width" appearance="outline">
                                             <mat-label>Tipo de actividad</mat-label>
-                                            <mat-select formControlName="activityTypeId">
+                                            <mat-select formControlName="activityClass">
                                                 <mat-option *ngFor="let row of typeActivityListTyp2"
                                                     [value]="row.id">{{row.name}}</mat-option>
                                             </mat-select>
-                                            <mat-error *ngIf="editActivity.get('activityTypeId')?.hasError('required')">
+                                            <mat-error *ngIf="editActivity.get('activityClass')?.hasError('required')">
                                                 El tipo de actividad es requerida
                                             </mat-error>
                                         </mat-form-field>

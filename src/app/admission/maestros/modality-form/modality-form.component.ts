@@ -7,7 +7,7 @@ import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/R
 export interface DialogData {
   id: string;
   action: string;
-  modality : Modality;
+  modality: Modality;
 }
 
 @Component({
@@ -19,15 +19,15 @@ export class ModalityFormComponent {
 
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   public action: string;
   public dialogTitle: string;
   public modalityForm: UntypedFormGroup;
   public modality: Modality = {
-    id: 0, 
+    id: 0,
     name: '',
-    statusId:1
+    statusId: 1
   }
   constructor(
     public dialogRef: MatDialogRef<ModalityFormComponent>,
@@ -37,7 +37,7 @@ export class ModalityFormComponent {
   ) {
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle ="Editar Modalidad de actividad";
+      this.dialogTitle = "Editar Modalidad de actividad";
       this.modality = data.modality;
     } else {
       this.dialogTitle = 'Nueva Modalidad de actividad';
@@ -45,7 +45,7 @@ export class ModalityFormComponent {
     this.modalityForm = this.createContactForm();
   }
 
-    createContactForm(): UntypedFormGroup {
+  createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.modality.id],
       name: [this.modality.name, [Validators.required]],
@@ -59,36 +59,36 @@ export class ModalityFormComponent {
     this.dialogRef.close();
   }
 
-    public confirmAdd(): void {
-    if  (this.action==='edit'){
+  public confirmAdd(): void {
+    if (this.action === 'edit') {
       this.modalityService.updateActivityMode(this.modalityForm.getRawValue())
         .subscribe({
-          next: (res:ResponseGenerica) => {
+          next: (res: ResponseGenerica) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
-          
+        });
+
     } else {
       this.modalityService.addActivityMode(this.modalityForm.getRawValue())
-      .subscribe({
-          next: (res:ResponseGenerica) => {
+        .subscribe({
+          next: (res: ResponseGenerica) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Creado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
+        });
     }
   }
 

@@ -44,6 +44,7 @@ export class EncuestaSubjectComponent {
   bloquear: boolean = false;
   dataSend: any;
   public typeSur: number = 0;
+  // tipo 1
   public QuestionsSubject: QuestionSubject[] = [
     {
       CapacitacionVirtual: 'Planeación y desarrollo de la actividad académica',
@@ -104,6 +105,7 @@ export class EncuestaSubjectComponent {
       ]
     }
   ];
+  // tipo 2
   public QuestionsSubject_three: QuestionSubject = {
     CapacitacionVirtual: 'Configuración y desarrollo',
     ListQuestins: [
@@ -141,6 +143,7 @@ export class EncuestaSubjectComponent {
       }
     ]
   };
+  // tipo 3
   public QuestionsSubject_Two: QuestionSubject[] = [
     {
       CapacitacionVirtual: 'Capacitación virtual - Configuración y desarrollo',

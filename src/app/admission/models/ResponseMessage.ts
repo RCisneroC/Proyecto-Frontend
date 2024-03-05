@@ -1,3 +1,5 @@
+import {RequestVariousType} from "../../intranet-academic-registration/Models/RequestVarious";
+
 export interface ResponseMessageMaestra {
     CodError:number;
     Message: string;
@@ -51,4 +53,12 @@ export interface ResponsePDFEF{
 
 export  interface DocFileResp{
   docFile: string;
+}
+
+
+export interface ResponseGetAllRequestVariousType{
+  data: RequestVariousType[]
+  isError: number;
+  message: string;
+  statusCode: number;
 }

@@ -26,7 +26,7 @@ import { RequestServicesService } from 'app/intranet-academic-registration/Servi
   styleUrls: ['./teacher-list.component.scss']
 })
 export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit {
+  implements OnInit {
 
   displayedColumns = [
     'cedula',
@@ -38,7 +38,7 @@ implements OnInit {
     'dischargeDate',
     'actions'
   ];
-  
+
   exampleDatabase?: TeacherService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Teacher>(true, []);
@@ -53,11 +53,11 @@ implements OnInit {
     public dialog: MatDialog,
     public _teacherService: TeacherService,
     private snackBar: MatSnackBar,
-    private _nav:Router,
+    private _nav: Router,
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
     private activatedRoute: ActivatedRoute,
-    
+
   ) {
     super();
   }
@@ -69,7 +69,7 @@ implements OnInit {
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
-    this.typeUser=this._RequestService.getRoleFromToken(this.user.token);
+    this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
 
     this.loadData();
   }
@@ -95,20 +95,20 @@ implements OnInit {
       },
       direction: tempDirection,
     });
-     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-       if (result == undefined) {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
         return;
       }
-      
+
       if (result.CodError == 200) {
-         Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "success"
-         });
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
         this.loadData();
       } else {
-         Swal.fire({
+        Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "warning"
@@ -122,40 +122,40 @@ implements OnInit {
   }
 
   Detail(row: Teacher) {
-  
-    this._nav.navigate(['/teaching-management/teacher-detail/',row.cedula]);
+
+    this._nav.navigate(['/teaching-management/teacher-detail/', row.cedula]);
   }
-  
-  Aproved(row: Teacher){
- 
-   const dialogRef = this.dialog.open(AprovedTeacherComponent, {
-   
-    data: {
-      teacher: row,
-      accion: 'add-course'
-    },
-    disableClose: true,
-  });
-  dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-    if (result == undefined) {
-      return;
+
+  Aproved(row: Teacher) {
+
+    const dialogRef = this.dialog.open(AprovedTeacherComponent, {
+
+      data: {
+        teacher: row,
+        accion: 'add-course'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
       }
       if (result.CodError == 200) {
-          Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "success"
-          });
-         this.loadData();
-        } else {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: result.Message,
-            icon: "warning"
-          });
-        }
-  });
- 
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
   }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
@@ -195,7 +195,7 @@ implements OnInit {
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
         'Username': x.name,
-       
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -206,7 +206,7 @@ implements OnInit {
 export class ExampleDataSource extends DataSource<Teacher> {
   filterChange = new BehaviorSubject('');
   user = this.authenticationService.currentUserValue;
-  typeUser=this._RequestService.getRoleFromToken(this.user.token);
+  typeUser = this._RequestService.getRoleFromToken(this.user.token);
   get filter(): string {
     return this.filterChange.value;
   }
@@ -238,11 +238,11 @@ export class ExampleDataSource extends DataSource<Teacher> {
     this.teacherService.getAllTeachers();
     return merge(...displayDataChanges).pipe(
       map(() => {
-        this.filteredData = this.typeUser=="coordinador"?this.teacherService.data.filter(x=>x.statusId==1):this.teacherService.data          .slice()
+        this.filteredData = this.typeUser == "Tutor" ? this.teacherService.data.filter(x => x.statusId == 1) : this.teacherService.data.slice()
           .filter((teacher: Teacher) => {
             const searchStr = (
-              teacher.name 
-              
+              teacher.name
+
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -276,7 +276,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
         case 'Name':
           [propertyA, propertyB] = [a.name, b.name];
           break;
-      
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

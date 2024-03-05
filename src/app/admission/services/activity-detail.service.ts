@@ -179,6 +179,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     teachingMethodology: '',
     virtualRoom: '',
     activityTrainingType: 0,
+    evaluation: '',
+    bibliographicCitation: '',
+    rubric: false,
+    activityClass: 0,
     roomRequests: [
       this._RoomRequest
     ],
@@ -860,6 +864,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       teachingMethodology: '',
       virtualRoom: '',
       activityTrainingType: 0,
+      evaluation: '',
+      bibliographicCitation: '',
+      rubric: false,
+      activityClass: 0,
       roomRequests: [
         this._RoomRequest
       ],
@@ -1000,7 +1008,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       specificGoals: '',
       teachingMethodology: '',
       virtualRoom: '',
-      activityTrainingType: 0
+      activityTrainingType: 0,
+      evaluation: '',
+      bibliographicCitation: '',
+      rubric: false,
+      activityClass: 0,
     }
   }
   init_RequestRooms() {

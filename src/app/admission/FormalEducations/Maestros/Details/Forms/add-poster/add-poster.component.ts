@@ -15,45 +15,45 @@ export interface DialogData {
 export class AddPosterComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   PosterForm: UntypedFormGroup;
   id_carrera: string = '';
   constructor(
     public dialogRef: MatDialogRef<AddPosterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _DegreeService:DegreeService,
+    public _DegreeService: DegreeService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
     if (this.action === 'add') {
-      this.dialogTitle ="Agregar Afiche";
+      this.dialogTitle = "Agregar Afiche";
       this.id_carrera = data.id_carrera;
     }
     this.PosterForm = this.fb.group({
-      Poster: ['',[Validators.required]],
-      PosterType:['',[Validators.required]],
-      Comment:['',[Validators.required]],
-      id_carrera:[data.id_carrera,[Validators.required]]
+      Poster: ['', [Validators.required]],
+      PosterType: ['', [Validators.required]],
+      Comment: ['', [Validators.required]],
+      id_carrera: [data.id_carrera, [Validators.required]]
     });
   }
   ngOnInit(): void {
-      
+
   }
 
   submit() {
-    console.log(this.PosterForm.getRawValue());
     var _Form_Data = new FormData();
+
     _Form_Data.append('DegreeId', this.PosterForm.get('id_carrera')?.value);
     _Form_Data.append('Comment', this.PosterForm.get('Comment')?.value);
     _Form_Data.append('Poster', this.PosterForm.get('Poster')?.value);
     _Form_Data.append('PosterType', this.PosterForm.get('PosterType')?.value);
     this._DegreeService.SavePoster(_Form_Data).subscribe({
-      next: (res:ResponseGenerica) => {
+      next: (res: ResponseGenerica) => {
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Cargado correctamente.';
         this.dialogRef.close(this.ResponseMessage);

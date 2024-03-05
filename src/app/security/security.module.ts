@@ -10,6 +10,9 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { RoleFormComponent } from './role/role-form/role-form.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
 import { FormsAsignedRolesComponent } from './role/forms-asigned-roles/forms-asigned-roles.component';
+import { MenuComponent } from './menu/menu.component';
+import { FormsMenuComponent } from './forms-menu/forms-menu.component';
+import { ViewMenuModalComponent } from './view-menu-modal/view-menu-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { FormsAsignedRolesComponent } from './role/forms-asigned-roles/forms-asi
     RoleListComponent,
     RoleFormComponent,
     UserFormComponent,
-    FormsAsignedRolesComponent
+    FormsAsignedRolesComponent,
+    MenuComponent,
+    FormsMenuComponent,
+    ViewMenuModalComponent
   ],
   imports: [
     CommonModule,

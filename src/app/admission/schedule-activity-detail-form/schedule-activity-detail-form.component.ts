@@ -48,22 +48,22 @@ export class ScheduleActivityDetailFormComponent {
   sourceFundsList!: SourceFunds[];
   typeActivityListTyp2: TypeActivity[] = [
     {
-      id: 5,
+      id: 2,
       name: 'Formación por competencia',
       statusId: 1,
     },
     {
-      id: 6,
+      id: 3,
       name: 'Concurso abierto fase 3',
       statusId: 1,
     },
     {
-      id: 7,
+      id: 4,
       name: 'Curso de Integración',
       statusId: 1,
     },
     {
-      id: 8,
+      id: 1,
       name: 'Nuevos Abogados',
       statusId: 1,
     }
@@ -145,6 +145,7 @@ export class ScheduleActivityDetailFormComponent {
       dataSheetDeliveryDate: new FormControl(this.schedule.dataSheetDeliveryDate),
       isEvaluation: new FormControl(false),
       activityTrainingType: new FormControl(this.schedule.activityTrainingType.toString(), Validators.required),
+      activityClass: new FormControl(this.schedule.activityClass, Validators.required),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
       observations: new FormControl(this.schedule.observations)

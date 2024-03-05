@@ -121,6 +121,62 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+  getAllActivityDetailStatusAprove(id: number): void {
+    this.subs.sink = this.httpClient
+      .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetActivitiesBy?CurriculumDesignId=' + id)
+      .subscribe({
+        next: (data) => {
+
+          let user = localStorage.getItem('currentUser') || '';
+
+          if (user != '') {
+            this.UserData = JSON.parse(user);
+            this.userType = this.getRoleFromToken(this.UserData.token);
+            console.log(this.userType);
+
+          }
+
+          this.isTblLoading = false;
+          if (this.userType == 'Administrador') {
+            this.dataChange2.next(data.filter(x=>x.statusId == 5));
+          } else {
+            this.dataChange2.next(data.filter(x => x.statusId == 3));
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+  getAllActivityDetailED(id: number): void {
+    this.subs.sink = this.httpClient
+      .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetActivitiesBy?CurriculumDesignId=' + id)
+      .subscribe({
+        next: (data) => {
+
+          let user = localStorage.getItem('currentUser') || '';
+
+          if (user != '') {
+            this.UserData = JSON.parse(user);
+            this.userType = this.getRoleFromToken(this.UserData.token);
+            console.log(this.userType);
+
+          }
+
+          this.isTblLoading = false;
+          if (this.userType == 'Administrador') {
+            this.dataChange2.next(data.filter(x=>x.hasDirectEnrollment));
+          } else {
+            this.dataChange2.next(data.filter(x => x.statusId == 3));
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
 
 
   getDetailCurriculum(id: any) {

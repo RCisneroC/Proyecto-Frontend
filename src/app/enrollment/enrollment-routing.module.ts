@@ -15,27 +15,27 @@ import { InfoStudentComponent } from './info-student/info-student.component';
 
 const routes: Routes = [
   {
-    path:"enroll-career",
+    path: "enroll-career",
     component: EnrollCareerComponent
   },
   {
-    path:"enroll-period/:id",
+    path: "enroll-period/:id",
     component: EnrollPeriodComponent
   },
   {
-    path:"enroll-subject/:id",
+    path: "enroll-subject/:id",
     component: EnrollSubjectsComponent
   },
   {
-    path:"enroll-room",
+    path: "enroll-room",
     component: EnrollAssignedRoomsComponent
   },
   {
-    path:"enroll-details/:id",
+    path: "enroll-details/:id",
     component: EnrollDetailsComponent
   },
   {
-    path:"enroll-details-mesh",
+    path: "enroll-details-mesh",
     component: EnrollDetailsMeshComponent
   },
   {
@@ -43,19 +43,19 @@ const routes: Routes = [
     component: OfertasCarrerasComponent
   },
   {
-    path:"ofertasacademicas/ofertas-actividades",
+    path: "ofertasacademicas/ofertas-actividades",
     component: OfertasActividadesComponent
   },
   {
-    path:"ofertasacademicas/inscripcion/:id",
+    path: "ofertasacademicas/inscripcion/:id",
     component: BackofficeEFComponent
   },
   {
-    path:"ofertasacademicas/inscripcion-actividades/:id",
+    path: "ofertasacademicas/inscripcion-actividades/:id",
     component: ActivityListInscriptionComponent
   },
   {
-    path:"ofertasacademicas/inscripcion-actividades/backoffice/:id",
+    path: "ofertasacademicas/inscripcion-actividades/backoffice/:id",
     component: BackofficeComponent
   },
   {

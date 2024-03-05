@@ -1,0 +1,100 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="newMenu" (ngSubmit)="submit">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="title">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                        <mat-error *ngIf="newMenu.get('title')?.hasError('required')">
+                            El Nombre es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="data.parent !=null">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>URL</mat-label>
+                        <input matInput formControlName="path">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                        <mat-error *ngIf="newMenu.get('path')?.hasError('required')">
+                            El URL es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="data.action=='add' || data.action=='edit'">
+                    <mat-form-field class=" example-full-width" appearance="outline">
+                        <mat-label>Icono</mat-label>
+                        <input matInput formControlName="icon">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                        <mat-error *ngIf="newMenu.get('icon')?.hasError('required')">
+                            El Icono es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                        <mat-label>Clase</mat-label>
+                        <mat-select formControlName="class">
+                            <mat-option value="menu-toggle" *ngIf="data.parent == null">
+                                menu-toggle
+                            </mat-option>
+                            <mat-option value="ml-menu" *ngIf="data.parent != null">
+                                ml-menu
+                            </mat-option>
+
+                        </mat-select>
+                        <mat-error *ngIf="newMenu.get('class')?.hasError('required')">
+                            La clase es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2"
+                    *ngIf="data.action!='add' && data.action!='submenu'">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                        <mat-label>Estado</mat-label>
+                        <mat-select formControlName="statusId">
+                            <mat-option [value]="1">
+                                Activo
+                            </mat-option>
+                            <mat-option [value]="2">
+                                Inactivo
+                            </mat-option>
+
+                        </mat-select>
+                        <mat-error *ngIf="newMenu.get('statusId')?.hasError('required')">
+                            el estatus es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [disabled]="!newMenu.valid"
+                            (click)="confirmAdd()">Guardar</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

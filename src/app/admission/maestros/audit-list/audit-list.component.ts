@@ -8,18 +8,20 @@ import { Direction } from '@angular/cdk/bidi';
 import { ViewHistoryAuditComponent } from './view-history-audit/view-history-audit.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { AuthService, User } from '@core';
 export interface FoodNode {
-  folderId:number;
-  fileId:number;
+  folderId: number;
+  fileId: number;
   folderName: string;
   extension?: string;
-  files?: FoodNode[];
+  files: FoodNode[];
+  folders: FoodNode[];
 }
 
 export interface ExampleFlatNode {
   expandable: boolean;
-  folderId:number;
-  fileId:number;
+  folderId: number;
+  fileId: number;
   folderName: string;
   extension: string | undefined;
   level: number;
@@ -30,37 +32,39 @@ export interface ExampleFlatNode {
   templateUrl: './audit-list.component.html',
   styleUrls: ['./audit-list.component.scss']
 })
-export class AuditListComponent implements OnInit   { 
-  displayedColumns: string[] = ['folderName','createdDate','createdBy','lastModifiedDate','lastModifiedBy','changeType','extension','action'];
-  
+export class AuditListComponent implements OnInit {
+  displayedColumns: string[] = ['folderName', 'createdDate', 'createdBy', 'lastModifiedDate', 'lastModifiedBy', 'changeType', 'extension', 'action'];
+
   private transformer = (node: FoodNode, level: number) => {
     return {
-      expandable: !!node.files && node.files.length >= 0,
+      expandable: !!node.folders && node.folders.length >= 0,
       folderName: node.folderName,
       extension: node.extension,
       level: level,
-      folderId:node.folderId,
-      fileId:node.fileId,
+      folderId: node.folderId,
+      fileId: node.fileId,
     };
   }
 
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
-      node => node.level, node => node.expandable);
+    node => node.level, node => node.expandable);
 
   treeFlattener = new MatTreeFlattener(
       this.transformer, node => node.level,
-      node => node.expandable, node => node.files);
+      node => node.expandable, node => node.folders);
 
-  dataSource = new MatTreeFlatDataSource(this.treeControl,this.treeFlattener);
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   valor!: string;
+  user: User;
 
-  constructor( 
+  constructor(
     public _verificarBS64: VerificarBS64Pipe,
     public _dialog: MatDialog,
-    public _directoryService:DirectoryService
+    public _directoryService:DirectoryService,
+    public authenticationService:AuthService
   ) {
-
+    this.user = this.authenticationService.currentUserValue;
   }
   ngOnInit() {
 
@@ -68,9 +72,9 @@ export class AuditListComponent implements OnInit   {
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-  
+
   getAllDirectory() {
-    this._directoryService.getAllDirectory2().subscribe({
+    this._directoryService.getAllDirectory2(this.user.id).subscribe({
       next: (res:any) => {
       console.log(res);
         this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];
@@ -79,43 +83,46 @@ export class AuditListComponent implements OnInit   {
       }
     })
   }
-  
-  viewHistory(event:any,act:string){
-      let tempDirection: Direction;
-      if (localStorage.getItem('isRtl') === 'true') {
-        tempDirection = 'rtl';
-      } else {
-        tempDirection = 'ltr';
+
+  viewHistory(event: any, act: string) {
+    console.log('====================================');
+    console.log(event);
+    console.log('====================================');
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+
+    const dialogRef = this._dialog.open(ViewHistoryAuditComponent, {
+      data: {
+        folder: event,
+        action: act
+
+      },
+      direction: tempDirection,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
       }
-      
-      const dialogRef = this._dialog.open(ViewHistoryAuditComponent, {
-        data: {
-          folder: event,
-          action:act
-         
-        },
-        direction: tempDirection,
-      });
-       dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-         if (result == undefined) {
-          return;
-          }
-          if (result.CodError == 200) {
-              Swal.fire({
-                  title: "Escuela Judicial",
-                  text: result.Message,
-                  icon: "success"
-              });
-              this.getAllDirectory();
-            } else {
-              Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "warning"
-              });
-            }
-          }); 
-    
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getAllDirectory();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
   }
 
 
