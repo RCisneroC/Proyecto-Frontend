@@ -11,6 +11,7 @@ import { Lounge } from 'app/admission/models/lounge';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 
 export interface DialogData {
@@ -53,7 +54,8 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
     private dtc: ChangeDetectorRef,
-    private RoomServices: MasterService
+    private RoomServices: MasterService,
+    private date:DatePipe
   ) {
     this.timeSlotsForm = this.createTimeSlots();
   }
@@ -127,10 +129,11 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
   LoadTimeSlot() {
     this.IsLoading = true;
     this.checkboxesFormArray.clear();
+    const  f : string | null = this.date.transform(this.timeSlotsForm.controls["fecha"].value,"yyyy-MM-dd");
     this.subscriptions.push(
       this.RoomServices.getTimeSlotByRoomAndDate(
         parseInt(this.timeSlotsForm.controls["salon"].value),
-        this.timeSlotsForm.controls["fecha"].value).subscribe({
+        f).subscribe({
           next: (request) => {
 
             this.dataSource = new MatTableDataSource<TimeSlot>(request);
@@ -203,6 +206,7 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
         })
     );
   }
+
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe())

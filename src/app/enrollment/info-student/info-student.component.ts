@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import {  Documents, Experience, Student, Training } from './models/Student';
+import {  Documents, Experience, Student, StudentData, Training } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
 import { StudentService } from './services/student.service';
 import { AddExperienceComponent } from './components/add-experience/add-experience.component';
@@ -15,6 +15,11 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
 import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
+import { StudentModel } from 'app/enrollment/models/StudentModel';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 import { AddActivityComponent } from 'app/teaching-management/add-activity/add-activity.component';
 import { AddSubjectComponent } from 'app/teaching-management/add-subject/add-subject.component';
 import { AddTrainingComponent } from 'app/teaching-management/add-training/add-training.component';
@@ -91,6 +96,8 @@ implements OnInit{
   ];
 
 DataStudent!:Student;
+dataStudent!:StudentData;
+
 DataExperience:Experience[]= [];
 DataDocument:RequiredDocument[]= [];
 DataTraining:Training[]= [];
@@ -105,7 +112,9 @@ docForm!: UntypedFormGroup;
 viewAct!: boolean;
 viewAsig!: boolean;
 user!:User;
-
+aspirante!: boolean;
+participante!: boolean;
+public DatosEstudianteResponse: StudentModel | undefined;
 
 constructor( private activatedRoute: ActivatedRoute,
 public _ActivityService: ActivityDetailService,
@@ -115,6 +124,7 @@ public _dialog: MatDialog,
 private _nav:Router,
 private fb: UntypedFormBuilder,
 public _verificarBS64: VerificarBS64Pipe,
+private enrollmentService: EnrollmentService
 ){
   super();
 }
@@ -127,20 +137,93 @@ public _verificarBS64: VerificarBS64Pipe,
     const fechaActual = new Date();
     this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
-    this.studentForm = this.createstudentForm();
-    //this.documentForm = this.createDocumentForm();
+    this.studentForm = this.createstudentFormAll();
+
 
 
     this.header = "Actualizar Datos";
-    await this.getTeacherByCedula();
 
 
+    const cedula: string = this.authenticationService.currentUserValue.cedula;
+    this.getPersonData(cedula);
 
     this.docForm= this.fb.group({
       FileDetails:new FormControl([]),
       FileType:new FormControl([]),
     });
 
+  }
+
+  getPersonData(cedula: string) {
+
+    if (!cedula) {
+
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Por favor, ingrese una cédula',
+        icon: "warning"
+      });
+
+    } else {
+
+      this.enrollmentService.getStudentData(cedula).subscribe(
+        {
+              next : (request) =>{
+                this.DatosEstudianteResponse = request as StudentModel;
+                if(this.DatosEstudianteResponse != undefined){
+                  if(!this.DatosEstudianteResponse.isError){
+                   this.aspirante = this.DatosEstudianteResponse.verifyUsersResult[0].asp;
+                   this.participante = this.DatosEstudianteResponse.verifyUsersResult[0].part;
+
+                   this.studentForm.controls["cedula"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].cedula);
+                   this.studentForm.controls["name"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].firstName);
+                   this.studentForm.controls["lastName"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].lastName);
+                   this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
+
+                   if(this.aspirante){
+                    this.studentForm.controls["telephoneNumber"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber);
+                    this.studentForm.controls["placeOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth);
+                    this.studentForm.controls["dateOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth);
+                    this.studentForm.controls["placeResidence"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress);
+                    this.studentForm.controls["phoneNumber"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].homePhoneNumber);
+                    this.studentForm.controls["maritalStatus"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].maritalStatus);
+                    this.studentForm.controls["nameOfspouse"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].nameOfspouse);
+                    this.studentForm.controls["numberofchildren"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].numberofchildren);
+                    this.studentForm.controls["caseOfemergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].caseOfemergency);
+                    this.studentForm.controls["telephoneNumberEmergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumberEmergency);
+                    this.studentForm.controls["bloodtype"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].bloodtype);
+                    this.studentForm.controls["specialCapacity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specialCapacity);
+                    this.studentForm.controls["visual"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].visual);
+                    this.studentForm.controls["auditory"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory);
+                    this.studentForm.controls["cognitive"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].cognitive);
+                    this.studentForm.controls["physical"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].physical);
+                    this.studentForm.controls["specific"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specific);
+                    this.studentForm.controls["others"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].others);
+                    this.studentForm.controls["usesAwheelchair"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].usesAwheelchair);
+                  }
+
+                  if(this.participante){
+                    this.studentForm.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
+                    this.studentForm.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
+                    this.studentForm.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
+                    this.studentForm.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
+                    this.studentForm.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
+                    this.studentForm.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
+                    this.studentForm.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+                    this.studentForm.controls["invitationDate"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].invitationDate);
+                  }
+
+                  }
+                }
+              },
+              error : (err:HttpErrorResponse) =>{
+
+                  console.log(err);
+              }
+        }
+      );
+
+    }
   }
 
   async getRequiredDocuments() {
@@ -156,19 +239,6 @@ public _verificarBS64: VerificarBS64Pipe,
   GetName(type: number) {
 
     return this.DataDocument.find(x => x.documentId === type)?.name
-  }
-  async getTeacherByCedula() {
-
-   this._studentService.getTeacherByCedula(this.user.cedula).subscribe({
-      next: (res) => {
-
-        this.DataStudent = res;
-        this.fechaA=res.applicationDate;
-        this.studentForm = this.createstudentForm();
-        //this.documentForm = this.createDocumentForm();
-        this._studentService.isTblLoading = false;
-      }
-    })
   }
 
   viewDocumento(row: Documents) {
@@ -269,6 +339,52 @@ public _verificarBS64: VerificarBS64Pipe,
   }
 
 
+
+
+
+  createstudentFormAll(): UntypedFormGroup{
+
+    return this.fb.group({
+      //datos generales
+      cedula: new FormControl(this.dataStudent?.cedula, [Validators.required]),
+      name: new FormControl(this.dataStudent?.firstName, [Validators.required]),
+      lastName: new FormControl(this.dataStudent?.lastName, [Validators.required]),
+      placeOfBirth:[this.dataStudent?.placeOfBirth,[Validators.required]],
+      dateOfBirth:[this.dataStudent?.dateOfBirth],
+      email: new FormControl(this.dataStudent?.email, [Validators.required,Validators.email]),
+      telephoneNumber:[this.dataStudent?.homePhoneNumber,[Validators.required]],
+      placeResidence: new FormControl(this.dataStudent?.residentialAddress),
+      //datos de aspirantes
+      phoneNumber: new FormControl(this.dataStudent?.telephoneNumber),
+      maritalStatus: new FormControl(this.dataStudent?.maritalStatus),
+      nameOfspouse: new FormControl(this.dataStudent?.nameOfspouse),
+      numberofchildren: new FormControl(this.dataStudent?.numberofchildren),
+      caseOfemergency: new FormControl(this.dataStudent?.caseOfemergency),
+      telephoneNumberEmergency: new FormControl(this.dataStudent?.telephoneNumberEmergency),
+      bloodtype: new FormControl(this.dataStudent?.bloodtype),
+      specialCapacity: [false, [Validators.required]],
+      visual: [false],
+      auditory: [false],
+      cognitive:[false],
+      physical: [false],
+      specific: [''],
+      others: [''],
+      usesAwheelchair: [false],
+      //datos de participantes
+      institution: new FormControl(this.dataStudent?.institution),
+      university: new FormControl(this.dataStudent?.university),
+      dependency: new FormControl(this.dataStudent?.dependency),
+      cooperatingEntity: new FormControl(this.dataStudent?.cooperatingEntity),
+      position: new FormControl(this.dataStudent?.position),
+      province: new FormControl(this.dataStudent?.province),
+      judicialDistrict:new FormControl(this.dataStudent?.judicialDistrict),
+      invitationDate: new FormControl(this.dataStudent?.invitationDate),
+      listTraining: new FormControl(this.DataStudent?.listTraining||[]),
+      listExperience: new FormControl(this.DataStudent?.listExperience||[])
+    });
+  }
+
+
 public  onFileSelected(event: any):void {
    const file = event.target.files[0];
    const formdata=new FormData();
@@ -323,6 +439,7 @@ public submit():void {
     this.DataStudent.listTraining = [...this.DataTraining]
 
   }
+
 
 }
 

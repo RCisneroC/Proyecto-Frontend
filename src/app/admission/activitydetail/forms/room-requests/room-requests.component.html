@@ -72,9 +72,9 @@
                                     mat-raised-button color="primary">
                                     <mat-icon>add</mat-icon> Requerimientos.
                                 </button>
-                                <button *ngIf="item.statusId===4"  matTooltip="Devolver para Aprobación"
-                                    mat-raised-button color="primary">
-                                    <mat-icon>keyboard_return</mat-icon> Devolver para Aprobación.
+                                <button *ngIf="item.statusId===4" matTooltip="Rehabilitar"
+                                    mat-raised-button color="primary" (click)="actualizarStatus(item.id)">
+                                    <mat-icon>keyboard_return</mat-icon> Rehabilitar.
                                 </button>
                             </div>
                         </div>

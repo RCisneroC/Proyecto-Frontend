@@ -1,280 +1,492 @@
 <section class="content">
-    <div class="content-block">
-        <div class="block-header">
-            <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Estudiante'" [items]="['Inicio','Estudiante']"
-                [active_item]="'Actualizar Datos'">
-            </app-breadcrumb>
-        </div>
-
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header row">
-
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3" style="text-align: left;">
-                            <h2 class="text-uppercase">{{header}}</h2>
-                        </div>
-
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-7" style="text-align: right;">
-                            <h2><span>Fecha de aplicación:{{cedula==="-1"?fechaA:DataStudent.applicationDate |
-                                    date:'dd/M/yyyy'}}</span></h2>
-                        </div>
-
-                    </div>
-                    <div class="body">
-
-                        <form [formGroup]="studentForm!" style="margin-top: 10px!important;">
-
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Cédula/Pasaporte(8-888-888)</mat-label>
-                                        <input matInput formControlName="cedula">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('cedula')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                        <mat-error *ngIf="studentForm.get('cedula')?.hasError('cedulaExists')">
-                                            Cédula/Pasaporte ya existe
-                                        </mat-error>
-
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Nombre</mat-label>
-                                        <input matInput formControlName="name">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('name')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Apellido</mat-label>
-                                        <input matInput formControlName="lastName">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Lugar de nacimiento</mat-label>
-                                        <input matInput formControlName="placeOfBirth">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('placeOfBirth')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width" appearance="outline">
-                                        <mat-label>Fecha de nacimiento</mat-label>
-                                        <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
-                                        <mat-datepicker-toggle matSuffix
-                                            [for]="fechaNacimiento"></mat-datepicker-toggle>
-                                        <mat-datepicker #fechaNacimiento></mat-datepicker>
-                                        <mat-error *ngIf="studentForm.get('fechaNacimiento')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Lugar de residencia</mat-label>
-                                        <input matInput formControlName="placeResidence">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('placeResidence')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Correo electrónico</mat-label>
-                                        <input matInput formControlName="email">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('email')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width " appearance="outline">
-                                        <mat-label>Teléfono</mat-label>
-                                        <input matInput formControlName="telephoneNumber">
-                                        <mat-icon class="material-icons-two-tone color-icon p-3"
-                                            matSuffix>edit</mat-icon>
-                                        <mat-error *ngIf="studentForm.get('telephoneNumber')?.hasError('required')">
-                                            Es Requitos
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-
-                        </form>
-
-
-                        <div class="row clearfix">
-                            <div class="" style="margin-bottom: 20px;text-align: left;">
-                                <button matTooltip="Regresar" mat-raised-button color="primary" (click)="submit()">
-                                    <mat-icon>save</mat-icon> Guardar
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="text-uppercase"><strong>Experiencia Profesional</strong>
-
-                            <button (click)="AddExperience()" matTooltip="Agregar experiencia"
-                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h2>
-                    </div>
-                    <div class="body">
-                        <div class="body table-responsive">
-                            <table mat-table [dataSource]="DataStudent.listExperience" class="w-100">
-                                <!-- Id Column -->
-                                <ng-container matColumnDef="experienceId">
-                                    <th mat-header-cell *matHeaderCellDef> Id</th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.experienceId}}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="description">
-                                    <th mat-header-cell *matHeaderCellDef> Descripción </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.description }} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="position">
-                                    <th mat-header-cell *matHeaderCellDef> Cargo </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.position }} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="startDate">
-                                    <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy' }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="endDate">
-                                    <th mat-header-cell *matHeaderCellDef> Fecha fin </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.endDate | date:'dd/M/yyyy' }}
-                                    </td>
-                                </ng-container>
-                                <!-- Acción Column -->
-                                <ng-container matColumnDef="actions">
-                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <button (click)="RemoveExperience(element)" mat-mini-fab color="accent"
-                                            matTooltip="Eliminar">
-                                            <mat-icon>restore_from_trash</mat-icon>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsExperience"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsExperience;"></tr>
-                            </table>
-                            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]"
-                                showFirstLastButtons></mat-paginator>
-                        </div>
-                    </div>
-                    <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
-                </div>
-            </div>
-
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="text-uppercase"><strong>Formación académica</strong>
-
-                            <button (click)="AddTraining()" matTooltip="Agregar formación"
-                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </h2>
-                    </div>
-                    <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <div class="header">
-                        <h2 class="text-uppercase"><strong>Documentos</strong>
-
-
-                        </h2>
-                    </div>
-                    <div class="body">
-                        <div class="body table-responsive">
-                            <table mat-table [dataSource]="DataStudent.listDocument" class="w-100">
-
-
-
-                                <ng-container matColumnDef="docType">
-                                    <th mat-header-cell *matHeaderCellDef> Descripción </th>
-                                    <td mat-cell *matCellDef="let element">
-
-                                        <span class="text-uppercase">{{GetName(element.docType)}}</span>
-
-
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="extension">
-                                    <th mat-header-cell *matHeaderCellDef> Formato </th>
-                                    <td mat-cell *matCellDef="let element"> <span class="text-uppercase">{{
-                                            element.extension }}</span></td>
-                                </ng-container>
-
-                                <!-- Documentos Column -->
-                                <ng-container matColumnDef="docResult">
-                                    <th mat-header-cell *matHeaderCellDef> Documento </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <button (click)="viewDocumento(element)" matTooltip="Ver Documento" mat-mini-fab
-                                            color="primary">
-                                            <mat-icon>remove_red_eye</mat-icon>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsDoc"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsDoc;"></tr>
-                            </table>
-                            <mat-paginator #paginatorPoster [pageSizeOptions]="[2, 10, 20]"
-                                showFirstLastButtons></mat-paginator>
-                        </div>
-                    </div>
-                    <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
-                </div>
-            </div>
-
-        </div>
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Estudiante'" [items]="['Inicio','Estudiante']" [active_item]="'Actualizar Datos'">
+      </app-breadcrumb>
     </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3" style="text-align: left;">
+              <h2 class="text-uppercase">{{header}}</h2>
+            </div>
+          </div>
+          <div class="body">
+            <form [formGroup]="studentForm!" style="margin-top: 10px!important;">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Cédula/Pasaporte(8-888-888)</mat-label>
+                    <input matInput formControlName="cedula" [readonly]="true">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('cedula')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                    <mat-error *ngIf="studentForm.get('cedula')?.hasError('cedulaExists')">
+                      Cédula/Pasaporte ya existe
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="name" [readonly]="true">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('name')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="lastName" [readonly]="true">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Lugar de nacimiento</mat-label>
+                    <input matInput formControlName="placeOfBirth">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('placeOfBirth')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
+                    <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaNacimiento></mat-datepicker>
+                    <mat-error *ngIf="studentForm.get('dateOfBirth')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Lugar de residencia</mat-label>
+                    <input matInput formControlName="placeResidence">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('placeResidence')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Correo electrónico</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('email')?.hasError('required')">
+                      Es Requitos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="telephoneNumber">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('telephoneNumber')?.hasError('required')">
+                      Es Requito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Teléfono Fijo</mat-label>
+                    <input matInput formControlName="phoneNumber">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('phoneNumber')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--   ASPIRANTES -->
+              <div *ngIf="aspirante">
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Estado civil</mat-label>
+                      <input matInput formControlName="maritalStatus">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('maritalStatus')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Nombre del Cónyugue</mat-label>
+                      <input matInput formControlName="nameOfspouse">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('nameOfspouse')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Cantidad de hijos</mat-label>
+                      <input matInput formControlName="numberofchildren">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('numberofchildren')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Caso de emergencia llamar a</mat-label>
+                      <input matInput formControlName="caseOfemergency">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('caseOfemergency')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Teléfono de emergencia</mat-label>
+                      <input matInput formControlName="telephoneNumberEmergency">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('telephoneNumberEmergency')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Tipo de sangre</mat-label>
+                      <input matInput formControlName="bloodtype">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('bloodtype')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Posee alguna capacidad diferente</mat-label>
+                      <mat-select formControlName="specialCapacity">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="studentForm.get('specialCapacity')?.hasError('required')">
+                        Requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div *ngIf="studentForm.value.specialCapacity === 'True'" class="row">
+                  <h5 class="text-uppercase"><strong>CAPACIDADES ESPECIALES</strong></h5>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Visual</mat-label>
+                      <mat-select formControlName="visual">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Auditiva</mat-label>
+                      <mat-select formControlName="auditory">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Cognitiva</mat-label>
+                      <mat-select formControlName="cognitive">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Física</mat-label>
+                      <mat-select formControlName="physical">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div *ngIf="studentForm.value.specialCapacity === 'True'" class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Describa la misma</mat-label>
+                      <input matInput formControlName="specific" [readonly]="false">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Otra</mat-label>
+                      <input matInput formControlName="others" [readonly]="false">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Utilización de silla de ruedas</mat-label>
+                      <mat-select formControlName="usesAwheelchair">
+                        <mat-option value=True>Si</mat-option>
+                        <mat-option value=False>No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+            </div>
+
+              <!-- Participantes -->
+              <div *ngIf="participante">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Institución</mat-label>
+                    <input matInput formControlName="institution">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('institution')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Universidad</mat-label>
+                    <input matInput formControlName="university">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('university')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Dependencia</mat-label>
+                    <input matInput formControlName="dependency">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('dependency')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Entidad Cooperadora</mat-label>
+                    <input matInput formControlName="cooperatingEntity">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('cooperatingEntity')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Posición</mat-label>
+                    <input matInput formControlName="position">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('position')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Provincia</mat-label>
+                    <input matInput formControlName="province">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('province')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Distrito</mat-label>
+                    <input matInput formControlName="judicialDistrict">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('judicialDistrict')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Fecha de Invitación</mat-label>
+                    <input matInput formControlName="invitationDate">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                    <mat-error *ngIf="studentForm.get('invitationDate')?.hasError('required')">
+                      Es Requisito
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            </form>
+            <div class="row clearfix">
+              <div class="" style="margin-bottom: 20px;text-align: left;">
+                <button matTooltip="Regresar" mat-raised-button color="primary" (click)="submit()">
+                  <mat-icon>save</mat-icon> Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Experiencia Profesional</strong>
+
+              <button (click)="AddExperience()" matTooltip="Agregar experiencia"
+                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                <mat-icon>add</mat-icon>
+              </button>
+            </h2>
+          </div>
+          <div class="body">
+            <div class="body table-responsive">
+              <table mat-table [dataSource]="DataStudent.listExperience" class="w-100">
+                <!-- Id Column -->
+                <ng-container matColumnDef="experienceId">
+                  <th mat-header-cell *matHeaderCellDef> Id</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.experienceId}}</td>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                  <td mat-cell *matCellDef="let element">{{ element.description }} </td>
+                </ng-container>
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                  <td mat-cell *matCellDef="let element">{{ element.position }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="startDate">
+                  <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                  <td mat-cell *matCellDef="let element">{{ element.startDate | date:'dd/M/yyyy' }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="endDate">
+                  <th mat-header-cell *matHeaderCellDef> Fecha fin </th>
+                  <td mat-cell *matCellDef="let element">{{ element.endDate | date:'dd/M/yyyy' }}
+                  </td>
+                </ng-container>
+                <!-- Acción Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Acción </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="RemoveExperience(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                      <mat-icon>restore_from_trash</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsExperience"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsExperience;"></tr>
+              </table>
+              <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+          <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
+        </div>
+      </div>
+
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Formación académica</strong>
+
+              <button (click)="AddTraining()" matTooltip="Agregar formación"
+                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                <mat-icon>add</mat-icon>
+              </button>
+            </h2>
+          </div>
+          <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Documentos</strong>
+
+
+            </h2>
+          </div>
+          <div class="body">
+            <div class="body table-responsive">
+              <table mat-table [dataSource]="DataStudent.listDocument" class="w-100">
+
+
+
+                <ng-container matColumnDef="docType">
+                  <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                  <td mat-cell *matCellDef="let element">
+
+                    <span class="text-uppercase">{{GetName(element.docType)}}</span>
+
+
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="extension">
+                  <th mat-header-cell *matHeaderCellDef> Formato </th>
+                  <td mat-cell *matCellDef="let element"> <span class="text-uppercase">{{
+                      element.extension }}</span></td>
+                </ng-container>
+
+                <!-- Documentos Column -->
+                <ng-container matColumnDef="docResult">
+                  <th mat-header-cell *matHeaderCellDef> Documento </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="viewDocumento(element)" matTooltip="Ver Documento" mat-mini-fab color="primary">
+                      <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsDoc"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsDoc;"></tr>
+              </table>
+              <mat-paginator #paginatorPoster [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+          <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>

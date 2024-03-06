@@ -33,6 +33,7 @@ import { ResponseSubjectRecord } from '../models/calificacion';
 import { ResponseActivityRecord } from "../models/calificacionEC";
 import { CurriculumDesign } from '../models/CurriculumDesign';
 import { DegreeCurriculumDesignEnrollment } from '../models/DegreeCurriculumDesignEnrollment';
+import { StudentModel } from '../models/StudentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -337,6 +338,12 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       }],
       errors: '',
     }
+  }
+
+
+  getStudentData(cedula:string) {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.get<StudentModel>(url + "GetData/GetVerifyStudent?cedula=" + cedula);
   }
 }
 

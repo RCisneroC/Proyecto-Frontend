@@ -25,6 +25,9 @@ import {InfoAcademicaComponent} from "app/external/Forms/info-academica/info-aca
 import {InfoLaboralComponent} from "app/external/Forms/info-laboral/info-laboral.component";
 import {AuthService} from "@core";
 import {MatStepper} from "@angular/material/stepper";
+import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
+import { StudentModel } from 'app/enrollment/models/StudentModel';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -101,6 +104,7 @@ export class BackofficeEFComponent implements OnInit {
   public FormsEFDocument: FormGroup;
   public id: string | null = "";
   public cedula: string | null = "";
+  public DatosEstudianteResponse: StudentModel | undefined;
 
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
@@ -118,7 +122,8 @@ export class BackofficeEFComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     public elm: ElementRef,
-    public _nav: Router) {
+    public _nav: Router,
+    private enrollmentService: EnrollmentService) {
 
     this.FormsEF = this.fb.group({
       cedula: ['', [Validators.required]],
@@ -361,29 +366,38 @@ export class BackofficeEFComponent implements OnInit {
     } else {
       this.loading = true;
       this.cedulaParticipant = cedula;
-      this._inscriptionService.getDataPerson(cedula).subscribe({
-        next: (data) => {
-          this.loading = false;
-          this.disabled = true;
-          this.personData = data;
-          this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
-            ?.primer_nombre;
-          this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
-            ?.apellido_paterno;
-          this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
-            ?.apellido_materno;
-          this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
-            ?.lugarDeNacimiento;
-          this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
-            ?.fecha_nacimiento;
-          this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
-            ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
-              ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
-              ?.barrio_residencia;
-          this.tribunalReady = true;
-        },
-        error: (e) => this.loading = false
-      })
+
+      this.enrollmentService.getStudentData(cedula).subscribe(
+        {
+              next : (request) =>{
+                this.DatosEstudianteResponse = request as StudentModel;
+                if(this.DatosEstudianteResponse != undefined){
+                  if(!this.DatosEstudianteResponse.isError){
+                    this.loading = false;
+                    this.disabled = true;
+                    this.Participant.firstName = this.DatosEstudianteResponse.verifyUsersResult[0].firstName;
+                    this.Participant.lastName = this.DatosEstudianteResponse.verifyUsersResult[0].lastName;
+                    this.Participant.secondsurname = this.DatosEstudianteResponse.verifyUsersResult[0].secondsurname;
+
+                    if(this.DatosEstudianteResponse.verifyUsersResult[0].asp){
+                      this.Participant.placeOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth;
+                      this.Participant.dateOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth;
+                      this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress;
+                    }
+
+
+                      this.tribunalReady = true;
+                      this.loading = false
+                  }
+                }
+              },
+              error : (err:HttpErrorResponse) =>{
+                  this.loading = false
+                  console.log(err);
+              }
+        }
+      );
+
     }
   }
 

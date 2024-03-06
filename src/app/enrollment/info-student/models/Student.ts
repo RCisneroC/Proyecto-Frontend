@@ -1,3 +1,41 @@
+export class StudentData{
+  firstName: string = "";
+  lastName: string = "";
+  secondsurname: string = "";
+  cedula: string = "";
+  email: string = "";
+  gender: string = "";
+  //aspirante
+  dateOfBirth: string = "";
+  placeOfBirth: string = "";
+  residentialAddress: string = "";
+  telephoneNumber: string = "";
+  homePhoneNumber: any;
+  bloodtype: string = "";
+  maritalStatus: string = "";
+  nameOfspouse: string = "";
+  numberofchildren: string = "";
+  caseOfemergency: string = "";
+  telephoneNumberEmergency: string = "";
+  specialCapacity: boolean = true;
+  visual: boolean  = true;
+  auditory: boolean = true;
+  cognitive: boolean = true;
+  physical: boolean = true;
+  usesAwheelchair: boolean = true;
+  specific: string = "";
+  others: string = "";
+  //participante
+  institution: string = "";
+  university: string = "";
+  dependency: string = "";
+  cooperatingEntity: string = "";
+  position: string = "";
+  province: string = "";
+  judicialDistrict: string = "";
+  invitationDate: string = "";
+}
+
 
 export class Student {
     studentId: number = -1;

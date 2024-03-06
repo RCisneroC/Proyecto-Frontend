@@ -12,6 +12,9 @@ import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { Requirement } from 'app/admission/models/Requeriminet';
 import {  VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 import {AuthService} from "@core";
+import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
+import { StudentModel } from 'app/enrollment/models/StudentModel';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-backoffice',
@@ -47,6 +50,8 @@ export class BackofficeComponent implements OnInit {
   cedulaParticipant: string = "";
   loadingFile: boolean = false;
   IsError: boolean = false;
+  public DatosEstudianteResponse: StudentModel | undefined;
+
   constructor(private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _inscriptionService: InscriptionService,
@@ -55,7 +60,8 @@ export class BackofficeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public elm: ElementRef,
     public _nav: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private enrollmentService: EnrollmentService) {
     // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
     this.form = this.fb.group({
       firstName: ['', Validators.required],
@@ -92,7 +98,7 @@ export class BackofficeComponent implements OnInit {
       this.form.patchValue({ activityId: this.idActivity });
       this.getActividad();
     })
-    console.log(this.authService.currentUserValue.cedula)
+
     this.getPersonData(this.authService.currentUserValue.cedula);
   }
   regresar() {
@@ -113,6 +119,26 @@ export class BackofficeComponent implements OnInit {
     } else {
       this.loading = true;
       this.cedulaParticipant = cedula;
+      this.enrollmentService.getStudentData(cedula).subscribe(
+        {
+              next : (request) =>{
+                this.DatosEstudianteResponse = request as StudentModel;
+                if(this.DatosEstudianteResponse != undefined){
+                  if(!this.DatosEstudianteResponse.isError){
+                    this.loading = false;
+                    this.disabled = true;
+                    this.personData = this.DatosEstudianteResponse;
+                  }
+                }
+              },
+              error : (err:HttpErrorResponse) =>{
+                  this.loading = false
+                  console.log(err);
+              }
+        }
+      );
+
+/*
       this._inscriptionService.getDataPerson(cedula).subscribe({
         next: (data) => {
 
@@ -122,6 +148,8 @@ export class BackofficeComponent implements OnInit {
         },
         error: (e) => this.loading = false
       })
+
+    */
     }
   }
 

@@ -17,6 +17,7 @@ import { SuppliesService } from 'app/admission/maestros/services/supplies.servic
 import { MasterService } from 'app/admission/maestros/services/master.service';
 import { FranjaHorariaComponent } from './forms/franja-horaria/franja-horaria.component';
 import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-room-requests',
@@ -383,5 +384,35 @@ export class RoomRequestsComponent {
       }
     })
   }
+
+
+  actualizarStatus(id:number){
+    const data = {
+       statusId : 3,
+       id: id,
+    };
+
+    this._masterLounge.updateRequest(data).subscribe(
+        {
+          next: (request: any) => {
+
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Creado correctamente.',
+              icon: "success"
+            });
+            this.getOneActivity();
+          },
+          error: (err: HttpErrorResponse) => {
+
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: err.error.Message,
+              icon: "warning"
+            });
+          }
+        });
+  }
+
 
 }
