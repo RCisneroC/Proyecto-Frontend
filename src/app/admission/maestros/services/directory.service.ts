@@ -47,8 +47,12 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId=0&UserId='+userId)
   }
   
-  getPersmissionUser(userId:string,folderId:number) {
-    return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId='+folderId+'&UserId='+userId)
+  // getPersmissionUser(userId:string,folderId:number) {
+  //   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId='+folderId+'&UserId='+userId)
+  //  }
+   
+   getPersmissionUser(userId:string,folderId:number) {
+    return this.httpClient.get(environment.apiDocument+'PermissionFolder/GetUserFolder?UserId='+userId+'&FolderId='+folderId)
    }
    
    UpdatePersmissionUserFolder(data:FolderPermission) {

@@ -70,8 +70,8 @@
                             <td mat-cell *matCellDef="let data">
                             
                               <mat-button-toggle-group  >
-                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null " (click)="viewDocumento(data)" value="bold"><mat-icon   >remove_red_eye</mat-icon></mat-button-toggle>
-                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null" (click)="download(data)"  value="italic"><mat-icon  >file_download</mat-icon></mat-button-toggle>
+                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null && data.hasReadPermission " (click)="viewDocumento(data)" value="bold"><mat-icon   >remove_red_eye</mat-icon></mat-button-toggle>
+                                <mat-button-toggle style="border: none;" *ngIf="data.extension!==null && data.hasExecutePermission" (click)="download(data)"  value="italic"><mat-icon  >file_download</mat-icon></mat-button-toggle>
                                 <mat-button-toggle style="border: none;" *ngIf="data.extension!==null" value="underline"> <mat-icon [cdkMenuTriggerFor]="menu"  class="example-standalone-trigger">more_vert</mat-icon></mat-button-toggle>
                               </mat-button-toggle-group>
                               <!-- <mat-icon (click)="viewDocumento(data)"  *ngIf="data.extension!==undefined">remove_red_eye</mat-icon>
@@ -89,7 +89,7 @@
                                   <button class="example-menu-item" *ngIf="data.extension===null && data.update" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
                                    <button class="example-menu-item" *ngIf="data.extension===null && data.hasWritePermission" (click)="newFolder(data,'newfolder')" cdkMenuItem>Nueva carpeta</button>
                                   <button class="example-menu-item" *ngIf="data.extension!==null && data.delete" (click)="newfile(data,'file')" cdkMenu2Item>Remplazar archivo</button>
-                                  <button class="example-menu-item" *ngIf="data.extension!==null && data.update "  (click)="newFolder(data,'file')" cdkMenu2Item>Cambiar nombre</button> 
+                                  <button class="example-menu-item" *ngIf="data.extension!==null && data.update"  (click)="newFolder(data,'file')" cdkMenu2Item>Cambiar nombre</button> 
                                   
                                   <button class="example-menu-item" *ngIf="data.extension===null && typeUser==='Administrador'"  (click)="permissions(data,'folder')" cdkMenu2Item>Dar Permisos</button> 
                                   <button class="example-menu-item" *ngIf="data.extension!==null && typeUser==='Administrador'"  (click)="permissions(data,'file')" cdkMenu2Item>Dar Permisos</button> 
