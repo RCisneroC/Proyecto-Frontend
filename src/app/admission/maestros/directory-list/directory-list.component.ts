@@ -15,12 +15,17 @@ import { AddFileComponent } from "./add-file/add-file.component";
 import * as JSZip from 'jszip';
 import { map } from "rxjs";
 import { AuthService, User } from "@core";
+import { RequestServicesService } from "app/intranet-academic-registration/Services/request-services.service";
+import { AddPermissionsComponent } from "./add-permissions/add-permissions.component";
 
 export interface FoodNode {
   folderId:number;
   fileId:number;
   folderName: string;
   extension?: string;
+  hasWritePermission:boolean;
+  update:boolean;
+  delete:boolean;
   parentId?: number;
   files: FoodNode[];
   folders: FoodNode[];
@@ -32,6 +37,9 @@ export interface ExampleFlatNode {
   fileId:number;
   folderName: string;
   extension: string | undefined;
+  hasWritePermission:boolean;
+  update:boolean;
+  delete:boolean;
   level: number;
   //files: FoodNode[];
   folders?: FoodNode[];
@@ -59,6 +67,9 @@ export class DirectoryListComponent  implements OnInit   {
       expandable: !!node.folders && node.folders.length >= 0 ,
       folderName: node.folderName,
       extension: node.extension,
+      hasWritePermission:node.hasWritePermission,
+      update:node.update,
+      delete:node.delete,
       level: level,
       folderId:node.folderId,
       fileId:node.fileId
@@ -79,15 +90,19 @@ export class DirectoryListComponent  implements OnInit   {
   carpetas: any;
   dataSource2: any;
   user: User;
+  typeUser: string;
 
 
   constructor( 
     public _verificarBS64: VerificarBS64Pipe,
     public _dialog: MatDialog,
     public _directoryService:DirectoryService,
-    public authenticationService:AuthService
+    public authenticationService:AuthService,
+    public _RequestService:RequestServicesService
   ) {
     this.user = this.authenticationService.currentUserValue;
+    this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
+    
   }
   ngOnInit() {
 
@@ -101,14 +116,50 @@ export class DirectoryListComponent  implements OnInit   {
       next: (res:any) => {
       console.log(res);
         this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];
-        //this.dataTask.paginator = this.paginator;
+        
 
       }
     })
   }
   
   
+  permissions(event:any,filefolder:string){
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    
+    const dialogRef = this._dialog.open(AddPermissionsComponent, {
+      width: '700px',
+      data: {
+        folder: event,
+        action: filefolder,
+      },
+      direction: tempDirection,
+    });
+     dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+       if (result == undefined) {
+        return;
+        }
+        if (result.CodError == 200) {
+            Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+            });
+           
+          } else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: result.Message,
+              icon: "warning"
+            });
+          }
+        }); 
   
+}
   
  
 

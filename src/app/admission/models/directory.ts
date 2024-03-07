@@ -35,3 +35,18 @@ export interface DirectoryData {
   action: string;
   folder:DirectoryData;
 }
+
+export class FolderPermission {
+  folderId!: number;
+  userFileId!:number;
+  userId!: string;
+  hasWritePermission: boolean=false;
+  hasReadPermission: boolean=false;
+  hasExecutePermission: boolean=false;
+  update: boolean=false;
+  delete: boolean=false;
+  createdBy!: string;
+  lastModifiedBy!:string;
+  statusId:number=1;
+  
+  }
