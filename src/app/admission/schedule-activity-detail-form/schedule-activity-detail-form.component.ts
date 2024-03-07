@@ -145,7 +145,7 @@ export class ScheduleActivityDetailFormComponent {
       dataSheetDeliveryDate: new FormControl(this.schedule.dataSheetDeliveryDate),
       isEvaluation: new FormControl(false),
       activityTrainingType: new FormControl(this.schedule.activityTrainingType.toString(), Validators.required),
-      activityClass: new FormControl(this.schedule.activityClass, Validators.required),
+      activityClass: new FormControl(this.schedule.activityClass),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
       observations: new FormControl(this.schedule.observations)
@@ -161,7 +161,9 @@ export class ScheduleActivityDetailFormComponent {
   }
   public confirmAdd(): void {
     console.log(this.scheduleForm);
-
+    if (this.scheduleForm.controls['activityClass'].value == "0") {
+      this.scheduleForm.controls['activityClass'].setValue(null);
+    }
     if (this.action === 'edit') {
       this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({
         next: () => {
@@ -169,22 +171,22 @@ export class ScheduleActivityDetailFormComponent {
           this.ResponseMessage.Message = 'Creado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
         },
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = 'Intente Nuevamente.';
+          this.ResponseMessage.Message = err.error.Message;
           this.dialogRef.close(this.ResponseMessage);
         }
       });
     } else {
       this.scheduleActivitiesService.addActivityDetail(this.scheduleForm.getRawValue()).subscribe({
-        next: () => {
+        next: (res) => {
           this.ResponseMessage.CodError = 200;
-          this.ResponseMessage.Message = 'Creado correctamente.';
+          this.ResponseMessage.Message = res.message;
           this.dialogRef.close(this.ResponseMessage);
         },
-        error: (err: any) => {
-          this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = 'Intente Nuevamente.';
+        error: (err: HttpErrorResponse) => {
+          this.ResponseMessage.CodError = err.error.StatusCode;
+          this.ResponseMessage.Message = err.error.Message;
           this.dialogRef.close(this.ResponseMessage);
         }
       });
