@@ -19,7 +19,7 @@
             <mat-label>Salón</mat-label>
             <mat-select (selectionChange)="LoadDates()" formControlName="salon">
               <mat-option [value]="" selected></mat-option>
-              <mat-option *ngFor="let item of lstRooms" [value]="item.id">{{item.name}}</mat-option>
+              <mat-option *ngFor="let item of data.rooms" [value]="item.room.id">{{item.room.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="timeSlotsForm.get('salon')?.hasError('required')">
               Seleccione un salon

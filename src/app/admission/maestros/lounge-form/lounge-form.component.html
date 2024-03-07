@@ -7,12 +7,12 @@
           </div>
         </div>
       </div>
-      <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <button mat-icon-button (click)="onNoClick()" class="modal-close-button" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>
     </div>
     <div mat-dialog-content>
-      <form class="register-form m-4" [formGroup]="loungeForm" (ngSubmit)="submit">
+      <form class="register-form m-4" [formGroup]="loungeForm">
         <div class="row">
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
@@ -24,7 +24,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          
+
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Descripción</mat-label>
@@ -35,7 +35,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-         
+
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                 <mat-form-field class="example-full-width " appearance="outline">
                     <mat-label>Estado</mat-label>
@@ -54,7 +54,21 @@
                   </mat-form-field>
               </div>
         </div>
-         
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field appearance="outline" class="dependencia">
+              <mat-label>Dependencia </mat-label>
+              <mat-select formControlName="dependencia">
+                <mat-option [value]="" selected></mat-option>
+                <mat-option  *ngFor="let row of lstDependencies" [value]="row.codigo_dependencia">{{row.nombre_dependencia}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="loungeForm.get('dependencia')?.hasError('required')">
+                Seleccione la dependencia
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
               <div class="example-button-row">
