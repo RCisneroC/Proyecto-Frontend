@@ -234,7 +234,7 @@ export class AddPermissionsComponent implements OnInit {
   
   
     addPermissionUserFolder() {
-    this._directoryService.UpdatePersmissionUserFolder(this.folder).subscribe({
+    this._directoryService.addPersmissionUserFolder(this.folder).subscribe({
       next: (res) => {
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Permiso guardado.';
@@ -244,7 +244,7 @@ export class AddPermissionsComponent implements OnInit {
   }
   
   addPermissionUserFiles() {
-    this._directoryService.UpdatePersmissionUserFolder(this.folder).subscribe({
+    this._directoryService.addPersmissionUserFiles(this.folder).subscribe({
       next: (res) => {
         this.ResponseMessage.CodError = 200;
         this.ResponseMessage.Message = 'Permiso guardado.';
