@@ -21,7 +21,7 @@
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">
-                            <h2>Docentes</h2>
+                            <h2>Listado de carreras</h2>
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -74,7 +74,9 @@
                           <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                           </mat-row>
                         </table>
-                     
+                        <div style="display: flex; justify-content: center; align-items: center;" *ngIf="DataCareer.data?.length === 0">
+                          {{ noDataMessage }}
+                        </div>
                       </div>
                       
                       <!-- Loading spinner -->

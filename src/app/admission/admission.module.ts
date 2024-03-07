@@ -148,6 +148,7 @@ import { EnrollmentDirectBackofficeComponent } from './enrollment-direct/enrollm
 import { CertificateListScheduleComponent } from './certificates/certificate-list-schedule/certificate-list-schedule.component';
 import { CertificateListActivityComponent } from './certificates/certificate-list-activity/certificate-list-activity.component';
 import { CertificateListPartakerComponent } from './certificates/certificate-list-partaker/certificate-list-partaker.component';
+import { AddPermissionsComponent } from './maestros/directory-list/add-permissions/add-permissions.component';
 
 @NgModule({
   declarations: [
@@ -287,7 +288,8 @@ import { CertificateListPartakerComponent } from './certificates/certificate-lis
     EnrollmentDirectBackofficeComponent,
     CertificateListScheduleComponent,
     CertificateListActivityComponent,
-    CertificateListPartakerComponent
+    CertificateListPartakerComponent,
+    AddPermissionsComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

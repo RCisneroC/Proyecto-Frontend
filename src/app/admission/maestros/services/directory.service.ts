@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
-import { Data, DataD, Directory } from 'app/admission/models/directory';
+import { Data, DataD, Directory, FolderPermission } from 'app/admission/models/directory';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
 
@@ -47,6 +47,36 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId=0&UserId='+userId)
   }
   
+  // getPersmissionUser(userId:string,folderId:number) {
+  //   return this.httpClient.get(environment.apiDocument+'Folder/GetFolder?FolferId='+folderId+'&UserId='+userId)
+  //  }
+   
+   getPersmissionUser(userId:string,folderId:number) {
+    return this.httpClient.get(environment.apiDocument+'PermissionFolder/GetUserFolder?UserId='+userId+'&FolderId='+folderId)
+   }
+   
+   UpdatePersmissionUserFolder(data:FolderPermission) {
+    return this.httpClient.put(environment.apiDocument+'PermissionFolder/UpdateUserFolder',data)
+    
+   }
+   
+   UpdatePersmissionUserFiles(data:FolderPermission) {
+    return this.httpClient.put(environment.apiDocument+'PermissionFile/UpdateUserFile',data)
+   }
+   
+   
+   addPersmissionUserFolder(data:FolderPermission) {
+    return this.httpClient.post(environment.apiDocument+'PermissionFolder/AddUserFolder',data)
+    
+   }
+   
+   addPersmissionUserFiles(data:FolderPermission) {
+    return this.httpClient.post(environment.apiDocument+'PermissionFile/AddUserFile',data)
+    
+   }
+  
+  
+  
   getfilebyId(fileId:number) {
     return this.httpClient.get<Data>(environment.apiDocument+'Files/GetFile?FileId='+fileId)
    }
@@ -84,7 +114,7 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
    
    GetHistoryFolder(id:number) {
    
-    return this.httpClient.get<DataD>(environment.apiDocument+'Folder/GetAuditFolder?FolderId='+id)
+    return this.httpClient.get<DataD>(environment.apiDocument+'FolderAudit/GetAuditFolder?FolderId='+id)
    }
    
    

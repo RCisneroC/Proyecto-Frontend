@@ -3,7 +3,7 @@
       <div class="editRowModal">
         <div class="modalHeader clearfix">
           <div class="modal-about">
-            {{dialogTitle}}
+            {{dialogTitle}} <span  class="badge badge-solid-blue">{{data.folder.folderName}}</span>
           </div>
         </div>
       </div>
@@ -14,17 +14,12 @@
     <div mat-dialog-content>
         <table mat-table [dataSource]="dataSource">
 
-
-            <!-- <ng-container matColumnDef="extension">
-                <mat-header-cell *matHeaderCellDef> Extension </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{ element.extension }} </mat-cell>
-              </ng-container> -->
             
             
-              <ng-container matColumnDef="by">
+              <!-- <ng-container matColumnDef="by">
                 <mat-header-cell *matHeaderCellDef> Creado por </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{ element.by }} </mat-cell>
-              </ng-container>
+              </ng-container> -->
             
               <ng-container matColumnDef="lastModifiedDate">
                 <mat-header-cell *matHeaderCellDef> Fecha de modificación </mat-header-cell>
@@ -34,12 +29,11 @@
                   date:'dd/M/yyyy'}} </mat-cell>
               </ng-container>
               
-              <ng-container matColumnDef="createdDate">
-                <mat-header-cell *matHeaderCellDef> Fecha de creación</mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{ element.createdDate |
-                  date:'dd/M/yyyy' }} </mat-cell>
+              <ng-container matColumnDef="lastModifiedBy">
+                <mat-header-cell *matHeaderCellDef>Modificado por </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.lastModifiedBy===null?element.by:element.lastModifiedBy }} </mat-cell>
               </ng-container>
-            
+           
           
             <ng-container matColumnDef="changeType">
               <mat-header-cell *matHeaderCellDef> Tipo de cambio </mat-header-cell>

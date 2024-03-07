@@ -33,8 +33,8 @@ export interface ExampleFlatNode {
   styleUrls: ['./audit-list.component.scss']
 })
 export class AuditListComponent implements OnInit {
-  displayedColumns: string[] = ['folderName', 'createdDate', 'createdBy', 'lastModifiedDate', 'lastModifiedBy', 'changeType', 'extension', 'action'];
-
+  //displayedColumns: string[] = ['folderName', 'createdDate', 'createdBy', 'lastModifiedDate', 'lastModifiedBy', 'changeType', 'extension', 'action'];
+  displayedColumns: string[] = ['folderName', 'extension', 'action'];
   private transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.folders && node.folders.length >= 0,

@@ -48,7 +48,7 @@ DataActivities!: any;
 // docForm!: UntypedFormGroup;
 view: boolean = false;
 selectedOption: number = 2;
-
+noDataMessage:string="No se encontraron resultados."
 
 public typeUser: string = '';
 constructor(public _teacherService: TeacherService,
@@ -62,6 +62,7 @@ constructor(public _teacherService: TeacherService,
   super()
 }
 ngOnInit() {
+ 
   this.user = this.authenticationService.currentUserValue;
   this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
   this.cedula = this.activatedRoute.snapshot.params["cedula"];

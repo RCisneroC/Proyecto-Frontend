@@ -127,7 +127,12 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   volverAtras() {
+  if(this.activatedRoute.snapshot.params["cedula"]!=undefined){
+    this._nav.navigate(['/teaching-management/teacher-detail/',this.activatedRoute.snapshot.params["cedula"]]);
+  }else{
     this._nav.navigate(['/teaching-management/career-list/']);
+  }
+    
   }
 
 
