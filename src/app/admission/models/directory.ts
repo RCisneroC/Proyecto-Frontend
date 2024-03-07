@@ -26,6 +26,7 @@ export interface DirectoryData {
   id: number;
   changeType: string;
   fileName: string;
+  folderName:string;
   extension: string;
   createdDate: string;
   by: string;
