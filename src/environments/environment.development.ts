@@ -1,8 +1,8 @@
 
 export const environment = {
   production: false,
-  base: 'http://erp.organo-judicial.com/#/student/',
-  baseUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com',
+  base: 'http://localhost:3001/#/student/',
+  baseUrlTeacher: 'http://localhost:3001',
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl: 'https://isjupauthenticationservice.azurewebsites.net/api/v1/Account/',
   apiUrlRol: 'https://isjupauthenticationservice.azurewebsites.net/api/v1/',
@@ -19,5 +19,7 @@ export const environment = {
   apiIntranet: 'https://eira-api.azurewebsites.net/',
   apiUrlSubjectTask: "https://eira-api.azurewebsites.net/SearchSubjectTask",
   apiEira: 'https://eira-api.azurewebsites.net/',
-  apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
+  apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiCajapp: 'https://cajapp.organojudicial.gob.pa/'
+
 };

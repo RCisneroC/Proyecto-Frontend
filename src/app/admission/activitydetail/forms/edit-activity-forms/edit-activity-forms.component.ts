@@ -115,6 +115,14 @@ export class EditActivityFormsComponent implements OnInit {
     } else {
       data.actividad.hasSurvey = "false";
     }
+
+    if (data.actividad.rubric) {
+      data.actividad.rubric = "true";
+    } else {
+      data.actividad.rubric = "false";
+    }
+
+
     console.log(this.id_actividad);
 
     this.cantidadHoras = data.actividad.totalHours;
@@ -196,6 +204,12 @@ export class EditActivityFormsComponent implements OnInit {
     } else {
       this.editActivity.controls['hasSurvey'].setValue(false);
     }
+
+    if (this.editActivity.controls['rubric'].value == "true") {
+      this.editActivity.controls['rubric'].setValue(true);
+    } else {
+      this.editActivity.controls['rubric'].setValue(false);
+    }
     let TimeStart = moment.tz(this.editActivity.controls['startTime'].value, "America/Panama");
     let TimeEnd = moment.tz(this.editActivity.controls['endTime'].value, "America/Panama");
     this.RoweditActivity = {
@@ -261,9 +275,11 @@ export class EditActivityFormsComponent implements OnInit {
         this.ResponseMessage.Message = 'Cargado correctamente.';
         this.dialogRef.close(this.ResponseMessage);
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+
         this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = err;
+        this.ResponseMessage.Message = 'Intente nuevamente y verificar los datos ingresados.';
         this.dialogRef.close(this.ResponseMessage);
       }
     })

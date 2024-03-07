@@ -52,6 +52,6 @@ export interface EditActivity {
     activityTrainingType: number;
     evaluation: string;
     bibliographicCitation: string;
-    rubric: boolean;
+    rubric: boolean | string;
     activityClass: number;
 }
