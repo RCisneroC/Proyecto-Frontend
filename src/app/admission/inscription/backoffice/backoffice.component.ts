@@ -103,7 +103,7 @@ export class BackofficeComponent implements OnInit {
     this.loadCargos();
     this.loadOrganosCop();
     this.loadUniversidades();
-    this,this.loadIntituciones();
+    this.loadIntituciones();
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
