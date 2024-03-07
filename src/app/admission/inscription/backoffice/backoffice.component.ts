@@ -26,6 +26,9 @@ export class BackofficeComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  DependencyList: any;
+  CargosList: any;
+  OrganismoCopList: any;
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
@@ -93,6 +96,10 @@ export class BackofficeComponent implements OnInit {
       this.form.patchValue({ activityId: this.idActivity });
       this.getActividad();
     })
+
+    this.loadDependencias();
+    this.loadCargos();
+    this.loadOrganosCop();
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
@@ -147,6 +154,32 @@ export class BackofficeComponent implements OnInit {
     });
   }
 
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
+
+  loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
+
+  loadOrganosCop() {
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
 
   getSchedule() {
     if (this.selectedSchedule == '') {
