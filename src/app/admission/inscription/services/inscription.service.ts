@@ -92,17 +92,25 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   getCatalogDependencia() {
     return this.httpClient
-      .get<any>(environment.apiCajapp + 'ws_edupan/getDepInfo.php');
+      .get<any>(environment.apiCatalogs + 'Cedula/DataqueryCedula/getDepInfo');
   }
 
   getCatalogCargos() {
     return this.httpClient
-      .get<any>(environment.apiCajapp + 'ws_edupan/getJNInfo.php');
+      .get<any>(environment.apiCatalogs + 'Cedula/DataqueryCedula/getJNInfo');
   }
 
   getCatalogOrganismosCoperantes() {
     return this.httpClient
       .get<any>(environment.apiUrlSchedule + 'CooperatingOrganization/GetAll?StatusId=1');
+  }
+  getCatalogUniversidades() {
+    return this.httpClient
+      .get<any>(environment.apiUrlSchedule + 'University/GetAll');
+  }
+  getCatalogInstitucion() {
+    return this.httpClient
+      .get<any>(environment.apiUrlSchedule + 'Institution/GetAll');
   }
 
   GetAcadInfoEF(id: any) {
