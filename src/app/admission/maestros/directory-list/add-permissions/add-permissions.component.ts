@@ -84,12 +84,12 @@ export class AddPermissionsComponent implements OnInit {
           this.folder=new FolderPermission();
           
        
-            this.folder.folderId = this.fileFolderId;
+            this.folder.userFolderId = this.fileFolderId;
             this.folder.userFileId =this.fileFolderId;
             this.folder.userId = this.userSelected;
             this.folder.hasWritePermission = this.datos.hasWritePermission;
             this.folder.hasReadPermission = this.datos.hasReadPermission;
-            this.folder.hasExecutePermission = true;
+            this.folder.hasExecutePermission = this.datos.hasExecutePermission;
             this.folder.update = this.datos.update;
             this.folder.delete = this.datos.delete;
             this.folder.createdBy = this.user.id;
@@ -142,8 +142,8 @@ export class AddPermissionsComponent implements OnInit {
             },
             {
               name: 'Descargar archivo',
-              valor: this.datos.hasReadPermission,
-              id:3
+              valor: this.datos.hasExecutePermission,
+              id:4
             },
             {
               name: 'Visualizar archivo',
@@ -183,12 +183,12 @@ export class AddPermissionsComponent implements OnInit {
     //   this.files.delete = x==5?select:this.files.delete;
     //   this.files.createdBy = this.user.id;
     // } else {
-      this.folder.folderId = this.fileFolderId;
+      this.folder.userFolderId = this.fileFolderId;
       this.folder.userFileId = this.fileFolderId;
       this.folder.userId = this.userSelected;
       this.folder.hasWritePermission = x==0?select:this.folder.hasWritePermission;
       this.folder.hasReadPermission = x==3?select:this.folder.hasReadPermission;
-      this.folder.hasExecutePermission = true;
+      this.folder.hasExecutePermission = x==4?select:this.folder.hasExecutePermission;
       this.folder.update = x==1?select:this.folder.update;
       this.folder.delete = x==5?select:this.folder.delete;
       this.folder.createdBy = this.user.id;

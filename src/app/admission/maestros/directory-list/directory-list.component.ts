@@ -24,6 +24,8 @@ export interface FoodNode {
   folderName: string;
   extension?: string;
   hasWritePermission:boolean;
+  hasReadPermission:boolean;
+  hasExecutePermission:boolean;
   update:boolean;
   delete:boolean;
   parentId?: number;
@@ -38,6 +40,8 @@ export interface ExampleFlatNode {
   folderName: string;
   extension: string | undefined;
   hasWritePermission:boolean;
+  hasReadPermission:boolean;
+  hasExecutePermission:boolean;
   update:boolean;
   delete:boolean;
   level: number;
@@ -68,6 +72,8 @@ export class DirectoryListComponent  implements OnInit   {
       folderName: node.folderName,
       extension: node.extension,
       hasWritePermission:node.hasWritePermission,
+      hasReadPermission:node.hasReadPermission,
+      hasExecutePermission:node.hasExecutePermission,
       update:node.update,
       delete:node.delete,
       level: level,

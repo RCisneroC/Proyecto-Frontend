@@ -38,7 +38,7 @@ export interface DirectoryData {
 }
 
 export class FolderPermission {
-  folderId!: number;
+  userFolderId!: number;
   userFileId!:number;
   userId!: string;
   hasWritePermission: boolean=false;
