@@ -33,7 +33,8 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha</mat-label>
             <input (dateChange)="LoadTimeSlot()" [matDatepickerFilter]="FiltrarFechas" matInput [matDatepicker]="picker"
-              formControlName="fecha" [disabled]="deshabilitarFecha" [readonly]="true">
+              formControlName="fecha" [disabled]="deshabilitarFecha" [readonly]="true"
+              [min]="data.requestRooms.startDate" [max]="data.requestRooms.endDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker [disabled]="deshabilitarFecha"></mat-datepicker>
             <mat-error *ngIf="timeSlotsForm.get('fecha')?.hasError('required')">

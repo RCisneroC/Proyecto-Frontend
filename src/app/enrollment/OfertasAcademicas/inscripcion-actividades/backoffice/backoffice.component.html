@@ -29,8 +29,7 @@
                           <mat-label>Nombre</mat-label>
                           <input formControlName="firstName" matInput autocomplete="off" [readonly]="disabled"
                             [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.primer_nombre
+                             this.personData.verifyUsersResult[0].firstName
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -38,8 +37,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Primer Apellido</mat-label>
                           <input formControlName="lastName" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.apellido_paterno
+                              this.personData.verifyUsersResult[0].lastName
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -48,8 +46,7 @@
                           <mat-label>Segundo Apellido</mat-label>
                           <input formControlName="secondSurname" matInput autocomplete="off" [readonly]="disabled"
                             [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.apellido_materno
+                             this.personData.verifyUsersResult[0].secondsurname
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -57,8 +54,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Cedula</mat-label>
                           <input formControlName="cedula" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.cedula
+                             this.personData.verifyUsersResult[0].cedula
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -66,8 +62,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Sexo</mat-label>
                           <input formControlName="gender" matInput autocomplete="off" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.sexo
+                              this.personData.verifyUsersResult[0].gender
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -75,8 +70,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Provincia</mat-label>
                           <input formControlName="province" matInput autocomplete="off" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.provincia
+                             this.personData.verifyUsersResult[0]?.participant[0]?.province
                             " />
                         </mat-form-field>
                       </mat-grid-tile>
@@ -84,8 +78,7 @@
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Distrito</mat-label>
                           <input formControlName="judicialDistrict" matInput autocomplete="off" [ngModel]="
-                              personData[0]?.datasetPersona?.personaPublica
-                                ?.distrito
+                              this.personData.verifyUsersResult[0]?.participant[0]?.judicialDistrict
                             " />
                         </mat-form-field>
                       </mat-grid-tile>

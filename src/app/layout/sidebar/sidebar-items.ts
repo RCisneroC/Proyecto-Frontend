@@ -669,6 +669,18 @@ export const ROUTES: RouteInfo[] = [
     Role: 'Estudiante',
     submenu: [],
   },
+  {
+    path: '/enrollment/info-student',
+    title: 'Actualizar datos',
+    iconType: 'feather',
+    icon: 'edit',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    Role: 'Estudiante',
+    submenu: [],
+  },
   // Matricula Estudiante
   {
     path: '',
