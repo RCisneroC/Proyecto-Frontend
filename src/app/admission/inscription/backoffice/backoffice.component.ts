@@ -29,6 +29,8 @@ export class BackofficeComponent implements OnInit {
   DependencyList: any;
   CargosList: any;
   OrganismoCopList: any;
+  UniversityList: any;
+  InstitutionList: any;
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
@@ -100,6 +102,8 @@ export class BackofficeComponent implements OnInit {
     this.loadDependencias();
     this.loadCargos();
     this.loadOrganosCop();
+    this.loadUniversidades();
+    this,this.loadIntituciones();
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
@@ -177,6 +181,24 @@ export class BackofficeComponent implements OnInit {
       next: (data) => {
         console.log("Datos de Organismos Coperantes", data);
         this.OrganismoCopList = data;
+      }
+    })
+  }
+
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
+
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
       }
     })
   }
