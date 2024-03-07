@@ -211,6 +211,20 @@
                                                 [innerHTML]="safeHtml(_ActivityService._GetOneActivity.learningActivities)">
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Evaluación</strong></mat-label>
+                                            <div [innerHTML]="safeHtml(_ActivityService._GetOneActivity.evaluation)">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-xs-12 col-12">
+                                            <mat-label><strong>Referencias bibliográficas</strong></mat-label>
+                                            <div
+                                                [innerHTML]="safeHtml(_ActivityService._GetOneActivity.bibliographicCitation)">
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="row" *ngIf="_ActivityService._GetOneActivity.totalHours>80">
@@ -283,8 +297,8 @@
                     <div class="header" *ngIf="_ActivityService.loading==false">
                         <ng-container
                             *ngIf="_ActivityService._GetOneActivity.activityTrainingType==2; else elseTemplate">
-                            <h2 class="text-uppercase"><strong>Documentos requeridos por ISJUP ( <span
-                                        class="badge badge-solid-green">OPCIONAL</span> )</strong>
+                            <h2 class="text-uppercase"><strong>Documentos requeridos por ISJUP (<span
+                                        class="badge badge-solid-danger">REQUERIDO</span>)</strong>
 
                                 <button (click)="AddDocumentos()" matTooltip="Agregar Documentos"
                                     style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
