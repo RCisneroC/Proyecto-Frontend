@@ -42,6 +42,14 @@
                     <div class="right">
                       <ul class="tbl-export-btn">
                         <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="Cargar Actividades">
+                            <button mat-mini-fab color="primary" (click)="uploadFile()">
+                              <mat-icon class="col-white">upload</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+
+                        <li class="tbl-header-btn">
                           <div class="m-l-10" matTooltip="Nuevo">
                             <button mat-mini-fab color="primary" (click)="addNew()">
                               <mat-icon class="col-white">add</mat-icon>

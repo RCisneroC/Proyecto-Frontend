@@ -3,7 +3,7 @@ import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } fr
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RequestRooms } from 'app/admission/models/RequestRooms';
 import { MasterService } from 'app/admission/maestros/services/master.service';
-import {  ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,12 +12,14 @@ import { TimeSlot } from 'app/admission/models/TimeSlot';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { RoomRequestRoom } from 'app/admission/models/GetOneActivity';
 
 
 export interface DialogData {
   id: string;
   action: string;
   requestRooms: RequestRooms;
+  rooms: RoomRequestRoom[];
 }
 
 @Component({
@@ -55,7 +57,7 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
     private fb: UntypedFormBuilder,
     private dtc: ChangeDetectorRef,
     private RoomServices: MasterService,
-    private date:DatePipe
+    private date: DatePipe
   ) {
     this.timeSlotsForm = this.createTimeSlots();
   }
@@ -79,6 +81,10 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
 
   LoadRooms() {
     this.subscriptions.push(
+
+
+
+
       this.RoomServices.getRoomsFilterRangeDate(this.data.requestRooms.startDate,
         this.data.requestRooms.endDate).subscribe({
           next: (res) => {
@@ -129,7 +135,7 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
   LoadTimeSlot() {
     this.IsLoading = true;
     this.checkboxesFormArray.clear();
-    const  f : string | null = this.date.transform(this.timeSlotsForm.controls["fecha"].value,"yyyy-MM-dd");
+    const f: string | null = this.date.transform(this.timeSlotsForm.controls["fecha"].value, "yyyy-MM-dd");
     this.subscriptions.push(
       this.RoomServices.getTimeSlotByRoomAndDate(
         parseInt(this.timeSlotsForm.controls["salon"].value),

@@ -7,6 +7,7 @@ import { environment } from 'environments/environment.development';
 import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
 import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
+import { RoomDependencies } from 'app/admission/models/RoomDependencies';
 
 @Injectable({
   providedIn: 'root'
@@ -187,6 +188,11 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     };
 
     return this.httpClient.delete<any>(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoomDateTimeSlot', options);
+  }
+
+  getDependencies() {
+    return this.httpClient
+      .get<RoomDependencies[]>(environment.apiExtUrlDependencies);
   }
 
 }

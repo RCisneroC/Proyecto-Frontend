@@ -246,11 +246,31 @@ export class RoomRequestsComponent {
   }
 
   AddFranjaHoraria(item: RequestRooms) {
+    let salonesAsignados : RoomRequestRoom[] = [];
+
+    this._ActivityService._GetOneActivity.roomRequests.forEach(
+      (f) => {
+        if(f.id == item.id){
+          salonesAsignados = f.roomRequestRooms;
+        }
+      }
+    )
+
+    if(salonesAsignados.length == 0){
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Debe asignar salones a la solicitud.',
+        icon: "warning"
+      });
+      return;
+    }
+
     const dialogRef = this._dialog.open(FranjaHorariaComponent, {
       data: {
         accion: 'add-timeslot',
         id_actividad: this.paramsId,
         requestRooms: item,
+        rooms : salonesAsignados
       },
       disableClose: true,
       height:"650px",

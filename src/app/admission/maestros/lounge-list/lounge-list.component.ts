@@ -1,6 +1,6 @@
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
 import { Lounge } from 'app/admission/models/lounge';
@@ -26,6 +26,7 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
     'name',
     'description',
     'statusId',
+    'facilityDependencyName',
     'actions',
   ];
 
@@ -39,7 +40,8 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public masterService: MasterService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cb:ChangeDetectorRef
   ) {
     super();
   }
@@ -74,13 +76,15 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
         this.exampleDatabase?.dataChange.value.unshift(
           this.masterService.getDialogData()
         );
-        this.refreshTable();
+        this.loadData();
+        //this.refreshTable();
+        this.cb.detectChanges();
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
-      } else {
+      } else if (result.CodError != 0) {
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
@@ -103,18 +107,20 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
         lounge: row,
         action: 'edit',
       },
-      direction: tempDirection,
+      direction: tempDirection
     });
 
     this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-      if (result.CodError === 200) {
+
+       if (result.CodError === 200) {
          Swal.fire({
             title: "Escuela Judicial",
             text: result.Message,
             icon: "success"
          });
         this.loadData();
-      } else {
+        this.cb.detectChanges();
+      } else if (result.CodError != 0){
          Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
@@ -143,6 +149,7 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
               icon: "success"
             });
             this.loadData();
+            this.cb.detectChanges();
           },
           error: (err:any) => {
             console.log(err);

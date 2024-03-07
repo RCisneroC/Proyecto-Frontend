@@ -12,7 +12,7 @@ export const environment = {
   consultaPlanesAprobados: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetAll?StatusId=5',
   ConsultaMallaCurrcularByPlan: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
   apiEC: "https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
-  apiCatalogs:'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
+  apiCatalogs: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/Subject/',
   apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
@@ -21,6 +21,5 @@ export const environment = {
   apiUrlSubjectTask: "https://eira-api.azurewebsites.net/SearchSubjectTask",
   apiEira: 'https://eira-api.azurewebsites.net/',
   apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
-  apiCajapp: 'https://cajapp.organojudicial.gob.pa/'
-
+  apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo'
 };

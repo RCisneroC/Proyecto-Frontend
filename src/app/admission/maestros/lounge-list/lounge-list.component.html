@@ -85,6 +85,13 @@
                           </mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="facilityDependencyName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Dependencia
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Dependencia:</span>{{row.facilityDependencyName}}</mat-cell>
+                        </ng-container>
+
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
