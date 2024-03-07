@@ -136,7 +136,9 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" ins appearance="outline">
                           <mat-label>Universidad</mat-label>
-                          <input formControlName="university" matInput autocomplete="off" />
+                          <mat-select formControlName="university">
+                            <mat-option *ngFor="let row of UniversityList" [value]="row.name">{{row.name}}</mat-option>
+                          </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Universidad es <strong>obligatoria</strong>.
                           </mat-error>
@@ -145,7 +147,9 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Institución</mat-label>
-                          <input formControlName="institution" matInput autocomplete="off" />
+                          <mat-select formControlName="institution">
+                            <mat-option *ngFor="let row of InstitutionList" [value]="row.name">{{row.name}}</mat-option>
+                          </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Institución es <strong>obligatoria</strong>.
                           </mat-error>
@@ -154,7 +158,9 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Dependencia</mat-label>
-                          <input formControlName="dependency" matInput autocomplete="off" />
+                          <mat-select formControlName="dependency">
+                            <mat-option *ngFor="let row of DependencyList" [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
+                          </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Dependencia <strong>obligatoria</strong>.
                           </mat-error>
@@ -163,7 +169,9 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Entidad Cooperante</mat-label>
-                          <input formControlName="cooperatingEntity" matInput autocomplete="off" />
+                          <mat-select formControlName="cooperatingEntity">
+                            <mat-option *ngFor="let row of OrganismoCopList" [value]="row.name">{{row.name}}</mat-option>
+                          </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Entidad Cooperante es
                             <strong>obligatoria</strong>.
@@ -173,7 +181,9 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Posición</mat-label>
-                          <input formControlName="position" matInput autocomplete="off" />
+                          <mat-select formControlName="position">
+                            <mat-option *ngFor="let row of CargosList" [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
+                          </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Posición es <strong>obligatoria</strong>.
                           </mat-error>
