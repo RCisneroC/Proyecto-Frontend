@@ -62,7 +62,7 @@ export class CreateRoomsPeriodComponent implements OnInit {
       },
       error: (err: any) => {
         this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = err;
+        this.ResponseMessage.Message = "Intento Nuevamente.";
         this.dialogRef.close(this.ResponseMessage);
       }
     });

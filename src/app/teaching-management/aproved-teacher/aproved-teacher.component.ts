@@ -154,7 +154,7 @@ export class AprovedTeacherComponent {
 //     },
 //     error: (err) => {
 //       this.ResponseMessage.CodError = 500;
-//       this.ResponseMessage.Message = err;
+//       this.ResponseMessage.Message = "Intento Nuevamente.";
 //       this.dialogRef.close(this.ResponseMessage);
 //     }
 //   });

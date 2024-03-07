@@ -1,15 +1,15 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
-import {AcademicRecord, StudenAsistence, Student} from "../../teaching-management/models/Asistencias";
-import {AttenderResponse} from "../models/Career";
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {AnnualPlanService} from "../../admission/FormalEducations/Services/annual-plan.service";
-import {AuthService} from "@core";
-import {TeacherService} from "../../teaching-management/services/teacher.service";
-import {DetailsResponseEF} from "../../admission/models/participant";
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
+import { AcademicRecord, StudenAsistence, Student } from "../../teaching-management/models/Asistencias";
+import { AttenderResponse } from "../models/Career";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { AnnualPlanService } from "../../admission/FormalEducations/Services/annual-plan.service";
+import { AuthService } from "@core";
+import { TeacherService } from "../../teaching-management/services/teacher.service";
+import { DetailsResponseEF } from "../../admission/models/participant";
 
 export interface DialogData {
   id: string;
@@ -116,18 +116,18 @@ export class EnrollAttendenceFormComponent implements OnInit {
   getRecordAcademic() {
 
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId: this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
 
 
         const datos = {
-          academicSubjectRecordId:res["data"][0].id,
+          academicSubjectRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
           attended: this.AsistenciaForms.get("statusId")?.value,
 
@@ -153,19 +153,19 @@ export class EnrollAttendenceFormComponent implements OnInit {
   getRecordAcademicAct() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       //studentId: this.data.student.studentId,
     }
 
 
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
 
 
         const datos = {
-          ecAcademicRecordId:res["data"][0].id,
+          ecAcademicRecordId: res["data"][0].id,
           date: this.AsistenciaForms.get("startDate")?.value,
           attended: this.AsistenciaForms.get("statusId")?.value,
         }
@@ -251,7 +251,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
     //     },
     //     error: (err: any) => {
     //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
+    //       this.ResponseMessage.Message = "Intento Nuevamente.";
     //       this.dialogRef.close(this.ResponseMessage);
     //     }
     //   });
@@ -264,7 +264,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
     //     },
     //     error: (err: any) => {
     //       this.ResponseMessage.CodError = 500;
-    //       this.ResponseMessage.Message = err;
+    //       this.ResponseMessage.Message = "Intento Nuevamente.";
     //       this.dialogRef.close(this.ResponseMessage);
     //     }
     //   });
@@ -277,7 +277,7 @@ export class EnrollAttendenceFormComponent implements OnInit {
 
   getAsistencias() {
 
-    console.log('asistencialist',this.data.asistence);
+    console.log('asistencialist', this.data.asistence);
     this.ListAsistence = new MatTableDataSource<AttenderResponse>(this.data.asistence);
     this.ListAsistence.paginator = this.paginator;
   }

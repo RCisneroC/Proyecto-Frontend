@@ -6,17 +6,17 @@ import { SubjectServiceService } from 'app/admission/FormalEducations/Services/s
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   accion: string;
-  subject : Subject;
+  subject: Subject;
 }
 @Component({
   selector: 'app-forms-subject',
   templateUrl: './forms-subject.component.html',
   styleUrls: ['./forms-subject.component.scss']
 })
-export class FormsSubjectComponent  implements OnInit{
-public ResponseMessage: ResponseMessageMaestra = {
+export class FormsSubjectComponent implements OnInit {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   public action: string;
   public dialogTitle: string;
@@ -26,25 +26,25 @@ public ResponseMessage: ResponseMessageMaestra = {
     public dialogRef: MatDialogRef<FormsSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
-    private _SubjectService:SubjectServiceService
+    private _SubjectService: SubjectServiceService
   ) {
     console.log(data);
-    
+
     _SubjectService.init_Subject()
     this._SubjectModal = _SubjectService._Subject;
     this.action = data.accion;
     console.log(this.action);
-    
+
     if (this.action == 'add-asignaturas') {
-        this.dialogTitle ="Nueva Asignatura";
-        this._SubjectModal = data.subject;
+      this.dialogTitle = "Nueva Asignatura";
+      this._SubjectModal = data.subject;
     } else {
-      this.dialogTitle ="Editar Asignatura";
-        this._SubjectModal = data.subject;
+      this.dialogTitle = "Editar Asignatura";
+      this._SubjectModal = data.subject;
     }
     this._SubjectModalForms = this.createContactForm();
   }
-  createContactForm(): UntypedFormGroup{
+  createContactForm(): UntypedFormGroup {
     if (this.data.subject.hasLaboratory) {
       this.data.subject.hasLaboratory = '1';
     } else {
@@ -54,25 +54,25 @@ public ResponseMessage: ResponseMessageMaestra = {
     console.log(this.data.subject.hasLaboratory);
     console.log('====================================');
     return this.fb.group({
-      id:[this.data.subject.id],
-      name:[this.data.subject.name,[Validators.required]],
-      description:[this.data.subject.description],
-      acronym:[this.data.subject.acronym,[Validators.required]],
-      code:[this.data.subject.code,[Validators.required]],
-      numOfCredits:[this.data.subject.numOfCredits,[Validators.required]],
-      numOfHours:[this.data.subject.numOfHours,[Validators.required]],
-      numOfClasses:[this.data.subject.numOfClasses,[Validators.required]],
-      hasLaboratory:[this.data.subject.hasLaboratory,[Validators.required]],
-      evaluationCriteria:[this.data.subject.evaluationCriteria],
-      statusId:[this.data.subject.statusId],
+      id: [this.data.subject.id],
+      name: [this.data.subject.name, [Validators.required]],
+      description: [this.data.subject.description],
+      acronym: [this.data.subject.acronym, [Validators.required]],
+      code: [this.data.subject.code, [Validators.required]],
+      numOfCredits: [this.data.subject.numOfCredits, [Validators.required]],
+      numOfHours: [this.data.subject.numOfHours, [Validators.required]],
+      numOfClasses: [this.data.subject.numOfClasses, [Validators.required]],
+      hasLaboratory: [this.data.subject.hasLaboratory, [Validators.required]],
+      evaluationCriteria: [this.data.subject.evaluationCriteria],
+      statusId: [this.data.subject.statusId],
 
     });
   }
   ngOnInit(): void {
-      
+
   }
   submit() {
-   
+
   }
   confirmAdd() {
     if (this._SubjectModalForms.controls['hasLaboratory'].value == "1") {
@@ -85,34 +85,34 @@ public ResponseMessage: ResponseMessageMaestra = {
       this._SubjectModalForms.controls['code'].setValue(valor.toString())
       this._SubjectService.addSubject(this._SubjectModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Guardado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     } else {
-       this._SubjectService.updateSubject(this._SubjectModalForms.getRawValue())
+      this._SubjectService.updateSubject(this._SubjectModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     }
   }
-  onNoClick(){
-this.dialogRef.close();
+  onNoClick() {
+    this.dialogRef.close();
   }
 }

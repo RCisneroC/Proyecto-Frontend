@@ -6,7 +6,7 @@ import { StudyModeService } from 'app/admission/FormalEducations/Services/study-
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   action: string;
-  studyMode : StudyMode;
+  studyMode: StudyMode;
 }
 @Component({
   selector: 'app-forms-study-mode',
@@ -30,14 +30,14 @@ export class FormsStudyModeComponent implements OnInit {
   ) {
     console.log(data);
     this.action = data.action;
-   if (this.action === 'add') {
+    if (this.action === 'add') {
       this.dialogTitle = "Nuevo Modo de Estudio";
-     this._StudyModeModal = data.studyMode;
-   } else {
-     this.dialogTitle = "Editar Modo de Estudio";
-     this._StudyModeModal = data.studyMode;
-   }
-   this._StudyModeModalForms = this.createContactForm();
+      this._StudyModeModal = data.studyMode;
+    } else {
+      this.dialogTitle = "Editar Modo de Estudio";
+      this._StudyModeModal = data.studyMode;
+    }
+    this._StudyModeModalForms = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
@@ -52,41 +52,41 @@ export class FormsStudyModeComponent implements OnInit {
   ngOnInit(): void {
   }
   submit() {
-    
+
   }
 
-  confirmAdd(){
+  confirmAdd() {
     if (this.action == 'add') {
       this._StudyModeService.addStudyMode(this._StudyModeModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Guardado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     } else {
-       this._StudyModeService.updateStudyMode(this._StudyModeModalForms.getRawValue())
+      this._StudyModeService.updateStudyMode(this._StudyModeModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     }
   }
-  onNoClick(){
-this.dialogRef.close();
+  onNoClick() {
+    this.dialogRef.close();
   }
 }
