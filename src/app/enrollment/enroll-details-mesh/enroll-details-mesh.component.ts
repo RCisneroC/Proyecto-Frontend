@@ -96,7 +96,8 @@ export class EnrollDetailsMeshComponent {
   subjectEnrollmentResult: subjectEnrollmentResult[] = []
 
   dataInfo = new MatTableDataSource<Career>(this.dataSourceInfo);
-
+  public IsStudents: boolean = false;
+  public IsParticipant: boolean = false;
   @ViewChild('ListaInfo')
   set paginatorInfo(value: MatPaginator) {
     this.dataInfo.paginator = value;
@@ -122,20 +123,24 @@ export class EnrollDetailsMeshComponent {
         this._ActivityService._DetailsParticipanteEF = res;
         console.log("Activity obj", res);
         if (res.getDetailsResponse.length > 0) {
+          this.IsStudents = true;
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+
         }
+
         this._ActivityService.loading = false;
-        this.getInfo();
-        this.loadactivity();
       },
       error: (err) => {
+      }, complete: () => {
+        this.getInfo();
+        this.loadactivity();
       }
     })
   }
 
   getInfo() {
     //tomar degree id del path de la ruta
-    this._enrollservice.GetStudentsmesh(this._ActivityService._DetailsResponseEF.cedula).subscribe({
+    this._enrollservice.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
         console.log("Result", res.studentInnfo);
         this.dataInfo = new MatTableDataSource<Career>(res.studentInnfo);
@@ -145,10 +150,13 @@ export class EnrollDetailsMeshComponent {
   }
 
   loadactivity() {
-    this._enrollservice.GetStudentsActivity(this._ActivityService._DetailsResponseEF.cedula).subscribe({
+    this._enrollservice.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
         this.dataSourceActInfo = res.getStudentsActivityResponse;
-        this.dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        if (res.getStudentsActivityResponse.length > 0) {
+          this.IsParticipant = true;
+          this.dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(res.getStudentsActivityResponse);
+        }
         this.loading = false;
       }
     })
