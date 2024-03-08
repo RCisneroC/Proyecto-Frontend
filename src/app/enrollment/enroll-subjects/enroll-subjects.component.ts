@@ -85,29 +85,39 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   }
 
   detalle(row: Subject) {
-    let exist = false
-    console.log(this.subjectEnrollment);
-    if(this.subjectEnrollment){
-      this.subjectEnrollment.forEach(function (value) {
-        if (value.asignaturaId === row.id) {
-          exist = true
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: "La asignatura ya fue matriculada",
-            icon: "warning"
-          });
-        }
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['id'];
+      const cedula = this.authService.currentUserValue.cedula;
+      if (this.id) {
+        this._SubjectService.GetStudentsSubjects(this.id.toString(), cedula).subscribe({
+          next: (res) => {
+            this.subjectEnrollment = res.subjectEnrollmentResult;
+            let exist = false
+            console.log(this.subjectEnrollment);
+            if(this.subjectEnrollment){
+              this.subjectEnrollment.forEach(function (value) {
+                if (value.asignaturaId === row.id) {
+                  exist = true
+                  Swal.fire({
+                    title: "Escuela Judicial",
+                    text: "La asignatura ya fue matriculada",
+                    icon: "warning"
+                  });
+                }
 
-      });
-    }
-    if (!exist) {
-      const SubjectItem = JSON.stringify(row);
-      localStorage.setItem('enroll-subject', SubjectItem);
-      localStorage.setItem('enroll-subject-url', 'enrollment/enroll-subject/' + this.id);
-      this._router.navigate(['enrollment/enroll-room/']);
-    }
+              });
+            }
+            if (!exist) {
+              const SubjectItem = JSON.stringify(row);
+              localStorage.setItem('enroll-subject', SubjectItem);
+              localStorage.setItem('enroll-subject-url', 'enrollment/enroll-subject/' + this.id);
+              this._router.navigate(['enrollment/enroll-room/']);
+            }
+          }
+        })
+      }
 
-
+    })
   }
 
   private refreshTable() {
