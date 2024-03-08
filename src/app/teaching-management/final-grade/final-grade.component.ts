@@ -9,6 +9,9 @@ import { Direction } from '@angular/cdk/bidi';
 import { AddFinalGradeComponent } from '../add-final-grade/add-final-grade.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { User } from '@core/models/user';
+import { AuthService } from '@core/service/auth.service';
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 
 @Component({
   selector: 'app-final-grade',
@@ -30,6 +33,8 @@ export class FinalGradeComponent implements OnInit {
   public id: string = '';
   public ubicacion: string = '';
   idGeneral!: number;
+  user!: User;
+  typeUser!: string;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
@@ -37,13 +42,19 @@ export class FinalGradeComponent implements OnInit {
     // }, 1000);
   }
 
-  constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(public _TeacherService: TeacherService,
+  public dialog: MatDialog, private _Router: Router,
+  private activatedRoute: ActivatedRoute,
+  public authenticationService: AuthService,
+  public _RequestService: RequestServicesService,
+  ) {
     //this.getOneStudents();
     this.activatedRoute.params.subscribe((params) => {
 
       this.id = params['id'];
       this.idGeneral = Number(localStorage.getItem('id')) || 0;
-
+      this.user = this.authenticationService.currentUserValue;
+      this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
       const local = localStorage.getItem('tipoSolicitud') || '';
       const nameLocal = localStorage.getItem('actividadEscogida') || '';
       if (local != '') {
@@ -88,7 +99,17 @@ export class FinalGradeComponent implements OnInit {
     })
   }
   volverAtras() {
-    this._Router.navigate(['/teaching-management/teacher-history-list']);
+    const local = localStorage.getItem('tipoSolicitud')
+    if(local=="1"){
+      this._Router.navigate(['/teaching-management/teacher-history-list/']);
+    }else{
+      if(this.typeUser==="Administrador"){
+     
+        this._Router.navigate(['/teaching-management/career-list/',localStorage.getItem('cedula')]);
+      }else{
+        this._Router.navigate(['/teaching-management/career-list/']);
+      }
+    }
   }
 
 

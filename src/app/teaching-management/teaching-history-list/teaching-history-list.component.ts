@@ -90,17 +90,17 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     if (this.cedula == undefined) {
 
       this.cedula = this.user.cedula;
-      this.getSubjects();
+     
       
 
-    } if (this.cedula != undefined && this.cedula != '') {
+    } if (this.cedula != undefined && this.cedula != ''  && this.typeUser==="Profesor") {
      
       this.cedula = this.user.cedula;
-      this.getSubjects();
+     
      
     }
    
-    
+    this.getSubjects();
   }
 
 
@@ -127,11 +127,20 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   volverAtras() {
-  if(this.activatedRoute.snapshot.params["cedula"]!=undefined){
-    this._nav.navigate(['/teaching-management/teacher-detail/',this.activatedRoute.snapshot.params["cedula"]]);
-  }else{
-    this._nav.navigate(['/teaching-management/career-list/']);
-  }
+  
+    if(this.typeUser==="Administrador"){
+     
+      this._nav.navigate(['/teaching-management/career-list/',this.cedula]);
+    }else{
+      this._nav.navigate(['/teaching-management/career-list/']);
+    }
+  
+  
+  // if(this.activatedRoute.snapshot.params["cedula"]!=undefined){
+  //   this._nav.navigate(['/teaching-management/teacher-detail/',this.activatedRoute.snapshot.params["cedula"]]);
+  // }else{
+  //   this._nav.navigate(['/teaching-management/career-list/']);
+  // }
     
   }
 

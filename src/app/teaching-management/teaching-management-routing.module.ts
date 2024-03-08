@@ -58,6 +58,10 @@ const routes: Routes = [
     component: CareerListComponent,
   },
   {
+    path: "career-list/:cedula",
+    component: CareerListComponent,
+  },
+  {
     path: "statistics-list",
     component: StatisticsListComponent,
   },

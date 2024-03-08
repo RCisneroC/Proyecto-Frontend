@@ -68,15 +68,22 @@ ngOnInit() {
   this.cedula = this.activatedRoute.snapshot.params["cedula"];
   if (this.cedula == undefined) {
     this.cedula = this.user.cedula;
-    this.getCareers();
-    this.getActivities();
   }
+  
+  this.getCareers();
+  this.getActivities();
 }
 
 Detail(row: DegreeCurriculumDesign) {
   localStorage.setItem('idCareer', row.id.toString());
   localStorage.setItem('tipoSolicitud', "2");
-  this._nav.navigate(['/teaching-management/teacher-history-list/']);
+
+  if(this.typeUser==="Administrador"){
+    this._nav.navigate(['/teaching-management/teacher-history-list/',this.cedula]);
+  }else{
+    this._nav.navigate(['/teaching-management/teacher-history-list/']);
+  }
+ 
 }
 
 async getCareers() {
@@ -97,7 +104,7 @@ async getActivities() {
     next: (res) => {
 
       this.DataActivities = res;
-      console.log(res);
+     
 
     }
   })
@@ -137,6 +144,12 @@ sendEncuestas(row: Activity) {
 
 }
 
+
+volverAtrasAdm(){
+  this._nav.navigate(['/teaching-management/teacher-detail/',this.cedula]);
+
+}
+
 ViewSurveyAct(row: Activity) {
   const dialogRef = this.dialog.open(ViewSurveyComponent, {
     data: {
@@ -162,6 +175,7 @@ calificacionFinalActivity(row: Activity) {
   localStorage.setItem('tipoSolicitud', "2");
   localStorage.setItem('actividadEscogida', row.name);
   localStorage.setItem('id', row.id.toString());
+  localStorage.setItem('cedula', this.cedula);
   this._nav.navigate(['/teaching-management/list-students/', row.id]);
 
 }
@@ -170,6 +184,7 @@ Detail2(row: Activity) {
   localStorage.setItem('tipoSolicitud', "2");
   localStorage.setItem('actividadEscogida', row.name);
   localStorage.setItem('id', row.id.toString());
+  localStorage.setItem('cedula', this.cedula);
   this._nav.navigate(['/teaching-management/detail-subject/', row.id]);
 }
 
@@ -178,6 +193,7 @@ calificacionesActividades(row: Activity) {
   localStorage.setItem('actividadEscogida', row.name);
   localStorage.setItem('id', row.id.toString());
   localStorage.setItem('tipoSolicitud', "2");
+  localStorage.setItem('cedula', this.cedula);
   this._nav.navigate(['/teaching-management/detail-asignatura/', row.id]);
 }
 

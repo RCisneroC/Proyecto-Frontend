@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TeacherService } from '../services/teacher.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { User } from '@core';
+import { AuthService, User } from '@core';
 import { AddAttendanceFormsComponent } from '../add-attendance-forms/add-attendance-forms.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { Direction } from '@angular/cdk/bidi';
@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudenAsistence, Student } from '../models/Asistencias';
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 
 @Component({
   selector: 'app-list-students',
@@ -31,6 +32,8 @@ export class ListStudentsComponent implements OnInit {
   public id: string = '';
   public ubicacion: string = '';
   idGeneral!: number;
+  user!: User;
+  typeUser!: string;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     // setTimeout(() => {
@@ -38,13 +41,20 @@ export class ListStudentsComponent implements OnInit {
     // }, 1000);
   }
 
-  constructor(public _TeacherService: TeacherService, public dialog: MatDialog, private _Router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(public _TeacherService: TeacherService,
+  public dialog: MatDialog, private _Router: Router,
+  private activatedRoute: ActivatedRoute,
+  public authenticationService: AuthService,
+  public _RequestService: RequestServicesService,
+  
+  ) {
     //this.getOneStudents();
     this.activatedRoute.params.subscribe((params) => {
 
       this.id = params['id'];
       this.idGeneral = Number(localStorage.getItem('id')) || 0;
-
+      this.user = this.authenticationService.currentUserValue;
+      this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
@@ -93,7 +103,12 @@ export class ListStudentsComponent implements OnInit {
     if(local==="1"){
       this._Router.navigate(['/teaching-management/teacher-history-list/']);
     }else{
-      this._Router.navigate(['/teaching-management/career-list/']);
+      if(this.typeUser==="Administrador"){
+     
+        this._Router.navigate(['/teaching-management/career-list/',localStorage.getItem('cedula')]);
+      }else{
+        this._Router.navigate(['/teaching-management/career-list/']);
+      }
     }
     
   }
