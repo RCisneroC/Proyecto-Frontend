@@ -28,6 +28,7 @@ export class InscriptionExternalComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  typedoc: string = "CIP";
   DependencyList: any;
   CargosList: any;
   OrganismoCopList: any;
@@ -153,7 +154,13 @@ export class InscriptionExternalComponent implements OnInit {
             this.busquedaR = true;
             if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
               this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
-              this.disabled = false;
+              if(this.typedoc == "CIP"){
+                this.disabled = true;
+              }
+              else
+              {
+                this.disabled = false;
+              }
             } else {
               if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
                 this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
@@ -162,7 +169,13 @@ export class InscriptionExternalComponent implements OnInit {
               }
               this.busquedaR = true;
               this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
-              this.disabled = true;
+              if(this.typedoc == "CIP"){
+                this.disabled = true;
+              }
+              else
+              {
+                this.disabled = false;
+              }
             }
           }
 
@@ -192,6 +205,17 @@ export class InscriptionExternalComponent implements OnInit {
         complete: () => {
         }
       });
+  }
+
+  changeTypeDoc(){
+    console.log(this.typedoc);
+    if(this.typedoc == "PAS"){
+      this.getPersonData("999999");
+      this.disabled = false;
+    }
+    if(this.typedoc == "CIP"){
+      this.personData = null;
+    }
   }
 
   loadDependencias() {

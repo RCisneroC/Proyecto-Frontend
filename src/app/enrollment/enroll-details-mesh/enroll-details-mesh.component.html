@@ -9,7 +9,7 @@
 
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="card">
+        <div class="card" *ngIf="IsStudents">
           <div #imageElement class="header" *ngIf="_ActivityService.loading==false">
             <h2 class="text-uppercase">Detalles de Estudiante</h2>
           </div>
@@ -86,9 +86,9 @@
 
           </div>
 
-          <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+          <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
         </div>
-        <div class="card">
+        <div class="card" *ngIf="IsStudents">
           <div class="header">
             <h2 class="text-uppercase"><strong>Listado de matriculas</strong>
             </h2>
@@ -135,9 +135,9 @@
               <mat-paginator #ListaInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
-          <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar>
+          <!-- <mat-progress-bar mode="indeterminate" *ngIf="_ActivityService.loading==true"></mat-progress-bar> -->
         </div>
-        <div class="card">
+        <div class="card" *ngIf="IsParticipant">
           <div class="header">
             <h2 class="text-uppercase"><strong>Listado de Actividades</strong>
             </h2>
@@ -191,7 +191,7 @@
               <mat-paginator #ListaInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
-          <mat-progress-bar mode="indeterminate" *ngIf="loading==true"></mat-progress-bar>
+          <!-- <mat-progress-bar mode="indeterminate" *ngIf="loading==true"></mat-progress-bar> -->
         </div>
       </div>
     </div>
