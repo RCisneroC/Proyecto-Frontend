@@ -100,6 +100,7 @@ export class DetailSubjectComponent implements OnInit {
   TaskSubject!: TaskSubject;
   user: User;
   typeUser: string;
+  cedula: string;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -123,6 +124,7 @@ export class DetailSubjectComponent implements OnInit {
     
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
+    this.cedula = this.activeRouter.snapshot.params["cedula"];
   }
 
   ngOnInit() {
@@ -192,7 +194,12 @@ export class DetailSubjectComponent implements OnInit {
   volverAtras() {
     const local = localStorage.getItem('tipoSolicitud')
     if(local=="1"){
-      this._nav.navigate(['/teaching-management/teacher-history-list/']);
+      if(this.typeUser==="Administrador"){
+        this._nav.navigate(['/teaching-management/teacher-history-list/',localStorage.getItem('cedula')]);
+      }else{
+        this._nav.navigate(['/teaching-management/teacher-history-list/']);
+      }
+      
     }else{
       if(this.typeUser==="Administrador"){
      

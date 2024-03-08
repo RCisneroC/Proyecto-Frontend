@@ -79,7 +79,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activatedRoute.snapshot.params["cedula"];
-    if (this.typeUser != 'Profesor') {
+    if (this.typeUser != 'Profesor' && this.typeUser != 'Administrador') {
       this.displayedColumns.splice(5, 1);
       this.displayedColumns2.splice(5, 1);
 
@@ -149,6 +149,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
+    localStorage.setItem('cedula', this.cedula);
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.subjectId]);
   }
 
@@ -156,6 +157,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
+    localStorage.setItem('cedula', this.cedula);
     this._nav.navigate(['/teaching-management/detail-subject/', row.subjectId]);
   }
   Detail2(row: Activity) {
@@ -170,14 +172,13 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
       next: (res) => {
 
         this.DataSubjects = res;
-        console.log(this.DataSubjects);
 
       }
     })
   }
 
   async getActivities() {
-    //const ced=this.docForm.get('teacherCedula')?.value;
+ 
     this._teacherService.getActivitiesByCedula(this.cedula).subscribe({
       next: (res) => {
 
@@ -272,6 +273,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
+    localStorage.setItem('cedula', this.cedula);
     this._nav.navigate(['/teaching-management/list-students/', row.subjectId]);
   }
 

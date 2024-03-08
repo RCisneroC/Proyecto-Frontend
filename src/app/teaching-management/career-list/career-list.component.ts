@@ -175,7 +175,7 @@ calificacionFinalActivity(row: Activity) {
   localStorage.setItem('tipoSolicitud', "2");
   localStorage.setItem('actividadEscogida', row.name);
   localStorage.setItem('id', row.id.toString());
-  localStorage.setItem('cedula', this.cedula);
+   localStorage.setItem('cedula', this.cedula);
   this._nav.navigate(['/teaching-management/list-students/', row.id]);
 
 }

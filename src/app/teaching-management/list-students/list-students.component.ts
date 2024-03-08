@@ -101,7 +101,11 @@ export class ListStudentsComponent implements OnInit {
    
     const local = localStorage.getItem('tipoSolicitud')
     if(local==="1"){
-      this._Router.navigate(['/teaching-management/teacher-history-list/']);
+      if(this.typeUser==="Administrador"){
+        this._Router.navigate(['/teaching-management/teacher-history-list/',localStorage.getItem('cedula')]);
+      }else{
+        this._Router.navigate(['/teaching-management/teacher-history-list/']);
+      }
     }else{
       if(this.typeUser==="Administrador"){
      
