@@ -88,29 +88,29 @@
                         </ng-container>
 
                         <!-- actions -->
-                        <ng-container matColumnDef="actions" *ngIf="typeUser === 'Profesor'">
+                        <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
-                              matTooltip="Ver Detalle" (click)="$event.stopPropagation()" (click)="Detail(row)"
-                              class="tbl-action-btn">
+                            <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab
+                              color="primary" matTooltip="Ver Detalle" (click)="$event.stopPropagation()"
+                              (click)="Detail(row)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
 
                             </button>
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
-                              (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
+                            <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab
+                              color="primary" (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
                               (click)="calificacionesAasignatura(row)" class="tbl-action-btn">
                               <mat-icon>dvr</mat-icon>
                             </button>
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
-                              (click)="$event.stopPropagation()" matTooltip="Encuesta"
+                            <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab
+                              color="primary" (click)="$event.stopPropagation()" matTooltip="Encuesta"
                               (click)="sendEncuestaSubject(row)" class="tbl-action-btn">
                               <mat-icon>file_copy</mat-icon>
                             </button>
-                            <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
-                              (click)="$event.stopPropagation()" matTooltip="Calificación Final"
+                            <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab
+                              color="accent" (click)="$event.stopPropagation()" matTooltip="Calificación Final"
                               (click)="calificacionFinalSubject(row)" class="tbl-action-btn">
                               <mat-icon>av_timer</mat-icon>
 

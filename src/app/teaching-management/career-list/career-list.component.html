@@ -6,6 +6,14 @@
           [active_item]="'Historial docente'">
         </app-breadcrumb>
       </div>
+      
+      <div   *ngIf="typeUser === 'Administrador'" class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+        <div class="">
+          <button matTooltip="Regresar" mat-raised-button color="accent" (click)="volverAtrasAdm()">
+            <mat-icon>keyboard_backspace</mat-icon> Regresar
+          </button>
+        </div>
+      </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
@@ -24,7 +32,7 @@
                             <h2>Listado de carreras</h2>
                           </li>
                           <li class="tbl-search-box">
-                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <label ><i class="material-icons search-icon">search</i></label>
                             <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
                               aria-label="Search box">
                           </li>
@@ -59,7 +67,7 @@
                             <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
   
   
-                              <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                              <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab color="primary"
                                 matTooltip="Ver asignaturas" (click)="$event.stopPropagation()" (click)="Detail(row)"
                                 class="tbl-action-btn">
                                 <mat-icon>remove_red_eye</mat-icon>
@@ -106,7 +114,7 @@
             </div>
             <div class="body">
               <div class="body table-responsive ">
-                <table *ngIf="!view" mat-table [dataSource]="DataActivities" matSort
+                <table  mat-table [dataSource]="DataActivities" matSort
                 class="mat-cell advance-table">
 
 
@@ -150,29 +158,29 @@
 
 
                 <!-- actions -->
-                <ng-container matColumnDef="actions" *ngIf="typeUser === 'Profesor'">
+                <ng-container matColumnDef="actions">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
 
-                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                    <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab color="primary"
                       (click)="$event.stopPropagation()" matTooltip="Ver Detalle" (click)="Detail2(row)"
                       class="tbl-action-btn">
                       <mat-icon>remove_red_eye</mat-icon>
                     </button>
 
-                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                    <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab color="primary"
                       (click)="$event.stopPropagation()" matTooltip="Ingresar Asistencia"
                       (click)="calificacionesActividades(row)" class="tbl-action-btn">
                       <mat-icon>dvr</mat-icon>
                     </button>
-                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
+                    <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab color="primary"
                       (click)="$event.stopPropagation()" matTooltip="Encuesta" (click)="sendEncuestas(row)"
                       class="tbl-action-btn">
                       <mat-icon>file_copy</mat-icon>
                     </button>
 
-                    <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="accent"
+                    <button *ngIf="typeUser === 'Profesor' || typeUser === 'Administrador'" mat-mini-fab color="accent"
                       (click)="$event.stopPropagation()" matTooltip="Calificación Final"
                       (click)="calificacionFinalActivity(row)" class="tbl-action-btn">
                       <mat-icon>av_timer</mat-icon>
@@ -185,6 +193,10 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns2;" [style.cursor]="'pointer'" matRipple>
                 </mat-row>
               </table>
+              <div style="display: flex; justify-content: center; align-items: center;" *ngIf="DataActivities?.length === 0">
+                {{ noDataMessage }}
+              </div>
+              
               </div>
             </div>
         </div>

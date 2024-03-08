@@ -540,7 +540,8 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
   Historial() {
-    this._nav.navigate(['/teaching-management/teacher-history-list/', this.DataTeacher.cedula]);
+ 
+    this._nav.navigate(['/teaching-management/career-list/', this.DataTeacher.cedula]);
   }
 
 
