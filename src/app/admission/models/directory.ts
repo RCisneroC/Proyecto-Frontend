@@ -45,6 +45,7 @@ export class FolderPermission {
   hasReadPermission: boolean=false;
   hasExecutePermission: boolean=false;
   update: boolean=false;
+  hasOnloadfile:boolean=false;
   delete: boolean=false;
   createdBy!: string;
   lastModifiedBy!:string;

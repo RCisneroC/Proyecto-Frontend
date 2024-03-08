@@ -87,11 +87,12 @@ export class AddPermissionsComponent implements OnInit {
             this.folder.userFolderId = this.fileFolderId;
             this.folder.userFileId =this.fileFolderId;
             this.folder.userId = this.userSelected;
-            this.folder.hasWritePermission = this.datos.hasWritePermission;
-            this.folder.hasReadPermission = this.datos.hasReadPermission;
-            this.folder.hasExecutePermission = this.datos.hasExecutePermission;
-            this.folder.update = this.datos.update;
-            this.folder.delete = this.datos.delete;
+            this.folder.hasWritePermission = this.datos.hasWritePermission===undefined?false:this.datos.hasWritePermission;
+            this.folder.hasReadPermission = this.datos.hasReadPermission===undefined?false:this.datos.hasReadPermission;
+            this.folder.hasExecutePermission = this.datos.hasExecutePermission===undefined?false:this.datos.hasExecutePermission;
+            this.folder.hasOnloadfile = this.datos.hasOnloadfile===undefined?false:this.datos.hasOnloadfile;
+            this.folder.update = this.datos.update===undefined?false:this.datos.update;
+            this.folder.delete = this.datos.delete===undefined?false:this.datos.delete;
             this.folder.createdBy = this.user.id;
             this.folder.lastModifiedBy=this.user.id;
           
@@ -125,8 +126,8 @@ export class AddPermissionsComponent implements OnInit {
 
               {
                 name: 'Cargar archivo',
-                valor: this.datos.hasWritePermission,
-                id:0
+                valor: this.datos.hasOnloadfile,
+                id:2
               }
               
               
@@ -189,6 +190,7 @@ export class AddPermissionsComponent implements OnInit {
       this.folder.hasWritePermission = x==0?select:this.folder.hasWritePermission;
       this.folder.hasReadPermission = x==3?select:this.folder.hasReadPermission;
       this.folder.hasExecutePermission = x==4?select:this.folder.hasExecutePermission;
+      this.folder.hasOnloadfile = x==2?select:this.folder.hasOnloadfile;
       this.folder.update = x==1?select:this.folder.update;
       this.folder.delete = x==5?select:this.folder.delete;
       this.folder.createdBy = this.user.id;
@@ -198,11 +200,21 @@ export class AddPermissionsComponent implements OnInit {
 
   onSubmit() {
   if(this.first){
-    this.addPermissionUserFiles();
-    this.addPermissionUserFolder();
+    if (this.data.action==="file"){
+      this.addPermissionUserFiles();
+    }else{
+      this.addPermissionUserFolder();
+    }
+    
+    
   }else{
+  if (this.data.action==="file"){
     this.updatePermissionUserFiles();
+  }else{
     this.updatePermissionUserFolder();
+  }
+    
+   
   }
    
    

@@ -85,7 +85,7 @@
                                 <div class="example-menu" cdkMenu>
                                   <!-- <button class="example-menu-item" (click)="newFolder(data)" cdkMenuItem>Carpeta</button> -->
                                   <!-- <button class="example-menu-item" (click)="downloadZip(data)" cdkMenuItem>Descargar zip</button> -->
-                                  <button class="example-menu-item" *ngIf="data.extension===null && data.hasWritePermission"  (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
+                                  <button class="example-menu-item" *ngIf="data.extension===null && data.hasOnloadfile"  (click)="newfile(data,'folder')" cdkMenuItem>Cargar archivo</button>
                                   <button class="example-menu-item" *ngIf="data.extension===null && data.update" (click)="newFolder(data,'folder')" cdkMenuItem>Cambiar nombre</button>
                                    <button class="example-menu-item" *ngIf="data.extension===null && data.hasWritePermission" (click)="newFolder(data,'newfolder')" cdkMenuItem>Nueva carpeta</button>
                                   <button class="example-menu-item" *ngIf="data.extension!==null && data.delete" (click)="newfile(data,'file')" cdkMenu2Item>Remplazar archivo</button>

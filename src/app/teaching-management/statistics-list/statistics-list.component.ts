@@ -56,7 +56,7 @@ DataActivities!: any;
 // docForm!: UntypedFormGroup;
 view: boolean = false;
 selectedOption: number = 2;
-
+noDataMessage:string="No se encontraron resultados";
 
 public typeUser: string = '';
 idCareer!: number;
