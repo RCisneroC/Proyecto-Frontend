@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {ResponseMessageExtended, ResponseMessageMaestra} from 'app/admission/models/ResponseMessage';
+import { ResponseMessageExtended, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { ApiResponse, ApiResponseOne, GetDataResultResponse, Participant } from 'app/admission/models/participant';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 export interface DialogData {
@@ -84,13 +84,13 @@ export class ApproveParticipantComponent {
 
         this.ResponseMessageExt.CodError = 200;
         this.ResponseMessageExt.Message = 'Aprobado correctamente.';
-        this.ResponseMessageExt.status =  + this.ApprovedForm.getRawValue().statusId;
+        this.ResponseMessageExt.status = + this.ApprovedForm.getRawValue().statusId;
 
         this.dialogRef.close(this.ResponseMessageExt);
       },
       error: (err) => {
         this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = err;
+        this.ResponseMessage.Message = "Intento Nuevamente.";
         this.dialogRef.close(this.ResponseMessage);
       }
     });

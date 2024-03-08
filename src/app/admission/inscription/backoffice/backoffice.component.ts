@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InscriptionService } from '../services/inscription.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from "@angular/common/http";
-import { throwError } from "rxjs";
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
@@ -11,7 +10,7 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { Requirement } from 'app/admission/models/Requeriminet';
-import { ValidateFileResponse, VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
+import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 
 @Component({
   selector: 'app-backoffice',
@@ -26,10 +25,17 @@ export class BackofficeComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  DependencyList: any;
+  CargosList: any;
+  OrganismoCopList: any;
+  UniversityList: any;
+  InstitutionList: any;
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
   disabled: boolean = false;
+  showForm: boolean = false;
+  typedoc: string = "CIP";
   mostrarActividad: boolean = true;
   mostrarCronograma: boolean = true;
   fileSelected: boolean = false
@@ -93,6 +99,12 @@ export class BackofficeComponent implements OnInit {
       this.form.patchValue({ activityId: this.idActivity });
       this.getActividad();
     })
+
+    this.loadDependencias();
+    this.loadCargos();
+    this.loadOrganosCop();
+    this.loadUniversidades();
+    this.loadIntituciones();
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
@@ -119,8 +131,15 @@ export class BackofficeComponent implements OnInit {
         next: (data) => {
 
           this.loading = false;
-          this.disabled = true;
+          if(this.typedoc == "CIP"){
+            this.disabled = true;
+          }
+          else
+          {
+            this.disabled = false;
+          }
           this.personData = data;
+          this.showForm = true;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
         error: (e) => this.loading = false,
@@ -146,7 +165,60 @@ export class BackofficeComponent implements OnInit {
       complete: () => console.info('Complete')
     });
   }
+changeTypeDoc(){
+    console.log(this.typedoc);
+    if(this.typedoc == "PAS"){
+      this.getPersonData("999999");
+      this.disabled = false;
+    }
+    if(this.typedoc == "CIP"){
+      this.personData = null;
+    }
+}
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
 
+  loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
+
+  loadOrganosCop() {
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
+
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
+
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
+      }
+    })
+  }
 
   getSchedule() {
     if (this.selectedSchedule == '') {

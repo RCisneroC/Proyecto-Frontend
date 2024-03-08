@@ -8,7 +8,7 @@ import { RequirementService } from '../services/requirement.service';
 export interface DialogData {
   id: string;
   action: string;
-  requirement : Requirement;
+  requirement: Requirement;
 }
 @Component({
   selector: 'app-document-required-form',
@@ -16,9 +16,9 @@ export interface DialogData {
   styleUrls: ['./document-required-form.component.scss']
 })
 export class DocumentRequiredFormComponent {
-public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   public action: string;
   public dialogTitle: string;
@@ -27,7 +27,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     id: 0,
     description: '',
     name: '',
-    statusId:1
+    statusId: 1
   }
   constructor(
     public dialogRef: MatDialogRef<DocumentRequiredFormComponent>,
@@ -37,7 +37,7 @@ public ResponseMessage: ResponseMessageMaestra = {
   ) {
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle ="Editar Documento Requerido";
+      this.dialogTitle = "Editar Documento Requerido";
       this.requirement = data.requirement;
     } else {
       this.dialogTitle = 'Nuevo Documento Requerido';
@@ -46,7 +46,7 @@ public ResponseMessage: ResponseMessageMaestra = {
   }
 
 
-    createContactForm(): UntypedFormGroup {
+  createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.requirement.id],
       name: [this.requirement.name, [Validators.required]],
@@ -61,36 +61,36 @@ public ResponseMessage: ResponseMessageMaestra = {
     this.dialogRef.close();
   }
 
-    public confirmAdd(): void {
-    if  (this.action==='edit'){
+  public confirmAdd(): void {
+    if (this.action === 'edit') {
       this.requirementService.updateRequirement(this.requirementForm.getRawValue())
         .subscribe({
-          next: (res:ResponseGenerica) => {
+          next: (res: ResponseGenerica) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
-          
+        });
+
     } else {
       this.requirementService.addRequirement(this.requirementForm.getRawValue())
-      .subscribe({
+        .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Creado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
+        });
     }
   }
 }

@@ -24,104 +24,104 @@ export interface DialogData {
 
 export class AddActivityComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
-  CodError: 0,
-  Message:''
-}
-displayedColumns: string[] = [
-  'id',
-  'name',
-  'activityModeName',
-  'activityTypeName',
-
-];
-action: string;
-dialogTitle: string='';
-AsignarActivitiesForm: UntypedFormGroup;
-id_actividad: string = '';  
-
-
-dataSourceActivity: Activity[] = [];
-activityList = new MatTableDataSource<Activity>(this.dataSourceActivity);
-public IsLoading: boolean = true;
- @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
- 
-   setTimeout(() => {
-
-     this.activityList.paginator = value;
-     this.IsLoading = false;
-   }, 3000);
-}
-
-constructor(
-  public dialogRef: MatDialogRef<AsignarDocentesComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  public _teacherService:TeacherService,
-  public _activityService:ActivityService,
-  private fb: UntypedFormBuilder
-) {
-  // Set the defaults
-  this.action = data.accion;
-
-  if (this.action === 'add-Activities') {
-    this.dialogTitle ="Agregar actividades";
+    CodError: 0,
+    Message: ''
   }
-  this.LoadActivities();
-  this.AsignarActivitiesForm = this.fb.group({
-    teacherId:[data.teacher.teacherId,[Validators.required]],
-    activityList: this.fb.array([]),
-    Action:1
-  });
-}
-ngOnInit(): void {
-  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-  //Add 'implements OnInit' to the class.
-   this.activityList.paginator = this.paginator;
-} 
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'activityModeName',
+    'activityTypeName',
 
-   applyFilter(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.activityList.filter = filterValue.trim().toLowerCase();
-}
+  ];
+  action: string;
+  dialogTitle: string = '';
+  AsignarActivitiesForm: UntypedFormGroup;
+  id_actividad: string = '';
 
-LoadActivities() {
-  this._activityService.getAllActivity2().subscribe({
-    next: (res: Activity[]) => {
-      const interseccion = res.filter(obj1 => !this.data.teacher.listActivity.some(obj2 => obj2.id === obj1.id));
-      this.activityList =new MatTableDataSource<Activity>(interseccion);
+
+  dataSourceActivity: Activity[] = [];
+  activityList = new MatTableDataSource<Activity>(this.dataSourceActivity);
+  public IsLoading: boolean = true;
+  @ViewChild('paginatorPoster') set paginator(value: MatPaginator) {
+
+    setTimeout(() => {
+
+      this.activityList.paginator = value;
+      this.IsLoading = false;
+    }, 3000);
+  }
+
+  constructor(
+    public dialogRef: MatDialogRef<AsignarDocentesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    public _teacherService: TeacherService,
+    public _activityService: ActivityService,
+    private fb: UntypedFormBuilder
+  ) {
+    // Set the defaults
+    this.action = data.accion;
+
+    if (this.action === 'add-Activities') {
+      this.dialogTitle = "Agregar actividades";
     }
-  });
-}
+    this.LoadActivities();
+    this.AsignarActivitiesForm = this.fb.group({
+      teacherId: [data.teacher.teacherId, [Validators.required]],
+      activityList: this.fb.array([]),
+      Action: 1
+    });
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.activityList.paginator = this.paginator;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.activityList.filter = filterValue.trim().toLowerCase();
+  }
+
+  LoadActivities() {
+    this._activityService.getAllActivity2().subscribe({
+      next: (res: Activity[]) => {
+        const interseccion = res.filter(obj1 => !this.data.teacher.listActivity.some(obj2 => obj2.id === obj1.id));
+        this.activityList = new MatTableDataSource<Activity>(interseccion);
+      }
+    });
+  }
 
 
-submit() {
-  // AddTeachers
-  this._teacherService.addActivitiesTeacher(this.AsignarActivitiesForm.getRawValue()).subscribe({
-    next: (res: any) => {
-      this.ResponseMessage.CodError = 200;
-      this.ResponseMessage.Message = 'Cargado correctamente.';
-      this.dialogRef.close(this.ResponseMessage);
-    },
-    error: (err: any) => {
-      this.ResponseMessage.CodError = 500;
-      this.ResponseMessage.Message = err;
-      this.dialogRef.close(this.ResponseMessage);
-    }
-  });
-}
-get checkboxesFormArray(): UntypedFormArray {
- 
-  
-  return this.AsignarActivitiesForm.get('activityList') as UntypedFormArray;
-}
+  submit() {
+    // AddTeachers
+    this._teacherService.addActivitiesTeacher(this.AsignarActivitiesForm.getRawValue()).subscribe({
+      next: (res: any) => {
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Cargado correctamente.';
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      error: (err: any) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = "Intento Nuevamente.";
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
+  }
+  get checkboxesFormArray(): UntypedFormArray {
+
+
+    return this.AsignarActivitiesForm.get('activityList') as UntypedFormArray;
+  }
 
   checkboxChange(event: any, checkboxId: any): void {
-  if (event.checked) {
-    this.checkboxesFormArray.push(this.fb.control(checkboxId.toString()));
-  } else {
-    const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
-    if (index !== -1) {
-      this.checkboxesFormArray.removeAt(index);
+    if (event.checked) {
+      this.checkboxesFormArray.push(this.fb.control(checkboxId.toString()));
+    } else {
+      const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
+      if (index !== -1) {
+        this.checkboxesFormArray.removeAt(index);
+      }
     }
   }
-}
 }

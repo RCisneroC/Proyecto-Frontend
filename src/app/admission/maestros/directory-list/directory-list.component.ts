@@ -26,6 +26,7 @@ export interface FoodNode {
   hasWritePermission:boolean;
   hasReadPermission:boolean;
   hasExecutePermission:boolean;
+  hasOnloadfile:boolean;
   update:boolean;
   delete:boolean;
   parentId?: number;
@@ -42,6 +43,7 @@ export interface ExampleFlatNode {
   hasWritePermission:boolean;
   hasReadPermission:boolean;
   hasExecutePermission:boolean;
+  hasOnloadfile:boolean;
   update:boolean;
   delete:boolean;
   level: number;
@@ -74,6 +76,7 @@ export class DirectoryListComponent  implements OnInit   {
       hasWritePermission:node.hasWritePermission,
       hasReadPermission:node.hasReadPermission,
       hasExecutePermission:node.hasExecutePermission,
+      hasOnloadfile:node.hasOnloadfile,
       update:node.update,
       delete:node.delete,
       level: level,

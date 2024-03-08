@@ -11,13 +11,13 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error: Error | HttpErrorResponse) {
     const errorService = this.injector.get(ErrorService);
     const notifier = this.injector.get(NotificationService);
-    let message:string;
+    let message: string;
     if (error instanceof HttpErrorResponse) {
       message = errorService.getServerErrorMessage(error);
-      notifier.showError(message);
+      // notifier.showError(message);
     } else {
       message = errorService.getClientErrorMessage(error);
-      notifier.showError(message);
+      // notifier.showError(message);
     }
   }
 }

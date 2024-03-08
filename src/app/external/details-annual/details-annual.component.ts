@@ -172,7 +172,7 @@ export class DetailsAnnualComponent {
     this._PlanAnnual.GetAnualPlan(this.converId).subscribe({
       next: (res) => {
         console.log(res);
-
+        localStorage.setItem("Plan-anual-detail", res.name);
       },
       error: () => {
 
@@ -260,6 +260,7 @@ export class DetailsAnnualComponent {
     })
   }
   inscribir() {
+    localStorage.setItem("backplandetails",'/student/details-annual-plan/' + this.paramsId)
     this._router.navigate(['/student/external-EF/' + this.paramsId]);
   }
 

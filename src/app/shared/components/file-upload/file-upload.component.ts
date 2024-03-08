@@ -24,7 +24,7 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.onChange(file);
     this.file = file;
     if (file != null) {
-      if (file.type != 'application/pdf' && file?.type != 'image/png' && file?.type != 'image/jpeg') {
+      if (file.type != 'application/pdf' && file?.type != 'image/png' && file?.type != 'image/jpeg' && file?.type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
         Swal.fire({
           title: "Escuela Judicial",
           text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',

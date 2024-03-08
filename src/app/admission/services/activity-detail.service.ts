@@ -796,7 +796,9 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   SaveCommentEF(data: any) {
     return this.httpClient.post(environment.apiEF + 'Survey/CreateComment', data);
   }
-
+  AddFileActivity(data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'CurriculumDesign/CreateActivityFromExcel', data);
+  }
 
 
   initService() {

@@ -108,7 +108,7 @@ export class FormsDegreeComponent implements OnInit {
           },
           error: (err) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
@@ -122,7 +122,7 @@ export class FormsDegreeComponent implements OnInit {
           },
           error: (err) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });

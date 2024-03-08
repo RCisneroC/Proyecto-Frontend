@@ -15,33 +15,33 @@ export interface DialogData {
 export class AddCompetenciasComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   action: string;
-  dialogTitle: string='';
+  dialogTitle: string = '';
   CompetenceForms: UntypedFormGroup;
   id_carrera: string = '';
   constructor(
     public dialogRef: MatDialogRef<AddCompetenciasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _CompetencesService:CompetencesService,
+    public _CompetencesService: CompetencesService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
     if (this.action === 'add') {
-      this.dialogTitle ="Agregar Competencia";
+      this.dialogTitle = "Agregar Competencia";
       this.id_carrera = data.id_carrera;
     }
     this.CompetenceForms = this.fb.group({
-      name:['',[Validators.required]],
-      description:['',[Validators.required]],
-      degreeId:[data.id_carrera,[Validators.required]]
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      degreeId: [data.id_carrera, [Validators.required]]
     });
   }
   ngOnInit(): void {
-     
+
   }
 
   submit() {
@@ -53,7 +53,7 @@ export class AddCompetenciasComponent implements OnInit {
       },
       error: (err: any) => {
         this.ResponseMessage.CodError = 500;
-        this.ResponseMessage.Message = err;
+        this.ResponseMessage.Message = "Intento Nuevamente.";
         this.dialogRef.close(this.ResponseMessage);
       }
     });

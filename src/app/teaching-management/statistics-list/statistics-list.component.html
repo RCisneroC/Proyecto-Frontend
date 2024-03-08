@@ -114,7 +114,9 @@
                           <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                           </mat-row>
                         </table>
-  
+                        <!-- <div style="display: flex; justify-content: center; align-items: center;" *ngIf="DataSubjects?.length === 0">
+                          {{ noDataMessage }}
+                        </div> -->
                         <table *ngIf="!view" mat-table [dataSource]="DataActivities" matSort
                           class="mat-cell advance-table">
   
@@ -179,6 +181,10 @@
                           <mat-row *matRowDef="let row; columns: displayedColumns2;" [style.cursor]="'pointer'" matRipple>
                           </mat-row>
                         </table>
+                        
+                        <!-- <div style="display: flex; justify-content: center; align-items: center;" *ngIf="DataActivities?.length === 0">
+                          {{ noDataMessage }}
+                        </div> -->
                       </div>
                       <!-- Loading spinner -->
                       <!-- <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">

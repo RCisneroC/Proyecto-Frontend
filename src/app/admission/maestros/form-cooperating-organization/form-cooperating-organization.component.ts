@@ -7,7 +7,7 @@ import { Cooperating } from 'app/admission/models/Cooperating';
 export interface DialogData {
   id: string;
   action: string;
-  cooperating : Cooperating;
+  cooperating: Cooperating;
 }
 @Component({
   selector: 'app-form-cooperating-organization',
@@ -27,7 +27,7 @@ export class FormCooperatingOrganizationComponent {
     description: '',
     name: '',
     statusId: 1,
-    logo:'',
+    logo: '',
   }
   constructor(
     public dialogRef: MatDialogRef<FormCooperatingOrganizationComponent>,
@@ -39,23 +39,23 @@ export class FormCooperatingOrganizationComponent {
     this.action = data.action;
     if (this.action === 'edit') {
       this.dialogTitle = "Editar organización cooperativa";
-      this.cooperativeForm= this.fb.group({
-      id: [this.data.cooperating.id],
-      name: [this.cooperative.name, [Validators.required]],
-      description: [this.cooperative.description],
-      logo: [this.cooperative.logo],
-      statusId: [this.cooperative.statusId, [Validators.required]],
-    });
-      
+      this.cooperativeForm = this.fb.group({
+        id: [this.data.cooperating.id],
+        name: [this.cooperative.name, [Validators.required]],
+        description: [this.cooperative.description],
+        logo: [this.cooperative.logo],
+        statusId: [this.cooperative.statusId, [Validators.required]],
+      });
+
     } else {
       this.dialogTitle = 'Nueva organización cooperativa';
-      this.cooperativeForm= this.fb.group({
-      id: [this.data.cooperating.id],
-      name: [this.cooperative.name, [Validators.required]],
-      description: [this.cooperative.description],
-      logo: [this.cooperative.logo,[Validators.required]],
-      statusId: [this.cooperative.statusId, [Validators.required]],
-    });
+      this.cooperativeForm = this.fb.group({
+        id: [this.data.cooperating.id],
+        name: [this.cooperative.name, [Validators.required]],
+        description: [this.cooperative.description],
+        logo: [this.cooperative.logo, [Validators.required]],
+        statusId: [this.cooperative.statusId, [Validators.required]],
+      });
     }
     // this.cooperativeForm = this.createContactForm();
   }
@@ -66,7 +66,7 @@ export class FormCooperatingOrganizationComponent {
       id: [this.data.cooperating.id],
       name: [this.cooperative.name, [Validators.required]],
       description: [this.cooperative.description],
-      logo: [this.cooperative.logo,[Validators.required]],
+      logo: [this.cooperative.logo, [Validators.required]],
       statusId: [this.cooperative.statusId, [Validators.required]],
     });
   }
@@ -80,9 +80,9 @@ export class FormCooperatingOrganizationComponent {
   public confirmAdd(): void {
     console.log(this.cooperativeForm.getRawValue());
     var formData = new FormData();
-    formData.append('Name',this.cooperativeForm.controls['name'].value);
-    formData.append('Logo',this.cooperativeForm.controls['logo'].value);
-    formData.append('Description',this.cooperativeForm.controls['description'].value);
+    formData.append('Name', this.cooperativeForm.controls['name'].value);
+    formData.append('Logo', this.cooperativeForm.controls['logo'].value);
+    formData.append('Description', this.cooperativeForm.controls['description'].value);
     formData.append('Id', this.cooperativeForm.controls['id'].value);
     formData.append('StatusId', this.cooperativeForm.controls['statusId'].value);
     if (this.action === 'edit') {
@@ -95,11 +95,11 @@ export class FormCooperatingOrganizationComponent {
           },
           error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
-          
+
     } else {
       this._CooperationgOrganizationService.addCooperating(formData)
         .subscribe({
@@ -110,7 +110,7 @@ export class FormCooperatingOrganizationComponent {
           },
           error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });

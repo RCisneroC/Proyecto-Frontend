@@ -76,6 +76,7 @@ export class InscriptionFormsExternalComponent {
   cedulaParticipant: string = "";
   loadingFile: boolean = false;
   planId: string = "";
+  planName: string = "";
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
@@ -113,6 +114,7 @@ export class InscriptionFormsExternalComponent {
   constructor(private fb:
     FormBuilder,
     private Path: ActivatedRoute,
+    private _Router: Router,
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     public _router: Router,
@@ -167,6 +169,10 @@ export class InscriptionFormsExternalComponent {
       this.converId = this._ActivityService.decryptData(params['id'], 'Panama2019$');
       this.planId = this.converId;
       this.loadMeshList(this.planId);
+      const plan = localStorage.getItem("Plan-anual-detail");
+      if(plan){
+        this.planName = plan;
+      }
     })
   }
 
@@ -176,6 +182,11 @@ export class InscriptionFormsExternalComponent {
         this.meshList = data;
       }
     })
+  }
+
+  volverAtras() {
+    const params = localStorage.getItem('backplandetails');
+    this._Router.navigate([params]);
   }
 
   getPersonData(cedula: string) {

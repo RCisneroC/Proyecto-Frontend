@@ -15,6 +15,7 @@ import { ScheduleActivitiesService } from '../services/schedule-activities.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
 import Swal from 'sweetalert2';
+import { UploadActivityAllComponent } from '../Forms/upload-activity-all/upload-activity-all.component';
 
 @Component({
   selector: 'app-schedule-activity-detail',
@@ -85,6 +86,43 @@ export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
       }
     })
   }
+
+  uploadFile() {
+
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(UploadActivityAllComponent, {
+      data: {
+        id_curriculum: this.id,
+        action: 'upload',
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
   addNew() {
 
     let tempDirection: Direction;
@@ -121,6 +159,7 @@ export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
+
   editCall(row: ScheduleActivityDetail) {
 
     this.id = row.curriculumDesignId;
