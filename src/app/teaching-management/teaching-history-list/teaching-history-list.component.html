@@ -16,7 +16,7 @@
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
- 
+
           <div class="header">
             <h2 class="text-uppercase"><strong>Historial Asignaturas</strong></h2>
           </div>
@@ -65,17 +65,17 @@
                         </ng-container>
 
                         <ng-container matColumnDef="numOfHours">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Horas
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Año
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Horas:</span>{{row.subjectNumOfHours}}</mat-cell>
+                            <span class="mobile-label">Año:</span>{{row.year}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="numOfClasses">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>clases
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Periodo
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">clases:</span>{{row.subjectNumOfClasses}}</mat-cell>
+                            <span class="mobile-label">Periodo:</span>{{row.periodId}}</mat-cell>
                         </ng-container>
 
 
@@ -92,7 +92,7 @@
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
-                            
+
                             <button *ngIf="typeUser === 'Profesor'" mat-mini-fab color="primary"
                               matTooltip="Ver Detalle" (click)="$event.stopPropagation()" (click)="Detail(row)"
                               class="tbl-action-btn">
@@ -115,8 +115,8 @@
                               <mat-icon>av_timer</mat-icon>
 
                             </button>
-                       
-                         
+
+
 
                           </mat-cell>
                         </ng-container>
@@ -126,7 +126,7 @@
                         </mat-row>
                       </table>
 
-                  
+
                     </div>
                     <!-- Loading spinner -->
                     <!-- <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">

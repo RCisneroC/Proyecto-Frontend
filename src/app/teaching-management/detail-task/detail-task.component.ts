@@ -63,15 +63,15 @@ export class DetailTaskComponent implements OnInit {
       //this.getOneLocal();
       this.id = params['id'];
       this.idGeneral = Number(localStorage.getItem('id')) || 0;
-      
+
       const local = localStorage.getItem('tipoSolicitud') || '';
       if (local != '') {
         if (local == "1") {
-           this.title="Listado de Estudiantes";
+          this.title = "Listado de Estudiantes";
           this.getOneStudents();
           this.getAllTaskSubject()
         } else {
-          this.title="Listado de Participantes";
+          this.title = "Listado de Participantes";
           this.getOneStudentsAct();
           this.getAllTaskActivity();
         }
@@ -107,10 +107,10 @@ export class DetailTaskComponent implements OnInit {
     }
     this._SubjectService.GetTaskSubject(data).subscribe({
       next: (res) => {
-      this.taskSubject.Titulo=res.data[0].title;
-      this.taskSubject.observacion=res.data[0].observation;
-      this.taskSubject.fechaEntrega=res.data[0].finalDate;
-      this.taskSubject.tipoTarea=res.data[0].taskType.name;
+        this.taskSubject.Titulo = res.data[0].title;
+        this.taskSubject.observacion = res.data[0].observation;
+        this.taskSubject.fechaEntrega = res.data[0].finalDate;
+        this.taskSubject.tipoTarea = res.data[0].taskType.name;
       }
     })
   }
@@ -121,12 +121,12 @@ export class DetailTaskComponent implements OnInit {
     }
     this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
-   
-        this.taskSubject.Titulo=res.data[0].title;
-        this.taskSubject.observacion=res.data[0].observation;
-        this.taskSubject.fechaEntrega=res.data[0].finalDate;
-        this.taskSubject.tipoTarea=res.data[0].taskType.name;
-      
+
+        this.taskSubject.Titulo = res.data[0].title;
+        this.taskSubject.observacion = res.data[0].observation;
+        this.taskSubject.fechaEntrega = res.data[0].finalDate;
+        this.taskSubject.tipoTarea = res.data[0].taskType.name;
+
 
       }
     })
@@ -136,6 +136,8 @@ export class DetailTaskComponent implements OnInit {
 
   }
   AddCalif(row: Student) {
+    console.log(row);
+
     this.taskSubject.idAsignatura = this.idGeneral.toString();
     this.taskSubject.tipoTarea = "1";
     this.taskSubject.id = Number(this.id);
@@ -154,14 +156,14 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-       
+
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
           icon: "success"
         });
         this.getOneStudents();
-       
+
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -196,7 +198,7 @@ export class DetailTaskComponent implements OnInit {
         return;
       }
       if (result.CodError == 200) {
-      
+
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,

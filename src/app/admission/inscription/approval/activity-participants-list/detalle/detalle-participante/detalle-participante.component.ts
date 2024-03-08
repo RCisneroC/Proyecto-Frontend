@@ -102,7 +102,7 @@ export class DetalleParticipanteComponent {
   }
 
   CreateUserEC(StatusID: number) {
-    this._inscriptionService.CreateUserEC(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId, StatusID,1,this.authService.currentUserValue.id).subscribe({
+    this._inscriptionService.CreateUserEC(this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId, StatusID, 1, this.authService.currentUserValue.id).subscribe({
       next: (res) => {
 
         if (res.isError) {
@@ -112,14 +112,15 @@ export class DetalleParticipanteComponent {
             icon: "warning"
           });
         } else {
-        const  reqOBJ = {
-          activityId: res.actividadId,
-          participantId: res.participantId,
-          isReentry: false
+          const reqOBJ = {
+            activityId: res.actividadId,
+            participantId: res.participantId,
+            isReentry: false,
+            enrollmentId: 1,
           }
           this._inscriptionService.CreateECAcademicRecord(reqOBJ).subscribe({
-            next:(res)=>{
-              console.log('CreateECAcademicRecord',res);
+            next: (res) => {
+              console.log('CreateECAcademicRecord', res);
             }
           })
         }
