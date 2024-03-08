@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InscriptionService } from '../services/inscription.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from "@angular/common/http";
-import { throwError } from "rxjs";
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
@@ -11,7 +10,7 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { Requirement } from 'app/admission/models/Requeriminet';
-import { ValidateFileResponse, VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
+import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
 
 @Component({
   selector: 'app-backoffice',
@@ -35,6 +34,8 @@ export class BackofficeComponent implements OnInit {
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
   disabled: boolean = false;
+  showForm: boolean = false;
+  typedoc: string = "CIP";
   mostrarActividad: boolean = true;
   mostrarCronograma: boolean = true;
   fileSelected: boolean = false
@@ -130,8 +131,15 @@ export class BackofficeComponent implements OnInit {
         next: (data) => {
 
           this.loading = false;
-          this.disabled = true;
+          if(this.typedoc == "CIP"){
+            this.disabled = true;
+          }
+          else
+          {
+            this.disabled = false;
+          }
           this.personData = data;
+          this.showForm = true;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
         error: (e) => this.loading = false,
@@ -157,7 +165,16 @@ export class BackofficeComponent implements OnInit {
       complete: () => console.info('Complete')
     });
   }
-
+changeTypeDoc(){
+    console.log(this.typedoc);
+    if(this.typedoc == "PAS"){
+      this.getPersonData("999999");
+      this.disabled = false;
+    }
+    if(this.typedoc == "CIP"){
+      this.personData = null;
+    }
+}
   loadDependencias() {
     this._inscriptionService.getCatalogDependencia().subscribe({
       next: (data) => {
