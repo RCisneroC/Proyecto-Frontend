@@ -51,7 +51,7 @@ const routes: Routes = [
     component: BackofficeEFComponent
   },
   {
-    path: "ofertasacademicas/inscripcion-actividades/:id",
+    path: "ofertasacademicas/inscripcion-actividades",
     component: ActivityListInscriptionComponent
   },
   {

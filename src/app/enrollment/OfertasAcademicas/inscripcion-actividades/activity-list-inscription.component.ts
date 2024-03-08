@@ -56,20 +56,13 @@ implements OnInit{
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
     this.loadData();
-
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-
-
-  })
-
   }
   refresh() {
     this.loadData();
   }
 
   ViewDetail(row: ScheduleActivity) {
-    localStorage.setItem('ruta_local','enrollment/ofertasacademicas/inscripcion-actividades/'+this.id)
+    localStorage.setItem('ruta_local','enrollment/ofertasacademicas/inscripcion-actividades')
     this.router.navigate(['/enrollment/ofertasacademicas/inscripcion-actividades/backoffice',row.id]);
   }
 
@@ -161,13 +154,11 @@ export class ExampleDataSource extends DataSource<ScheduleActivityDetail> {
       this.paginator.page,
     ];
 
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-    });
-    this.exampleDatabase.getAllActivityDetail(this.id);
+
+    this.exampleDatabase.getAllActivityDetailByStatus(5);
     return merge(...displayDataChanges).pipe(
       map(() => {
-        // Filter data
+        // Filter datazzzzz
         this.filteredData = this.exampleDatabase.data2
           .slice()
           .filter((activity: ScheduleActivityDetail) => {

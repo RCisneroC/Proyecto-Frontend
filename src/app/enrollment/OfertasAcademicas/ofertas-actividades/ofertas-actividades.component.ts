@@ -18,6 +18,8 @@ export class OfertasActividadesComponent implements OnInit,OnDestroy {
    constructor(private  enrollmentService:EnrollmentService, private router: Router){}
 
    public ngOnInit(): void {
+    this.router.navigate(['enrollment/ofertasacademicas/inscripcion-actividades/']);
+/*
     this.subscriptions.push(
       this.enrollmentService.getCurriculumDesign().subscribe(
         {
@@ -32,7 +34,7 @@ export class OfertasActividadesComponent implements OnInit,OnDestroy {
         }
       )
     );
-
+*/
     }
 
     ngOnDestroy() {
