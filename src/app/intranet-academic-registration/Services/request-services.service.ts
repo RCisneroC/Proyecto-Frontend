@@ -11,9 +11,11 @@ import { Modality } from 'app/admission/models/modality';
 import {ResponseGenerica, ResponseGetAllRequestVariousType} from 'app/admission/models/ResponseMessage';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '@core';
-import {CareerResponse} from "../../enrollment/models/Career";
-import {environment} from "../../../environments/environment.development";
-import {el} from "@fullcalendar/core/internal-common";
+import { CareerResponse } from "../../enrollment/models/Career";
+import { environment } from "../../../environments/environment.development";
+import { el } from "@fullcalendar/core/internal-common";
+import { InfoDegreeByIdentificationCard } from '../Models/InfoDegreeByIdentificationCard';
+import { CreditsNoOficial } from '../Models/CreditsNoOficial';
 
 @Injectable({
   providedIn: 'root'
@@ -98,11 +100,11 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
             console.log(this.userType);
           }
           let dataL = res.data;
-          if(dataL){
+          if (dataL) {
             if (this.userType == 'Administrador') {
               this.isTblLoading = false;
               this.dataChangeRequestVarious.next(dataL);
-            }else {
+            } else {
               this.dataLStoragerequestVarious = dataL;
               this.dataLStoragerequestVarious = this.dataLStoragerequestVarious.filter((sidebarItem) => sidebarItem.userRequest == this.UserData.id);
               this.isTblLoading = false;
@@ -208,5 +210,24 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     return JSON.parse(decodedPayload);
   }
 
+
+  searchInfoDegreeByIdentificationCard(identificationCard: string) {
+
+    const data = {
+      identificationCard: identificationCard,
+      pageNumber: 1,
+      pageSize: 10
+    }
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<InfoDegreeByIdentificationCard>(url + "SearchInfoDegreeByIdentificationCard", data);
+  }
+
+  downloadCreditsNoOficial(efAcademicRecordId: string) {
+    const data = {
+      efAcademicRecordId: efAcademicRecordId,
+    }
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<CreditsNoOficial>(url + "DownloadCreditsNoOficial", data);
+  }
 
 }

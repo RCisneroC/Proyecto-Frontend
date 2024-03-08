@@ -8,7 +8,7 @@ import { LocationActivity } from 'app/admission/models/LocationActivity';
 export interface DialogData {
   id: string;
   action: string;
-  locationActivity : LocationActivity;
+  locationActivity: LocationActivity;
 }
 
 @Component({
@@ -18,9 +18,9 @@ export interface DialogData {
 })
 export class ActivityUbicationFormComponent {
 
-public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   public action: string;
   public dialogTitle: string;
@@ -29,7 +29,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     id: 0,
     description: '',
     name: '',
-    statusId:1
+    statusId: 1
   }
   constructor(
     public dialogRef: MatDialogRef<ActivityUbicationFormComponent>,
@@ -39,7 +39,7 @@ public ResponseMessage: ResponseMessageMaestra = {
   ) {
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle ="Editar Ubicación de actividad";
+      this.dialogTitle = "Editar Ubicación de actividad";
       this.locationActivity = data.locationActivity;
     } else {
       this.dialogTitle = 'Nueva Ubicación de actividad';
@@ -48,7 +48,7 @@ public ResponseMessage: ResponseMessageMaestra = {
   }
 
 
-    createContactForm(): UntypedFormGroup {
+  createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.locationActivity.id],
       name: [this.locationActivity.name, [Validators.required]],
@@ -63,36 +63,36 @@ public ResponseMessage: ResponseMessageMaestra = {
     this.dialogRef.close();
   }
 
-    public confirmAdd(): void {
-    if  (this.action==='edit'){
+  public confirmAdd(): void {
+    if (this.action === 'edit') {
       this.acitivityLocationService.updateLocationActivity(this.locationActivityForm.getRawValue())
         .subscribe({
-          next: (res:ResponseGenerica) => {
+          next: (res: ResponseGenerica) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
-          
+        });
+
     } else {
       this.acitivityLocationService.addLocationActivity(this.locationActivityForm.getRawValue())
-      .subscribe({
-          next: (res:ResponseGenerica) => {
+        .subscribe({
+          next: (res: ResponseGenerica) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Creado correctamente.';
-           this.dialogRef.close(this.ResponseMessage);
+            this.dialogRef.close(this.ResponseMessage);
           },
-          error: (err:any) => {
+          error: (err: any) => {
             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
-      });
+        });
     }
   }
 }

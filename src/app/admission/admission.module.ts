@@ -149,6 +149,7 @@ import { CertificateListScheduleComponent } from './certificates/certificate-lis
 import { CertificateListActivityComponent } from './certificates/certificate-list-activity/certificate-list-activity.component';
 import { CertificateListPartakerComponent } from './certificates/certificate-list-partaker/certificate-list-partaker.component';
 import { AddPermissionsComponent } from './maestros/directory-list/add-permissions/add-permissions.component';
+import { UploadActivityAllComponent } from './Forms/upload-activity-all/upload-activity-all.component';
 
 @NgModule({
   declarations: [
@@ -289,7 +290,8 @@ import { AddPermissionsComponent } from './maestros/directory-list/add-permissio
     CertificateListScheduleComponent,
     CertificateListActivityComponent,
     CertificateListPartakerComponent,
-    AddPermissionsComponent
+    AddPermissionsComponent,
+    UploadActivityAllComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

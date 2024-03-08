@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { EnrollmentRoutingModule } from './enrollment-routing.module';
 import { EnrollCareerComponent } from './enroll-career/enroll-career.component';
@@ -26,6 +26,7 @@ import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.compone
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 
+
 @NgModule({
   declarations: [
     EnrollCareerComponent,
@@ -48,7 +49,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     ViewSurveyComponent,
     InfoStudentComponent,
   ],
-  providers: [VerificarBS64Pipe],
+  providers: [VerificarBS64Pipe, DatePipe],
   imports: [
     CommonModule,
     EnrollmentRoutingModule,

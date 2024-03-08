@@ -28,6 +28,11 @@ export class InscriptionExternalComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  DependencyList: any;
+  CargosList: any;
+  OrganismoCopList: any;
+  UniversityList: any;
+  InstitutionList: any;
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
@@ -101,6 +106,11 @@ export class InscriptionExternalComponent implements OnInit {
     } else {
       this._router.navigate(['/']);
     }
+    this.loadDependencias();
+    this.loadCargos();
+    this.loadOrganosCop();
+    this.loadUniversidades();
+    this.loadIntituciones();
   }
 
   validar() {
@@ -184,6 +194,50 @@ export class InscriptionExternalComponent implements OnInit {
       });
   }
 
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
+
+  loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
+
+  loadOrganosCop() {
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
+
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
+
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
+      }
+    })
+  }
 
   getActivities(idSchedule: string) {
     this.showMessage = false;

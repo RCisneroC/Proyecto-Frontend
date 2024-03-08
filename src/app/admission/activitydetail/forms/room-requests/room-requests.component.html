@@ -72,6 +72,10 @@
                                     mat-raised-button color="primary">
                                     <mat-icon>add</mat-icon> Requerimientos.
                                 </button>
+                                <button *ngIf="item.statusId===4" matTooltip="Rehabilitar"
+                                    mat-raised-button color="primary" (click)="actualizarStatus(item.id)">
+                                    <mat-icon>keyboard_return</mat-icon> Rehabilitar.
+                                </button>
                             </div>
                         </div>
                         <div class="body">
@@ -93,7 +97,7 @@
                                                 <td>{{ itemRoms.room.id }}</td>
                                                 <td>{{ itemRoms.room.name }}</td>
                                                 <td>
-                                                    <button (click)="deleteRomsAsignado(itemRoms,item.id)"
+                                                    <button *ngIf="item.statusId===3" (click)="deleteRomsAsignado(itemRoms,item.id)"
                                                         matTooltip="Eliminar Salón" mat-mini-fab
                                                         color="accent"><mat-icon>delete</mat-icon></button>
                                                 </td>
@@ -123,7 +127,7 @@
                                                 <td>{{ itemRoms.roomRequirement.id }}</td>
                                                 <td>{{ itemRoms.roomRequirement.name }}</td>
                                                 <td>
-                                                    <button (click)="deleteRequirement(itemRoms,item.id)"
+                                                    <button *ngIf="item.statusId===3" (click)="deleteRequirement(itemRoms,item.id)"
                                                         matTooltip="Eliminar Requerimiento" mat-mini-fab
                                                         color="accent"><mat-icon>delete</mat-icon></button>
                                                 </td>
@@ -157,7 +161,7 @@
                                           <td>{{ itemRoms.startTime| date:'shortTime' }}</td>
                                           <td>{{ itemRoms.endTime| date:'shortTime' }}</td>
                                           <td>
-                                              <button (click)="OndeleteRoomRequestRoomDateTimeSlots(itemRoms.roomRequestRoomDateTimeId,itemRoms.roomTimeSlotId)"
+                                              <button *ngIf="item.statusId===3" (click)="OndeleteRoomRequestRoomDateTimeSlots(itemRoms.roomRequestRoomDateTimeId,itemRoms.roomTimeSlotId)"
                                                   matTooltip="Eliminar Franja Horaria" mat-mini-fab
                                                   color="accent"><mat-icon>delete</mat-icon></button>
                                           </td>

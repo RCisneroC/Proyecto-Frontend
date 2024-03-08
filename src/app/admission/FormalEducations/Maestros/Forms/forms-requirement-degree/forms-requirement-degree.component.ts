@@ -7,7 +7,7 @@ import { RequirementService } from 'app/admission/maestros/services/requirement.
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   action: string;
-  requirementAdmision : RequirementAdmision;
+  requirementAdmision: RequirementAdmision;
 }
 @Component({
   selector: 'app-forms-requirement-degree',
@@ -31,14 +31,14 @@ export class FormsRequirementDegreeComponent implements OnInit {
   ) {
     console.log(data);
     this.action = data.action;
-   if (this.action === 'add') {
+    if (this.action === 'add') {
       this.dialogTitle = "Nuevo Requerimiento de Admisión";
-     this._RequirementAdmisionModal = data.requirementAdmision;
-   } else {
-     this.dialogTitle = "Editar Requerimiento de Admisión";
-     this._RequirementAdmisionModal = data.requirementAdmision;
-   }
-   this._RequirementAdmisionModalForms = this.createContactForm();
+      this._RequirementAdmisionModal = data.requirementAdmision;
+    } else {
+      this.dialogTitle = "Editar Requerimiento de Admisión";
+      this._RequirementAdmisionModal = data.requirementAdmision;
+    }
+    this._RequirementAdmisionModalForms = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
@@ -53,41 +53,41 @@ export class FormsRequirementDegreeComponent implements OnInit {
   ngOnInit(): void {
   }
   submit() {
-    
+
   }
 
-  confirmAdd(){
+  confirmAdd() {
     if (this.action == 'add') {
       this._RequirementService.addRequirementAdmision(this._RequirementAdmisionModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Guardado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     } else {
-       this._RequirementService.updateRequirementAdmision(this._RequirementAdmisionModalForms.getRawValue())
+      this._RequirementService.updateRequirementAdmision(this._RequirementAdmisionModalForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     }
   }
-  onNoClick(){
-this.dialogRef.close();
+  onNoClick() {
+    this.dialogRef.close();
   }
 }

@@ -2,7 +2,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { Experience } from '../../models/Teacher';
+import { Experience } from '../../models/Student';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogData {

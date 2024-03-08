@@ -19,7 +19,7 @@
             <mat-label>Salón</mat-label>
             <mat-select (selectionChange)="LoadDates()" formControlName="salon">
               <mat-option [value]="" selected></mat-option>
-              <mat-option *ngFor="let item of lstRooms" [value]="item.id">{{item.name}}</mat-option>
+              <mat-option *ngFor="let item of data.rooms" [value]="item.room.id">{{item.room.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="timeSlotsForm.get('salon')?.hasError('required')">
               Seleccione un salon
@@ -33,7 +33,8 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha</mat-label>
             <input (dateChange)="LoadTimeSlot()" [matDatepickerFilter]="FiltrarFechas" matInput [matDatepicker]="picker"
-              formControlName="fecha" [disabled]="deshabilitarFecha" [readonly]="true">
+              formControlName="fecha" [disabled]="deshabilitarFecha" [readonly]="true"
+              [min]="data.requestRooms.startDate" [max]="data.requestRooms.endDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker [disabled]="deshabilitarFecha"></mat-datepicker>
             <mat-error *ngIf="timeSlotsForm.get('fecha')?.hasError('required')">

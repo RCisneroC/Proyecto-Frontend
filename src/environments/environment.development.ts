@@ -1,8 +1,8 @@
 
 export const environment = {
   production: false,
-  base: 'http://erp.organo-judicial.com/#/student/',
-  baseUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com',
+  base: 'http://localhost:3001/#/student/',
+  baseUrlTeacher: 'http://localhost:3001',
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl: 'https://isjupauthenticationservice.azurewebsites.net/api/v1/Account/',
   apiUrlRol: 'https://isjupauthenticationservice.azurewebsites.net/api/v1/',
@@ -12,6 +12,7 @@ export const environment = {
   consultaPlanesAprobados: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetAll?StatusId=5',
   ConsultaMallaCurrcularByPlan: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
   apiEC: "https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
+  apiCatalogs: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/Subject/',
   apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
@@ -19,5 +20,6 @@ export const environment = {
   apiIntranet: 'https://eira-api.azurewebsites.net/',
   apiUrlSubjectTask: "https://eira-api.azurewebsites.net/SearchSubjectTask",
   apiEira: 'https://eira-api.azurewebsites.net/',
-  apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
+  apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo'
 };

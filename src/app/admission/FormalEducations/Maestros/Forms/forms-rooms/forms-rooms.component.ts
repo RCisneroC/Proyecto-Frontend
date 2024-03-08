@@ -6,7 +6,7 @@ import { RoomsService } from 'app/admission/FormalEducations/Services/rooms.serv
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 export interface DialogData {
   action: string;
-  rooms : Rooms;
+  rooms: Rooms;
 }
 @Component({
   selector: 'app-forms-rooms',
@@ -30,14 +30,14 @@ export class FormsRoomsComponent implements OnInit {
   ) {
     console.log(data);
     this.action = data.action;
-   if (this.action === 'add') {
+    if (this.action === 'add') {
       this.dialogTitle = "Nuevo Salón";
-     this._Rooms = data.rooms;
-   } else {
-     this.dialogTitle = "Editar Salón";
-     this._Rooms = data.rooms;
-   }
-   this._RoomsForms = this.createContactForm();
+      this._Rooms = data.rooms;
+    } else {
+      this.dialogTitle = "Editar Salón";
+      this._Rooms = data.rooms;
+    }
+    this._RoomsForms = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
@@ -52,41 +52,41 @@ export class FormsRoomsComponent implements OnInit {
   ngOnInit(): void {
   }
   submit() {
-    
+
   }
 
-  confirmAdd(){
+  confirmAdd() {
     if (this.action == 'add') {
       this._RoomsService.addRooms(this._RoomsForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Guardado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     } else {
-       this._RoomsService.updateRooms(this._RoomsForms.getRawValue())
+      this._RoomsService.updateRooms(this._RoomsForms.getRawValue())
         .subscribe({
-          next:(res)=>{
+          next: (res) => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
           error: (err) => {
-             this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = err;
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = "Intento Nuevamente.";
             this.dialogRef.close(this.ResponseMessage);
           }
         });
     }
   }
-  onNoClick(){
-this.dialogRef.close();
+  onNoClick() {
+    this.dialogRef.close();
   }
 }

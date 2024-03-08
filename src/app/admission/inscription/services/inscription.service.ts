@@ -90,6 +90,29 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
       .get<Mesh[]>(environment.ConsultaMallaCurrcularByPlan + id);
   }
 
+  getCatalogDependencia() {
+    return this.httpClient
+      .get<any>(environment.apiCatalogs + 'Cedula/DataqueryCedula/getDepInfo');
+  }
+
+  getCatalogCargos() {
+    return this.httpClient
+      .get<any>(environment.apiCatalogs + 'Cedula/DataqueryCedula/getJNInfo');
+  }
+
+  getCatalogOrganismosCoperantes() {
+    return this.httpClient
+      .get<any>(environment.apiUrlSchedule + 'CooperatingOrganization/GetAll?StatusId=1');
+  }
+  getCatalogUniversidades() {
+    return this.httpClient
+      .get<any>(environment.apiUrlSchedule + 'University/GetAll');
+  }
+  getCatalogInstitucion() {
+    return this.httpClient
+      .get<any>(environment.apiUrlSchedule + 'Institution/GetAll');
+  }
+
   GetAcadInfoEF(id: any) {
     return this.httpClient.get<AcadInfoResponseEF>(
       environment.apiEC + 'EFInscription/AcadInfo?Cedula=' + id

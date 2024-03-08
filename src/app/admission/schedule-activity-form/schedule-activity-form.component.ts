@@ -1,4 +1,4 @@
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ScheduleActivity } from '../models/scheduleActivity';
@@ -6,6 +6,7 @@ import { ScheduleActivitiesService } from '../services/schedule-activities.servi
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 export interface DialogData {
@@ -19,16 +20,16 @@ export interface DialogData {
   styleUrls: ['./schedule-activity-form.component.scss']
 })
 export class ScheduleActivityFormComponent {
-public ResponseMessage: ResponseMessageMaestra = {
+  public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
-    Message:''
+    Message: ''
   }
   action: string;
   dialogTitle: string;
   scheduleForm!: UntypedFormGroup;
-  schedule!:ScheduleActivity ;
+  schedule!: ScheduleActivity;
   years = Array(100).fill(null);
- 
+
   constructor(
     private _scheduleActivitiesService: ScheduleActivitiesService,
     public dialogRef: MatDialogRef<ScheduleActivityFormComponent>,
@@ -39,23 +40,23 @@ public ResponseMessage: ResponseMessageMaestra = {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle ="Editar cronograma";
-    
+      this.dialogTitle = "Editar cronograma";
+
       this.schedule = data.schedule;
     } else {
-      
+
       this.dialogTitle = 'Añadir cronograma';
-     
+
       this.schedule = new ScheduleActivity();
-      this.schedule.statusId=1;
-     
+      this.schedule.statusId = 1;
+
     }
     this.scheduleForm = this.createContactForm();
-    
+
     for (let i = 0; i < this.years.length; i++) {
       this.years[i] = new Date().getFullYear() + i;
     }
-    
+
   }
 
 
@@ -71,12 +72,12 @@ public ResponseMessage: ResponseMessageMaestra = {
       description: new FormControl(this.schedule.description, Validators.required),
       year: new FormControl(this.schedule.year, Validators.required),
       statusId: new FormControl(this.schedule.statusId, [Validators.required, Validators.min(1)])
-      
+
     });
-    
-  
+
+
   }
-  
+
 
   submit() {
     // emppty stuff
@@ -85,40 +86,40 @@ public ResponseMessage: ResponseMessageMaestra = {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-   
-    if  (this.action==='edit'){
+
+    if (this.action === 'edit') {
       this.scheduleActivitiesService.updateScheduleActivity(this.scheduleForm.getRawValue())
-      .subscribe({
-          next: () => {
-            this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Creado correctamente.';
-            this.dialogRef.close(this.ResponseMessage);
-          },
-        error: (error) => {
-            this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
-            this.dialogRef.close(this.ResponseMessage);
-          },
-        });
-    } else {
-        this.scheduleActivitiesService.addScheduleActivity(this.scheduleForm.getRawValue())
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Creado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
-          error: (error) => {
+          error: (error: HttpErrorResponse) => {
             this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
+            this.ResponseMessage.Message = error.error.Message;
             this.dialogRef.close(this.ResponseMessage);
           },
         });
-      }
-      
-  }
-  
+    } else {
+      this.scheduleActivitiesService.addScheduleActivity(this.scheduleForm.getRawValue())
+        .subscribe({
+          next: () => {
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = 'Creado correctamente.';
+            this.dialogRef.close(this.ResponseMessage);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = error.error.Message;
+            this.dialogRef.close(this.ResponseMessage);
+          },
+        });
+    }
 
-  
+  }
+
+
+
 
 }

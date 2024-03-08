@@ -7,6 +7,7 @@ import { environment } from 'environments/environment.development';
 import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
 import { TimeSlot } from 'app/admission/models/TimeSlot';
 import { RoomRequestRoomDateTimeSlots } from 'app/admission/models/RoomRequestRoomDateTimeSlots';
+import { RoomDependencies } from 'app/admission/models/RoomDependencies';
 
 @Injectable({
   providedIn: 'root'
@@ -129,9 +130,9 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       .get<TimeSlot[]>(environment.apiUrlSchedule + 'Room/GetTimeSlotsBy?RoomId=' + id_rooms);
   }
 
-  getTimeSlotByRoomAndDate(id_rooms: number, date: string) {
+  getTimeSlotByRoomAndDate(id_rooms: number, date: string | null) {
     return this.httpClient
-      .get<TimeSlot[]>(environment.apiUrlSchedule + 'Room/GetTimeSlotsBy?RoomId=' + id_rooms + "&Date=" + date);
+      .get<TimeSlot[]>(environment.apiUrlSchedule + 'Room/GetAvailableRoomTimeSlotsBy?RoomId=' + id_rooms + "&Date=" + date);
   }
 
   deleteTimeSlot(id_rooms: number) {
@@ -155,6 +156,10 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrlSchedule + 'Room/UpdatetimeSlot', timeSlot);
   }
 
+  updateRequest(data: any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'Room/UpdateRequest', data);
+  }
+
 
   getAvalableDateByRoom(id_rooms: number) {
     return this.httpClient
@@ -172,7 +177,7 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
 
   deleteRoomRequestRoomDateTimeSlots(Id: number, timeSloteId:number) {
     let data = {
-      id: Id,
+      roomRequestRoomDateId: Id,
       roomTimeSlotId : timeSloteId
     };
     const options = {
@@ -182,7 +187,12 @@ export class MasterService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<any>(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoomDate', options);
+    return this.httpClient.delete<any>(environment.apiUrlSchedule + 'Room/DeleteRoomRequestRoomDateTimeSlot', options);
+  }
+
+  getDependencies() {
+    return this.httpClient
+      .get<RoomDependencies[]>(environment.apiExtUrlDependencies);
   }
 
 }

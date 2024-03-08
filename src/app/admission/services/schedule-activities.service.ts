@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from 'environments/environment.development';
 import { CurriculumClass } from '../models/CurriculumClass';
 import { User } from '@core';
+import { ResponseGenerica } from '../models/ResponseMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -138,7 +139,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador') {
-            this.dataChange2.next(data.filter(x=>x.statusId == 5));
+            this.dataChange2.next(data.filter(x => x.statusId == 5));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }
@@ -166,7 +167,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador') {
-            this.dataChange2.next(data.filter(x=>x.hasDirectEnrollment));
+            this.dataChange2.next(data.filter(x => x.hasDirectEnrollment));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }
@@ -186,7 +187,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   addActivityDetail(activityDetail: ScheduleActivityDetail) {
     this.dialogDataDetail = activityDetail;
 
-    return this.httpClient.post(environment.apiUrlSchedule + 'CurriculumDesign/CreateActivity', activityDetail);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'CurriculumDesign/CreateActivity', activityDetail);
   }
 
   addScheduleActivity(scheduleActivity: ScheduleActivity) {
