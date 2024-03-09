@@ -137,7 +137,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
                 localStorage.setItem('enroll-recordID', this.recordId);
 
                const CreateAcademicSubjectRecord = {
-                 efAcademicRecordId: this.recordId,
+                 efAcademicRecordId: res.data.id.toString(),
                  subjectId: this.SubjectItem.id,
                  isReentry: false,
                  enrollmentId: this.enrollmentId
