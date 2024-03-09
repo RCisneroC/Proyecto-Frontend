@@ -48,6 +48,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   classshiftSelect: string = '1';
   studentId:string = "";
   enrollmentId:number = 0;
+  CreateEFAcademicRecordDone: boolean = false;
   recordId:string = "";
   messageDuplicidad: string = "Registro creado exitosamente"
 
@@ -74,7 +75,10 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
     })
-
+    const recordid = localStorage.getItem('enroll-recordID');
+    if(recordid){
+      this.recordId = recordid;
+    }
 
   }
   refresh() {
@@ -131,6 +135,19 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
                 console.log("CreateEFAcademicRecordResp",res);
                 this.recordId = res.data.id.toString();
                 localStorage.setItem('enroll-recordID', this.recordId);
+
+               const CreateAcademicSubjectRecord = {
+                 efAcademicRecordId: this.recordId,
+                 subjectId: this.SubjectItem.id,
+                 isReentry: false,
+                 enrollmentId: this.enrollmentId
+               }
+                this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
+                  next:(res)=>{
+                    console.log("CreateAcademicSubjectRecord",res);
+                    this.CreateEFAcademicRecordDone = true;
+                  }
+                })
               }
             })
           }
@@ -153,6 +170,21 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
             this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
               next:(res)=>{
                 console.log("AddSubjectStudentResp",res);
+              }
+            })
+          }
+
+          if(res.statusCode == 200 && !this.CreateEFAcademicRecordDone){
+            const CreateAcademicSubjectRecord = {
+              efAcademicRecordId: this.recordId,
+              subjectId: this.SubjectItem.id,
+              isReentry: false,
+              enrollmentId: this.enrollmentId
+            }
+            this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
+              next:(res)=>{
+                console.log("CreateAcademicSubjectRecord",res);
+                this.CreateEFAcademicRecordDone = true;
               }
             })
           }
