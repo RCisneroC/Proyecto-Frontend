@@ -12,6 +12,13 @@
                 <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p> -->
               </div>
             </div>
+            <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+              <div class="">
+                <button matTooltip="Regresar" mat-raised-button color="accent" (click)="regresarInit()">
+                  <mat-icon>keyboard_backspace</mat-icon> Regresar
+                </button>
+              </div>
+            </div>
             <div *ngIf="showFileSection">
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

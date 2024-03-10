@@ -35,17 +35,17 @@ public paramsId: any;
     if (this.paramsId != null) {
       this.converId = _ActivityService.decryptData(this.paramsId, 'Panama2019$');
       this.PrincipalPoster = _ActivityService._PosterRequest;
-        
+
       this.getOneActivity();
       // this.dataTeacher = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
       // this.dataOrganismos = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-      
+
     } else {
       this._router.navigate(['/']);
     }
  }
-  
-  
+
+
   getOneActivity() {
     this.ArrayPrincipalPoster = [];
     this._ActivityService.loading = true;
@@ -55,9 +55,9 @@ public paramsId: any;
           this._ActivityService.GetOneActivity(this.converId).
             subscribe({
               next: (res: GetOneActivity) => {
-      
+
                 console.log(res);
-      
+
                 this._ActivityService._GetOneActivity = res;
                 this._ActivityService.loading = false;
                 res.posterRequests.forEach((element: PosterRequest) => {
@@ -83,7 +83,7 @@ public paramsId: any;
                   }
                 });
                 console.log(this.ArrayPrincipalPoster);
-                
+
               }, error: (err) => {
                 console.log(err);
                 this._router.navigate(['/']);
@@ -92,7 +92,7 @@ public paramsId: any;
                 this._ActivityService.loading = false;
               }
             });
-           
+
         } else {
             Swal.fire({
             title: "<strong>Escuela Judicial</strong>",
@@ -159,10 +159,11 @@ public paramsId: any;
        disableClose: true,
      });
     }
-    
+
   }
 
   inscribir() {
+    localStorage.setItem("ruta_local_external",'/student/details-inscription/'+ this.paramsId)
     this._router.navigate(['/student/external-inscription/' + this.paramsId]);
   }
 }
