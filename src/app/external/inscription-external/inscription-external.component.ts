@@ -219,6 +219,7 @@ export class InscriptionExternalComponent implements OnInit {
       this.disabled = false;
     }
     if(this.typedoc == "CIP"){
+      this.busquedaR = false;
       this.personData = null;
     }
   }
