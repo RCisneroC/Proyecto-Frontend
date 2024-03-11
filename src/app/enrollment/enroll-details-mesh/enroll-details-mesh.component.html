@@ -9,7 +9,7 @@
 
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="card" *ngIf="IsStudents">
+        <div class="card">
           <div #imageElement class="header" *ngIf="_ActivityService.loading==false">
             <h2 class="text-uppercase">Detalles de Estudiante</h2>
           </div>
@@ -17,22 +17,27 @@
             <div class="row">
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Nombres</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.firstName:_ActivityService._DetailsResponse.firstName }}
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.firstName:_ActivityService._DetailsResponse.firstName }}
                 </label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Primer Apellido</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.lastName:_ActivityService._DetailsResponse.lastName }}
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.lastName:_ActivityService._DetailsResponse.lastName }}
                 </label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Segundo Apellido</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.secondsurname:_ActivityService._DetailsResponse.secondsurname }}
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.secondsurname:_ActivityService._DetailsResponse.secondsurname
+                  }}
                 </label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Sexo</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.gender:_ActivityService._DetailsResponse.gender }}</label>
+                <label for="">{{ asp?_ActivityService._DetailsResponseEF.gender:_ActivityService._DetailsResponse.gender
+                  }}</label>
               </div>
 
             </div>
@@ -54,15 +59,21 @@
             <div class="row">
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Malla Curricular/ Actividad</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.degreeName:_ActivityService._DetailsResponse.activityName }}</label>
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.degreeName:_ActivityService._DetailsResponse.activityName
+                  }}</label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Duración en años </h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.durationInYears:_ActivityService._DetailsResponse.duration }}</label>
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.durationInYears:_ActivityService._DetailsResponse.duration
+                  }}</label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Modalidad</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.studyModeName:_ActivityService._DetailsResponse.activityMode }}</label>
+                <label for="">{{
+                  asp?_ActivityService._DetailsResponseEF.studyModeName:_ActivityService._DetailsResponse.activityMode
+                  }}</label>
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Número de créditos</h6>
@@ -80,7 +91,8 @@
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <h6>Correo</h6>
-                <label for="">{{ asp?_ActivityService._DetailsResponseEF.email:_ActivityService._DetailsResponse.email }}</label>
+                <label for="">{{ asp?_ActivityService._DetailsResponseEF.email:_ActivityService._DetailsResponse.email
+                  }}</label>
               </div>
             </div>
 

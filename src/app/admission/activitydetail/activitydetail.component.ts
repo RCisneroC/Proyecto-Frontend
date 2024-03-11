@@ -519,7 +519,7 @@ export class ActivitydetailComponent implements OnInit {
       },
       disableClose: true,
       width: '1800px',
-      height: '600px'
+      height: '900px'
     });
 
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {

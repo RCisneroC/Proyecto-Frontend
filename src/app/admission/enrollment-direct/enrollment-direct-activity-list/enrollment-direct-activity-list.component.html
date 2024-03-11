@@ -3,7 +3,7 @@
     <div class="block-header">
       <!-- breadcrumb -->
       <app-breadcrumb [title]="'Inscripción Backoffice'" [items]="['Inicio','Admisión','Incripción']"
-                      [active_item]="'Listado De Actividad'">
+        [active_item]="'Listado De Actividad'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -32,7 +32,7 @@
                         <li class="tbl-search-box">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
-                                 aria-label="Search box">
+                            aria-label="Search box">
                         </li>
                       </ul>
                     </div>
@@ -98,22 +98,22 @@
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Estado:</span><span
-                            class="badge badge-solid-green">{{row.statusId|statusPipe}}</span></mat-cell>
+                              class="badge badge-solid-green">{{row.statusId|statusPipe}}</span></mat-cell>
                         </ng-container>
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                             <button *ngIf="row.statusId == 5" matTooltip="Inscribir Usuario" mat-raised-button
-                                    color="primary" (click)="ViewDetail(row)"><mat-icon>send</mat-icon>Inscribir</button>
+                              color="primary" (click)="ViewDetail(row)"><mat-icon>send</mat-icon>Inscribir</button>
                             <button *ngIf="row.statusId != 5" mat-raised-button
-                                    color="accent"><mat-icon>close</mat-icon>Incompleto</button>
+                              color="accent"><mat-icon>close</mat-icon>Incompleto</button>
 
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
-                                 [style.cursor]="'pointer'" matRipple>
+                          [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
                     </div>
@@ -124,7 +124,7 @@
                     </div>
                     <!-- context menu start -->
                     <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                         [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                      [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
                     </div>
                     <mat-menu #contextMenu="matMenu">
                       <ng-template matMenuContent let-item="item">
@@ -167,11 +167,11 @@
                     </mat-menu>
                     <!-- context menu end -->
                     <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
-                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                       No results
                     </div>
                     <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
-                                   [pageSizeOptions]="[5, 10, 25, 100]">
+                      [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>
 

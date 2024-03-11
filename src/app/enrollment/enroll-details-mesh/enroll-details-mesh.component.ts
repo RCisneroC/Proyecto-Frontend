@@ -140,6 +140,7 @@ export class EnrollDetailsMeshComponent {
           })
         }
         else if (this.asp) {
+          this.IsStudents = true;
           this._ActivityService.GetDetailsEFCedula(this.authService.currentUserValue.cedula).subscribe({
             next: (res: DetailsParticipanteEF) => {
               this._ActivityService._DetailsParticipanteEF = res;
