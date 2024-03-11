@@ -24,7 +24,7 @@
                     <label class="example-listbox-label" id="example-zodiac-sign-label">
                       <h5>Usuarios </h5>
                        </label>
-                    <div class="example-listbox-container" style="overflow-y: auto; height: 240px;">
+                    <div class="example-listbox-container" style="overflow-y: auto; height: 350px;">
                    
                     <mat-selection-list  [multiple]="false" (selectionChange)="onSelectionChange($event)">
                         <li *ngFor="let user of dataSourceUser"
@@ -42,19 +42,31 @@
                     <label class="example-listbox-label" id="example-zodiac-sign-label">
                         <h5>Permisos</h5>
                       </label>
-                    <div class="example-listbox-container" style="overflow-y: auto; height: 240px;width:max-content;">
+                    <div class="example-listbox-container" style="overflow-y: auto; height: 350px;width:max-content;">
                    
               
-                    <mat-selection-list   (selectionChange)="onSelectionChange2($event)">
+                    <mat-selection-list  *ngIf="!RadioValue"  (selectionChange)="onSelectionChange2($event)">
                         <li *ngFor="let permiss of dataSourcePermission" class="example-option">
                           <mat-list-option [selected]="permiss.valor" [value]="permiss.id">{{permiss.name}}</mat-list-option> 
                       </li>
-                   
+
+                     
                       </mat-selection-list>
                       <div *ngIf="dataSourcePermission?.length===0" style="width: 200px;">
                         Seleccione un usuario para visualizar los permisos.
                        </div>
-                 
+                       <mat-radio-group [(ngModel)]="RadioValue" *ngIf="dataSourcePermission.length>0">
+                        <p>Borrar los permisos de este usuario?</p>
+                        <mat-radio-button [value]="true">Si</mat-radio-button>
+                        <mat-radio-button [value]="false">No</mat-radio-button>
+                      </mat-radio-group>
+                      
+                      <mat-error *ngIf="RadioValue">
+                        El usuario seleccionado perdera <br>
+                        todos los permisos que se le hayan <br>
+                        otorgado anteriormente y tampoco podra <br>
+                        tener acceso al mismo.
+                      </mat-error>
                   </div>
                   
                   </td>

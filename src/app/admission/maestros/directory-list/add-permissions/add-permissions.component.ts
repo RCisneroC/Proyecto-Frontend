@@ -7,11 +7,20 @@ import { FoodNode } from '../directory-list.component';
 import { FolderPermission } from 'app/admission/models/directory';
 import { file } from 'jszip';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface DialogData {
   folder: FoodNode;
   action: string;
 
+  // Add other properties as needed, like path, parent folder, etc.
+}
+
+interface ListPermission {
+  name: string;
+  valor: boolean;
+  id:number,
+              
   // Add other properties as needed, like path, parent folder, etc.
 }
 
@@ -28,11 +37,12 @@ export class AddPermissionsComponent implements OnInit {
     CodError: 0,
     Message:''
   }
-  dataSourcePermission: any[] = [];
+  dataSourcePermission: ListPermission[] = [];
   dataSourceUser: User[] = [];
   fileFolderId!: number;
   userSelected!: string;
   first!: boolean;
+  RadioValue:boolean=false;
   user: User;
   files: FolderPermission = new FolderPermission();
   folder: FolderPermission = new FolderPermission();
@@ -93,21 +103,10 @@ export class AddPermissionsComponent implements OnInit {
             this.folder.hasOnloadfile = this.datos.hasOnloadfile===undefined?false:this.datos.hasOnloadfile;
             this.folder.update = this.datos.update===undefined?false:this.datos.update;
             this.folder.delete = this.datos.delete===undefined?false:this.datos.delete;
+            this.folder.viewFolder = this.datos.viewFolder===undefined?false:this.datos.viewFolder;
             this.folder.createdBy = this.user.id;
             this.folder.lastModifiedBy=this.user.id;
           
-          // }else{
-          //   this.files.folderId = this.data.folder.fileId;
-          //   this.files.userId = this.userSelected;
-          //   this.files.hasWritePermission = this.datos.hasWritePermission;
-          //   this.files.hasReadPermission = this.datos.hasReadPermission;
-          //   this.files.hasExecutePermission = true;
-          //   this.files.update = this.datos.update;
-          //   this.files.delete = this.datos.delete;
-          //   this.files.createdBy = this.user.id;
-          
-          // }
-         
           if (this.datos !== null) {
            
           if(this.data.action!="file"){
@@ -128,6 +127,11 @@ export class AddPermissionsComponent implements OnInit {
                 name: 'Cargar archivo',
                 valor: this.datos.hasOnloadfile,
                 id:2
+              },
+              {
+                name: 'Solo lectura',
+                valor: this.datos.viewFolder,
+                id:6
               }
               
               
@@ -157,6 +161,11 @@ export class AddPermissionsComponent implements OnInit {
               valor: this.datos.delete,
               id:5
             },
+            {
+              name: 'Solo lectura',
+              valor: this.datos.viewFolder,
+              id:6
+            }
           ];
         }
         
@@ -174,16 +183,22 @@ export class AddPermissionsComponent implements OnInit {
   onSelectionChange2(event: any) {
     const x=event.options[0].value;
     const select=event.options[0].selected;
-    // if (this.data.action === 'file') {
-    //   this.files.folderId = this.data.folder.fileId;
-    //   this.files.userId = this.userSelected;
-    //   this.files.hasWritePermission = x==0?select:this.files.hasWritePermission;
-    //   this.files.hasReadPermission = x==3?select:this.files.hasReadPermission;
-    //   this.files.hasExecutePermission = true;
-    //   this.files.update = x==1?select:this.files.update;
-    //   this.files.delete = x==5?select:this.files.delete;
-    //   this.files.createdBy = this.user.id;
-    // } else {
+  
+  if(x==6 && select){
+    this.folder.hasWritePermission=false;
+    this.folder.hasReadPermission=false;
+    this.folder.hasExecutePermission=false;
+    this.folder.hasOnloadfile=false;
+    this.folder.update=false;
+    this.folder.delete=false;
+  
+  }else{
+    this.folder.viewFolder=false;
+  }
+  
+  if(event.source._value.length===0){
+    this.folder.viewFolder=true;
+  }
       this.folder.userFolderId = this.fileFolderId;
       this.folder.userFileId = this.fileFolderId;
       this.folder.userId = this.userSelected;
@@ -193,30 +208,38 @@ export class AddPermissionsComponent implements OnInit {
       this.folder.hasOnloadfile = x==2?select:this.folder.hasOnloadfile;
       this.folder.update = x==1?select:this.folder.update;
       this.folder.delete = x==5?select:this.folder.delete;
+      this.folder.viewFolder = x==6?select:this.folder.viewFolder;
       this.folder.createdBy = this.user.id;
       this.folder.lastModifiedBy=this.user.id;
     //}
   }
 
   onSubmit() {
-  if(this.first){
-    if (this.data.action==="file"){
-      this.addPermissionUserFiles();
+  
+  if(this.RadioValue){
+  this.deletePermissionUserFolder();
+  }else{
+  
+    if(this.first){
+      if (this.data.action==="file"){
+        this.addPermissionUserFiles();
+      }else{
+        this.addPermissionUserFolder();
+      }
+      
+      
     }else{
-      this.addPermissionUserFolder();
+    if (this.data.action==="file"){
+      this.updatePermissionUserFiles();
+    }else{
+      this.updatePermissionUserFolder();
     }
-    
-    
-  }else{
-  if (this.data.action==="file"){
-    this.updatePermissionUserFiles();
-  }else{
-    this.updatePermissionUserFolder();
+      
+     
+    }
+     
   }
-    
-   
-  }
-   
+
    
     
   }
@@ -230,6 +253,30 @@ export class AddPermissionsComponent implements OnInit {
         this.dialogRef.close(this.ResponseMessage);
       
       },
+      error: (err:HttpErrorResponse) => {
+
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err.error.Message;
+        this.dialogRef.close(this.ResponseMessage);
+      }
+    });
+  }
+  
+  deletePermissionUserFolder() {
+    this._directoryService.deletePersmissionUser(this.userSelected,this.fileFolderId,this.user.id).subscribe({
+      next: (res) => {
+      
+        this.ResponseMessage.CodError = 200;
+        this.ResponseMessage.Message = 'Permiso borrado.';
+        this.dialogRef.close(this.ResponseMessage);
+      
+      },
+      error: (err:HttpErrorResponse) => {
+
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err.error.Message;
+        this.dialogRef.close(this.ResponseMessage);
+      }
     });
   }
 
@@ -241,6 +288,12 @@ export class AddPermissionsComponent implements OnInit {
         this.dialogRef.close(this.ResponseMessage);
       
       },
+      error: (err:HttpErrorResponse) => {
+
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err.error.Message;
+        this.dialogRef.close(this.ResponseMessage);
+      }
     });
   }
   
@@ -252,6 +305,12 @@ export class AddPermissionsComponent implements OnInit {
         this.ResponseMessage.Message = 'Permiso guardado.';
         this.dialogRef.close(this.ResponseMessage);
       },
+      error: (err:HttpErrorResponse) => {
+
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err.error.Message;
+        this.dialogRef.close(this.ResponseMessage);
+      }
     });
   }
   
@@ -262,6 +321,12 @@ export class AddPermissionsComponent implements OnInit {
         this.ResponseMessage.Message = 'Permiso guardado.';
         this.dialogRef.close(this.ResponseMessage);
       },
+      error: (err:HttpErrorResponse) => {
+
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = err.error.Message;
+        this.dialogRef.close(this.ResponseMessage);
+      }
     });
   }
 }
