@@ -200,7 +200,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador') {
-            this.dataChange2.next(data.filter(x => x.hasDirectEnrollment));
+            this.dataChange2.next(data.filter(x => x.statusId == 5 && x.activityTrainingType == 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }
@@ -243,6 +243,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       id
     }
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/SetPendingApproval', params);
+  }
+
+  updateStatusActivity(data: any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivityStatus', data);
   }
 
 

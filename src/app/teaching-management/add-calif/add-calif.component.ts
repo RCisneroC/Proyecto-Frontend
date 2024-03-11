@@ -88,8 +88,8 @@ export class AddCalifComponent {
         } else {
           this.getCalificacionActi();
         }
-      } 
-   
+      }
+
 
     }
 
@@ -110,29 +110,31 @@ export class AddCalifComponent {
 
 
   getRecordAcademic() {
-  
+    console.log('====================================');
+    console.log(this.data.student);
+    console.log('====================================');
     const data = {
-      subjectId:this.data.student.asignaturaId,
+      subjectId: this.data.student.asignaturaId,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-        if(res["data"].length==0){
+
+        if (res["data"].length == 0) {
           this.ResponseMessage.CodError = 500;
           this.ResponseMessage.Message = "Estudiante sin registro academico";
           this.dialogRef.close(this.ResponseMessage);
           return;
         }
-          const datos = {
-            academicSubjectRecordId:res["data"][0].id,
-            score: this.FormsCalificacion.get("calif")?.value,
-            scoreTypeId: 1,
-            subjectTaskId: this.data.taskSubject.id,
-          }
+        const datos = {
+          academicSubjectRecordId: res["data"][0].id,
+          score: this.FormsCalificacion.get("calif")?.value,
+          scoreTypeId: 1,
+          subjectTaskId: this.data.taskSubject.id,
+        }
         this._TeacherService.AddCalifTask(datos).subscribe(
           (data) => {
             console.log(data)
@@ -148,36 +150,36 @@ export class AddCalifComponent {
       }
     )
   }
-  
+
   getCalificacionSubj() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      subjectId:idGeneral,
+      subjectId: idGeneral,
       studentId: this.data.student.studentId,
-      degreeCurriculumDesignId:this.data.student.degreeCurriculumDesignId ,
+      degreeCurriculumDesignId: this.data.student.degreeCurriculumDesignId,
     }
 
     this._TeacherService.GetAcademicSubject(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-        if(res["data"].length==0){
+
+        if (res["data"].length == 0) {
           this.ResponseMessage.CodError = 500;
           this.ResponseMessage.Message = "Estudiante sin registro academico";
           this.dialogRef.close(this.ResponseMessage);
           return;
         }
-          const datos = {
-            academicSubjectRecordId:res["data"][0].id,
-            subjectTaskId: this.data.taskSubject.id,
-          }
-  
-          
+        const datos = {
+          academicSubjectRecordId: res["data"][0].id,
+          subjectTaskId: this.data.taskSubject.id,
+        }
+
+
         this._TeacherService.GetCalifSubject(datos).subscribe(
-          (data:any) => {
-            this._CalificacionEstudianteOne.calificacion=data.data[0]?.score;
-          
-          
+          (data: any) => {
+            this._CalificacionEstudianteOne.calificacion = data.data[0]?.score;
+
+
           },
           (error) => {
             this.ResponseMessage.CodError = 500;
@@ -187,36 +189,36 @@ export class AddCalifComponent {
       }
     )
   }
-  
+
   getCalificacionActi() {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       participantId: this.data.participantId,
     }
-    
+
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        
-        if(res["data"].length==0){
+
+        if (res["data"].length == 0) {
           this.ResponseMessage.CodError = 500;
           this.ResponseMessage.Message = "Participante sin registro academico";
           this.dialogRef.close(this.ResponseMessage);
           return;
         }
-    
-          const datos = {
-            efAcademicRecordId:res["data"][0]?.id,
-            activityTaskId: this.data.taskSubject.id,
-          }
-  
-          
+
+        const datos = {
+          efAcademicRecordId: res["data"][0]?.id,
+          activityTaskId: this.data.taskSubject.id,
+        }
+
+
         this._TeacherService.GetCalifActi(datos).subscribe(
-          (data:any) => {
-            this._CalificacionEstudianteOne.calificacion=data.data[0]?.score;
-          
-          
+          (data: any) => {
+            this._CalificacionEstudianteOne.calificacion = data.data[0]?.score;
+
+
           },
           (error) => {
             this.ResponseMessage.CodError = 500;
@@ -226,34 +228,34 @@ export class AddCalifComponent {
       }
     )
   }
-  
-  
+
+
 
   getRecordAcademicAct() {
-  
+
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
-      activityId:idGeneral,
+      activityId: idGeneral,
       participantId: this.data.participantId,
     }
-    
+
 
     this._TeacherService.GetAcademicActivity(data).subscribe(
-      (res:AcademicRecord) => {
+      (res: AcademicRecord) => {
         console.log(res);
-        if(res["data"].length==0){
+        if (res["data"].length == 0) {
           this.ResponseMessage.CodError = 500;
           this.ResponseMessage.Message = "Participante sin registro academico";
           this.dialogRef.close(this.ResponseMessage);
           return;
         }
-    
-          const datos = {
-            ecAcademicRecordId:res["data"][0]?.id,
-            score: this.FormsCalificacion.get("calif")?.value,
-            scoreTypeId: 1,
-            activityTaskId: this.data.taskSubject.id,
-          }
+
+        const datos = {
+          ecAcademicRecordId: res["data"][0]?.id,
+          score: this.FormsCalificacion.get("calif")?.value,
+          scoreTypeId: 1,
+          activityTaskId: this.data.taskSubject.id,
+        }
         this._TeacherService.AddCalifTaskActi(datos).subscribe(
           (data) => {
             console.log(data)
@@ -269,7 +271,7 @@ export class AddCalifComponent {
       }
     )
   }
-  
+
 
 
   submit() {
@@ -279,8 +281,8 @@ export class AddCalifComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-  
-  
+
+
     let local = localStorage.getItem('tipoSolicitud') || '';
     if (local != '') {
       if (local == "1") {
@@ -288,7 +290,7 @@ export class AddCalifComponent {
       } else {
         this.getRecordAcademicAct()
       }
-    } 
+    }
 
     // let type = localStorage.getItem('tipoSolicitud') || '1';
     // let local = localStorage.getItem('calificaciones') || '';

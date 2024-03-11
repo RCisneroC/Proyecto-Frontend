@@ -651,6 +651,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<DetailsParticipanteEF>(environment.apiEC + 'EFInscription/EFDetails?cedula=' + cedula);
   }
 
+  GetVerifyStudent(cedula: any) {
+    return this.httpClient.get<any>(environment.apiEC + 'GetData/GetVerifyStudent?cedula=' + cedula);
+  }
+
   encryptData(data: string, secretKey: string): string {
     try {
       let cadena = CryptoJS.AES.encrypt(data, secretKey).toString();

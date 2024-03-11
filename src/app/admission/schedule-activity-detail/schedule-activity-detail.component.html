@@ -202,6 +202,12 @@
                               <app-feather-icons [icon]="'eye'"></app-feather-icons>
                             </button>
 
+                            <button *ngIf="row.statusId == 7 || row.statusId == 4" matTooltip="Enviar Aprobación"
+                              mat-mini-fab color="primary" (click)="$event.stopPropagation()"
+                              (click)="enviarAprobacion(row)" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'check'"></app-feather-icons>
+                            </button>
+
 
                           </mat-cell>
                         </ng-container>

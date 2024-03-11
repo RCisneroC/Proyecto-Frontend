@@ -9,7 +9,7 @@ import { InscriptionService } from "../../admission/inscription/services/inscrip
 import { EnrollmentService } from "../services/enrollment.service";
 import { AuthService } from "@core";
 import { MatDialog } from "@angular/material/dialog";
-import { DetailsParticipanteEF } from "../../admission/models/participant";
+import { DetailsParticipante, DetailsParticipanteEF } from "../../admission/models/participant";
 import { Direction } from "@angular/cdk/bidi";
 import {
   AddAttendanceFormsComponent
@@ -60,6 +60,8 @@ export class EnrollDetailsMeshComponent {
 
   dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceActInfo);
   loading: boolean = true;
+  part: boolean = false;
+  asp: boolean = false;
   eCAcademicRecordId: number = 0;
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
@@ -118,24 +120,45 @@ export class EnrollDetailsMeshComponent {
 
   getDetails() {
     this._ActivityService.loading = true;
-    this._ActivityService.GetDetailsEFCedula(this.authService.currentUserValue.cedula).subscribe({
-      next: (res: DetailsParticipanteEF) => {
-        this._ActivityService._DetailsParticipanteEF = res;
-        console.log("Activity obj", res);
-        if (res.getDetailsResponse.length > 0) {
-          this.IsStudents = true;
-          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
-
+    this._ActivityService.GetVerifyStudent(this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
+        console.log("GetVerifyStudent", res.verifyUsersResult[0].part);
+        this.part = res.verifyUsersResult[0].part;
+        this.asp = res.verifyUsersResult[0].asp;
+        if (this.part) {
+          this._ActivityService.GetDetailsCedula(this.authService.currentUserValue.cedula).subscribe({
+            next: (res: DetailsParticipante) => {
+              this._ActivityService._DetailsParticipante = res;
+              if (res.detailsResponse.length > 0) {
+                this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+              }
+              this._ActivityService.loading = false;
+              this.getInfo();
+              this.loadactivity();
+            }, error: (err) => {
+            }
+          })
         }
-
-        this._ActivityService.loading = false;
-      },
-      error: (err) => {
-      }, complete: () => {
-        this.getInfo();
-        this.loadactivity();
+        else if (this.asp) {
+          this.IsStudents = true;
+          this._ActivityService.GetDetailsEFCedula(this.authService.currentUserValue.cedula).subscribe({
+            next: (res: DetailsParticipanteEF) => {
+              this._ActivityService._DetailsParticipanteEF = res;
+              console.log("Activity obj", res);
+              if (res.getDetailsResponse.length > 0) {
+                this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+              }
+              this._ActivityService.loading = false;
+              this.getInfo();
+              this.loadactivity();
+            },
+            error: (err) => {
+            }
+          })
+        }
       }
     })
+
   }
 
   getInfo() {
