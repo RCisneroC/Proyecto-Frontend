@@ -29,6 +29,7 @@ export interface FoodNode {
   hasOnloadfile:boolean;
   update:boolean;
   delete:boolean;
+  viewFolder:boolean;
   parentId?: number;
   files: FoodNode[];
   folders: FoodNode[];
@@ -46,6 +47,7 @@ export interface ExampleFlatNode {
   hasOnloadfile:boolean;
   update:boolean;
   delete:boolean;
+  viewFolder:boolean;
   level: number;
   //files: FoodNode[];
   folders?: FoodNode[];
@@ -79,6 +81,7 @@ export class DirectoryListComponent  implements OnInit   {
       hasOnloadfile:node.hasOnloadfile,
       update:node.update,
       delete:node.delete,
+      viewFolder:node.viewFolder,
       level: level,
       folderId:node.folderId,
       fileId:node.fileId
@@ -130,6 +133,9 @@ export class DirectoryListComponent  implements OnInit   {
       }
     })
   }
+  
+  
+
   
   
   permissions(event:any,filefolder:string){

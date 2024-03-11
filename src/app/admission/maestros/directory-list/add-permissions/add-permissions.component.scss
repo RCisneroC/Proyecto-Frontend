@@ -10,3 +10,7 @@ td {
     padding-left: 20px;
 }
 
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+    margin-left: 16px;
+  }
+

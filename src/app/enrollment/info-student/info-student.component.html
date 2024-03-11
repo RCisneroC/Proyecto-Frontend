@@ -44,42 +44,6 @@
                   </mat-form-field>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Lugar de nacimiento</mat-label>
-                    <input matInput formControlName="placeOfBirth" [readonly]="participante && !aspirante">
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('placeOfBirth')?.hasError('required')">
-                      Es Requitos
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Fecha de nacimiento</mat-label>
-                    <input [readonly]="participante && !aspirante" matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
-                    <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
-                    <mat-datepicker #fechaNacimiento></mat-datepicker>
-                    <mat-error *ngIf="studentForm.get('dateOfBirth')?.hasError('required')">
-                      Es Requitos
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Dirección de residencia</mat-label>
-                    <input [readonly]="participante && !aspirante" matInput formControlName="placeResidence">
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('placeResidence')?.hasError('required')">
-                      Es Requitos
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-
               <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width " appearance="outline">
@@ -90,32 +54,59 @@
                     </mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Número Telefónico</mat-label>
-                    <input [readonly]="participante && !aspirante"  matInput formControlName="telephoneNumber">
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('telephoneNumber')?.hasError('required')">
-                      Es Requito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Sexo</mat-label>
-                    <mat-select [disabled]="participante && !aspirante"  formControlName="gender">
-                      <mat-option value="Femenino">Femenino</mat-option>
-                      <mat-option value="Masculino">Masculino</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('gender')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
               </div>
               <!--   ASPIRANTES -->
               <div *ngIf="aspirante">
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Lugar de nacimiento</mat-label>
+                      <input matInput formControlName="placeOfBirth">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('placeOfBirth')?.hasError('required')">
+                        Es Requitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Fecha de nacimiento</mat-label>
+                      <input matInput [matDatepicker]="fechaNacimiento" formControlName="dateOfBirth">
+                      <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+                      <mat-datepicker #fechaNacimiento></mat-datepicker>
+                      <mat-error *ngIf="studentForm.get('dateOfBirth')?.hasError('required')">
+                        Es Requitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Dirección de residencia</mat-label>
+                      <input [readonly]="participante && !aspirante" matInput formControlName="placeResidence">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('placeResidence')?.hasError('required')">
+                        Es Requitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Número Telefónico</mat-label>
+                      <input matInput formControlName="telephoneNumber">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('telephoneNumber')?.hasError('required')">
+                        Es Requito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
                 <div class="row">
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
@@ -156,7 +147,7 @@
                 <div class="row">
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
-                      <mat-label>Caso de emergencia avisar a*</mat-label>
+                      <mat-label>Caso de emergencia avisar a</mat-label>
                       <input matInput formControlName="caseOfemergency">
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('caseOfemergency')?.hasError('required')">
@@ -166,7 +157,7 @@
                   </div>
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
-                      <mat-label>Número residencial y/o ceular (emergencia)*</mat-label>
+                      <mat-label>Número residencial y/o ceular (emergencia)</mat-label>
                       <input matInput formControlName="telephoneNumberEmergency">
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('telephoneNumberEmergency')?.hasError('required')">
@@ -189,7 +180,7 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                       <mat-label>Posee alguna capacidad diferente</mat-label>
-                      <mat-select formControlName="specialCapacity">
+                      <mat-select formControlName="specialCapacity" (selectionChange)="limpiarCasmposSpecialCapacity()">
                         <mat-option value=True>Si</mat-option>
                         <mat-option value=False>No</mat-option>
                       </mat-select>
@@ -263,127 +254,142 @@
                     </mat-form-field>
                   </div>
                 </div>
-            </div>
+              </div>
 
               <!-- Participantes -->
               <div *ngIf="participante">
-              <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Institución</mat-label>
-                   <mat-select formControlName="institution">
-                    <mat-option  [value]=""></mat-option>
-                      <mat-option *ngFor="let row of InstitutionList" [value]="row.name">{{row.name}}</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('institution')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Sexo</mat-label>
+                      <mat-select formControlName="gender">
+                        <mat-option value="Femenino">Femenino</mat-option>
+                        <mat-option value="Masculino">Masculino</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('gender')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Institución</mat-label>
+                      <mat-select formControlName="institution">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option *ngFor="let row of InstitutionList" [value]="row.name">{{row.name}}</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('institution')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Universidad</mat-label>
+                      <mat-select formControlName="university">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option *ngFor="let row of UniversityList" [value]="row.name">{{row.name}}</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('university')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Universidad</mat-label>
-                    <mat-select formControlName="university">
-                      <mat-option  [value]=""></mat-option>
-                      <mat-option *ngFor="let row of UniversityList" [value]="row.name">{{row.name}}</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('university')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Dependencia</mat-label>
+                      <mat-select formControlName="dependency">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option *ngFor="let row of DependencyList"
+                          [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('dependency')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Entidad Cooperadora</mat-label>
+                      <mat-select formControlName="cooperatingEntity">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option *ngFor="let row of OrganismoCopList" [value]="row.name">{{row.name}}</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('cooperatingEntity')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Posición</mat-label>
+                      <mat-select formControlName="position">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option *ngFor="let row of CargosList"
+                          [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('position')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Dependencia</mat-label>
-                    <mat-select formControlName="dependency">
-                      <mat-option  [value]=""></mat-option>
-                      <mat-option *ngFor="let row of DependencyList" [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('dependency')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Provincia</mat-label>
+                      <mat-select formControlName="province">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option value="BOCAS DEL TORO">BOCAS DEL TORO</mat-option>
+                        <mat-option value="COCLÉ">COCLÉ</mat-option>
+                        <mat-option value="COLÓN">COLÓN</mat-option>
+                        <mat-option value="CHIRIQUÍ">CHIRIQUÍ</mat-option>
+                        <mat-option value="DARIÉN">DARIÉN</mat-option>
+                        <mat-option value="HERRERA">HERRERA</mat-option>
+                        <mat-option value="LOS SANTOS">LOS SANTOS</mat-option>
+                        <mat-option value="PANAMÁ">PANAMÁ</mat-option>
+                        <mat-option value="VERAGUAS">VERAGUAS</mat-option>
+                        <mat-option value="COMARCA GUNA YALA">COMARCA GUNA YALA</mat-option>
+                        <mat-option value="COMARCA EMBERÁ-WOUNAAN">COMARCA EMBERÁ-WOUNAAN</mat-option>
+                        <mat-option value="COMARCA NGÄBE-BUGLÉ">COMARCA NGÄBE-BUGLÉ</mat-option>
+                        <mat-option value="PANAMÁ OESTE">PANAMÁ OESTE</mat-option>
+                      </mat-select>
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('province')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Distrito</mat-label>
+                      <input matInput formControlName="judicialDistrict">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('judicialDistrict')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width " appearance="outline">
+                      <mat-label>Fecha de Invitación</mat-label>
+                      <input matInput formControlName="invitationDate">
+                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
+                      <mat-error *ngIf="studentForm.get('invitationDate')?.hasError('required')">
+                        Es Requisito
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Entidad Cooperadora</mat-label>
-                  <mat-select formControlName="cooperatingEntity">
-                    <mat-option  [value]=""></mat-option>
-                      <mat-option *ngFor="let row of OrganismoCopList" [value]="row.name">{{row.name}}</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('cooperatingEntity')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Posición</mat-label>
-                    <mat-select formControlName="position">
-                      <mat-option  [value]=""></mat-option>
-                      <mat-option *ngFor="let row of CargosList" [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('position')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Provincia</mat-label>
-                    <mat-select formControlName="province">
-                      <mat-option  [value]=""></mat-option>
-                      <mat-option value="BOCAS DEL TORO">BOCAS DEL TORO</mat-option>
-                      <mat-option value="COCLÉ">COCLÉ</mat-option>
-                      <mat-option value="COLÓN">COLÓN</mat-option>
-                      <mat-option value="CHIRIQUÍ">CHIRIQUÍ</mat-option>
-                      <mat-option value="DARIÉN">DARIÉN</mat-option>
-                      <mat-option value="HERRERA">HERRERA</mat-option>
-                      <mat-option value="LOS SANTOS">LOS SANTOS</mat-option>
-                      <mat-option value="PANAMÁ">PANAMÁ</mat-option>
-                      <mat-option value="VERAGUAS">VERAGUAS</mat-option>
-                      <mat-option value="COMARCA GUNA YALA">COMARCA GUNA YALA</mat-option>
-                      <mat-option value="COMARCA EMBERÁ-WOUNAAN">COMARCA EMBERÁ-WOUNAAN</mat-option>
-                      <mat-option value="COMARCA NGÄBE-BUGLÉ">COMARCA NGÄBE-BUGLÉ</mat-option>
-                      <mat-option value="PANAMÁ OESTE">PANAMÁ OESTE</mat-option>
-                    </mat-select>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('province')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Distrito</mat-label>
-                    <input matInput formControlName="judicialDistrict">
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('judicialDistrict')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width " appearance="outline">
-                    <mat-label>Fecha de Invitación</mat-label>
-                    <input matInput  formControlName="invitationDate">
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                    <mat-error *ngIf="studentForm.get('invitationDate')?.hasError('required')">
-                      Es Requisito
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
             </form>
             <div class="row clearfix">
               <div class="" style="margin-bottom: 20px;text-align: left;">
@@ -468,60 +474,58 @@
           </div>
           <div class="body">
             <div class="body table-responsive" *ngIf="DataStudent">
-                <table mat-table [dataSource]="DataStudent.listTraining" class="w-100">
-                    <!-- Id Column -->
-                    <ng-container matColumnDef="trainingId">
-                        <th mat-header-cell *matHeaderCellDef> Id</th>
-                        <td mat-cell *matCellDef="let element"> {{ element.trainingId }}</td>
-                    </ng-container>
+              <table mat-table [dataSource]="DataStudent.listTraining" class="w-100">
+                <!-- Id Column -->
+                <ng-container matColumnDef="trainingId">
+                  <th mat-header-cell *matHeaderCellDef> Id</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.trainingId }}</td>
+                </ng-container>
 
-                    <ng-container matColumnDef="institution">
-                        <th mat-header-cell *matHeaderCellDef>Institución </th>
-                        <td mat-cell *matCellDef="let element">{{ element.institution }} </td>
-                    </ng-container>
+                <ng-container matColumnDef="institution">
+                  <th mat-header-cell *matHeaderCellDef>Institución </th>
+                  <td mat-cell *matCellDef="let element">{{ element.institution }} </td>
+                </ng-container>
 
-                    <ng-container matColumnDef="completionDate">
-                        <th mat-header-cell *matHeaderCellDef>Fecha de culminación</th>
-                        <td mat-cell *matCellDef="let element">{{ element.completionDate | date:'dd/M/yyyy'
-                            }} </td>
-                    </ng-container>
+                <ng-container matColumnDef="completionDate">
+                  <th mat-header-cell *matHeaderCellDef>Fecha de culminación</th>
+                  <td mat-cell *matCellDef="let element">{{ element.completionDate | date:'dd/M/yyyy'
+                    }} </td>
+                </ng-container>
 
-                    <ng-container matColumnDef="degreeDate">
-                        <th mat-header-cell *matHeaderCellDef>Fecha de grado</th>
-                        <td mat-cell *matCellDef="let element">{{ element.degreeDate | date:'dd/M/yyyy' }}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="educationLevel">
-                        <th mat-header-cell *matHeaderCellDef>Nivel educativo</th>
-                        <td mat-cell *matCellDef="let element">{{ element.educationLevel }} </td>
-                    </ng-container>
+                <ng-container matColumnDef="degreeDate">
+                  <th mat-header-cell *matHeaderCellDef>Fecha de grado</th>
+                  <td mat-cell *matCellDef="let element">{{ element.degreeDate | date:'dd/M/yyyy' }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="educationLevel">
+                  <th mat-header-cell *matHeaderCellDef>Nivel educativo</th>
+                  <td mat-cell *matCellDef="let element">{{ element.educationLevel }} </td>
+                </ng-container>
 
-                    <ng-container matColumnDef="degreeObtained">
-                        <th mat-header-cell *matHeaderCellDef>Titulo obtenido</th>
-                        <td mat-cell *matCellDef="let element">{{ element.degreeObtained }} </td>
-                    </ng-container>
+                <ng-container matColumnDef="degreeObtained">
+                  <th mat-header-cell *matHeaderCellDef>Titulo obtenido</th>
+                  <td mat-cell *matCellDef="let element">{{ element.degreeObtained }} </td>
+                </ng-container>
 
-                    <ng-container matColumnDef="city">
-                        <th mat-header-cell *matHeaderCellDef>Ciudad </th>
-                        <td mat-cell *matCellDef="let element">{{ element.city }} </td>
-                    </ng-container>
-                    <!-- Acción Column -->
-                    <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef> Acción </th>
-                        <td mat-cell *matCellDef="let element">
-                            <button (click)="removeTraining(element)" mat-mini-fab color="accent"
-                                matTooltip="Eliminar">
-                                <mat-icon>restore_from_trash</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTraining"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTraining;"></tr>
-                </table>
-                <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]"
-                    showFirstLastButtons></mat-paginator>
+                <ng-container matColumnDef="city">
+                  <th mat-header-cell *matHeaderCellDef>Ciudad </th>
+                  <td mat-cell *matCellDef="let element">{{ element.city }} </td>
+                </ng-container>
+                <!-- Acción Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Acción </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button (click)="removeTraining(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                      <mat-icon>restore_from_trash</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTraining"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTraining;"></tr>
+              </table>
+              <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
             </div>
-        </div>
+          </div>
           <!-- <mat-progress-bar mode="indeterminate" ></mat-progress-bar> -->
         </div>
       </div>
