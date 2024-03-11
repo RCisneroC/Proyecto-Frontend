@@ -220,19 +220,19 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
 
 
 
-  updateAspirantEF(data: any): Observable<ResponseModifyStudent> {
+ async updateAspirantEF(data: any): Promise<Observable<ResponseModifyStudent>> {
     const url = `${environment.apiEC}`;
-    return this.httpClient.put<ResponseModifyStudent>(url + "EFInscription/UpdateAspirant", data);
+    return await this.httpClient.put<ResponseModifyStudent>(url + "EFInscription/UpdateAspirant", data);
   }
 
-  updateParticipantEF(data: any): Observable<ResponseModifyStudent> {
+ async updateParticipantEF(data: any): Promise<Observable<ResponseModifyStudent>> {
     const url = `${environment.apiEC}`;
-    return this.httpClient.put<ResponseModifyStudent>(url + "ContinuingEducation/UpdateParticipant", data);
+    return await this.httpClient.put<ResponseModifyStudent>(url + "ContinuingEducation/UpdateParticipant", data);
   }
 
-  updateAspirantParticipantEF(data: any): Observable<ResponseModifyStudent> {
+ async updateAspirantParticipantEF(data: any) {
     const url = `${environment.apiEC}`;
-    return this.httpClient.put<ResponseModifyStudent>(url + "EJMatricula/UpdateStudent", data);
+    return await this.httpClient.put<ResponseModifyStudent>(url + "EJMatricula/UpdateStudent", data);
   }
 
 }
