@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ChangeDetectorRef} from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {  Documents, Experience, Student, StudentData, Training } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
@@ -18,6 +18,8 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
 import { StudentModel } from 'app/enrollment/models/StudentModel';
 import { HttpErrorResponse } from '@angular/common/http';
+import {  DatePipe } from '@angular/common';
+import { InscriptionService  } from 'app/admission/inscription/services/inscription.service';
 
 
 import { AddActivityComponent } from 'app/teaching-management/add-activity/add-activity.component';
@@ -114,6 +116,11 @@ viewAsig!: boolean;
 user!:User;
 aspirante!: boolean;
 participante!: boolean;
+UniversityList: any[] = [];
+InstitutionList: any[] = [];
+DependencyList: any[] = [];
+OrganismoCopList: any[] = []
+CargosList: any[] = [];
 public DatosEstudianteResponse: StudentModel | undefined;
 
 constructor( private activatedRoute: ActivatedRoute,
@@ -124,7 +131,10 @@ public _dialog: MatDialog,
 private _nav:Router,
 private fb: UntypedFormBuilder,
 public _verificarBS64: VerificarBS64Pipe,
-private enrollmentService: EnrollmentService
+private enrollmentService: EnrollmentService,
+public datePipe:DatePipe,
+private _inscriptionService:InscriptionService,
+private cb: ChangeDetectorRef
 ){
   super();
 }
@@ -135,16 +145,20 @@ private enrollmentService: EnrollmentService
     this.user =this.authenticationService.currentUserValue;
     this.DataStudent=new Student();
     const fechaActual = new Date();
-    this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
     this.studentForm = this.createstudentFormAll();
-
 
 
     this.header = "Actualizar Datos";
 
 
     const cedula: string = this.authenticationService.currentUserValue.cedula;
+    this.loadUniversidades();
+    this.loadIntituciones();
+    this.loadDependencias();
+    this. loadOrganosCop();
+    this.loadCargos();
+
     this.getPersonData(cedula);
 
     this.docForm= this.fb.group({
@@ -174,18 +188,19 @@ private enrollmentService: EnrollmentService
                   if(!this.DatosEstudianteResponse.isError){
                    this.aspirante = this.DatosEstudianteResponse.verifyUsersResult[0].asp;
                    this.participante = this.DatosEstudianteResponse.verifyUsersResult[0].part;
-
                    this.studentForm.controls["cedula"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].cedula);
                    this.studentForm.controls["name"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].firstName);
                    this.studentForm.controls["lastName"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].lastName);
                    this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
+
+
 
                    if(this.aspirante){
                     this.studentForm.controls["telephoneNumber"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber);
                     this.studentForm.controls["placeOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth);
                     this.studentForm.controls["dateOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth);
                     this.studentForm.controls["placeResidence"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress);
-                    this.studentForm.controls["phoneNumber"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].homePhoneNumber);
+                    this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].gender);
                     this.studentForm.controls["maritalStatus"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].maritalStatus);
                     this.studentForm.controls["nameOfspouse"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].nameOfspouse);
                     this.studentForm.controls["numberofchildren"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].numberofchildren);
@@ -210,9 +225,9 @@ private enrollmentService: EnrollmentService
                     this.studentForm.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
                     this.studentForm.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
                     this.studentForm.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
-                    this.studentForm.controls["invitationDate"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].invitationDate);
+                    this.studentForm.controls["invitationDate"].patchValue(this.datePipe.transform(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].invitationDate,"dd/MM/yyyy"));
                   }
-
+                        this.cb.detectChanges();
                   }
                 }
               },
@@ -224,16 +239,6 @@ private enrollmentService: EnrollmentService
       );
 
     }
-  }
-
-  async getRequiredDocuments() {
-    this._studentService.getRequiredDocument().subscribe({
-       next: (res) => {
-
-        this.DataDocument = res;
-
-      }
-    })
   }
 
   GetName(type: number) {
@@ -308,39 +313,6 @@ private enrollmentService: EnrollmentService
         this.DataStudent.listExperience=[...this.DataExperience]
 
   }
-  Regresar() {
-    this._nav.navigate(['/teaching-management/teacher-list/']);
-  }
-
-
-
-  createstudentForm(): UntypedFormGroup{
-    return this.fb.group({
-      studentId: new FormControl(this.DataStudent.studentId),
-      cedula: new FormControl(this.DataStudent?.cedula, [Validators.required]),
-      name: new FormControl(this.DataStudent?.name, [Validators.required]),
-      lastName: new FormControl(this.DataStudent?.lastName, [Validators.required]),
-      placeOfBirth:['Panama',[Validators.required]],
-      dateOfBirth:[this.DataStudent?.dischargeDate],
-      email: new FormControl(this.DataStudent?.email, [Validators.required,Validators.email]),
-      telephoneNumber:['+50742487558',[Validators.required]],
-      selected: new FormControl(this.DataStudent?.selected),
-      placeResidence: new FormControl(this.DataStudent?.placeResidence),
-      listCourse: new FormControl(this.DataStudent?.listCourse||[]),
-      listTraining: new FormControl(this.DataStudent?.listTraining||[]),
-      listSpecialty: new FormControl(this.DataStudent?.listSpecialty||[]),
-      listExperience: new FormControl(this.DataStudent?.listExperience||[]),
-      listDocument: new FormControl(this.DataStudent?.listDocument||[]),
-      listActivity: new FormControl(this.DataStudent?.listActivity||[]),
-      listSubject: new FormControl(this.DataStudent?.listSubject||[]),
-      process: new FormControl(this.DataStudent.process),
-      createdBy: new FormControl(this.DataStudent?.name)
-    });
-  }
-
-
-
-
 
   createstudentFormAll(): UntypedFormGroup{
 
@@ -350,18 +322,18 @@ private enrollmentService: EnrollmentService
       name: new FormControl(this.dataStudent?.firstName, [Validators.required]),
       lastName: new FormControl(this.dataStudent?.lastName, [Validators.required]),
       placeOfBirth:[this.dataStudent?.placeOfBirth,[Validators.required]],
-      dateOfBirth:[this.dataStudent?.dateOfBirth],
+      dateOfBirth:[this.dataStudent?.dateOfBirth,[Validators.required]],
       email: new FormControl(this.dataStudent?.email, [Validators.required,Validators.email]),
       telephoneNumber:[this.dataStudent?.homePhoneNumber,[Validators.required]],
-      placeResidence: new FormControl(this.dataStudent?.residentialAddress),
+      placeResidence: new FormControl(this.dataStudent?.residentialAddress,Validators.required),
       //datos de aspirantes
-      phoneNumber: new FormControl(this.dataStudent?.telephoneNumber),
-      maritalStatus: new FormControl(this.dataStudent?.maritalStatus),
+      gender: new FormControl(this.dataStudent?.gender, Validators.required),
+      maritalStatus: new FormControl(this.dataStudent?.maritalStatus,Validators.required),
       nameOfspouse: new FormControl(this.dataStudent?.nameOfspouse),
       numberofchildren: new FormControl(this.dataStudent?.numberofchildren),
-      caseOfemergency: new FormControl(this.dataStudent?.caseOfemergency),
-      telephoneNumberEmergency: new FormControl(this.dataStudent?.telephoneNumberEmergency),
-      bloodtype: new FormControl(this.dataStudent?.bloodtype),
+      caseOfemergency: new FormControl(this.dataStudent?.caseOfemergency, Validators.required),
+      telephoneNumberEmergency: new FormControl(this.dataStudent?.telephoneNumberEmergency,Validators.required),
+      bloodtype: new FormControl(this.dataStudent?.bloodtype, Validators.required),
       specialCapacity: [false, [Validators.required]],
       visual: [false],
       auditory: [false],
@@ -371,13 +343,13 @@ private enrollmentService: EnrollmentService
       others: [''],
       usesAwheelchair: [false],
       //datos de participantes
-      institution: new FormControl(this.dataStudent?.institution),
-      university: new FormControl(this.dataStudent?.university),
-      dependency: new FormControl(this.dataStudent?.dependency),
-      cooperatingEntity: new FormControl(this.dataStudent?.cooperatingEntity),
-      position: new FormControl(this.dataStudent?.position),
-      province: new FormControl(this.dataStudent?.province),
-      judicialDistrict:new FormControl(this.dataStudent?.judicialDistrict),
+      institution: new FormControl(this.dataStudent?.institution , Validators.required),
+      university: new FormControl(this.dataStudent?.university , Validators.required),
+      dependency: new FormControl(this.dataStudent?.dependency , Validators.required),
+      cooperatingEntity: new FormControl(this.dataStudent?.cooperatingEntity , Validators.required),
+      position: new FormControl(this.dataStudent?.position, Validators.required),
+      province: new FormControl(this.dataStudent?.province, Validators.required),
+      judicialDistrict:new FormControl(this.dataStudent?.judicialDistrict , Validators.required),
       invitationDate: new FormControl(this.dataStudent?.invitationDate),
       listTraining: new FormControl(this.DataStudent?.listTraining||[]),
       listExperience: new FormControl(this.DataStudent?.listExperience||[])
@@ -404,30 +376,144 @@ public submit():void {
   this.studentForm?.get('listDocument')?.setValue(this.DataStudent?.listDocument);
   this.studentForm?.get('listExperience')?.setValue(this.DataStudent?.listExperience);
   this.studentForm?.get('listTraining')?.setValue(this.DataStudent?.listTraining);
-  this.studentForm?.get('listDocument')?.setValue([]);
-  this.studentForm?.get('listSubject')?.setValue([]);
 
-  if(this.studentForm.valid)
-
-  this._studentService.addUpdateTeacher(this.studentForm.value).subscribe({
-    next: () => {
-      Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Guardado correctamente.',
-              icon: "success"
-          });
-
-    },
-    error: () => {
-      Swal.fire({
-            title: "Escuela Judicial",
-            text: 'Intente nuevamente.',
-            icon: "warning"
-          });
-    }
-   })
-
+  if(!this.studentForm.valid){
+    this.studentForm.markAsPristine();
+    return;
   }
+
+  if(this.aspirante && !this.participante){
+    const data: any = {
+      cedula: this.studentForm.controls["cedula"].value,
+      phoneNumber: this.studentForm.controls["telephoneNumber"].value,
+      homePhoneNumber: this.studentForm.controls["telephoneNumberEmergency"].value,
+      email: this.studentForm.controls["email"].value,
+      maritalStatus: this.studentForm.controls["maritalStatus"].value,
+      nameOfspouse: this.studentForm.controls["nameOfspouse"].value,
+      numberofchildren: this.studentForm.controls["numberofchildren"].value,
+      caseOfemergency: this.studentForm.controls["caseOfemergency"].value,
+      telephoneNumberEmergency: this.studentForm.controls["telephoneNumberEmergency"].value,
+      degreeId: 0,
+      dateOfBirth: this.studentForm.controls["dateOfBirth"].value,
+      placeOfBirth: this.studentForm.controls["placeOfBirth"].value,
+      residentialAddress: this.studentForm.controls["placeResidence"].value,
+      bloodtype: this.studentForm.controls["bloodtype"].value,
+      specialCapacity: this.studentForm.controls["specialCapacity"].value,
+      visual: this.studentForm.controls["visual"].value,
+      auditory: this.studentForm.controls["auditory"].value,
+      cognitive: this.studentForm.controls["cognitive"].value,
+      physical: this.studentForm.controls["physical"].value,
+      specific: this.studentForm.controls["specific"].value,
+      others: this.studentForm.controls["others"].value,
+      usesAwheelchair: this.studentForm.controls["usesAwheelchair"].value
+    };
+
+    this._studentService.updateAspirantEF(data).subscribe({
+      next : (request) =>{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: request.message,
+          icon: "success"
+        });
+      },
+      error : (err:HttpErrorResponse) =>{
+        console.log(err);
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudo actualizar sus datos",
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+  if(this.participante && !this.aspirante){
+    const data: any = {
+      cedula: this.studentForm.controls["cedula"].value,
+      gender: this.studentForm.controls["gender"].value,
+      institution: this.studentForm.controls["institution"].value,
+      university: this.studentForm.controls["university"].value,
+      dependency: this.studentForm.controls["dependency"].value,
+      cooperatingEntity: this.studentForm.controls["cooperatingEntity"].value,
+      position: this.studentForm.controls["position"].value,
+      province: this.studentForm.controls["province"].value,
+      judicialDistrict: this.studentForm.controls["judicialDistrict"].value,
+      invitationDate: this.studentForm.controls["invitationDate"].value
+    };
+    this._studentService.updateParticipantEF(data).subscribe({
+      next : (request) =>{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: request.message,
+          icon: "success"
+        });
+      },
+      error : (err:HttpErrorResponse) =>{
+        console.log(err);
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudo actualizar sus datos",
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+  if(this.participante && this.aspirante){
+    const data: any = {
+      cedula: this.studentForm.controls["cedula"].value,
+      phoneNumber: this.studentForm.controls["telephoneNumber"].value,
+      homePhoneNumber: this.studentForm.controls["telephoneNumberEmergency"].value,
+      email: this.studentForm.controls["email"].value,
+      maritalStatus: this.studentForm.controls["maritalStatus"].value,
+      nameOfspouse: this.studentForm.controls["nameOfspouse"].value,
+      numberofchildren: this.studentForm.controls["numberofchildren"].value,
+      caseOfemergency: this.studentForm.controls["caseOfemergency"].value,
+      telephoneNumberEmergency: this.studentForm.controls["telephoneNumberEmergency"].value,
+      degreeId: 0,
+      dateOfBirth: this.studentForm.controls["dateOfBirth"].value,
+      placeOfBirth: this.studentForm.controls["placeOfBirth"].value,
+      residentialAddress: this.studentForm.controls["placeResidence"].value,
+      bloodtype: this.studentForm.controls["bloodtype"].value,
+      specialCapacity: this.studentForm.controls["specialCapacity"].value,
+      visual: this.studentForm.controls["visual"].value,
+      auditory: this.studentForm.controls["auditory"].value,
+      cognitive: this.studentForm.controls["cognitive"].value,
+      physical: this.studentForm.controls["physical"].value,
+      specific: this.studentForm.controls["specific"].value,
+      others: this.studentForm.controls["others"].value,
+      usesAwheelchair: this.studentForm.controls["usesAwheelchair"].value,
+      gender: this.studentForm.controls["gender"].value,
+      institution: this.studentForm.controls["institution"].value,
+      university: this.studentForm.controls["university"].value,
+      dependency: this.studentForm.controls["dependency"].value,
+      cooperatingEntity: this.studentForm.controls["cooperatingEntity"].value,
+      position: this.studentForm.controls["position"].value,
+      province: this.studentForm.controls["province"].value,
+      judicialDistrict: this.studentForm.controls["judicialDistrict"].value,
+      invitationDate: this.studentForm.controls["invitationDate"].value
+    };
+    console.log(data)
+    this._studentService.updateAspirantParticipantEF(data).subscribe({
+      next : (request) =>{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: request.message,
+          icon: "success"
+        });
+      }
+      ,error : (err:HttpErrorResponse) =>{
+        console.log(err);
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudo actualizar sus datos",
+          icon: "warning"
+        });
+      }
+    });
+  }
+  this.ngOnInit();
+}
 
   AddTraining(){
 
@@ -440,6 +526,61 @@ public submit():void {
 
   }
 
+  loadExperience(){
+    /*this.inscriptionService.GetExperienceInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
+     {
+      next: (request) =>{
+        this.DataStudent.listExperience = request.experienceInfoResponse;
+
+      }
+     }
+    );*/
+  }
+
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
+      }
+    })
+  }
+
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
+
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
+
+    loadOrganosCop() {
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
+
+   loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
 
 }
 

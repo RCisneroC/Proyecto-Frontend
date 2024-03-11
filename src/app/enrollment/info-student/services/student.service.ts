@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { RequestActivityTeacher, RequestSubjectTeacher, ResponseSaveTeacher, Subject, Student } from '../models/Student';
+import { Student } from '../models/Student';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
@@ -8,6 +8,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
 import { AcademicRecord, Asist } from '../models/Asistencias';
+import { ResponseModifyStudent } from 'app/admission/models/InscripcionEFResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -80,20 +81,8 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
   searchSubjectTask(filter: any) {
     return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
-  addUpdateTeacher(student: Student) {
 
-    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'Save', student);
-  }
 
-  addActivitiesTeacher(data: RequestActivityTeacher) {
-
-    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'SaveActivities', data);
-  }
-
-  addSubjectTeacher(data: RequestSubjectTeacher) {
-
-    return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'SaveSubject', data);
-  }
 
 
 
@@ -134,10 +123,7 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  getAllSubject3() {
-    return this.httpClient
-      .get<Subject[]>(environment.apiEF + 'Subject/GetAll');
-  }
+
   getExisteCedula(cedula: string) {
 
     return this.httpClient.get<Student>(environment.apiUrlTeacher + 'GetTeacherByCedula?Cedula=' + cedula).pipe(
@@ -234,8 +220,19 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
 
 
 
+  updateAspirantEF(data: any): Observable<ResponseModifyStudent> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.put<ResponseModifyStudent>(url + "EFInscription/UpdateAspirant", data);
+  }
 
+  updateParticipantEF(data: any): Observable<ResponseModifyStudent> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.put<ResponseModifyStudent>(url + "ContinuingEducation/UpdateParticipant", data);
+  }
 
-
+  updateAspirantParticipantEF(data: any): Observable<ResponseModifyStudent> {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.put<ResponseModifyStudent>(url + "EJMatricula/UpdateStudent", data);
+  }
 
 }
