@@ -50,5 +50,6 @@ export class FolderPermission {
   createdBy!: string;
   lastModifiedBy!:string;
   statusId:number=1;
+  viewFolder:boolean=false;
   
   }

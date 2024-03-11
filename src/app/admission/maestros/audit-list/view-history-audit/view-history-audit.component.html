@@ -24,9 +24,9 @@
               <ng-container matColumnDef="lastModifiedDate">
                 <mat-header-cell *matHeaderCellDef> Fecha de modificación </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{ element.lastModifiedDate===null?(element.createdDate |
-                  date:'dd/M/yyyy'
+                  date:'dd/M/yyyy '
                 ):element.lastModifiedDate |
-                  date:'dd/M/yyyy'}} </mat-cell>
+                  date:'dd/M/yyyy '}} </mat-cell>
               </ng-container>
               
               <ng-container matColumnDef="lastModifiedBy">
