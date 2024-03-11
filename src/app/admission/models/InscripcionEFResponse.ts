@@ -16,3 +16,9 @@ export interface ResponseInscripcionEF{
     inscriptionId:     number;
   }]
 }
+
+export interface ResponseModifyStudent{
+  message: string;
+  isError: boolean;
+  statusCode: number;
+}

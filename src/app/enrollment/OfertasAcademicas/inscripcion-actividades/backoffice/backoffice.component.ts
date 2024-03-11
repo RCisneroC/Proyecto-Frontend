@@ -50,6 +50,12 @@ export class BackofficeComponent implements OnInit {
   cedulaParticipant: string = "";
   loadingFile: boolean = false;
   IsError: boolean = false;
+  UniversityList:any;
+  InstitutionList: any;
+  DependencyList: any;
+  OrganismoCopList: any
+  CargosList: any;
+
   public DatosEstudianteResponse: StudentModel | undefined;
 
   constructor(private fb: FormBuilder,
@@ -100,6 +106,12 @@ export class BackofficeComponent implements OnInit {
     })
 
     this.getPersonData(this.authService.currentUserValue.cedula);
+    this.loadUniversidades();
+    this.loadIntituciones();
+    this.loadDependencias();
+    this. loadOrganosCop();
+    this.loadCargos();
+    this.form.controls["email"].patchValue(this.authService.currentUserValue.email);
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
@@ -370,6 +382,7 @@ export class BackofficeComponent implements OnInit {
             icon: "success"
           });
           this.IsError = false;
+          this._nav.navigate(["dashboard/dashboard-student"]);
         }
       },
       error: () => {
@@ -385,5 +398,52 @@ export class BackofficeComponent implements OnInit {
       }
     })
   }
+
+//cargado de listas
+loadUniversidades() {
+  this._inscriptionService.getCatalogUniversidades().subscribe({
+    next: (data) => {
+      console.log("Datos de Universidades", data);
+      this.UniversityList = data;
+    }
+  })
+}
+
+loadIntituciones() {
+  this._inscriptionService.getCatalogInstitucion().subscribe({
+    next: (data) => {
+      console.log("Datos de Instituciones", data);
+      this.InstitutionList = data;
+    }
+  })
+}
+
+loadDependencias() {
+  this._inscriptionService.getCatalogDependencia().subscribe({
+    next: (data) => {
+      console.log("Datos de Dependencias", data);
+      this.DependencyList = data;
+    }
+  })
+}
+
+  loadOrganosCop() {
+  this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+    next: (data) => {
+      console.log("Datos de Organismos Coperantes", data);
+      this.OrganismoCopList = data;
+    }
+  })
+}
+
+ loadCargos() {
+  this._inscriptionService.getCatalogCargos().subscribe({
+    next: (data) => {
+      console.log("Datos de cargos", data);
+      this.CargosList = data;
+    }
+  })
+}
+
 
 }
