@@ -122,6 +122,39 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+
+
+  getAllActivityDetailByStatus(id: number): void {
+    this.subs.sink = this.httpClient
+      .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetActivitiesBy?StatusId=' + id)
+      .subscribe({
+        next: (data) => {
+
+          let user = localStorage.getItem('currentUser') || '';
+
+          if (user != '') {
+            this.UserData = JSON.parse(user);
+            this.userType = this.getRoleFromToken(this.UserData.token);
+            console.log(this.userType);
+
+          }
+
+          this.isTblLoading = false;
+          if (this.userType == 'Administrador' || this.userType == 'Estudiante') {
+            this.dataChange2.next(data);
+          } else {
+            this.dataChange2.next(data.filter(x => x.statusId == 3));
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
+
   getAllActivityDetailStatusAprove(id: number): void {
     this.subs.sink = this.httpClient
       .get<ScheduleActivityDetail[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetActivitiesBy?CurriculumDesignId=' + id)
@@ -167,7 +200,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador') {
-            this.dataChange2.next(data.filter(x => x.hasDirectEnrollment));
+            this.dataChange2.next(data.filter(x => x.statusId == 5 && x.activityTrainingType == 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }
@@ -210,6 +243,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       id
     }
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/SetPendingApproval', params);
+  }
+
+  updateStatusActivity(data: any) {
+    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivityStatus', data);
   }
 
 

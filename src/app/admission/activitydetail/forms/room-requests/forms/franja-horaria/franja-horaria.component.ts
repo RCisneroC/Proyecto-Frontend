@@ -81,10 +81,6 @@ export class FranjaHorariaComponent implements OnInit, AfterViewInit, OnDestroy 
 
   LoadRooms() {
     this.subscriptions.push(
-
-
-
-
       this.RoomServices.getRoomsFilterRangeDate(this.data.requestRooms.startDate,
         this.data.requestRooms.endDate).subscribe({
           next: (res) => {

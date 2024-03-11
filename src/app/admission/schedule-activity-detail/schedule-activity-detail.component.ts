@@ -13,7 +13,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { ScheduleActivityDetailFormComponent } from '../schedule-activity-detail-form/schedule-activity-detail-form.component';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseMessageMaestra } from '../models/ResponseMessage';
+import { ResponseGenerica, ResponseMessageMaestra } from '../models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { UploadActivityAllComponent } from '../Forms/upload-activity-all/upload-activity-all.component';
 
@@ -202,6 +202,43 @@ export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
   Detail(row: ScheduleActivityDetail) {
     this._nav.navigate(['/admission/activity-detail/' + row.id]);
     localStorage.setItem('url', '/admission/schedule-activity-detail/' + this.id)
+  }
+  enviarAprobacion(row: ScheduleActivityDetail) {
+    Swal.fire({
+      title: "¿Estas Seguro?",
+      text: "Se enviara la actividad para la aprobación",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let data = {
+          "id": row.id,
+          "statusId": 3
+        }
+        this.activityDetailService.updateStatusActivity(data).subscribe({
+          next: () => {
+            Swal.fire({
+              title: "Escuela Judicial!",
+              text: "Enviado correctamente.",
+              icon: "success"
+            });
+
+            this.loadData();
+          },
+          error: (err: any) => {
+            Swal.fire({
+              title: "Intente nuevamente!",
+              text: "no se pudo enviar para su aprobación.",
+              icon: "warning"
+            });
+          }
+        })
+      } else {
+      }
+    });
   }
 
 

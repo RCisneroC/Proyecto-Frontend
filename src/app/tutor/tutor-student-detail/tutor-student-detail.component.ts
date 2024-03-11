@@ -9,7 +9,7 @@ import {InscriptionService} from "../../admission/inscription/services/inscripti
 import {EnrollmentService} from "../../enrollment/services/enrollment.service";
 import {AuthService} from "@core";
 import {MatDialog} from "@angular/material/dialog";
-import {DetailsParticipanteEF} from "../../admission/models/participant";
+import {DetailsParticipante, DetailsParticipanteEF} from "../../admission/models/participant";
 import {getStudentsActivityResponse, subjectEnrollmentResult} from "../../admission/models/AddEFacademicResponse";
 import {EnrollAttendenceFormComponent} from "../../enrollment/enroll-attendence-form/enroll-attendence-form.component";
 import {Direction} from "@angular/cdk/bidi";
@@ -52,6 +52,8 @@ export class TutorStudentDetailComponent {
 
   dataActInfo = new MatTableDataSource<getStudentsActivityResponse>(this.dataSourceActInfo);
   loading: boolean = true;
+  part:boolean = false;
+  asp:boolean = false;
   eCAcademicRecordId:number=0;
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
@@ -115,18 +117,41 @@ export class TutorStudentDetailComponent {
 
   getDetails() {
     this._ActivityService.loading = true;
-    this._ActivityService.GetDetailsEFCedula(this.id).subscribe({
-      next: (res: DetailsParticipanteEF) => {
-        this._ActivityService._DetailsParticipanteEF = res;
-        console.log("Activity obj", res);
-        if (res.getDetailsResponse.length > 0) {
-          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+    this._ActivityService.GetVerifyStudent(this.id).subscribe({
+      next:(res)=>{
+        console.log("GetVerifyStudent",res.verifyUsersResult[0].part);
+        this.part = res.verifyUsersResult[0].part;
+        this.asp = res.verifyUsersResult[0].asp;
+        if(this.part){
+          this._ActivityService.GetDetailsCedula(this.id).subscribe({
+            next:(res: DetailsParticipante)=>{
+              this._ActivityService._DetailsParticipante = res;
+              if(res.detailsResponse.length > 0){
+                this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+              }
+              this._ActivityService.loading = false;
+              this.getInfo();
+              this.loadactivity();
+            },error: (err) => {
+            }
+          })
         }
-        this._ActivityService.loading = false;
-        this.getInfo();
-        this.loadactivity();
-      },
-      error: (err) => {
+        else if(this.asp) {
+          this._ActivityService.GetDetailsEFCedula(this.id).subscribe({
+            next: (res: DetailsParticipanteEF) => {
+              this._ActivityService._DetailsParticipanteEF = res;
+              console.log("Activity obj", res);
+              if (res.getDetailsResponse.length > 0) {
+                this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+              }
+              this._ActivityService.loading = false;
+              this.getInfo();
+              this.loadactivity();
+            },
+            error: (err) => {
+            }
+          })
+        }
       }
     })
   }

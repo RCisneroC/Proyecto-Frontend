@@ -105,7 +105,7 @@ export class DashboardEstudianteComponent extends UnsubscribeOnDestroyAdapter
   loadactivity() {
     this._EnrollmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
-        if (res.getStudentsActivityResponse.length > 0) {
+        if (res.getStudentsActivityResponse) {
           localStorage.setItem('id_participante', res.getStudentsActivityResponse[0].participantId);
         }
         this.dataSourceInfo = res.getStudentsActivityResponse;

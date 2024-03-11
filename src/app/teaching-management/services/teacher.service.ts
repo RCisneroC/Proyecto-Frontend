@@ -125,17 +125,17 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.post(environment.apiUrlEF + 'GetSubjectsBy', data);
   }
-  getSubjectsByCedulaNewApi(cedula: string,idCareer:number) {
+  getSubjectsByCedulaNewApi(cedula: string, idCareer: number) {
 
-    return this.httpClient.get(environment.apiEF + 'Period/GetPeriodSubjectRoomTeachersBy?TeacherCedula='+cedula+'&DegreeCurriculumDesignId='+idCareer);
+    return this.httpClient.get(environment.apiEF + 'Period/GetPeriodSubjectRoomTeachersBy?TeacherCedula=' + cedula + '&DegreeCurriculumDesignId=' + idCareer);
   }
 
   getActivitiesByCedula(cedula: string) {
 
     return this.httpClient.get(environment.apiUrlEC + 'GetActivitiesBy?TeacherCedula=' + cedula);
   }
-  getCareer(cedula: string){
-    return this.httpClient.get(environment.apiEF + 'Period/GetDegreeCurriculumDesignsBy?TeacherCedula='+cedula);
+  getCareer(cedula: string) {
+    return this.httpClient.get(environment.apiEF + 'Period/GetDegreeCurriculumDesignsBy?TeacherCedula=' + cedula);
   }
 
   getAllSubject3() {

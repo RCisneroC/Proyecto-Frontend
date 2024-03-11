@@ -238,7 +238,8 @@ export class ScheduleActivityDetailFormComponent {
   }
 
   loadUser() {
-    this._userService.getAllUsers2().subscribe({
+    let rol = 'b23d3a5d-571a-45b8-8d8b-22f2a0812cf1';
+    this._userService.getUserRoles(rol).subscribe({
       next: (data) => {
         this.userList = data;
       },

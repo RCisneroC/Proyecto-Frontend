@@ -66,6 +66,7 @@ export class InscriptionExternalComponent implements OnInit {
     public _ActivityDetailService: ActivityDetailService,
     private _inscriptionService: InscriptionService,
     public _router: Router,
+    public _nav: Router,
     public elm: ElementRef
   ) {
     // nombre**, apellidos**, cedula**, sexo**, universidad, institucion, dependencia, entidad cooperante, cargo, provincia**, distrito judicial**, correo electronico, fecha de invitacion
@@ -129,6 +130,10 @@ export class InscriptionExternalComponent implements OnInit {
   }
   regresar() {
     location.reload();
+  }
+  regresarInit() {
+    console.log([localStorage.getItem('ruta_local_external')]);
+    this._nav.navigate([localStorage.getItem('ruta_local_external')]);
   }
   getPersonData(cedula: string) {
     this._inscriptionService.init_Persona();
@@ -214,6 +219,7 @@ export class InscriptionExternalComponent implements OnInit {
       this.disabled = false;
     }
     if(this.typedoc == "CIP"){
+      this.busquedaR = false;
       this.personData = null;
     }
   }

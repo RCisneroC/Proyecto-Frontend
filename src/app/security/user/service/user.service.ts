@@ -70,6 +70,12 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
       .get<User[]>(environment.apiUrl + 'GetAllUsers');
   }
 
+  getUserRoles(role: any) {
+    return this.httpClient
+      .get<User[]>(environment.apiUrl + 'GetUsersBy?RoleId=' + role);
+  }
+
+
   getAllUsersRol() {
     return this.httpClient
       .get<User[]>(environment.apiUrl + 'GetAllUsers');
