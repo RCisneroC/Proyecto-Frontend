@@ -265,7 +265,12 @@ export class AddPermissionsComponent implements OnInit {
   }
   
   deletePermissionUserFolder() {
-    this._directoryService.deletePersmissionUser(this.userSelected,this.fileFolderId,this.user.id).subscribe({
+  let data={
+    UserId:this.userSelected,
+    folderId:this.fileFolderId,
+    deleteBy:this.user.id
+  }
+    this._directoryService.deletePersmissionUser(data).subscribe({
       next: (res) => {
       
         this.ResponseMessage.CodError = 200;
