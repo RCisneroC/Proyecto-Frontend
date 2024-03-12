@@ -1,4 +1,4 @@
-import { Component, ElementRef,  OnInit,  ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,16 +15,16 @@ import Swal from "sweetalert2";
 import { ResponseInscripcionEF } from "app/admission/models/InscripcionEFResponse";
 
 import {
-   MatDialog,
+  MatDialog,
 } from "@angular/material/dialog";
 import { ResponseAddEFcademicInfo } from "app/admission/models/AddEFacademicResponse";
 import { ResponseAddEFlaboralInfo } from "app/admission/models/AddEFlaboralResponse";
 import { Requirement } from "app/admission/models/Requeriminet";
 import { ResponseEF } from "app/admission/models/ResponseMessage";
-import {InfoAcademicaComponent} from "app/external/Forms/info-academica/info-academica.component";
-import {InfoLaboralComponent} from "app/external/Forms/info-laboral/info-laboral.component";
-import {AuthService} from "@core";
-import {MatStepper} from "@angular/material/stepper";
+import { InfoAcademicaComponent } from "app/external/Forms/info-academica/info-academica.component";
+import { InfoLaboralComponent } from "app/external/Forms/info-laboral/info-laboral.component";
+import { AuthService } from "@core";
+import { MatStepper } from "@angular/material/stepper";
 import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
 import { StudentModel } from 'app/enrollment/models/StudentModel';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -177,7 +177,7 @@ export class BackofficeEFComponent implements OnInit {
     this.FormsEF.controls["cedula"].disable();
     this.cedula = this.authService.currentUserValue.cedula;
 
-    if(this.id != null){
+    if (this.id != null) {
       this.changestatus(this.id);
       this.getPersonData(this.cedula);
     }
@@ -369,32 +369,36 @@ export class BackofficeEFComponent implements OnInit {
 
       this.enrollmentService.getStudentData(cedula).subscribe(
         {
-              next : (request) =>{
-                this.DatosEstudianteResponse = request as StudentModel;
-                if(this.DatosEstudianteResponse != undefined){
-                  if(!this.DatosEstudianteResponse.isError){
-                    this.loading = false;
-                    this.disabled = true;
-                    this.Participant.firstName = this.DatosEstudianteResponse.verifyUsersResult[0].firstName;
-                    this.Participant.lastName = this.DatosEstudianteResponse.verifyUsersResult[0].lastName;
-                    this.Participant.secondsurname = this.DatosEstudianteResponse.verifyUsersResult[0].secondsurname;
+          next: (request) => {
+            this.DatosEstudianteResponse = request as StudentModel;
+            if (this.DatosEstudianteResponse != undefined) {
+              if (!this.DatosEstudianteResponse.isError) {
+                this.loading = false;
+                this.disabled = true;
+                this.Participant.firstName = this.DatosEstudianteResponse.verifyUsersResult[0].firstName;
+                this.Participant.lastName = this.DatosEstudianteResponse.verifyUsersResult[0].lastName;
+                this.Participant.secondsurname = this.DatosEstudianteResponse.verifyUsersResult[0].secondsurname;
 
-                    if(this.DatosEstudianteResponse.verifyUsersResult[0].asp){
-                      this.Participant.placeOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth;
-                      this.Participant.dateOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth;
-                      this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress;
-                    }
+                if (this.DatosEstudianteResponse.verifyUsersResult[0].asp) {
+                  this.Participant.placeOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth;
+                  this.Participant.dateOfBirth = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth;
+                  this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress;
+                  this.Participant.email = this.DatosEstudianteResponse.verifyUsersResult[0].email;
+                  this.Participant.telephoneNumber = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber;
 
 
-                      this.tribunalReady = true;
-                      this.loading = false
-                  }
                 }
-              },
-              error : (err:HttpErrorResponse) =>{
-                  this.loading = false
-                  console.log(err);
+
+
+                this.tribunalReady = true;
+                this.loading = false
               }
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            this.loading = false
+            console.log(err);
+          }
         }
       );
 
@@ -460,7 +464,7 @@ export class BackofficeEFComponent implements OnInit {
 
   }
 
-  volverAtras(){
+  volverAtras() {
     this.showTable = true;
   }
 
@@ -471,7 +475,7 @@ export class BackofficeEFComponent implements OnInit {
   }
 
   secondNext(stepper?: MatStepper) {
-    if(this.DataAcademico.length > 0){
+    if (this.DataAcademico.length > 0) {
       this.addcademicInfo();
       this.validsecondNext = true;
       stepper?.next();
@@ -487,7 +491,7 @@ export class BackofficeEFComponent implements OnInit {
   }
 
   thirdNext(stepper?: MatStepper) {
-    if(this.DataExperiencia.length > 0){
+    if (this.DataExperiencia.length > 0) {
       this.addEFLaboralInfo();
       this.validthirdNext = true;
       stepper?.next();
