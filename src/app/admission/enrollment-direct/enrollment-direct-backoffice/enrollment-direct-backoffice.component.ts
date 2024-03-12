@@ -338,12 +338,22 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
         const moodlecourseid = localStorage.getItem('moodle_course_id');
         if(moodlecourseid){
           const enrollmentdata = {
-            moodleCourseId: moodlecourseid,
+            moodleCourseId: 0,//moodlecourseid,
             inscriptionId: data.inscriptionId
           }
           this._inscriptionService.enrollmentDirect(enrollmentdata).subscribe({
             next:(res)=>{
               console.log(res);
+              const  reqOBJ = {
+                activityId: this.idActivity,
+                participantId: this._inscriptionService._ResponseInscripcion.id,
+                isReentry: false
+              }
+              this._inscriptionService.CreateECAcademicRecord(reqOBJ).subscribe({
+                next:(res)=>{
+                  console.log('CreateECAcademicRecord',res);
+                }
+              })
             }
           })
         }
