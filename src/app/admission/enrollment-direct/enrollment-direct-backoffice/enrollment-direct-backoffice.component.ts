@@ -30,6 +30,7 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
   OrganismoCopList: any;
   UniversityList: any;
   InstitutionList: any;
+  typedoc: string = "CIP";
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
@@ -110,6 +111,16 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
   nuevaIn() {
     location.reload();
   }
+  changeTypeDoc(){
+    console.log(this.typedoc);
+    if(this.typedoc == "PAS"){
+      this.getPersonData("999999");
+      this.disabled = false;
+    }
+    if(this.typedoc == "CIP"){
+      this.personData = null;
+    }
+  }
   loadDependencias() {
     this._inscriptionService.getCatalogDependencia().subscribe({
       next: (data) => {
@@ -173,7 +184,13 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
         next: (data) => {
 
           this.loading = false;
-          this.disabled = true;
+          if(this.typedoc == "CIP"){
+            this.disabled = true;
+          }
+          else
+          {
+            this.disabled = false;
+          }
           this.personData = data;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },

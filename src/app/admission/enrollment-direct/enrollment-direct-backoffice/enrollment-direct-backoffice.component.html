@@ -25,13 +25,19 @@
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">
-                            <h2>Cédula</h2>
+                            <h2>Tipo de Documento</h2>
+                          </li>
+                          <li class="tbl-search-box" style="width: 20%">
+                            <mat-select [(ngModel)]="typedoc" (ngModelChange)="changeTypeDoc()">
+                              <mat-option value="CIP">CIP</mat-option>
+                              <mat-option value="PAS">PAS</mat-option>
+                            </mat-select>
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                            <input placeholder="Ejemplo: 9-999-999" type="text" #filter
+                            <input [readonly]="typedoc ==='PAS'" placeholder="Ejemplo: 9-999-999" type="text" #filter
                                    class="browser-default search-field" aria-label="Search box" />
-                            <button mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
+                            <button [disabled]="typedoc ==='PAS'" mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
                               <mat-icon>search</mat-icon>
                             </button>
                           </li>
