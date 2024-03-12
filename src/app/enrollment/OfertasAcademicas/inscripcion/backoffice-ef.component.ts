@@ -408,7 +408,7 @@ export class BackofficeEFComponent implements OnInit {
       icon: "success"
     });
     //redirecciona a matricula
-    this._nav.navigate(['enrollment/enroll-career']);
+    this._nav.navigate(["dashboard/dashboard-student"]);
   }
 
   openDialogAC(): void {
