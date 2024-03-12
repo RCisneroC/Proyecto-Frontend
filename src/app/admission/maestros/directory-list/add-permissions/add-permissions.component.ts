@@ -108,69 +108,7 @@ export class AddPermissionsComponent implements OnInit {
             this.folder.lastModifiedBy=this.user.id;
           
           if (this.datos !== null) {
-           
-          if(this.data.action!="file"){
-          
-            this.dataSourcePermission = [
-              {
-                name: 'Nueva carpeta',
-                valor: this.datos.hasWritePermission,
-                id:0
-              },
-              {
-                name: 'Cambiar nombre',
-                valor: this.datos.update,
-                id:1
-              },
-
-              {
-                name: 'Cargar archivo',
-                valor: this.datos.hasOnloadfile,
-                id:2
-              },
-              {
-                name: 'Solo lectura',
-                valor: this.datos.viewFolder,
-                id:6
-              }
-              
-              
-            ];
-          
-        }else{
-       
-          this.dataSourcePermission = [
-            {
-              name: 'Cambiar nombre',
-              valor: this.datos.update,
-              id:1
-            },
-            {
-              name: 'Descargar archivo',
-              valor: this.datos.hasExecutePermission,
-              id:4
-            },
-            {
-              name: 'Visualizar archivo',
-              valor: this.datos.hasReadPermission,
-              id:3
-            },
-
-            {
-              name: 'Remplazar archivo',
-              valor: this.datos.delete,
-              id:5
-            },
-            {
-              name: 'Solo lectura',
-              valor: this.datos.viewFolder,
-              id:6
-            }
-          ];
-        }
-        
-       
-        
+           this.dataPerm(this.datos)
       }
     }  
       });
@@ -211,6 +149,8 @@ export class AddPermissionsComponent implements OnInit {
       this.folder.viewFolder = x==6?select:this.folder.viewFolder;
       this.folder.createdBy = this.user.id;
       this.folder.lastModifiedBy=this.user.id;
+      
+      this.dataPerm(this.folder);
     //}
   }
 
@@ -240,8 +180,70 @@ export class AddPermissionsComponent implements OnInit {
      
   }
 
-   
+  }
+  
+  
+  dataPerm(data:FolderPermission){
+    this.dataSourcePermission = [];
+    if(this.data.action!="file"){
+          
+      this.dataSourcePermission = [
+        {
+          name: 'Nueva carpeta',
+          valor: data.hasWritePermission,
+          id:0
+        },
+        {
+          name: 'Cambiar nombre',
+          valor: data.update,
+          id:1
+        },
+
+        {
+          name: 'Cargar archivo',
+          valor: data.hasOnloadfile,
+          id:2
+        },
+        {
+          name: 'Solo lectura',
+          valor: data.viewFolder,
+          id:6
+        }
+        
+        
+      ];
     
+  }else{
+ 
+    this.dataSourcePermission = [
+      {
+        name: 'Cambiar nombre',
+        valor: data.update,
+        id:1
+      },
+      {
+        name: 'Descargar archivo',
+        valor: data.hasExecutePermission,
+        id:4
+      },
+      {
+        name: 'Visualizar archivo',
+        valor: data.hasReadPermission,
+        id:3
+      },
+
+      {
+        name: 'Remplazar archivo',
+        valor: data.delete,
+        id:5
+      },
+      {
+        name: 'Solo lectura',
+        valor: data.viewFolder,
+        id:6
+      }
+    ];
+  }
   }
 
   updatePermissionUserFolder() {
