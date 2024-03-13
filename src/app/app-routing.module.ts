@@ -52,7 +52,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./virtual-learning/virtual-learning.module').then((m) => m.VirtualLearningModule),
       },
-
+      {
+        path: 'estadisticas',
+        loadChildren: () =>
+          import('./estadisticas/estadisticas.module').then((m) => m.EstadisticasModule),
+      },
 
     ],
   },
