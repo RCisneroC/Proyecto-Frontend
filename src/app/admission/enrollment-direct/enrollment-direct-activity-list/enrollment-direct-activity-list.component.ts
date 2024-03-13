@@ -71,7 +71,7 @@ export class EnrollmentDirectActivityListComponent extends UnsubscribeOnDestroyA
     console.log(row);
 
     localStorage.setItem('ruta_local', '/admission/ed-activity-list-inscription/' + this.id);
-    localStorage.setItem('moodle_course_id', row.moodleCourseId.toString());
+    localStorage.setItem('moodle_course_id', '0');
     this.router.navigate(['/admission/ed-backoffice', row.id]);
   }
 
