@@ -142,9 +142,9 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador' || this.userType == 'Estudiante') {
-            this.dataChange2.next(data);
+            this.dataChange2.next(data.filter(x =>  x.activityTrainingType != 1));
           } else {
-            this.dataChange2.next(data.filter(x => x.statusId == 3));
+            this.dataChange2.next(data.filter(x => x.statusId == 3 && x.activityTrainingType != 1));
           }
         },
         error: (error: HttpErrorResponse) => {

@@ -1,3 +1,5 @@
+import { ExperienceInfoEF } from "app/admission/models/participant";
+
 export class StudentData{
   firstName: string = "";
   lastName: string = "";
@@ -50,7 +52,7 @@ export class Student {
     placeResidence: string = "";
     listCourse: Course[] = [];
     listTraining: Training[] = [];
-    listExperience: Experience[] = [];
+    listExperience: ExperienceInfoEF[] = [];
     listDocument: Documents[] = [];
     process: number = 0;
 }
