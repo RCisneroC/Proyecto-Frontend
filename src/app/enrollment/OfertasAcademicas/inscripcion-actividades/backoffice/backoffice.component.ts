@@ -85,7 +85,7 @@ export class BackofficeComponent implements OnInit {
       judicialDistrict: ['', Validators.required],
       invitationDate: new Date().toISOString(),
       activityId: [this.idActivity, Validators.required],
-      observation: ['', Validators.required],
+      observation: [''],
     })
 
   }

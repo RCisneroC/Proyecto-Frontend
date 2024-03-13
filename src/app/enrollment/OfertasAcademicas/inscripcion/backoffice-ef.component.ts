@@ -65,7 +65,6 @@ export class BackofficeEFComponent implements OnInit {
 
   loading: boolean = false;
   personData: any;
-  meshList: any;
   RequirementsDocumentsList: any;
   validsecondNext: boolean = false;
   validthirdNext: boolean = false;
@@ -76,6 +75,8 @@ export class BackofficeEFComponent implements OnInit {
   tribunalReady: boolean = false;
   public cedulaParticipant: string = "";
   showTable: boolean = true;
+  degreeId: number=0;
+
   Participant = {
     backOffice: 0,
     firstName: "",
@@ -135,7 +136,6 @@ export class BackofficeEFComponent implements OnInit {
       residentialAddress: ['', [Validators.required]],
       email: ['', [Validators.required]],
       telephoneNumber: ['', [Validators.required]],
-      degreeId: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       bloodtype: ['', [Validators.required]],
       maritalStatus: ['', [Validators.required]],
@@ -150,8 +150,7 @@ export class BackofficeEFComponent implements OnInit {
       physical: [false],
       specific: [''],
       others: [''],
-      usesAwheelchair: [false],
-      observation: ['', [Validators.required]]
+      usesAwheelchair: [false]
     })
 
     this.FormsEFDocument = this.fb.group({
@@ -176,22 +175,16 @@ export class BackofficeEFComponent implements OnInit {
     this.FormsEF.controls["cedula"].setValue(this.authService.currentUserValue.cedula);
     this.FormsEF.controls["cedula"].disable();
     this.cedula = this.authService.currentUserValue.cedula;
+    if(this.id != null)
+      this.degreeId = parseInt(this.id)
 
     if (this.id != null) {
-      this.changestatus(this.id);
+      this.showTable = false;
       this.getPersonData(this.cedula);
     }
 
   }
 
-  changestatus(id: string) {
-    this.showTable = false;
-    this._inscriptionService.getDegreeCurriculumdesingByPlan(id).subscribe({
-      next: (data) => {
-        this.meshList = data;
-      }
-    });
-  }
 
   addAspirantEF() {
     const jsonRequest = {
@@ -205,7 +198,7 @@ export class BackofficeEFComponent implements OnInit {
       residentialAddress: this.FormsEF.value.residentialAddress,
       telephoneNumber: this.FormsEF.value.telephoneNumber,
       email: this.FormsEF.value.email,
-      degreeId: this.FormsEF.value.degreeId,
+      degreeId: this.degreeId,
       gender: this.FormsEF.value.gender,
       bloodtype: this.FormsEF.value.bloodtype,
       maritalStatus: this.FormsEF.value.maritalStatus,
@@ -221,7 +214,7 @@ export class BackofficeEFComponent implements OnInit {
       specific: this.FormsEF.value.specific,
       others: this.FormsEF.value.others,
       usesAwheelchair: this.FormsEF.value.usesAwheelchair == "True",
-      observation: this.FormsEF.value.observation,
+      observation:"",
       createdBy: this.authService.currentUserValue.id
     }
 
@@ -385,10 +378,7 @@ export class BackofficeEFComponent implements OnInit {
                   this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress;
                   this.Participant.email = this.DatosEstudianteResponse.verifyUsersResult[0].email;
                   this.Participant.telephoneNumber = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber;
-
-
                 }
-
 
                 this.tribunalReady = true;
                 this.loading = false
@@ -469,9 +459,8 @@ export class BackofficeEFComponent implements OnInit {
   }
 
   firstNext() {
-    console.log(this.FormsEF.value.degreeId);
     this.addAspirantEF();
-    this.getRequirementsDocuments(this.FormsEF.value.degreeId);
+    this.getRequirementsDocuments(this.degreeId.toString());
   }
 
   secondNext(stepper?: MatStepper) {

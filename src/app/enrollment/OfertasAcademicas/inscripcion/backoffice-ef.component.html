@@ -1,8 +1,8 @@
 <section class="content">
   <div class="content-block">
     <div class="block-header">
-      <app-breadcrumb [title]="'Inscripción de Formación Especializada'"
-        [items]="['Inicio','Ofertas Académicas','Formación Especializada']" [active_item]="'Inscripción de Formación Especializada'">
+      <app-breadcrumb [title]="'Formulario de Inscripción'"
+        [items]="['Formación Especializada','Listado de Planes Anuales Aprobados']" [active_item]="'Formulario de Inscripción'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -18,9 +18,6 @@
           <div class="header">
           </div>
           <div class="body">
-            <h5 class="text-uppercase"><strong>Listado de Planes anuales aprobados</strong></h5>
-            <p *ngIf="!showTable">Nota: <strong>Documento de Identidad se estara validando con el Tribunal
-                Electoral, luego puede avanzar.</strong></p>
             <div class="body">
               <mat-horizontal-stepper *ngIf="!showTable" [linear]="false" #stepper>
                 <mat-step [stepControl]="FormsEF!">
@@ -195,34 +192,6 @@
                           <input matInput formControlName="telephoneNumberEmergency" [readonly]="false" [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.telephoneNumberEmergency">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('telephoneNumberEmergency')?.hasError('required')">
-                            Requerido
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div *ngIf="tribunalReady" class="row">
-                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                        <mat-form-field class="example-full-width" appearance="outline">
-                          <mat-label>Programa a académico al que se presenta</mat-label>
-                          <mat-select formControlName="degreeId">
-                            <mat-option *ngFor="let row of meshList" [value]="row.id">{{row.name}}</mat-option>
-                          </mat-select>
-                          <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
-                                               la modalidad es requerida
-                                           </mat-error> -->
-                          <mat-error *ngIf="FormsEF.get('degreeId')?.hasError('required')">
-                            Requerido
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div *ngIf="tribunalReady" class="row">
-                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                        <mat-form-field class="example-full-width " appearance="outline">
-                          <mat-label>Observaciones</mat-label>
-                          <input matInput formControlName="observation" [readonly]="false">
-                          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                          <mat-error *ngIf="FormsEF.get('observation')?.hasError('required')">
                             Requerido
                           </mat-error>
                         </mat-form-field>
