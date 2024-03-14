@@ -1,6 +1,10 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
 import { Filtros } from '../model/Filtros';
 import { FormControl } from '@angular/forms';
+import { PersonalDocenteModel } from '../model/PersonalDocenteModel';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -8,10 +12,28 @@ import { FormControl } from '@angular/forms';
   templateUrl: './tabla-personal-docente.component.html',
   styleUrls: ['./tabla-personal-docente.component.scss']
 })
-export class TablaPersonalDocenteComponent {
+export class TablaPersonalDocenteComponent implements AfterViewInit {
 
-  public filtros  = new FormControl();
+  public filtros = new FormControl();
   public lstFiltrosSelected: string[] = [];
+  public personalDocenteModel: PersonalDocenteModel[] = [];
+  public subscriptions: Subscription[] = [];
+  public IsLoading: boolean = true;
+  dataSource = new MatTableDataSource<PersonalDocenteModel>(this.personalDocenteModel);
+  @ViewChild('paginator', { static: true })
+  paginator!: MatPaginator;
+  displayedColumns = [
+    'cedula',
+    'name',
+    'lastName',
+    'gender',
+    'dateOfBirth',
+    'placeOfBirth',
+    'email',
+    'phoneNumber',
+    'placeResidence',
+    'statusId',
+  ];
 
   public lstFiltros: Filtros[] = [
     {
@@ -73,16 +95,27 @@ export class TablaPersonalDocenteComponent {
 
   public lstSexo: Filtros[] = [
     {
-      codigo: "Masculino",
+      codigo: "M",
       texto: "Masculino"
     },
     {
-      codigo: "Femenino",
+      codigo: "F",
       texto: "Femenino"
     }
   ];
 
-  constructor(private cb:ChangeDetectorRef){}
+  constructor(private cb: ChangeDetectorRef) {
+
+  }
+
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.IsLoading = false;
+    }, 2000
+    );
+  }
 
   displayLugarNacimiento(): string {
     return "";
@@ -96,17 +129,26 @@ export class TablaPersonalDocenteComponent {
     return "";
   }
 
-  public verificarExistenciaFiltro(valor:string):boolean{
-    return this.lstFiltrosSelected.indexOf( valor)>=0;
+  public verificarExistenciaFiltro(valor: string): boolean {
+    return this.lstFiltrosSelected.indexOf(valor) >= 0;
   }
 
-  public limpiarTodosFiltros(){
+  public limpiarTodosFiltros() {
     this.lstFiltrosSelected = [];
   }
 
+  public consultar() {
+    this.dataSource.paginator = this.paginator;
+  }
 
-  public eventSelection(){
+  filtrar(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
+
+  public eventSelection() {
     this.cb.detectChanges();
-   }
+  }
 
 }

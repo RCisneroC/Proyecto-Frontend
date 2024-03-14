@@ -1,0 +1,29 @@
+export interface PersonalDocenteModel {
+  teacherId: number
+  cedula: string
+  name: string
+  lastName: string
+  email: string
+  applicationDate: string
+  selected: boolean
+  dischargeDate?: string
+  placeResidence: string
+  gender: any
+  dateOfBirth: any
+  placeOfBirth: any
+  phoneNumber: any
+  statusId: number
+  comment: any
+  listCourse: any
+  listTraining: any
+  listSpecialty: any
+  listExperience: any
+  listDocument: any
+  listActivity: any
+  listSubject: any
+  process: number
+  createdDate: string
+  createdBy: any
+  lastModifiedDate: any
+  lastModifiedBy: any
+}
