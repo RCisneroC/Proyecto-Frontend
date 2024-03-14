@@ -13,11 +13,20 @@
           </div>
           <div class="body">
             <!-- FILAS -->
+            <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Filtros</mat-label>
+                <mat-select multiple (selectionChange)="filtrosEstadisticas($event)">
+                  <mat-option *ngFor="let row of lstFiltros" [value]="row.codigo">{{row.texto}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+
             <div class="row">
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Filtros</mat-label>
-                  <mat-select multiple [(ngModel)]="lstFiltrosSelected" (selectionChange)="eventSelection()" [panelClass]="'fixMultipleSelect'">
+                  <mat-select multiple [(ngModel)]="lstFiltrosSelected" (selectionChange)="eventSelection()">
                     <mat-option *ngFor="let row of lstFiltros" [value]="row.codigo">{{row.texto}}</mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -150,76 +159,7 @@
                 </ul>
               </div>
             </div>
-            <div class="body table-responsive">
-            <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
-            <table  mat-table [dataSource]="dataSource" matSort class="w-100"
-              *ngIf="!IsLoading">
-              <ng-container matColumnDef="cedula">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Cédula:</span>{{row.cedula }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Nombre:</span>{{row.name }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="lastName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Apellido:</span>{{row.lastName }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="dateOfBirth">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Nacimiento
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Fecha de Nacimiento:</span>{{row.dateOfBirth |
-                  date:'dd/M/yyyy'}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="placeOfBirth">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Nacimiento
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Lugar de Nacimiento:</span>{{row.placeOfBirth }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="email">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Correo electrónico
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Correo electrónico:</span>{{row.email }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="phoneNumber">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>No de Teléfono
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">No de Teléfono:</span>{{row.phoneNumber }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="placeResidence">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Residencia
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="mobile-label">Lugar de Residencia:</span>{{row.placeResidence }}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="statusId">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                  <span class="badge badge-solid-green">{{ row.statusId|statusPipe }}</span></mat-cell>
-              </ng-container>
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
-              </mat-row>
-            </table>
-            <div *ngIf="!IsLoading" class="no-results"
-              [style.display]="personalDocenteModel.length === 0 ? '' : 'none'">
-              No results
-            </div>
-            <mat-paginator #paginator [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
-            </mat-paginator>
-          </div>
+
           </div>
           <!-- FIN FILAS-->
         </div>
