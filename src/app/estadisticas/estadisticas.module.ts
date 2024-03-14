@@ -9,13 +9,15 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 import { EstadisticasRoutingModule } from './estadisticas-routing.module';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
+import { OnlyNumberDirective } from './directives/only-number.directive';
 
 
 
 @NgModule({
    providers: [VerificarBS64Pipe, DatePipe],
     declarations: [
-        TablaPersonalDocenteComponent
+        TablaPersonalDocenteComponent,
+        OnlyNumberDirective
     ],
     imports: [
         CommonModule,

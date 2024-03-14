@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Filtros } from '../model/Filtros';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-tabla-personal-docente',
@@ -7,6 +9,10 @@ import { Filtros } from '../model/Filtros';
   styleUrls: ['./tabla-personal-docente.component.scss']
 })
 export class TablaPersonalDocenteComponent {
+
+  public filtros  = new FormControl();
+  public lstFiltrosSelected: string[] = [];
+
   public lstFiltros: Filtros[] = [
     {
       codigo: "PLN",
@@ -41,12 +47,8 @@ export class TablaPersonalDocenteComponent {
       texto: "Por Materias Impartidas"
     },
     {
-      codigo: "PEC",
-      texto: "Por Educación Continua"
-    },
-    {
-      codigo: "PEE",
-      texto: "Por Educación Especializada"
+      codigo: "PTED",
+      texto: "Tipo de Educación"
     },
     {
       codigo: "PS",
@@ -57,8 +59,6 @@ export class TablaPersonalDocenteComponent {
       texto: "Por Edad"
     }
   ];
-
-
 
   public lstTipoEducacion: Filtros[] = [
     {
@@ -82,6 +82,8 @@ export class TablaPersonalDocenteComponent {
     }
   ];
 
+  constructor(private cb:ChangeDetectorRef){}
+
   displayLugarNacimiento(): string {
     return "";
   }
@@ -93,5 +95,18 @@ export class TablaPersonalDocenteComponent {
   displayTituloObtenido(): string {
     return "";
   }
+
+  public verificarExistenciaFiltro(valor:string):boolean{
+    return this.lstFiltrosSelected.indexOf( valor)>=0;
+  }
+
+  public limpiarTodosFiltros(){
+    this.lstFiltrosSelected = [];
+  }
+
+
+  public eventSelection(){
+    this.cb.detectChanges();
+   }
 
 }
