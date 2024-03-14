@@ -14,7 +14,7 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<Modality[]> = new BehaviorSubject<
-  Modality[]
+    Modality[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: Modality;
@@ -30,7 +30,7 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllModality(): void {
     this.subs.sink = this.httpClient
-      .get<Modality[]>(environment.apiUrlSchedule+'ActivityMode/GetAll')
+      .get<Modality[]>(environment.apiUrlSchedule + 'ActivityMode/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,19 +43,25 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllModality2() {
-   return this.httpClient
-      .get<Modality[]>(environment.apiUrlSchedule+'ActivityMode/GetAll');
-     
-  }
-  addActivityMode(modality: Modality){
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Create', modality);
+    return this.httpClient
+      .get<Modality[]>(environment.apiUrlSchedule + 'ActivityMode/GetAll');
+
   }
 
-  updateActivityMode(modality: Modality){
+  getAllModality2Filter(id: any) {
+    return this.httpClient
+      .get<Modality[]>(environment.apiUrlSchedule + 'ActivityMode/GetAll?StatusId=' + id);
+
+  }
+  addActivityMode(modality: Modality) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityMode/Create', modality);
+  }
+
+  updateActivityMode(modality: Modality) {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityMode/Update', modality);
   }
 
-  DeleteActivityMode(Id: number){
+  DeleteActivityMode(Id: number) {
     let data = {
       id: Id
     };
@@ -65,10 +71,10 @@ export class ModalityService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
-  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityMode/Delete',options);
+
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityMode/Delete', options);
   }
-  
+
 
 
 }

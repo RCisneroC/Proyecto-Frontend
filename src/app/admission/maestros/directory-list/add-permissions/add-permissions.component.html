@@ -42,12 +42,12 @@
                     <label class="example-listbox-label" id="example-zodiac-sign-label">
                         <h5>Permisos</h5>
                       </label>
-                    <div class="example-listbox-container" style="overflow-y: auto; height: 350px;width:max-content;">
+                    <div class="example-listbox-container" style="overflow-y: auto; height: 400px;width:max-content;">
                    
               
                     <mat-selection-list  *ngIf="!RadioValue"  (selectionChange)="onSelectionChange2($event)">
                         <li *ngFor="let permiss of dataSourcePermission" class="example-option">
-                          <mat-list-option [selected]="permiss.valor" [value]="permiss.id">{{permiss.name}}</mat-list-option> 
+                          <mat-list-option [(selected)]="permiss.valor" [value]="permiss.id">{{permiss.name}}</mat-list-option> 
                       </li>
 
                      
@@ -67,6 +67,12 @@
                         otorgado anteriormente y tampoco podra <br>
                         tener acceso al mismo.
                       </mat-error>
+                      <br>
+                      <mat-radio-group [(ngModel)]="RadioValuePermi" *ngIf="dataSourcePermission.length>0">
+                        <p>Permiso individual o todo el contenido dentro?</p>
+                        <mat-radio-button [value]="true">Individual</mat-radio-button>
+                        <mat-radio-button [value]="false">A todo el contenido dentro</mat-radio-button>
+                      </mat-radio-group>
                   </div>
                   
                   </td>

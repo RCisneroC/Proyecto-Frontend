@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Activity } from 'app/admission/models/activity';
+import { EstadisticasActivity } from 'app/estadisticas/Models/EstadisticasModelActivity';
 import { environment } from 'environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,6 +20,10 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
     Activity[]
   >([]);
 
+  data_filtro: BehaviorSubject<GetOneActivity[]> = new BehaviorSubject<
+    GetOneActivity[]
+  >([]);
+
 
   // Temporarily stores data from dialogs
   dialogData!: Activity;
@@ -26,6 +32,10 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   }
   get data(): Activity[] {
     return this.dataChange.value;
+  }
+
+  get dataF(): GetOneActivity[] {
+    return this.data_filtro.value;
   }
 
   getDialogData() {
@@ -81,4 +91,31 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+  getEstadisticas(data: any): void {
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
+    this.subs.sink = this.httpClient
+      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + data)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.data_filtro.next(data.activitiesByAll);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+
+  }
+
+  getEstadisticasFiltro(data: any) {
+    return this.httpClient
+      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + data);
+
+  }
+
+
 }

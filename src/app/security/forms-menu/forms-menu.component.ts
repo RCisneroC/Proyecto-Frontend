@@ -61,7 +61,9 @@ export class FormsMenuComponent {
       badge: [this.data.menu.badge],
       badgeClass: [this.data.menu.badgeClass],
       parentApplicationMenuId: [this.data.parent],
-      statusId: [this.data.menu.statusId]
+      statusId: [this.data.menu.statusId],
+      Order: [1]
+
     });
   }
   createContactFormSubmenu(): UntypedFormGroup {
@@ -76,7 +78,8 @@ export class FormsMenuComponent {
       badge: [this.data.menu.badge],
       badgeClass: [this.data.menu.badgeClass],
       parentApplicationMenuId: [this.data.parent],
-      statusId: [this.data.menu.statusId]
+      statusId: [this.data.menu.statusId],
+      Order: [1]
     });
   }
 

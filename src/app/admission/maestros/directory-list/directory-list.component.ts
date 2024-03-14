@@ -17,6 +17,7 @@ import { map } from "rxjs";
 import { AuthService, User } from "@core";
 import { RequestServicesService } from "app/intranet-academic-registration/Services/request-services.service";
 import { AddPermissionsComponent } from "./add-permissions/add-permissions.component";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export interface FoodNode {
   folderId:number;
@@ -30,7 +31,7 @@ export interface FoodNode {
   update:boolean;
   delete:boolean;
   viewFolder:boolean;
-  parentId?: number;
+  parentId: number;
   files: FoodNode[];
   folders: FoodNode[];
 }
@@ -49,6 +50,7 @@ export interface ExampleFlatNode {
   delete:boolean;
   viewFolder:boolean;
   level: number;
+  parentId: number;
   //files: FoodNode[];
   folders?: FoodNode[];
 }
@@ -79,6 +81,7 @@ export class DirectoryListComponent  implements OnInit   {
       hasReadPermission:node.hasReadPermission,
       hasExecutePermission:node.hasExecutePermission,
       hasOnloadfile:node.hasOnloadfile,
+      parentId: node.parentId,
       update:node.update,
       delete:node.delete,
       viewFolder:node.viewFolder,
@@ -131,6 +134,7 @@ export class DirectoryListComponent  implements OnInit   {
         
 
       }
+     
     })
   }
   
@@ -253,7 +257,7 @@ export class DirectoryListComponent  implements OnInit   {
 }
   
   viewDocumento(row: FoodNode) {
-    this._directoryService.getfilebyId(row.fileId).pipe(
+    this._directoryService.getfilebyId(row.fileId,this.user.id,'Visto').pipe(
       map(item => {
         this.valor=item.dataResult[0].file
         if (this._verificarBS64.transform(this.valor) != "pdf") {
@@ -281,14 +285,16 @@ export class DirectoryListComponent  implements OnInit   {
          });
        }
     
-      })
+      }
+      
+      )
     ).subscribe();
 
   }
   
   
   download(row:FoodNode){
-    this._directoryService.getfilebyId(row.fileId).pipe(
+    this._directoryService.getfilebyId(row.fileId,this.user.id,'Descargado').pipe(
       map(item => {
         this.valor=item.dataResult[0].file
         const downloadLink = document.createElement('a');

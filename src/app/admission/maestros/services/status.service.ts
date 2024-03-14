@@ -28,7 +28,7 @@ export class StatusService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllStatusPrimary(): void {
     this.subs.sink = this.httpClient
-      .get<StatusPrimary[]>(environment.apiUrlSchedule+'Status/GetAll')
+      .get<StatusPrimary[]>(environment.apiUrlSchedule + 'Status/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -41,12 +41,17 @@ export class StatusService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllSuppli2() {
-   return this.httpClient
-      .get<StatusPrimary[]>(environment.apiUrlSchedule+'Status/GetAll');
+    return this.httpClient
+      .get<StatusPrimary[]>(environment.apiUrlSchedule + 'Status/GetAll');
+  }
+  getAllSuppli2Filter(id: any) {
+    return this.httpClient
+      .get<StatusPrimary[]>(environment.apiUrlSchedule + 'Status/GetAll?StatusId=' + id);
   }
 
+
   addStatusPrimary(StatusPrimary: StatusPrimary) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'Status/Create', StatusPrimary);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Status/Create', StatusPrimary);
   }
 
   updateStatusPrimary(StatusPrimary: StatusPrimary) {
@@ -63,7 +68,7 @@ export class StatusService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'Status/Delete',options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'Status/Delete', options);
   }
 
 }

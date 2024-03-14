@@ -63,6 +63,11 @@ export class ScheduleActivityDetailFormComponent {
       statusId: 1,
     },
     {
+      id: 5,
+      name: 'Capacitación',
+      statusId: 1,
+    },
+    {
       id: 1,
       name: 'Nuevos Abogados',
       statusId: 1,

@@ -25,6 +25,12 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  DependencyList: any;
+  CargosList: any;
+  OrganismoCopList: any;
+  UniversityList: any;
+  InstitutionList: any;
+  typedoc: string = "CIP";
   activities: any[] = [];
   schedule: any[] = [];
   activityRequirements!: GetOneActivity;
@@ -92,12 +98,72 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
       this.form.patchValue({ activityId: this.idActivity });
       this.getActividad();
     })
+
+    this.loadDependencias();
+    this.loadCargos();
+    this.loadOrganosCop();
+    this.loadUniversidades();
+    this.loadIntituciones();
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
   }
   nuevaIn() {
     location.reload();
+  }
+  changeTypeDoc(){
+    console.log(this.typedoc);
+    if(this.typedoc == "PAS"){
+      this.getPersonData("999999");
+      this.disabled = false;
+    }
+    if(this.typedoc == "CIP"){
+      this.personData = null;
+    }
+  }
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
+
+  loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
+
+  loadOrganosCop() {
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
+
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
+
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
+      }
+    })
   }
   getPersonData(cedula: string) {
     this.loading = false;
@@ -118,7 +184,13 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
         next: (data) => {
 
           this.loading = false;
-          this.disabled = true;
+          if(this.typedoc == "CIP"){
+            this.disabled = true;
+          }
+          else
+          {
+            this.disabled = false;
+          }
           this.personData = data;
           console.log('Datos de la persona:', data[0]?.datasetPersona);
         },
@@ -266,12 +338,22 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
         const moodlecourseid = localStorage.getItem('moodle_course_id');
         if(moodlecourseid){
           const enrollmentdata = {
-            moodleCourseId: moodlecourseid,
+            moodleCourseId: 0,//moodlecourseid,
             inscriptionId: data.inscriptionId
           }
           this._inscriptionService.enrollmentDirect(enrollmentdata).subscribe({
             next:(res)=>{
               console.log(res);
+              const  reqOBJ = {
+                activityId: this.idActivity,
+                participantId: this._inscriptionService._ResponseInscripcion.id,
+                isReentry: false
+              }
+              this._inscriptionService.CreateECAcademicRecord(reqOBJ).subscribe({
+                next:(res)=>{
+                  console.log('CreateECAcademicRecord',res);
+                }
+              })
             }
           })
         }
