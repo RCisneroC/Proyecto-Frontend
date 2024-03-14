@@ -1,4 +1,4 @@
-import { NgModule , ErrorHandler } from "@angular/core";
+import { NgModule, ErrorHandler } from "@angular/core";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -47,7 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    InscriptionExternalComponent,
+    InscriptionExternalComponent
     //TeacherDetailComponent
 
 

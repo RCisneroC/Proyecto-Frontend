@@ -19,7 +19,35 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy {
 
   public filtros = new FormControl();
   public lstFiltrosSelected: string[] = [];
-  public personalDocenteModel: PersonalDocenteModel[] = [];
+  public personalDocenteModel: PersonalDocenteModel[] = [{
+    teacherId: 0,
+    cedula: '',
+    name: '',
+    lastName: '',
+    email: '',
+    applicationDate: '',
+    selected: false,
+    dischargeDate: '',
+    placeResidence: '',
+    gender: '',
+    dateOfBirth: '',
+    placeOfBirth: '',
+    phoneNumber: '',
+    statusId: 0,
+    comment: '',
+    listCourse: '',
+    listTraining: '',
+    listSpecialty: '',
+    listExperience: '',
+    listDocument: '',
+    listActivity: '',
+    listSubject: '',
+    process: 0,
+    createdDate: '',
+    createdBy: '',
+    lastModifiedDate: '',
+    lastModifiedBy: ''
+  }];
   public subscriptions: Subscription[] = [];
   public IsLoading: boolean = true;
   form!: UntypedFormGroup;
@@ -136,6 +164,7 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.IsLoading = false;
