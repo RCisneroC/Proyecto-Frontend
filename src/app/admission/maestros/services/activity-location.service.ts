@@ -14,7 +14,7 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<LocationActivity[]> = new BehaviorSubject<
-  LocationActivity[]
+    LocationActivity[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: LocationActivity;
@@ -30,7 +30,7 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllLocationActivity(): void {
     this.subs.sink = this.httpClient
-      .get<LocationActivity[]>(environment.apiUrlSchedule+'ActivityLocation/GetAll')
+      .get<LocationActivity[]>(environment.apiUrlSchedule + 'ActivityLocation/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,12 +43,16 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllLocationActivity2() {
-   return this.httpClient
-      .get<LocationActivity[]>(environment.apiUrlSchedule+'ActivityLocation/GetAll');
+    return this.httpClient
+      .get<LocationActivity[]>(environment.apiUrlSchedule + 'ActivityLocation/GetAll');
+  }
+  getAllLocationActivity2Filter(id: any) {
+    return this.httpClient
+      .get<LocationActivity[]>(environment.apiUrlSchedule + 'ActivityLocation/GetAll?StatusId=' + id);
   }
 
   addLocationActivity(locationActivity: LocationActivity) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Create', locationActivity);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityLocation/Create', locationActivity);
   }
 
   updateLocationActivity(locationActivity: LocationActivity) {
@@ -65,7 +69,7 @@ export class ActivityLocationService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-  return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule+'ActivityLocation/Delete',options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityLocation/Delete', options);
   }
 
 }

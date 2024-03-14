@@ -14,7 +14,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<SourceFunds[]> = new BehaviorSubject<
-  SourceFunds[]
+    SourceFunds[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: SourceFunds;
@@ -30,7 +30,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllSourceFunds(): void {
     this.subs.sink = this.httpClient
-      .get<SourceFunds[]>(environment.apiUrlSchedule+'ActivityFundsSource/GetAll')
+      .get<SourceFunds[]>(environment.apiUrlSchedule + 'ActivityFundsSource/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,19 +43,25 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllSourceFunds2() {
-   return this.httpClient
-      .get<SourceFunds[]>(environment.apiUrlSchedule+'ActivityFundsSource/GetAll');
+    return this.httpClient
+      .get<SourceFunds[]>(environment.apiUrlSchedule + 'ActivityFundsSource/GetAll');
   }
 
-  addSourceFunds(sourceFunds: SourceFunds){
+  getAllSourceFunds2Filter(id: any) {
+    return this.httpClient
+      .get<SourceFunds[]>(environment.apiUrlSchedule + 'ActivityFundsSource/GetAll?StatusId=' + id);
+  }
+
+
+  addSourceFunds(sourceFunds: SourceFunds) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Create', sourceFunds);
   }
 
-  updateSourceFunds(sourceFunds: SourceFunds){
+  updateSourceFunds(sourceFunds: SourceFunds) {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Update', sourceFunds);
   }
 
-  DeleteSourceFunds(Id: number){
+  DeleteSourceFunds(Id: number) {
     let data = {
       id: Id
     };
@@ -65,7 +71,7 @@ export class SourceFundsService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityFundsSource/Delete', options);
   }
 

@@ -14,7 +14,7 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<Reason[]> = new BehaviorSubject<
-  Reason[]
+    Reason[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: Reason;
@@ -30,7 +30,7 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllReason(): void {
     this.subs.sink = this.httpClient
-      .get<Reason[]>(environment.apiUrlSchedule+'ActivityReason/GetAll')
+      .get<Reason[]>(environment.apiUrlSchedule + 'ActivityReason/GetAll')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -43,10 +43,15 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
       });
   }
   getAllReason2() {
-   return this.httpClient
-      .get<Reason[]>(environment.apiUrlSchedule+'ActivityReason/GetAll');
-     
+    return this.httpClient
+      .get<Reason[]>(environment.apiUrlSchedule + 'ActivityReason/GetAll');
   }
+
+  getAllReason2Filtro(id: any) {
+    return this.httpClient
+      .get<Reason[]>(environment.apiUrlSchedule + 'ActivityReason/GetAll?StatusId=' + id);
+  }
+
   addReason(reason: Reason) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityReason/Create', reason);
   }
@@ -65,7 +70,7 @@ export class ReasonService extends UnsubscribeOnDestroyAdapter {
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'ActivityReason/Delete', options);
   }
 }

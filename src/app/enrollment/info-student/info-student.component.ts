@@ -3,7 +3,6 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { Documents, Experience, Student, StudentData, Training } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
 import { StudentService } from './services/student.service';
-import { AddExperienceComponent } from './components/add-experience/add-experience.component';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
@@ -20,12 +19,14 @@ import { StudentModel } from 'app/enrollment/models/StudentModel';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
-
-
-import { AddActivityComponent } from 'app/teaching-management/add-activity/add-activity.component';
-import { AddSubjectComponent } from 'app/teaching-management/add-subject/add-subject.component';
-import { AddTrainingComponent } from 'app/teaching-management/add-training/add-training.component';
+import { DetalleAcademico } from 'app/admission/models/DetalleAcademico';
 import { ResponseModifyStudent } from 'app/admission/models/InscripcionEFResponse';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { InfoAcademicaComponent } from 'app/external/Forms/info-academica/info-academica.component';
+import { ResponseAddEFcademicInfo } from 'app/admission/models/AddEFacademicResponse';
+import { InfoLaboralComponent } from 'app/external/Forms/info-laboral/info-laboral.component';
+
 
 @Component({
   selector: 'app-info-student',
@@ -36,44 +37,12 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
   studentForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
-  processList = [
-    { id: 1, name: 'Formación' },
-    { id: 2, name: 'Educación continua' },
-    { id: 3, name: 'Ambos procesos' }
-  ];
-
-  displayedColumnsCourse = [
-    'courseId',
-    'name',
-    'year',
-    'actions'
-  ];
-
-  displayedColumnsTraining = [
-    'trainingId',
-    'institution',
-    'city',
-    'completionDate',
-    'degreeDate',
-    'educationLevel',
-    'degreeObtained',
-    'actions'
-  ];
-
-
-
-  displayedColumnsSpecialty = [
-    'specialtyId',
-    'name',
-    'actions'
-  ];
 
   displayedColumnsExperience = [
-    'experienceId',
-    'description',
-    'position',
-    'startDate',
-    'endDate',
+    'entidad',
+    'cargo',
+    'periodo',
+    'meses',
     'actions'
   ];
 
@@ -85,34 +54,24 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
   ];
 
-  displayedColumnsActivities: string[] = [
-    'name',
-    // 'activityModeId',
-    // 'activityTypeId',
-    'actions',
+  InformacionAcademica: string[] = [
+    'institucion',
+    'programa',
+    'titulo_obtenido',
+    'year',
+    'acciones',
   ];
 
-  displayedColumnsSubject: string[] = [
-    'name',
-    'actions',
-  ];
 
   DataStudent!: Student;
-  dataStudent!: StudentData;
-
-  DataExperience: Experience[] = [];
   DataDocument: RequiredDocument[] = [];
-  DataTraining: Training[] = [];
   cedula!: string;
   fechaActual!: string;
   fechaA: string | undefined;
   header!: string;
-  experience?: Experience;
-  training?: Training;
+  public DataAcademico: DetalleAcademico[] = [];
   _Form_Data = new FormData();
   docForm!: UntypedFormGroup;
-  viewAct!: boolean;
-  viewAsig!: boolean;
   user!: User;
   aspirante!: boolean;
   participante!: boolean;
@@ -122,6 +81,14 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   OrganismoCopList: any[] = []
   CargosList: any[] = [];
   public DatosEstudianteResponse: StudentModel | undefined;
+
+  SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+
+  @ViewChild(MatPaginator)
+  set paginator(value: MatPaginator) {
+    this.SourceAcademico.paginator = value;
+  }
+
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -134,7 +101,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     private enrollmentService: EnrollmentService,
     public datePipe: DatePipe,
     private _inscriptionService: InscriptionService,
-    private cb: ChangeDetectorRef
+    private cb: ChangeDetectorRef,
+    public dialog: MatDialog
   ) {
     super();
     this.studentForm = this.createstudentFormAll();
@@ -152,26 +120,21 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.DataStudent = new Student();
     const fechaActual = new Date();
     this.fechaA = fechaActual.toLocaleDateString('es-PA');
-
-
     this.header = "Actualizar Datos";
-
-
     const cedula: string = this.authenticationService.currentUserValue.cedula;
     this.loadUniversidades();
     this.loadIntituciones();
     this.loadDependencias();
     this.loadOrganosCop();
     this.loadCargos();
-
     this.getPersonData(cedula);
-
+    this.loadAcademicInfo();
+    this.loadExperience();
     this.docForm = this.fb.group({
       FileDetails: new FormControl([]),
       FileType: new FormControl([]),
     });
-
-
+    this.SourceAcademico.paginator = this.paginator;
   }
 
   SetValidator(): void {
@@ -402,47 +365,16 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
   }
 
-  AddExperience() {
-    const dialogRef = this._dialog.open(AddExperienceComponent, {
-      data: {
-        experience: this.experience,
-        accion: 'add-experience'
-      },
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result: Experience) => {
-      if (result == undefined) {
-        return;
-      }
-      this.DataExperience = [];
-
-      if (this.DataStudent.listExperience.length > 0) {
-        const IdMayor = this.DataStudent.listExperience.reduce((previous, current) => {
-          return current.experienceId > previous.experienceId ? current : previous;
-        });
-        result.experienceId = IdMayor.experienceId + 1;
-      } else {
-        result.experienceId = 1;
-      }
-
-      this.DataExperience.push(result);
-
-      this.DataStudent.listExperience = [...this.DataStudent.listExperience, ...this.DataExperience]
-
-    });
-  }
-
 
   RemoveExperience(row: Experience) {
 
-    this.DataExperience = [];
-    this.DataExperience = this.DataStudent.listExperience.filter(x => x.experienceId != row.experienceId)
-    this.DataStudent.listExperience = [...this.DataExperience]
+   // this.DataExperience = [];
+    //this.DataExperience = this.DataStudent.listExperience.filter(x => x.experienceId != row.experienceId)
+    //this.DataStudent.listExperience = [...this.DataExperience]
 
   }
 
   createstudentFormAll(): UntypedFormGroup {
-
     return this.fb.group({
       //datos generales
       cedula: new FormControl(""),
@@ -477,9 +409,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       position: new FormControl(""),
       province: new FormControl(""),
       judicialDistrict: new FormControl(""),
-      invitationDate: new FormControl(""),
-      listTraining: new FormControl(this.DataStudent?.listTraining || []),
-      listExperience: new FormControl(this.DataStudent?.listExperience || [])
+      invitationDate: new FormControl("")
     });
   }
 
@@ -599,26 +529,29 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     }
   }
 
-  AddTraining() {
 
-  }
-
-  removeTraining(row: Training) {
-    this.DataTraining = [];
-    this.DataTraining = this.DataStudent.listTraining.filter(x => x.trainingId != row.trainingId)
-    this.DataStudent.listTraining = [...this.DataTraining]
-
-  }
 
   loadExperience() {
-    /*this.inscriptionService.GetExperienceInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
+    this._inscriptionService.GetExperienceInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
      {
       next: (request) =>{
+        console.log(request.experienceInfoResponse)
         this.DataStudent.listExperience = request.experienceInfoResponse;
-
       }
      }
-    );*/
+    );
+  }
+
+
+  loadAcademicInfo(){
+    this._inscriptionService.GetAcadInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
+      {
+       next: (request) =>{
+         this.DataAcademico = request.inscriptionResponse;
+         this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+       }
+      }
+     );
   }
 
   loadIntituciones() {
@@ -676,6 +609,68 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         this.studentForm.controls["others"].patchValue("")
        this.studentForm.controls["usesAwheelchair"].patchValue("False")
     }
+  }
+
+
+  // INFORMACION ACADEMICA
+  addcademicInfo() {
+    const jsonRequest = {
+      aspirantId:  1,//this.aspirantId,
+      academicInformation: {}
+    }
+    let pointer = 1;
+    let jsonItem = "{";
+    const length = this.DataAcademico.length;
+    this.DataAcademico.forEach(function (value) {
+      if (pointer != length) {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
+      }
+      else {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value);
+      }
+      pointer = pointer + 1;
+    })
+    jsonItem += "}";
+    jsonRequest.academicInformation = JSON.parse(jsonItem);
+
+    this._inscriptionService.AddEFAcademicInfo(jsonRequest).subscribe({
+      next: (data: ResponseAddEFcademicInfo) => {
+        this._inscriptionService._ResponseAddEFcademicInfo = data;
+        if (this._inscriptionService._ResponseAddEFcademicInfo.isError) {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Academic no fue creado correctamente.',
+            icon: "warning"
+          });
+        }
+      }
+    })
+  }
+
+
+openDialogAC(): void {
+    const dialogACRef = this.dialog.open(InfoAcademicaComponent, {
+      data: {},
+    });
+
+    dialogACRef.afterClosed().subscribe((result: DetalleAcademico) => {
+      if (result != null) {
+        this.DataAcademico.push(result);
+        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+      }
+    });
+  }
+
+  openDialogIL(): void {
+    const dialogILRef = this.dialog.open(InfoLaboralComponent, {
+      data: {},
+    });
+  }
+
+ deleteItemAC(row: any) {
+    console.log(row);
+    this.DataAcademico.splice(row, 1);
+    this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
   }
 
 

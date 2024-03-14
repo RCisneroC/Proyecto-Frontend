@@ -11,4 +11,5 @@ export interface DegreeCurriculumDesignEnrollment {
   approvalMessage: string;
   degree?: any;
   periods: any[];
+  action: string;
 }

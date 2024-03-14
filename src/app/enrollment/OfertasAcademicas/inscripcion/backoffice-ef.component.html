@@ -1,8 +1,8 @@
 <section class="content">
   <div class="content-block">
     <div class="block-header">
-      <app-breadcrumb [title]="'Inscripción de Formación Especializada'"
-        [items]="['Inicio','Ofertas Académicas','Formación Especializada']" [active_item]="'Inscripción de Formación Especializada'">
+      <app-breadcrumb [title]="'Formulario de Inscripción'"
+        [items]="['Formación Especializada','Listado de Planes Anuales Aprobados']" [active_item]="'Formulario de Inscripción'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -18,9 +18,6 @@
           <div class="header">
           </div>
           <div class="body">
-            <h5 class="text-uppercase"><strong>Listado de Planes anuales aprobados</strong></h5>
-            <p *ngIf="!showTable">Nota: <strong>Documento de Identidad se estara validando con el Tribunal
-                Electoral, luego puede avanzar.</strong></p>
             <div class="body">
               <mat-horizontal-stepper *ngIf="!showTable" [linear]="false" #stepper>
                 <mat-step [stepControl]="FormsEF!">
@@ -104,7 +101,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Correo electrónico</mat-label>
-                          <input matInput formControlName="email" [readonly]="false">
+                          <input matInput formControlName="email" [ngModel]="Participant.email" [readonly]="false">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('email')?.hasError('required')">
                             Requerido
@@ -115,7 +112,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Número telefónico</mat-label>
-                          <input matInput formControlName="telephoneNumber" [readonly]="false">
+                          <input [ngModel]="Participant.telephoneNumber" matInput formControlName="telephoneNumber" [readonly]="false">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('telephoneNumber')?.hasError('required')">
                             Requerido
@@ -126,7 +123,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                         <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>Sexo</mat-label>
-                          <mat-select formControlName="gender">
+                          <mat-select formControlName="gender"  [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.gender">
                             <mat-option value="Femenino">Femenino</mat-option>
                             <mat-option value="Masculino">Masculino</mat-option>
                           </mat-select>
@@ -141,7 +138,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Tipo de sangre</mat-label>
-                          <input matInput formControlName="bloodtype" [readonly]="false">
+                          <input matInput formControlName="bloodtype" [readonly]="false"  [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.bloodtype">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('bloodtype')?.hasError('required')">
                             Requerido
@@ -151,7 +148,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                         <mat-form-field class="example-full-width" appearance="outline">
                           <mat-label>Estado Civil</mat-label>
-                          <mat-select formControlName="maritalStatus">
+                          <mat-select formControlName="maritalStatus"  [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.maritalStatus">
                             <mat-option value="Soltero">Soltero(a)</mat-option>
                             <mat-option value="Casado">Casado(a)</mat-option>
                             <mat-option value="Viudo">Viudo(a)</mat-option>
@@ -165,7 +162,7 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Nombre del cónyuge</mat-label>
-                          <input matInput formControlName="nameOfspouse" [readonly]="false">
+                          <input matInput formControlName="nameOfspouse" [readonly]="false" [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.nameOfspouse">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         </mat-form-field>
                       </div>
@@ -175,14 +172,14 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>No. de hijos </mat-label>
-                          <input matInput formControlName="numberofchildren" [readonly]="false">
+                          <input matInput formControlName="numberofchildren" [readonly]="false" [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.numberofchildren">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                         </mat-form-field>
                       </div>
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>En caso de emergencia avisar a</mat-label>
-                          <input matInput formControlName="caseOfemergency" [readonly]="false">
+                          <input matInput formControlName="caseOfemergency" [readonly]="false" [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.caseOfemergency">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('caseOfemergency')?.hasError('required')">
                             Requerido
@@ -192,37 +189,9 @@
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                         <mat-form-field class="example-full-width " appearance="outline">
                           <mat-label>Número residencial y/o celular (emergencia)</mat-label>
-                          <input matInput formControlName="telephoneNumberEmergency" [readonly]="false">
+                          <input matInput formControlName="telephoneNumberEmergency" [readonly]="false" [ngModel]="DatosEstudianteResponse!.verifyUsersResult[0]!.aspirant[0]!.telephoneNumberEmergency">
                           <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                           <mat-error *ngIf="FormsEF.get('telephoneNumberEmergency')?.hasError('required')">
-                            Requerido
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div *ngIf="tribunalReady" class="row">
-                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                        <mat-form-field class="example-full-width" appearance="outline">
-                          <mat-label>Programa a académico al que se presenta</mat-label>
-                          <mat-select formControlName="degreeId">
-                            <mat-option *ngFor="let row of meshList" [value]="row.id">{{row.name}}</mat-option>
-                          </mat-select>
-                          <!-- <mat-error *ngIf="editActivity.get('activityModeId')?.hasError('required')">
-                                               la modalidad es requerida
-                                           </mat-error> -->
-                          <mat-error *ngIf="FormsEF.get('degreeId')?.hasError('required')">
-                            Requerido
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div *ngIf="tribunalReady" class="row">
-                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                        <mat-form-field class="example-full-width " appearance="outline">
-                          <mat-label>Observaciones</mat-label>
-                          <input matInput formControlName="observation" [readonly]="false">
-                          <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
-                          <mat-error *ngIf="FormsEF.get('observation')?.hasError('required')">
                             Requerido
                           </mat-error>
                         </mat-form-field>

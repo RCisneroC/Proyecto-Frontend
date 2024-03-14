@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Inscripción Directa'" [items]="['Inicio', 'Ofertas Académicas','Entrenamiento','Inscripción']"
+      <app-breadcrumb [title]="'Formulario de Inscripción'" [items]="['Entrenamiento', 'Planes Anuales Aprobados']"
         [active_item]="'Formulario de Inscripción'">
       </app-breadcrumb>
     </div>
@@ -59,17 +59,21 @@
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
+                        {{this.personData.verifyUsersResult[0].gender}}
                         <mat-form-field class="mat-form-field" appearance="outline">
-                          <mat-label>Sexo</mat-label>
-                          <input formControlName="gender" matInput autocomplete="off" [ngModel]="
-                              this.personData.verifyUsersResult[0].gender
-                            " />
+                          <mat-label>Sexo </mat-label>
+                             <mat-select formControlName="gender" [ngModel]="
+                             this.personData.verifyUsersResult[0].gender
+                           ">
+                              <mat-option value="Femenino">Femenino</mat-option>
+                              <mat-option value="Masculino">Masculino</mat-option>
+                            </mat-select>
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Provincia</mat-label>
-                          <mat-select formControlName="province" [ngModel]="personData?.provincia">
+                          <mat-select formControlName="province" [ngModel]="this.personData.verifyUsersResult[0].participant[0].province">
                             <mat-option value="BOCAS DEL TORO">BOCAS DEL TORO</mat-option>
                             <mat-option value="COCLÉ">COCLÉ</mat-option>
                             <mat-option value="COLÓN">COLÓN</mat-option>
@@ -169,15 +173,7 @@
                         </mat-form-field>
                       </mat-grid-tile>
 
-                      <mat-grid-tile>
-                        <mat-form-field class="mat-form-field" appearance="outline">
-                          <mat-label>Observación</mat-label>
-                          <input formControlName="observation" matInput autocomplete="off" />
-                          <mat-error *ngIf="form.get('position')?.hasError('required')">
-                            La Observación es <strong>obligatoria</strong>.
-                          </mat-error>
-                        </mat-form-field>
-                      </mat-grid-tile>
+
 
                       <mat-grid-tile [colspan]="2">
                         <button [disabled]="form.invalid" type="submit" class="btnAceptar" mat-raised-button
