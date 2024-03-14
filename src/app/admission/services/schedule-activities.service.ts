@@ -142,7 +142,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.userType == 'Administrador' || this.userType == 'Estudiante') {
-            this.dataChange2.next(data.filter(x =>  x.activityTrainingType != 1));
+            this.dataChange2.next(data.filter(x => x.activityTrainingType != 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3 && x.activityTrainingType != 1));
           }
@@ -247,6 +247,10 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
   updateStatusActivity(data: any) {
     return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivityStatus', data);
+  }
+
+  getAllScheduleIdEstadisticas(id: string) {
+    return this.httpClient.get<ScheduleActivity[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetAll?StatusId=' + id);
   }
 
 

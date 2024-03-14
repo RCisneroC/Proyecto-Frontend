@@ -22,6 +22,7 @@ import { DTCertificate } from '../models/DTCertificate';
 import { PlanStudyActivity } from '../models/PlanStudyActivity';
 import { ActivityDetailModules, ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
 import { EventsActivity } from '../models/EventsActivity';
+import { EstadisticasActivity } from 'app/estadisticas/Models/EstadisticasModelActivity';
 @Injectable({
   providedIn: 'root'
 })
@@ -447,6 +448,101 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     teacherCedula: '',
     teacherFullName: '',
     teacherStatusId: '',
+  }
+  public _EstadisticasActivity: EstadisticasActivity = {
+    activitiesByAll: [
+      this._GetOneActivity
+    ],
+    planningDate: '',
+    activityCountByPlanningDate: 0,
+    activitiesByPlanningDate: [
+      this._GetOneActivity
+    ],
+    activityModeId: 0,
+    activityModeName: '',
+    activityCountByActivityModeId: 0,
+    activitiesByActivityModeId: [
+      this._GetOneActivity
+    ],
+    activityLocationName: '',
+    activityCountByActivityLocationId: 0,
+    activitiesByActivityLocationId: [
+      this._GetOneActivity
+    ],
+    assignedCoordinatorId: '',
+    activityCountByAssignedCoordinatorId: 0,
+    activitiesByAssignedCoordinatorId: [
+      this._GetOneActivity
+    ],
+    activityReasonId: '',
+    activityReasonName: '',
+    activityCountByActivityReasonId: 0,
+    activitiesByActivityReasonId: [
+      this._GetOneActivity
+    ],
+    activityFundsSourceId: '',
+    activityFundsSourceName: '',
+    activityCountByActivityFundsSourceId: 0,
+    activitiesByActivityFundsSourceId: [
+      this._GetOneActivity
+    ],
+    inscriptionStartDate: '',
+    activityCountByInscriptionStartDate: 0,
+    activitiesByInscriptionStartDate: [
+      this._GetOneActivity
+    ],
+    inscriptionEndDate: '',
+    activityCountByInscriptionEndDate: 0,
+    activitiesByInscriptionEndDate: [
+      this._GetOneActivity
+    ],
+    startDate: '',
+    activityCountByStartDate: 0,
+    activitiesByStartDate: [
+      this._GetOneActivity
+    ],
+    plannedEndDate: '',
+    activityCountByPlannedEndDate: 0,
+    activitiesByPlannedEndDate: [
+      this._GetOneActivity
+    ],
+    effectiveEndDate: '',
+    activityCountByEffectiveEndDate: 0,
+    activitiesByEffectiveEndDate: [
+      this._GetOneActivity
+    ],
+    dataSheetDeliveryDate: '',
+    activityCountByDataSheetDeliveryDate: 0,
+    activitiesByDataSheetDeliveryDate: [
+      this._GetOneActivity
+    ],
+    digitalReportDeliveryDate: '',
+    activityCountByDigitalReportDeliveryDate: 0,
+    activitiesByDigitalReportDeliveryDate: [
+      this._GetOneActivity
+    ],
+    physicalReportDeliveryDate: '',
+    activityCountByPhysicalReportDeliveryDate: 0,
+    activitiesByPhysicalReportDeliveryDate: [
+      this._GetOneActivity
+    ],
+    statusId: '',
+    statusName: '',
+    activityCountByStatusId: 0,
+    activitiesByStatusId: [
+      this._GetOneActivity
+    ],
+    curriculumDesignId: '',
+    curriculumDesignName: '',
+    activityCountByCurriculumDesignId: 0,
+    activitiesByCurriculumDesignId: [
+      this._GetOneActivity
+    ],
+    hasDataSheet: '',
+    activityCountByHasDataSheet: 0,
+    activitiesByHasDataSheet: [
+      this._GetOneActivity
+    ],
   }
   public _ListadoDocentes: DetalleDocente[] = [this._DetalleDocente];
   public loading: boolean = false;
@@ -1103,6 +1199,104 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
       teacherCedula: '',
       teacherFullName: '',
       teacherStatusId: '',
+    }
+  }
+  init_estadisticas() {
+
+    this._EstadisticasActivity = {
+      activitiesByAll: [
+        this._GetOneActivity
+      ],
+      planningDate: '',
+      activityCountByPlanningDate: 0,
+      activitiesByPlanningDate: [
+        this._GetOneActivity
+      ],
+      activityModeId: 0,
+      activityModeName: '',
+      activityCountByActivityModeId: 0,
+      activitiesByActivityModeId: [
+        this._GetOneActivity
+      ],
+      activityLocationName: '',
+      activityCountByActivityLocationId: 0,
+      activitiesByActivityLocationId: [
+        this._GetOneActivity
+      ],
+      assignedCoordinatorId: '',
+      activityCountByAssignedCoordinatorId: 0,
+      activitiesByAssignedCoordinatorId: [
+        this._GetOneActivity
+      ],
+      activityReasonId: '',
+      activityReasonName: '',
+      activityCountByActivityReasonId: 0,
+      activitiesByActivityReasonId: [
+        this._GetOneActivity
+      ],
+      activityFundsSourceId: '',
+      activityFundsSourceName: '',
+      activityCountByActivityFundsSourceId: 0,
+      activitiesByActivityFundsSourceId: [
+        this._GetOneActivity
+      ],
+      inscriptionStartDate: '',
+      activityCountByInscriptionStartDate: 0,
+      activitiesByInscriptionStartDate: [
+        this._GetOneActivity
+      ],
+      inscriptionEndDate: '',
+      activityCountByInscriptionEndDate: 0,
+      activitiesByInscriptionEndDate: [
+        this._GetOneActivity
+      ],
+      startDate: '',
+      activityCountByStartDate: 0,
+      activitiesByStartDate: [
+        this._GetOneActivity
+      ],
+      plannedEndDate: '',
+      activityCountByPlannedEndDate: 0,
+      activitiesByPlannedEndDate: [
+        this._GetOneActivity
+      ],
+      effectiveEndDate: '',
+      activityCountByEffectiveEndDate: 0,
+      activitiesByEffectiveEndDate: [
+        this._GetOneActivity
+      ],
+      dataSheetDeliveryDate: '',
+      activityCountByDataSheetDeliveryDate: 0,
+      activitiesByDataSheetDeliveryDate: [
+        this._GetOneActivity
+      ],
+      digitalReportDeliveryDate: '',
+      activityCountByDigitalReportDeliveryDate: 0,
+      activitiesByDigitalReportDeliveryDate: [
+        this._GetOneActivity
+      ],
+      physicalReportDeliveryDate: '',
+      activityCountByPhysicalReportDeliveryDate: 0,
+      activitiesByPhysicalReportDeliveryDate: [
+        this._GetOneActivity
+      ],
+      statusId: '',
+      statusName: '',
+      activityCountByStatusId: 0,
+      activitiesByStatusId: [
+        this._GetOneActivity
+      ],
+      curriculumDesignId: '',
+      curriculumDesignName: '',
+      activityCountByCurriculumDesignId: 0,
+      activitiesByCurriculumDesignId: [
+        this._GetOneActivity
+      ],
+      hasDataSheet: '',
+      activityCountByHasDataSheet: 0,
+      activitiesByHasDataSheet: [
+        this._GetOneActivity
+      ]
     }
   }
 
