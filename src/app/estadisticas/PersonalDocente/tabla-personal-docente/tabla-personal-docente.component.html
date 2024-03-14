@@ -17,17 +17,20 @@
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Filtros</mat-label>
-                  <mat-select multiple  [(ngModel)]="lstFiltrosSelected" (selectionChange)="eventSelection()">
+                  <mat-select multiple [(ngModel)]="lstFiltrosSelected" (selectionChange)="eventSelection()" [panelClass]="'fixMultipleSelect'">
                     <mat-option *ngFor="let row of lstFiltros" [value]="row.codigo">{{row.texto}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-
               </div>
               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                <a class="btn btn-link m-4" [routerLink]="" (click)="limpiarTodosFiltros()">Limpiar todos los filtros</a>
+                <button class="m-4" mat-flat-button
+                  (click)="limpiarTodosFiltros()"><mat-icon>cleaning_services</mat-icon>Quitar filtros</button>
+                <button class="m-4" (click)="consultar()" mat-flat-button
+                  color="primary"><mat-icon>search</mat-icon>Buscar</button>
               </div>
             </div>
-            <fieldset *ngIf="lstFiltrosSelected.length > 0">
+
+            <fieldset class="row" *ngIf="lstFiltrosSelected.length > 0">
               <legend>Criterios de Búsqueda</legend>
               <div class="row">
                 <div *ngIf="verificarExistenciaFiltro('PLN')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
@@ -35,8 +38,8 @@
                     <mat-label>Lugar de Nacimiento</mat-label>
                     <input type="text" placeholder="Lugar de Nacimiento" aria-label="Lugar de Nacimiento" matInput
                       [matAutocomplete]="autoLugarNacimiento">
-                      <mat-autocomplete #autoLugarNacimiento="matAutocomplete" [displayWith]="displayLugarNacimiento">
-                      </mat-autocomplete>
+                    <mat-autocomplete #autoLugarNacimiento="matAutocomplete" [displayWith]="displayLugarNacimiento">
+                    </mat-autocomplete>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PFN')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
@@ -52,8 +55,8 @@
                     <mat-label>Lugar de Residencia</mat-label>
                     <input type="text" placeholder="Lugar de Residencia" aria-label="Lugar de Residencia" matInput
                       [matAutocomplete]="autoLugarResidencia">
-                      <mat-autocomplete #autoLugarResidencia="matAutocomplete" [displayWith]="displayLugarResidencia">
-                      </mat-autocomplete>
+                    <mat-autocomplete #autoLugarResidencia="matAutocomplete" [displayWith]="displayLugarResidencia">
+                    </mat-autocomplete>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PC')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
@@ -67,7 +70,7 @@
                 <div *ngIf="verificarExistenciaFiltro('PNE')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Nivel Educativo</mat-label>
-                   <mat-select>
+                    <mat-select>
                       <mat-option></mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -75,16 +78,16 @@
                 <div *ngIf="verificarExistenciaFiltro('PTO')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Título Obtenido</mat-label>
-                      <input type="text" placeholder="Título Obtenido" aria-label="Título Obtenido" matInput
+                    <input type="text" placeholder="Título Obtenido" aria-label="Título Obtenido" matInput
                       [matAutocomplete]="autoTituloObtenido">
-                      <mat-autocomplete #autoTituloObtenido="matAutocomplete" [displayWith]="displayTituloObtenido">
-                      </mat-autocomplete>
+                    <mat-autocomplete #autoTituloObtenido="matAutocomplete" [displayWith]="displayTituloObtenido">
+                    </mat-autocomplete>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PMI')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Materias Impartidas</mat-label>
-                     <mat-select>
+                    <mat-select>
                       <mat-option></mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -93,22 +96,24 @@
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Tipo Educación</mat-label>
                     <mat-select>
-                          <mat-option *ngFor="let row of lstTipoEducacion" value="row.codigo">{{row.texto}}</mat-option><mat-option></mat-option>
+                      <mat-option *ngFor="let row of lstTipoEducacion"
+                        value="row.codigo">{{row.texto}}</mat-option><mat-option></mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PS')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Sexo</mat-label>
-                   <mat-select>
-                      <mat-option *ngFor="let row of lstSexo" value="row.codigo">{{row.texto}}</mat-option><mat-option></mat-option>
+                    <mat-select>
+                      <mat-option *ngFor="let row of lstSexo"
+                        value="row.codigo">{{row.texto}}</mat-option><mat-option></mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PE')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                   <mat-form-field class="example-full-width" appearance="outline">
                     <mat-label>Edad</mat-label>
-                     <input appOnlyNumber type="text" maxlength="2" placeholder="Edad" aria-label="Edad" matInput>
+                    <input appOnlyNumber type="text" maxlength="2" placeholder="Edad" aria-label="Edad" matInput>
                   </mat-form-field>
                 </div>
                 <div *ngIf="verificarExistenciaFiltro('PCED')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
@@ -119,8 +124,104 @@
                 </div>
               </div>
             </fieldset>
-            <!-- FIN FILAS-->
+
+            <div class="materialTableHeader">
+              <div class="left">
+                <ul class="header-buttons-left ms-0">
+                  <li class="tbl-title">
+                    <h2>Información Docente</h2>
+                  </li>
+                  <li class="tbl-search-box">
+                    <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                    <input placeholder="Buscar" (keyup)="filtrar($event)" type="text" #filter
+                      class="browser-default search-field" aria-label="Search box">
+                  </li>
+                </ul>
+              </div>
+              <div class="right">
+                <ul class="tbl-export-btn">
+                  <li class="tbl-header-btn">
+                    <div class="m-l-10" matTooltip="Recargar">
+                      <button mat-mini-fab color="primary" (click)="consultar()">
+                        <mat-icon class="col-white">refresh</mat-icon>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="body table-responsive">
+            <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
+            <table  mat-table [dataSource]="dataSource" matSort class="w-100"
+              *ngIf="!IsLoading">
+              <ng-container matColumnDef="cedula">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Cédula:</span>{{row.cedula }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Nombre:</span>{{row.name }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Apellido:</span>{{row.lastName }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="dateOfBirth">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Nacimiento
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Fecha de Nacimiento:</span>{{row.dateOfBirth |
+                  date:'dd/M/yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="placeOfBirth">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Nacimiento
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Lugar de Nacimiento:</span>{{row.placeOfBirth }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Correo electrónico
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Correo electrónico:</span>{{row.email }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="phoneNumber">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>No de Teléfono
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">No de Teléfono:</span>{{row.phoneNumber }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="placeResidence">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Residencia
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Lugar de Residencia:</span>{{row.placeResidence }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="statusId">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="badge badge-solid-green">{{ row.statusId|statusPipe }}</span></mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+            </table>
+            <div *ngIf="!IsLoading" class="no-results"
+              [style.display]="personalDocenteModel.length === 0 ? '' : 'none'">
+              No results
+            </div>
+            <mat-paginator #paginator [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
           </div>
+          </div>
+          <!-- FIN FILAS-->
         </div>
       </div>
     </div>

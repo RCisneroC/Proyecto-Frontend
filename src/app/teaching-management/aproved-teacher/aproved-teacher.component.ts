@@ -62,8 +62,11 @@ export class AprovedTeacherComponent {
       lastName: [this.data.teacher.lastName, [Validators.required]],
       cedula: [this.data.teacher.cedula, [Validators.required]],
       email: [this.data.teacher.email, [Validators.required]],
-      phoneNumber: ["04248772488", [Validators.required]],
-      gender: ["M", [Validators.required]],
+      phoneNumber: [this.data.teacher.phoneNumber, [Validators.required]],
+      gender: [this.data.teacher.gender, [Validators.required]],
+      dateOfBirth: [this.data.teacher.dateOfBirth, [Validators.required]],
+      placeOfBirth: [this.data.teacher.placeOfBirth, [Validators.required]],
+      placeOfResidence: [this.data.teacher.placeResidence, [Validators.required]],
       roles: [["Profesor"], [Validators.required]],
       isRegistered: [true, [Validators.required]],
 
