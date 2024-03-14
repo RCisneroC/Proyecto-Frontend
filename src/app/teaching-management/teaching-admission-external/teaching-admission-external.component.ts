@@ -114,11 +114,12 @@ FormsEFDocument!: UntypedFormGroup;
       cedula:['',[Validators.required],[this.cedulaExist()]],
       name:['',[Validators.required]],
       lastName:['',[Validators.required]],
+      gender:['',[Validators.required]],
       placeOfBirth:['',[Validators.required]],
       dateOfBirth:['',[Validators.required]],
       placeResidence:['',[Validators.required]],
       email:['',[Validators.required]],
-      telephoneNumber:['',[Validators.required]],
+      phoneNumber:['',[Validators.required]],
       carreraId:[true,[Validators.required]],
       selected: new FormControl(false),
       listCourse: new FormControl([]),
@@ -251,7 +252,11 @@ FormsEFDocument!: UntypedFormGroup;
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
   
-
+  valor(event:any)
+  {
+  console.log(event);
+  console.log(this.teacherForm.value);
+  }
   
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
@@ -262,6 +267,10 @@ FormsEFDocument!: UntypedFormGroup;
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
       // selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
+      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
+      gender:new FormControl(this.DataTeacher?.gender),
+      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),

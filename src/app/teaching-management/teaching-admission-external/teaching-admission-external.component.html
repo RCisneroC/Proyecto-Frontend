@@ -133,15 +133,34 @@
                                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                                                     <mat-form-field class="example-full-width " appearance="outline">
                                                         <mat-label>Teléfono</mat-label>
-                                                        <input matInput formControlName="telephoneNumber">
+                                                        <input matInput formControlName="phoneNumber">
                                                         <mat-icon class="material-icons-two-tone color-icon p-3"
                                                             matSuffix>edit</mat-icon>
                                                         <mat-error
-                                                            *ngIf="teacherForm.get('telephoneNumber')?.hasError('required')">
+                                                            *ngIf="teacherForm.get('phoneNumber')?.hasError('required')">
                                                             Es Requitos
                                                         </mat-error>
                                                     </mat-form-field>
                                                 </div>
+                                                
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                                                    <mat-form-field class="example-full-width " appearance="outline">
+                                                        <mat-label>Sexo</mat-label>
+                                                        <mat-select formControlName="gender" (selectionChange)="valor($event)">
+                            
+                                                          <mat-option value="M">Masculino</mat-option>
+                                                          <mat-option value="F">Femenino</mat-option>
+                                                        </mat-select>
+                                                        <mat-error
+                                                            *ngIf="teacherForm.get('gender')?.hasError('required')">
+                                                            Es Requitos
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                
+                                                
+                                                
+                                                
                                             </div>
                                             <div>
                                                 <button mat-raised-button matStepperNext

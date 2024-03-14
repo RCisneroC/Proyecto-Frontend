@@ -38,6 +38,7 @@ export interface DirectoryData {
 }
 
 export class FolderPermission {
+  parentId!:number;
   userFolderId!: number;
   userFileId!:number;
   userId!: string;

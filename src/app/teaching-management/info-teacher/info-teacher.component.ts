@@ -129,6 +129,7 @@ public _verificarBS64: VerificarBS64Pipe,
     this.getRequiredDocuments();
     this.fechaA=fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
+    this.teacherForm.get('cedula')?.disable();
     //this.documentForm = this.createDocumentForm();
    
   
@@ -394,10 +395,10 @@ public _verificarBS64: VerificarBS64Pipe,
       cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
-      placeOfBirth:['Panama',[Validators.required]],
+      placeOfBirth:[this.DataTeacher?.placeOfBirth,[Validators.required]],
       dateOfBirth:[this.DataTeacher?.dischargeDate],
       email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
-      telephoneNumber:['+50742487558',[Validators.required]],
+      telephoneNumber:[this.DataTeacher?.phoneNumber,[Validators.required]],
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),

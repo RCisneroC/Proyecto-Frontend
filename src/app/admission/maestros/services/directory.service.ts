@@ -81,8 +81,8 @@ export class DirectoryService extends UnsubscribeOnDestroyAdapter {
   
   
   
-  getfilebyId(fileId:number) {
-    return this.httpClient.get<Data>(environment.apiDocument+'Files/GetFile?FileId='+fileId)
+  getfilebyId(fileId:number,userSession:string,ChangeType:string) {
+    return this.httpClient.get<Data>(environment.apiDocument+'Files/GetFile?FileId='+fileId+'&SeenBy='+userSession+'&ChangeType='+ChangeType)
    }
    
    getFolderbyId(folderId:number) {

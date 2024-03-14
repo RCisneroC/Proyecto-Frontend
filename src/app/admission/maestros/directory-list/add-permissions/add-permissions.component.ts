@@ -43,6 +43,7 @@ export class AddPermissionsComponent implements OnInit {
   userSelected!: string;
   first!: boolean;
   RadioValue:boolean=false;
+  RadioValuePermi:boolean=false;
   user: User;
   files: FolderPermission = new FolderPermission();
   folder: FolderPermission = new FolderPermission();
@@ -93,7 +94,7 @@ export class AddPermissionsComponent implements OnInit {
           this.dataSourcePermission = [];
           this.folder=new FolderPermission();
           
-       
+            this.folder.parentId = this.datos.parentId;
             this.folder.userFolderId = this.fileFolderId;
             this.folder.userFileId =this.fileFolderId;
             this.folder.userId = this.userSelected;
@@ -129,14 +130,17 @@ export class AddPermissionsComponent implements OnInit {
     this.folder.hasOnloadfile=false;
     this.folder.update=false;
     this.folder.delete=false;
+    event.source._value=event.source._value.filter((x: number) => x >= 6);
   
   }else{
     this.folder.viewFolder=false;
+    event.source._value=event.source._value.filter((x: number) => x < 6);
   }
   
   if(event.source._value.length===0){
     this.folder.viewFolder=true;
   }
+      this.folder.parentId=this.data.folder.parentId;
       this.folder.userFolderId = this.fileFolderId;
       this.folder.userFileId = this.fileFolderId;
       this.folder.userId = this.userSelected;
@@ -265,8 +269,8 @@ export class AddPermissionsComponent implements OnInit {
   }
   
   deletePermissionUserFolder() {
-  let data={
-    UserId:this.userSelected,
+  const data={
+    userId:this.userSelected,
     folderId:this.fileFolderId,
     deleteBy:this.user.id
   }
@@ -306,6 +310,7 @@ export class AddPermissionsComponent implements OnInit {
   
   
     addPermissionUserFolder() {
+    this.folder.userFolderId=this.RadioValuePermi?this.data.folder.parentId:0;
     this._directoryService.addPersmissionUserFolder(this.folder).subscribe({
       next: (res) => {
         this.ResponseMessage.CodError = 200;

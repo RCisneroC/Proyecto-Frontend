@@ -557,6 +557,11 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
+      
+      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
+      gender:new FormControl(this.DataTeacher?.gender),
+      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),

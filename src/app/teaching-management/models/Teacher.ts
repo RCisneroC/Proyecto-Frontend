@@ -18,6 +18,11 @@ export class Teacher {
     listActivity: Activity[] = [];
     listSubject: Subject[] = [];
     process: number = 0;
+    dateOfBirth?: string;
+    placeOfBirth:string= "";
+    gender:string= "";
+    phoneNumber:string= "";
+    
 }
 
 export interface Course {

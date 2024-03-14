@@ -96,6 +96,8 @@ export class AuditListComponent implements OnInit {
     }
 
     const dialogRef = this._dialog.open(ViewHistoryAuditComponent, {
+    width:"1000px",
+    //height:"450px",
       data: {
         folder: event,
         action: act

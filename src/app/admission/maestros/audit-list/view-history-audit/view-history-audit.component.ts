@@ -1,8 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DirectoryService } from '../../services/directory.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DirectoryData } from 'app/admission/models/directory';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -11,10 +13,11 @@ import { DirectoryData } from 'app/admission/models/directory';
   styleUrls: ['./view-history-audit.component.scss']
 })
 export class ViewHistoryAuditComponent  implements OnInit{
-  dataSource!: DirectoryData[];
+  //dataSource!: DirectoryData[];
   dialogTitle!: string;
-
-
+  dataSource = new MatTableDataSource<DirectoryData>([]);
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
   constructor(
     public dialogRef: MatDialogRef<ViewHistoryAuditComponent>,
    @Inject(MAT_DIALOG_DATA) public data: DirectoryData,
@@ -46,8 +49,8 @@ export class ViewHistoryAuditComponent  implements OnInit{
     this._directoryService.GetHistoryFile(this.data.folder.fileId).subscribe({
       next: (res) => {
 
-        this.dataSource = res["dataResult"];
-        
+        this.dataSource.data = res["dataResult"];
+        this.dataSource.paginator = this.paginator; 
         //this.dataSource = [];
 
       }
@@ -57,7 +60,7 @@ getHistoryAudFolder() {
   this._directoryService.GetHistoryFolder(this.data.folder.folderId).subscribe({
     next: (res) => {
       //this.dataSource = [];
-        this.dataSource = res["dataResult"];
+        this.dataSource.data = res["dataResult"];
     }
   });  
 
