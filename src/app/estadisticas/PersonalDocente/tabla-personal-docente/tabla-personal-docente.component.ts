@@ -1,10 +1,13 @@
-import { Component, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { Filtros } from '../model/Filtros';
-import { FormControl } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { PersonalDocenteModel } from '../model/PersonalDocenteModel';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { PersonalDocenteServiceService } from 'app/estadisticas/services/personal-docente-service.service';
+import { ParametrosConsulta } from '../model/ParametrosConsulta';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -12,13 +15,14 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './tabla-personal-docente.component.html',
   styleUrls: ['./tabla-personal-docente.component.scss']
 })
-export class TablaPersonalDocenteComponent implements AfterViewInit {
+export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy {
 
   public filtros = new FormControl();
   public lstFiltrosSelected: string[] = [];
   public personalDocenteModel: PersonalDocenteModel[] = [];
   public subscriptions: Subscription[] = [];
   public IsLoading: boolean = true;
+  form!: UntypedFormGroup;
   dataSource = new MatTableDataSource<PersonalDocenteModel>(this.personalDocenteModel);
   @ViewChild('paginator', { static: true })
   paginator!: MatPaginator;
@@ -104,10 +108,32 @@ export class TablaPersonalDocenteComponent implements AfterViewInit {
     }
   ];
 
-  constructor(private cb: ChangeDetectorRef) {
-
+  constructor(private cb: ChangeDetectorRef,
+    private servicioPersonalDocente: PersonalDocenteServiceService,
+    private fb: UntypedFormBuilder) {
+    this.form = this.createForm();
   }
 
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
+
+  createForm(): UntypedFormGroup {
+    return this.fb.group({
+      PLN: ['', Validators.required],
+      PCED: ['', Validators.required],
+      PFN: ['', Validators.required],
+      PLR: ['', Validators.required],
+      PC: ['', Validators.required],
+      PNE: ['', Validators.required],
+      PTO: ['', Validators.required],
+      PMI: ['', Validators.required],
+      PTED: ['', Validators.required],
+      PS: ['', Validators.required],
+      PE: ['', Validators.required]
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -134,11 +160,71 @@ export class TablaPersonalDocenteComponent implements AfterViewInit {
   }
 
   public limpiarTodosFiltros() {
+    this.lstFiltrosSelected.forEach(
+      (f) => {
+        this.form.controls[f].reset();
+      }
+    );
     this.lstFiltrosSelected = [];
+    this.personalDocenteModel = [];
+    this.dataSource = new MatTableDataSource<PersonalDocenteModel>(this.personalDocenteModel);
   }
 
   public consultar() {
-    this.dataSource.paginator = this.paginator;
+    this.IsLoading = true;
+    const parametros = new ParametrosConsulta;
+    let valid: boolean = true;
+    this.lstFiltrosSelected.forEach(
+      (f) => {
+        if (this.form.controls[f].value == null ||
+          this.form.controls[f].value == undefined ||
+          this.form.controls[f].value == "") {
+          this.form.controls[f].markAsDirty();
+          this.form.controls[f].markAsPristine();
+          this.form.controls[f].markAllAsTouched();
+          valid = false;
+        }
+      }
+    );
+
+    if (!valid) {
+      this.IsLoading = false;
+      return;
+    }
+
+    this.lstFiltrosSelected.forEach(
+      (f) => {
+        if (f == "PS") {
+          parametros!.sexo = this.form.controls[f].value;
+        }
+        if (f == "PCED") {
+          parametros!.cedula = this.form.controls[f].value;
+        }
+        if (f == "PE") {
+          parametros!.age = this.form.controls[f].value;
+        }
+        if (f == "PFN") {
+          parametros!.dateOfBirth = this.form.controls[f].value;
+        }
+
+      }
+    );
+
+    this.subscriptions.push(
+      this.servicioPersonalDocente.GetByFilters(parametros).subscribe(
+        {
+          next: (request: PersonalDocenteModel[]) => {
+            this.personalDocenteModel = request;
+            this.dataSource = new MatTableDataSource<PersonalDocenteModel>(this.personalDocenteModel);
+            this.IsLoading = false;
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+            this.IsLoading = false;
+          }
+        }
+      )
+    );
   }
 
   filtrar(event: Event) {
@@ -146,6 +232,12 @@ export class TablaPersonalDocenteComponent implements AfterViewInit {
     this.dataSource.filter = filtro.trim().toLowerCase();
   }
 
+  public seleccionarTodos() {
+    this.lstFiltrosSelected = [];
+    this.lstFiltros.forEach((f) => {
+      this.lstFiltrosSelected.push(f.codigo);
+    });
+  }
 
   public eventSelection() {
     this.cb.detectChanges();
