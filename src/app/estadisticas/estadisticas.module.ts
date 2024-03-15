@@ -8,6 +8,7 @@ import { EstadisticasRoutingModule } from './estadisticas-routing.module';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
+import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
 
 
 
@@ -16,7 +17,8 @@ import { EstadisticasActividadComponent } from './estadisticas-actividad/estadis
   declarations: [
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,
-    EstadisticasActividadComponent
+    EstadisticasActividadComponent,
+    EstadisticasMatriculaComponent
   ],
   imports: [
     CommonModule,
