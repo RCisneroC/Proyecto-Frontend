@@ -180,7 +180,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   constructor(
     public _ActivityDetailService: ActivityDetailService,
     private fb: UntypedFormBuilder,
-    private _activityService: ActivityService,
+    public _activityService: ActivityService,
     private _activityLocationService: ActivityLocationService,
     private _modalityService: ModalityService,
     private _StatusService: StatusService,
@@ -441,7 +441,6 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     if (this.scheduleForm.controls["ActivityClass"].value != '') {
       params += `ActivityClass=${this.scheduleForm.controls['ActivityClass'].value}&`;
     }
-    this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
     this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
       next: (res) => {
         console.log('====================================');
@@ -450,6 +449,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
         console.log('====================================');
       }
     })
+    this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
   }
 
   removerUltimoCaracterSiEsAmpersand(cadena: string): string {
