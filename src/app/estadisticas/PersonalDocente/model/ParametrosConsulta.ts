@@ -7,7 +7,7 @@ export class ParametrosConsulta{
   cedula?: string;
   age?: number;
   sexo?: string;
-  dateOfBirth?: string;
+  dateOfBirth: string | undefined | null;
   placeOfBirth?: string;
   actIds?: number[];
   subjecIds?: number[];
