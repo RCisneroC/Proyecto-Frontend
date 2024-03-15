@@ -8,6 +8,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PersonalDocenteServiceService } from 'app/estadisticas/services/personal-docente-service.service';
 import { ParametrosConsulta } from '../model/ParametrosConsulta';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TableElement, TableExportUtil } from '@shared';
+import {  DatePipe } from '@angular/common';
+import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 
 
 @Component({
@@ -138,7 +141,8 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy {
 
   constructor(private cb: ChangeDetectorRef,
     private servicioPersonalDocente: PersonalDocenteServiceService,
-    private fb: UntypedFormBuilder) {
+    private fb: UntypedFormBuilder, private datePipe:DatePipe,
+    private statusPipe:StatusPipePipe) {
     this.form = this.createForm();
   }
 
@@ -270,6 +274,24 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy {
 
   public eventSelection() {
     this.cb.detectChanges();
+  }
+
+  exportExcel() {
+    const exportData: Partial<TableElement>[] =
+      this.dataSource.filteredData.map((x) => ({
+        'Cedula': x.cedula,
+        'Nombre': x.name,
+        'Apellido': x.lastName,
+        'Sexo': x.gender==null?"":x.gender,
+        'Fecha de Nacimiento': x.dateOfBirth == null? "" : x.dateOfBirth,
+        'Lugar de Nacimiento': x.placeOfBirth == null ? "" :x.placeOfBirth,
+        'Correo_Electronico': x.email,
+        'No_Telefono': x.phoneNumber == null ? "" : x.phoneNumber,
+        'Lugar_Residencia': x.placeResidence,
+        'Estado': x.statusId == null ? "" : this.statusPipe.transform(x.statusId),
+      }));
+console.log(exportData)
+    TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
 }
