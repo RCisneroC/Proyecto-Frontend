@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.development';
 import { Observable, of } from 'rxjs';
@@ -439,6 +439,30 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   }
 
 
+  deleteExperienceInfoEF(id:number) {
+    const data = {
+      id: id,
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiEC + "EFInscription/DeleteExperience", options);
+  }
 
+  deleteAcademicInfoEF(id:number) {
+    const data = {
+      id: id,
+    };
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.httpClient.delete(environment.apiEC + "EFInscription/DeleteAcadInfo", options);
+  }
 
 }
