@@ -77,11 +77,6 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
 
   public lstFiltros: FiltrosMatricula[] = [
     {
-      indicador:1,
-      codigo: "PlanningDate",
-      texto: "Matrícula"
-    },
-    {
       indicador:2,
       codigo: "ActivityModeId",
       texto: "Por Sexo"
@@ -456,28 +451,44 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
       request.filtros.push(item);
     }
     if (this.scheduleForm.controls["startDate"].value != '') {
-      params += `startDate=${this.convertirAFechaISO(this.scheduleForm.controls['startDate'].value)}&`;
+      const item = { indicadorId : 9, searchBy: this.scheduleForm.controls["startDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["plannedEndDate"].value != '') {
-      params += `plannedEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['plannedEndDate'].value)}&`;
+      const item = { indicadorId : 10, searchBy: this.scheduleForm.controls["plannedEndDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["effectiveEndDate"].value != '') {
-      params += `effectiveEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['effectiveEndDate'].value)}&`;
+      const item = { indicadorId : 11, searchBy: this.scheduleForm.controls["effectiveEndDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["dataSheetDeliveryDate"].value != '') {
-      params += `dataSheetDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['dataSheetDeliveryDate'].value)}&`;
+      const item = { indicadorId : 12, searchBy: this.scheduleForm.controls["dataSheetDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["digitalReportDeliveryDate"].value != '') {
-      params += `digitalReportDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['digitalReportDeliveryDate'].value)}&`;
+      const item = { indicadorId : 13, searchBy: this.scheduleForm.controls["digitalReportDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["physicalReportDeliveryDate"].value != '') {
-      params += `physicalReportDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['physicalReportDeliveryDate'].value)}&`;
+      const item = { indicadorId : 14, searchBy: this.scheduleForm.controls["physicalReportDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["statusId"].value != '') {
-      params += `statusId=${this.scheduleForm.controls['statusId'].value}&`;
+      const item = { indicadorId : 15, searchBy: this.scheduleForm.controls["statusId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["CurriculumDesignId"].value != '') {
-      params += `CurriculumDesignId=${this.scheduleForm.controls['CurriculumDesignId'].value}&`;
+      const item = { indicadorId : 16, searchBy: this.scheduleForm.controls["CurriculumDesignId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (request.filtros.length == 1){
       const item = { indicadorId : 0, searchBy: "string"  }
