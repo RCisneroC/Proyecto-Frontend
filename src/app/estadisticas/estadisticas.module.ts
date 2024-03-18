@@ -20,7 +20,7 @@ import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadis
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,
     EstadisticasActividadComponent,
-    EEspecializadaComponent
+    EEspecializadaComponent,
     EstadisticasMatriculaComponent
   ],
   imports: [
