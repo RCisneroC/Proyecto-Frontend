@@ -99,14 +99,7 @@ export class MatriculaStatisticService extends UnsubscribeOnDestroyAdapter {
     console.log(data);
     console.log('====================================');
     this.subs.sink = this.httpClient
-      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF', {
-        "filtros": [
-          {
-            "indicadorId": 0,
-            "searchBy": "string"
-          }
-        ]
-      })
+      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF', data)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -122,14 +115,7 @@ export class MatriculaStatisticService extends UnsubscribeOnDestroyAdapter {
 
   getEstadisticasFiltro(data: any) {
     return this.httpClient
-      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF' , {
-        "filtros": [
-          {
-            "indicadorId": 0,
-            "searchBy": "string"
-          }
-        ]
-      });
+      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF' , data);
 
   }
 

@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Actividades'" [items]="['Inicio','Estadísticas']" [active_item]="'Actividades'">
+      <app-breadcrumb [title]="'Actividades'" [items]="['Inicio','Estadísticas']" [active_item]="'Matriculados'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -38,10 +38,10 @@
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityModeId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Modalidad</mat-label>
+                      <mat-label>Sexo</mat-label>
                       <mat-select formControlName="activityModeId">
-                        <mat-option *ngFor="let row of modalityList"
-                                    [value]="row.id">{{row.name}}</mat-option>
+                        <mat-option value="F">Femenino</mat-option>
+                        <mat-option value="M">Masculino</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -201,7 +201,7 @@
                     <div class="left">
                       <ul class="header-buttons-left ms-0">
                         <li class="tbl-title">
-                          <h2>Actividades</h2>
+                          <h2>Matriculados</h2>
                         </li>
                         <li class="tbl-search-box">
                           <label for="search-input"><i
@@ -230,130 +230,76 @@
                         <!-- ID Column -->
 
                         <ng-container matColumnDef="planningDate">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de
-                            planificación
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de nacimiento
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Fecha de
-                                                            planificación:</span>{{row.planningDate |
+                                                            Fecha de nacimiento:</span>{{row.dateOfBirth |
                             date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
 
 
                         <ng-container matColumnDef="description">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                                                          class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
                         </ng-container>
 
 
 
                         <ng-container matColumnDef="activityModeName">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Modalidad:</span>{{row.activityModeName}}</mat-cell>
+                                                          class="mobile-label">Cédula:</span>{{row.cedula}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="activityTypeName">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de actividad
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Edad
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Tipo de
-                                                            actividad:</span>{{row.activityTypeName}}</mat-cell>
+                                                        <span class="mobile-label">Edad:</span>{{row.edad}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="activityName">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de la
-                            actividad
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Nombre de la
-                                                            actividad:</span>{{row.name}}</mat-cell>
+                                                        <span class="mobile-label">Nombre:</span>{{row.firstName}}</mat-cell>
                         </ng-container>
 
 
                         <ng-container matColumnDef="activityLocationName">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Género
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Lugar:</span>{{row.activityLocationName}}</mat-cell>
+                                                          class="mobile-label">Género:</span>{{row.gender}}</mat-cell>
                         </ng-container>
 
-                        <!-- <ng-container matColumnDef="startDate">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-label">Fecha inicio:</span>{{row.startDate |
-                                date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container> -->
 
-                        <!-- <ng-container matColumnDef="plannedEndDate">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha final
-                                Programada
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-label">Fecha final
-                                    Programada:</span>{{row.plannedEndDate |
-                                date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container> -->
-
-
-
-                        <!-- <ng-container matColumnDef="effectiveEndDate">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha final
-                                efectiva
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-label">Fecha final
-                                    efectiva:</span>{{row.effectiveEndDate |
-                                date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container> -->
-
-                        <!-- <ng-container matColumnDef="activityReasonName">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Motivo
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span
-                                    class="mobile-label">Motivo:</span>{{row.activityReasonName}}</mat-cell>
-                        </ng-container> -->
-
-                        <!-- <ng-container matColumnDef="activityFundsSourceName">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Origen de los
-                                fondos
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-label">Origen de los
-                                    fondos:</span>{{row.activityFundsSourceName}}</mat-cell>
-                        </ng-container> -->
                         <ng-container matColumnDef="startTime">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Inicio de
-                            Incripción
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Malla
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Inicio de
-                                                            Incripción:</span>{{row.inscriptionStartDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
+                                                        <span class="mobile-label">Malla:</span>{{row.degreeName}}</mat-cell>
                         </ng-container>
 
 
                         <ng-container matColumnDef="endTime">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fin de Incripción
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Provincia
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Fin de
-                                                            Incripción:</span>{{row.inscriptionEndDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
+                                                        <span class="mobile-label">Provincia:</span>{{row.provincia}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="status">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Período
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Estado:</span><span
-                            class="badge badge-solid-green">{{row.statusId|statusPipe}}</span></mat-cell>
+                            <span class="mobile-label">Período:</span><span
+                            class="badge badge-solid-green">{{row.periodDescription}}</span></mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;"

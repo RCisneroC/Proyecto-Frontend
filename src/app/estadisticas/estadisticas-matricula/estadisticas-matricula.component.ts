@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {Filtros} from "../PersonalDocente/model/Filtros";
+import {Filtros, FiltrosMatricula} from "../PersonalDocente/model/Filtros";
 import {UbicationsActivity} from "../../admission/models/activity";
 import {Modality} from "../../admission/models/modality";
 import {Status} from "../../admission/FormalEducations/Models/Status";
@@ -28,7 +28,6 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {MatSelectChange} from "@angular/material/select";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {DataSource} from "@angular/cdk/collections";
-import {GetOneActivity} from "../../admission/models/GetOneActivity";
 import {MatriculaStatisticService} from "../services/matricula-statistic.service";
 import {EstadisticasModelMatriculaResponse} from "../Models/EstadisticasModelMatricula";
 
@@ -63,11 +62,6 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
     'activityTypeName',
     'activityLocationName',
     'planningDate',
-    // 'startDate',
-    // 'plannedEndDate',
-    // 'effectiveEndDate',
-    // 'activityReasonName',
-    // 'activityFundsSourceName',
     'startTime',
     'endTime',
     'status'
@@ -75,70 +69,116 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
 
   public ShowTables: boolean = false;
 
-  public lstFiltros: Filtros[] = [
+  public lstFiltros: FiltrosMatricula[] = [
     {
+      indicador:1,
       codigo: "PlanningDate",
-      texto: "Fecha de planificación"
+      texto: "Matrícula"
     },
     {
+      indicador:2,
       codigo: "ActivityModeId",
-      texto: "Modo de Actividad"
+      texto: "Por Sexo"
     },
     {
+      indicador:3,
       codigo: "ActivityLocationId",
-      texto: "Ubicación de la Actividad"
+      texto: "Por Provincia"
     },
     {
+      indicador:4,
       codigo: "AssignedCoordinatorId",
-      texto: "Por Coordinador Asignado"
+      texto: "Por Distrito"
     },
     {
+      indicador:5,
       codigo: "ActivityReasonId",
-      texto: "Por Motivo"
+      texto: "Por Universidad"
     },
     {
+      indicador:6,
       codigo: "ActivityFundsSourceId",
-      texto: "Por Origen de los Fondos"
+      texto: "Por Institución"
     },
     {
+      indicador:7,
       codigo: "InscriptionStartDate",
-      texto: "Por Mes de inicio de Inscripción"
+      texto: "Por Dependencia"
     },
     {
+      indicador:8,
       codigo: "InscriptionEndDate",
-      texto: "Por Mes de Final de Inscripción"
+      texto: "Por Entidad Cooperante"
     },
     {
+      indicador:9,
       codigo: "StartDate",
-      texto: "Por Fecha de Inicio"
+      texto: "Por Posición"
     },
     {
+      indicador:10,
       codigo: "PlannedEndDate",
-      texto: "Por Fecha de Finalización Programada"
+      texto: "Por Edad"
     },
     {
+      indicador:11,
       codigo: "EffectiveEndDate",
-      texto: "Por Fecha Final Efectiva"
+      texto: "Por Grupo Étnico"
     },
     {
+      indicador:12,
       codigo: "DataSheetDeliveryDate",
-      texto: "Por Fecha de Entrega de Ficha Técnica"
+      texto: "Por Curso"
     },
     {
+      indicador:13,
       codigo: "DigitalReportDeliveryDate",
-      texto: "Por Fecha de Entrega de Informe Digital"
+      texto: "Por Periodo"
     },
     {
+      indicador:14,
       codigo: "PhysicalReportDeliveryDate",
-      texto: "Por Fecha de Entrega de Informe Físico"
+      texto: "Por Fecha de Matrícula"
     },
     {
+      indicador:15,
       codigo: "StatusId",
-      texto: "Por Estado"
+      texto: "Por Clase de Ingreso"
     },
     {
+      indicador:16,
       codigo: "CurriculumDesignId",
-      texto: "Por Cronograma Anual"
+      texto: "Por Programa"
+    },
+    {
+      indicador:17,
+      codigo: "DiscapacidadId",
+      texto: "Estudiantes con Discapacidad"
+    },
+    {
+      indicador:18,
+      codigo: "extranjId",
+      texto: "Estudiantes Extranjeros y Nacionales"
+    },
+    {
+      indicador:19,
+      codigo: "CountryId",
+      texto: "Estudiantes Extranjeros según País de Origen"
+    },
+    {
+      indicador:20,
+      codigo: "yearstId",
+      texto: "Por Año de Estudio"
+    },
+    {
+      indicador:21,
+      codigo: "labcondId",
+      texto: "Por Condición Laboral"
+    },
+    {
+      indicador:22,
+      codigo: "cedId",
+      texto: "Por Cédula (Informe Único)"
     }
   ];
   ubicationsList!: UbicationsActivity[];
@@ -210,7 +250,7 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
 
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadData({ filtros: [{indicadorId : 0, searchBy: "string" }]});
   }
 
   filtrosEstadisticas(event: MatSelectChange) {
@@ -324,13 +364,18 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
   submit() {
 
     let params = '';
+    const request = { filtros: [{}]}
     console.log(this.scheduleForm.controls['planningDate'].value);
 
     if (this.scheduleForm.controls["planningDate"].value != '') {
-      params += `planningDate=${this.convertirAFechaISO(this.scheduleForm.controls['planningDate'].value)}&`;
+      const item = { indicadorId : 1, searchBy: this.scheduleForm.controls["planningDate"].value  }
+      request.filtros.slice(0);
+     request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityModeId"].value != '') {
-      params += `activityModeId=${this.scheduleForm.controls['activityModeId'].value}&`;
+      const item = { indicadorId : 2, searchBy: this.scheduleForm.controls["activityModeId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityLocationId"].value != '') {
       params += `activityLocationId=${this.scheduleForm.controls['activityLocationId'].value}&`;
@@ -374,8 +419,13 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
     if (this.scheduleForm.controls["CurriculumDesignId"].value != '') {
       params += `CurriculumDesignId=${this.scheduleForm.controls['CurriculumDesignId'].value}&`;
     }
-    this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
-    this._matriculaService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
+    if (request.filtros.length == 1){
+      const item = { indicadorId : 0, searchBy: "string"  }
+      request.filtros = [item];
+    }
+    this.loadData(request);
+
+    this._matriculaService.getEstadisticasFiltro(request).subscribe({
       next: (res) => {
         console.log('====================================');
         console.log(res.dataResponse);
@@ -491,7 +541,7 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
         'Apellido': x.lastName,
         'cedula': x.cedula,
         'edad': x.edad,
-        'Nombre de malla': x.degreeName,
+        'Malla': x.degreeName,
         'Cumpleaños': x.dateOfBirth.toString(),
         'Género': x.gender,
         'Provincia': x.provincia
