@@ -2,14 +2,14 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Actividades'" [items]="['Inicio','Estadísticas']" [active_item]="'Matriculados'">
+      <app-breadcrumb [title]="'Matrículas'" [items]="['Inicio','Estadísticas']" [active_item]="'Matriculados'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            Consulta de Información Docente
+            Consulta de Información de Matrículas
           </div>
           <div class="body">
             <!-- FILAS -->
@@ -62,107 +62,79 @@
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="AssignedCoordinatorId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Coordinador Asignado</mat-label>
-                      <mat-select formControlName="assignedCoordinatorId">
-                        <mat-option *ngFor="let row of userList"
-                                    [value]="row.id">{{row.firstName+"
-                          "+row.lastName}}</mat-option>
-                      </mat-select>
+                      <mat-label>Distrito</mat-label>
+                      <input matInput formControlName="assignedCoordinatorId">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityReasonId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Motivo</mat-label>
-                      <mat-select formControlName="activityReasonId">
-                        <mat-option *ngFor="let row of reasonList"
-                                    [value]="row.id">{{row.name}}</mat-option>
-                      </mat-select>
+                      <mat-label>Universidad</mat-label>
+                      <input matInput formControlName="activityReasonId">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityFundsSourceId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Origen de los fondos</mat-label>
-                      <mat-select formControlName="activityFundsSourceId">
-                        <mat-option *ngFor="let row of sourceFundsList"
-                                    [value]="row.id">{{row.name}}</mat-option>
-                      </mat-select>
+                      <mat-label>Institución</mat-label>
+                      <input matInput formControlName="activityFundsSourceId">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
                        *ngIf="InscriptionStartDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Inicio de Inscripción</mat-label>
-                      <input matInput [matDatepicker]="picker"
-                             formControlName="inscriptionStartDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Dependencia</mat-label>
+                      <input matInput formControlName="inscriptionStartDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="InscriptionEndDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Final de Inscripción</mat-label>
-                      <input matInput [matDatepicker]="picker"
-                             formControlName="inscriptionEndDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Entidad Cooperante</mat-label>
+                      <input matInput formControlName="inscriptionEndDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="StartDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de Inicio</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="startDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Posición</mat-label>
+                      <input matInput formControlName="startDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="PlannedEndDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de Finalización Programada</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="plannedEndDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Edad</mat-label>
+                      <input matInput  formControlName="plannedEndDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="EffectiveEndDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha Final Efectiva</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="effectiveEndDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Grupo Étnico</mat-label>
+                      <input matInput  formControlName="effectiveEndDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
                        *ngIf="DataSheetDeliveryDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de Entrega de Ficha Técnica</mat-label>
-                      <input matInput [matDatepicker]="picker"
-                             formControlName="dataSheetDeliveryDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Curso</mat-label>
+                      <input matInput formControlName="dataSheetDeliveryDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
                        *ngIf="DigitalReportDeliveryDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de Entrega de Informe Digital</mat-label>
-                      <input matInput [matDatepicker]="picker"
-                             formControlName="digitalReportDeliveryDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Periodo</mat-label>
+                      <input matInput formControlName="digitalReportDeliveryDate">
                     </mat-form-field>
                   </div>
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
                        *ngIf="PhysicalReportDeliveryDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de Entrega de Informe Físico</mat-label>
+                      <mat-label>Fecha de Matrícula</mat-label>
                       <input matInput [matDatepicker]="picker"
                              formControlName="physicalReportDeliveryDate">
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -172,20 +144,54 @@
 
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="StatusId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Estado</mat-label>
-                      <mat-select formControlName="statusId">
-                        <mat-option *ngFor="let row of statusList"
-                                    [value]="row.id">{{row.name}}</mat-option>
-                      </mat-select>
+                      <mat-label>Clase de Ingreso</mat-label>
+                      <input matInput formControlName="statusId">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="CurriculumDesignId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Cronograma Anual</mat-label>
-                      <mat-select formControlName="CurriculumDesignId">
-                        <mat-option *ngFor="let row of _ScheduleActivity"
-                                    [value]="row.id">{{row.name}}</mat-option>
+                      <mat-label>Programa</mat-label>
+                      <input matInput formControlName="CurriculumDesignId">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="DiscapacidadId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes con Discapacidad</mat-label>
+                      <mat-select formControlName="DiscapacidadId">
+                        <mat-option value="1">Si</mat-option>
+                        <mat-option value="0">No</mat-option>
                       </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="extranjId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes Extranjeros y Nacionales</mat-label>
+                      <input matInput formControlName="extranjId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="CountryId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes Extranjeros según País de Origen</mat-label>
+                      <input matInput formControlName="CountryId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="yearstId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Año de Estudio</mat-label>
+                      <input matInput formControlName="yearstId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="labcondId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Condición Laboral</mat-label>
+                      <input matInput formControlName="labcondId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="cedId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Cédula</mat-label>
+                      <input matInput formControlName="cedId">
                     </mat-form-field>
                   </div>
                 </div>

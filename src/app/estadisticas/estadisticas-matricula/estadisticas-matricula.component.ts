@@ -54,6 +54,12 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
   public PhysicalReportDeliveryDate: boolean = false;
   public StatusId: boolean = false;
   public CurriculumDesignId: boolean = false;
+  public DiscapacidadId: boolean = false;
+  public extranjId: boolean = false;
+  public CountryId: boolean = false;
+  public yearstId: boolean = false;
+  public labcondId: boolean = false;
+  public cedId: boolean = false;
   public CantidadResultados: number = 0;
   displayedColumns = [
     'activityName',
@@ -245,6 +251,12 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
       physicalReportDeliveryDate: ['', [Validators.required]],
       statusId: ['', [Validators.required]],
       CurriculumDesignId: ['', [Validators.required]],
+      DiscapacidadId: ['', [Validators.required]],
+      extranjId: ['', [Validators.required]],
+      CountryId: ['', [Validators.required]],
+      yearstId: ['', [Validators.required]],
+      labcondId: ['', [Validators.required]],
+      cedId: ['', [Validators.required]],
     });
   }
 
@@ -351,6 +363,42 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
       this.CurriculumDesignId = false;
       this.scheduleForm.controls["CurriculumDesignId"].setValue('');
     }
+    if (event.value.indexOf("DiscapacidadId") !== -1) {
+      this.DiscapacidadId = true;
+    } else {
+      this.DiscapacidadId = false;
+      this.scheduleForm.controls["DiscapacidadId"].setValue('');
+    }
+    if (event.value.indexOf("extranjId") !== -1) {
+      this.extranjId = true;
+    } else {
+      this.extranjId = false;
+      this.scheduleForm.controls["extranjId"].setValue('');
+    }
+    if (event.value.indexOf("CountryId") !== -1) {
+      this.CountryId = true;
+    } else {
+      this.CountryId = false;
+      this.scheduleForm.controls["CountryId"].setValue('');
+    }
+    if (event.value.indexOf("yearstId") !== -1) {
+      this.yearstId = true;
+    } else {
+      this.yearstId = false;
+      this.scheduleForm.controls["yearstId"].setValue('');
+    }
+    if (event.value.indexOf("labcondId") !== -1) {
+      this.labcondId = true;
+    } else {
+      this.labcondId = false;
+      this.scheduleForm.controls["labcondId"].setValue('');
+    }
+    if (event.value.indexOf("cedId") !== -1) {
+      this.cedId = true;
+    } else {
+      this.cedId = false;
+      this.scheduleForm.controls["cedId"].setValue('');
+    }
   }
 
   convertirAFechaISO(fechaCadena: string): string {
@@ -383,19 +431,29 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
       request.filtros.push(item);
     }
     if (this.scheduleForm.controls["assignedCoordinatorId"].value != '') {
-      params += `assignedCoordinatorId=${this.scheduleForm.controls['assignedCoordinatorId'].value}&`;
+      const item = { indicadorId : 4, searchBy: this.scheduleForm.controls["assignedCoordinatorId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityReasonId"].value != '') {
-      params += `activityReasonId=${this.scheduleForm.controls['activityReasonId'].value}&`;
+      const item = { indicadorId : 5, searchBy: this.scheduleForm.controls["activityReasonId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityFundsSourceId"].value != '') {
-      params += `activityFundsSourceId=${this.scheduleForm.controls['activityFundsSourceId'].value}&`;
+      const item = { indicadorId : 6, searchBy: this.scheduleForm.controls["activityFundsSourceId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["inscriptionStartDate"].value != '') {
-      params += `inscriptionStartDate=${this.convertirAFechaISO(this.scheduleForm.controls['inscriptionStartDate'].value)}&`;
+      const item = { indicadorId : 7, searchBy: this.scheduleForm.controls["inscriptionStartDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["inscriptionEndDate"].value != '') {
-      params += `inscriptionEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['inscriptionEndDate'].value)}&`;
+      const item = { indicadorId : 8, searchBy: this.scheduleForm.controls["inscriptionStartDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["startDate"].value != '') {
       params += `startDate=${this.convertirAFechaISO(this.scheduleForm.controls['startDate'].value)}&`;
