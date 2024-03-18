@@ -446,8 +446,8 @@
                 <!-- Acción Column -->
                 <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef> Acción </th>
-                  <td mat-cell *matCellDef="let element">
-                    <button (click)="RemoveExperience(element)" mat-mini-fab color="accent" matTooltip="Eliminar">
+                  <td mat-cell *matCellDef="let row">
+                    <button (click)="RemoveExperience(row.id)" mat-mini-fab color="accent" matTooltip="Eliminar">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
                   </td>
@@ -511,7 +511,7 @@
                   <th mat-header-cell *matHeaderCellDef>Acciones
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <button (click)="deleteItemAC(DataAcademico.indexOf(row))" matTooltip="Eliminar"
+                    <button (click)="deleteItemAC(row.id)" matTooltip="Eliminar"
                       mat-mini-fab color="accent">
                       <mat-icon>delete</mat-icon>
                     </button>

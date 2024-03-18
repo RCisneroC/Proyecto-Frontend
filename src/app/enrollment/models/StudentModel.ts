@@ -19,6 +19,7 @@ export interface VerifyUsersResult {
 }
 
 export interface Aspirant {
+  aspirantId : number;
   firstName: string
   lastName: string
   secondsurname: string

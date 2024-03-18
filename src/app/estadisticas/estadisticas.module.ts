@@ -11,11 +11,12 @@ import { EstadisticasActividadComponent } from './estadisticas-actividad/estadis
 import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
+import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
 
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe, DatePipe, StatusPipePipe],
+  providers: [VerificarBS64Pipe, DatePipe, StatusTeacherPipe],
   declarations: [
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,

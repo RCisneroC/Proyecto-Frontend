@@ -6,6 +6,7 @@ export interface DetalleAcademico{
 }
 
 export interface DetalleAcademicoExt{
+  id?:number;
   obtainedTitle:string;
   institutionOfeducation:string;
   program:string;
