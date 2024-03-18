@@ -10,16 +10,18 @@ import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
 import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
+import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
 
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe, DatePipe,StatusPipePipe],
+  providers: [VerificarBS64Pipe, DatePipe, StatusPipePipe],
   declarations: [
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,
     EstadisticasActividadComponent,
     EEspecializadaComponent
+    EstadisticasMatriculaComponent
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
+import { EstadisticasMatriculaComponent } from "./estadisticas-matricula/estadisticas-matricula.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,14 @@ const routes: Routes = [
   {
     path: "estadisticas-especializada",
     component: EEspecializadaComponent
+  },
+  {
+    path: 'matriculas',
+    component: EstadisticasMatriculaComponent,
+  },
+  {
+    path: "docentes",
+    component: TablaPersonalDocenteComponent
   }
 ];
 
