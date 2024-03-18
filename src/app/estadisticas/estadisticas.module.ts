@@ -9,6 +9,7 @@ import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
 import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
+import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 
 
 
@@ -17,7 +18,8 @@ import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
   declarations: [
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,
-    EstadisticasActividadComponent
+    EstadisticasActividadComponent,
+    EEspecializadaComponent
   ],
   imports: [
     CommonModule,

@@ -93,19 +93,22 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  getEstadisticas(data: any): void {
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
+  getEstadisticas(dataRequest: any): void {
     this.subs.sink = this.httpClient
-      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + data)
+      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + dataRequest)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
           this.CantidadResultados = data.activitiesByAll.length;
           console.log(this.CantidadResultados);
 
-          this.data_filtro.next(data.activitiesByAll);
+          if (dataRequest == '') {
+            this.data_filtro.next([]);
+          } else {
+            this.data_filtro.next(data.activitiesByAll);
+          }
+
+
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;

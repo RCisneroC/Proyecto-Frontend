@@ -58,6 +58,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   public MaxNumOfHours: boolean = false;
   public ActivityClass: boolean = false;
 
+  public lstFiltrosSelected: string[] = [];
   public CantidadResultados: number = 0;
   displayedColumns = [
     'activityName',
@@ -77,7 +78,28 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   public ShowTables: boolean = false;
-
+  typeActivityListTyp2: TypeActivity[] = [
+    {
+      id: 2,
+      name: 'Formación por competencia',
+      statusId: 1,
+    },
+    {
+      id: 3,
+      name: 'Concurso abierto fase 3',
+      statusId: 1,
+    },
+    {
+      id: 4,
+      name: 'Curso de Integración',
+      statusId: 1,
+    },
+    {
+      id: 1,
+      name: 'Nuevos Abogados',
+      statusId: 1,
+    }
+  ];
   public lstFiltros: Filtros[] = [
     {
       codigo: "Name",
@@ -231,7 +253,63 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+  public limpiarTodosFiltros() {
+    this.lstFiltrosSelected = [];
+    this.ocultar();
+    this.loadData();
+  }
+  public seleccionarTodos() {
+    this.lstFiltrosSelected = [];
+    this.lstFiltros.forEach((f) => {
+      this.lstFiltrosSelected.push(f.codigo);
+    });
+    this.Mostrar();
+  }
 
+  ocultar() {
+    this.PlanningDate = false;
+    this.ActivityModeId = false;
+    this.ActivityLocationId = false;
+    this.AssignedCoordinatorId = false;
+    this.ActivityReasonId = false;
+    this.ActivityFundsSourceId = false;
+    this.InscriptionStartDate = false;
+    this.InscriptionEndDate = false;
+    this.StartDate = false;
+    this.PlannedEndDate = false;
+    this.EffectiveEndDate = false;
+    this.DataSheetDeliveryDate = false;
+    this.DigitalReportDeliveryDate = false;
+    this.PhysicalReportDeliveryDate = false;
+    this.StatusId = false;
+    this.CurriculumDesignId = false;
+    this.Name = false;
+    this.ActivityTypeId = false;
+    this.MaxNumOfHours = false;
+    this.ActivityClass = false;
+  }
+  Mostrar() {
+    this.PlanningDate = true;
+    this.ActivityModeId = true;
+    this.ActivityLocationId = true;
+    this.AssignedCoordinatorId = true;
+    this.ActivityReasonId = true;
+    this.ActivityFundsSourceId = true;
+    this.InscriptionStartDate = true;
+    this.InscriptionEndDate = true;
+    this.StartDate = true;
+    this.PlannedEndDate = true;
+    this.EffectiveEndDate = true;
+    this.DataSheetDeliveryDate = true;
+    this.DigitalReportDeliveryDate = true;
+    this.PhysicalReportDeliveryDate = true;
+    this.StatusId = true;
+    this.CurriculumDesignId = true;
+    this.Name = true;
+    this.ActivityTypeId = true;
+    this.MaxNumOfHours = true;
+    this.ActivityClass = true;
+  }
   ngOnInit(): void {
     this.loadData();
   }
@@ -441,14 +519,15 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     if (this.scheduleForm.controls["ActivityClass"].value != '') {
       params += `ActivityClass=${this.scheduleForm.controls['ActivityClass'].value}&`;
     }
-    this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
-      next: (res) => {
-        console.log('====================================');
-        console.log(res.activitiesByAll);
-        this.CantidadResultados = res.activitiesByAll.length;
-        console.log('====================================');
-      }
-    })
+    if (params != '') {
+
+      this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
+        next: (res) => {
+          console.log(res.activitiesByAll);
+          this.CantidadResultados = res.activitiesByAll.length;
+        }
+      })
+    }
     this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
   }
 

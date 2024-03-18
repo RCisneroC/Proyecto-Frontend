@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
+import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 
 const routes: Routes = [
   {
@@ -9,8 +10,12 @@ const routes: Routes = [
     component: EstadisticasActividadComponent,
   },
   {
-    path: "docentes",
-    component: TablaPersonalDocenteComponent
+    path: 'actividades',
+    component: EstadisticasActividadComponent,
+  },
+  {
+    path: "estadisticas-especializada",
+    component: EEspecializadaComponent
   }
 ];
 
