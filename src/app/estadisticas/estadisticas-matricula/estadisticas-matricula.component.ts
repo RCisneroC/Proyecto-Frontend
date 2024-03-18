@@ -378,7 +378,9 @@ export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
       request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityLocationId"].value != '') {
-      params += `activityLocationId=${this.scheduleForm.controls['activityLocationId'].value}&`;
+      const item = { indicadorId : 3, searchBy: this.scheduleForm.controls["activityLocationId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["assignedCoordinatorId"].value != '') {
       params += `assignedCoordinatorId=${this.scheduleForm.controls['assignedCoordinatorId'].value}&`;

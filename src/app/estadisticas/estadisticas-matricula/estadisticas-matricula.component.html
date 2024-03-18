@@ -30,10 +30,8 @@
                 <div class="row">
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="PlanningDate">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Fecha de planificación</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="planningDate">
-                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-label>Matrícula</mat-label>
+                      <input matInput formControlName="planningDate">
                     </mat-form-field>
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityModeId">
@@ -47,10 +45,18 @@
                   </div>
                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityLocationId">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Lugar</mat-label>
+                      <mat-label>Provincia</mat-label>
                       <mat-select formControlName="activityLocationId">
-                        <mat-option *ngFor="let row of ubicationsList" [value]="row.id">{{
-                            row.name }}</mat-option>
+                        <mat-option value="1">Bocas del Toro</mat-option>
+                        <mat-option value="2">Coclé</mat-option>
+                        <mat-option value="3">Colón</mat-option>
+                        <mat-option value="4">Chiriquí</mat-option>
+                        <mat-option value="5">Darién</mat-option>
+                        <mat-option value="6">Herrera</mat-option>
+                        <mat-option value="7">Los Santos</mat-option>
+                        <mat-option value="8">Panamá</mat-option>
+                        <mat-option value="9">Veraguas</mat-option>
+                        <mat-option value="13">Panamá Oeste</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
