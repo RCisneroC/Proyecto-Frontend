@@ -441,7 +441,7 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   deleteExperienceInfoEF(id:number) {
     const data = {
-      id: id,
+      workExperienceId: id,
     };
     const options = {
       headers: new HttpHeaders({
@@ -454,7 +454,7 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   deleteAcademicInfoEF(id:number) {
     const data = {
-      id: id,
+      academicInformationId: id,
     };
     const options = {
       headers: new HttpHeaders({

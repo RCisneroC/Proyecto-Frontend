@@ -71,7 +71,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     'documentacion'
   ];
 
-  public paramsId: any;
   public documentosIncripcion!: documentosIncripcion;
   studentForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
@@ -137,7 +136,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     public elm: ElementRef
   ) {
     super();
-    this.paramsId = activatedRoute.snapshot.params['id'];
     this.studentForm = this.createstudentFormAll();
   }
 
@@ -168,6 +166,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       FileType: new FormControl([]),
     });
     this.SourceAcademico.paginator = this.paginator;
+    this.getDetails();
   }
 
   SetValidator(): void {
@@ -799,17 +798,25 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   //Documentos
   getDetails() {
     this._ActivityService.loading = true;
-    this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
+
+    this._ActivityService.GetDetailsEFCedula(this.authenticationService.currentUserValue.cedula).subscribe({
       next: (res: DetailsParticipanteEF) => {
+        console.log("No error getDetails")
+        console.log(res)
         this._ActivityService._DetailsParticipanteEF = res;
-        console.log("Activity obj", res);
         if (res.getDetailsResponse.length > 0) {
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
           this.getDocumentosInscripcion();
+          this.cb.detectChanges();
         }
         this._ActivityService.loading = false;
+
       },
       error: (err) => {
+        console.log("Error getDetails")
+        console.log(err)
+        this._ActivityService.loading = false;
+        this.cb.detectChanges();
       }
     })
   }
@@ -826,6 +833,9 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.Array_GetDocResp.push(element);
               },
               complete: () => {
+                console.log("this.Array_GetDocResp")
+                console.log(this.Array_GetDocResp)
+
                 this.dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
               }
             })
