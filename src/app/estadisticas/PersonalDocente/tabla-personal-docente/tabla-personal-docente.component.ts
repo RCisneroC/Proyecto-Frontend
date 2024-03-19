@@ -16,6 +16,7 @@ import { TeacherService } from 'app/teaching-management/services/teacher.service
 import {  Subject } from 'app/teaching-management/models/Teacher';
 import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
+import { Sort } from '@angular/material/sort';
 
 
 @Component({
@@ -376,5 +377,43 @@ getActividades(){
 }
 
 
+sortData(sort: Sort) {
+  const data = this.personalDocenteModel.slice();
+  if (!sort.active || sort.direction === '') {
+    this.dataSource = new MatTableDataSource<PersonalDocenteModel>(data);
+    return;
+  }
+
+  this.personalDocenteModel = data.sort((a, b) => {
+    const isAsc = sort.direction === 'asc';
+    switch (sort.active) {
+      case 'cedula':
+        return this.compare(a.cedula, b.cedula, isAsc);
+      case 'name':
+        return this.compare(a.name, b.name, isAsc);
+      case 'lastName':
+        return this.compare(a.lastName, b.lastName, isAsc);
+      case 'dateOfBirth':
+        return this.compare(a.dateOfBirth, b.dateOfBirth, isAsc);
+      case 'placeOfBirth':
+        return this.compare(a.placeOfBirth, b.placeOfBirth, isAsc);
+      case 'email':
+          return this.compare(a.email, b.email, isAsc);
+      case 'phoneNumber':
+            return this.compare(a.phoneNumber, b.phoneNumber, isAsc);
+      case 'placeResidence':
+              return this.compare(a.placeResidence, b.placeResidence, isAsc);
+      case 'statusId':
+                return this.compare(a.statusId, b.statusId, isAsc);
+      default:
+        return 0;
+    }
+  });
+  this.dataSource = new MatTableDataSource<PersonalDocenteModel>(this.personalDocenteModel);
+}
+
+ compare(a: number | string, b: number | string, isAsc: boolean):number {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
 
 }
