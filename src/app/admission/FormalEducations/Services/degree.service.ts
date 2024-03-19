@@ -50,6 +50,8 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
   }
 
   get dataDegreesByAll(): DegreesByAll[] {
+    console.log(this.dataChangeDegreesByAll);
+
     return this.dataChangeDegreesByAll.value;
   }
 
@@ -111,8 +113,6 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
       .get<EstadisticasEFormal>(environment.apiEF + 'Degree/GetDegreesStatisticsBy?' + data)
       .subscribe({
         next: (data) => {
-          console.log(data);
-
           this.isTblLoading = false;
           this.dataChangeDegreesByAll.next(data.degreesByAll);
         },

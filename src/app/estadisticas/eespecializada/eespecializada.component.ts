@@ -305,8 +305,6 @@ export class ExampleDataSource extends DataSource<DegreesByAll> {
       this.filterChange,
       this.paginator.page,
     ];
-    console.log(displayDataChanges);
-
 
     this.exampleDatabase.GetDegreesStatisticsBy(this._params);
     return merge(...displayDataChanges).pipe(
