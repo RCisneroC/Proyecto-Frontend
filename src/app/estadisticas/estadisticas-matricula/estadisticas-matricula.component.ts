@@ -1,41 +1,42 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Filtros } from '../PersonalDocente/model/Filtros';
-import { MatSelectChange } from '@angular/material/select';
-import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivityService } from 'app/admission/maestros/services/activity.service';
-import { ActivityLocationService } from 'app/admission/maestros/services/activity-location.service';
-import { ModalityService } from 'app/admission/maestros/services/modality.service';
-import { TypeActivityService } from 'app/admission/maestros/services/type-activity.service';
-import { UserService } from 'app/security/user/service/user.service';
-import { ReasonService } from 'app/admission/maestros/services/reason.service';
-import { SourceFundsService } from 'app/admission/maestros/services/source-funds.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { UbicationsActivity } from 'app/admission/models/activity';
-import { Modality } from 'app/admission/models/modality';
-import { TypeActivity } from 'app/admission/models/type-activity';
-import { User } from '@core';
-import { Reason } from 'app/admission/models/reason';
-import { SourceFunds } from 'app/admission/models/source -funds';
-import { DatePipe } from '@angular/common';
-import { StatusService } from 'app/admission/maestros/services/status.service';
-import { Status } from 'app/admission/FormalEducations/Models/Status';
-import { ScheduleActivitiesService } from 'app/admission/services/schedule-activities.service';
-import { ScheduleActivity, ScheduleActivityDetail } from 'app/admission/models/scheduleActivity';
-import { GetOneActivity } from 'app/admission/models/GetOneActivity';
-import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
+import {Filtros, FiltrosMatricula} from "../PersonalDocente/model/Filtros";
+import {UbicationsActivity} from "../../admission/models/activity";
+import {Modality} from "../../admission/models/modality";
+import {Status} from "../../admission/FormalEducations/Models/Status";
+import {TypeActivity} from "../../admission/models/type-activity";
+import {User} from "@core";
+import {Reason} from "../../admission/models/reason";
+import {SourceFunds} from "../../admission/models/source -funds";
+import {ScheduleActivity} from "../../admission/models/scheduleActivity";
+import {ActivityService} from "../../admission/maestros/services/activity.service";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {ActivityDetailService} from "../../admission/services/activity-detail.service";
+import {ActivityLocationService} from "../../admission/maestros/services/activity-location.service";
+import {ModalityService} from "../../admission/maestros/services/modality.service";
+import {StatusService} from "../../admission/maestros/services/status.service";
+import {TypeActivityService} from "../../admission/maestros/services/type-activity.service";
+import {UserService} from "../../security/user/service/user.service";
+import {ReasonService} from "../../admission/maestros/services/reason.service";
+import {SourceFundsService} from "../../admission/maestros/services/source-funds.service";
+import {ScheduleActivitiesService} from "../../admission/services/schedule-activities.service";
+import {DatePipe} from "@angular/common";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {MatSelectChange} from "@angular/material/select";
+import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {DataSource} from "@angular/cdk/collections";
+import {MatriculaStatisticService} from "../services/matricula-statistic.service";
+import {EstadisticasModelMatriculaResponse} from "../Models/EstadisticasModelMatricula";
 
 @Component({
-  selector: 'app-estadisticas-actividad',
-  templateUrl: './estadisticas-actividad.component.html',
-  styleUrls: ['./estadisticas-actividad.component.scss']
+  selector: 'app-estadisticas-matricula',
+  templateUrl: './estadisticas-matricula.component.html',
+  styleUrls: ['./estadisticas-matricula.component.scss']
 })
-export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
+export class EstadisticasMatriculaComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
   public PlanningDate: boolean = false;
   public ActivityModeId: boolean = false;
@@ -53,12 +54,12 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   public PhysicalReportDeliveryDate: boolean = false;
   public StatusId: boolean = false;
   public CurriculumDesignId: boolean = false;
-  public Name: boolean = false;
-  public ActivityTypeId: boolean = false;
-  public MaxNumOfHours: boolean = false;
-  public ActivityClass: boolean = false;
-
-  public lstFiltrosSelected: string[] = [];
+  public DiscapacidadId: boolean = false;
+  public extranjId: boolean = false;
+  public CountryId: boolean = false;
+  public yearstId: boolean = false;
+  public labcondId: boolean = false;
+  public cedId: boolean = false;
   public CantidadResultados: number = 0;
   displayedColumns = [
     'activityName',
@@ -67,119 +68,118 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     'activityTypeName',
     'activityLocationName',
     'planningDate',
-    // 'startDate',
-    // 'plannedEndDate',
-    // 'effectiveEndDate',
-    // 'activityReasonName',
-    // 'activityFundsSourceName',
     'startTime',
     'endTime',
     'status'
   ];
 
   public ShowTables: boolean = false;
-  typeActivityListTyp2: TypeActivity[] = [
+
+  public lstFiltros: FiltrosMatricula[] = [
     {
-      id: 2,
-      name: 'Formación por competencia',
-      statusId: 1,
-    },
-    {
-      id: 3,
-      name: 'Concurso abierto fase 3',
-      statusId: 1,
-    },
-    {
-      id: 4,
-      name: 'Curso de Integración',
-      statusId: 1,
-    },
-    {
-      id: 1,
-      name: 'Nuevos Abogados',
-      statusId: 1,
-    }
-  ];
-  public lstFiltros: Filtros[] = [
-    {
-      codigo: "Name",
-      texto: "Nombre de Actividad"
-    },
-    {
-      codigo: "PlanningDate",
-      texto: "Fecha de planificación"
-    },
-    {
+      indicador:2,
       codigo: "ActivityModeId",
-      texto: "Modo de Actividad"
+      texto: "Por Sexo"
     },
     {
-      codigo: "ActivityTypeId",
-      texto: "Tipo de Actividad"
-    },
-    {
+      indicador:3,
       codigo: "ActivityLocationId",
-      texto: "Ubicación de la Actividad"
+      texto: "Por Provincia"
     },
     {
+      indicador:4,
       codigo: "AssignedCoordinatorId",
-      texto: "Por Coordinador Asignado"
+      texto: "Por Distrito"
     },
     {
+      indicador:5,
       codigo: "ActivityReasonId",
-      texto: "Por Motivo"
+      texto: "Por Universidad"
     },
     {
+      indicador:6,
       codigo: "ActivityFundsSourceId",
-      texto: "Por Origen de los Fondos"
+      texto: "Por Institución"
     },
     {
+      indicador:7,
       codigo: "InscriptionStartDate",
-      texto: "Por Mes de inicio de Inscripción"
+      texto: "Por Dependencia"
     },
     {
+      indicador:8,
       codigo: "InscriptionEndDate",
-      texto: "Por Mes de Final de Inscripción"
+      texto: "Por Entidad Cooperante"
     },
     {
+      indicador:9,
       codigo: "StartDate",
-      texto: "Por Fecha de Inicio"
+      texto: "Por Posición"
     },
     {
+      indicador:10,
       codigo: "PlannedEndDate",
-      texto: "Por Fecha de Finalización Programada"
+      texto: "Por Edad"
     },
     {
+      indicador:11,
       codigo: "EffectiveEndDate",
-      texto: "Por Fecha Final Efectiva"
+      texto: "Por Grupo Étnico"
     },
     {
+      indicador:12,
       codigo: "DataSheetDeliveryDate",
-      texto: "Por Fecha de Entrega de Ficha Técnica"
+      texto: "Por Curso"
     },
     {
+      indicador:13,
       codigo: "DigitalReportDeliveryDate",
-      texto: "Por Fecha de Entrega de Informe Digital"
+      texto: "Por Periodo"
     },
     {
+      indicador:14,
       codigo: "PhysicalReportDeliveryDate",
-      texto: "Por Fecha de Entrega de Informe Físico"
+      texto: "Por Fecha de Matrícula"
     },
     {
+      indicador:15,
       codigo: "StatusId",
-      texto: "Por Estado"
+      texto: "Por Clase de Ingreso"
     },
     {
+      indicador:16,
       codigo: "CurriculumDesignId",
-      texto: "Por Cronograma Anual"
+      texto: "Por Programa"
     },
     {
-      codigo: "MaxNumOfHours",
-      texto: "Por Horas"
+      indicador:17,
+      codigo: "DiscapacidadId",
+      texto: "Estudiantes con Discapacidad"
     },
     {
-      codigo: "ActivityClass",
-      texto: "Clase de Actividad"
+      indicador:18,
+      codigo: "extranjId",
+      texto: "Estudiantes Extranjeros y Nacionales"
+    },
+    {
+      indicador:19,
+      codigo: "CountryId",
+      texto: "Estudiantes Extranjeros según País de Origen"
+    },
+    {
+      indicador:20,
+      codigo: "yearstId",
+      texto: "Por Año de Estudio"
+    },
+    {
+      indicador:21,
+      codigo: "labcondId",
+      texto: "Por Condición Laboral"
+    },
+    {
+      indicador:22,
+      codigo: "cedId",
+      texto: "Por Cédula (Informe Único)"
     }
   ];
   ubicationsList!: UbicationsActivity[];
@@ -190,7 +190,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   reasonList!: Reason[];
   sourceFundsList!: SourceFunds[];
   _ScheduleActivity!: ScheduleActivity[];
-  exampleDatabase?: ActivityService;
+  exampleDatabase?: MatriculaStatisticService;
   scheduleForm!: UntypedFormGroup;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -202,7 +202,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   constructor(
     public _ActivityDetailService: ActivityDetailService,
     private fb: UntypedFormBuilder,
-    public _activityService: ActivityService,
+    private _matriculaService: MatriculaStatisticService,
     private _activityLocationService: ActivityLocationService,
     private _modalityService: ModalityService,
     private _StatusService: StatusService,
@@ -230,92 +230,34 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   createContactForm(): UntypedFormGroup {
 
     return this.fb.group({
-      planningDate: [''],
-      activityModeId: [''],
-      activityLocationId: [''],
-      assignedCoordinatorId: [''],
-      activityReasonId: [''],
-      activityFundsSourceId: [''],
-      inscriptionStartDate: [''],
-      inscriptionEndDate: [''],
-      startDate: [''],
-      plannedEndDate: [''],
-      effectiveEndDate: [''],
-      dataSheetDeliveryDate: [''],
-      digitalReportDeliveryDate: [''],
-      physicalReportDeliveryDate: [''],
-      statusId: [''],
-      CurriculumDesignId: [''],
-      Name: [''],
-      ActivityTypeId: [''],
-      MaxNumOfHours: [''],
-      ActivityClass: [''],
+      planningDate: ['', [Validators.required]],
+      activityModeId: ['', [Validators.required]],
+      activityLocationId: ['', [Validators.required]],
+      assignedCoordinatorId: ['', [Validators.required]],
+      activityReasonId: ['', [Validators.required]],
+      activityFundsSourceId: ['', [Validators.required]],
+      inscriptionStartDate: ['', [Validators.required]],
+      inscriptionEndDate: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      plannedEndDate: ['', [Validators.required]],
+      effectiveEndDate: ['', [Validators.required]],
+      dataSheetDeliveryDate: ['', [Validators.required]],
+      digitalReportDeliveryDate: ['', [Validators.required]],
+      physicalReportDeliveryDate: ['', [Validators.required]],
+      statusId: ['', [Validators.required]],
+      CurriculumDesignId: ['', [Validators.required]],
+      DiscapacidadId: ['', [Validators.required]],
+      extranjId: ['', [Validators.required]],
+      CountryId: ['', [Validators.required]],
+      yearstId: ['', [Validators.required]],
+      labcondId: ['', [Validators.required]],
+      cedId: ['', [Validators.required]],
     });
   }
 
-  public limpiarTodosFiltros() {
-    this.lstFiltrosSelected = [];
-    this.ocultar();
-    this.loadData();
-  }
-  public seleccionarTodos() {
-    this.lstFiltrosSelected = [];
-    this.lstFiltros.forEach((f) => {
-      this.lstFiltrosSelected.push(f.codigo);
-    });
-    this.Mostrar();
-  }
 
-  ocultar() {
-    this.PlanningDate = false;
-    this.ActivityModeId = false;
-    this.ActivityLocationId = false;
-    this.AssignedCoordinatorId = false;
-    this.ActivityReasonId = false;
-    this.ActivityFundsSourceId = false;
-    this.InscriptionStartDate = false;
-    this.InscriptionEndDate = false;
-    this.StartDate = false;
-    this.PlannedEndDate = false;
-    this.EffectiveEndDate = false;
-    this.DataSheetDeliveryDate = false;
-    this.DigitalReportDeliveryDate = false;
-    this.PhysicalReportDeliveryDate = false;
-    this.StatusId = false;
-    this.CurriculumDesignId = false;
-    this.Name = false;
-    this.ActivityTypeId = false;
-    this.MaxNumOfHours = false;
-    this.ActivityClass = false;
-  }
-  Mostrar() {
-    this.PlanningDate = true;
-    this.ActivityModeId = true;
-    this.ActivityLocationId = true;
-    this.AssignedCoordinatorId = true;
-    this.ActivityReasonId = true;
-    this.ActivityFundsSourceId = true;
-    this.InscriptionStartDate = true;
-    this.InscriptionEndDate = true;
-    this.StartDate = true;
-    this.PlannedEndDate = true;
-    this.EffectiveEndDate = true;
-    this.DataSheetDeliveryDate = true;
-    this.DigitalReportDeliveryDate = true;
-    this.PhysicalReportDeliveryDate = true;
-    this.StatusId = true;
-    this.CurriculumDesignId = true;
-    this.Name = true;
-    this.ActivityTypeId = true;
-    this.MaxNumOfHours = true;
-    this.ActivityClass = true;
-  }
   ngOnInit(): void {
-    this.loadData();
-  }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.loadData({ filtros: [{indicadorId : 0, searchBy: "string" }]});
   }
 
   filtrosEstadisticas(event: MatSelectChange) {
@@ -416,33 +358,41 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
       this.CurriculumDesignId = false;
       this.scheduleForm.controls["CurriculumDesignId"].setValue('');
     }
-
-    if (event.value.indexOf("Name") !== -1) {
-      this.Name = true;
+    if (event.value.indexOf("DiscapacidadId") !== -1) {
+      this.DiscapacidadId = true;
     } else {
-      this.Name = false;
-      this.scheduleForm.controls["Name"].setValue('');
+      this.DiscapacidadId = false;
+      this.scheduleForm.controls["DiscapacidadId"].setValue('');
     }
-
-    if (event.value.indexOf("ActivityTypeId") !== -1) {
-      this.ActivityTypeId = true;
+    if (event.value.indexOf("extranjId") !== -1) {
+      this.extranjId = true;
     } else {
-      this.ActivityTypeId = false;
-      this.scheduleForm.controls["ActivityTypeId"].setValue('');
+      this.extranjId = false;
+      this.scheduleForm.controls["extranjId"].setValue('');
     }
-
-    if (event.value.indexOf("MaxNumOfHours") !== -1) {
-      this.MaxNumOfHours = true;
+    if (event.value.indexOf("CountryId") !== -1) {
+      this.CountryId = true;
     } else {
-      this.MaxNumOfHours = false;
-      this.scheduleForm.controls["MaxNumOfHours"].setValue('');
+      this.CountryId = false;
+      this.scheduleForm.controls["CountryId"].setValue('');
     }
-
-    if (event.value.indexOf("ActivityClass") !== -1) {
-      this.ActivityClass = true;
+    if (event.value.indexOf("yearstId") !== -1) {
+      this.yearstId = true;
     } else {
-      this.ActivityClass = false;
-      this.scheduleForm.controls["ActivityClass"].setValue('');
+      this.yearstId = false;
+      this.scheduleForm.controls["yearstId"].setValue('');
+    }
+    if (event.value.indexOf("labcondId") !== -1) {
+      this.labcondId = true;
+    } else {
+      this.labcondId = false;
+      this.scheduleForm.controls["labcondId"].setValue('');
+    }
+    if (event.value.indexOf("cedId") !== -1) {
+      this.cedId = true;
+    } else {
+      this.cedId = false;
+      this.scheduleForm.controls["cedId"].setValue('');
     }
   }
 
@@ -457,78 +407,103 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   submit() {
 
     let params = '';
+    const request = { filtros: [{}]}
     console.log(this.scheduleForm.controls['planningDate'].value);
 
     if (this.scheduleForm.controls["planningDate"].value != '') {
-      params += `planningDate=${this.convertirAFechaISO(this.scheduleForm.controls['planningDate'].value)}&`;
+      const item = { indicadorId : 1, searchBy: this.scheduleForm.controls["planningDate"].value  }
+      request.filtros.slice(0);
+     request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityModeId"].value != '') {
-      params += `activityModeId=${this.scheduleForm.controls['activityModeId'].value}&`;
+      const item = { indicadorId : 2, searchBy: this.scheduleForm.controls["activityModeId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityLocationId"].value != '') {
-      params += `activityLocationId=${this.scheduleForm.controls['activityLocationId'].value}&`;
+      const item = { indicadorId : 3, searchBy: this.scheduleForm.controls["activityLocationId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["assignedCoordinatorId"].value != '') {
-      params += `assignedCoordinatorId=${this.scheduleForm.controls['assignedCoordinatorId'].value}&`;
+      const item = { indicadorId : 4, searchBy: this.scheduleForm.controls["assignedCoordinatorId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityReasonId"].value != '') {
-      params += `activityReasonId=${this.scheduleForm.controls['activityReasonId'].value}&`;
+      const item = { indicadorId : 5, searchBy: this.scheduleForm.controls["activityReasonId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["activityFundsSourceId"].value != '') {
-      params += `activityFundsSourceId=${this.scheduleForm.controls['activityFundsSourceId'].value}&`;
+      const item = { indicadorId : 6, searchBy: this.scheduleForm.controls["activityFundsSourceId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["inscriptionStartDate"].value != '') {
-      params += `inscriptionStartDate=${this.convertirAFechaISO(this.scheduleForm.controls['inscriptionStartDate'].value)}&`;
+      const item = { indicadorId : 7, searchBy: this.scheduleForm.controls["inscriptionStartDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["inscriptionEndDate"].value != '') {
-      params += `inscriptionEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['inscriptionEndDate'].value)}&`;
+      const item = { indicadorId : 8, searchBy: this.scheduleForm.controls["inscriptionStartDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["startDate"].value != '') {
-      params += `startDate=${this.convertirAFechaISO(this.scheduleForm.controls['startDate'].value)}&`;
+      const item = { indicadorId : 9, searchBy: this.scheduleForm.controls["startDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["plannedEndDate"].value != '') {
-      params += `plannedEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['plannedEndDate'].value)}&`;
+      const item = { indicadorId : 10, searchBy: this.scheduleForm.controls["plannedEndDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["effectiveEndDate"].value != '') {
-      params += `effectiveEndDate=${this.convertirAFechaISO(this.scheduleForm.controls['effectiveEndDate'].value)}&`;
+      const item = { indicadorId : 11, searchBy: this.scheduleForm.controls["effectiveEndDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["dataSheetDeliveryDate"].value != '') {
-      params += `dataSheetDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['dataSheetDeliveryDate'].value)}&`;
+      const item = { indicadorId : 12, searchBy: this.scheduleForm.controls["dataSheetDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["digitalReportDeliveryDate"].value != '') {
-      params += `digitalReportDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['digitalReportDeliveryDate'].value)}&`;
+      const item = { indicadorId : 13, searchBy: this.scheduleForm.controls["digitalReportDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["physicalReportDeliveryDate"].value != '') {
-      params += `physicalReportDeliveryDate=${this.convertirAFechaISO(this.scheduleForm.controls['physicalReportDeliveryDate'].value)}&`;
+      const item = { indicadorId : 14, searchBy: this.scheduleForm.controls["physicalReportDeliveryDate"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["statusId"].value != '') {
-      params += `statusId=${this.scheduleForm.controls['statusId'].value}&`;
+      const item = { indicadorId : 15, searchBy: this.scheduleForm.controls["statusId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
     if (this.scheduleForm.controls["CurriculumDesignId"].value != '') {
-      params += `CurriculumDesignId=${this.scheduleForm.controls['CurriculumDesignId'].value}&`;
+      const item = { indicadorId : 16, searchBy: this.scheduleForm.controls["CurriculumDesignId"].value  }
+      request.filtros.slice(0);
+      request.filtros.push(item);
     }
-    if (this.scheduleForm.controls["Name"].value != '') {
-      params += `Name=${this.scheduleForm.controls['Name'].value}&`;
+    if (request.filtros.length == 1){
+      const item = { indicadorId : 0, searchBy: "string"  }
+      request.filtros = [item];
     }
-    if (this.scheduleForm.controls["ActivityTypeId"].value != '') {
-      params += `ActivityTypeId=${this.scheduleForm.controls['ActivityTypeId'].value}&`;
-    }
-    if (this.scheduleForm.controls["MaxNumOfHours"].value != '') {
-      params += `MaxNumOfHours=${this.scheduleForm.controls['MaxNumOfHours'].value}&`;
-    }
-    if (this.scheduleForm.controls["ActivityClass"].value != '') {
-      params += `ActivityClass=${this.scheduleForm.controls['ActivityClass'].value}&`;
-    }
-    if (params != '') {
+    this.loadData(request);
 
-      this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
-        next: (res) => {
-          console.log(res.activitiesByAll);
-          this.CantidadResultados = res.activitiesByAll.length;
-        }
-      })
-    }
-    this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
+    this._matriculaService.getEstadisticasFiltro(request).subscribe({
+      next: (res) => {
+        console.log('====================================');
+        console.log(res.dataResponse);
+        this.CantidadResultados = res.dataResponse.length;
+        console.log('====================================');
+      }
+    })
   }
 
   removerUltimoCaracterSiEsAmpersand(cadena: string): string {
@@ -633,18 +608,14 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   exportExcel() {
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre_Actividad': x.name,
-        'Descripcion': x.description,
-        'Modo_de_Actividad': x.activityModeName,
-        'Tipo_de_actividad': x.activityTypeName,
-        'Ubicacion': x.activityLocationName,
-        'Motivo': x.activityFundsSourceName,
-        'Coordinador': x.assignedCoordinatorName,
-        'Fecha_de_Planeacion': x.planningDate.toString(),
-        'Inicio_de_Inscripcion': x.inscriptionStartDate.toString(),
-        'Fin_de_Inscripcion': x.inscriptionEndDate.toString(),
-        'Fecha_Final_planeada': x.plannedEndDate.toString(),
-        'Total_Horas': x.totalHours
+        'Primer Nombre': x.firstName,
+        'Apellido': x.lastName,
+        'cedula': x.cedula,
+        'edad': x.edad,
+        'Malla': x.degreeName,
+        'Cumpleaños': x.dateOfBirth.toString(),
+        'Género': x.gender,
+        'Provincia': x.provincia
       }));
     console.log(exportData);
 
@@ -652,7 +623,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   }
 
   public loadData(params: any = '') {
-    this.exampleDatabase = new ActivityService(this.httpClient);
+    this.exampleDatabase = new MatriculaStatisticService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -672,7 +643,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
 }
 
 
-export class ExampleDataSource extends DataSource<GetOneActivity> {
+export class ExampleDataSource extends DataSource<EstadisticasModelMatriculaResponse> {
   filterChange = new BehaviorSubject('');
   id!: number;
   get filter(): string {
@@ -681,10 +652,10 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: GetOneActivity[] = [];
-  renderedData: GetOneActivity[] = [];
+  filteredData: EstadisticasModelMatriculaResponse[] = [];
+  renderedData: EstadisticasModelMatriculaResponse[] = [];
   constructor(
-    public exampleDatabase: ActivityService,
+    public exampleDatabase: MatriculaStatisticService,
     public paginator: MatPaginator,
     public _sort: MatSort,
     public _params: any
@@ -696,7 +667,7 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<GetOneActivity[]> {
+  connect(): Observable<EstadisticasModelMatriculaResponse[]> {
     // alert();
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
@@ -714,8 +685,8 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
         // Filter data
         this.filteredData = this.exampleDatabase.dataF
           .slice()
-          .filter((activity: GetOneActivity) => {
-            const searchStr = (activity.name).toLowerCase();
+          .filter((activity: EstadisticasModelMatriculaResponse) => {
+            const searchStr = (activity.firstName).toLowerCase();
             // const observations = activity.observations || '';
             // const searchStr = observations.toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -736,7 +707,7 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: GetOneActivity[]): GetOneActivity[] {
+  sortData(data: EstadisticasModelMatriculaResponse[]): EstadisticasModelMatriculaResponse[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -745,7 +716,7 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'curriculumDesignId':
-          [propertyA, propertyB] = [a.curriculumDesignId, b.curriculumDesignId];
+          [propertyA, propertyB] = [a.firstName, b.firstName];
           break;
 
       }
@@ -757,3 +728,4 @@ export class ExampleDataSource extends DataSource<GetOneActivity> {
     });
   }
 }
+

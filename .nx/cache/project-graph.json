@@ -2237,18 +2237,18 @@
       "type": "npm",
       "name": "npm:@fullcalendar/daygrid",
       "data": {
-        "version": "6.1.10",
+        "version": "6.1.11",
         "packageName": "@fullcalendar/daygrid",
-        "hash": "sha512-Z4GRm1IyHKgxXFTWGcEI0nTsvYOIkpE0aMt3/o3ER2SZkF+hfwcDFhtj0c9+WhMjXFIWYeoTnA9rUOY7Zl/nxA=="
+        "hash": "sha512-hF5jJB7cgUIxWD5MVjj8IU407HISyLu7BWXcEIuTytkfr8oolOXeCazqnnjmRbnFOncoJQVstTtq6SIhaT32Xg=="
       }
     },
     "npm:@fullcalendar/interaction": {
       "type": "npm",
       "name": "npm:@fullcalendar/interaction",
       "data": {
-        "version": "6.1.10",
+        "version": "6.1.11",
         "packageName": "@fullcalendar/interaction",
-        "hash": "sha512-aZRlwCpmDasq2RNeWV0ub20Uevare9Cb6iMlxCacx0fhOC14H28G9d1FsduJIecInL84SPGwt5ItqAYMsWv7zw=="
+        "hash": "sha512-ynOKjzuPwEAMgTQ6R/Z2zvzIIqG4p8/Qmnhi1q0vzPZZxSIYx3rlZuvpEK2WGBZZ1XEafDOP/LGfbWoNZe+qdg=="
       }
     },
     "npm:@fullcalendar/list": {
@@ -16553,20 +16553,6 @@
       {
         "source": "npm:@fullcalendar/core",
         "target": "npm:preact",
-        "type": "static"
-      }
-    ],
-    "npm:@fullcalendar/daygrid": [
-      {
-        "source": "npm:@fullcalendar/daygrid",
-        "target": "npm:@fullcalendar/core",
-        "type": "static"
-      }
-    ],
-    "npm:@fullcalendar/interaction": [
-      {
-        "source": "npm:@fullcalendar/interaction",
-        "target": "npm:@fullcalendar/core",
         "type": "static"
       }
     ],

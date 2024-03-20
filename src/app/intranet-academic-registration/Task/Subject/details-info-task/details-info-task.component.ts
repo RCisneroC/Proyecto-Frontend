@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
 import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';

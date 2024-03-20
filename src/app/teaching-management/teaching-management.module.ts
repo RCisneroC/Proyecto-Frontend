@@ -30,7 +30,7 @@ import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.component';
 import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -68,6 +68,7 @@ import { StatisticsListComponent } from './statistics-list/statistics-list.compo
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
+    FullCalendarModule 
   ]
 })
 export class TeachingManagementModule { }

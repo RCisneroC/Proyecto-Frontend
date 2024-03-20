@@ -24,6 +24,8 @@ import { InfoStudentComponent } from './info-student/info-student.component';
 import { AddExperienceComponent } from './info-student/components/add-experience/add-experience.component';
 import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -48,6 +50,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     AddExperienceComponent,
     ViewSurveyComponent,
     InfoStudentComponent,
+    MyTasksListComponent,
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
@@ -57,6 +60,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
+    FullCalendarModule
   ]
 })
 export class EnrollmentModule { }

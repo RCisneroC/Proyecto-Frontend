@@ -9,11 +9,11 @@ import { PersonalDocenteServiceService } from 'app/estadisticas/services/persona
 import { ParametrosConsulta } from '../model/ParametrosConsulta';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TableElement, TableExportUtil } from '@shared';
-import {  DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
 import { InscriptionService } from 'app/admission/inscription/services/inscription.service';
 import { TeacherService } from 'app/teaching-management/services/teacher.service';
-import {  Subject } from 'app/teaching-management/models/Teacher';
+import { Subject } from 'app/teaching-management/models/Teacher';
 import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { Sort } from '@angular/material/sort';
@@ -151,16 +151,16 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
       texto: "Otros"
     }
   ];
-  public  lstMateriasImpartidas : Subject[] = [];
+  public lstMateriasImpartidas: Subject[] = [];
   public lstActividades: GetOneActivity[] = [];
 
   constructor(private cb: ChangeDetectorRef,
     private servicioPersonalDocente: PersonalDocenteServiceService,
-    private fb: UntypedFormBuilder, private datePipe:DatePipe,
-    private statusPipe:StatusTeacherPipe,
+    private fb: UntypedFormBuilder, private datePipe: DatePipe,
+    private statusPipe: StatusTeacherPipe,
     private inscriptionService: InscriptionService,
-    private teacherService:TeacherService,
-    private activityService:ActivityDetailService) {
+    private teacherService: TeacherService,
+    private activityService: ActivityDetailService) {
     this.form = this.createForm();
   }
 
@@ -261,7 +261,7 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
           parametros!.age = this.form.controls[f].value;
         }
         if (f == "PFN") {
-          parametros!.dateOfBirth = this.datePipe!.transform(this.form.controls[f].value,"yyy-MM-dd");
+          parametros!.dateOfBirth = this.datePipe!.transform(this.form.controls[f].value, "yyy-MM-dd");
         }
         if (f == "PC") {
           parametros!.position = this.form.controls[f].value;
@@ -277,7 +277,7 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
         }
         if (f == "PMI") {
           this.form.controls[f].value.forEach(
-            (g:number) =>{
+            (g: number) => {
               parametros!.subjecIds?.push(g);
             }
           )
@@ -285,7 +285,7 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
 
         if (f == "ACTFC") {
           this.form.controls[f].value.forEach(
-            (g:number) =>{
+            (g: number) => {
               parametros!.actIds?.push(g);
             }
           )
@@ -332,9 +332,9 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
         'Cedula': x.cedula,
         'Nombre': x.name,
         'Apellido': x.lastName,
-        'Sexo': x.gender==null?"":x.gender,
-        'Fecha de Nacimiento': x.dateOfBirth == null? "" : x.dateOfBirth,
-        'Lugar de Nacimiento': x.placeOfBirth == null ? "" :x.placeOfBirth,
+        'Sexo': x.gender == null ? "" : x.gender,
+        'Fecha de Nacimiento': x.dateOfBirth == null ? "" : x.dateOfBirth,
+        'Lugar de Nacimiento': x.placeOfBirth == null ? "" : x.placeOfBirth,
         'Correo_Electronico': x.email,
         'No_Telefono': x.phoneNumber == null ? "" : x.phoneNumber,
         'Lugar_Residencia': x.placeResidence,
@@ -343,38 +343,38 @@ export class TablaPersonalDocenteComponent implements AfterViewInit, OnDestroy, 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-//Carga de listas
-getMateriasImpartidas(){
-  this.subscriptions.push(
-    this.teacherService.getAllSubject3().subscribe(
-      {
-        next: (request:Subject[]) =>{
+  //Carga de listas
+  getMateriasImpartidas() {
+    this.subscriptions.push(
+      this.teacherService.getAllSubject3().subscribe(
+        {
+          next: (request: Subject[]) => {
             this.lstMateriasImpartidas = request;
-        },
-        error : (err: HttpErrorResponse) =>{
+          },
+          error: (err: HttpErrorResponse) => {
             console.log(err);
+          }
         }
-      }
-    )
-  );
+      )
+    );
 
-}
+  }
 
-getActividades(){
-  this.subscriptions.push(
-    this.activityService.getActivityStatus(5).subscribe(
-      {
-        next: (request:GetOneActivity[]) =>{
+  getActividades() {
+    this.subscriptions.push(
+      this.activityService.getActivityStatus(5).subscribe(
+        {
+          next: (request: GetOneActivity[]) => {
             this.lstActividades = request;
-        },
-        error : (err: HttpErrorResponse) =>{
+          },
+          error: (err: HttpErrorResponse) => {
             console.log(err);
+          }
         }
-      }
-    )
-  );
+      )
+    );
 
-}
+  }
 
 
 sortData(sort: Sort) {

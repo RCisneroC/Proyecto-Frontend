@@ -1,28 +1,29 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { GetOneActivity } from 'app/admission/models/GetOneActivity';
-import { Activity } from 'app/admission/models/activity';
-import { EstadisticasActivity } from 'app/estadisticas/Models/EstadisticasModelActivity';
-import { environment } from 'environments/environment.development';
-import { BehaviorSubject } from 'rxjs';
+import {UnsubscribeOnDestroyAdapter} from "@shared";
+import {BehaviorSubject} from "rxjs";
+import {Activity} from "../../admission/models/activity";
+import {GetOneActivity} from "../../admission/models/GetOneActivity";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {environment} from "../../../environments/environment.development";
+import {EstadisticasActivity} from "../Models/EstadisticasModelActivity";
+import {EstadisticasModelMatricula, EstadisticasModelMatriculaResponse} from "../Models/EstadisticasModelMatricula";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActivityService extends UnsubscribeOnDestroyAdapter {
+export class MatriculaStatisticService extends UnsubscribeOnDestroyAdapter {
 
   private readonly API_URL = 'assets/data/data-master.json';
   private readonly API_URL1 = 'assets/data/activityDetail.json';
   private readonly API_URL2 = 'assets/data/activities.json';
-  public CantidadResultados: number = 0;
+
   isTblLoading = true;
   dataChange: BehaviorSubject<Activity[]> = new BehaviorSubject<
     Activity[]
   >([]);
 
-  data_filtro: BehaviorSubject<GetOneActivity[]> = new BehaviorSubject<
-    GetOneActivity[]
+  data_filtro: BehaviorSubject<EstadisticasModelMatriculaResponse[]> = new BehaviorSubject<
+    EstadisticasModelMatriculaResponse[]
   >([]);
 
 
@@ -35,7 +36,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
     return this.dataChange.value;
   }
 
-  get dataF(): GetOneActivity[] {
+  get dataF(): EstadisticasModelMatriculaResponse[] {
     return this.data_filtro.value;
   }
 
@@ -93,22 +94,16 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  getEstadisticas(dataRequest: any): void {
+  getEstadisticas(data: any): void {
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
     this.subs.sink = this.httpClient
-      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + dataRequest)
+      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF', data)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.CantidadResultados = data.activitiesByAll.length;
-          console.log(this.CantidadResultados);
-
-          if (dataRequest == '') {
-            this.data_filtro.next([]);
-          } else {
-            this.data_filtro.next(data.activitiesByAll);
-          }
-
-
+          this.data_filtro.next(data.dataResponse);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -120,7 +115,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
 
   getEstadisticasFiltro(data: any) {
     return this.httpClient
-      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + data);
+      .post<EstadisticasModelMatricula>(environment.apiEC + 'EstadisticaMatricula/GetEstadisticaEF' , data);
 
   }
 

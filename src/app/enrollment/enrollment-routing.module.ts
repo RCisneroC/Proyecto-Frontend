@@ -12,6 +12,7 @@ import { BackofficeEFComponent } from './OfertasAcademicas/inscripcion/backoffic
 import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcion-actividades/activity-list-inscription.component';
 import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
 import { InfoStudentComponent } from './info-student/info-student.component';
+import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path:"info-student",
     component: InfoStudentComponent
+  },
+  {
+    path:"my-tasks-list/:id",
+    component: MyTasksListComponent
   }
 ];
 
