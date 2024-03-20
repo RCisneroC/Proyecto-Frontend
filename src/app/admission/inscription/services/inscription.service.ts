@@ -8,7 +8,7 @@ import {
   ApiResponse,
   ParticipantActivity,
   GetDataResultResponse,
-  AcadInfoResponseEF, ExperienceInfoResponseEF
+  AcadInfoResponseEF, ExperienceInfoResponseEF, OrganoResponse
 } from '../../models/participant';
 import { BehaviorSubject } from 'rxjs';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
@@ -122,6 +122,12 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
   GetExperienceInfoEF(id: any) {
     return this.httpClient.get<ExperienceInfoResponseEF>(
       environment.apiEC + 'EFInscription/ExperienceInfo?Cedula=' + id
+    );
+  }
+
+  GetDataOrgano(id: any) {
+    return this.httpClient.get<OrganoResponse[]>(
+      environment.apiCatalogs + 'Cedula/DataqueryCedula/GetDataCedulaOrgano/' + id
     );
   }
 
