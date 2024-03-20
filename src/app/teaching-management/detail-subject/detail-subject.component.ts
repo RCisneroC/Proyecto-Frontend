@@ -13,9 +13,11 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { DataTaskSubject } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
 import { SubjectListService } from 'app/intranet-academic-registration/Services/subject-list.service';
 import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
-import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
+
 import { AuthService, User } from '@core';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { CreateTaskSubjectComponent } from 'app/intranet-academic-registration/Task/Subject/Forms/create-task-subject/create-task-subject.component';
+
 
 @Component({
   selector: 'app-detail-subject',
@@ -101,6 +103,7 @@ export class DetailSubjectComponent implements OnInit {
   user: User;
   typeUser: string;
   cedula: string;
+  //calendarOptions: any;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
     setTimeout(() => {
@@ -129,11 +132,31 @@ export class DetailSubjectComponent implements OnInit {
 
   ngOnInit() {
     this.load();
-    //   //this.dataSou.paginator = this.paginator;
+    this.getTypeTask();
+    
+    // this.calendarOptions = {
+    //   plugins: [dayGridPlugin, interactionPlugin], // Add plugins to the options
+    //   defaultView: 'dayGridMonth', // Set the default view to month grid
+    //   events: [], // Initially empty array for events (populate later)
+    //   // Other options as desired (see FullCalendar documentation)
+    // };
+    // //   //this.dataSou.paginator = this.paginator;
+ 
   }
 
+
+
+
+  getTypeTask() {
+    this._SubjectService.getTypeTask().subscribe({
+      next: (res) => {
+        this._SubjectService._ApiResponseInternal = res;
+
+      }
+    })
+  }
   load() {
-    let local = localStorage.getItem('tipoSolicitud') || '';
+    const local = localStorage.getItem('tipoSolicitud') || '';
     this.NameActivitySubject = localStorage.getItem('actividadEscogida') || '';
     if (local != '') {
       if (local == "1") {
@@ -150,7 +173,7 @@ export class DetailSubjectComponent implements OnInit {
   }
   getAllTaskSubject() {
     const data = {
-      subjectId: this.id
+      periodYearSubjectRoomId:Number(localStorage.getItem("periodYearSubjectRoomId"))
     }
     this._SubjectService.GetTaskSubject(data).subscribe({
       next: (res) => {
@@ -269,11 +292,11 @@ export class DetailSubjectComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        let dataL = localStorage.getItem('task') || '';
+        const dataL = localStorage.getItem('task') || '';
         if (dataL != '') {
           this.TaskSubjectArray = JSON.parse(dataL);
-          let indice = this.TaskSubjectArray.findIndex(x => x.id === row.id);
-          console.log(indice);
+          const indice = this.TaskSubjectArray.findIndex(x => x.id === row.id);
+     
 
           if (indice !== -1) {
             this.TaskSubjectArray.splice(indice, 1);
@@ -287,6 +310,73 @@ export class DetailSubjectComponent implements OnInit {
     });
   }
 
+
+
+  NewTask() {
+
+    const dialogRef = this._dialog.open(CreateTaskSubjectComponent, {
+      data: {
+        task: this._SubjectService._TaskSubject,
+        action: 'add',
+        subject: this._Subject,
+        TypeTask: this._SubjectService._ApiResponseInternal
+      },
+      width: '900px',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getAllTaskSubject();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+  
+  editarTarea(row: TaskSubject) {
+    const dialogRef = this._dialog.open(CreateTaskSubjectComponent, {
+      data: {
+        task: row,
+        action: 'edit',
+        subject: this._Subject,
+        TypeTask: this._SubjectService._ApiResponseInternal
+      },
+      width: '900px',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getAllTaskSubject();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+  
   AddTask() {
     const dialogRef = this._dialog.open(AddTaskComponent, {
       data: {

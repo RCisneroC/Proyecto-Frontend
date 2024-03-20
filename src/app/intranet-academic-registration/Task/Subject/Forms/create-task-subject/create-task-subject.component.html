@@ -76,13 +76,13 @@
                         <input matInput [matDatepicker]="pickerStart1" formControlName="FinalDate">
                         <mat-datepicker-toggle matSuffix [for]="pickerStart1"></mat-datepicker-toggle>
                         <mat-datepicker #pickerStart1></mat-datepicker>
-                        <mat-error *ngIf="trainingForm.get('fechaEntrega')?.hasError('required')">
+                        <mat-error *ngIf="trainingForm.get('FinalDate')?.hasError('required')">
                             Selecciones una fecha
                         </mat-error>
                     </mat-form-field>
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" *ngIf="data.action =='add'">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3" *ngIf="data.action ==='add'">
                     <mat-label>Cargar Afiche/Documentos/Imagenes</mat-label>
 
                     <div class="file-drop-area">
