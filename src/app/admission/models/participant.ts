@@ -139,6 +139,7 @@ export interface ExperienceInfoResponseEF {
 
 
 export interface  ExperienceInfoEF {
+  id?: number,
   entidad: string,
   position: string,
   period: string,

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Documents, Experience, Student, StudentData, Training } from './models/Student';
+import { Documents, Experience, Student } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
 import { StudentService } from './services/student.service';
 import Swal from 'sweetalert2';
@@ -26,6 +26,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { InfoAcademicaComponent } from 'app/external/Forms/info-academica/info-academica.component';
 import { ResponseAddEFcademicInfo } from 'app/admission/models/AddEFacademicResponse';
 import { InfoLaboralComponent } from 'app/external/Forms/info-laboral/info-laboral.component';
+import { Subscription } from 'rxjs';
+import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
+import { ResponseAddEFlaboralInfo } from 'app/admission/models/AddEFlaboralResponse';
+import { DetailsParticipanteEF, ExperienceInfoEF } from 'app/admission/models/participant';
+import { GetDocResp, documentosIncripcion } from 'app/admission/models/documentosIncripcion';
+import { ResponseEF } from 'app/admission/models/ResponseMessage';
 
 
 @Component({
@@ -33,10 +39,7 @@ import { InfoLaboralComponent } from 'app/external/Forms/info-laboral/info-labor
   templateUrl: './info-student.component.html',
   styleUrls: ['./info-student.component.scss']
 })
-export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
-
-  studentForm!: UntypedFormGroup;
-  documentForm!: UntypedFormGroup;
+export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumnsExperience = [
     'entidad',
@@ -45,15 +48,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     'meses',
     'actions'
   ];
-
-
-  displayedColumnsDoc = [
-    'docType',
-    'extension',
-    'docResult',
-
-  ];
-
   InformacionAcademica: string[] = [
     'institucion',
     'programa',
@@ -62,7 +56,24 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     'acciones',
   ];
 
+  displayedColumnsDoc = [
+    'docType',
+    'extension',
+    'docResult',
 
+  ];
+
+  DisplayNameDocument: string[] = [
+    // 'Id',
+    'nombre',
+    'actualizar',
+    'estado',
+    'documentacion'
+  ];
+
+  public documentosIncripcion!: documentosIncripcion;
+  studentForm!: UntypedFormGroup;
+  documentForm!: UntypedFormGroup;
   DataStudent!: Student;
   DataDocument: RequiredDocument[] = [];
   cedula!: string;
@@ -70,6 +81,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   fechaA: string | undefined;
   header!: string;
   public DataAcademico: DetalleAcademico[] = [];
+  public DataAcademicoInserted: DetalleAcademico[] = [];
   _Form_Data = new FormData();
   docForm!: UntypedFormGroup;
   user!: User;
@@ -80,18 +92,35 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   DependencyList: any[] = [];
   OrganismoCopList: any[] = []
   CargosList: any[] = [];
+  public subscriptions: Subscription[] = [];
   public DatosEstudianteResponse: StudentModel | undefined;
-
+  aspirantId: number = 0;
   SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
-
+  IntertedlistExperience: ExperienceInfoEF[] = [];
+  @ViewChild(MatAccordion) accordion?: MatAccordion;
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
     this.SourceAcademico.paginator = value;
   }
-
+  loadingFile: boolean = false;
+  dataSoruceActivityRequirementsDocuementos: GetDocResp[] = [
+    {
+      documentId: 0,
+      docFile: '',
+      fileType: '',
+      validate: false,
+      name: '',
+      inscriptionId: 0
+    }
+  ];
+  dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.dataSoruceActivityRequirementsDocuementos);
+  @ViewChild(MatPaginator)
+  set paginator1(value: MatPaginator) {
+    this.dataDocumentsRequired.paginator = value;
+  }
+  public Array_GetDocResp: GetDocResp[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-    public _ActivityService: ActivityDetailService,
     public _studentService: StudentService,
     private authenticationService: AuthService,
     public _dialog: MatDialog,
@@ -102,7 +131,9 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     public datePipe: DatePipe,
     private _inscriptionService: InscriptionService,
     private cb: ChangeDetectorRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _ActivityService: ActivityDetailService,
+    public elm: ElementRef
   ) {
     super();
     this.studentForm = this.createstudentFormAll();
@@ -114,7 +145,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
 
-  @ViewChild(MatAccordion) accordion?: MatAccordion;
+
   async ngOnInit() {
     this.user = this.authenticationService.currentUserValue;
     this.DataStudent = new Student();
@@ -135,10 +166,10 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       FileType: new FormControl([]),
     });
     this.SourceAcademico.paginator = this.paginator;
+    this.getDetails();
   }
 
   SetValidator(): void {
-
     this.studentForm.controls["telephoneNumberEmergency"].clearAsyncValidators();
     this.studentForm.controls["maritalStatus"].clearAsyncValidators();
     this.studentForm.controls["caseOfemergency"].clearAsyncValidators();
@@ -161,7 +192,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
     this.studentForm.controls["gender"].clearAsyncValidators();
     this.studentForm.controls["institution"].clearAsyncValidators();
-    this.studentForm.get("university")?.clearAsyncValidators();
+    this.studentForm.controls["university"]?.clearAsyncValidators();
     this.studentForm.controls["dependency"].clearAsyncValidators();
     this.studentForm.controls["cooperatingEntity"].removeValidators([Validators.required]);
     this.studentForm.controls["position"].clearAsyncValidators();
@@ -226,23 +257,13 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       this.studentForm.controls["judicialDistrict"].updateValueAndValidity();
       this.studentForm.controls["invitationDate"].updateValueAndValidity();
     }
-
     this.studentForm.markAsPristine();
-
   }
 
-  getPersonData(cedula: string) {
 
-    if (!cedula) {
+  getPersonData(cedula: string): void {
 
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: 'Por favor, ingrese una cédula',
-        icon: "warning"
-      });
-
-    } else {
-
+    this.subscriptions.push(
       this.enrollmentService.getStudentData(cedula).subscribe(
         {
           next: (request) => {
@@ -257,6 +278,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
 
                 if (this.aspirante) {
+                  this.aspirantId = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].aspirantId;
                   this.studentForm.controls["telephoneNumber"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber);
                   this.studentForm.controls["placeOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth);
                   this.studentForm.controls["dateOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth);
@@ -294,7 +316,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                   else
                     this.studentForm.controls["physical"].patchValue("False");
 
-
                   if (this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory)
                     this.studentForm.controls["usesAwheelchair"].patchValue("True");
                   else
@@ -302,7 +323,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
                   this.studentForm.controls["specific"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specific);
                   this.studentForm.controls["others"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].others);
-
                 }
 
                 if (this.participante) {
@@ -326,9 +346,9 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
             console.log(err);
           }
         }
-      );
+      )
+    );
 
-    }
   }
 
   GetName(type: number) {
@@ -366,11 +386,30 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
 
-  RemoveExperience(row: Experience) {
-
-   // this.DataExperience = [];
-    //this.DataExperience = this.DataStudent.listExperience.filter(x => x.experienceId != row.experienceId)
-    //this.DataStudent.listExperience = [...this.DataExperience]
+  RemoveExperience(id: number) {
+    this.subscriptions.push(
+      this._inscriptionService.deleteExperienceInfoEF(id).subscribe(
+        {
+          next: (request) => {
+            console.log(request)
+            this.loadExperience();
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Experiencia Profesional Borrada.',
+              icon: "success"
+            });
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err)
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'No se pudo borrar la Experiencia Profesional',
+              icon: "warning"
+            });
+          }
+        }
+      )
+    );
 
   }
 
@@ -434,18 +473,13 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.studentForm?.get('listExperience')?.setValue(this.DataStudent?.listExperience);
     this.studentForm?.get('listTraining')?.setValue(this.DataStudent?.listTraining);
 
-
-
     let isError: boolean = false;
-
-
     if (!this.studentForm.valid) {
       this.studentForm.markAsPristine();
       return;
     }
 
     if (this.aspirante) {
-
       const data: any = {
         cedula: this.studentForm.controls["cedula"].value,
         phoneNumber: this.studentForm.controls["telephoneNumber"].value,
@@ -533,31 +567,30 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
   loadExperience() {
     this._inscriptionService.GetExperienceInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
-     {
-      next: (request) =>{
-        console.log(request.experienceInfoResponse)
-        this.DataStudent.listExperience = request.experienceInfoResponse;
+      {
+        next: (request) => {
+          this.DataStudent.listExperience = request.experienceInfoResponse;
+          console.log(this.DataStudent.listExperience)
+        }
       }
-     }
     );
   }
 
 
-  loadAcademicInfo(){
+  loadAcademicInfo() {
     this._inscriptionService.GetAcadInfoEF(this.authenticationService.currentUserValue.cedula).subscribe(
       {
-       next: (request) =>{
-         this.DataAcademico = request.inscriptionResponse;
-         this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
-       }
+        next: (request) => {
+          this.DataAcademico = request.inscriptionResponse;
+          this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+        }
       }
-     );
+    );
   }
 
   loadIntituciones() {
     this._inscriptionService.getCatalogInstitucion().subscribe({
       next: (data) => {
-        console.log("Datos de Instituciones", data);
         this.InstitutionList = data;
       }
     })
@@ -566,7 +599,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   loadDependencias() {
     this._inscriptionService.getCatalogDependencia().subscribe({
       next: (data) => {
-        console.log("Datos de Dependencias", data);
         this.DependencyList = data;
       }
     })
@@ -575,7 +607,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   loadUniversidades() {
     this._inscriptionService.getCatalogUniversidades().subscribe({
       next: (data) => {
-        console.log("Datos de Universidades", data);
         this.UniversityList = data;
       }
     })
@@ -584,7 +615,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   loadOrganosCop() {
     this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
       next: (data) => {
-        console.log("Datos de Organismos Coperantes", data);
         this.OrganismoCopList = data;
       }
     })
@@ -593,21 +623,20 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   loadCargos() {
     this._inscriptionService.getCatalogCargos().subscribe({
       next: (data) => {
-        console.log("Datos de cargos", data);
         this.CargosList = data;
       }
     })
   }
 
-  limpiarCasmposSpecialCapacity(){
-    if(this.studentForm.controls["specialCapacity"].value == "False"){
+  limpiarCasmposSpecialCapacity() {
+    if (this.studentForm.controls["specialCapacity"].value == "False") {
       this.studentForm.controls["visual"].patchValue("False");
       this.studentForm.controls["auditory"].patchValue("False")
-        this.studentForm.controls["cognitive"].patchValue("False")
-        this.studentForm.controls["physical"].patchValue("False")
-       this.studentForm.controls["specific"].patchValue("")
-        this.studentForm.controls["others"].patchValue("")
-       this.studentForm.controls["usesAwheelchair"].patchValue("False")
+      this.studentForm.controls["cognitive"].patchValue("False")
+      this.studentForm.controls["physical"].patchValue("False")
+      this.studentForm.controls["specific"].patchValue("")
+      this.studentForm.controls["others"].patchValue("")
+      this.studentForm.controls["usesAwheelchair"].patchValue("False")
     }
   }
 
@@ -615,13 +644,13 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   // INFORMACION ACADEMICA
   addcademicInfo() {
     const jsonRequest = {
-      aspirantId:  1,//this.aspirantId,
+      aspirantId: this.aspirantId,
       academicInformation: {}
     }
     let pointer = 1;
     let jsonItem = "{";
     const length = this.DataAcademico.length;
-    this.DataAcademico.forEach(function (value) {
+    this.DataAcademicoInserted.forEach(function (value) {
       if (pointer != length) {
         jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
       }
@@ -629,7 +658,9 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value);
       }
       pointer = pointer + 1;
-    })
+    });
+    this.DataAcademicoInserted = [];
+
     jsonItem += "}";
     jsonRequest.academicInformation = JSON.parse(jsonItem);
 
@@ -637,10 +668,19 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       next: (data: ResponseAddEFcademicInfo) => {
         this._inscriptionService._ResponseAddEFcademicInfo = data;
         if (this._inscriptionService._ResponseAddEFcademicInfo.isError) {
+
           Swal.fire({
             title: "Escuela Judicial",
-            text: 'Academic no fue creado correctamente.',
+            text: 'No se pudo agregar la información académica.',
             icon: "warning"
+          });
+        }
+        else {
+          this.loadAcademicInfo();
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Información académica agregada con éxito.',
+            icon: "success"
           });
         }
       }
@@ -648,15 +688,14 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
 
-openDialogAC(): void {
+  openDialogAC(): void {
     const dialogACRef = this.dialog.open(InfoAcademicaComponent, {
       data: {},
     });
-
     dialogACRef.afterClosed().subscribe((result: DetalleAcademico) => {
       if (result != null) {
-        this.DataAcademico.push(result);
-        this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+        this.DataAcademicoInserted.push(result);
+        this.addcademicInfo();
       }
     });
   }
@@ -665,14 +704,250 @@ openDialogAC(): void {
     const dialogILRef = this.dialog.open(InfoLaboralComponent, {
       data: {},
     });
+
+    dialogILRef.afterClosed().subscribe((result: DetalleExperiencia) => {
+      if (result != null) {
+        this.IntertedlistExperience.push(
+          {
+            entidad: result.entidad,
+            position: result.position,
+            period: result.period,
+            months: result.months
+          }
+        );
+        this.addEFLaboralInfo();
+      }
+
+    });
   }
 
- deleteItemAC(row: any) {
-    console.log(row);
-    this.DataAcademico.splice(row, 1);
-    this.SourceAcademico = new MatTableDataSource<DetalleAcademico>(this.DataAcademico);
+  //INFORMACION LABORAL
+  addEFLaboralInfo() {
+    const jsonRequest = {
+      aspirantId: this.aspirantId,
+      workExperience: {}
+    }
+    let pointer = 1;
+    let jsonItem = "{";
+    const length = this.DataStudent.listExperience.length;
+    this.IntertedlistExperience.forEach(function (value) {
+      if (pointer != length) {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
+      }
+      else {
+        jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value);
+      }
+      pointer = pointer + 1;
+    });
+    this.IntertedlistExperience = [];
+
+    jsonItem += "}";
+    jsonRequest.workExperience = JSON.parse(jsonItem);
+
+    this.subscriptions.push(
+      this._inscriptionService.AddEFLaboralInfo(jsonRequest).subscribe({
+        next: (data: ResponseAddEFlaboralInfo) => {
+          this._inscriptionService._ResponseAddEFlaboralInfo = data;
+          if (!this._inscriptionService._ResponseAddEFlaboralInfo.isError) {
+            this.loadExperience();
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Experiencia Profesional agregada con éxito.',
+              icon: "success"
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Experiencia Profesional no fue creado correctamente.',
+              icon: "warning"
+            });
+          }
+        }
+      })
+    );
+
   }
 
+  deleteItemAC(id: number) {
+    this.subscriptions.push(
+      this._inscriptionService.deleteAcademicInfoEF(id).subscribe(
+        {
+          next: (request) => {
+            console.log(request)
+            this.loadAcademicInfo();
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Formación Académica Borrada.',
+              icon: "success"
+            });
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err)
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'No se pudo borrar la Formación Académica',
+              icon: "warning"
+            });
+          }
+        }
+      )
+    );
+  }
+
+  //Documentos
+  getDetails() {
+    this._ActivityService.loading = true;
+
+    this._ActivityService.GetDetailsEFCedula(this.authenticationService.currentUserValue.cedula).subscribe({
+      next: (res: DetailsParticipanteEF) => {
+        console.log("No error getDetails")
+        console.log(res)
+        this._ActivityService._DetailsParticipanteEF = res;
+        if (res.getDetailsResponse.length > 0) {
+          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+          this.getDocumentosInscripcion();
+          this.cb.detectChanges();
+        }
+        this._ActivityService.loading = false;
+
+      },
+      error: (err) => {
+        console.log("Error getDetails")
+        console.log(err)
+        this._ActivityService.loading = false;
+        this.cb.detectChanges();
+      }
+    })
+  }
+
+  getDocumentosInscripcion() {
+    this.Array_GetDocResp = [];
+    this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponseEF.inscriptionId).subscribe({
+      next: (res) => {
+        if (Array.isArray(res.getDocResp)) {
+          res.getDocResp.forEach((element: GetDocResp) => {
+            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+              next: (res) => {
+                element.name = res.name;
+                this.Array_GetDocResp.push(element);
+              },
+              complete: () => {
+                console.log("this.Array_GetDocResp")
+                console.log(this.Array_GetDocResp)
+
+                this.dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
+              }
+            })
+          });
+        }
+      },
+      error: (err) => {
+      }
+    })
+  }
+
+
+ verDocumento(row: GetDocResp) {
+  this._inscriptionService.init_documentosIncripcion();
+  this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
+    subscribe({
+      next: (res) => {
+        this._inscriptionService._documentosIncripcion = res;
+        this.documentosIncripcion = res;
+        if (Array.isArray(this._inscriptionService._documentosIncripcion.getDocResp)) {
+          if (this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile) != "pdf") {
+            const dialogRef = this._dialog.open(ViewPosterComponent, {
+              data: {
+                type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
+                accion: 'view-poster',
+                posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
+                comment: [],
+                poster: row,
+              },
+              disableClose: true,
+            });
+          } else {
+            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+              data: {
+                type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
+                accion: 'view-poster',
+                posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
+                comment: [],
+                poster: row,
+              },
+              width: '1000px',
+              disableClose: true,
+            });
+          }
+
+        } else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'No mantiene documentación.',
+            icon: "warning"
+          });
+        }
+        console.log(res);
+
+      }
+    });
+}
+
+onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
+  console.log(name);
+  this.loadingFile = true;
+  const files: FileList = event.target.files;
+  console.log(requirement.name);
+  const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+  const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+  if (files.length > 0) {
+    if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+        icon: "warning"
+      });
+      this.loadingFile = false;
+      elementImg.value = '';
+      return;
+    }
+    var formdata = new FormData();
+    formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
+    formdata.append('FileType', requerimentId.toString());
+    formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
+    formdata.append('File', files[0]);
+    this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+      next: (res: ResponseEF) => {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: '(' + requirement.name + ') ' + res.message,
+          icon: "success"
+        });
+
+        elementImg.value = '';
+        elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
+        this.loadingFile = false;
+        // this.verificarDocumentacion();
+      }, error: (err) => {
+        elementImg.value = '';
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente..',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+      }
+    })
+  }
+}
+
+
+
+  override ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
 
 }
 

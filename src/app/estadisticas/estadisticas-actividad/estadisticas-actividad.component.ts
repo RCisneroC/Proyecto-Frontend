@@ -53,6 +53,12 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   public PhysicalReportDeliveryDate: boolean = false;
   public StatusId: boolean = false;
   public CurriculumDesignId: boolean = false;
+  public Name: boolean = false;
+  public ActivityTypeId: boolean = false;
+  public MaxNumOfHours: boolean = false;
+  public ActivityClass: boolean = false;
+
+  public lstFiltrosSelected: string[] = [];
   public CantidadResultados: number = 0;
   displayedColumns = [
     'activityName',
@@ -72,8 +78,33 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   public ShowTables: boolean = false;
-
+  typeActivityListTyp2: TypeActivity[] = [
+    {
+      id: 2,
+      name: 'Formación por competencia',
+      statusId: 1,
+    },
+    {
+      id: 3,
+      name: 'Concurso abierto fase 3',
+      statusId: 1,
+    },
+    {
+      id: 4,
+      name: 'Curso de Integración',
+      statusId: 1,
+    },
+    {
+      id: 1,
+      name: 'Nuevos Abogados',
+      statusId: 1,
+    }
+  ];
   public lstFiltros: Filtros[] = [
+    {
+      codigo: "Name",
+      texto: "Nombre de Actividad"
+    },
     {
       codigo: "PlanningDate",
       texto: "Fecha de planificación"
@@ -81,6 +112,10 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     {
       codigo: "ActivityModeId",
       texto: "Modo de Actividad"
+    },
+    {
+      codigo: "ActivityTypeId",
+      texto: "Tipo de Actividad"
     },
     {
       codigo: "ActivityLocationId",
@@ -137,6 +172,14 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     {
       codigo: "CurriculumDesignId",
       texto: "Por Cronograma Anual"
+    },
+    {
+      codigo: "MaxNumOfHours",
+      texto: "Por Horas"
+    },
+    {
+      codigo: "ActivityClass",
+      texto: "Clase de Actividad"
     }
   ];
   ubicationsList!: UbicationsActivity[];
@@ -159,7 +202,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   constructor(
     public _ActivityDetailService: ActivityDetailService,
     private fb: UntypedFormBuilder,
-    private _activityService: ActivityService,
+    public _activityService: ActivityService,
     private _activityLocationService: ActivityLocationService,
     private _modalityService: ModalityService,
     private _StatusService: StatusService,
@@ -187,28 +230,92 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
   createContactForm(): UntypedFormGroup {
 
     return this.fb.group({
-      planningDate: ['', [Validators.required]],
-      activityModeId: ['', [Validators.required]],
-      activityLocationId: ['', [Validators.required]],
-      assignedCoordinatorId: ['', [Validators.required]],
-      activityReasonId: ['', [Validators.required]],
-      activityFundsSourceId: ['', [Validators.required]],
-      inscriptionStartDate: ['', [Validators.required]],
-      inscriptionEndDate: ['', [Validators.required]],
-      startDate: ['', [Validators.required]],
-      plannedEndDate: ['', [Validators.required]],
-      effectiveEndDate: ['', [Validators.required]],
-      dataSheetDeliveryDate: ['', [Validators.required]],
-      digitalReportDeliveryDate: ['', [Validators.required]],
-      physicalReportDeliveryDate: ['', [Validators.required]],
-      statusId: ['', [Validators.required]],
-      CurriculumDesignId: ['', [Validators.required]],
+      planningDate: [''],
+      activityModeId: [''],
+      activityLocationId: [''],
+      assignedCoordinatorId: [''],
+      activityReasonId: [''],
+      activityFundsSourceId: [''],
+      inscriptionStartDate: [''],
+      inscriptionEndDate: [''],
+      startDate: [''],
+      plannedEndDate: [''],
+      effectiveEndDate: [''],
+      dataSheetDeliveryDate: [''],
+      digitalReportDeliveryDate: [''],
+      physicalReportDeliveryDate: [''],
+      statusId: [''],
+      CurriculumDesignId: [''],
+      Name: [''],
+      ActivityTypeId: [''],
+      MaxNumOfHours: [''],
+      ActivityClass: [''],
     });
   }
 
+  public limpiarTodosFiltros() {
+    this.lstFiltrosSelected = [];
+    this.ocultar();
+    this.loadData();
+  }
+  public seleccionarTodos() {
+    this.lstFiltrosSelected = [];
+    this.lstFiltros.forEach((f) => {
+      this.lstFiltrosSelected.push(f.codigo);
+    });
+    this.Mostrar();
+  }
 
+  ocultar() {
+    this.PlanningDate = false;
+    this.ActivityModeId = false;
+    this.ActivityLocationId = false;
+    this.AssignedCoordinatorId = false;
+    this.ActivityReasonId = false;
+    this.ActivityFundsSourceId = false;
+    this.InscriptionStartDate = false;
+    this.InscriptionEndDate = false;
+    this.StartDate = false;
+    this.PlannedEndDate = false;
+    this.EffectiveEndDate = false;
+    this.DataSheetDeliveryDate = false;
+    this.DigitalReportDeliveryDate = false;
+    this.PhysicalReportDeliveryDate = false;
+    this.StatusId = false;
+    this.CurriculumDesignId = false;
+    this.Name = false;
+    this.ActivityTypeId = false;
+    this.MaxNumOfHours = false;
+    this.ActivityClass = false;
+  }
+  Mostrar() {
+    this.PlanningDate = true;
+    this.ActivityModeId = true;
+    this.ActivityLocationId = true;
+    this.AssignedCoordinatorId = true;
+    this.ActivityReasonId = true;
+    this.ActivityFundsSourceId = true;
+    this.InscriptionStartDate = true;
+    this.InscriptionEndDate = true;
+    this.StartDate = true;
+    this.PlannedEndDate = true;
+    this.EffectiveEndDate = true;
+    this.DataSheetDeliveryDate = true;
+    this.DigitalReportDeliveryDate = true;
+    this.PhysicalReportDeliveryDate = true;
+    this.StatusId = true;
+    this.CurriculumDesignId = true;
+    this.Name = true;
+    this.ActivityTypeId = true;
+    this.MaxNumOfHours = true;
+    this.ActivityClass = true;
+  }
   ngOnInit(): void {
     this.loadData();
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   filtrosEstadisticas(event: MatSelectChange) {
@@ -309,6 +416,34 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
       this.CurriculumDesignId = false;
       this.scheduleForm.controls["CurriculumDesignId"].setValue('');
     }
+
+    if (event.value.indexOf("Name") !== -1) {
+      this.Name = true;
+    } else {
+      this.Name = false;
+      this.scheduleForm.controls["Name"].setValue('');
+    }
+
+    if (event.value.indexOf("ActivityTypeId") !== -1) {
+      this.ActivityTypeId = true;
+    } else {
+      this.ActivityTypeId = false;
+      this.scheduleForm.controls["ActivityTypeId"].setValue('');
+    }
+
+    if (event.value.indexOf("MaxNumOfHours") !== -1) {
+      this.MaxNumOfHours = true;
+    } else {
+      this.MaxNumOfHours = false;
+      this.scheduleForm.controls["MaxNumOfHours"].setValue('');
+    }
+
+    if (event.value.indexOf("ActivityClass") !== -1) {
+      this.ActivityClass = true;
+    } else {
+      this.ActivityClass = false;
+      this.scheduleForm.controls["ActivityClass"].setValue('');
+    }
   }
 
   convertirAFechaISO(fechaCadena: string): string {
@@ -372,15 +507,28 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     if (this.scheduleForm.controls["CurriculumDesignId"].value != '') {
       params += `CurriculumDesignId=${this.scheduleForm.controls['CurriculumDesignId'].value}&`;
     }
+    if (this.scheduleForm.controls["Name"].value != '') {
+      params += `Name=${this.scheduleForm.controls['Name'].value}&`;
+    }
+    if (this.scheduleForm.controls["ActivityTypeId"].value != '') {
+      params += `ActivityTypeId=${this.scheduleForm.controls['ActivityTypeId'].value}&`;
+    }
+    if (this.scheduleForm.controls["MaxNumOfHours"].value != '') {
+      params += `MaxNumOfHours=${this.scheduleForm.controls['MaxNumOfHours'].value}&`;
+    }
+    if (this.scheduleForm.controls["ActivityClass"].value != '') {
+      params += `ActivityClass=${this.scheduleForm.controls['ActivityClass'].value}&`;
+    }
+    if (params != '') {
+
+      this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
+        next: (res) => {
+          console.log(res.activitiesByAll);
+          this.CantidadResultados = res.activitiesByAll.length;
+        }
+      })
+    }
     this.loadData(this.removerUltimoCaracterSiEsAmpersand(params))
-    this._activityService.getEstadisticasFiltro(this.removerUltimoCaracterSiEsAmpersand(params)).subscribe({
-      next: (res) => {
-        console.log('====================================');
-        console.log(res.activitiesByAll);
-        this.CantidadResultados = res.activitiesByAll.length;
-        console.log('====================================');
-      }
-    })
   }
 
   removerUltimoCaracterSiEsAmpersand(cadena: string): string {

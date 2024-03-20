@@ -138,6 +138,7 @@ export interface RequestSubjectTeacher {
 
 
 export interface SubjectResponse {
+    id:number;  
     startDate: Date;
     endDate: Date;
     examDate: Date;

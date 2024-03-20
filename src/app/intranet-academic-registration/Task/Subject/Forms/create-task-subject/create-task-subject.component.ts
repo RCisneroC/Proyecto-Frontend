@@ -7,6 +7,7 @@ import { SubjectListService } from 'app/intranet-academic-registration/Services/
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 export interface DialogData {
   task: TaskSubject;
@@ -45,13 +46,14 @@ export class CreateTaskSubjectComponent {
 
       this.dialogTitle = "Editar Tarea";
     }
+    const id=localStorage.getItem("periodYearSubjectRoomId")||'';
     this.trainingForm = this.fb.group({
       id: [data.task.id],
       Title: [data.task.title, [Validators.required]],
       FinalDate: [data.task.finalDate, [Validators.required]],
       TaskTypeId: [data.task.taskTypeId, [Validators.required]],
       Description: [data.task.description, [Validators.required]],
-      SubjectId: [data.subject.id, [Validators.required]],
+      PeriodYearSubjectRoomId: [id, [Validators.required]],
       Observation: [data.task.observation, [Validators.required]],
       Content: [[]]
     });
@@ -59,13 +61,15 @@ export class CreateTaskSubjectComponent {
   confirmAdd() {
 
     if (this.data.action == 'add') {
+      const id=localStorage.getItem("periodYearSubjectRoomId")||'';
       let formData = new FormData();
       formData.append('Title', this.trainingForm.controls['Title'].value);
-      formData.append('FinalDate', this.trainingForm.controls['FinalDate'].value);
+      formData.append('FinalDate', moment(this.trainingForm.controls['FinalDate'].value).format("YYYY-MM-DD"));
       formData.append('TaskTypeId', this.trainingForm.controls['TaskTypeId'].value);
       formData.append('Description', this.trainingForm.controls['Description'].value);
-      formData.append('SubjectId', this.trainingForm.controls['SubjectId'].value);
+      //formData.append('SubjectId', this.trainingForm.controls['SubjectId'].value);
       formData.append('Observation', this.trainingForm.controls['Observation'].value);
+      formData.append('PeriodYearSubjectRoomId',id );
       this._File.forEach((file) => {
         formData.append('Content', file);
       });

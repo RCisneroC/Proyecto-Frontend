@@ -188,6 +188,13 @@ export class EnrollDetailsMeshComponent {
   goSubjects(row: Career) {
     this._router.navigate(['/enrollment/enroll-details/' + row.degreeCurriculumDesignId]);
   }
+  
+  goTask(row: Career) {
+    this._router.navigate(['/enrollment/my-tasks-list/' + row.degreeCurriculumDesignId]);
+  }
+  
+  
+  
 
   verAsistencia(row: getStudentsActivityResponse) {
 

@@ -158,6 +158,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
     localStorage.setItem('cedula', this.cedula);
+    localStorage.setItem('periodYearSubjectRoomId', row.id.toString());
     this._nav.navigate(['/teaching-management/detail-subject/', row.subjectId]);
   }
   Detail2(row: Activity) {

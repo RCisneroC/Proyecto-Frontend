@@ -8,16 +8,20 @@ import { EstadisticasRoutingModule } from './estadisticas-routing.module';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
+import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
+import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
+import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
 
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe, DatePipe],
+  providers: [VerificarBS64Pipe, DatePipe, StatusTeacherPipe],
   declarations: [
     TablaPersonalDocenteComponent,
     OnlyNumberDirective,
     EstadisticasActividadComponent,
+    EEspecializadaComponent,
     EstadisticasMatriculaComponent
   ],
   imports: [

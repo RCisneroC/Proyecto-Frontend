@@ -15,6 +15,7 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/data-master.json';
   private readonly API_URL1 = 'assets/data/activityDetail.json';
   private readonly API_URL2 = 'assets/data/activities.json';
+  public CantidadResultados: number = 0;
   isTblLoading = true;
   dataChange: BehaviorSubject<Activity[]> = new BehaviorSubject<
     Activity[]
@@ -92,16 +93,22 @@ export class ActivityService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  getEstadisticas(data: any): void {
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
+  getEstadisticas(dataRequest: any): void {
     this.subs.sink = this.httpClient
-      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + data)
+      .get<EstadisticasActivity>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsBy?' + dataRequest)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.data_filtro.next(data.activitiesByAll);
+          this.CantidadResultados = data.activitiesByAll.length;
+          console.log(this.CantidadResultados);
+
+          if (dataRequest == '') {
+            this.data_filtro.next([]);
+          } else {
+            this.data_filtro.next(data.activitiesByAll);
+          }
+
+
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
