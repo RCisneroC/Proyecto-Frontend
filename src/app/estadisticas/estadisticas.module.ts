@@ -12,6 +12,7 @@ import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
 import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
+import { EstadisticasParticipanteComponent } from './estadisticas-participante/estadisticas-participante.component';
 
 
 
@@ -22,7 +23,8 @@ import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
     OnlyNumberDirective,
     EstadisticasActividadComponent,
     EEspecializadaComponent,
-    EstadisticasMatriculaComponent
+    EstadisticasMatriculaComponent,
+    EstadisticasParticipanteComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,344 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Participantes'" [items]="['Inicio','Estadísticas']" [active_item]="'Participantes'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            Consulta de Información de Participantes
+          </div>
+          <div class="body">
+            <!-- FILAS -->
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Filtros</mat-label>
+                  <mat-select multiple (selectionChange)="filtrosEstadisticas($event)">
+                    <mat-option *ngFor="let row of lstFiltros"
+                                [value]="row.codigo">{{row.texto}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <fieldset>
+              <form [formGroup]="scheduleForm">
+                <legend>Criterios de Búsqueda</legend>
+                <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="PlanningDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Matrícula</mat-label>
+                      <input matInput formControlName="planningDate">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityModeId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Sexo</mat-label>
+                      <mat-select formControlName="activityModeId">
+                        <mat-option value="F">Femenino</mat-option>
+                        <mat-option value="M">Masculino</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityLocationId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Provincia</mat-label>
+                      <mat-select formControlName="activityLocationId">
+                        <mat-option value="1">Bocas del Toro</mat-option>
+                        <mat-option value="2">Coclé</mat-option>
+                        <mat-option value="3">Colón</mat-option>
+                        <mat-option value="4">Chiriquí</mat-option>
+                        <mat-option value="5">Darién</mat-option>
+                        <mat-option value="6">Herrera</mat-option>
+                        <mat-option value="7">Los Santos</mat-option>
+                        <mat-option value="8">Panamá</mat-option>
+                        <mat-option value="9">Veraguas</mat-option>
+                        <mat-option value="13">Panamá Oeste</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="AssignedCoordinatorId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Distrito</mat-label>
+                      <input matInput formControlName="assignedCoordinatorId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityReasonId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Universidad</mat-label>
+                      <input matInput formControlName="activityReasonId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="ActivityFundsSourceId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Institución</mat-label>
+                      <input matInput formControlName="activityFundsSourceId">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
+                       *ngIf="InscriptionStartDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Dependencia</mat-label>
+                      <input matInput formControlName="inscriptionStartDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="InscriptionEndDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Entidad Cooperante</mat-label>
+                      <input matInput formControlName="inscriptionEndDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="StartDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Posición</mat-label>
+                      <input matInput formControlName="startDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="PlannedEndDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Edad</mat-label>
+                      <input matInput  formControlName="plannedEndDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" *ngIf="EffectiveEndDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Grupo Étnico</mat-label>
+                      <input matInput  formControlName="effectiveEndDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
+                       *ngIf="DataSheetDeliveryDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Curso</mat-label>
+                      <input matInput formControlName="dataSheetDeliveryDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
+                       *ngIf="DigitalReportDeliveryDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Periodo</mat-label>
+                      <input matInput formControlName="digitalReportDeliveryDate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12"
+                       *ngIf="PhysicalReportDeliveryDate">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Fecha de Matrícula</mat-label>
+                      <input matInput [matDatepicker]="picker"
+                             formControlName="physicalReportDeliveryDate">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="StatusId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Clase de Ingreso</mat-label>
+                      <input matInput formControlName="statusId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="CurriculumDesignId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Programa</mat-label>
+                      <input matInput formControlName="CurriculumDesignId">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="DiscapacidadId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes con Discapacidad</mat-label>
+                      <mat-select formControlName="DiscapacidadId">
+                        <mat-option value="1">Si</mat-option>
+                        <mat-option value="0">No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="extranjId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes Extranjeros y Nacionales</mat-label>
+                      <input matInput formControlName="extranjId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="CountryId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Estudiantes Extranjeros según País de Origen</mat-label>
+                      <input matInput formControlName="CountryId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="yearstId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Año de Estudio</mat-label>
+                      <input matInput formControlName="yearstId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="labcondId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Condición Laboral</mat-label>
+                      <input matInput formControlName="labcondId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2" *ngIf="cedId">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Por Cédula</mat-label>
+                      <input matInput formControlName="cedId">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <button mat-raised-button color="primary" (click)="submit()">Buscar</button>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
+
+            <div class="row">
+              <div class="col-12">
+                <p>Cantidad de Resultados ({{ CantidadResultados }})</p>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="materialTableHeader">
+                    <div class="left">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="tbl-title">
+                          <h2>Matriculados</h2>
+                        </li>
+                        <li class="tbl-search-box">
+                          <label for="search-input"><i
+                            class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" #filter
+                                 class="browser-default search-field" aria-label="Search box">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="right">
+                      <ul class="tbl-export-btn">
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt=""
+                                 (click)="exportExcel()" />
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="body overflow-auto">
+                    <div class="responsive_table">
+                      <table mat-table [dataSource]="dataSource" matSort
+                             class="mat-cell advance-table">
+
+                        <!-- ID Column -->
+
+                        <ng-container matColumnDef="planningDate">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Universidad
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span class="mobile-label">Fecha de
+                                                            Universidad:</span>{{row.universidad }}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="description">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
+                        </ng-container>
+
+
+
+                        <ng-container matColumnDef="activityModeName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Cédula:</span>{{row.cedula}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="activityTypeName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Año
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Año:</span>{{row.year}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="activityName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Nombre:</span>{{row.firstName}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="activityLocationName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Género
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Género:</span>{{row.gender}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="startTime">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Curso
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Curso:</span>{{row.curso}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="endTime">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Provincia
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Provincia:</span>{{row.provincia}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Entidad Cooperante
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Entidad Cooperante:</span><span
+                            class="badge badge-solid-green">{{row.entidad_Cooperante}}</span></mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                 [style.cursor]="'pointer'" matRipple>
+                        </mat-row>
+                      </table>
+                    </div>
+                    <!-- Loading spinner -->
+                    <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+
+                    <!-- context menu end -->
+                    <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
+                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                      No results
+                    </div>
+                    <mat-paginator #paginator [length]="dataSource.filteredData.length"
+                                   [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
