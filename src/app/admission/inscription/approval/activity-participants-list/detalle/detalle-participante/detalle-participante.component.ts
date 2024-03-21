@@ -85,6 +85,7 @@ export class DetalleParticipanteComponent {
   volverAtras() {
     this._router.navigate([localStorage.getItem('url')]);
   }
+
   getDetails() {
     this._ActivityService.loading = true;
     this._ActivityService.GetDetailsCedula(this.paramsId).subscribe({
