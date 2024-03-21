@@ -10,8 +10,8 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ResponseInscripcion } from 'app/admission/models/InscripcionResponse';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
 import { Requirement } from 'app/admission/models/Requeriminet';
-import {  VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
-import {AuthService} from "@core";
+import { VerificarDocumentacion } from 'app/admission/models/VerificacionDocumentacion';
+import { AuthService } from "@core";
 import { EnrollmentService } from 'app/enrollment/services/enrollment.service';
 import { StudentModel } from 'app/enrollment/models/StudentModel';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -50,11 +50,12 @@ export class BackofficeComponent implements OnInit {
   cedulaParticipant: string = "";
   loadingFile: boolean = false;
   IsError: boolean = false;
-  UniversityList:any;
+  UniversityList: any;
   InstitutionList: any;
   DependencyList: any;
   OrganismoCopList: any
   CargosList: any;
+  public participationProfile:number =0;
 
   public DatosEstudianteResponse: StudentModel | undefined;
 
@@ -105,11 +106,19 @@ export class BackofficeComponent implements OnInit {
       this.getActividad();
     })
 
+    this._inscriptionService.getActivity(this.idActivity.toString()).subscribe(
+      {
+        next : (request)=>{
+          this.participationProfile = request.participationProfile;
+        }
+      }
+    );
+
     this.getPersonData(this.authService.currentUserValue.cedula);
     this.loadUniversidades();
     this.loadIntituciones();
     this.loadDependencias();
-    this. loadOrganosCop();
+    this.loadOrganosCop();
     this.loadCargos();
     this.form.controls["email"].patchValue(this.authService.currentUserValue.email);
   }
@@ -131,45 +140,74 @@ export class BackofficeComponent implements OnInit {
     } else {
       this.loading = true;
       this.cedulaParticipant = cedula;
-      this.enrollmentService.getStudentData(cedula).subscribe(
+
+      //Validando con el tribunal electoral
+      this._inscriptionService.getDataPerson(cedula).subscribe(
         {
-              next : (request) =>{
-                this.DatosEstudianteResponse = request as StudentModel;
-                if(this.DatosEstudianteResponse != undefined){
-                  if(!this.DatosEstudianteResponse.isError){
-                    this.loading = false;
-                    this.disabled = true;
-                    this.personData = this.DatosEstudianteResponse;
-                    this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
-                    this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
-                    this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
-                    this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
-                    this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
-                    this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
-                    this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
-                    this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
-                  }
-                }
-              },
-              error : (err:HttpErrorResponse) =>{
-                  this.loading = false
-                  console.log(err);
+          next: (request: any) => {
+            if (request[0].datasetPersona.personaPublica==null) {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Su cédula no está registrada en el Tribunal Electoral',
+                icon: "warning"
+              }).then((result) => {
+                this._nav.navigate(["dashboard/dashboard-student"]);
               }
+              );
+            }
+          },
+          error : (err:HttpErrorResponse)=>{
+            console.log(err);
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+              icon: "warning"
+            }).then((result) => {
+              this._nav.navigate(["dashboard/dashboard-student"]);
+            }
+            );
+          }
+        });
+
+        this.enrollmentService.getStudentData(cedula).subscribe(
+        {
+          next: (request) => {
+            this.DatosEstudianteResponse = request as StudentModel;
+            if (this.DatosEstudianteResponse != undefined) {
+              if (!this.DatosEstudianteResponse.isError) {
+                this.loading = false;
+                this.disabled = true;
+                this.personData = this.DatosEstudianteResponse;
+                this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
+                this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
+                this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
+                this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
+                this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
+                this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
+                this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
+                this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+              }
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            this.loading = false
+            console.log(err);
+          }
         }
       );
 
-/*
-      this._inscriptionService.getDataPerson(cedula).subscribe({
-        next: (data) => {
+      /*
+            this._inscriptionService.getDataPerson(cedula).subscribe({
+              next: (data) => {
 
-          this.loading = false;
-          this.disabled = true;
-          this.personData = data;
-        },
-        error: (e) => this.loading = false
-      })
+                this.loading = false;
+                this.disabled = true;
+                this.personData = data;
+              },
+              error: (e) => this.loading = false
+            })
 
-    */
+          */
     }
   }
 
@@ -407,51 +445,51 @@ export class BackofficeComponent implements OnInit {
     })
   }
 
-//cargado de listas
-loadUniversidades() {
-  this._inscriptionService.getCatalogUniversidades().subscribe({
-    next: (data) => {
-      console.log("Datos de Universidades", data);
-      this.UniversityList = data;
-    }
-  })
-}
+  //cargado de listas
+  loadUniversidades() {
+    this._inscriptionService.getCatalogUniversidades().subscribe({
+      next: (data) => {
+        console.log("Datos de Universidades", data);
+        this.UniversityList = data;
+      }
+    })
+  }
 
-loadIntituciones() {
-  this._inscriptionService.getCatalogInstitucion().subscribe({
-    next: (data) => {
-      console.log("Datos de Instituciones", data);
-      this.InstitutionList = data;
-    }
-  })
-}
+  loadIntituciones() {
+    this._inscriptionService.getCatalogInstitucion().subscribe({
+      next: (data) => {
+        console.log("Datos de Instituciones", data);
+        this.InstitutionList = data;
+      }
+    })
+  }
 
-loadDependencias() {
-  this._inscriptionService.getCatalogDependencia().subscribe({
-    next: (data) => {
-      console.log("Datos de Dependencias", data);
-      this.DependencyList = data;
-    }
-  })
-}
+  loadDependencias() {
+    this._inscriptionService.getCatalogDependencia().subscribe({
+      next: (data) => {
+        console.log("Datos de Dependencias", data);
+        this.DependencyList = data;
+      }
+    })
+  }
 
   loadOrganosCop() {
-  this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
-    next: (data) => {
-      console.log("Datos de Organismos Coperantes", data);
-      this.OrganismoCopList = data;
-    }
-  })
-}
+    this._inscriptionService.getCatalogOrganismosCoperantes().subscribe({
+      next: (data) => {
+        console.log("Datos de Organismos Coperantes", data);
+        this.OrganismoCopList = data;
+      }
+    })
+  }
 
- loadCargos() {
-  this._inscriptionService.getCatalogCargos().subscribe({
-    next: (data) => {
-      console.log("Datos de cargos", data);
-      this.CargosList = data;
-    }
-  })
-}
+  loadCargos() {
+    this._inscriptionService.getCatalogCargos().subscribe({
+      next: (data) => {
+        console.log("Datos de cargos", data);
+        this.CargosList = data;
+      }
+    })
+  }
 
 
 }

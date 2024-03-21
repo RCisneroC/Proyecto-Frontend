@@ -22,6 +22,7 @@ import { DetalleMalla } from '../Models/DetalleMalla';
 import { Subject } from '../Models/Subject';
 import { Teacher } from 'app/teaching-management/models/Teacher';
 import { DocentesAsignados } from '../Models/DocentesA';
+import { DegreesByAll, EstadisticasEFormal } from 'app/estadisticas/Models/EstadisticasEFormal';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ import { DocentesAsignados } from '../Models/DocentesA';
 export class DegreeService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   dataChange: BehaviorSubject<Degree[]> = new BehaviorSubject<Degree[]>([]);
+  dataChangeDegreesByAll: BehaviorSubject<DegreesByAll[]> = new BehaviorSubject<DegreesByAll[]>([]);
   // Temporarily stores data from dialogs
   dialogData!: Degree;
   public _Degree!: Degree;
@@ -46,6 +48,13 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
   get data(): Degree[] {
     return this.dataChange.value;
   }
+
+  get dataDegreesByAll(): DegreesByAll[] {
+    console.log(this.dataChangeDegreesByAll);
+
+    return this.dataChangeDegreesByAll.value;
+  }
+
   getDialogData() {
     return this.dialogData;
   }
@@ -97,6 +106,27 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+
+
+  GetDegreesStatisticsBy(data: any): void {
+    this.subs.sink = this.httpClient
+      .get<EstadisticasEFormal>(environment.apiEF + 'Degree/GetDegreesStatisticsBy?' + data)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChangeDegreesByAll.next(data.degreesByAll);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+  GetDegreesStatisticsByFilter(data: any) {
+    return this.httpClient
+      .get<EstadisticasEFormal>(environment.apiEF + 'Degree/GetDegreesStatisticsBy?' + data);
+  }
+
 
   getAllDegree2() {
     return this.httpClient.get<Degree[]>(environment.apiEF + 'Degree/GetAll');

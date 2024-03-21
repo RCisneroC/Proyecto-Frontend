@@ -358,7 +358,36 @@ export class BackofficeEFComponent implements OnInit {
 
     } else {
       this.loading = true;
+
       this.cedulaParticipant = cedula;
+
+        //Validando con el tribunal electoral
+        this._inscriptionService.getDataPerson(cedula).subscribe(
+          {
+            next: (request: any) => {
+              if (request[0].datasetPersona.personaPublica ==  null) {
+                Swal.fire({
+                  title: "Escuela Judicial",
+                  text: 'Su cédula no está registrada en el Tribunal Electoral',
+                  icon: "warning"
+                }).then((result) => {
+                  this._nav.navigate(["dashboard/dashboard-student"]);
+                }
+                );
+              }
+            },
+            error : (err:HttpErrorResponse)=>{
+              console.log(err);
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+                icon: "warning"
+              }).then((result) => {
+                this._nav.navigate(["dashboard/dashboard-student"]);
+              }
+              );
+            }
+          });
 
       this.enrollmentService.getStudentData(cedula).subscribe(
         {
