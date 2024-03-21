@@ -146,6 +146,10 @@
                               (click)="editCall(row)" class="tbl-action-btn">
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
+                            <button matTooltip="Restablecer contraseña" mat-mini-fab color="accent" (click)="$event.stopPropagation()"
+                                    (click)="resetpass(row)" class="tbl-action-btn">
+                              <mat-icon>settings_backup_restore</mat-icon>
+                            </button>
 
                           </mat-cell>
                         </ng-container>

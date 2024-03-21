@@ -23,3 +23,10 @@ export class User {
 }
 
 
+export interface ResetPetitionResponse {
+  email: string,
+  token: string,
+  statusCode: number
+}
+
+
