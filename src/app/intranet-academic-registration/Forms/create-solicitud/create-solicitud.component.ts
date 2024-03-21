@@ -345,7 +345,7 @@ export class CreateSolicitudComponent {
             requestVariousTypeId: value.typeRequest,
             requestVariousApplicantUserTypeId: this.IdTypeUser,
             subjectId: value.idSubjectOrActivity,
-            efAcademicRecordId: this.EFRecordID
+            efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
           }
           this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
             next:(res)=>{
