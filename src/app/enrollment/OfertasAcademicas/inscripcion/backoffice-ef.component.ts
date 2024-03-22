@@ -407,6 +407,18 @@ export class BackofficeEFComponent implements OnInit {
                   this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress;
                   this.Participant.email = this.DatosEstudianteResponse.verifyUsersResult[0].email;
                   this.Participant.telephoneNumber = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumber;
+                  this.FormsEF.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].gender);
+                  this.FormsEF.controls["bloodtype"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].bloodtype);
+                  this.FormsEF.controls["maritalStatus"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].maritalStatus);
+                  this.FormsEF.controls["nameOfspouse"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].nameOfspouse);
+                  this.FormsEF.controls["numberofchildren"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].numberofchildren);
+                  this.FormsEF.controls["caseOfemergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].caseOfemergency);
+                  this.FormsEF.controls["telephoneNumberEmergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumberEmergency);
+                  this.FormsEF.controls["specialCapacity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specialCapacity==true?"True":"False");
+                  this.FormsEF.controls["visual"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].visual==true?"True":"False");
+                  this.FormsEF.controls["auditory"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory==true?"True":"False");
+                  this.FormsEF.controls["cognitive"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].cognitive==true?"True":"False");
+                  this.FormsEF.controls["physical"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].physical==true?"True":"False");
                 }
 
                 this.tribunalReady = true;
