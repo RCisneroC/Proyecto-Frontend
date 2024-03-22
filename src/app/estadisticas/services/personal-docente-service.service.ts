@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment.development";
 import { PersonalDocenteModel } from '../PersonalDocente/model/PersonalDocenteModel';
-import { ParametrosConsulta } from '../PersonalDocente/model/ParametrosConsulta';
+import { ParametrosConsulta, ParametrosConsultaGrafica } from '../PersonalDocente/model/ParametrosConsulta';
+import { GraficaDocente } from '../PersonalDocente/model/grafica';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,11 @@ export class PersonalDocenteServiceService {
   GetByFilters(filters: ParametrosConsulta) {
     const url = `${environment.apiUrlTeacher}`;
     return this.httpClient.post<PersonalDocenteModel[]>(url + "GetTeacherByFilters", filters);
+  }
+
+  GetGraphByFilters(filters: ParametrosConsultaGrafica) {
+    const url = `${environment.apiUrlTeacher}`;
+    return this.httpClient.post<GraficaDocente>(url + "GetTeacherGroupByFilters", filters);
   }
 
 }

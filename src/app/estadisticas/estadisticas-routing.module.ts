@@ -4,6 +4,7 @@ import { EstadisticasActividadComponent } from './estadisticas-actividad/estadis
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from "./estadisticas-matricula/estadisticas-matricula.component";
+import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-grafica/tabla-docente-grafica.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: "docentes",
     component: TablaPersonalDocenteComponent
+  },
+  {
+    path: "docentes/grafica",
+    component: TablaDocenteGraficaComponent
   }
 ];
 
