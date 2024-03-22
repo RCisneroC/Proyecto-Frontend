@@ -148,8 +148,8 @@
                                                         <mat-label>Sexo</mat-label>
                                                         <mat-select formControlName="gender" (selectionChange)="valor($event)">
                             
-                                                          <mat-option value="M">Masculino</mat-option>
-                                                          <mat-option value="F">Femenino</mat-option>
+                                                          <mat-option value="Masculino">Masculino</mat-option>
+                                                          <mat-option value="Femenino">Femenino</mat-option>
                                                         </mat-select>
                                                         <mat-error
                                                             *ngIf="teacherForm.get('gender')?.hasError('required')">

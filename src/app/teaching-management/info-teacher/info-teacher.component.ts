@@ -73,6 +73,7 @@ implements OnInit{
 
   displayedColumnsDoc = [
     'docType',
+    'fileUpload',
     'extension',
     'docResult',
     
@@ -419,11 +420,8 @@ public _verificarBS64: VerificarBS64Pipe,
 
     
      const file = event.target.files[0];
-  //   console.log(this.documentForm.getRawValue());
     const formdata=new FormData();
-  //  const list: fileDetails[]=[];
-  //   list[0].fileDetails=File1;
-  //   list[0].fileType=1
+
    formdata.append('FileDetails', file);
  
    
@@ -446,7 +444,7 @@ public _verificarBS64: VerificarBS64Pipe,
   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
   this.teacherForm?.get('listDocument')?.setValue([]);
   this.teacherForm?.get('listSubject')?.setValue([]);
-  //this.teacherForm?.get('listSubject')?.setValue([]);
+
   if(this.teacherForm.valid)
 
   this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
@@ -469,67 +467,6 @@ public _verificarBS64: VerificarBS64Pipe,
    
   }
   
-  // submit() {
- 
-  //   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
-  //   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
-  //   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
-    
-  //   if(this.teacherForm.valid){
-    
-  //   const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
-   
-  //   this.teacherForm?.get('process')?.setValue(4);
-  
-  //   this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
-  //     next: (res) => {
-  //     const TeacherId=res.idRegistro
-  //     if(TeacherId>0){
-     
-  //      for (let i = 0; i < tem.length ; i++) {
-  //       const formdata=new FormData();
-  //       if(tem[i]!=undefined){
-  //         formdata.append('FileDetails',tem[i]);
-  //         formdata.append('TeacherId',TeacherId.toString());
-  //         formdata.append('DocTypeId',this.tmp_docType[i]);
-  //        this._teacherService.archivo(formdata).subscribe({
-  //          next: () => {
-  //           console.log("guardado");
-  //          },
-  //          error: () => {
-           
-  //          }
-  //        })
-  //       }
-    
-  //     }
-  //       Swal.fire({
-  //               title: "Escuela Judicial",
-  //               text: 'Guardado correctamente.',
-  //               icon: "success"
-  //           }).then((result) => {
-  //             if (result.value) {
-  //               // Resetear el stepper
-  //               window.location.reload();
-  //             }
-  //           }); 
-            
-         
-  //     } },
-  //     error: () => {
-  //       Swal.fire({
-  //             title: "Escuela Judicial",
-  //             text: 'Intente nuevamente.',
-  //             icon: "warning"
-  //           });
-  //     }
-  //    })
-     
-  
-  //     // emppty stuff
-  //   }
-  // }
-  
   
   
   removeTraining(row: Training){
@@ -539,15 +476,7 @@ public _verificarBS64: VerificarBS64Pipe,
     
   }
   
-  // createDocumentForm(): UntypedFormGroup {
-  //   return this.fb.group({
-  //     Photo:new FormControl([this.DataTeacher.listDocument[0]?.docResult.fileContents]),
-  //     CIP:new FormControl([this.DataTeacher.listDocument[0]?.docResult]),
-  //     Title:new FormControl(this.DataTeacher.listDocument[0]?.docResult),
-  //     CV:new FormControl([])
-  //   });
-  // }
-
+ 
 
 }
 
