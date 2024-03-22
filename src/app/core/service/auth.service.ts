@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../models/user';
+import {ResetPetitionResponse, User} from '../models/user';
 import { environment } from 'environments/environment.development';
 
 
@@ -59,5 +59,17 @@ export class AuthService {
     localStorage.removeItem('menu');
     this.currentUserSubject.next(this.currentUserValue);
     return of({ success: false });
+  }
+
+  resetPetition(email:string){
+    return this.http.put<ResetPetitionResponse>(environment.apiUrl + "ResetPassword",{email: email})
+  }
+
+  SetDefaultPassword(UserId:string){
+    return this.http.put<any>(environment.apiUrl + "SetDefaultPassword",{userId: UserId})
+  }
+
+  ConfirmResetPassword(email:string, token:string, password:string, confirmPassword:string){
+    return this.http.put<any>(environment.apiUrl + "ConfirmResetPassword",{email: email, token: token, password:password, confirmPassword:confirmPassword})
   }
 }
