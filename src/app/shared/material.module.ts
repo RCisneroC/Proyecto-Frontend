@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule,MatPaginatorIntl } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -45,6 +45,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
+import { CustomPaginator } from './CustomPaginatorConfiguration';
+
 @NgModule({
   exports: [
     NgxMatTimepickerModule,
@@ -111,6 +113,8 @@ import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
         },
       },
     },
+   { provide: MatPaginatorIntl, useClass: CustomPaginator }
+
   ],
 })
 export class MaterialModule { }
