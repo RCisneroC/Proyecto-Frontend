@@ -28,6 +28,10 @@ export class InscriptionExternalComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  email: string = "";
+  dependencia: string = "";
+  institucion: string = "";
+  cargo: string = "";
   typedoc: string = "CIP";
   DependencyList: any;
   participationProfile: boolean = false;
@@ -164,6 +168,10 @@ export class InscriptionExternalComponent implements OnInit {
                     this.busquedaR = true;
                     if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
                       this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+                      this.cargo = res[0].cargo;
+                      this.dependencia = res[0].dependencia;
+                      this.institucion = res[0].institucion;
+                      this.email = res[0].correo_electronico;
                       if(this.typedoc == "CIP"){
                         this.disabled = true;
                       }

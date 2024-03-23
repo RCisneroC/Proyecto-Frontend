@@ -25,6 +25,10 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  email: string = "";
+  dependencia: string = "";
+  institucion: string = "";
+  cargo: string = "";
   participationProfile: boolean = false;
   DependencyList: any;
   CargosList: any;
@@ -197,6 +201,10 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
                     this.disabled = false;
                   }
                   this.personData = data;
+                  this.cargo = res[0].cargo;
+                  this.dependencia = res[0].dependencia;
+                  this.institucion = res[0].institucion;
+                  this.email = res[0].correo_electronico;
                   console.log('Datos de la persona:', data[0]?.datasetPersona);
                 },
                 error: (e) => this.loading = false,
