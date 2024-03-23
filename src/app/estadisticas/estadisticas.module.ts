@@ -25,7 +25,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EstadisticasActividadComponent,
     EEspecializadaComponent,
     EstadisticasMatriculaComponent,
-    EstadisticasParticipanteComponent
+    EstadisticasParticipanteComponent,
     TablaDocenteGraficaComponent
   ],
   imports: [
