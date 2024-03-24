@@ -29,9 +29,10 @@ import { InfoLaboralComponent } from 'app/external/Forms/info-laboral/info-labor
 import { Subscription } from 'rxjs';
 import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
 import { ResponseAddEFlaboralInfo } from 'app/admission/models/AddEFlaboralResponse';
-import { DetailsParticipanteEF, ExperienceInfoEF } from 'app/admission/models/participant';
+import { DetailsParticipante, DetailsParticipanteEF, ExperienceInfoEF } from 'app/admission/models/participant';
 import { GetDocResp, documentosIncripcion } from 'app/admission/models/documentosIncripcion';
 import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import { Requirement } from 'app/admission/models/Requeriminet';
 
 
 @Component({
@@ -103,6 +104,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.SourceAcademico.paginator = value;
   }
   loadingFile: boolean = false;
+  loadingFile1: boolean = false;
   dataSoruceActivityRequirementsDocuementos: GetDocResp[] = [
     {
       documentId: 0,
@@ -119,6 +121,22 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.dataDocumentsRequired.paginator = value;
   }
   public Array_GetDocResp: GetDocResp[] = [];
+  dataSoruceActivityRequirements: GetDocResp[] = [
+    {
+      documentId: 0,
+      docFile: '',
+      fileType: '',
+      validate: false,
+      name: '',
+      inscriptionId: 0
+    }
+  ];
+
+  dataDocuments = new MatTableDataSource<GetDocResp>(this.dataSoruceActivityRequirements);
+  @ViewChild(MatPaginator)
+  set paginator2(value: MatPaginator) {
+    this.dataDocuments.paginator = value;
+  }
 
   constructor(private activatedRoute: ActivatedRoute,
     public _studentService: StudentService,
@@ -133,6 +151,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     private cb: ChangeDetectorRef,
     public dialog: MatDialog,
     public _ActivityService: ActivityDetailService,
+    public _ActivityService1: ActivityDetailService,
     public elm: ElementRef
   ) {
     super();
@@ -166,7 +185,10 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       FileType: new FormControl([]),
     });
     this.SourceAcademico.paginator = this.paginator;
+
     this.getDetails();
+    this.getDetails1();
+
   }
 
   SetValidator(): void {
@@ -276,6 +298,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.studentForm.controls["name"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].firstName);
                 this.studentForm.controls["lastName"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].lastName);
                 this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
+                this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].gender);
+
 
                 if (this.aspirante) {
                   this.aspirantId = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].aspirantId;
@@ -283,7 +307,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                   this.studentForm.controls["placeOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].placeOfBirth);
                   this.studentForm.controls["dateOfBirth"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].dateOfBirth);
                   this.studentForm.controls["placeResidence"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].residentialAddress);
-                  this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].gender);
+
                   this.studentForm.controls["maritalStatus"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].maritalStatus);
                   this.studentForm.controls["nameOfspouse"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].nameOfspouse);
                   this.studentForm.controls["numberofchildren"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].numberofchildren);
@@ -797,37 +821,46 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
   //Documentos
   getDetails() {
-    this._ActivityService.loading = true;
-
-    this._ActivityService.GetDetailsEFCedula(this.authenticationService.currentUserValue.cedula).subscribe({
+    this._ActivityService1.loading = true;
+    this._ActivityService1.GetDetailsEFCedula(this.authenticationService.currentUserValue.cedula).subscribe({
       next: (res: DetailsParticipanteEF) => {
-        console.log("No error getDetails")
-        console.log(res)
-        this._ActivityService._DetailsParticipanteEF = res;
+        this._ActivityService1._DetailsParticipanteEF = res;
         if (res.getDetailsResponse.length > 0) {
-          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+          this._ActivityService1._DetailsResponseEF = this._ActivityService1._DetailsParticipanteEF.getDetailsResponse[0];
           this.getDocumentosInscripcion();
-          this.cb.detectChanges();
         }
-        this._ActivityService.loading = false;
-
+        this._ActivityService1.loading = false;
       },
       error: (err) => {
-        console.log("Error getDetails")
-        console.log(err)
+        this._ActivityService1.loading = false;
+      }
+    })
+  }
+
+
+  getDetails1() {
+    this._ActivityService.loading = true;
+    this._ActivityService.GetDetailsCedula(this.authenticationService.currentUserValue.cedula).subscribe({
+      next: (res: DetailsParticipante) => {
+        this._ActivityService._DetailsParticipante = res;
+        if (res.detailsResponse.length > 0) {
+          this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+          this.getDocumentosInscripcion1();
+        }
         this._ActivityService.loading = false;
-        this.cb.detectChanges();
+      },
+      error: (err) => {
       }
     })
   }
 
   getDocumentosInscripcion() {
     this.Array_GetDocResp = [];
-    this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponseEF.inscriptionId).subscribe({
+    this._inscriptionService.GtedocumentoEC(this._ActivityService1._DetailsResponseEF.inscriptionId).subscribe({
       next: (res) => {
         if (Array.isArray(res.getDocResp)) {
           res.getDocResp.forEach((element: GetDocResp) => {
-            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+            this._ActivityService1.getOneDocumento(element.fileType).subscribe({
               next: (res) => {
                 element.name = res.name;
                 this.Array_GetDocResp.push(element);
@@ -847,6 +880,30 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     })
   }
 
+
+  getDocumentosInscripcion1() {
+    this.Array_GetDocResp = [];
+    this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponse.inscriptionId).subscribe({
+      next: (res) => {
+        if (Array.isArray(res.getDocResp)) {
+          res.getDocResp.forEach((element: GetDocResp) => {
+            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+              next: (res) => {
+                element.name = res.name;
+                this.Array_GetDocResp.push(element);
+
+              },
+              complete: () => {
+                this.dataDocuments = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
+              }
+            })
+          });
+        }
+      },
+      error: (err) => {
+      }
+    })
+  }
 
  verDocumento(row: GetDocResp) {
   this._inscriptionService.init_documentosIncripcion();
@@ -896,9 +953,60 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
 onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
   console.log(name);
+  this.loadingFile1 = true;
+  const files: FileList = event.target.files;
+
+  const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+  const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+  if (files.length > 0) {
+    if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+        icon: "warning"
+      });
+      this.loadingFile1 = false;
+      elementImg.value = '';
+      return;
+    }
+    var formdata = new FormData();
+    formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
+    formdata.append('FileType', requerimentId.toString());
+    formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
+    formdata.append('File', files[0]);
+    this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+      next: (res: ResponseEF) => {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: '(' + requirement.name + ') ' + res.message,
+          icon: "success"
+        });
+
+        elementImg.value = '';
+        elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
+        this.loadingFile1 = false;
+        // this.verificarDocumentacion();
+      }, error: (err) => {
+        elementImg.value = '';
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente..',
+          icon: "warning"
+        });
+        this.loadingFile1 = false;
+      }
+    })
+  }
+}
+
+
+
+onChangeFile1(event: any, requerimentId: number, requirement: Requirement) {
+
   this.loadingFile = true;
   const files: FileList = event.target.files;
-  console.log(requirement.name);
+  console.log(files);
   const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
   const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
 
@@ -914,11 +1022,11 @@ onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
       return;
     }
     var formdata = new FormData();
-    formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
+    formdata.append('cedula', this._ActivityService._DetailsParticipante.detailsResponse[0].cedula);
     formdata.append('FileType', requerimentId.toString());
-    formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
+    formdata.append('InscriptionId', this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString());
     formdata.append('File', files[0]);
-    this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+    this._inscriptionService.CargaDocumentoRequirement(formdata).subscribe({
       next: (res: ResponseEF) => {
         Swal.fire({
           title: "Escuela Judicial",
@@ -942,7 +1050,6 @@ onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
     })
   }
 }
-
 
 
   override ngOnDestroy(): void {

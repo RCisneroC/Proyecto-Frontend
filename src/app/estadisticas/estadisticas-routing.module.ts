@@ -4,7 +4,10 @@ import { EstadisticasActividadComponent } from './estadisticas-actividad/estadis
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from "./estadisticas-matricula/estadisticas-matricula.component";
-import {EstadisticasParticipanteComponent} from "./estadisticas-participante/estadisticas-participante.component";
+import { EstadisticasParticipanteComponent } from "./estadisticas-participante/estadisticas-participante.component";
+import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-grafica/tabla-docente-grafica.component';
+import { EfgraficasComponent } from './graficas/efgraficas/efgraficas.component';
+import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component';
 
 const routes: Routes = [
   {
@@ -30,6 +33,18 @@ const routes: Routes = [
   {
     path: "docentes",
     component: TablaPersonalDocenteComponent
+  },
+  {
+    path: "docentes/grafica",
+    component: TablaDocenteGraficaComponent
+  },
+  {
+    path: "ef/grafica",
+    component: EfgraficasComponent
+  },
+  {
+    path: "ec/grafica",
+    component: EcgraficasComponent
   }
 ];
 

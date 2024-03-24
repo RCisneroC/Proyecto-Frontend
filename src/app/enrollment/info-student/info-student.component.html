@@ -529,15 +529,13 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="aspirante">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Documentos</strong>
-
-
+            <h2 class="text-uppercase"><strong>Documentos Formación Especializada</strong>
             </h2>
           </div>
-          <div class="body" *ngIf="_ActivityService.loading===false">
+          <div class="body" *ngIf="_ActivityService1.loading===false">
             <div class="body table-responsive">
               <table mat-table [dataSource]="dataDocumentsRequired" class="w-100">
                 <ng-container matColumnDef="nombre">
@@ -545,14 +543,14 @@
                   <td mat-cell *matCellDef="let element">{{ element.name }} </td>
                 </ng-container>
                 <ng-container matColumnDef="actualizar">
-                  <th mat-header-cell *matHeaderCellDef> Actializar documento </th>
+                  <th mat-header-cell *matHeaderCellDef> Actualizar documento </th>
                   <td mat-cell *matCellDef="let element">
                     <input id="archivo_{{ element.fileType }}" type="file" class="file-input"
                       (change)="onChangeFile($event, element.fileType,element)" />
                     <br>
                     <span style="font-size: 12px;color: brown;font-weight: bold;">PDF/JPG/PNG</span>
                     <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ element.fileType }}"></p>
-                    <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
+                    <mat-progress-bar mode="indeterminate" *ngIf="loadingFile1"></mat-progress-bar>
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="estado">
@@ -584,6 +582,61 @@
         </div>
       </div>
 
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="participante">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Documentos Entrenamiento</strong>
+            </h2>
+          </div>
+          <div class="body table-responsive" *ngIf="Array_GetDocResp.length>0">
+
+            <table mat-table [dataSource]="dataDocuments" class="w-100">
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                    <td mat-cell *matCellDef="let element">{{ element.name }} </td>
+                </ng-container>
+                <ng-container matColumnDef="actualizar">
+                    <th mat-header-cell *matHeaderCellDef> Actualizar documento </th>
+                    <td mat-cell *matCellDef="let element">
+                        <input id="archivo_{{ element.fileType }}" type="file" class="file-input"
+                            (change)="onChangeFile1($event, element.fileType,element)" />
+                        <br>
+                        <span style="font-size: 12px;color: brown;font-weight: bold;">PDF/JPG/PNG</span>
+                        <p style="color: green;font-weight: bold;margin-top: 10px;"
+                            id="texto_{{ element.fileType }}"></p>
+                        <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef> Nombre Documento </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="badge badge-solid-green" *ngIf="element.validate">Validado</span>
+                        <span class="badge badge-solid-red" *ngIf="!element.validate">Sin Validar</span>
+                    </td>
+                </ng-container>
+
+                <!-- Acción Column -->
+                <ng-container matColumnDef="documentacion">
+                    <th mat-header-cell *matHeaderCellDef> Documentación </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-mini-fab (click)="verDocumento(element)"
+                            matTooltip="Ver documento adjuntado">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                        <button *ngIf="element.validate" color="primary" mat-mini-fab
+                            matTooltip="Documento Validado Correctamente.">
+                            <mat-icon>check_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="DisplayNameDocument"></tr>
+                <tr mat-row *matRowDef="let row; columns: DisplayNameDocument;"></tr>
+            </table>
+            <mat-paginator #paginator [pageSizeOptions]="[2, 10, 20]"
+                showFirstLastButtons></mat-paginator>
+        </div>
+		   </div>
+       </div>
     </div>
   </div>
 </section>

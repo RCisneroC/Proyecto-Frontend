@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivityStudyPlanModuleLearningActivity } from 'app/admission/models/ActivityDetailModules';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { ResponseMessageMaestra } from '../../../../../models/ResponseMessage';
+import Swal from 'sweetalert2';
 export interface DialogData {
   id_actividad: string;
   accion: string;
@@ -21,8 +22,10 @@ export class EvaluationsCriteriaFormsComponent implements OnInit {
     Message: ''
   }
   action: string;
+  public _File: File[] = [];
   dialogTitle: string = '';
   NewCriterioForms: UntypedFormGroup;
+  trainingForm: UntypedFormGroup;
   id_actividad: string = '';
   constructor(
     public dialogRef: MatDialogRef<EvaluationsCriteriaFormsComponent>,
@@ -47,11 +50,37 @@ export class EvaluationsCriteriaFormsComponent implements OnInit {
       description: [data.ActivityLearning.description, [Validators.required]],
       activityStudyPlanModuleId: [data.id_modulo, [Validators.required]]
     });
+    
+    this.trainingForm = this.fb.group({
+      id: [data.ActivityLearning.IdTask],
+      Title: [data.ActivityLearning.Title, [Validators.required]],
+      FinalDate: [data.ActivityLearning.FinalDate, [Validators.required]],
+      TaskTypeId: [data.ActivityLearning.TaskTypeId, [Validators.required]],
+      Description: [data.ActivityLearning.DescriptionTask, [Validators.required]],
+      Observation: [data.ActivityLearning.Observation, [Validators.required]],
+      Content: [[]]
+    });
+    
   }
   ngOnInit(): void {
 
   }
 
+  onChangeFile(event: any) {
+    const files: FileList = event.target.files;
+
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log(file);
+      this._File.push(file);
+    }
+    Swal.fire({
+      title: "Escuela Judicial",
+      text: 'Archivos Cargados, Guardar la tarea para confirmar.',
+      icon: "success"
+    });
+  }
   submit() {
     if (this.action === 'edit-criterio') {
       this._ActivityDetailService.UpdateLearningActivity(this.NewCriterioForms.getRawValue()).subscribe({

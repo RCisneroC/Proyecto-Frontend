@@ -30,7 +30,7 @@ export interface DegreesByAll {
     durationInYears: number;
     numOfCredits: number;
     assignedCoordinatorId: string;
-    assignedCoordinatorName: null;
+    assignedCoordinatorName: string;
     studyModeId: number;
     studyModeName: string;
     degreeCompetences: any[];

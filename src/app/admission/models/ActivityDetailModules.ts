@@ -1,3 +1,5 @@
+import { ApiResponseInternal } from "app/intranet-academic-registration/Models/TypeTask";
+
 export interface ActivityDetailModules {
     statusId: number;
     id: number;
@@ -27,4 +29,13 @@ export interface ActivityStudyPlanModuleLearningActivity {
     activityStudyPlanModuleId: number;
     name: string;
     description: string;
+    
+    IdTask?: number; 
+    Title?: string;
+    FinalDate?: Date;
+    TaskTypeId?: number; 
+    DescriptionTask?: string;
+    PeriodYearSubjectRoomId?: number; 
+    Observation?: string;
+    TypeTask?: ApiResponseInternal;
 }
