@@ -30,6 +30,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     'clases',
     'créditos',
     'horas',
+    'periodo',
     'actions',
   ];
 
@@ -94,7 +95,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
             this.subjectEnrollment = res.subjectEnrollmentResult;
             let exist = false
             console.log(this.subjectEnrollment);
-            if(this.subjectEnrollment){
+            if (this.subjectEnrollment) {
               this.subjectEnrollment.forEach(function (value) {
                 if (value.asignaturaId === row.id) {
                   exist = true

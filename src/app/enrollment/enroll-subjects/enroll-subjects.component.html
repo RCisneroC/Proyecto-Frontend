@@ -93,6 +93,15 @@
                             }}</mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="periodo">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Periodo
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Horas:</span>{{ row.periodName
+                            }}</mat-cell>
+                        </ng-container>
+
+
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
