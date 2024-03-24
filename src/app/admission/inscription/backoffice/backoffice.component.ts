@@ -25,6 +25,10 @@ export class BackofficeComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  email: string = "";
+  dependencia: string = "";
+  institucion: string = "";
+  cargo: string = "";
   DependencyList: any;
   CargosList: any;
   OrganismoCopList: any;
@@ -32,6 +36,7 @@ export class BackofficeComponent implements OnInit {
   InstitutionList: any;
   activities: any[] = [];
   schedule: any[] = [];
+  participationProfile: boolean = false;
   activityRequirements!: GetOneActivity;
   disabled: boolean = false;
   showForm: boolean = false;
@@ -125,26 +130,68 @@ export class BackofficeComponent implements OnInit {
       });
 
     } else {
-      this.loading = true;
-      this.cedulaParticipant = cedula;
-      this._inscriptionService.getDataPerson(cedula).subscribe({
-        next: (data) => {
+      if(this.participationProfile && this.typedoc == "CIP"){
+        this._inscriptionService.GetDataOrgano(cedula).subscribe({
+          next:(res)=>{
+            console.log("OrganoResponse:",res);
+            if(res.length > 0){
+              this.loading = true;
+              this.cedulaParticipant = cedula;
+              this._inscriptionService.getDataPerson(cedula).subscribe({
+                next: (data) => {
 
-          this.loading = false;
-          if(this.typedoc == "CIP"){
-            this.disabled = true;
+                  this.loading = false;
+                  if(this.typedoc == "CIP"){
+                    this.disabled = true;
+                  }
+                  else
+                  {
+                    this.disabled = false;
+                  }
+                  this.personData = data;
+                  this.cargo = res[0].cargo;
+                  this.dependencia = res[0].dependencia;
+                  this.institucion = res[0].institucion;
+                  this.email = res[0].correo_electronico;
+                  this.showForm = true;
+                  console.log('Datos de la persona:', data[0]?.datasetPersona);
+                },
+                error: (e) => this.loading = false,
+                complete: () => console.info('Complete')
+              })
+            }
+            else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Por favor, la persona que desea inscribir debe pertenecer al Órgano',
+                icon: "warning"
+              });
+            }
           }
-          else
-          {
-            this.disabled = false;
-          }
-          this.personData = data;
-          this.showForm = true;
-          console.log('Datos de la persona:', data[0]?.datasetPersona);
-        },
-        error: (e) => this.loading = false,
-        complete: () => console.info('Complete')
-      })
+        })
+      }else {
+        this.loading = true;
+        this.cedulaParticipant = cedula;
+        this._inscriptionService.getDataPerson(cedula).subscribe({
+          next: (data) => {
+
+            this.loading = false;
+            if(this.typedoc == "CIP"){
+              this.disabled = true;
+            }
+            else
+            {
+              this.disabled = false;
+            }
+            this.personData = data;
+            this.showForm = true;
+            console.log('Datos de la persona:', data[0]?.datasetPersona);
+          },
+          error: (e) => this.loading = false,
+          complete: () => console.info('Complete')
+        })
+      }
+
 
     }
 
@@ -306,7 +353,9 @@ changeTypeDoc(){
         next: (res: GetOneActivity) => {
           this._ActivityDetailService._GetOneActivity = res;
           this.activityRequirements = res;
+          this.participationProfile = res.participationProfile == 1;
           console.log(this.activityRequirements);
+          console.log('participationProfile:',this.participationProfile);
           // this.showFileSection = true;
         },
         error: (err: any) => {

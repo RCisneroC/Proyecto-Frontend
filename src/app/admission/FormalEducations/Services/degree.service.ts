@@ -109,18 +109,27 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
 
 
   GetDegreesStatisticsBy(data: any): void {
-    this.subs.sink = this.httpClient
-      .get<EstadisticasEFormal>(environment.apiEF + 'Degree/GetDegreesStatisticsBy?' + data)
-      .subscribe({
-        next: (data) => {
-          this.isTblLoading = false;
-          this.dataChangeDegreesByAll.next(data.degreesByAll);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    console.log(data);
+    if (data == '') {
+      this.dataChangeDegreesByAll.next([]);
+      this.isTblLoading = false;
+    } else {
+      this.subs.sink = this.httpClient
+        .get<EstadisticasEFormal>(environment.apiEF + 'Degree/GetDegreesStatisticsBy?' + data)
+        .subscribe({
+          next: (data) => {
+            this.isTblLoading = false;
+            console.log('====================================');
+            console.log(data.degreesByAll);
+            console.log('====================================');
+            this.dataChangeDegreesByAll.next(data.degreesByAll);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.isTblLoading = false;
+            console.log(error.name + ' ' + error.message);
+          },
+        });
+    }
   }
   GetDegreesStatisticsByFilter(data: any) {
     return this.httpClient

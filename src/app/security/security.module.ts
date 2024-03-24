@@ -13,6 +13,7 @@ import { FormsAsignedRolesComponent } from './role/forms-asigned-roles/forms-asi
 import { MenuComponent } from './menu/menu.component';
 import { FormsMenuComponent } from './forms-menu/forms-menu.component';
 import { ViewMenuModalComponent } from './view-menu-modal/view-menu-modal.component';
+import { AuditLogSearchComponent } from './audit-log-search/audit-log-search.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ViewMenuModalComponent } from './view-menu-modal/view-menu-modal.compon
     FormsAsignedRolesComponent,
     MenuComponent,
     FormsMenuComponent,
-    ViewMenuModalComponent
+    ViewMenuModalComponent,
+    AuditLogSearchComponent
   ],
   imports: [
     CommonModule,

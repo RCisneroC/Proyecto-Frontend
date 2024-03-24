@@ -191,22 +191,24 @@
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
-                          <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button matTooltip="Editar Actividad" *ngIf="row.statusId!=3" mat-mini-fab color="accent"
-                              (click)="$event.stopPropagation()" (click)="editCall(row)" class="tbl-action-btn">
-                              <app-feather-icons [icon]="'edit'"></app-feather-icons>
-                            </button>
+                          <mat-cell *matCellDef="let row; let i=index;">
+                            <div class="example-button-row">
+                              <button matTooltip="Editar Actividad" *ngIf="row.statusId!=3" mat-mini-fab color="accent"
+                                (click)="$event.stopPropagation()" (click)="editCall(row)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'edit'"></app-feather-icons>
+                              </button>
 
-                            <button matTooltip="Detalle de Actividad" mat-mini-fab color="accent"
-                              (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
-                              <app-feather-icons [icon]="'eye'"></app-feather-icons>
-                            </button>
+                              <button matTooltip="Detalle de Actividad" mat-mini-fab color="accent"
+                                (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                              </button>
 
-                            <button *ngIf="row.statusId == 7 || row.statusId == 4" matTooltip="Enviar Aprobación"
-                              mat-mini-fab color="primary" (click)="$event.stopPropagation()"
-                              (click)="enviarAprobacion(row)" class="tbl-action-btn">
-                              <app-feather-icons [icon]="'check'"></app-feather-icons>
-                            </button>
+                              <button *ngIf="row.statusId == 7 || row.statusId == 4" matTooltip="Enviar Aprobación"
+                                mat-mini-fab color="primary" (click)="$event.stopPropagation()"
+                                (click)="enviarAprobacion(row)" class="tbl-action-btn">
+                                <app-feather-icons [icon]="'check'"></app-feather-icons>
+                              </button>
+                            </div>
 
 
                           </mat-cell>

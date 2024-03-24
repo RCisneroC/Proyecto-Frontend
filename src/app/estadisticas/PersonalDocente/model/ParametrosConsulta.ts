@@ -12,3 +12,18 @@ export class ParametrosConsulta{
   actIds?: number[];
   subjecIds?: number[];
 }
+
+export class ParametrosConsultaGrafica{
+  fechaIni?: string;
+  io?: string;
+  degreeObtained?: string;
+  placeResidence?: string;
+  process?: number;
+  cedula?: string;
+  age?: number;
+  sexo?: string;
+  dateOfBirth: string | undefined | null;
+  placeOfBirth?: string;
+  actIds?: number[];
+  subjecIds?: number[];
+}

@@ -8,11 +8,15 @@ import { EstadisticasRoutingModule } from './estadisticas-routing.module';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
-import { StatusPipePipe } from 'app/pipes/status-pipe.pipe';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
 import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
+import { EstadisticasParticipanteComponent } from './estadisticas-participante/estadisticas-participante.component';
 
+import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-grafica/tabla-docente-grafica.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EfgraficasComponent } from './graficas/efgraficas/efgraficas.component';
+import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component';
 
 
 @NgModule({
@@ -22,7 +26,11 @@ import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
     OnlyNumberDirective,
     EstadisticasActividadComponent,
     EEspecializadaComponent,
-    EstadisticasMatriculaComponent
+    EstadisticasMatriculaComponent,
+    EstadisticasParticipanteComponent,
+    TablaDocenteGraficaComponent,
+    EfgraficasComponent,
+    EcgraficasComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +38,8 @@ import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
     ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule
   ]
 })
 export class EstadisticasModule { }

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -168,10 +169,10 @@ export class SubjectCurriculumComponent {
             this.getSubjectPending();
             this.getSubjectAll();
           },
-          error: (err) => {
+          error: (err: HttpErrorResponse) => {
             Swal.fire({
               title: "Escuela Judicial",
-              text: err,
+              text: err.error.Message,
               icon: "warning"
             });
           }

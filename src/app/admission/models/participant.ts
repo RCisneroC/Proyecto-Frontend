@@ -145,3 +145,17 @@ export interface  ExperienceInfoEF {
   period: string,
   months: string
 }
+
+
+export interface OrganoResponse{
+  cedula: string,
+  nombre_completo: string,
+  correo_electronico: string,
+  institucion: string,
+  dependencia: string,
+  codigo_dependencia: string,
+  estado: string,
+  cargo: string,
+  codigo_cargo: string,
+  posicion: string
+}
