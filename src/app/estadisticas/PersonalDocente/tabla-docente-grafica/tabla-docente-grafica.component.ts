@@ -53,7 +53,7 @@ export class TablaDocenteGraficaComponent implements OnDestroy {
   constructor(private cb: ChangeDetectorRef,
     private servicioPersonalDocente: PersonalDocenteServiceService,
     private fb: UntypedFormBuilder, private datePipe: DatePipe,
-    ) {
+  ) {
     this.form = this.createForm();
   }
 
@@ -70,7 +70,7 @@ export class TablaDocenteGraficaComponent implements OnDestroy {
     });
   }
 
-  consultar():void{
+  consultar(): void {
     this.IsLoading = true;
     this.subscriptions.push(
       this.servicioPersonalDocente.GetGraphByFilters(this.form.getRawValue()).subscribe(
@@ -79,65 +79,65 @@ export class TablaDocenteGraficaComponent implements OnDestroy {
             this.resultado = request;
             this.lstTeacherEducatonLevel = [];
             this.lstteacherGroupedBySexo = [];
-            this.lstteacherGroupedByActivity  = [];
+            this.lstteacherGroupedByActivity = [];
             this.lstteacherGroupedByProcess = [];
             this.lstteacherGroupedBySubject = [];
 
-            if(this.resultado.teacherGroupedByEducationLevel != null){
+            if (this.resultado.teacherGroupedByEducationLevel != null) {
               this.resultado.teacherGroupedByEducationLevel.forEach(
-                (t) =>{
+                (t) => {
                   this.lstTeacherEducatonLevel.push(
                     {
-                      name : t.educationLevelName,
-                      value : t.educationLevelCount
+                      name: t.educationLevelName,
+                      value: t.educationLevelCount
                     }
                   );
                 }
               );
             }
-            if(this.resultado.teacherGroupedBySexo != null){
+            if (this.resultado.teacherGroupedBySexo != null) {
               this.resultado.teacherGroupedBySexo.forEach(
-                (t) =>{
+                (t) => {
                   this.lstteacherGroupedBySexo.push(
                     {
-                      name : t.sexoName,
-                      value : t.sexoCount
+                      name: t.sexoName,
+                      value: t.sexoCount
                     }
                   );
                 }
               );
             }
-            if(this.resultado.teacherGroupedByActivity != null){
+            if (this.resultado.teacherGroupedByActivity != null) {
               this.resultado.teacherGroupedByActivity.forEach(
-                (t) =>{
+                (t) => {
                   this.lstteacherGroupedByActivity.push(
                     {
-                      name : t.activityName,
-                      value : t.activityCount
+                      name: t.activityName,
+                      value: t.activityCount
                     }
                   );
                 }
               );
             }
-            if(this.resultado.teacherGroupedByProcess != null){
+            if (this.resultado.teacherGroupedByProcess != null) {
               this.resultado.teacherGroupedByProcess.forEach(
-                (t) =>{
+                (t) => {
                   this.lstteacherGroupedByProcess.push(
                     {
-                      name : t.processName,
-                      value : t.processCount
+                      name: t.processName,
+                      value: t.processCount
                     }
                   );
                 }
               );
             }
-            if(this.resultado.teacherGroupedBySubject != null){
+            if (this.resultado.teacherGroupedBySubject != null) {
               this.resultado.teacherGroupedBySubject.forEach(
-                (t) =>{
+                (t) => {
                   this.lstteacherGroupedBySubject.push(
                     {
-                      name : t.subjectName,
-                      value : t.subjectCount
+                      name: t.subjectName,
+                      value: t.subjectCount
                     }
                   );
                 }

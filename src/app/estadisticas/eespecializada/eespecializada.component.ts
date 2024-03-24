@@ -55,7 +55,7 @@ export class EEspecializadaComponent extends UnsubscribeOnDestroyAdapter
     },
     {
       codigo: "NumOfCredits",
-      texto: "Cantidad de crecidos"
+      texto: "Cantidad de créditos"
     },
     {
       codigo: "AssignedCoordinatorId",
@@ -63,7 +63,7 @@ export class EEspecializadaComponent extends UnsubscribeOnDestroyAdapter
     },
     {
       codigo: "StudyModeId",
-      texto: "Modo de la Actividad"
+      texto: "Modo de la Carrera"
     }
   ];
   modalityList!: Modality[];
@@ -243,11 +243,16 @@ export class EEspecializadaComponent extends UnsubscribeOnDestroyAdapter
   exportExcel() {
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre_Actividad': x.name,
-
+        'carrera': x.name,
+        'Perfil': x.admissionProfile,
+        'Objectivos': x.generalGoals,
+        'Perfil_Graduado': x.graduationProfile,
+        'Descripcion': x.description,
+        'Coordinador': x.assignedCoordinatorName,
+        'Duracion': x.durationInYears.toString(),
+        'Creditos': x.numOfCredits.toString(),
+        'Modo': x.studyModeName
       }));
-    console.log(exportData);
-
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
@@ -300,7 +305,7 @@ export class ExampleDataSource extends DataSource<DegreesByAll> {
     // alert();
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
-      this.exampleDatabase.dataDegreesByAll,
+      this.exampleDatabase.dataChangeDegreesByAll,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,

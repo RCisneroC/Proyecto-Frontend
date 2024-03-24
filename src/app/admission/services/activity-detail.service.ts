@@ -23,6 +23,7 @@ import { PlanStudyActivity } from '../models/PlanStudyActivity';
 import { ActivityDetailModules, ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
 import { EventsActivity } from '../models/EventsActivity';
 import { EstadisticasActivity } from 'app/estadisticas/Models/EstadisticasModelActivity';
+import { GraficasEC } from 'app/estadisticas/Models/GraficasEC';
 @Injectable({
   providedIn: 'root'
 })
@@ -887,6 +888,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
 
   SaveEncuesta(data: any) {
     return this.httpClient.post(environment.apiUrlSchedule + 'Survey/Create', data);
+  }
+
+  PostFilterGraficas(data: any) {
+    return this.httpClient.post<GraficasEC>(environment.apiUrlSchedule + 'Activity/GetActivitiesStatisticsGroupedBy', data);
   }
 
   SaveComment(data: any) {

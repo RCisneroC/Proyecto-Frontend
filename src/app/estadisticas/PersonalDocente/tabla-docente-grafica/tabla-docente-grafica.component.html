@@ -2,7 +2,8 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Gráficas Docentes'" [items]="['Inicio','Estadísticas']" [active_item]="'Gráficas Docentes'">
+      <app-breadcrumb [title]="'Gráficas Docentes'" [items]="['Inicio','Estadísticas']"
+        [active_item]="'Gráficas Docentes'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -48,62 +49,101 @@
               </fieldset>
             </form>
             <br />
-            <button mat-raised-button color="primary" [disabled]="!form.valid"
-              (click)="consultar()">
+            <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="consultar()">
               <mat-icon>search</mat-icon>Buscar
             </button>
             <br />
             <br />
             <hr />
             <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
-              <div class="card">
-                <!-- INICIO GRAFICA-->
-                <ng-container *ngIf="resultado !== undefined">
-                  <div class="row">
-                  <div   *ngIf="verificarExistenciaFiltro('EducationLevel')" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <ngx-charts-bar-vertical id="gEducationLevel"   [results]="lstTeacherEducatonLevel" [gradient]="false"
-                      [xAxis]="true" [yAxis]="true" [legend]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true" [xAxisLabel]="'Nivel Educación'"
-                      [yAxisLabel]="'Cantidad'" [view]="[600,500]" >
-                    </ngx-charts-bar-vertical>
+            <div class="card">
+              <!-- INICIO GRAFICA-->
+              <ng-container *ngIf="resultado !== undefined">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="lstTeacherEducatonLevel.length>0">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Nivel Educación</h2>
+                      </div>
+                      <div class="card-body">
+                        <div style="height: 400px">
+                          <ngx-charts-bar-vertical [results]="lstTeacherEducatonLevel" [gradient]="false" [xAxis]="true"
+                            [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true"
+                            [xAxisLabel]="'Nivel Educación'" [yAxisLabel]="'Cantidad'">
+                          </ngx-charts-bar-vertical>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div *ngIf="verificarExistenciaFiltro('Sexo')" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <ngx-charts-bar-vertical   [results]="lstteacherGroupedBySexo" [gradient]="false"
-                      [xAxis]="true" [yAxis]="true" [legend]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true" [xAxisLabel]="'Sexo'"
-                      [yAxisLabel]="'Cantidad'" [view]="[600,500]">
-                    </ngx-charts-bar-vertical>
+
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="lstteacherGroupedBySexo.length>0">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Sexo</h2>
+                      </div>
+                      <div class="card-body">
+                        <div style="height: 400px">
+                          <ngx-charts-bar-vertical [results]="lstteacherGroupedBySexo" [gradient]="false" [xAxis]="true"
+                            [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true"
+                            [xAxisLabel]="'Sexo'" [yAxisLabel]="'Cantidad'">
+                          </ngx-charts-bar-vertical>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="verificarExistenciaFiltro('Subjects')">
-                    <ngx-charts-bar-vertical   [results]="lstteacherGroupedBySubject" [gradient]="false"
-                      [xAxis]="true" [yAxis]="true" [legend]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true" [xAxisLabel]="'Materia Impartida'"
-                      [yAxisLabel]="'Cantidad'" [view]="[600,500]">
-                    </ngx-charts-bar-vertical>
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="lstteacherGroupedBySubject.length>0">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Materia Impartida</h2>
+                      </div>
+                      <div class="card-body">
+                        <div style="height: 400px">
+                          <ngx-charts-bar-vertical [results]="lstteacherGroupedBySubject" [gradient]="false"
+                            [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true"
+                            [showYAxisLabel]="true" [xAxisLabel]="'Materia Impartida'" [yAxisLabel]="'Cantidad'">
+                          </ngx-charts-bar-vertical>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="verificarExistenciaFiltro('Activity')">
-                    <ngx-charts-bar-vertical   [results]="lstteacherGroupedByActivity" [gradient]="false"
-                      [xAxis]="true" [yAxis]="true" [legend]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true" [xAxisLabel]="'Actividad'"
-                      [yAxisLabel]="'Cantidad'" [view]="[600,500]">
-                    </ngx-charts-bar-vertical>
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="lstteacherGroupedByActivity.length>0">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Actividad</h2>
+                      </div>
+                      <div class="card-body">
+                        <div style="height: 400px">
+                          <ngx-charts-bar-vertical [results]="lstteacherGroupedByActivity" [gradient]="false"
+                            [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true"
+                            [showYAxisLabel]="true" [xAxisLabel]="'Actividad'" [yAxisLabel]="'Cantidad'">
+                          </ngx-charts-bar-vertical>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="verificarExistenciaFiltro('Process')">
-                    <ngx-charts-bar-vertical   [results]="lstteacherGroupedByProcess" [gradient]="false"
-                      [xAxis]="true" [yAxis]="true" [legend]="true"
-                      [showXAxisLabel]="true"
-                      [showYAxisLabel]="true" [xAxisLabel]="'Tipo de Educación'"
-                      [yAxisLabel]="'Cantidad'" [view]="[600,500]">
-                    </ngx-charts-bar-vertical>
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="lstteacherGroupedByProcess.length>0">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Tipo de Educación</h2>
+                      </div>
+                      <div class="card-body">
+                        <div style="height: 400px">
+                          <ngx-charts-bar-vertical [results]="lstteacherGroupedByProcess" [gradient]="false"
+                            [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true"
+                            [showYAxisLabel]="true" [xAxisLabel]="'Tipo de Educación'" [yAxisLabel]="'Cantidad'">
+                          </ngx-charts-bar-vertical>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                </ng-container>
-                <!-- FIN GRAFICA-->
-              </div>
+              </ng-container>
+              <!-- FIN GRAFICA-->
+            </div>
 
           </div>
           <!-- FIN FILAS-->
