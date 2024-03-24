@@ -16,6 +16,7 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
 import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
+import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
 export interface DialogData {
   id: string;
   action: string;
@@ -68,6 +69,27 @@ export class CreateSolicitudComponent {
       evaluationCriteria: '',
     }
   ];
+
+  public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
+    studentId: 0,
+    firstName: "",
+    lastName: "",
+    cedula: "",
+    asignaturaId: 1,
+    asignatura: "",
+    codigo: "",
+    descriptionSuject: "",
+    periodsId: 0,
+    periodName: "",
+    periodDescription: "",
+    mallaId: 0,
+    mallaName: "",
+    degreeId: 0,
+    nAmeDegree: "",
+    teacherCedula: "",
+    years: 0
+
+  }]
 
   public userType: string = '';
   public IdTypeUser: number = 0;
@@ -123,17 +145,23 @@ export class CreateSolicitudComponent {
 
   loadNeededData() {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
-      next: (res) => {
-        console.log(res);
-        if (res.studentInnfo) {
-          this._EnrolmentService.SearchEFAcademicRecordMethod(res.studentInnfo[0].aspirantId, res.studentInnfo[0].degreeCurriculumDesignId).subscribe({
-            next: (res) => {
-              if (res.data) {
-                this.EFRecordID = res.data[0].id;
-              }
+      next: (rest) => {
+        console.log(rest);
+        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
+          next: (result)=>{
+            this._SubjectMatriculas = result.subjectEnrollmentResult;
+            if (rest.studentInnfo) {
+              this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
+                next: (res) => {
+                  if (res.data) {
+                    this.EFRecordID = res.data[0].id;
+                  }
+                }
+              })
             }
-          })
-        }
+          }
+        })
+
 
       }
     })

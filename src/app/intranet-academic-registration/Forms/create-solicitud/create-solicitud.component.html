@@ -59,7 +59,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1"
+                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect !== 5"
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Asignaturas</mat-label>
@@ -72,6 +72,19 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
+              <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect === 5"
+                   class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Asignaturas</mat-label>
+                  <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
+                    <mat-option value="">-----------</mat-option>
+                    <mat-option *ngFor="let item of _SubjectMatriculas" [value]="item.asignaturaId"> {{ item.asignatura}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="RequestVariousForm.get('idSubjectOrActivity')?.hasError('required')">
+                    Es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
