@@ -110,7 +110,7 @@ export class AuditLogSearchComponent implements AfterViewInit, OnDestroy, OnInit
     this.lstFiltrosSelected = [];
     this.auditLogModel = [];
     this.dataSource = new MatTableDataSource<AuditLog>(this.auditLogModel);
-    this.paginator.length = 0;
+    this.totalR = 0;
     this.dataSource.paginator = this.paginator;
   }
 
