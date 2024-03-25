@@ -124,7 +124,7 @@ export class DetailSubjectComponent implements OnInit {
 
       this.id = params['id'];
     });
-    
+
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
     this.cedula = this.activeRouter.snapshot.params["cedula"];
@@ -133,7 +133,7 @@ export class DetailSubjectComponent implements OnInit {
   ngOnInit() {
     this.load();
     this.getTypeTask();
-    
+
     // this.calendarOptions = {
     //   plugins: [dayGridPlugin, interactionPlugin], // Add plugins to the options
     //   defaultView: 'dayGridMonth', // Set the default view to month grid
@@ -141,7 +141,7 @@ export class DetailSubjectComponent implements OnInit {
     //   // Other options as desired (see FullCalendar documentation)
     // };
     // //   //this.dataSou.paginator = this.paginator;
- 
+
   }
 
 
@@ -166,14 +166,14 @@ export class DetailSubjectComponent implements OnInit {
         this.getAllTaskActivity();
         this.pantalla = 'de actividades';
       }
-    
+
     }
 
 
   }
   getAllTaskSubject() {
     const data = {
-      periodYearSubjectRoomId:Number(localStorage.getItem("periodYearSubjectRoomId"))
+      periodYearSubjectRoomId: Number(localStorage.getItem("periodYearSubjectRoomId"))
     }
     this._SubjectService.GetTaskSubject(data).subscribe({
       next: (res) => {
@@ -216,30 +216,41 @@ export class DetailSubjectComponent implements OnInit {
 
   volverAtras() {
     const local = localStorage.getItem('tipoSolicitud')
-    if(local=="1"){
-      if(this.typeUser==="Administrador"){
-        this._nav.navigate(['/teaching-management/teacher-history-list/',localStorage.getItem('cedula')]);
-      }else{
+    if (local == "1") {
+      if (this.typeUser === "Administrador") {
+        this._nav.navigate(['/teaching-management/teacher-history-list/', localStorage.getItem('cedula')]);
+      } else {
         this._nav.navigate(['/teaching-management/teacher-history-list/']);
       }
-      
-    }else{
-      if(this.typeUser==="Administrador"){
-     
-        this._nav.navigate(['/teaching-management/career-list/',localStorage.getItem('cedula')]);
-      }else{
+
+    } else {
+      if (this.typeUser === "Administrador") {
+
+        this._nav.navigate(['/teaching-management/career-list/', localStorage.getItem('cedula')]);
+      } else {
         this._nav.navigate(['/teaching-management/career-list/']);
       }
     }
-    
 
-    
+
+
   }
 
-  Detail(row: TaskSubject): void {
-    localStorage.setItem('details_task', JSON.stringify(row));
+  Detail(row: any): void {
+    let datasend: TaskSubject = {
+      id: row.id,
+      Titulo: row.title,
+      observacion: row.observation,
+      tipoTarea: row.taskType.name,
+      nombre: row.description,
+      fechaEntrega: row.finalDate,
+      idAsignatura: row.periodYearSubjectRoomId,
+      type: row.taskTypeId,
+    }
+    console.log(datasend);
+    localStorage.setItem('details_task', JSON.stringify(datasend));
     localStorage.setItem('id', this.id);
-    this._nav.navigate(['/teaching-management/detail-task/', row.id]);
+    this._nav.navigate(['/teaching-management/detail-task/', datasend.id]);
   }
 
   editCall(row: TaskSubject) {
@@ -296,7 +307,7 @@ export class DetailSubjectComponent implements OnInit {
         if (dataL != '') {
           this.TaskSubjectArray = JSON.parse(dataL);
           const indice = this.TaskSubjectArray.findIndex(x => x.id === row.id);
-     
+
 
           if (indice !== -1) {
             this.TaskSubjectArray.splice(indice, 1);
@@ -305,7 +316,7 @@ export class DetailSubjectComponent implements OnInit {
           this.load();
         }
 
-       
+
       }
     });
   }
@@ -344,7 +355,7 @@ export class DetailSubjectComponent implements OnInit {
       }
     });
   }
-  
+
   editarTarea(row: TaskSubject) {
     const dialogRef = this._dialog.open(CreateTaskSubjectComponent, {
       data: {
@@ -376,7 +387,7 @@ export class DetailSubjectComponent implements OnInit {
       }
     });
   }
-  
+
   AddTask() {
     const dialogRef = this._dialog.open(AddTaskComponent, {
       data: {
@@ -405,7 +416,7 @@ export class DetailSubjectComponent implements OnInit {
           icon: "warning"
         });
       }
-    
+
 
     });
   }

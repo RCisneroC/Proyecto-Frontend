@@ -217,7 +217,7 @@ export class DetailsModulesComponent {
             });
           }
         })
-      } 
+      }
     });
 
   }

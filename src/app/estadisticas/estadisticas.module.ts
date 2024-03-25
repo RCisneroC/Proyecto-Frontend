@@ -17,6 +17,8 @@ import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-gr
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EfgraficasComponent } from './graficas/efgraficas/efgraficas.component';
 import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component';
+import { MEFgraficasComponent } from './graficas/mefgraficas/mefgraficas.component';
+import { MECgraficasComponent } from './graficas/mecgraficas/mecgraficas.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component'
     EstadisticasParticipanteComponent,
     TablaDocenteGraficaComponent,
     EfgraficasComponent,
-    EcgraficasComponent
+    EcgraficasComponent,
+    MEFgraficasComponent,
+    MECgraficasComponent
   ],
   imports: [
     CommonModule,

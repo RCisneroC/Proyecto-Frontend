@@ -6,6 +6,7 @@ export interface TaskSubject {
     description: string;
     subjectId: number;
     observation: string;
+    MoodleSectionId: number;
 }
 
 
@@ -17,4 +18,5 @@ export interface TaskActivity {
     description: string;
     subjectId: number;
     observation: string;
+    MoodleSectionId: number;
 }

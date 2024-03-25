@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from "@shared";
-import {  Mesh } from "../../admission/FormalEducations/Models/Degree";
+import { Mesh } from "../../admission/FormalEducations/Models/Degree";
 import { VerificarDocumentacion } from "../../admission/models/VerificacionDocumentacion";
 import { BehaviorSubject } from "rxjs";
 import {
@@ -34,6 +34,7 @@ import { ResponseActivityRecord } from "../models/calificacionEC";
 import { CurriculumDesign } from '../models/CurriculumDesign';
 import { DegreeCurriculumDesignEnrollment } from '../models/DegreeCurriculumDesignEnrollment';
 import { StudentModel } from '../models/StudentModel';
+import { GraficasMatricula } from 'app/estadisticas/Models/GraficasMatricula';
 
 @Injectable({
   providedIn: 'root'
@@ -170,6 +171,12 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
     const url = `${environment.apiEira}`;
     return this.httpClient.post<any>(url + "CreateAcademicSubjectRecord", CreateAcademicSubjectRecorddata);
+  }
+
+  searchGraficasMatriculados(dataGraficas: any) {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<GraficasMatricula>(url + "EstadisticaMatricula/GetEstadistica", dataGraficas);
   }
 
   AddSubjectStudent(createEnrollmentdSubjectDta: any) {
@@ -347,7 +354,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  getStudentData(cedula:string) {
+  getStudentData(cedula: string) {
     const url = `${environment.apiEC}`;
     return this.httpClient.get<StudentModel>(url + "GetData/GetVerifyStudent?cedula=" + cedula);
   }
