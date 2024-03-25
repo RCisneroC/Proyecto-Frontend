@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { User } from '@core';
+import {AuthService, User} from '@core';
 import { Direction } from '@angular/cdk/bidi';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,6 +47,7 @@ export class UserListComponent extends UnsubscribeOnDestroyAdapter
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public userService: UserService,
+    private authService: AuthService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -133,6 +134,26 @@ export class UserListComponent extends UnsubscribeOnDestroyAdapter
         });
       }
     });
+  }
+
+  resetpass(row: User){
+    this.authService.SetDefaultPassword(row.id).subscribe({
+      next:(res)=>{
+          if (res.statusCode == 200){
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Contraseña restablecida correctamente',
+              icon: "success"
+            });
+          }else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente algo fallo',
+              icon: "warning"
+            });
+          }
+      }
+    })
   }
 
   private refreshTable() {

@@ -123,7 +123,7 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" ins appearance="outline">
                           <mat-label>Universidad</mat-label>
-                          <mat-select formControlName="university">
+                          <mat-select  formControlName="university">
                             <mat-option *ngFor="let row of UniversityList" [value]="row.name">{{row.name}}</mat-option>
                           </mat-select>
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
@@ -134,9 +134,10 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Institución</mat-label>
-                          <mat-select formControlName="institution">
+                          <mat-select [ngModel]="institucion" *ngIf="participationProfile" formControlName="institution">
                             <mat-option *ngFor="let row of InstitutionList" [value]="row.name">{{row.name}}</mat-option>
                           </mat-select>
+                          <input *ngIf="!participationProfile"  formControlName="institution" matInput autocomplete="off" />
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Institución es <strong>obligatoria</strong>.
                           </mat-error>
@@ -145,9 +146,10 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Dependencia</mat-label>
-                          <mat-select formControlName="dependency">
+                          <mat-select [ngModel]="dependencia" *ngIf="participationProfile" formControlName="dependency">
                             <mat-option *ngFor="let row of DependencyList" [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
                           </mat-select>
+                          <input *ngIf="!participationProfile"  formControlName="dependency" matInput autocomplete="off" />
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Dependencia <strong>obligatoria</strong>.
                           </mat-error>
@@ -156,9 +158,10 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Entidad Cooperante</mat-label>
-                          <mat-select formControlName="cooperatingEntity">
+                          <mat-select *ngIf="participationProfile" formControlName="cooperatingEntity">
                             <mat-option *ngFor="let row of OrganismoCopList" [value]="row.name">{{row.name}}</mat-option>
                           </mat-select>
+                          <input *ngIf="!participationProfile"  formControlName="cooperatingEntity" matInput autocomplete="off" />
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Entidad Cooperante es
                             <strong>obligatoria</strong>.
@@ -168,9 +171,10 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Posición</mat-label>
-                          <mat-select formControlName="position">
+                          <mat-select [ngModel]="cargo" *ngIf="participationProfile" formControlName="position">
                             <mat-option *ngFor="let row of CargosList" [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
                           </mat-select>
+                          <input *ngIf="!participationProfile"  formControlName="position" matInput autocomplete="off" />
                           <mat-error *ngIf="form.get('position')?.hasError('required')">
                             La Posición es <strong>obligatoria</strong>.
                           </mat-error>
@@ -179,7 +183,7 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Corrreo Electronico</mat-label>
-                          <input type="email" formControlName="email" matInput autocomplete="off" />
+                          <input [ngModel]="email" type="email" formControlName="email" matInput autocomplete="off" />
                           <mat-error *ngIf="
                               form?.get('email')?.hasError('email') &&
                               !form.get('email')?.hasError('required')

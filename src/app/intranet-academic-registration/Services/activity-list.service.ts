@@ -64,6 +64,7 @@ export class ActivityListService extends UnsubscribeOnDestroyAdapter {
     subjectId: 0,
     observation: '',
     id: 0,
+    MoodleSectionId: 0
   }
   // Temporarily stores data from dialogs
   dialogData!: GetOneActivity;
@@ -130,6 +131,7 @@ export class ActivityListService extends UnsubscribeOnDestroyAdapter {
       subjectId: 0,
       observation: '',
       id: 0,
+      MoodleSectionId: 0
     }
   }
   init_ResponseListActivity() {

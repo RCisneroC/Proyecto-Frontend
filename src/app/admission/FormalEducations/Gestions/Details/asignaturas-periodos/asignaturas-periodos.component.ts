@@ -80,9 +80,9 @@ export class AsignaturasPeriodosComponent extends UnsubscribeOnDestroyAdapter
   ];
   DisplayNamePeriod: string[] = [
     'name',
-    'descripcion',
+    // 'descripcion',
     // 'maxCupos',
-    // 'fechas',
+    'fechas',
     'Estado',
     'accion',
   ];

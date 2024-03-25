@@ -92,7 +92,7 @@
                                 <tr mat-row *matRowDef="let row; columns: DisplayNameSubjectAll;"></tr>
                             </table>
 
-                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]"
+                            <mat-paginator #asignaturasDependientes [pageSizeOptions]="[10, 20, 30]"
                                 showFirstLastButtons></mat-paginator>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                                 <tr mat-header-row *matHeaderRowDef="DisplayNameSubject"></tr>
                                 <tr mat-row *matRowDef="let row; columns: DisplayNameSubject;"></tr>
                             </table>
-                            <mat-paginator #asignaturasDependientes [pageSizeOptions]="[10, 20, 30]"
+                            <mat-paginator #listadoAsignaturas [pageSizeOptions]="[10, 20, 30]"
                                 showFirstLastButtons></mat-paginator>
                         </div>
                     </div>

@@ -22,6 +22,9 @@ export interface TaskActivityData {
     description: string;
     observation: string;
     activityId: number;
+    moodleSectionId?: number;
+    statusId?: number;
+    learningActivityId?: number;
 }
 
 export interface Activity {

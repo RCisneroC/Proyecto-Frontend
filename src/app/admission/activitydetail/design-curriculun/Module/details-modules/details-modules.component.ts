@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import { EvaluationsCriteriaFormsComponent } from '../Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
+import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
 
 @Component({
   selector: 'app-details-modules',
@@ -32,6 +34,37 @@ export class DetailsModulesComponent {
       name: '',
       statusId: 0
     }
+  ];
+  dataActivity: TaskActivityData[] = [
+    {
+      id: 0,
+      createdDate: new Date(),
+      createdBy: '',
+      lastModifiedDate: '',
+      lastModifiedBy: '',
+      totalRecords: 0,
+      taskFiles: [{
+        name: '',
+        fileType: '',
+        content: '',
+        subjectTaskId: 0,
+        activityTaskId: 0,
+      }],
+      taskType: {
+        id: 0,
+        name: ''
+      },
+      activity: {
+        id: 0,
+        name: ''
+      },
+      title: '',
+      finalDate: new Date(),
+      taskTypeId: 0,
+      description: '',
+      observation: '',
+      activityId: 0,
+    }
   ]
   dataCriterio = new MatTableDataSource<ActivityStudyPlanModuleLearningActivity>(this._ActivityStudyPlanModuleLearningActivity);
   // @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -46,7 +79,8 @@ export class DetailsModulesComponent {
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
     public _CooperatingOrganizationService: CooperationgOrganizationService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public _ActivityListService: ActivityListService
   ) {
     this._ActivityService.init_modules_study();
     this._ActivityService.init_PlanStudy();
@@ -125,12 +159,14 @@ export class DetailsModulesComponent {
 
   AddCriterios() {
     this._ActivityService.init_ActivityStudyPlanModuleLearningActivity();
+
     const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
       data: {
         id_actividad: this.ParamsId,
         accion: 'add-criterio',
         ActivityLearning: this._ActivityService._ActivityStudyPlanModuleLearningActivity,
-        id_modulo: this.IdModules
+        id_modulo: this.IdModules,
+        dataActivity: this.dataActivity[0],
       },
       width: '1200px',
       disableClose: true,
@@ -156,35 +192,49 @@ export class DetailsModulesComponent {
     });
   }
   editarCriterio(row: ActivityStudyPlanModuleLearningActivity) {
-    const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
-      data: {
-        id_actividad: this.ParamsId,
-        accion: 'edit-criterio',
-        ActivityLearning: row,
-        id_modulo: this.IdModules
-      },
-      width: '1200px',
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
+
+    let data = {
+      activityId: this.ParamsId,
+      learningActivityId: row.id
+    }
+    this._ActivityListService.GetTaskActivity(data).subscribe({
+      next: (res) => {
+        this.dataActivity = res.data;
+        if (this.dataActivity.length > 0) {
+          const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
+            data: {
+              id_actividad: this.ParamsId,
+              accion: 'edit-criterio',
+              ActivityLearning: row,
+              dataActivity: this.dataActivity[0],
+              id_modulo: this.IdModules
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+
+          dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+            if (result == undefined) {
+              return;
+            }
+            if (result.CodError == 200) {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+              });
+              this.GetModulesByIdModules();
+            } else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "warning"
+              });
+            }
+          });
+        }
       }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.GetModulesByIdModules();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
+    })
   }
 
   deleteCriterio(row: ActivityStudyPlanModuleLearningActivity) {
@@ -217,7 +267,6 @@ export class DetailsModulesComponent {
             });
           }
         })
-      } else {
       }
     });
 

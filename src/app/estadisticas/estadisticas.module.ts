@@ -11,8 +11,14 @@ import { EstadisticasActividadComponent } from './estadisticas-actividad/estadis
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
 import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
+import { EstadisticasParticipanteComponent } from './estadisticas-participante/estadisticas-participante.component';
+
 import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-grafica/tabla-docente-grafica.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EfgraficasComponent } from './graficas/efgraficas/efgraficas.component';
+import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component';
+import { MEFgraficasComponent } from './graficas/mefgraficas/mefgraficas.component';
+import { MECgraficasComponent } from './graficas/mecgraficas/mecgraficas.component';
 
 
 @NgModule({
@@ -23,7 +29,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EstadisticasActividadComponent,
     EEspecializadaComponent,
     EstadisticasMatriculaComponent,
-    TablaDocenteGraficaComponent
+    EstadisticasParticipanteComponent,
+    TablaDocenteGraficaComponent,
+    EfgraficasComponent,
+    EcgraficasComponent,
+    MEFgraficasComponent,
+    MECgraficasComponent
   ],
   imports: [
     CommonModule,

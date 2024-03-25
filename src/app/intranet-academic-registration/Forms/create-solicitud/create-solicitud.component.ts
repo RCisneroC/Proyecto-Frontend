@@ -14,8 +14,9 @@ import { ActivityDetailService } from 'app/admission/services/activity-detail.se
 import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import {EnrollmentService} from "../../../enrollment/services/enrollment.service";
-import {pdfDefaultOptions} from "ngx-extended-pdf-viewer";
+import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
+import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
+import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
 export interface DialogData {
   id: string;
   action: string;
@@ -69,6 +70,27 @@ export class CreateSolicitudComponent {
     }
   ];
 
+  public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
+    studentId: 0,
+    firstName: "",
+    lastName: "",
+    cedula: "",
+    asignaturaId: 1,
+    asignatura: "",
+    codigo: "",
+    descriptionSuject: "",
+    periodsId: 0,
+    periodName: "",
+    periodDescription: "",
+    mallaId: 0,
+    mallaName: "",
+    degreeId: 0,
+    nAmeDegree: "",
+    teacherCedula: "",
+    years: 0
+
+  }]
+
   public userType: string = '';
   public IdTypeUser: number = 0;
   public EFRecordID: number = 0;
@@ -121,30 +143,36 @@ export class CreateSolicitudComponent {
     this.loadrequestType();
   }
 
-  loadNeededData(){
+  loadNeededData() {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
-      next:(res)=>{
-        console.log(res);
-        if(res.studentInnfo){
-          this._EnrolmentService.SearchEFAcademicRecordMethod(res.studentInnfo[0].aspirantId,res.studentInnfo[0].degreeCurriculumDesignId).subscribe({
-            next:(res)=>{
-              if(res.data){
-                this.EFRecordID = res.data[0].id;
-              }
+      next: (rest) => {
+        console.log(rest);
+        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
+          next: (result)=>{
+            this._SubjectMatriculas = result.subjectEnrollmentResult;
+            if (rest.studentInnfo) {
+              this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
+                next: (res) => {
+                  if (res.data) {
+                    this.EFRecordID = res.data[0].id;
+                  }
+                }
+              })
             }
-          })
-        }
+          }
+        })
+
 
       }
     })
 
     this._EnrolmentService.GetStudentsActivity(this.authService.currentUserValue.cedula).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(res);
-        if(res.getStudentsActivityResponse){
-          this._EnrolmentService.SearchECAcademicRecordMethod(res.getStudentsActivityResponse[0].acivityId,false, res.getStudentsActivityResponse[0].participantId).subscribe({
-            next:(res)=>{
-              if(res.data){
+        if (res.getStudentsActivityResponse) {
+          this._EnrolmentService.SearchECAcademicRecordMethod(res.getStudentsActivityResponse[0].acivityId, false, res.getStudentsActivityResponse[0].participantId).subscribe({
+            next: (res) => {
+              if (res.data) {
                 this.ECRecordID = res.data[0].id;
               }
             }
@@ -154,16 +182,16 @@ export class CreateSolicitudComponent {
     })
   }
 
-  loadrequestType(){
+  loadrequestType() {
     this.RequestVariousService.GetAllRequestVariousType().subscribe({
-      next:(res)=>{
-        if(this.IdTypeUser == 1){
-          this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16|| x.id == 3 || x.id == 2|| x.id == 3 || x.id == 1);
+      next: (res) => {
+        if (this.IdTypeUser == 1) {
+          this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16 || x.id == 3 || x.id == 2 || x.id == 3 || x.id == 1);
         }
-        if(this.IdTypeUser == 2){
-          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6  || x.id == 9 || x.id == 8 || x.id == 7|| x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1);
+        if (this.IdTypeUser == 2) {
+          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1);
         }
-        if(this.IdTypeUser == 3){
+        if (this.IdTypeUser == 3) {
           this.RequesttypeList = res.data
         }
 
@@ -171,9 +199,9 @@ export class CreateSolicitudComponent {
     })
   }
 
-  changeRequesttype(){
+  changeRequesttype() {
     console.log(this.RequesttypeSelect);
-    switch ( this.RequesttypeSelect ) {
+    switch (this.RequesttypeSelect) {
       case 1:
         this.valueDesabled = true;
         this.typeDesabled = true;
@@ -249,7 +277,7 @@ export class CreateSolicitudComponent {
 
   createContactForm(): UntypedFormGroup {
     if (this.action === 'edit') {
-      console.log('Update request',this.data.request);
+      console.log('Update request', this.data.request);
 
       return this.fb.group({
         idSolicitante: [this.data.request.userRequest, [Validators.required]],
@@ -258,7 +286,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
         typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
         typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
-        idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId: this.data.request.activityId , [Validators.required]],
+        idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId : this.data.request.activityId, [Validators.required]],
         dateCreate: [this.data.request.createdDate, [Validators.required]],
         statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
         comments: [this.data.request.description, [Validators.required]],
@@ -306,8 +334,8 @@ export class CreateSolicitudComponent {
         response: "pendiente"
       }
       this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
-        next:(res)=>{
-          if(res.statusCode == 200){
+        next: (res) => {
+          if (res.statusCode == 200) {
             this.ResponseMessage.CodError = 200;
             this.ResponseMessage.Message = 'Editado correctamente.';
             this.dialogRef.close(this.ResponseMessage);
@@ -317,7 +345,7 @@ export class CreateSolicitudComponent {
 
     } else {
       const value = this.RequestVariousForm.getRawValue();
-      if(value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7){
+      if (value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7) {
 
         const generalrequest = {
           userRequest: value.idSolicitante,
@@ -327,9 +355,9 @@ export class CreateSolicitudComponent {
           subjectId: value.idSubjectOrActivity
         }
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
-          next:(res)=>{
+          next: (res) => {
             console.log(res);
-            if(res.statusCode == 200){
+            if (res.statusCode == 200) {
               this.ResponseMessage.CodError = 200;
               this.ResponseMessage.Message = 'Creado correctamente.';
               this.dialogRef.close(this.ResponseMessage);
@@ -338,19 +366,19 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if(value.typeActivityAcademy == 1){
+        if (value.typeActivityAcademy == 1) {
           const EFCreateWithdrawalAndReentryRequestData = {
             userRequest: value.idSolicitante,
             description: value.comments,
             requestVariousTypeId: value.typeRequest,
             requestVariousApplicantUserTypeId: this.IdTypeUser,
             subjectId: value.idSubjectOrActivity,
-            efAcademicRecordId: this.EFRecordID
+            efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
           }
           this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
-            next:(res)=>{
+            next: (res) => {
               console.log(res);
-              if(res.statusCode == 200){
+              if (res.statusCode == 200) {
                 this.ResponseMessage.CodError = 200;
                 this.ResponseMessage.Message = 'Creado correctamente.';
                 this.dialogRef.close(this.ResponseMessage);
@@ -358,7 +386,7 @@ export class CreateSolicitudComponent {
             }
           })
         }
-        if(value.typeActivityAcademy == 2){
+        if (value.typeActivityAcademy == 2) {
           const ECCreateWithdrawalAndReentryRequestData = {
             userRequest: value.idSolicitante,
             description: value.comments,
@@ -367,9 +395,9 @@ export class CreateSolicitudComponent {
             ecAcademicRecordId: this.ECRecordID
           }
           this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
-            next:(res)=>{
+            next: (res) => {
               console.log(res);
-              if(res.statusCode == 200){
+              if (res.statusCode == 200) {
                 this.ResponseMessage.CodError = 200;
                 this.ResponseMessage.Message = 'Creado correctamente.';
                 this.dialogRef.close(this.ResponseMessage);

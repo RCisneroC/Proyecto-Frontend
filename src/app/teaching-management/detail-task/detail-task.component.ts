@@ -69,7 +69,12 @@ export class DetailTaskComponent implements OnInit {
         if (local == "1") {
           this.title = "Listado de Estudiantes";
           this.getOneStudents();
-          this.getAllTaskSubject()
+          let localData = localStorage.getItem('details_task') || '';
+          console.log('====================================');
+          console.log(JSON.parse(localData));
+          console.log('====================================');
+          this.taskSubject = JSON.parse(localData);
+          // this.getAllTaskSubject()
         } else {
           this.title = "Listado de Participantes";
           this.getOneStudentsAct();
@@ -107,6 +112,8 @@ export class DetailTaskComponent implements OnInit {
     }
     this._SubjectService.GetTaskSubject(data).subscribe({
       next: (res) => {
+        console.log(res);
+
         this.taskSubject.Titulo = res.data[0].title;
         this.taskSubject.observacion = res.data[0].observation;
         this.taskSubject.fechaEntrega = res.data[0].finalDate;

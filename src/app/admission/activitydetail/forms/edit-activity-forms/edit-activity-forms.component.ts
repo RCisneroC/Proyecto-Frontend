@@ -210,6 +210,13 @@ export class EditActivityFormsComponent implements OnInit {
     } else {
       this.editActivity.controls['rubric'].setValue(false);
     }
+
+    if (this.editActivity.controls['activityModeId'].value != 3) {
+      this.editActivity.controls['virtualRoom'].setValue(null);
+    } else {
+      this.editActivity.controls['virtualRoom'].setValue(this.editActivity.controls['activityModeId'].value.toString());
+    }
+
     let TimeStart = moment.tz(this.editActivity.controls['startTime'].value, "America/Panama");
     let TimeEnd = moment.tz(this.editActivity.controls['endTime'].value, "America/Panama");
     this.RoweditActivity = {

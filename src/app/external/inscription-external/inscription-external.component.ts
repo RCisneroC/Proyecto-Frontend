@@ -28,8 +28,13 @@ export class InscriptionExternalComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'edad', 'raza', 'color', 'peso', 'acciones']
   loading: boolean = false;
   personData: any;
+  email: string = "";
+  dependencia: string = "";
+  institucion: string = "";
+  cargo: string = "";
   typedoc: string = "CIP";
   DependencyList: any;
+  participationProfile: boolean = false;
   CargosList: any;
   OrganismoCopList: any;
   UniversityList: any;
@@ -149,49 +154,113 @@ export class InscriptionExternalComponent implements OnInit {
       });
 
     } else {
-      this.loading = true;
-      this.cedulaParticipant = cedula;
-      this._inscriptionService.getDataPerson(cedula).subscribe({
-        next: (data: Persona[]) => {
-          this._inscriptionService._Persona = data;
-          console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
-          if (data.length > 0) {
-            this.busquedaR = true;
-            if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
-              this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
-              if(this.typedoc == "CIP"){
-                this.disabled = true;
-              }
-              else
-              {
-                this.disabled = false;
-              }
-            } else {
-              if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
-                this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
-              } else {
-                this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
-              }
-              this.busquedaR = true;
-              this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
-              if(this.typedoc == "CIP"){
-                this.disabled = true;
-              }
-              else
-              {
-                this.disabled = false;
-              }
+      if(this.participationProfile && this.typedoc == "CIP"){
+        this._inscriptionService.GetDataOrgano(cedula).subscribe({
+          next:(res)=>{
+            if(res.length > 0) {
+              this.loading = true;
+              this.cedulaParticipant = cedula;
+              this._inscriptionService.getDataPerson(cedula).subscribe({
+                next: (data: Persona[]) => {
+                  this._inscriptionService._Persona = data;
+                  console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
+                  if (data.length > 0) {
+                    this.busquedaR = true;
+                    if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
+                      this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+                      this.cargo = res[0].cargo;
+                      this.dependencia = res[0].dependencia;
+                      this.institucion = res[0].institucion;
+                      this.email = res[0].correo_electronico;
+                      if(this.typedoc == "CIP"){
+                        this.disabled = true;
+                      }
+                      else
+                      {
+                        this.disabled = false;
+                      }
+                    } else {
+                      if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
+                        this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
+                      } else {
+                        this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
+                      }
+                      this.busquedaR = true;
+                      this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+                      if(this.typedoc == "CIP"){
+                        this.disabled = true;
+                      }
+                      else
+                      {
+                        this.disabled = false;
+                      }
+                    }
+                  }
+
+                  // this.personData=data;
+                  // console.log('Datos de la persona:', data[0]?.datasetPersona);
+                },
+                error: (e) => this.loading = false,
+                complete: () => {
+                  this.loading = false;
+                }
+              })
+            }
+            else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Por favor, la persona que desea inscribir debe pertenecer al Órgano',
+                icon: "warning"
+              });
             }
           }
+        })
+      }else {
+        this.loading = true;
+        this.cedulaParticipant = cedula;
+        this._inscriptionService.getDataPerson(cedula).subscribe({
+          next: (data: Persona[]) => {
+            this._inscriptionService._Persona = data;
+            console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
+            if (data.length > 0) {
+              this.busquedaR = true;
+              if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
+                this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+                if(this.typedoc == "CIP"){
+                  this.disabled = true;
+                }
+                else
+                {
+                  this.disabled = false;
+                }
+              } else {
+                if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
+                  this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
+                } else {
+                  this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
+                }
+                this.busquedaR = true;
+                this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+                if(this.typedoc == "CIP"){
+                  this.disabled = true;
+                }
+                else
+                {
+                  this.disabled = false;
+                }
+              }
+            }
 
-          // this.personData=data;
-          // console.log('Datos de la persona:', data[0]?.datasetPersona);
-        },
-        error: (e) => this.loading = false,
-        complete: () => {
-          this.loading = false;
-        }
-      })
+            // this.personData=data;
+            // console.log('Datos de la persona:', data[0]?.datasetPersona);
+          },
+          error: (e) => this.loading = false,
+          complete: () => {
+            this.loading = false;
+          }
+        })
+      }
+
 
     }
 
@@ -203,6 +272,7 @@ export class InscriptionExternalComponent implements OnInit {
       subscribe({
         next: (res: GetOneActivity) => {
           this._ActivityDetailService._GetOneActivity = res;
+          this.participationProfile = res.participationProfile == 1;
         }, error: (err) => {
           console.log(err);
           this._router.navigate(['/']);

@@ -5,6 +5,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import {AuthService} from "@core";
+import Swal from "sweetalert2";
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -17,6 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) {}
   ngOnInit() {
@@ -37,9 +40,22 @@ export class ForgotPasswordComponent implements OnInit {
     // stop here if form is invalid
     if (this.authForm.invalid) {
       return;
-    } else { 
-  
-      //this.router.navigate(['/dashboard/main']);
+    } else {
+this.authService.resetPetition(this.authForm.getRawValue().email).subscribe({
+  next:(res)=>{
+    if(res.statusCode == 200){
+      this.router.navigate(['/authentication/signin']);
+    }
+    else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: 'Intente nuevamente algo fallo',
+        icon: "warning"
+      });
+    }
+  }
+})
+
     }
   }
 }

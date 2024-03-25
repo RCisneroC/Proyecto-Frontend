@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DegreeService } from 'app/admission/FormalEducations/Services/degree.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { Period } from 'app/enrollment/models/Period';
 import { Teacher } from 'app/teaching-management/models/Teacher';
 export interface DialogData {
   periodId: string;
@@ -10,6 +11,7 @@ export interface DialogData {
   year: string;
   subjectId: string;
   roomId: string;
+  dataPeriod: Period;
 }
 @Component({
   selector: 'app-crete-asignacion-docente',

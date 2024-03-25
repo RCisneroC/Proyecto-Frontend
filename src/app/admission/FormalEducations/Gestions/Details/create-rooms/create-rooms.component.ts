@@ -298,7 +298,8 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
         accion: 'add',
         year: this.busqueda.controls['busquedaAnio'].value,
         subjectId: row.id,
-        roomId: this._roomsOne.id
+        roomId: this._roomsOne.id,
+        dataPeriod: this.dataPeriod
       },
       disableClose: true,
     });

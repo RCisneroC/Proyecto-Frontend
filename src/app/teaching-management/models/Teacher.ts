@@ -19,10 +19,10 @@ export class Teacher {
     listSubject: Subject[] = [];
     process: number = 0;
     dateOfBirth?: string;
-    placeOfBirth:string= "";
-    gender:string= "";
-    phoneNumber:string= "";
-    
+    placeOfBirth: string = "";
+    gender: string = "";
+    phoneNumber: string = "";
+
 }
 
 export interface Course {
@@ -138,7 +138,7 @@ export interface RequestSubjectTeacher {
 
 
 export interface SubjectResponse {
-    id:number;  
+    id: number;
     startDate: Date;
     endDate: Date;
     examDate: Date;

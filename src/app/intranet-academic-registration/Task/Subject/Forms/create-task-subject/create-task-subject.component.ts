@@ -46,7 +46,7 @@ export class CreateTaskSubjectComponent {
 
       this.dialogTitle = "Editar Tarea";
     }
-    const id=localStorage.getItem("periodYearSubjectRoomId")||'';
+    const id = localStorage.getItem("periodYearSubjectRoomId") || '';
     this.trainingForm = this.fb.group({
       id: [data.task.id],
       Title: [data.task.title, [Validators.required]],
@@ -55,21 +55,24 @@ export class CreateTaskSubjectComponent {
       Description: [data.task.description, [Validators.required]],
       PeriodYearSubjectRoomId: [id, [Validators.required]],
       Observation: [data.task.observation, [Validators.required]],
+      MoodleSectionId: [data.task.MoodleSectionId, [Validators.required]],
       Content: [[]]
     });
   }
   confirmAdd() {
-
+    console.log('====================================');
+    console.log(this.trainingForm.getRawValue());
+    console.log('====================================');
     if (this.data.action == 'add') {
-      const id=localStorage.getItem("periodYearSubjectRoomId")||'';
+      const id = localStorage.getItem("periodYearSubjectRoomId") || '';
       let formData = new FormData();
       formData.append('Title', this.trainingForm.controls['Title'].value);
       formData.append('FinalDate', moment(this.trainingForm.controls['FinalDate'].value).format("YYYY-MM-DD"));
       formData.append('TaskTypeId', this.trainingForm.controls['TaskTypeId'].value);
       formData.append('Description', this.trainingForm.controls['Description'].value);
-      //formData.append('SubjectId', this.trainingForm.controls['SubjectId'].value);
+      formData.append('MoodleSectionId', this.trainingForm.controls['MoodleSectionId'].value);
       formData.append('Observation', this.trainingForm.controls['Observation'].value);
-      formData.append('PeriodYearSubjectRoomId',id );
+      formData.append('PeriodYearSubjectRoomId', id);
       this._File.forEach((file) => {
         formData.append('Content', file);
       });

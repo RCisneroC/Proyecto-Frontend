@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -90,6 +91,9 @@ export class SubjectCurriculumComponent {
   getSubjectPending() {
     this._subjectService.getAllSubjectPendingDegree(this.id).subscribe({
       next: (res) => {
+        console.log("Pendientes");
+        console.log(res);
+
         this.dataSourceAssignedSubject = new MatTableDataSource<Subject>(res);
         this.dataSourceAssignedSubject.paginator = this.paginatorSubjectDependence;
       },
@@ -98,6 +102,22 @@ export class SubjectCurriculumComponent {
       }
     })
   }
+
+  getSubjectAll() {
+    this._subjectService.getAllSubjectNotPendingDegree(this.id).subscribe({
+      next: (res) => {
+        console.log("Todas");
+        console.log(res);
+
+        this.dataSubjectList = new MatTableDataSource<Subject>(res);
+        this.dataSubjectList.paginator = this.paginatorSubjectActive;
+      },
+      error: () => {
+
+      }
+    })
+  }
+
   getInfoLocal() {
     const myValue = localStorage.getItem('detalle_malla');
     if (myValue !== null) {
@@ -121,17 +141,7 @@ export class SubjectCurriculumComponent {
   }
 
 
-  getSubjectAll() {
-    this._subjectService.getAllSubjectNotPendingDegree(this.id).subscribe({
-      next: (res) => {
-        this.dataSubjectList = new MatTableDataSource<Subject>(res);
-        this.dataSubjectList.paginator = this.paginatorSubjectActive;
-      },
-      error: () => {
 
-      }
-    })
-  }
 
   CreateSubject(row: Subject) {
 
@@ -168,10 +178,10 @@ export class SubjectCurriculumComponent {
             this.getSubjectPending();
             this.getSubjectAll();
           },
-          error: (err) => {
+          error: (err: HttpErrorResponse) => {
             Swal.fire({
               title: "Escuela Judicial",
-              text: err,
+              text: err.error.Message,
               icon: "warning"
             });
           }
