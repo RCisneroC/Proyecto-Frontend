@@ -17,9 +17,9 @@ export const environment = {
   apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
   apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
-  apiIntranet: 'https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/',
-  apiUrlSubjectTask: "https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/SearchSubjectTask",
-  apiEira: 'https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/',
+  apiIntranet: 'https://eira-api.azurewebsites.net/',
+  apiUrlSubjectTask: "https://eira-api.azurewebsites.net/SearchSubjectTask",
+  apiEira: 'https://eira-api.azurewebsites.net/',
   apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo'
 };
