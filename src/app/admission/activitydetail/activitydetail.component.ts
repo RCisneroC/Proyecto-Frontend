@@ -26,6 +26,8 @@ import { EvaluationsCriteriaFormsComponent } from './design-curriculun/Module/Fo
 import { ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
 import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
 import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
+import { PlanStudyActivity } from '../models/PlanStudyActivity';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class PeriodicElement {
   name!: string;
@@ -40,6 +42,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 })
 export class ActivitydetailComponent implements OnInit {
   public urlConvocatoria: string = '';
+  public nbrModule: number = 0;
   DisplayNameCompetence: string[] = ['name', 'descripcion', 'accion'];
   public _ActivityStudyPlanModuleLearningActivity: ActivityStudyPlanModuleLearningActivity[] = [
     {
@@ -84,6 +87,14 @@ export class ActivitydetailComponent implements OnInit {
       statusId: 0
     }
   ];
+  _PlanStudyActivity: PlanStudyActivity = {
+    statusId: 0,
+    id: 0,
+    activityId: 0,
+    name: '',
+    description: '',
+    courseOutline: '',
+  }
   dataActivity: TaskActivityData[] = [
     {
       id: 0,
@@ -723,8 +734,8 @@ export class ActivitydetailComponent implements OnInit {
     //verificar si tiene plan.
 
     this._ActivityService.GetAllPlanStudyActivity(this.paramsId).subscribe({
-      next: (res) => {
-        if (res.length == 0) {
+      next: (resPlan) => {
+        if (resPlan.length == 0) {
           let FormsData = new FormData();
           FormsData.append('StatusId', '1');
           FormsData.append('Id', '0');
@@ -733,20 +744,50 @@ export class ActivitydetailComponent implements OnInit {
           FormsData.append('Description', 'Generico');
           FormsData.append('CourseOutline', '');
           this._ActivityService.CreateStudyPlan(FormsData).subscribe({
-            next: (res: any) => {
-              console.log('====================================');
-              console.log(res);
-              console.log('====================================');
+            next: (resCreate: any) => {
+              this._PlanStudyActivity.id = resCreate.id;
+
             },
-            error: (err: any) => {
+            error: (err: HttpErrorResponse) => {
+              console.log(err);
             },
             complete: () => {
-
+              console.log('====================================');
+              console.log(this._PlanStudyActivity);
+              console.log('====================================');
             }
           });
         } else {
-          console.log(res);
+          this._PlanStudyActivity = resPlan[0];
+          console.log('====================================');
+          console.log(this._PlanStudyActivity);
+          console.log('====================================');
+          let dataArraySend = {
+            activityStudyPlanId: this._PlanStudyActivity.id,
+            name: "Modulo I",
+            description: "Modulo I",
+            synchronousHours: 1,
+            asynchronousHours: 1,
+            inPersonHours: 1,
+            totalHours: 1,
+            percentageValue: 1,
+            learningGoals: "",
+            competencies: "",
+            subTopics: "",
+            methodologicalStrategy: "",
+            teachingResources: "",
+            evaluation: "",
+            bibliographicCitation: "",
+            learningStrategies: ""
+          };
 
+          this._ActivityService.CreateModule(dataArraySend).subscribe({
+            next: (resModule: any) => {
+              this.nbrModule = resModule.id;
+            },
+            error: (err: HttpErrorResponse) => {
+            }
+          });
         }
       },
       complete: () => {
