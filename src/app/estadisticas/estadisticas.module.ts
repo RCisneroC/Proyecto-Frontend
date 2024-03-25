@@ -6,7 +6,6 @@ import { SharedModule } from "@shared";
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { EstadisticasRoutingModule } from './estadisticas-routing.module';
 import { TablaPersonalDocenteComponent } from './PersonalDocente/tabla-personal-docente/tabla-personal-docente.component';
-import { OnlyNumberDirective } from './directives/only-number.directive';
 import { EstadisticasActividadComponent } from './estadisticas-actividad/estadisticas-actividad.component';
 import { EEspecializadaComponent } from './eespecializada/eespecializada.component';
 import { EstadisticasMatriculaComponent } from './estadisticas-matricula/estadisticas-matricula.component';
@@ -25,7 +24,6 @@ import { MECgraficasComponent } from './graficas/mecgraficas/mecgraficas.compone
   providers: [VerificarBS64Pipe, DatePipe, StatusTeacherPipe],
   declarations: [
     TablaPersonalDocenteComponent,
-    OnlyNumberDirective,
     EstadisticasActividadComponent,
     EEspecializadaComponent,
     EstadisticasMatriculaComponent,
