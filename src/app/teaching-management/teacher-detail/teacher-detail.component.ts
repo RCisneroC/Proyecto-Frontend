@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
@@ -123,7 +123,8 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     private fb: UntypedFormBuilder,
     public _verificarBS64: VerificarBS64Pipe,
     public _RequestService: RequestServicesService,
-    public authenticationService: AuthService
+    public authenticationService: AuthService,
+    private cb: ChangeDetectorRef
 
   ) {
     super();
@@ -216,7 +217,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
-            if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
+           if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
               this.selectedOption = "3";
             } else if (this.DataTeacher.listSubject.length > 0) {
               this.selectedOption = "1";
@@ -228,6 +229,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
             this.viewTable(parseInt(this.selectedOption));
             this.view = true;
+            this.cb.detectChanges();
             // this.selectedOption=this.DataTeacher.process.toString();
           } else {
             this.viewTable(this.DataTeacher.process);
@@ -253,10 +255,40 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     })
   }
 
+
+  async getTeacherByCedula3() {
+    this._teacherService.getTeacherByCedula(this.cedula).subscribe({
+      next: (res) => {
+
+        this.DataTeacher = res;
+
+        this.fechaA = res.applicationDate;
+        this.teacherForm = this.createTeacherForm();
+        this.documentForm = this.createDocumentForm();
+
+        if (this.typeUser == "Administrador") {
+          if (this.DataTeacher.statusId != 1) {
+            this.viewTable(parseInt(this.selectedOption));
+            this.view = true;
+            this.cb.detectChanges();
+          } else {
+            this.viewTable(this.DataTeacher.process);
+          }
+        } else {
+          this.viewTable(this.DataTeacher.process);
+        }
+        this._teacherService.isTblLoading = false;
+      }
+    })
+  }
+
   confirmDelete(id: number) {
     //const selectElement = document.querySelector('select');
     //const initialValue = selectElement?.value;
     //console.log(selectElement);
+
+    console.log(id)
+
     if (id != 3) {
       const idArray: number[] = [];
       this.DataTeacher.listSubject.forEach(obj => idArray.push(obj.id));
@@ -270,26 +302,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
     this.getTeacherByCedula2();
     this.viewTable(id);
-
-
-
-
-    // Swal.fire({
-    //   title: 'Esta seguro?',
-    //   text: "No podrás revertir esto!",
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Si, Eliminar!'
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     // Perform delete action
-    //     console.log('Deleted!');
-    //     this.selectedOption=id;
-    //     this.viewTable(id);
-    //   }
-    // });
+    this.cb.detectChanges();
   }
 
   viewDocumento(row: Documents) {
@@ -370,7 +383,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
           text: result.Message,
           icon: "success"
         });
-        this.getTeacherByCedula();
+        this.getTeacherByCedula3();
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -401,7 +414,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
           text: result.Message,
           icon: "success"
         });
-        this.getTeacherByCedula();
+        this.getTeacherByCedula3();
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -540,7 +553,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
   Historial() {
- 
+
     this._nav.navigate(['/teaching-management/career-list/', this.DataTeacher.cedula]);
   }
 
@@ -557,7 +570,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
-      
+
       phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
       gender:new FormControl(this.DataTeacher?.gender),
       placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),

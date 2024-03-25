@@ -14,8 +14,10 @@ import { MenuComponent } from './menu/menu.component';
 import { FormsMenuComponent } from './forms-menu/forms-menu.component';
 import { ViewMenuModalComponent } from './view-menu-modal/view-menu-modal.component';
 import { AuditLogSearchComponent } from './audit-log-search/audit-log-search.component';
-
+import { EntityTypePipe } from 'app/pipes/entity-type.pipe';
+import { OnlyNumberDirective } from 'app/estadisticas/directives/only-number.directive';
 @NgModule({
+  providers: [EntityTypePipe],
   declarations: [
     UserListComponent,
     RoleListComponent,
@@ -25,7 +27,8 @@ import { AuditLogSearchComponent } from './audit-log-search/audit-log-search.com
     MenuComponent,
     FormsMenuComponent,
     ViewMenuModalComponent,
-    AuditLogSearchComponent
+    AuditLogSearchComponent,
+    OnlyNumberDirective,
   ],
   imports: [
     CommonModule,
