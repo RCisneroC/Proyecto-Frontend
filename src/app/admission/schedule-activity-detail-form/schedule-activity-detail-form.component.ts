@@ -129,6 +129,7 @@ export class ScheduleActivityDetailFormComponent {
     if (this.schedule.activityTrainingType == null) {
       this.schedule.activityTrainingType = 2;
     }
+
     return this.fb.group({
       curriculumDesignId: new FormControl(this.action == "edit" ? this.schedule.curriculumDesignId : this.id, Validators.required),
       id: new FormControl(this.schedule.id),
@@ -153,7 +154,8 @@ export class ScheduleActivityDetailFormComponent {
       activityClass: new FormControl(this.schedule.activityClass),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
-      observations: new FormControl(this.schedule.observations)
+      observations: new FormControl(this.schedule.observations),
+      virtualRoom: new FormControl(this.schedule.virtualRoom)
 
     });
   }
@@ -168,6 +170,12 @@ export class ScheduleActivityDetailFormComponent {
     console.log(this.scheduleForm);
     if (this.scheduleForm.controls['activityClass'].value == "0") {
       this.scheduleForm.controls['activityClass'].setValue(null);
+    }
+
+    if (this.scheduleForm.controls['activityModeId'].value != 3) {
+      this.scheduleForm.controls['virtualRoom'].setValue(null);
+    } else {
+      this.scheduleForm.controls['virtualRoom'].setValue(this.schedule.activityModeId.toString());
     }
     if (this.action === 'edit') {
       this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({

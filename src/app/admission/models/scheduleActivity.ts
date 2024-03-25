@@ -43,5 +43,6 @@ export class ScheduleActivityDetail {
   statusId!: number;
   hasDirectEnrollment!: boolean;
   moodleCourseId!: number;
+  virtualRoom!: string;
 }
 

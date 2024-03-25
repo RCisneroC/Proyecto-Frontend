@@ -22,6 +22,10 @@ import { EditActivityFormsComponent } from './forms/edit-activity-forms/edit-act
 import { environment } from 'environments/environment.development';
 import { FormsCertificateComponent } from './forms/forms-certificate/forms-certificate.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EvaluationsCriteriaFormsComponent } from './design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
+import { ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
+import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
+import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
 
 export class PeriodicElement {
   name!: string;
@@ -36,6 +40,16 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 })
 export class ActivitydetailComponent implements OnInit {
   public urlConvocatoria: string = '';
+  DisplayNameCompetence: string[] = ['name', 'descripcion', 'accion'];
+  public _ActivityStudyPlanModuleLearningActivity: ActivityStudyPlanModuleLearningActivity[] = [
+    {
+      activityStudyPlanModuleId: 0,
+      description: '',
+      id: 0,
+      name: '',
+      statusId: 0
+    }
+  ];
   DisplayNameDocument: string[] = [
     // 'Id',
     'nombre',
@@ -70,7 +84,37 @@ export class ActivitydetailComponent implements OnInit {
       statusId: 0
     }
   ];
-
+  dataActivity: TaskActivityData[] = [
+    {
+      id: 0,
+      createdDate: new Date(),
+      createdBy: '',
+      lastModifiedDate: '',
+      lastModifiedBy: '',
+      totalRecords: 0,
+      taskFiles: [{
+        name: '',
+        fileType: '',
+        content: '',
+        subjectTaskId: 0,
+        activityTaskId: 0,
+      }],
+      taskType: {
+        id: 0,
+        name: ''
+      },
+      activity: {
+        id: 0,
+        name: ''
+      },
+      title: '',
+      finalDate: new Date(),
+      taskTypeId: 0,
+      description: '',
+      observation: '',
+      activityId: 0,
+    }
+  ]
   dataSourcePosterRequest: PosterRequest[] = [
     this._ActivityService._PosterRequest
   ];
@@ -89,6 +133,12 @@ export class ActivitydetailComponent implements OnInit {
   dataPoster = new MatTableDataSource<PosterRequest>(this.dataSourcePosterRequest);
   dataTeacher = new MatTableDataSource<ActivityTeachers>(this.dataSourceActivityTeachers);
   dataOrganismos = new MatTableDataSource<ActivityCooperatingOrganization>(this.dataSourceActivityCooperatingOrganization);
+  dataCriterio = new MatTableDataSource<ActivityStudyPlanModuleLearningActivity>(this._ActivityStudyPlanModuleLearningActivity);
+  // @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  set paginatorCriterio(value: MatPaginator) {
+    this.dataCriterio.paginator = value;
+  }
   // @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
@@ -125,7 +175,8 @@ export class ActivitydetailComponent implements OnInit {
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
     public _CooperatingOrganizationService: CooperationgOrganizationService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public _ActivityListService: ActivityListService
   ) {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
@@ -667,5 +718,151 @@ export class ActivitydetailComponent implements OnInit {
     this._router.navigate(['/admission/activity-detail/' + row.id + '/details-eventos']);
   }
 
+  AddCriterios() {
+    this._ActivityService.init_ActivityStudyPlanModuleLearningActivity();
+    //verificar si tiene plan.
+
+    this._ActivityService.GetAllPlanStudyActivity(this.paramsId).subscribe({
+      next: (res) => {
+        if (res.length == 0) {
+          let FormsData = new FormData();
+          FormsData.append('StatusId', '1');
+          FormsData.append('Id', '0');
+          FormsData.append('ActivityId', this.paramsId);
+          FormsData.append('Name', 'Generico');
+          FormsData.append('Description', 'Generico');
+          FormsData.append('CourseOutline', '');
+          this._ActivityService.CreateStudyPlan(FormsData).subscribe({
+            next: (res: any) => {
+              console.log('====================================');
+              console.log(res);
+              console.log('====================================');
+            },
+            error: (err: any) => {
+            },
+            complete: () => {
+
+            }
+          });
+        } else {
+          console.log(res);
+
+        }
+      },
+      complete: () => {
+        // this.getOnePlanStudy(this._ActivityService._PlanStudyActivity.id);
+      }
+    });
+    //crear plan de estudio.
+    //crear modulo 1
+    const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
+      data: {
+        id_actividad: this.paramsId,
+        accion: 'add-criterio',
+        ActivityLearning: this._ActivityService._ActivityStudyPlanModuleLearningActivity,
+        id_modulo: 0,
+        dataActivity: this.dataActivity[0],
+      },
+      width: '1200px',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        // this.GetModulesByIdModules();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+  editarCriterio(row: ActivityStudyPlanModuleLearningActivity) {
+
+    let data = {
+      activityId: this.paramsId,
+      learningActivityId: row.id
+    }
+    this._ActivityListService.GetTaskActivity(data).subscribe({
+      next: (res) => {
+        this.dataActivity = res.data;
+        if (this.dataActivity.length > 0) {
+          const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
+            data: {
+              id_actividad: this.paramsId,
+              accion: 'edit-criterio',
+              ActivityLearning: row,
+              dataActivity: this.dataActivity[0],
+              id_modulo: 0
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+
+          dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+            if (result == undefined) {
+              return;
+            }
+            if (result.CodError == 200) {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "success"
+              });
+            } else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: result.Message,
+                icon: "warning"
+              });
+            }
+          });
+        }
+      }
+    })
+  }
+
+  deleteCriterio(row: ActivityStudyPlanModuleLearningActivity) {
+
+
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Eliminara " + row.name,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar",
+      cancelButtonText: "No, Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._ActivityService.DeleleCriterio(row.id).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: "Eliminado!",
+              text: row.name + " fue eliminado.",
+              icon: "success"
+            });
+          }, error: () => {
+            Swal.fire({
+              title: "Intente nuevamente!",
+              text: row.name + " no se pudo eliminar.",
+              icon: "warning"
+            });
+          }
+        })
+      }
+    });
+
+  }
 
 }
