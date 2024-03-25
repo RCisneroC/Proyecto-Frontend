@@ -34,6 +34,7 @@ import { InscriptionExternalComponent } from './external/inscription-external/in
 
 
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
@@ -47,7 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    InscriptionExternalComponent
+    InscriptionExternalComponent,
+
     //TeacherDetailComponent
 
 

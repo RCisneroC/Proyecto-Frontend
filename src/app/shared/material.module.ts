@@ -46,8 +46,11 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
 import { CustomPaginator } from './CustomPaginatorConfiguration';
+import { OnlyNumberDirective } from 'app/estadisticas/directives/only-number.directive';
+
 
 @NgModule({
+  declarations: [ OnlyNumberDirective],
   exports: [
     NgxMatTimepickerModule,
     MatAutocompleteModule,
@@ -86,7 +89,7 @@ import { CustomPaginator } from './CustomPaginatorConfiguration';
     MatTooltipModule,
     MatTreeModule,
     MatNativeDateModule,
-
+    OnlyNumberDirective
   ],
   providers: [
     {
