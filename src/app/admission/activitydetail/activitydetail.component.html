@@ -275,6 +275,79 @@
 
                                 </mat-expansion-panel>
                             </mat-accordion>
+                            <br>
+                            <hr>
+                            <!-- *ngIf="_ActivityService._GetOneActivity.totalHours<=80" <mat-accordion> -->
+                            <mat-accordion>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header style="background: #38366b;text-transform: uppercase;">
+                                        <mat-panel-title style="color: white;">
+                                            Criterios de Evaluación, Actividad con modalidad {{
+                                            _ActivityService._GetOneActivity.activityModeName }}
+                                        </mat-panel-title>
+                                        <mat-panel-description style="color: white;">
+                                            Cantidad Horas {{ _ActivityService._GetOneActivity.totalHours }}
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class=" row" style="margin-top: 10px;">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="card">
+                                                <div class="header">
+                                                    <h2 class="text-uppercase"><strong>Criterios de Evaluación</strong>
+
+                                                        <button (click)="AddCriterios()"
+                                                            matTooltip="Agregar Criterios de Evaluación"
+                                                            style="position: absolute;right: 5px;top: 5px;" mat-mini-fab
+                                                            color="primary">
+                                                            <mat-icon>add</mat-icon>
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div class="body">
+                                                    <div class="body table-responsive">
+                                                        <table mat-table [dataSource]="dataCriterio" class="w-100">
+                                                            <ng-container matColumnDef="name">
+                                                                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                                                <td mat-cell *matCellDef="let element">{{ element.name
+                                                                    }} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="descripcion">
+                                                                <th mat-header-cell *matHeaderCellDef> Descripción</th>
+                                                                <td mat-cell *matCellDef="let element">{{
+                                                                    element.description }} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="accion">
+                                                                <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                                                <td mat-cell *matCellDef="let element">
+                                                                    <button (click)="editarCriterio(element)"
+                                                                        mat-mini-fab color="primary"
+                                                                        matTooltip="Editar Criterio">
+                                                                        <mat-icon>edit</mat-icon>
+                                                                    </button>
+                                                                    <button (click)="deleteCriterio(element)"
+                                                                        mat-mini-fab color="accent"
+                                                                        matTooltip="Eliminar">
+                                                                        <mat-icon>restore_from_trash</mat-icon>
+                                                                    </button>
+                                                                </td>
+                                                            </ng-container>
+                                                            <tr mat-header-row *matHeaderRowDef="DisplayNameCompetence">
+                                                            </tr>
+                                                            <tr mat-row
+                                                                *matRowDef="let row; columns: DisplayNameCompetence;">
+                                                            </tr>
+                                                        </table>
+                                                        <mat-paginator #paginatorCriterio
+                                                            [pageSizeOptions]="[2, 10, 20]"
+                                                            showFirstLastButtons></mat-paginator>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+
                         </div>
                         <div class="row">
                             <p class="badge badge-solid-green" style="font-size: 15px;font-weight: 600;"

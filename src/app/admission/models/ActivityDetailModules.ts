@@ -29,13 +29,13 @@ export interface ActivityStudyPlanModuleLearningActivity {
     activityStudyPlanModuleId: number;
     name: string;
     description: string;
-    
-    IdTask?: number; 
+    MoodleSectionId?: number;
+    IdTask?: number;
     Title?: string;
     FinalDate?: Date;
-    TaskTypeId?: number; 
+    TaskTypeId?: number;
     DescriptionTask?: string;
-    PeriodYearSubjectRoomId?: number; 
+    PeriodYearSubjectRoomId?: number;
     Observation?: string;
     TypeTask?: ApiResponseInternal;
 }

@@ -70,9 +70,9 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
   ) {
-  
+
     super();
-   let mi = this.activatedRoute.snapshot.url.map(segment => segment.path);
+    let mi = this.activatedRoute.snapshot.url.map(segment => segment.path);
     // ...
   }
   ngOnInit() {
@@ -85,21 +85,21 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
     }
     this.idCareer = Number(localStorage.getItem("idCareer"));
-    
-    
+
+
     if (this.cedula == undefined) {
 
       this.cedula = this.user.cedula;
-     
-      
 
-    } if (this.cedula != undefined && this.cedula != ''  && this.typeUser==="Profesor") {
-     
+
+
+    } if (this.cedula != undefined && this.cedula != '' && this.typeUser === "Profesor") {
+
       this.cedula = this.user.cedula;
-     
-     
+
+
     }
-   
+
     this.getSubjects();
   }
 
@@ -127,21 +127,21 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   volverAtras() {
-  
-    if(this.typeUser==="Administrador"){
-     
-      this._nav.navigate(['/teaching-management/career-list/',this.cedula]);
-    }else{
+
+    if (this.typeUser === "Administrador") {
+
+      this._nav.navigate(['/teaching-management/career-list/', this.cedula]);
+    } else {
       this._nav.navigate(['/teaching-management/career-list/']);
     }
-  
-  
-  // if(this.activatedRoute.snapshot.params["cedula"]!=undefined){
-  //   this._nav.navigate(['/teaching-management/teacher-detail/',this.activatedRoute.snapshot.params["cedula"]]);
-  // }else{
-  //   this._nav.navigate(['/teaching-management/career-list/']);
-  // }
-    
+
+
+    // if(this.activatedRoute.snapshot.params["cedula"]!=undefined){
+    //   this._nav.navigate(['/teaching-management/teacher-detail/',this.activatedRoute.snapshot.params["cedula"]]);
+    // }else{
+    //   this._nav.navigate(['/teaching-management/career-list/']);
+    // }
+
   }
 
 
@@ -179,7 +179,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   async getActivities() {
- 
+
     this._teacherService.getActivitiesByCedula(this.cedula).subscribe({
       next: (res) => {
 

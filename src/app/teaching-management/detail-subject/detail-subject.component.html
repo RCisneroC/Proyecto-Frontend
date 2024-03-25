@@ -1,8 +1,8 @@
 <section class="content">
   <div class="content-block">
-   
+
     <div class="block-header">
-    
+
       <!-- breadcrumb -->
       <app-breadcrumb [title]="'Tareas '+pantalla" [items]="['Perfil','Historial Docente']"
         [active_item]="'Listado de Tareas'">
@@ -21,7 +21,7 @@
 
           <div class="header">
             <h2 class="text-uppercase"><strong>Listado de Tareas-<span class="badge badge-solid-blue">{{
-                  taskSubject.nombre}}</span></strong></h2>
+                  NameActivitySubject}}</span></strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -97,11 +97,10 @@
                         <ng-container matColumnDef="accion">
                           <th mat-header-cell *matHeaderCellDef> Acción </th>
                           <td mat-cell *matCellDef="let element; let i=index">
-                          
-                            <button (click)="editarTarea(element)" mat-mini-fab color="primary"
-                            matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+
+                            <button (click)="editarTarea(element)" mat-mini-fab color="primary" matTooltip="Editar">
+                              <mat-icon>edit</mat-icon>
+                            </button>
                             <button mat-mini-fab color="primary" (click)="$event.stopPropagation()"
                               (click)="Detail(element)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>

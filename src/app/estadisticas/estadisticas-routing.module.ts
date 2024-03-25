@@ -8,6 +8,8 @@ import { EstadisticasParticipanteComponent } from "./estadisticas-participante/e
 import { TablaDocenteGraficaComponent } from './PersonalDocente/tabla-docente-grafica/tabla-docente-grafica.component';
 import { EfgraficasComponent } from './graficas/efgraficas/efgraficas.component';
 import { EcgraficasComponent } from './graficas/ecgraficas/ecgraficas.component';
+import { MEFgraficasComponent } from './graficas/mefgraficas/mefgraficas.component';
+import { MECgraficasComponent } from './graficas/mecgraficas/mecgraficas.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,14 @@ const routes: Routes = [
   {
     path: "ec/grafica",
     component: EcgraficasComponent
+  },
+  {
+    path: "mef/grafica",
+    component: MEFgraficasComponent
+  },
+  {
+    path: "mec/grafica",
+    component: MECgraficasComponent
   }
 ];
 

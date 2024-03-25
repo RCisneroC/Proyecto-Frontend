@@ -93,6 +93,7 @@ export class SubjectListService extends UnsubscribeOnDestroyAdapter {
     description: '',
     subjectId: 0,
     observation: '',
+    MoodleSectionId: 0,
   }
   constructor(private httpClient: HttpClient) {
     super();
@@ -187,6 +188,7 @@ export class SubjectListService extends UnsubscribeOnDestroyAdapter {
       description: '',
       subjectId: 0,
       observation: '',
+      MoodleSectionId: 0
     }
   }
   init_typeTask() {
