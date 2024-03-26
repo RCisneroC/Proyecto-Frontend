@@ -59,7 +59,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect !== 5"
+                <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect !== 5 && RequesttypeSelect !== 9 && RequesttypeSelect !== 6"
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Asignaturas</mat-label>
@@ -72,7 +72,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-              <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect === 5"
+              <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect === 5 || RequesttypeSelect === 9 || RequesttypeSelect === 6"
                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Asignaturas</mat-label>
