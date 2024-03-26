@@ -171,6 +171,7 @@ export class CreateSolicitudComponent {
       next: (rest) => {
         console.log(rest);
         this._Career = rest.studentInnfo;
+        this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
         this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
           next: (result)=>{
             this._SubjectMatriculas = result.subjectEnrollmentResult;
@@ -439,6 +440,7 @@ export class CreateSolicitudComponent {
   }
 
   changecarrer(){
+    console.log('careerSelected:',this.careerSelected);
     this._EnrolmentService.GetStudentsSubjects(this.careerSelected.toString(), this.authService.currentUserValue.cedula ).subscribe({
       next:(res)=>{
         this._SubjectMatriculas = res.subjectEnrollmentResult;
