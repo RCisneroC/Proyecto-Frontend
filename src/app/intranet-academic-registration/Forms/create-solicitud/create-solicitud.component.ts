@@ -17,6 +17,7 @@ import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
 import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
 import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
+import {Career} from "../../../enrollment/models/Career";
 export interface DialogData {
   id: string;
   action: string;
@@ -70,6 +71,27 @@ export class CreateSolicitudComponent {
     }
   ];
 
+
+  public _Career: Career[] = [{
+    aspirantId: 0,
+    ejInscriptionId: 0,
+    createDate: '',
+    firstName: '',
+    lastName: '',
+    degreeCurriculumDesignId: 0,
+    mCurriculumName: '',
+    descriptionName: '',
+    degreeId: 0,
+    cedula: '',
+    telephoneNumber: '',
+    email: '',
+    statusDegreeCurriculumDesign: 0,
+    annualPlanId: 0,
+    startDate: new Date,
+    endDate: new Date,
+    degreeCurriculumDesignTarget: 0
+  }]
+
   public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
     studentId: 0,
     firstName: "",
@@ -98,6 +120,7 @@ export class CreateSolicitudComponent {
   public RequesttypeList: RequestVariousType[] = [];
   public RequesttypeSelect: number = 0;
   public typeActivityAcademySelected: number = 1;
+  public careerSelected: number = 1;
   public idSubjectOrActivity: number = 1;
   public valueDesabled: boolean = false;
   public typeDesabled: boolean = false;
@@ -147,6 +170,7 @@ export class CreateSolicitudComponent {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
       next: (rest) => {
         console.log(rest);
+        this._Career = rest.studentInnfo;
         this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
           next: (result)=>{
             this._SubjectMatriculas = result.subjectEnrollmentResult;
@@ -286,6 +310,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
         typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
         typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
+        career: ['', [Validators.required]],
         idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId : this.data.request.activityId, [Validators.required]],
         dateCreate: [this.data.request.createdDate, [Validators.required]],
         statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
@@ -300,6 +325,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.userType, [Validators.required]],
         typeRequest: ['', [Validators.required]],
         typeActivityAcademy: ['', [Validators.required]],
+        career: ['', [Validators.required]],
         idSubjectOrActivity: ['', [Validators.required]],
         dateCreate: [new Date(), [Validators.required]],
         statusId: ['3', [Validators.required]],
