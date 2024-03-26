@@ -56,7 +56,8 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
     degreeId: 0,
     nAmeDegree: '',
     teacherCedula: '',
-    years: 0
+    years: 0,
+    subjectStatusId: 0
   }];
   public _StudenAsistence: StudenAsistence = {
     statusId: 0,

@@ -749,59 +749,101 @@ export class ActivitydetailComponent implements OnInit {
 
             },
             error: (err: HttpErrorResponse) => {
-              console.log(err);
             },
             complete: () => {
-              console.log('====================================');
-              console.log(this._PlanStudyActivity);
-              console.log('====================================');
+              this._ActivityService.GetModulesByPlanStudyActivity(this.paramsId).subscribe(
+                {
+                  next: (res) => {
+                    if (res.length > 0) {
+                      this.nbrModule = res[0].id
+                    } else {
+                      let dataArraySend = {
+                        activityStudyPlanId: this._PlanStudyActivity.id,
+                        name: "Modulo I",
+                        description: "Modulo I",
+                        synchronousHours: 1,
+                        asynchronousHours: 1,
+                        inPersonHours: 1,
+                        totalHours: 1,
+                        percentageValue: 1,
+                        learningGoals: "",
+                        competencies: "",
+                        subTopics: "",
+                        methodologicalStrategy: "",
+                        teachingResources: "",
+                        evaluation: "",
+                        bibliographicCitation: "",
+                        learningStrategies: ""
+                      };
+                      this._ActivityService.CreateModule(dataArraySend).subscribe({
+                        next: (resModule: any) => {
+                          this.nbrModule = resModule.id;
+                        },
+                        error: (err: HttpErrorResponse) => {
+                        }
+                      });
+                    }
+
+                  }
+
+                }
+              )
             }
           });
         } else {
           this._PlanStudyActivity = resPlan[0];
-          console.log('====================================');
-          console.log(this._PlanStudyActivity);
-          console.log('====================================');
-          let dataArraySend = {
-            activityStudyPlanId: this._PlanStudyActivity.id,
-            name: "Modulo I",
-            description: "Modulo I",
-            synchronousHours: 1,
-            asynchronousHours: 1,
-            inPersonHours: 1,
-            totalHours: 1,
-            percentageValue: 1,
-            learningGoals: "",
-            competencies: "",
-            subTopics: "",
-            methodologicalStrategy: "",
-            teachingResources: "",
-            evaluation: "",
-            bibliographicCitation: "",
-            learningStrategies: ""
-          };
+          this._ActivityService.GetModulesByPlanStudyActivity(this.paramsId).subscribe(
+            {
+              next: (res) => {
 
-          this._ActivityService.CreateModule(dataArraySend).subscribe({
-            next: (resModule: any) => {
-              this.nbrModule = resModule.id;
-            },
-            error: (err: HttpErrorResponse) => {
+                if (res.length > 0) {
+                  console.log('====================================');
+                  console.log(res[0]);
+                  console.log('====================================');
+                  this.nbrModule = res[0].id
+                } else {
+                  let dataArraySend = {
+                    activityStudyPlanId: this._PlanStudyActivity.id,
+                    name: "Modulo I",
+                    description: "Modulo I",
+                    synchronousHours: 1,
+                    asynchronousHours: 1,
+                    inPersonHours: 1,
+                    totalHours: 1,
+                    percentageValue: 1,
+                    learningGoals: "",
+                    competencies: "",
+                    subTopics: "",
+                    methodologicalStrategy: "",
+                    teachingResources: "",
+                    evaluation: "",
+                    bibliographicCitation: "",
+                    learningStrategies: ""
+                  };
+                  this._ActivityService.CreateModule(dataArraySend).subscribe({
+                    next: (resModule: any) => {
+                      this.nbrModule = resModule.id;
+                    },
+                    error: (err: HttpErrorResponse) => {
+                    }
+                  });
+                }
+
+              }
+
             }
-          });
+          )
         }
       },
       complete: () => {
-        // this.getOnePlanStudy(this._ActivityService._PlanStudyActivity.id);
       }
     });
-    //crear plan de estudio.
-    //crear modulo 1
     const dialogRef = this._dialog.open(EvaluationsCriteriaFormsComponent, {
       data: {
         id_actividad: this.paramsId,
         accion: 'add-criterio',
         ActivityLearning: this._ActivityService._ActivityStudyPlanModuleLearningActivity,
-        id_modulo: 0,
+        id_modulo: this.nbrModule,
         dataActivity: this.dataActivity[0],
       },
       width: '1200px',

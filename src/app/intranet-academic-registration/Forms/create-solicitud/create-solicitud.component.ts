@@ -16,7 +16,7 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
 import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
-import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
+import { subjectEnrollmentResult } from "../../../admission/models/AddEFacademicResponse";
 export interface DialogData {
   id: string;
   action: string;
@@ -70,7 +70,7 @@ export class CreateSolicitudComponent {
     }
   ];
 
-  public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
+  public _SubjectMatriculas: subjectEnrollmentResult[] = [{
     studentId: 0,
     firstName: "",
     lastName: "",
@@ -87,7 +87,8 @@ export class CreateSolicitudComponent {
     degreeId: 0,
     nAmeDegree: "",
     teacherCedula: "",
-    years: 0
+    years: 0,
+    subjectStatusId: 0
 
   }]
 
@@ -147,8 +148,8 @@ export class CreateSolicitudComponent {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
       next: (rest) => {
         console.log(rest);
-        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
-          next: (result)=>{
+        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
+          next: (result) => {
             this._SubjectMatriculas = result.subjectEnrollmentResult;
             if (rest.studentInnfo) {
               this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
