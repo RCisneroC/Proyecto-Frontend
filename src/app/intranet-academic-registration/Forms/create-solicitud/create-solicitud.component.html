@@ -63,7 +63,7 @@
                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Carrera</mat-label>
-                  <mat-select [ngModel]="careerSelected" formControlName="career"  [disabled] = valueDesabled>
+                  <mat-select [ngModel]="careerSelected" formControlName="career" (ngModelChange)="changecarrer()"  [disabled] = valueDesabled>
                     <mat-option value="">-----------</mat-option>
                     <mat-option *ngFor="let item of _Career" [value]="item.degreeCurriculumDesignId"> {{ item.mCurriculumName}}</mat-option>
                   </mat-select>

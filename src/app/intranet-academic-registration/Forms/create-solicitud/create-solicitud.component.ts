@@ -438,6 +438,14 @@ export class CreateSolicitudComponent {
 
   }
 
+  changecarrer(){
+    this._EnrolmentService.GetStudentsSubjects(this.careerSelected.toString(), this.authService.currentUserValue.cedula ).subscribe({
+      next:(res)=>{
+        this._SubjectMatriculas = res.subjectEnrollmentResult;
+      }
+    })
+  }
+
   getActivityOneStatus() {
     this._ActivityService.getActivityStatus(5).subscribe({
       next: (res: any) => {
