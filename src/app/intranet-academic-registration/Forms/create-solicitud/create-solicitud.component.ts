@@ -226,6 +226,7 @@ export class CreateSolicitudComponent {
 
   changeRequesttype() {
     console.log(this.RequesttypeSelect);
+    this.RequesttypeSelect = + this.RequesttypeSelect;
     switch (this.RequesttypeSelect) {
       case 1:
         this.valueDesabled = true;
@@ -293,6 +294,9 @@ export class CreateSolicitudComponent {
         this.typeActivityAcademySelected = 1
         this.typeDesabled = true;
         break;
+      case 30:
+        this.valueDesabled = true
+        break;
       default:
         this.valueDesabled = false;
         this.typeDesabled = false;
@@ -311,7 +315,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
         typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
         typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
-        career: ['', [Validators.required]],
+        career: [''],
         idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId : this.data.request.activityId, [Validators.required]],
         dateCreate: [this.data.request.createdDate, [Validators.required]],
         statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
@@ -326,7 +330,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.userType, [Validators.required]],
         typeRequest: ['', [Validators.required]],
         typeActivityAcademy: ['', [Validators.required]],
-        career: ['', [Validators.required]],
+        career: [''],
         idSubjectOrActivity: ['', [Validators.required]],
         dateCreate: [new Date(), [Validators.required]],
         statusId: ['3', [Validators.required]],
@@ -393,13 +397,13 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if (value.typeActivityAcademy == 1) {
+        if(value.typeRequest == 30){
           const EFCreateWithdrawalAndReentryRequestData = {
             userRequest: value.idSolicitante,
             description: value.comments,
-            requestVariousTypeId: value.typeRequest,
+            requestVariousTypeId: 5,
             requestVariousApplicantUserTypeId: this.IdTypeUser,
-            subjectId: value.idSubjectOrActivity,
+            subjectId: null,
             efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
           }
           this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
@@ -412,26 +416,50 @@ export class CreateSolicitudComponent {
               }
             }
           })
+
         }
-        if (value.typeActivityAcademy == 2) {
-          const ECCreateWithdrawalAndReentryRequestData = {
-            userRequest: value.idSolicitante,
-            description: value.comments,
-            requestVariousTypeId: value.typeRequest,
-            requestVariousApplicantUserTypeId: this.IdTypeUser,
-            ecAcademicRecordId: this.ECRecordID
-          }
-          this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
-            next: (res) => {
-              console.log(res);
-              if (res.statusCode == 200) {
-                this.ResponseMessage.CodError = 200;
-                this.ResponseMessage.Message = 'Creado correctamente.';
-                this.dialogRef.close(this.ResponseMessage);
-              }
+        else {
+          if (value.typeActivityAcademy == 1) {
+            const EFCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: value.typeRequest,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              subjectId: value.idSubjectOrActivity,
+              efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
             }
-          })
+            this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
+          if (value.typeActivityAcademy == 2) {
+            const ECCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: value.typeRequest,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              ecAcademicRecordId: this.ECRecordID
+            }
+            this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
         }
+
       }
 
 
