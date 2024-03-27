@@ -57,6 +57,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./estadisticas/estadisticas.module').then((m) => m.EstadisticasModule),
       },
+      {
+        path: 'calls-teachers',
+        loadChildren: () =>
+          import('./CallsTeachers/calls-teaching.module').then((m) => m.CallsTeachingModule),
+      },
 
     ],
   },
