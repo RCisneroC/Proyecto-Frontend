@@ -34,10 +34,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
+  providers: [VerificarBS64Pipe,StatusProcessPipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,
-    StatusProcessPipe,
     AddCourseComponent,
     AddExperienceComponent,
     AprovedTeacherComponent,
@@ -60,7 +60,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CareerListComponent,
     StatisticsListComponent
   ],
-  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
     TeachingManagementRoutingModule,
@@ -68,7 +67,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    FullCalendarModule 
+    FullCalendarModule
   ]
 })
 export class TeachingManagementModule { }

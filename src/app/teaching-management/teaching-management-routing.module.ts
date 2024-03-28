@@ -26,6 +26,10 @@ const routes: Routes = [
     component: TeachingAdmissionExternalComponent,
   },
   {
+    path: "teacher-admission-external/:id/:type",
+    component: TeachingAdmissionExternalComponent,
+  },
+  {
     path: "teacher-history-list/:cedula",
     component: TeachingHistoryListComponent,
   },
@@ -65,8 +69,8 @@ const routes: Routes = [
     path: "statistics-list",
     component: StatisticsListComponent,
   },
-  
-  
+
+
 ];
 
 @NgModule({

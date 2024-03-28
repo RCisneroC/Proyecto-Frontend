@@ -91,6 +91,14 @@ const routes: Routes = [
         (m) => m.TeachingManagementModule
       ),
   },
+  {
+    path: 'calls',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./CallsTeachers/calls-teaching-routing.module').then(
+        (m) => m.CallsTeachingRoutingModule
+      ),
+  },
 
   { path: '**', component: Page404Component },
 ];

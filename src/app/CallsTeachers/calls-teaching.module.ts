@@ -11,24 +11,33 @@ import {AddActivityComponent} from './add-activity/add-activity.component';
 import {AddExperienceComponent} from './add-experience/add-experience.component';
 import {AddSubjectComponent} from './add-subject/add-subject.component';
 import {AddTrainingComponent} from './add-training/add-training.component';
+import {CallsListComponent} from './calls-list/calls-list.component';
+import {TeacherApplyCallsComponent} from './teacher-apply-calls/teacher-apply-calls.component';
 import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
-
-
-
 import { CallsTeachingRoutingModule } from './calls-teaching-routing.module';
+import { CallsNewComponent } from './calls-new/calls-new.component';
+import { CallsEditComponent } from './calls-edit/calls-edit.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AprovedCallsTeachersComponent } from './aproved-calls-teachers/aproved-calls-teachers.component';
+import { ViewCallForApplyComponent } from './view-call-for-apply/view-call-for-apply.component';
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe, DatePipe],
+  providers: [VerificarBS64Pipe, DatePipe,StatusProcessPipe],
   declarations: [
-    StatusProcessPipe,
     TeacherListComponent,
     TeacherDetailComponent,
     AprovedTeacherComponent,
     AddActivityComponent,
     AddExperienceComponent,
     AddSubjectComponent,
-    AddTrainingComponent
+    AddTrainingComponent,
+    CallsListComponent,
+    TeacherApplyCallsComponent,
+    CallsNewComponent,
+    CallsEditComponent,
+    AprovedCallsTeachersComponent,
+    ViewCallForApplyComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +45,8 @@ import { CallsTeachingRoutingModule } from './calls-teaching-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    CallsTeachingRoutingModule
+    CallsTeachingRoutingModule,
+    CKEditorModule
   ]
 })
 export class CallsTeachingModule { }
