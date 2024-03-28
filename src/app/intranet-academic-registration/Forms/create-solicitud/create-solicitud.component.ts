@@ -451,7 +451,7 @@ export class CreateSolicitudComponent {
               requestVariousApplicantUserTypeId: this.IdTypeUser,
               subjectId: value.idSubjectOrActivity,
               efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID,
-              DestinationEFAcademicRecordId: this.DestinationEFRecordID
+              destinationEFAcademicRecordId: this.DestinationEFRecordID
             }
             this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
               next: (res) => {
