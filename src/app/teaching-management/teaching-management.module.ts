@@ -7,7 +7,6 @@ import { TeacherDetailComponent } from './teacher-detail/teacher-detail.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
-import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { AddExperienceComponent } from './add-experience/add-experience.component';
 import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.component';
@@ -37,7 +36,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,
-    StatusProcessPipe,
     AddCourseComponent,
     AddExperienceComponent,
     AprovedTeacherComponent,
@@ -68,7 +66,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
-    FullCalendarModule 
+    FullCalendarModule
   ]
 })
 export class TeachingManagementModule { }
