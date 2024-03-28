@@ -16,7 +16,8 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
 import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
-import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
+import { subjectEnrollmentResult } from "../../../admission/models/AddEFacademicResponse";
+import { Career } from "../../../enrollment/models/Career";
 export interface DialogData {
   id: string;
   action: string;
@@ -70,7 +71,27 @@ export class CreateSolicitudComponent {
     }
   ];
 
-  public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
+  public _Career: Career[] = [{
+    aspirantId: 0,
+    ejInscriptionId: 0,
+    createDate: '',
+    firstName: '',
+    lastName: '',
+    degreeCurriculumDesignId: 0,
+    mCurriculumName: '',
+    descriptionName: '',
+    degreeId: 0,
+    cedula: '',
+    telephoneNumber: '',
+    email: '',
+    statusDegreeCurriculumDesign: 0,
+    annualPlanId: 0,
+    startDate: new Date,
+    endDate: new Date,
+    degreeCurriculumDesignTarget: 0
+  }]
+
+  public _SubjectMatriculas: subjectEnrollmentResult[] = [{
     studentId: 0,
     firstName: "",
     lastName: "",
@@ -87,7 +108,8 @@ export class CreateSolicitudComponent {
     degreeId: 0,
     nAmeDegree: "",
     teacherCedula: "",
-    years: 0
+    years: 0,
+    subjectStatusId: 0
 
   }]
 
@@ -98,6 +120,7 @@ export class CreateSolicitudComponent {
   public RequesttypeList: RequestVariousType[] = [];
   public RequesttypeSelect: number = 0;
   public typeActivityAcademySelected: number = 1;
+  public careerSelected: number = 1;
   public idSubjectOrActivity: number = 1;
   public valueDesabled: boolean = false;
   public typeDesabled: boolean = false;
@@ -147,8 +170,10 @@ export class CreateSolicitudComponent {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
       next: (rest) => {
         console.log(rest);
-        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
-          next: (result)=>{
+        this._Career = rest.studentInnfo;
+        this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
+        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
+          next: (result) => {
             this._SubjectMatriculas = result.subjectEnrollmentResult;
             if (rest.studentInnfo) {
               this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
@@ -201,6 +226,7 @@ export class CreateSolicitudComponent {
 
   changeRequesttype() {
     console.log(this.RequesttypeSelect);
+    this.RequesttypeSelect = + this.RequesttypeSelect;
     switch (this.RequesttypeSelect) {
       case 1:
         this.valueDesabled = true;
@@ -268,6 +294,9 @@ export class CreateSolicitudComponent {
         this.typeActivityAcademySelected = 1
         this.typeDesabled = true;
         break;
+      case 30:
+        this.valueDesabled = true
+        break;
       default:
         this.valueDesabled = false;
         this.typeDesabled = false;
@@ -286,6 +315,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.data.request.requestVariousApplicantUserTypeId, [Validators.required]],
         typeRequest: [this.data.request.requestVariousTypeId, [Validators.required]],
         typeActivityAcademy: [this.data.request.subject ? 1 : 2, [Validators.required]],
+        career: [''],
         idSubjectOrActivity: [this.data.request.subjectId ? this.data.request.subjectId : this.data.request.activityId, [Validators.required]],
         dateCreate: [this.data.request.createdDate, [Validators.required]],
         statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
@@ -300,6 +330,7 @@ export class CreateSolicitudComponent {
         typeUser: [this.userType, [Validators.required]],
         typeRequest: ['', [Validators.required]],
         typeActivityAcademy: ['', [Validators.required]],
+        career: [''],
         idSubjectOrActivity: ['', [Validators.required]],
         dateCreate: [new Date(), [Validators.required]],
         statusId: ['3', [Validators.required]],
@@ -366,13 +397,13 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if (value.typeActivityAcademy == 1) {
+        if (value.typeRequest == 30) {
           const EFCreateWithdrawalAndReentryRequestData = {
             userRequest: value.idSolicitante,
             description: value.comments,
-            requestVariousTypeId: value.typeRequest,
+            requestVariousTypeId: 5,
             requestVariousApplicantUserTypeId: this.IdTypeUser,
-            subjectId: value.idSubjectOrActivity,
+            subjectId: null,
             efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
           }
           this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
@@ -385,31 +416,64 @@ export class CreateSolicitudComponent {
               }
             }
           })
+
         }
-        if (value.typeActivityAcademy == 2) {
-          const ECCreateWithdrawalAndReentryRequestData = {
-            userRequest: value.idSolicitante,
-            description: value.comments,
-            requestVariousTypeId: value.typeRequest,
-            requestVariousApplicantUserTypeId: this.IdTypeUser,
-            ecAcademicRecordId: this.ECRecordID
-          }
-          this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
-            next: (res) => {
-              console.log(res);
-              if (res.statusCode == 200) {
-                this.ResponseMessage.CodError = 200;
-                this.ResponseMessage.Message = 'Creado correctamente.';
-                this.dialogRef.close(this.ResponseMessage);
-              }
+        else {
+          if (value.typeActivityAcademy == 1) {
+            const EFCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: value.typeRequest,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              subjectId: value.idSubjectOrActivity,
+              efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
             }
-          })
+            this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
+          if (value.typeActivityAcademy == 2) {
+            const ECCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: value.typeRequest,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              ecAcademicRecordId: this.ECRecordID
+            }
+            this.RequestVariousService.ECCreateWithdrawalAndReentryRequest(ECCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
         }
+
       }
 
 
     }
 
+  }
+
+  changecarrer() {
+    console.log('careerSelected:', this.careerSelected);
+    this._EnrolmentService.GetStudentsSubjects(this.careerSelected.toString(), this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
+        this._SubjectMatriculas = res.subjectEnrollmentResult;
+      }
+    })
   }
 
   getActivityOneStatus() {

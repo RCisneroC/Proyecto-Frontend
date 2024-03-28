@@ -118,8 +118,9 @@
                   <td mat-cell *matCellDef="let element">{{ element.codigo }} </td>
                 </ng-container>
                 <ng-container matColumnDef="createDate">
-                  <th mat-header-cell *matHeaderCellDef> Id de mgit salla</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mallaId }} </td>
+                  <th mat-header-cell *matHeaderCellDef> Estado</th>
+                  <td mat-cell *matCellDef="let element"><span class="badge badge-solid-green">{{
+                      element.subjectStatusId|statusMatricula }}</span> </td>
                 </ng-container>
                 <ng-container matColumnDef="accion">
                   <th mat-header-cell *matHeaderCellDef> Acción</th>

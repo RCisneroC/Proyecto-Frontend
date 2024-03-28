@@ -89,7 +89,7 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
 
   getAllRequestVariousEIRA(): void {
     this.subs.sink = this.httpClient
-      .post<SearchRequestVariousResponse>(environment.apiEira + 'SearchRequestVarious', {})
+      .post<SearchRequestVariousResponse>(environment.apiEira + 'SearchRequestVarious', {  pageNumber: 1, pageSize: 1000})
       .subscribe({
         next: (res) => {
           let user = localStorage.getItem('currentUser') || '';

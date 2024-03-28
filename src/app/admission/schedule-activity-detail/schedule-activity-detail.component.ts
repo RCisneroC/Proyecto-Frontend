@@ -211,7 +211,7 @@ export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar"
+      confirmButtonText: "Si, Enviar"
     }).then((result) => {
       if (result.isConfirmed) {
         let data = {
