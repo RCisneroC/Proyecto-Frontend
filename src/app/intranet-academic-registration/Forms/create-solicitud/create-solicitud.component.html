@@ -32,7 +32,6 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Tipo de Solicitud</mat-label>
                         <mat-select [(ngModel)]="RequesttypeSelect" formControlName="typeRequest" (ngModelChange)="changeRequesttype()">
-                            <mat-option value=30>Retirar todas las carreras de periódo actual</mat-option>
                             <mat-option *ngFor="let item of RequesttypeList" [value]="item.id"> {{
                                 item.name}}</mat-option>
                         </mat-select>
