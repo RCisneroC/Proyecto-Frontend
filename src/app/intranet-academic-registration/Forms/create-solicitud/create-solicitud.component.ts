@@ -220,8 +220,8 @@ export class CreateSolicitudComponent {
         if (this.IdTypeUser == 3) {
           this.RequesttypeList = res.data
         }
-        const req1: RequestVariousType = {id: 30, name: "Retirar todas las carreras de periódo actual", description: "Retirar todas las carreras de periódo actual"};
-        const req2: RequestVariousType = {id: 31, name: "Reingresar todas las carreras de periódo actual", description: "Reingresar todas las carreras de periódo actual"};
+        const req1: RequestVariousType = {id: 30, name: "Retirar todas las asignaturas de periódo actual", description: "Retirar todas las carreras de periódo actual"};
+        const req2: RequestVariousType = {id: 31, name: "Reingresar a la carrera", description: "Reingresar todas las carreras de periódo actual"};
         this.RequesttypeList.push(req1);
         this.RequesttypeList.push(req2);
 
