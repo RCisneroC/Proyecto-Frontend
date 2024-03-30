@@ -402,7 +402,7 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if(value.typeRequest == 20 || value.typeRequest == 31 || value.typeRequest == 9 ){
+        if(value.typeRequest == 20 || value.typeRequest == 6 || value.typeRequest == 9 ){
           if(value.typeRequest == 20){
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
@@ -423,7 +423,7 @@ export class CreateSolicitudComponent {
               }
             })
           }
-          if(value.typeRequest == 31){
+          if(value.typeRequest == 6){
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,
