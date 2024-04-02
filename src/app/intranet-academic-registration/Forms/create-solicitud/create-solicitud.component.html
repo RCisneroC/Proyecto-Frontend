@@ -72,6 +72,19 @@
                   </mat-error>
                 </mat-form-field>
               </div>
+              <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 &&  RequesttypeSelect === 9"
+                   class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Carrera Destino</mat-label>
+                  <mat-select [ngModel]="careerSelected" formControlName="career" (ngModelChange)="changecarrer()"  [disabled] = valueDesabled>
+                    <mat-option value="">-----------</mat-option>
+                    <mat-option *ngFor="let item of _Career" [value]="item.degreeCurriculumDesignId"> {{ item.mCurriculumName}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="RequestVariousForm.get('idSubjectOrActivity')?.hasError('required')">
+                    Es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
                 <div *ngIf="RequestVariousForm.get('typeActivityAcademy')?.value === 1 && RequesttypeSelect !== 5 && RequesttypeSelect !== 9 && RequesttypeSelect !== 6 && RequesttypeSelect !== 30"
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
