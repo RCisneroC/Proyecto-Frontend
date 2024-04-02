@@ -215,15 +215,15 @@ export class CreateSolicitudComponent {
           this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16 || x.id == 3 || x.id == 2 || x.id == 3 || x.id == 1);
         }
         if (this.IdTypeUser == 2) {
-          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1);
+          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1 || x.id == 20);
         }
         if (this.IdTypeUser == 3) {
           this.RequesttypeList = res.data
         }
-        const req1: RequestVariousType = { id: 30, name: "Retirar todas las carreras de periódo actual", description: "Retirar todas las carreras de periódo actual" };
-        const req2: RequestVariousType = { id: 31, name: "Reingresar todas las carreras de periódo actual", description: "Reingresar todas las carreras de periódo actual" };
-        this.RequesttypeList.push(req1);
-        this.RequesttypeList.push(req2);
+        //const req1: RequestVariousType = {id: 30, name: "Retirar todas las asignaturas de periódo actual", description: "Retirar todas las carreras de periódo actual"};
+        //const req2: RequestVariousType = {id: 31, name: "Reingresar a la carrera", description: "Reingresar todas las carreras de periódo actual"};
+        //this.RequesttypeList.push(req1);
+        //this.RequesttypeList.push(req2);
 
       }
     })
@@ -403,8 +403,8 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if (value.typeRequest == 30 || value.typeRequest == 31 || value.typeRequest == 9) {
-          if (value.typeRequest == 30) {
+        if (value.typeRequest == 20 || value.typeRequest == 6 || value.typeRequest == 9) {
+          if (value.typeRequest == 20) {
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,
@@ -424,7 +424,7 @@ export class CreateSolicitudComponent {
               }
             })
           }
-          if (value.typeRequest == 31) {
+          if (value.typeRequest == 6) {
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,

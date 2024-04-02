@@ -90,6 +90,7 @@ export class PartakerDetailInscriptionComponent {
   }]
 
   loadingFile: boolean = false;
+  inscriptionID: number = 0;
   public documentosIncripcion!: documentosIncripcion;
   dataAcadInfo = new MatTableDataSource<AcadInfoEF>(this.dataSourceAcadInfo);
   dataExperienceInfo = new MatTableDataSource<ExperienceInfoEF>(this.dataSourceExperienceInfo);
@@ -205,6 +206,7 @@ export class PartakerDetailInscriptionComponent {
     const item = localStorage.getItem('userItem');
     if (item != null) {
       const UserItem: InscriptionResponse = JSON.parse(item);
+      this.inscriptionID = UserItem.inscriptionId;
       const User = this.authService.currentUserValue;
       const ReuestObj = {
         aspNetUsersId: User.id,
@@ -237,13 +239,18 @@ export class PartakerDetailInscriptionComponent {
   }
 
   getDetails() {
+    const item = localStorage.getItem('userItem');
+    if (item != null) {
+      const UserItem: InscriptionResponse = JSON.parse(item);
+      this.inscriptionID = UserItem.inscriptionId;
+    }
     this._ActivityService.loading = true;
     this._ActivityService.GetDetailsEFCedula(this.paramsId).subscribe({
-      next: (res: DetailsParticipanteEF) => {
+      next: ( res: DetailsParticipanteEF) => {
         this._ActivityService._DetailsParticipanteEF = res;
         console.log("Activity obj", res);
         if (res.getDetailsResponse.length > 0) {
-          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0];
+          this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse.filter(x=> x.inscriptionId == this.inscriptionID.toString())[0];
           this.getDocumentosInscripcion();
         }
         this._ActivityService.loading = false;
