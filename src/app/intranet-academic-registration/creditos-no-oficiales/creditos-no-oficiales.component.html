@@ -24,9 +24,18 @@
                             <mat-label>Formación Especializada</mat-label>
                             <mat-select formControlName="formacionEspecializada">
                               <mat-option [value]="" selected></mat-option>
-                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecord">{{item.degree.name}}</mat-option>
+                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecordId"
+                                [disabled]="item.efAcademicRecordIsReentry">
+                                <ng-container *ngIf="item.efAcademicRecordIsReentry===false">
+                                  {{item.degree.name}}
+                                </ng-container>
+                                <ng-container *ngIf="item.efAcademicRecordIsReentry===true">
+                                  {{item.degree.name}} <span class='badge badge-solid-red'>Inactivo</span>
+                                </ng-container>
+                              </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="creditosNoOficialesForm.get('formacionEspecializada')?.hasError('required')">
+                            <mat-error
+                              *ngIf="creditosNoOficialesForm.get('formacionEspecializada')?.hasError('required')">
                               Seleccione la formación especializada
                             </mat-error>
                           </mat-form-field>
@@ -37,8 +46,7 @@
                           <div class="example-button-row">
                             <button (click)="generarNoOficialCredit()" mat-raised-button color="primary"
                               [disabled]="!creditosNoOficialesForm.valid">
-                              <app-feather-icons
-                              [icon]="'download'"></app-feather-icons>
+                              <app-feather-icons [icon]="'download'"></app-feather-icons>
                               Descargar</button>
                           </div>
                         </div>

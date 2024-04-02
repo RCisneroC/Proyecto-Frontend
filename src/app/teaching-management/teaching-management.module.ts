@@ -33,6 +33,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
+  providers: [VerificarBS64Pipe,StatusProcessPipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,
@@ -58,7 +59,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CareerListComponent,
     StatisticsListComponent
   ],
-  providers: [VerificarBS64Pipe],
   imports: [
     CommonModule,
     TeachingManagementRoutingModule,

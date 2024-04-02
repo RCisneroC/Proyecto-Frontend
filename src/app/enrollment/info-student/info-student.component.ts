@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Documents, Experience, Student } from './models/Student';
+import { Documents, Student } from './models/Student';
 import { RequiredDocument } from './models/RequiredDocument';
 import { StudentService } from './services/student.service';
 import Swal from 'sweetalert2';
@@ -185,10 +185,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       FileType: new FormControl([]),
     });
     this.SourceAcademico.paginator = this.paginator;
-
     this.getDetails();
     this.getDetails1();
-
   }
 
   SetValidator(): void {
@@ -212,7 +210,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.studentForm.controls["bloodtype"].updateValueAndValidity();
     this.studentForm.controls["specialCapacity"].updateValueAndValidity();
 
-    this.studentForm.controls["gender"].clearAsyncValidators();
     this.studentForm.controls["institution"].clearAsyncValidators();
     this.studentForm.controls["university"]?.clearAsyncValidators();
     this.studentForm.controls["dependency"].clearAsyncValidators();
@@ -222,7 +219,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.studentForm.controls["judicialDistrict"].clearAsyncValidators();
     this.studentForm.controls["invitationDate"].clearAsyncValidators();
 
-    this.studentForm.controls["gender"].updateValueAndValidity();
     this.studentForm.controls["institution"].updateValueAndValidity();
     this.studentForm.controls["university"].updateValueAndValidity();
     this.studentForm.controls["dependency"].updateValueAndValidity();
@@ -257,8 +253,9 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       this.studentForm.controls["specialCapacity"].updateValueAndValidity();
     }
 
+
     if (this.participante) {
-      this.studentForm.controls["gender"].setValidators([Validators.required]);
+
       this.studentForm.controls["institution"].setValidators([Validators.required]);
       this.studentForm.controls["university"].setValidators([Validators.required]);
       this.studentForm.controls["dependency"].setValidators([Validators.required]);
@@ -268,7 +265,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       this.studentForm.controls["judicialDistrict"].setValidators([Validators.required]);
       this.studentForm.controls["invitationDate"].setValidators([Validators.required]);
 
-      this.studentForm.controls["gender"].updateValueAndValidity();
       this.studentForm.controls["institution"].updateValueAndValidity();
       this.studentForm.controls["university"].markAsDirty();
       this.studentForm.controls["university"].updateValueAndValidity();
@@ -352,7 +348,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 if (this.participante) {
                   this.studentForm.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
                   this.studentForm.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
-                  this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
                   this.studentForm.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
                   this.studentForm.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
                   this.studentForm.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
@@ -422,6 +417,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
               text: 'Experiencia Profesional Borrada.',
               icon: "success"
             });
+            this.cb.detectChanges();
           },
           error: (err: HttpErrorResponse) => {
             console.log(err)
@@ -448,8 +444,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       email: new FormControl("", [Validators.email]),
       telephoneNumber: [""],
       placeResidence: new FormControl(""),
+      gender: new FormControl("", Validators.required),
       //datos de aspirantes
-      gender: new FormControl(""),
       maritalStatus: new FormControl(""),
       nameOfspouse: new FormControl(""),
       numberofchildren: new FormControl(""),
@@ -483,6 +479,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     formdata.append('FileDetails', file);
     this._studentService.archivo(formdata).subscribe({
       next: () => {
+        this.cb.detectChanges();
         console.log("guardado");
       },
       error: () => {
@@ -567,6 +564,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         }
       });
     }
+
+    this.cb.detectChanges();
   }
 
   async mensajeSubmit(error: boolean, mensaje: string) {
@@ -673,7 +672,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     }
     let pointer = 1;
     let jsonItem = "{";
-    const length = this.DataAcademico.length;
+    const length = this.DataAcademicoInserted.length;
     this.DataAcademicoInserted.forEach(function (value) {
       if (pointer != length) {
         jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
@@ -698,6 +697,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
             text: 'No se pudo agregar la información académica.',
             icon: "warning"
           });
+          this.cb.detectChanges();
         }
         else {
           this.loadAcademicInfo();
@@ -753,7 +753,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     }
     let pointer = 1;
     let jsonItem = "{";
-    const length = this.DataStudent.listExperience.length;
+    const length = this.IntertedlistExperience.length;
+
     this.IntertedlistExperience.forEach(function (value) {
       if (pointer != length) {
         jsonItem += `"additionalProp${pointer}":` + JSON.stringify(value) + ',';
@@ -766,6 +767,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     this.IntertedlistExperience = [];
 
     jsonItem += "}";
+    console.log(jsonItem)
     jsonRequest.workExperience = JSON.parse(jsonItem);
 
     this.subscriptions.push(
@@ -779,6 +781,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
               text: 'Experiencia Profesional agregada con éxito.',
               icon: "success"
             });
+            this.cb.detectChanges();
           }
           else {
             Swal.fire({
@@ -805,6 +808,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
               text: 'Formación Académica Borrada.',
               icon: "success"
             });
+            this.cb.detectChanges();
           },
           error: (err: HttpErrorResponse) => {
             console.log(err)
@@ -866,9 +870,6 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.Array_GetDocResp.push(element);
               },
               complete: () => {
-                console.log("this.Array_GetDocResp")
-                console.log(this.Array_GetDocResp)
-
                 this.dataDocumentsRequired = new MatTableDataSource<GetDocResp>(this.Array_GetDocResp);
               }
             })
@@ -905,151 +906,151 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
     })
   }
 
- verDocumento(row: GetDocResp) {
-  this._inscriptionService.init_documentosIncripcion();
-  this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
-    subscribe({
-      next: (res) => {
-        this._inscriptionService._documentosIncripcion = res;
-        this.documentosIncripcion = res;
-        if (Array.isArray(this._inscriptionService._documentosIncripcion.getDocResp)) {
-          if (this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile) != "pdf") {
-            const dialogRef = this._dialog.open(ViewPosterComponent, {
-              data: {
-                type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
-                accion: 'view-poster',
-                posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
-                comment: [],
-                poster: row,
-              },
-              disableClose: true,
-            });
+  verDocumento(row: GetDocResp) {
+    this._inscriptionService.init_documentosIncripcion();
+    this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
+      subscribe({
+        next: (res) => {
+          this._inscriptionService._documentosIncripcion = res;
+          this.documentosIncripcion = res;
+          if (Array.isArray(this._inscriptionService._documentosIncripcion.getDocResp)) {
+            if (this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile) != "pdf") {
+              const dialogRef = this._dialog.open(ViewPosterComponent, {
+                data: {
+                  type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
+                  accion: 'view-poster',
+                  posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
+                  comment: [],
+                  poster: row,
+                },
+                disableClose: true,
+              });
+            } else {
+              const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+                data: {
+                  type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
+                  accion: 'view-poster',
+                  posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
+                  comment: [],
+                  poster: row,
+                },
+                width: '1000px',
+                disableClose: true,
+              });
+            }
+
           } else {
-            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-              data: {
-                type: this._verificarBS64.transform(this._inscriptionService._documentosIncripcion.getDocResp[0].docFile),
-                accion: 'view-poster',
-                posterFile: this._inscriptionService._documentosIncripcion.getDocResp[0].docFile,
-                comment: [],
-                poster: row,
-              },
-              width: '1000px',
-              disableClose: true,
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'No mantiene documentación.',
+              icon: "warning"
             });
           }
+          console.log(res);
 
-        } else {
+        }
+      });
+  }
+
+  onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
+    console.log(name);
+    this.loadingFile1 = true;
+    const files: FileList = event.target.files;
+
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+
+    if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile1 = false;
+        elementImg.value = '';
+        return;
+      }
+      var formdata = new FormData();
+      formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
+      formdata.append('FileType', requerimentId.toString());
+      formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
+      formdata.append('File', files[0]);
+      this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
+        next: (res: ResponseEF) => {
           Swal.fire({
             title: "Escuela Judicial",
-            text: 'No mantiene documentación.',
+            text: '(' + requirement.name + ') ' + res.message,
+            icon: "success"
+          });
+
+          elementImg.value = '';
+          elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
+          this.loadingFile1 = false;
+          // this.verificarDocumentacion();
+        }, error: (err) => {
+          elementImg.value = '';
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Intente nuevamente..',
             icon: "warning"
           });
+          this.loadingFile1 = false;
         }
-        console.log(res);
-
-      }
-    });
-}
-
-onChangeFile(event: any, requerimentId: number, requirement: GetDocResp) {
-  console.log(name);
-  this.loadingFile1 = true;
-  const files: FileList = event.target.files;
-
-  const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
-  const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
-
-  if (files.length > 0) {
-    if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
-        icon: "warning"
-      });
-      this.loadingFile1 = false;
-      elementImg.value = '';
-      return;
+      })
     }
-    var formdata = new FormData();
-    formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
-    formdata.append('FileType', requerimentId.toString());
-    formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());
-    formdata.append('File', files[0]);
-    this._inscriptionService.CargaDocumentoEFRequirement(formdata).subscribe({
-      next: (res: ResponseEF) => {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: '(' + requirement.name + ') ' + res.message,
-          icon: "success"
-        });
-
-        elementImg.value = '';
-        elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
-        this.loadingFile1 = false;
-        // this.verificarDocumentacion();
-      }, error: (err) => {
-        elementImg.value = '';
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: 'Intente nuevamente..',
-          icon: "warning"
-        });
-        this.loadingFile1 = false;
-      }
-    })
   }
-}
 
 
 
-onChangeFile1(event: any, requerimentId: number, requirement: Requirement) {
+  onChangeFile1(event: any, requerimentId: number, requirement: Requirement) {
 
-  this.loadingFile = true;
-  const files: FileList = event.target.files;
-  console.log(files);
-  const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
-  const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
+    this.loadingFile = true;
+    const files: FileList = event.target.files;
+    console.log(files);
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + requerimentId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + requerimentId);
 
-  if (files.length > 0) {
-    if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
-        icon: "warning"
-      });
-      this.loadingFile = false;
-      elementImg.value = '';
-      return;
-    }
-    var formdata = new FormData();
-    formdata.append('cedula', this._ActivityService._DetailsParticipante.detailsResponse[0].cedula);
-    formdata.append('FileType', requerimentId.toString());
-    formdata.append('InscriptionId', this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString());
-    formdata.append('File', files[0]);
-    this._inscriptionService.CargaDocumentoRequirement(formdata).subscribe({
-      next: (res: ResponseEF) => {
+    if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
         Swal.fire({
           title: "Escuela Judicial",
-          text: '(' + requirement.name + ') ' + res.message,
-          icon: "success"
-        });
-
-        elementImg.value = '';
-        elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
-        this.loadingFile = false;
-        // this.verificarDocumentacion();
-      }, error: (err) => {
-        elementImg.value = '';
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: 'Intente nuevamente..',
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
           icon: "warning"
         });
         this.loadingFile = false;
+        elementImg.value = '';
+        return;
       }
-    })
+      var formdata = new FormData();
+      formdata.append('cedula', this._ActivityService._DetailsParticipante.detailsResponse[0].cedula);
+      formdata.append('FileType', requerimentId.toString());
+      formdata.append('InscriptionId', this._ActivityService._DetailsParticipante.detailsResponse[0].inscriptionId.toString());
+      formdata.append('File', files[0]);
+      this._inscriptionService.CargaDocumentoRequirement(formdata).subscribe({
+        next: (res: ResponseEF) => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: '(' + requirement.name + ') ' + res.message,
+            icon: "success"
+          });
+
+          elementImg.value = '';
+          elementText.innerHTML = '(' + requirement.name + ') ' + 'Cargado Correctamente.';
+          this.loadingFile = false;
+          // this.verificarDocumentacion();
+        }, error: (err) => {
+          elementImg.value = '';
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Intente nuevamente..',
+            icon: "warning"
+          });
+          this.loadingFile = false;
+        }
+      })
+    }
   }
-}
 
 
   override ngOnDestroy(): void {
