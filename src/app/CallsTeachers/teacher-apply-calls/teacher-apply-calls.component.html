@@ -45,13 +45,13 @@
                                   </div>
                               </div>
                               <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-5 mt-4">
-                                Estimado docente, ingrese su solicitud en <a  routerLink="/teacher/teacher-admission-external/0/S" target="_blank">este enlace</a>
+                                Estimado docente, ingrese su solicitud en <a  routerLink="/teacher/teacher-admission-external/{{id}}/{{type}}" target="_blank">este enlace</a>
                               </div>
                             </div>
                             <div class="row">
                             <div class=" col-lg-7 col-md-7 col-xs-7 col-sm-7 col-12">
                               <div *ngFor="let row of lstResultados">
-                                <a routerLink="/calls/view-call-for-apply/{{row.id}}">
+                                <a routerLink="/calls/view-call-for-apply/{{ row.url }}">
                                 <div class="card p-3 mb-2 hoverable rounded border-0">
                                  <div class="card-vacancy align-items-center mb-1">
                                    <div class="card-body p-0 d-flex flex-column">

@@ -13,6 +13,7 @@
   </div>
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="form">
+      <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6">
           <mat-form-field class="example-full-width" appearance="outline">
@@ -29,8 +30,9 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Proceso</mat-label>
             <mat-select formControlName="proceso">
-              <mat-option [value]="1">Educación Continua</mat-option>
-              <mat-option [value]="2">Formación Especializada</mat-option>
+              <mat-option [value]="1">Formación Especializada</mat-option>
+              <mat-option [value]="2">Educación Continua</mat-option>
+              <mat-option [value]="3">Ambas</mat-option>
             </mat-select>
             <mat-error *ngIf="form.get('proceso')?.hasError">Seleccione el proceso</mat-error>
           </mat-form-field>

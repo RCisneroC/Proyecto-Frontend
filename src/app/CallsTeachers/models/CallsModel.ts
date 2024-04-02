@@ -9,4 +9,5 @@ export interface Calls{
   requisitos?: string
   actions?: string
   statusId?:number
+  url?: string
 }

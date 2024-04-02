@@ -61,7 +61,7 @@ export class CreditosNoOficialesComponent implements OnDestroy,OnInit {
 
 
   generarNoOficialCredit() {
-  //id = "6";
+
    const id : string = this.creditosNoOficialesForm.controls["formacionEspecializada"]?.value;
 
    this._service.downloadCreditsNoOficial(id).subscribe({

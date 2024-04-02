@@ -8,8 +8,9 @@ export interface InfoDegreeByIdentificationCard {
 
 export interface Daum {
   degree: Degree
-  efAcademicRecord: number
-  totalRecords: number
+  efAcademicRecordId: number
+  totalRecords: number,
+  efAcademicRecordIsReentry:boolean
 }
 
 export interface Degree {
