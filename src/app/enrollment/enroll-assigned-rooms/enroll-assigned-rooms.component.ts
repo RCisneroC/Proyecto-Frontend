@@ -1,26 +1,26 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {EnrollmentService} from "../services/enrollment.service";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Degree} from "../../admission/FormalEducations/Models/Degree";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { EnrollmentService } from "../services/enrollment.service";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { Degree } from "../../admission/FormalEducations/Models/Degree";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
 import {
   ApprovedDegreeComponent
 } from "../../admission/FormalEducations/Approvals/Forms/approved-degree/approved-degree.component";
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
+import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {Room} from "../models/Room";
-import {Subject} from "../models/Subject";
-import {EnrollDummy} from "../models/EnrollDummy";
-import {Career} from "../models/Career";
-import {AuthService} from "@core";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import { Room } from "../models/Room";
+import { Subject } from "../models/Subject";
+import { EnrollDummy } from "../models/EnrollDummy";
+import { Career } from "../models/Career";
+import { AuthService } from "@core";
 
 @Component({
   selector: 'app-enroll-assigned-rooms',
@@ -43,13 +43,13 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   id?: number;
   requirement?: Room = this._RoomService._Room;
   SubjectItem!: Subject;
-  CareerIten!:Career;
+  CareerIten!: Career;
   enrollDummyList: EnrollDummy[] = [];
   classshiftSelect: string = '1';
-  studentId:string = "";
-  enrollmentId:number = 0;
+  studentId: string = "";
+  enrollmentId: number = 0;
   CreateEFAcademicRecordDone: boolean = false;
-  recordId:string = "";
+  recordId: string = "";
   messageDuplicidad: string = "Registro creado exitosamente"
 
   constructor(
@@ -76,7 +76,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
       this.id = params['id'];
     })
     const recordid = localStorage.getItem('enroll-recordID');
-    if(recordid){
+    if (recordid) {
       this.recordId = recordid;
     }
 
@@ -85,131 +85,131 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  changeclasshift(){
-    console.log("Classhift",this.classshiftSelect);
+  changeclasshift() {
+    console.log("Classhift", this.classshiftSelect);
     localStorage.setItem("classhiftvalue", this.classshiftSelect);
     this.loadData();
   }
 
 
-  volverAtras(){
+  volverAtras() {
     const uri = localStorage.getItem('enroll-subject-url');
     this._router.navigate([uri]);
   }
 
-  matricular(row: Room){
+  matricular(row: Room) {
 
     const itemSubject = localStorage.getItem('enroll-subject');
     const itemCareer = localStorage.getItem('enroll-career');
-    if (itemSubject != null){
+    if (itemSubject != null) {
       this.SubjectItem = JSON.parse(itemSubject);
     }
-    if(itemCareer != null){
+    if (itemCareer != null) {
       this.CareerIten = JSON.parse(itemCareer);
     }
 
-      const reqiestObj = {
-        cedula:this.authService.currentUserValue.cedula,
-        degreeId: this.CareerIten.degreeCurriculumDesignId,
-        createdBy: this.authService.currentUserValue.id
-      }
-      this._RoomService.CreateEnrollment(reqiestObj).subscribe({
-        next:(res)=>{
-          console.log("CreateEnrollmentResp",res);
-          if(res.enrollmentResult){
-            this.studentId =  res.enrollmentResult[0].studentId.toString();
-            localStorage.setItem('enroll-studentID', this.studentId);
-            this.enrollmentId =  res.enrollmentResult[0].enrollmentId;
-            localStorage.setItem('enroll-enrollmentID', this.studentId);
-          }
-
-
-          if(res.message === this.messageDuplicidad && res.statusCode === 200){
-            const reqOBJ = {
-              studentId: this.studentId,
-              degreeCurriculumDesignId: this.CareerIten.degreeCurriculumDesignId,
-              isReentry: false
-            }
-            this._RoomService.CreateEFAcademicRecord(reqOBJ).subscribe({
-              next:(res)=>{
-                console.log("CreateEFAcademicRecordResp",res);
-                this.recordId = res.data.id.toString();
-                localStorage.setItem('enroll-recordID', this.recordId);
-
-               const CreateAcademicSubjectRecord = {
-                 efAcademicRecordId: res.data.id.toString(),
-                 subjectId: this.SubjectItem.id,
-                 isReentry: false,
-                 enrollmentId: this.enrollmentId
-               }
-                this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
-                  next:(res)=>{
-                    console.log("CreateAcademicSubjectRecord",res);
-                    this.CreateEFAcademicRecordDone = true;
-                  }
-                })
-              }
-            })
-          }
-
-          if(res.statusCode == 200){
-            const requestSubjes = {
-              enrollmentId: this.enrollmentId,
-              ejStudentId: this.studentId,
-              subjectEnrollment: {
-                additionalProp1: {
-                  periodId: this.SubjectItem.periodId,
-                  subjectId: this.SubjectItem.id,
-                  roomId: row.id,
-                  moodleCourseId: row.moodleCourseId,
-                  periodyearsubjectroom: 2024
-                }
-              },
-              createdBy: this.authService.currentUserValue.id
-            }
-            this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
-              next:(res)=>{
-                console.log("AddSubjectStudentResp",res);
-              }
-            })
-          }
-
-          if(res.statusCode == 200 && !this.CreateEFAcademicRecordDone){
-            const CreateAcademicSubjectRecord = {
-              efAcademicRecordId: this.recordId,
-              subjectId: this.SubjectItem.id,
-              isReentry: false,
-              enrollmentId: this.enrollmentId
-            }
-            this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
-              next:(res)=>{
-                console.log("CreateAcademicSubjectRecord",res);
-                this.CreateEFAcademicRecordDone = true;
-              }
-            })
-          }
-
-          console.log(res.statusCode);
-          if (res.statusCode === 200){
-            const uri = localStorage.getItem('enroll-subject-url');
-            this._router.navigate([uri]);
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: "Matricula completada con éxito",
-              icon: "success"
-            });
-          }
-          else if(res.statusCode === 500) {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: "Matricula no fue completada",
-              icon: "warning"
-            });
-          }
-
-
+    const reqiestObj = {
+      cedula: this.authService.currentUserValue.cedula,
+      degreeId: this.CareerIten.degreeCurriculumDesignId,
+      createdBy: this.authService.currentUserValue.id
+    }
+    this._RoomService.CreateEnrollment(reqiestObj).subscribe({
+      next: (res) => {
+        console.log("CreateEnrollmentResp", res);
+        if (res.enrollmentResult) {
+          this.studentId = res.enrollmentResult[0].studentId.toString();
+          localStorage.setItem('enroll-studentID', this.studentId);
+          this.enrollmentId = res.enrollmentResult[0].enrollmentId;
+          localStorage.setItem('enroll-enrollmentID', this.studentId);
         }
-      })
+
+
+        if (res.message === this.messageDuplicidad && res.statusCode === 200) {
+          const reqOBJ = {
+            studentId: this.studentId,
+            degreeCurriculumDesignId: this.CareerIten.degreeCurriculumDesignId,
+            isReentry: false
+          }
+          this._RoomService.CreateEFAcademicRecord(reqOBJ).subscribe({
+            next: (res) => {
+              console.log("CreateEFAcademicRecordResp", res);
+              this.recordId = res.data.id.toString();
+              localStorage.setItem('enroll-recordID', this.recordId);
+
+              const CreateAcademicSubjectRecord = {
+                efAcademicRecordId: res.data.id.toString(),
+                subjectId: this.SubjectItem.id,
+                isReentry: false,
+                enrollmentId: this.enrollmentId
+              }
+              this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
+                next: (res) => {
+                  console.log("CreateAcademicSubjectRecord", res);
+                  this.CreateEFAcademicRecordDone = true;
+                }
+              })
+            }
+          })
+        }
+
+        if (res.statusCode == 200) {
+          const requestSubjes = {
+            enrollmentId: this.enrollmentId,
+            ejStudentId: this.studentId,
+            subjectEnrollment: {
+              additionalProp1: {
+                periodId: this.SubjectItem.periodId,
+                subjectId: this.SubjectItem.id,
+                roomId: row.id,
+                moodleCourseId: row.moodleCourseId,
+                periodyearsubjectroom: 2024
+              }
+            },
+            createdBy: this.authService.currentUserValue.id
+          }
+          this._RoomService.AddSubjectStudent(requestSubjes).subscribe({
+            next: (res) => {
+              console.log("AddSubjectStudentResp", res);
+            }
+          })
+        }
+
+        if (res.statusCode == 200 && !this.CreateEFAcademicRecordDone) {
+          const CreateAcademicSubjectRecord = {
+            efAcademicRecordId: this.recordId,
+            subjectId: this.SubjectItem.id,
+            isReentry: false,
+            enrollmentId: this.enrollmentId
+          }
+          this._RoomService.CreateAcademicSubjectRecord(CreateAcademicSubjectRecord).subscribe({
+            next: (res) => {
+              console.log("CreateAcademicSubjectRecord", res);
+              this.CreateEFAcademicRecordDone = true;
+            }
+          })
+        }
+
+        console.log(res.statusCode);
+        if (res.statusCode === 200) {
+          const uri = localStorage.getItem('enroll-subject-url');
+          this._router.navigate([uri]);
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Matricula completada con éxito",
+            icon: "success"
+          });
+        }
+        else if (res.statusCode === 500) {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Matricula no fue completada",
+            icon: "warning"
+          });
+        }
+
+
+      }
+    })
 
 
 
@@ -220,15 +220,15 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
   seleccionar(row: Room) {
 
     const itemList = localStorage.getItem('enroll-dummy');
-    if (itemList != null){
+    if (itemList != null) {
       this.enrollDummyList = JSON.parse(itemList);
     }
     const itemSubject = localStorage.getItem('enroll-subject');
     const itemCareer = localStorage.getItem('enroll-career');
-    if (itemSubject != null){
+    if (itemSubject != null) {
       this.SubjectItem = JSON.parse(itemSubject);
     }
-    if(itemCareer != null){
+    if (itemCareer != null) {
       this.CareerIten = JSON.parse(itemCareer);
     }
     console.log("ver objeto", this.CareerIten);
@@ -238,7 +238,7 @@ export class EnrollAssignedRoomsComponent extends UnsubscribeOnDestroyAdapter
       SubjectId: this.SubjectItem.id,
       SubjectName: this.SubjectItem.name,
       createDate: new Date(),
-      ClassShift : this.classshiftSelect
+      ClassShift: this.classshiftSelect
     })
     const enrollDummyListItem = JSON.stringify(this.enrollDummyList);
     localStorage.setItem('enroll-dummy', enrollDummyListItem);
@@ -370,22 +370,22 @@ export class ExampleDataSource extends DataSource<Room> {
     });
     console.log(this.id);
     const item = localStorage.getItem('enroll-subject');
-    if (item != null){
+    if (item != null) {
       this.SubjectItem = JSON.parse(item);
     }
     const clashift = localStorage.getItem("classhiftvalue");
-    if(clashift){
+    if (clashift) {
       this.classhift = +clashift
     }
 
-    console.log("Subjectobj",this.SubjectItem);
-    this.exampleDatabase.GetAssignedRoomsBy(this.classhift,this.SubjectItem.periodId,1,this.SubjectItem.id);
+    console.log("Subjectobj", this.SubjectItem);
+    this.exampleDatabase.GetAssignedRoomsBy(this.classhift, this.SubjectItem.periodId, 1, this.SubjectItem.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.dataRoom
           .slice()
-          .filter((_Room:Room) => {
+          .filter((_Room: Room) => {
             const searchStr = (_Room.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });

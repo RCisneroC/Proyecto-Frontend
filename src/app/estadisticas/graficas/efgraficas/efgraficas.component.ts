@@ -15,20 +15,16 @@ export class EfgraficasComponent {
   form!: UntypedFormGroup;
   public lstFiltros: Filtros[] = [
     {
-      codigo: "DurationInYears",
-      texto: "Duración de Carrera"
-    },
-    {
-      codigo: "NumOfCredits",
-      texto: "Cantidad de créditos"
-    },
-    {
-      codigo: "AssignedCoordinatorId",
-      texto: "Por Coordinador Asignado"
+      codigo: "DegreeId",
+      texto: "Por Carreras"
     },
     {
       codigo: "StudyModeId",
-      texto: "Modo de la Carrera"
+      texto: "Por Modo de Estudio"
+    },
+    {
+      codigo: "StatusId",
+      texto: "Por Estado"
     }
   ];
 
