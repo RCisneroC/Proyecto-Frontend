@@ -550,11 +550,11 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   }
   Regresar() {
-    this._nav.navigate(['/teaching-management/teacher-list/']);
+    this._nav.navigate(['/calls-teachers/teacher-list/']);
   }
   Historial() {
 
-    this._nav.navigate(['/teaching-management/career-list/', this.DataTeacher.cedula]);
+    this._nav.navigate(['/calls-teachers/career-list/', this.DataTeacher.cedula]);
   }
 
 
@@ -638,8 +638,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
         }
       })
 
-    this._nav.navigate(['/teaching-management/teacher-list/']);
-    // emppty stuff
+    this._nav.navigate(['/calls-teachers/teacher-list/']);
   }
 
   removeTraining(row: Training) {

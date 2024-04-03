@@ -20,6 +20,11 @@ import { CallsEditComponent } from './calls-edit/calls-edit.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AprovedCallsTeachersComponent } from './aproved-calls-teachers/aproved-calls-teachers.component';
 import { ViewCallForApplyComponent } from './view-call-for-apply/view-call-for-apply.component';
+import { TeachingHistoryListComponent } from './teaching-history-list/teaching-history-list.component';
+import { ListStudentsComponent } from './list-students/list-students.component';
+import { CareerListComponent } from './career-list/career-list.component';
+import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
+import { FinalGradeComponent } from './final-grade/final-grade.component';
 
 
 @NgModule({
@@ -37,7 +42,13 @@ import { ViewCallForApplyComponent } from './view-call-for-apply/view-call-for-a
     CallsNewComponent,
     CallsEditComponent,
     AprovedCallsTeachersComponent,
-    ViewCallForApplyComponent
+    ViewCallForApplyComponent,
+    TeachingHistoryListComponent,
+    ListStudentsComponent,
+    CareerListComponent,
+    DetailSubjectComponent,
+    FinalGradeComponent
+
   ],
   imports: [
     CommonModule,

@@ -40,12 +40,17 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
     next : (request:Calls[])=>{
              this.lstResultados = request;
              this.lstResultados.forEach( (f)=>{
-              return f.url = this.encrypt(f.id.toString())
-
+               f.url = this.encrypt(f.id.toString())
+               f.statusId = this.getStatusId(f.fechaFin!)
              });
     },
     error : (err:HttpErrorResponse) =>{
       console.log(err);
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: "No se pudo cargar las convocatorias",
+        icon: "warning"
+      });
     }
   }
   );
@@ -56,8 +61,31 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
 
   }
 
+  public getStatusId(date :string):number{
+
+    const date_1 = new Date(date.substring(0,10));
+    const date_2 = new Date();
+    const day_as_milliseconds = 86400000;
+    const diff_in_millisenconds = date_1.getTime() - date_2.getTime();
+
+    const diff_in_days = diff_in_millisenconds / day_as_milliseconds;
+    let resp : number = 0;
+    console.log(diff_in_days)
+
+    resp = (diff_in_days > 0 && diff_in_days  < 5 ? 2 : diff_in_days < 0 ? 3 : diff_in_days  > 5 ? 1 : 2);
+
+    //if(date_1.getTime() > date_2.getTime())
+     // resp = 1;
+
+    return  resp;
+  }
+
 
   public encrypt(value: string) : string{
     return this.serviceEncryptDescrypt.encrypt(value);
+  }
+
+  public decrypt(value: string) : string{
+    return this.serviceEncryptDescrypt.decrypt(value);
   }
 }

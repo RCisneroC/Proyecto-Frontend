@@ -5,6 +5,8 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { EncryptDescryptService } from '../services/encrypt-descrypt.service';
 import { CallsTeachersService } from '../services/calls-teachers.service';
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-call-for-apply',
@@ -12,14 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./view-call-for-apply.component.scss']
 })
 export class ViewCallForApplyComponent implements OnInit, OnDestroy {
-  public id: string = "";
-  public calls: Calls = {
-  id : 1,
-  titulo:"Convocatoria de Prueba",
-  descripcion: "Se solicita un docente tiempo parcial para dictar la cátedra de matemáticas",
-  funciones:"<ul><li>Dictar clases</li></ul>",
-  requisitos:"<ul><li>Especialización en Docencia</li></ul>"
-  };
+  public id: number = 0;
+  public calls?: Calls;
 
 public subscriptions: Subscription[] = [];
 
@@ -28,18 +24,34 @@ constructor(public activatedRoute: ActivatedRoute,
   private  serviceCallsTeachers:CallsTeachersService,
   private serviceEncryptDescrypt: EncryptDescryptService){
   this.activatedRoute.params.subscribe((params) => {
-    this.id = this.decrypt(params['id']);
+    this.id = parseInt(this.decrypt(params['id']));
   });
-
  }
-
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
   ngOnInit(): void {
-    console.log("Init")
+    this.getCalls();
+  }
+
+  getCalls():void{
+    this.serviceCallsTeachers.getCallsAvailableById(this.id).subscribe(
+      {
+        next : (request:Calls)=>{
+                 this.calls = request;
+        },
+        error : (err:HttpErrorResponse) =>{
+          console.log(err);
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "La convocatoria no existe",
+            icon: "warning"
+          });
+        }
+      }
+    )
   }
 
  public SafeHtml(myHtmlString: string) {
@@ -51,12 +63,16 @@ constructor(public activatedRoute: ActivatedRoute,
 }
 
 volverAtras() {
-  let url =  "calls/teacher-apply-calls";
+  const url =  "calls/teacher-apply-calls";
   this.router.navigate([url]);
 }
 
 Postularse() {
-  const url: string =  "teacher/teacher-admission-external/" + this.encrypt(this.calls.id.toString()) + "/" + this.encrypt("C");
+  let pId: string = "";
+  if(this.calls != undefined)
+   pId = this.calls?.id!.toString();
+
+  const url: string =  "teacher/teacher-admission-external/" + this.encrypt(pId) + "/" + this.encrypt("C");
   this.router.navigate([url]);
 }
 

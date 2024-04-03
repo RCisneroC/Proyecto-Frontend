@@ -44,8 +44,8 @@
                                     >Buscar</button>
                                   </div>
                               </div>
-                              <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-5 mt-4">
-                                Estimado docente, ingrese su solicitud en <a  routerLink="/teacher/teacher-admission-external/{{id}}/{{type}}" target="_blank">este enlace</a>
+                              <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-5">
+
                               </div>
                             </div>
                             <div class="row">
@@ -70,8 +70,12 @@
                                             Nuevo
                                           </span>
 
-                                          <span *ngIf="row.statusId===2" class="badge badge-solid-red">
+                                          <span *ngIf="row.statusId===2" class="badge badge-solid-orange">
                                             Por Vencer
+                                          </span>
+
+                                          <span *ngIf="row.statusId===3" class="badge badge-solid-red">
+                                            Vencido
                                           </span>
 
                                         </p>
@@ -101,6 +105,10 @@
                                    </p>
                                 </div>
                                 </div>
+                                    <a  routerLink="/teacher/teacher-admission-external/{{id}}/{{type}}" target="_blank">
+                                      <button mat-raised-button color="primary" class="m-3"
+                                      > Postular sin Convocatoria</button>
+                                    </a>
                            </div>
                           </div>
                           </div>

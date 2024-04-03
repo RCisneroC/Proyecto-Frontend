@@ -38,7 +38,6 @@ OnDestroy {
   @ViewChild('paginator', { static: true })
   paginator!: MatPaginator;
 
-
   constructor(public dialog: MatDialog, private  serviceCallsTeachers:CallsTeachersService){}
 
   ngOnInit(): void {
@@ -127,7 +126,28 @@ OnDestroy {
   }
 
   exportExcel(): void {
+    const exportData: Partial<TableElement>[] =
+    this.dataSource.filteredData.map((x) => ({
+      "Id": x.id,
+      'Título': x.titulo,
+      'Descripción': this.removeHtml(x.descripcion!),
+      'Fecha Inicio': x.fechaInicio,
+      'Fecha Fin': x.fechaFin,
+      'Funciones':  this.removeHtml(x.funciones!),
+      'Requisitos': this.removeHtml(x.requisitos!),
+      'Proceso': x.proceso == 2 ? "Educación continua" : x.proceso == 1 ? " Formación Especializada" : "Ambas",
+      'Estado': x.statusId == 1 ? "Cerrada" : x.statusId == 2 ? "Abierta" : "Pendiente",
+    }));
+  TableExportUtil.exportToExcel(exportData, 'excel');
+  }
 
+  removeHtml(value: string):string{
+    value = value.replace(/&(lt|gt);/g,
+                function (strMatch, p1) {
+                    return (p1 == "lt") ? "<" : ">";
+                });
+    value = value.replace(/<\/?[^>]+(>|$)/g, "");
+    return value;
   }
 
   refresh(): void {
