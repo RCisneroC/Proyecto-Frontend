@@ -123,7 +123,7 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
 
   Detail(row: Teacher) {
 
-    this._nav.navigate(['/teaching-management/teacher-detail/', row.cedula]);
+    this._nav.navigate(['/calls-teachers/teacher-detail/', row.cedula]);
   }
 
   Aproved(row: Teacher) {

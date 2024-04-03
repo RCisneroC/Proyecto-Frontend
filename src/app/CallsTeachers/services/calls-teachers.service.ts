@@ -27,5 +27,9 @@ export class CallsTeachersService {
     return this.httpClient.get<Calls[]>(environment.ConsultaDocentes + 'Announcement/GetAvailableAnnouncement');
   }
 
+  getCallsAvailableById(id:number) {
+    return this.httpClient.get<Calls>(environment.ConsultaDocentes + 'Announcement/GetAnnouncementById?id=' + id);
+  }
+
 
 }
