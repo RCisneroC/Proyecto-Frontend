@@ -30,10 +30,11 @@ import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.compon
 import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe,StatusProcessPipe],
+  providers: [VerificarBS64Pipe, StatusProcessPipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,

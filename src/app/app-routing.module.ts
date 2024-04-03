@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Page404Component } from './authentication/page404/page404.component';
@@ -62,6 +63,12 @@ const routes: Routes = [
         loadChildren: () =>
           import('./CallsTeachers/calls-teaching.module').then((m) => m.CallsTeachingModule),
       },
+      {
+        path: 'jobs',
+        loadChildren: () =>
+          import('./Job/job-module.module').then((m) => m.JobModuleModule),
+      },
+
 
     ],
   },
