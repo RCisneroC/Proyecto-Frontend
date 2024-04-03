@@ -62,6 +62,7 @@ export class EnrollDetailsMeshComponent {
   loading: boolean = true;
   part: boolean = false;
   asp: boolean = false;
+  egresado: boolean = false;
   eCAcademicRecordId: number = 0;
   dataSourceInfo: Career[] = [{
     aspirantId: 0,
@@ -125,6 +126,7 @@ export class EnrollDetailsMeshComponent {
         console.log("GetVerifyStudent", res.verifyUsersResult[0].part);
         this.part = res.verifyUsersResult[0].part;
         this.asp = res.verifyUsersResult[0].asp;
+        this.egresado = res.verifyUsersResult[0].egresado;
         if (this.part) {
           this._ActivityService.GetDetailsCedula(this.authService.currentUserValue.cedula).subscribe({
             next: (res: DetailsParticipante) => {
@@ -188,13 +190,13 @@ export class EnrollDetailsMeshComponent {
   goSubjects(row: Career) {
     this._router.navigate(['/enrollment/enroll-details/' + row.degreeCurriculumDesignId]);
   }
-  
+
   goTask(row: Career) {
     this._router.navigate(['/enrollment/my-tasks-list/' + row.degreeCurriculumDesignId]);
   }
-  
-  
-  
+
+
+
 
   verAsistencia(row: getStudentsActivityResponse) {
 
