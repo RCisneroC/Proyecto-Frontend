@@ -5,6 +5,7 @@ import {ComponentsModule} from "@shared/components/components.module";
 import {SharedModule} from "@shared";
 import { ForoComponent } from './foro/foro.component';
 import {ForoRoutingModule} from "./exchange-routing.module";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 
 
 
@@ -19,6 +20,7 @@ import {ForoRoutingModule} from "./exchange-routing.module";
     ReactiveFormsModule,
     ComponentsModule,
     SharedModule,
+    CKEditorModule,
   ]
 })
 export class ExchangeModule { }
