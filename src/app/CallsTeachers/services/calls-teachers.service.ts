@@ -23,13 +23,21 @@ export class CallsTeachersService {
     return this.httpClient.post<any>(environment.ConsultaDocentes + 'Announcement/Aproved', data);
   }
 
-  getCallsAvailable() {
-    return this.httpClient.get<Calls[]>(environment.ConsultaDocentes + 'Announcement/GetAvailableAnnouncement');
+  getCallsAvailable(titulo: string | null = null) {
+    let url: string = "";
+    if(titulo != null)
+       url = "titulo=" + titulo!;
+
+    return this.httpClient.get<Calls[]>(environment.ConsultaDocentes + 'Announcement/GetAvailableAnnouncement?' + url);
   }
 
   getCallsAvailableById(id:number) {
     return this.httpClient.get<Calls>(environment.ConsultaDocentes + 'Announcement/GetAnnouncementById?id=' + id);
   }
 
+  updateDocuments(data: any): Observable<any> {
+    const url = `${environment.ConsultaDocentes}`;
+    return this.httpClient.post<any>(url + "Announcement/UpdateFileTeacher", data);
+  }
 
 }

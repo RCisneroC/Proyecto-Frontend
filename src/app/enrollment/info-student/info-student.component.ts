@@ -971,7 +971,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         elementImg.value = '';
         return;
       }
-      var formdata = new FormData();
+      const formdata = new FormData();
       formdata.append('cedula', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].cedula);
       formdata.append('FileType', requerimentId.toString());
       formdata.append('InscriptionId', this._ActivityService._DetailsParticipanteEF.getDetailsResponse[0].inscriptionId.toString());

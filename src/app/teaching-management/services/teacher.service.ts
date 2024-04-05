@@ -82,7 +82,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   searchSubjectTask(filter: any) {
     return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
-  addUpdateTeacher(teacher: Teacher) {
+  addUpdateTeacher(teacher: Teacher, id:number = 0, type: string | null = null) {
+    if(type!= null){
+      teacher.type = type;
+      teacher.id = id;
+    }
 
     return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'Save', teacher);
   }

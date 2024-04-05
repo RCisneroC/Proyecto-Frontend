@@ -73,6 +73,16 @@
                             <span class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="type">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span *ngIf="row.type==='S'">Solicitud</span>
+                            <span *ngIf="row.type==='C'">Convocatoria</span>
+                            <span *ngIf="row.type===null">Externa</span>
+                          </mat-cell>
+                          </ng-container>
+
                         <ng-container matColumnDef="applicationDate">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Aplicación
                           </mat-header-cell>

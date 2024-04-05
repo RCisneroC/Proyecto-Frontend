@@ -22,6 +22,8 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
   public urlEncoding = new HttpUrlEncodingCodec();
   public id: string = this.encrypt("0");
   public type: string = this.encrypt("S");
+  public IsLoading: boolean = false;
+
  constructor(private  serviceCallsTeachers:CallsTeachersService,
   private serviceEncryptDescrypt: EncryptDescryptService
   ){}
@@ -35,6 +37,7 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
   }
 
   getAll():void{
+  this.IsLoading = true;
   this.serviceCallsTeachers.getCallsAvailable().subscribe(
   {
     next : (request:Calls[])=>{
@@ -43,6 +46,7 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
                f.url = this.encrypt(f.id.toString())
                f.statusId = this.getStatusId(f.fechaFin!)
              });
+             this.IsLoading = false;
     },
     error : (err:HttpErrorResponse) =>{
       console.log(err);
@@ -51,6 +55,7 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
         text: "No se pudo cargar las convocatorias",
         icon: "warning"
       });
+      this.IsLoading = false;
     }
   }
   );
@@ -58,7 +63,28 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
   }
 
   getVacancy(value:any):void{
-
+    this.IsLoading = true;
+    this.serviceCallsTeachers.getCallsAvailable(value.toString()).subscribe(
+      {
+        next : (request:Calls[])=>{
+                 this.lstResultados = request;
+                 this.lstResultados.forEach( (f)=>{
+                   f.url = this.encrypt(f.id.toString())
+                   f.statusId = this.getStatusId(f.fechaFin!)
+                 });
+                 this.IsLoading = false;
+        },
+        error : (err:HttpErrorResponse) =>{
+          console.log(err);
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "No se pudo cargar las convocatorias",
+            icon: "warning"
+          });
+          this.IsLoading = false;
+        }
+      }
+      );
   }
 
   public getStatusId(date :string):number{
@@ -70,12 +96,7 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
 
     const diff_in_days = diff_in_millisenconds / day_as_milliseconds;
     let resp : number = 0;
-    console.log(diff_in_days)
-
     resp = (diff_in_days > 0 && diff_in_days  < 5 ? 2 : diff_in_days < 0 ? 3 : diff_in_days  > 5 ? 1 : 2);
-
-    //if(date_1.getTime() > date_2.getTime())
-     // resp = 1;
 
     return  resp;
   }

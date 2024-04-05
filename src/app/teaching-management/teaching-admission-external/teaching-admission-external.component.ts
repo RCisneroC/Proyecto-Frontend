@@ -11,6 +11,7 @@ import { AddTrainingComponent } from '../add-training/add-training.component';
 import Swal from 'sweetalert2';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { MatStepper } from '@angular/material/stepper';
+import { EncryptDescryptService } from 'app/CallsTeachers/services/encrypt-descrypt.service';
 
 
 
@@ -78,7 +79,8 @@ training?: Training;
 _Form_Data = new FormData();
 viewMessage?:boolean;
 FormsEFDocument!: UntypedFormGroup;
-  
+public id:number = 0;
+public type: string | null = null;
 
 
 
@@ -93,22 +95,34 @@ FormsEFDocument!: UntypedFormGroup;
     public _dialog: MatDialog,
     private _nav: Router,
     private fb: UntypedFormBuilder,
+    private serviceEncryptDescryptService: EncryptDescryptService,
+    private router: Router
   ) {
     super();
+    this.activatedRoute.params.subscribe((params) => {
+      if(params['id'] != null && params['id'] !=undefined){
+        this.id = parseInt(this.serviceEncryptDescryptService.decrypt(params['id']));
+      }
 
+      if(params['type'] != null && params['type'] !=undefined){
+        this.type = this.serviceEncryptDescryptService.decrypt(params['type']);
+        console.log("Type " + this.type);
+      }
+
+    });
   }
 
 
   ngOnInit() {
-  
+
     this.DataTeacher = new Teacher();
     const fechaActual = new Date();
     this.fechaA = fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
-   
+
     this.FormsEFDocument = this.fb.group({});
     this.getRequiredDocuments();
-   
+
     this.teacherForm=this.fb.group({
       teacherId :new FormControl(0),
       cedula:['',[Validators.required],[this.cedulaExist()]],
@@ -133,21 +147,21 @@ FormsEFDocument!: UntypedFormGroup;
       createdBy: new FormControl("")
     })
   }
-  
+
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
        next: (res) => {
- 
+
          this.DataRequiredDocuments = res.filter(x=>x.statusId===1);
-        
+
         for (const property of this.DataRequiredDocuments) {
-        
+
           this.FormsEFDocument.addControl(
             property.documentId.toString(),
             this.fb.control([],property.typeEducationId==1? [Validators.required]:[])
           );
         }
-  
+
 
        }
      })
@@ -196,19 +210,19 @@ FormsEFDocument!: UntypedFormGroup;
    viewMessag(tip:number){
   if(tip==1){
     if(this.DataTeacher.listTraining.length==0){
-    
+
     this.viewAlert=true;
     }else{
       this.viewAlert=false;
     }
-    
+
   }else{
     if(this.DataTeacher.listExperience.length==0){
       this.viewAlert1=true;
     }else{
       this.viewAlert1=false;
     }
-    
+
   }
 
   }
@@ -236,7 +250,7 @@ FormsEFDocument!: UntypedFormGroup;
       }
 
       this.DataTraining.push(result);
-      
+
       this.DataTeacher.listTraining = [...this.DataTeacher.listTraining, ...this.DataTraining]
       this.viewMessag(1);
     });
@@ -251,13 +265,13 @@ FormsEFDocument!: UntypedFormGroup;
   Regresar() {
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
-  
+
   valor(event:any)
   {
   console.log(event);
   console.log(this.teacherForm.value);
   }
-  
+
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(0),
@@ -287,7 +301,7 @@ FormsEFDocument!: UntypedFormGroup;
   tmp_files :any[50] = [];
   tmp_docType :any[50] = [];
   onFileSelected(event: any,idx:number,docId:number) {
- 
+
         this.tmp_files[idx]=(event.target.files[0]);
         this.tmp_docType[idx]=(docId);
         const formdata=new FormData();
@@ -295,24 +309,24 @@ FormsEFDocument!: UntypedFormGroup;
   }
 
   submit() {
- 
+
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
   this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
   this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
-  
+
   if(this.teacherForm.valid){
   this.load=true;
   const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
- 
+
   this.teacherForm?.get('process')?.setValue(4);
 
-  this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
+  this._teacherService.addUpdateTeacher(this.teacherForm.value, this.id, this.type).subscribe({
     next: (res) => {
     const TeacherId=res.idRegistro
     if(TeacherId>0){
-   
+
      for (let i = 0; i < tem.length ; i++) {
-      
+
       if(tem[i]!=undefined){
         const formdata=new FormData();
         formdata.append('FileDetails',tem[i]);
@@ -334,18 +348,18 @@ FormsEFDocument!: UntypedFormGroup;
             }
           });
           }
-        
+
          },
          error: () => {
-         
+
          }
        })
       }
-  
+
     }
- 
-          
-       
+
+
+
     } },
     error: () => {
       Swal.fire({
@@ -355,7 +369,7 @@ FormsEFDocument!: UntypedFormGroup;
           });
     }
    })
-   
+
 
     // emppty stuff
   }
@@ -364,7 +378,11 @@ FormsEFDocument!: UntypedFormGroup;
     this.DataTraining=[];
     this.DataTraining=this.DataTeacher.listTraining.filter(x=>x.trainingId!=row.trainingId)
     this.DataTeacher.listTraining=[...this.DataTraining]
-    
+
+  }
+
+  volverAtras() {
+    this.router.navigate(["calls/teacher-apply-calls"]);
   }
 
 
