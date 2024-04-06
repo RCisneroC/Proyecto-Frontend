@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
@@ -6,6 +6,8 @@ import { Teacher } from '../models/Teacher';
 import { TeacherService } from '../services/teacher.service';
 import { UserService } from 'app/security/user/service/user.service';
 import Swal from 'sweetalert2';
+import { CallsTeachersService } from '../services/calls-teachers.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -19,7 +21,7 @@ export interface DialogData {
   templateUrl: './aproved-teacher.component.html',
   styleUrls: ['./aproved-teacher.component.scss']
 })
-export class AprovedTeacherComponent {
+export class AprovedTeacherComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: '',
@@ -31,19 +33,30 @@ export class AprovedTeacherComponent {
     { id: "2", name: 'Entrenamiento' },
     { id: "3", name: 'Ambos procesos' }
   ];
+
+  contractTypeList = [
+    { id: "", name: 'Seleccione' },
+    { id: "T", name: 'Temporal' },
+    { id: "P", name: 'Permanente' },
+    { id: "N", name: 'Ninguno' }
+  ];
   action: string;
   dialogTitle: string = '';
   ApprovedForm: UntypedFormGroup;
   UserForm: UntypedFormGroup;
   id_cronograma: number = 0;
   viewProcess!: boolean;
+  public isCalls: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<AprovedTeacherComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _teacherService: TeacherService,
     public _userService: UserService,
     private fb: UntypedFormBuilder,
-    private fbUser: UntypedFormBuilder
+    private fbUser: UntypedFormBuilder,
+    private cb: ChangeDetectorRef,
+    private serviceCallsTeachersService:CallsTeachersService
   ) {
     // Set the defaults
     this.action = data.accion;
@@ -52,7 +65,8 @@ export class AprovedTeacherComponent {
       teacherId: [data.teacher.teacherId, [Validators.required]],
       process: ['', [Validators.required]],
       statusId: ['', [Validators.required]],
-      approvalMessage: ['', [Validators.required]]
+      approvalMessage: ['', [Validators.required]],
+      contractType: ['']
     });
 
     this.UserForm = this.fbUser.group({
@@ -73,6 +87,32 @@ export class AprovedTeacherComponent {
     });
 
     this.viewProcess = false;
+
+
+  }
+
+
+  ngOnInit(): void {
+    if(this.data.teacher.type != undefined){
+      if(this.data.teacher.type == "C"){
+        this.serviceCallsTeachersService.getCallsAvailableById(this.data.teacher.id!).subscribe(
+          {
+            next : (request)=>{
+              this.ApprovedForm.controls["process"].patchValue(request.proceso!.toString());
+              this.ApprovedForm.controls["process"].disable();
+            },
+            error :(err:HttpErrorResponse) =>{
+              console.log(err)
+            }
+          }
+        );
+
+        this.ApprovedForm.controls["contractType"].setValidators([Validators.required]);
+        this.ApprovedForm.controls["contractType"].updateValueAndValidity();
+        this.isCalls = true;
+        this.cb.detectChanges();
+      }
+    }
   }
   Valor(value: string) {
 

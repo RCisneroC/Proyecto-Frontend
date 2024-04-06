@@ -23,6 +23,7 @@ export class Teacher {
     gender: string = "";
     phoneNumber: string = "";
     type?: string = "";
+    id?:number;
 }
 
 export interface Course {

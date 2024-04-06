@@ -67,15 +67,9 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span *ngIf="row.Proceso===1">
-                              Formación Especializada
-                            </span>
-                            <span  *ngIf="row.statusId===2">
-                             Educación Continua
-                            </span>
-                            <span  *ngIf="row.statusId===3">
-                              Ambas
-                             </span>
+ <span *ngIf="row.proceso === 1">Entrenamiento</span>
+ <span *ngIf="row.proceso === 2">Formación especializada</span>
+ <span *ngIf="row.proceso === 3">Ambas</span>
                           </mat-cell>
                         </ng-container>
 
@@ -134,7 +128,7 @@
                       <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                       </mat-progress-spinner>
                     </div>
-                    <mat-paginator #paginator [length]="lstResultados.length" [pageIndex]="0" [pageSize]="5"
+                    <mat-paginator #paginator
                       [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>

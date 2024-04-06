@@ -1,10 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild,OnDestroy } from '@angular/core';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import { Component,  OnInit, ViewChild,OnDestroy } from '@angular/core';
+import { TableElement, TableExportUtil } from '@shared';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import {  Sort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Calls } from 'app/CallsTeachers/models/CallsModel';
 import { MatTableDataSource } from '@angular/material/table';
 import { CallsNewComponent } from '../calls-new/calls-new.component';
@@ -40,6 +39,7 @@ OnDestroy {
 
   constructor(public dialog: MatDialog, private  serviceCallsTeachers:CallsTeachersService){}
 
+
   ngOnInit(): void {
    this.loadData();
   }
@@ -52,9 +52,11 @@ OnDestroy {
                  this.lstResultados = request;
                  this.dataSource = new MatTableDataSource<Calls>(this.lstResultados);
                  this.IsLoading = false;
+                 this.dataSource.paginator = this.paginator;
         },
         error : (err:HttpErrorResponse) =>{
           this.IsLoading = false;
+          this.dataSource.paginator = this.paginator;
           console.log(err);
         }
        })
@@ -203,6 +205,7 @@ sortData(sort: Sort) {
   const data = this.lstResultados.slice();
   if (!sort.active || sort.direction === '') {
     this.dataSource = new MatTableDataSource<Calls>(data);
+    this.dataSource.paginator = this.paginator;
     return;
   }
 
@@ -224,6 +227,7 @@ sortData(sort: Sort) {
     }
   });
   this.dataSource = new MatTableDataSource<Calls>(this.lstResultados);
+  this.dataSource.paginator = this.paginator;
 }
 
  compare(a: number | string, b: number | string, isAsc: boolean):number {
