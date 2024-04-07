@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
@@ -18,8 +18,8 @@ import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { AuthService, User } from '@core';
-
-
+import { CallsTeachersService } from '../services/calls-teachers.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -77,9 +77,9 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   displayedColumnsDoc = [
     'docType',
-    'extension',
+    'actualizar',
+    'validate',
     'docResult',
-
   ];
 
   displayedColumnsActivities: string[] = [
@@ -113,6 +113,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
   user!: User;
   typeUser!: string;
   view!: boolean;
+  public loadingFile: boolean = false;
 
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -124,7 +125,9 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     public _verificarBS64: VerificarBS64Pipe,
     public _RequestService: RequestServicesService,
     public authenticationService: AuthService,
-    private cb: ChangeDetectorRef
+    private cb: ChangeDetectorRef,
+    public elm: ElementRef,
+    private serviceCallsTeachersService: CallsTeachersService
 
   ) {
     super();
@@ -217,7 +220,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
-           if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
+            if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
               this.selectedOption = "3";
             } else if (this.DataTeacher.listSubject.length > 0) {
               this.selectedOption = "1";
@@ -571,10 +574,10 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
 
-      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
-      gender:new FormControl(this.DataTeacher?.gender),
-      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
-      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
+      phoneNumber: new FormControl(this.DataTeacher?.phoneNumber),
+      gender: new FormControl(this.DataTeacher?.gender),
+      placeOfBirth: new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth: new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),
@@ -655,6 +658,82 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       Title: new FormControl(this.DataTeacher.listDocument[0]?.docResult),
       CV: new FormControl([])
     });
+  }
+
+  validarDocumentos(row: Documents) {
+
+    this._teacherService.ValidateDocument(row.documentId).subscribe(
+      {
+        next: (request: any) => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'El documento ya fue validado',
+            icon: "success"
+          });
+          this.ngOnInit();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'El documento no fue validado',
+            icon: "warning"
+          });
+        }
+      }
+    );
+
+  }
+
+  onChangeFile(event: any, docTypeId: number, obj: Documents) {
+    this.loadingFile = true;
+    const files: FileList = event.target.files;
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + docTypeId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + docTypeId);
+    if (files.length > 0) {
+      if (files[0].type != 'application/pdf' && files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+        elementImg.value = '';
+        return;
+      }
+      const formdata = new FormData();
+      formdata.append('teacherId', this.cedula);
+      formdata.append('docTypeId', docTypeId.toString());
+      formdata.append('documentId', obj.documentId.toString());
+      formdata.append('FileDetails', files[0]);
+      this.serviceCallsTeachersService.updateDocuments(formdata).subscribe(
+        {
+          next: (res: any) => {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: '(' + this.GetName(obj.docType) + ') Cargado Correctamente.',
+              icon: "success"
+            });
+            elementImg.value = '';
+            elementText.innerHTML = '(' + this.GetName(obj.docType) + ') ' + 'Cargado Correctamente.';
+            this.ngOnInit();
+            this.loadingFile = false;
+
+          }, error: (err: HttpErrorResponse) => {
+            console.log(err);
+
+            elementImg.value = '';
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente..',
+              icon: "warning"
+            });
+            this.loadingFile = false;
+          }
+        }
+      );
+
+    }
   }
 
 

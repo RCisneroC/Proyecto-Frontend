@@ -22,7 +22,8 @@ export class Teacher {
     placeOfBirth: string = "";
     gender: string = "";
     phoneNumber: string = "";
-
+    type?: string = "";
+    id?:number;
 }
 
 export interface Course {
@@ -65,6 +66,8 @@ export class Documents {
     extension: string = "";
     docType: number = -1;
     description: string | null = "";
+    actualizar: string | null = "";
+    validate:boolean = false;
 }
 
 

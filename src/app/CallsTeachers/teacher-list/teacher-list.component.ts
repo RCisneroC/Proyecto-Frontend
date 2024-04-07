@@ -32,6 +32,7 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     'cedula',
     'name',
     'lastName',
+    'type',
     'statusId',
     'process',
     'createdDate',

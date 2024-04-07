@@ -30,8 +30,8 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Proceso</mat-label>
             <mat-select formControlName="proceso">
-              <mat-option [value]="1">Formación Especializada</mat-option>
-              <mat-option [value]="2">Educación Continua</mat-option>
+              <mat-option [value]="1">Entrenamiento</mat-option>
+              <mat-option [value]="2">Formación Especializada</mat-option>
               <mat-option [value]="3">Ambas</mat-option>
             </mat-select>
             <mat-error *ngIf="form.get('proceso')?.hasError">Seleccione el proceso</mat-error>

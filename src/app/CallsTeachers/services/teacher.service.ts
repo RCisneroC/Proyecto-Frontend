@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { RequestActivityTeacher, RequestSubjectTeacher, ResponseSaveTeacher, Subject, Teacher } from '../models/Teacher';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
@@ -239,7 +239,15 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-
+  ValidateDocument(docId: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+    };
+    return this.httpClient
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId,httpOptions);
+  }
 
 
 
