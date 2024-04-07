@@ -39,6 +39,11 @@ const routes: Routes = [
           import('./tutor/tutor.module').then((m) => m.TutorModule),
       },
       {
+        path: 'exchange',
+        loadChildren: () =>
+          import('./exchange/exchange.module').then((m) => m.ExchangeModule),
+      },
+      {
         path: 'intranet-academic',
         loadChildren: () =>
           import('./intranet-academic-registration/intranet-academic-registration.module').then((m) => m.IntranetAcademicRegistrationModule),
