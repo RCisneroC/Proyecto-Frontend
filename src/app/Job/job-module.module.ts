@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ContractTypeFormsComponent } from './Maestras/Forms/contract-type-forms/contract-type-forms.component';
 
 
 
@@ -39,7 +40,8 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
     CompanyFormsComponent,
     ViewJobsComponent,
     PostulationComponent,
-    PostulationFormsComponent
+    PostulationFormsComponent,
+    ContractTypeFormsComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
