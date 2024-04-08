@@ -12,7 +12,7 @@ export const environment = {
   consultaPlanesAprobados: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetAll?StatusId=5',
   ConsultaMallaCurrcularByPlan: 'https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
   apiEC: "https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
-  apiForo: "http://localhost:5032/api/v1/",
+  apiForo: "https://foro-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   apiCatalogs: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurites.net/api/v1/Subject/',
   apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
