@@ -20,6 +20,7 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GlobalErrorHandler } from './core/global-error-handler';
+import { DatePipe } from '@angular/common';
 
 import {
   HttpClientModule,
@@ -80,8 +81,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: GlobalErrorHandler }
-
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    DatePipe
 
   ],
   bootstrap: [AppComponent],

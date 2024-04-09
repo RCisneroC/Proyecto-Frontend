@@ -37,8 +37,8 @@ export class AprovedTeacherComponent implements OnInit {
   contractTypeList = [
     { id: "", name: 'Seleccione' },
     { id: "T", name: 'Temporal' },
-    { id: "P", name: 'Permanente' },
-    { id: "N", name: 'No Aplica' }
+    { id: "P", name: 'De Planta o Recurrente' },
+    { id: "N", name: 'Ninguno' }
   ];
   action: string;
   dialogTitle: string = '';
