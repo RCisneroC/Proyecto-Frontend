@@ -1,4 +1,5 @@
 import {CalificacionesECModels} from "../../enrollment/models/calificacionEC";
+import {an} from "@fullcalendar/core/internal-common";
 
 export interface RequestVarious {
     id: number;
@@ -29,6 +30,7 @@ export interface SearchRequestVariousResponse{
 
 export interface RequestVariousItem {
   id: number,
+  history: any,
   createdDate: Date,
   createdBy: string,
   lastModifiedDate: Date,

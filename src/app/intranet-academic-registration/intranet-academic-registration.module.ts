@@ -17,6 +17,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { CreateTaskSubjectComponent } from './Task/Subject/Forms/create-task-subject/create-task-subject.component';
 import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-task-activity/details-info-task-activity.component';
 import { CreditosNoOficialesComponent } from './creditos-no-oficiales/creditos-no-oficiales.component';
+import { HistorySolicitudComponent } from './Solicitudes/history-solicitud/history-solicitud.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { CreditosNoOficialesComponent } from './creditos-no-oficiales/creditos-n
     CreateTaskSubjectComponent,
     DetailsInfoTaskActivityComponent,
     CreditosNoOficialesComponent,
+    HistorySolicitudComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [

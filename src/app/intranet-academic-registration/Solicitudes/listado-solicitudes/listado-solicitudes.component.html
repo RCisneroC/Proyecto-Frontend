@@ -125,6 +125,12 @@
                                                             (click)="detalleSolicitud(row,i)" class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                         </button>
+                                                      <button mat-mini-fab color="primary"
+                                                              matTooltip="Historial de solicitud"
+                                                              (click)="$event.stopPropagation()"
+                                                              (click)="historySolicitud(row,i)" class="tbl-action-btn">
+                                                        <mat-icon>av_timer</mat-icon>
+                                                      </button>
                                                       <button mat-mini-fab color="accent"
                                                               *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 3"
                                                               (click)="$event.stopPropagation()" (click)="generateRequestVariousResolution(row,i)"
