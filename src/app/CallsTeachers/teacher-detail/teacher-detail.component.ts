@@ -114,7 +114,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
   typeUser!: string;
   view!: boolean;
   public loadingFile: boolean = false;
-
+  public nombreConvocatoria: string = "";
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -169,6 +169,32 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       FileType: new FormControl([]),
     });
 
+
+
+  }
+
+ setCalls():void{
+    if(this.DataTeacher.type !== null){
+      this.serviceCallsTeachersService.getCallsAvailableById(this.DataTeacher.id!).subscribe(
+        {
+          next : (request)=>{
+           // this.ApprovedForm.controls["process"].patchValue(request.proceso!.toString());
+           // this.ApprovedForm.controls["process"].disable();
+           if(this.DataTeacher.type=="C"){
+            this.nombreConvocatoria = request.titulo!;
+            this.viewAsig = true;
+            this.viewAct = false;
+            this.selectedOption = request.proceso!.toString();
+          }
+
+          this.cb.detectChanges();
+          },
+          error :(err:HttpErrorResponse) =>{
+            console.log(err)
+          }
+        }
+      );
+    }
   }
 
   async getRequiredDocuments() {
@@ -240,6 +266,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
         } else {
           this.viewTable(this.DataTeacher.process);
         }
+        this.setCalls();
         this._teacherService.isTblLoading = false;
       }
     })
@@ -667,7 +694,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
         next: (request: any) => {
           Swal.fire({
             title: "Escuela Judicial",
-            text: 'El documento ya fue validado',
+            text: 'Documento validado con éxito',
             icon: "success"
           });
           this.ngOnInit();
@@ -676,7 +703,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
           console.log(err);
           Swal.fire({
             title: "Escuela Judicial",
-            text: 'El documento no fue validado',
+            text: 'El documento no se pudo validar',
             icon: "warning"
           });
         }

@@ -19,6 +19,7 @@ import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.comp
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { EvalTeacherComponent } from '../eval-teacher/eval-teacher.component';
 
 @Component({
   selector: 'app-teacher-list',
@@ -35,6 +36,8 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     'type',
     'statusId',
     'process',
+    'contractType',
+    'evaluation',
     'createdDate',
     'dischargeDate',
     'actions'
@@ -158,6 +161,36 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
+
+  Eval(row: Teacher) {
+
+    const dialogRef = this.dialog.open(EvalTeacherComponent, {
+      data: {
+        teacher: row,
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadData();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -236,7 +269,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.teacherService.getAllTeachers();
+    this.teacherService.getAllTeachersCalls();
     return merge(...displayDataChanges).pipe(
       map(() => {
         this.filteredData = this.typeUser == "Tutor" ? this.teacherService.data.filter(x => x.statusId == 1) : this.teacherService.data.slice()

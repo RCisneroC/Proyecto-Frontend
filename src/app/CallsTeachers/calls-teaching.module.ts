@@ -25,6 +25,7 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { CareerListComponent } from './career-list/career-list.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
+import { EvalTeacherComponent } from './eval-teacher/eval-teacher.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FinalGradeComponent } from './final-grade/final-grade.component';
     ListStudentsComponent,
     CareerListComponent,
     DetailSubjectComponent,
-    FinalGradeComponent
+    FinalGradeComponent,
+    EvalTeacherComponent
 
   ],
   imports: [

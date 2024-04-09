@@ -179,43 +179,40 @@
                             <span class="mobile-label">Proceso:</span>{{row.process|statusProcess}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="topics">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Temas/Materias
+                        <ng-container matColumnDef="contractType">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Contratación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Temas/Materias:</span>{{row.topics}}</mat-cell>
+                            <span *ngIf="row.contractType==='T'">Temporal</span>
+                            <span *ngIf="row.contractType==='P'">Larga Duración</span>
+                            <span *ngIf="row.contractType==='N'">Ninguno</span>
+                            <span *ngIf="row.contractType===null || row.contractType === undefined">Ninguno</span>
+                          </mat-cell>
                         </ng-container>
 
-
-
+                        <ng-container matColumnDef="evaluation">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span>{{row.evaluation}}</span></mat-cell>
+                        </ng-container>
 
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-
-                            <button *ngIf="row.statusId>=0" Tooltip="Aprobar docente" mat-mini-fab color="warn"
+                            <button *ngIf="row.statusId!==1" matTooltip="Aprobar docente" mat-mini-fab color="warn"
                               (click)="$event.stopPropagation()" (click)="Aproved(row)">
                               <app-feather-icons [icon]="'check-square'"></app-feather-icons>
                             </button>
-                            <button *ngIf="true!==true" mat-icon-button color="accent"
-                              (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
-                              <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                            <button *ngIf="row.evaluation === null" matTooltip="Evaluar docente" mat-mini-fab color="warn"
+                              (click)="$event.stopPropagation()" (click)="Eval(row)" >
+                              <app-feather-icons [icon]="'menu'"></app-feather-icons>
                             </button>
-
-                            <!-- <button matTooltip="Ver Detalle" mat-mini-fab color="primary" (click)="ViewDetail(row)">
-                                    <mat-icon>remove_red_eye</mat-icon>
-                                  </button>
-                                  <button matTooltip="Aprobar estudiante" mat-mini-fab color="warn" (click)="aprobar(row)">
-                                    <app-feather-icons [icon]="'check-square'"></app-feather-icons>
-                                  </button> -->
                             <button *ngIf="row.statusId>=0" mat-mini-fab color="primary"
                               (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
-                              <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
                             </button>
-
-
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

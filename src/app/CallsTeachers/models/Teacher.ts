@@ -24,6 +24,8 @@ export class Teacher {
     phoneNumber: string = "";
     type?: string = "";
     id?:number;
+    contractType?:string = "";
+    evaluation?:number;
 }
 
 export interface Course {

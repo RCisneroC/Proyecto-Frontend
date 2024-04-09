@@ -3,6 +3,7 @@ import {  Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { Calls } from '../models/CallsModel';
+import { UntypedFormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,11 @@ export class CallsTeachersService {
   updateDocuments(data: any): Observable<any> {
     const url = `${environment.ConsultaDocentes}`;
     return this.httpClient.post<any>(url + "Announcement/UpdateFileTeacher", data);
+  }
+
+  evalTeacher(data: UntypedFormControl): Observable<any> {
+    const url = `${environment.ConsultaDocentes}`;
+    return this.httpClient.post<any>(url + "Announcement/EvaluationTeacher", data);
   }
 
 }
