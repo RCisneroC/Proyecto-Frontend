@@ -51,7 +51,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data);
+          this.dataChange.next(data.filter(f=>f.type==null));
 
         },
         error: (error: HttpErrorResponse) => {

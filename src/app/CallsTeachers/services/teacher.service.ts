@@ -49,7 +49,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data);
+          this.dataChange.next(data.filter(f=>f.type==null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -59,6 +59,22 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+  getAllTeachersCalls(): void {
+    this.subs.sink = this.httpClient
+      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAll')
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          data = data.filter(f=>f.type!==null);
+          this.dataChange.next(data.filter(f=>f.type!=null));
+
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
 
   getAllRequiredDocument() {
     this.subs.sink = this.httpClient

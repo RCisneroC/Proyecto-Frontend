@@ -38,7 +38,7 @@ export class AprovedTeacherComponent implements OnInit {
     { id: "", name: 'Seleccione' },
     { id: "T", name: 'Temporal' },
     { id: "P", name: 'Permanente' },
-    { id: "N", name: 'Ninguno' }
+    { id: "N", name: 'No Aplica' }
   ];
   action: string;
   dialogTitle: string = '';
@@ -95,6 +95,7 @@ export class AprovedTeacherComponent implements OnInit {
   ngOnInit(): void {
     if(this.data.teacher.type != undefined){
       if(this.data.teacher.type == "C"){
+
         this.serviceCallsTeachersService.getCallsAvailableById(this.data.teacher.id!).subscribe(
           {
             next : (request)=>{

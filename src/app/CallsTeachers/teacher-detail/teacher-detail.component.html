@@ -69,7 +69,16 @@
                             </div>
                         </div>
                         <div class="row">
-
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                            <h6>Evaluación</h6>
+                            <label for="">{{DataTeacher.evaluation === null ? "Sin Evaluación": DataTeacher.evaluation }}</label>
+                          </div>
+                          <div *ngIf="DataTeacher.type === 'C'" class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                            <h6>Convocatoria</h6>
+                            <label for="">{{nombreConvocatoria}}</label>
+                          </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div *ngIf="DataTeacher.statusId===1" class=""
                                     style="margin-bottom: 20px;text-align: left;">
@@ -290,7 +299,7 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-6" style="margin: auto;margin-top: 15px;">
                         <mat-form-field class="example-full-width" appearance="outline">
                             <mat-label>Proceso</mat-label>
-                            <mat-select [(ngModel)]="selectedOption" (selectionChange)="confirmDelete($event.value)">
+                            <mat-select [(ngModel)]="selectedOption" (selectionChange)="confirmDelete($event.value)" [disabled]="this.DataTeacher.type==='C'">
                                 <mat-option *ngFor="let grado of processList"
                                     [value]="grado.id">{{grado.name}}</mat-option>
                             </mat-select>
