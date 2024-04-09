@@ -7,7 +7,6 @@ import { TeacherDetailComponent } from './teacher-detail/teacher-detail.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
-import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { AddExperienceComponent } from './add-experience/add-experience.component';
 import { AprovedTeacherComponent } from './aproved-teacher/aproved-teacher.component';
@@ -31,10 +30,11 @@ import { AddFinalGradeComponent } from './add-final-grade/add-final-grade.compon
 import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe,StatusProcessPipe],
+  providers: [VerificarBS64Pipe, StatusProcessPipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,

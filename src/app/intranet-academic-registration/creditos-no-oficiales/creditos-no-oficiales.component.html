@@ -24,8 +24,8 @@
                             <mat-label>Formación Especializada</mat-label>
                             <mat-select formControlName="formacionEspecializada">
                               <mat-option [value]="" selected></mat-option>
-                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecordId"
-                                [disabled]="item.efAcademicRecordIsReentry">
+                              <!-- [disabled]="item.efAcademicRecordIsReentry" -->
+                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecordId">
                                 <ng-container *ngIf="item.efAcademicRecordIsReentry===false">
                                   {{item.degree.name}}
                                 </ng-container>

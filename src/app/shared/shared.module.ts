@@ -22,7 +22,7 @@ import { StatusProcessPipe } from '../pipes/status-process.pipe';
 import { StatusMatriculaPipe } from '../pipes/status-matricula.pipe';
 
 @NgModule({
-  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe, RequestVariousApplicantUserTypeIdPipe, RequestVariousStatusPipe, RequestVariousActivityAcademicTypePipe, RequestVariousTypePipe,StatusTeacherPipe,EntityTypePipe,StatusProcessPipe,StatusMatriculaPipe],
+  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe, RequestVariousApplicantUserTypeIdPipe, RequestVariousStatusPipe, RequestVariousActivityAcademicTypePipe, RequestVariousTypePipe, StatusTeacherPipe, EntityTypePipe, StatusProcessPipe, StatusMatriculaPipe],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,

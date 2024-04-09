@@ -23,7 +23,7 @@ import { environment } from 'environments/environment.development';
 import { FormsCertificateComponent } from './forms/forms-certificate/forms-certificate.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EvaluationsCriteriaFormsComponent } from './design-curriculun/Module/Foms/evaluations-criteria-forms/evaluations-criteria-forms.component';
-import { ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
+import { ActivityDetailModules, ActivityStudyPlanModuleLearningActivity } from '../models/ActivityDetailModules';
 import { ActivityListService } from 'app/intranet-academic-registration/Services/activity-list.service';
 import { TaskActivityData } from 'app/intranet-academic-registration/Models/ResponseListTaskActivity';
 import { PlanStudyActivity } from '../models/PlanStudyActivity';
@@ -44,6 +44,7 @@ export class ActivitydetailComponent implements OnInit {
   public urlConvocatoria: string = '';
   public nbrModule: number = 0;
   DisplayNameCompetence: string[] = ['name', 'descripcion', 'accion'];
+  public _ActivityDetailModules: ActivityDetailModules = this._ActivityService._ActivityDetailModules;
   public _ActivityStudyPlanModuleLearningActivity: ActivityStudyPlanModuleLearningActivity[] = [
     {
       activityStudyPlanModuleId: 0,
@@ -192,6 +193,7 @@ export class ActivitydetailComponent implements OnInit {
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       this.getOneActivity();
+
       // this.dataTeacher = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
       // this.dataOrganismos = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
       this.validarCertificado();
@@ -226,6 +228,9 @@ export class ActivitydetailComponent implements OnInit {
           this.dataTeacher = new MatTableDataSource<ActivityTeachers>(res.activityTeachers);
           this.dataOrganismos = new MatTableDataSource<ActivityCooperatingOrganization>(res.activityCooperatingOrganizations);
 
+          if (this._ActivityService._GetOneActivity.totalHours < 80) {
+            this.getCriterios();
+          }
 
           this.dataPoster.paginator = this.paginator;
           this.dataTeacher.paginator = this.paginator;
@@ -729,6 +734,31 @@ export class ActivitydetailComponent implements OnInit {
     this._router.navigate(['/admission/activity-detail/' + row.id + '/details-eventos']);
   }
 
+  getCriterios() {
+    this._ActivityService.GetAllPlanStudyActivity(this.paramsId).subscribe({
+      next: (resPlan) => {
+        if (resPlan.length > 0) {
+          this._PlanStudyActivity = resPlan[0];
+          this._ActivityService.GetModulesByPlanStudyActivity(this.paramsId).subscribe(
+            {
+              next: (res) => {
+                this.nbrModule = res[0].id
+              },
+              complete: () => {
+                console.log(this.nbrModule);
+                console.log('====================================');
+                console.log(this._PlanStudyActivity);
+                console.log('====================================');
+                this.GetModulesByIdModules();
+
+              }
+            })
+
+        }
+      }
+    });
+  }
+
   AddCriterios() {
     this._ActivityService.init_ActivityStudyPlanModuleLearningActivity();
     //verificar si tiene plan.
@@ -869,11 +899,30 @@ export class ActivitydetailComponent implements OnInit {
       }
     });
   }
+
+  GetModulesByIdModules() {
+    this._ActivityService.GetModulesByIdModules(this.nbrModule).subscribe({
+      next: (res) => {
+        this._ActivityDetailModules = res;
+        console.log('====================================');
+        console.log(this._ActivityDetailModules);
+        console.log('====================================');
+        this.dataCriterio = new MatTableDataSource<ActivityStudyPlanModuleLearningActivity>(this._ActivityDetailModules.activityStudyPlanModuleLearningActivities);
+        this.dataCriterio.paginator = this.paginator;
+      },
+      complete: () => {
+
+      }
+    })
+  }
+
   editarCriterio(row: ActivityStudyPlanModuleLearningActivity) {
+    console.log(row);
 
     let data = {
       activityId: this.paramsId,
-      learningActivityId: row.id
+      learningActivityId: row.id,
+      id_modulo: row.activityStudyPlanModuleId
     }
     this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
@@ -885,7 +934,7 @@ export class ActivitydetailComponent implements OnInit {
               accion: 'edit-criterio',
               ActivityLearning: row,
               dataActivity: this.dataActivity[0],
-              id_modulo: 0
+              id_modulo: row.activityStudyPlanModuleId
             },
             width: '1200px',
             disableClose: true,

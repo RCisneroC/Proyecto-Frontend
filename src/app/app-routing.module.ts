@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Page404Component } from './authentication/page404/page404.component';
@@ -38,6 +39,11 @@ const routes: Routes = [
           import('./tutor/tutor.module').then((m) => m.TutorModule),
       },
       {
+        path: 'exchange',
+        loadChildren: () =>
+          import('./exchange/exchange.module').then((m) => m.ExchangeModule),
+      },
+      {
         path: 'intranet-academic',
         loadChildren: () =>
           import('./intranet-academic-registration/intranet-academic-registration.module').then((m) => m.IntranetAcademicRegistrationModule),
@@ -62,6 +68,12 @@ const routes: Routes = [
         loadChildren: () =>
           import('./CallsTeachers/calls-teaching.module').then((m) => m.CallsTeachingModule),
       },
+      {
+        path: 'jobs',
+        loadChildren: () =>
+          import('./Job/job-module.module').then((m) => m.JobModuleModule),
+      },
+
 
     ],
   },

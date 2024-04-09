@@ -6193,6 +6193,15 @@
         "hash": "sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q=="
       }
     },
+    "npm:crypto-ts": {
+      "type": "npm",
+      "name": "npm:crypto-ts",
+      "data": {
+        "version": "1.0.2",
+        "packageName": "crypto-ts",
+        "hash": "sha512-TcBWwF8ghYhVd/qPSwvY4nsbDZRN/PVxQ1Uc8ryRLiX4M4C5XSPyIhVgR4M5mIhrQEnWIktLcrv+FIqhKk2t3g=="
+      }
+    },
     "npm:css-loader": {
       "type": "npm",
       "name": "npm:css-loader",
@@ -22563,6 +22572,23 @@
       {
         "source": "npm:cross-spawn",
         "target": "npm:which",
+        "type": "static"
+      }
+    ],
+    "npm:crypto-ts": [
+      {
+        "source": "npm:crypto-ts",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "npm:crypto-ts",
+        "target": "npm:@angular/core",
+        "type": "static"
+      },
+      {
+        "source": "npm:crypto-ts",
+        "target": "npm:tslib@1.14.1",
         "type": "static"
       }
     ],

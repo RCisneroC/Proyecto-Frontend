@@ -115,6 +115,7 @@ export class CreateSolicitudComponent {
 
   public userType: string = '';
   public IdTypeUser: number = 0;
+  public DestinationEFRecordID: number = 0;
   public EFRecordID: number = 0;
   public ECRecordID: number = 0;
   public RequesttypeList: RequestVariousType[] = [];
@@ -214,11 +215,15 @@ export class CreateSolicitudComponent {
           this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16 || x.id == 3 || x.id == 2 || x.id == 3 || x.id == 1);
         }
         if (this.IdTypeUser == 2) {
-          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1);
+          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1 || x.id == 20);
         }
         if (this.IdTypeUser == 3) {
           this.RequesttypeList = res.data
         }
+        //const req1: RequestVariousType = {id: 30, name: "Retirar todas las asignaturas de periódo actual", description: "Retirar todas las carreras de periódo actual"};
+        //const req2: RequestVariousType = {id: 31, name: "Reingresar a la carrera", description: "Reingresar todas las carreras de periódo actual"};
+        //this.RequesttypeList.push(req1);
+        //this.RequesttypeList.push(req2);
 
       }
     })
@@ -348,6 +353,7 @@ export class CreateSolicitudComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   public confirmAdd(): void {
     let dataL = localStorage.getItem('solicitudes') || '';
     if (dataL != '') {
@@ -397,25 +403,68 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if (value.typeRequest == 30) {
-          const EFCreateWithdrawalAndReentryRequestData = {
-            userRequest: value.idSolicitante,
-            description: value.comments,
-            requestVariousTypeId: 5,
-            requestVariousApplicantUserTypeId: this.IdTypeUser,
-            subjectId: null,
-            efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
-          }
-          this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
-            next: (res) => {
-              console.log(res);
-              if (res.statusCode == 200) {
-                this.ResponseMessage.CodError = 200;
-                this.ResponseMessage.Message = 'Creado correctamente.';
-                this.dialogRef.close(this.ResponseMessage);
-              }
+        if (value.typeRequest == 20 || value.typeRequest == 6 || value.typeRequest == 9) {
+          if (value.typeRequest == 20) {
+            const EFCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: 5,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              subjectId: null,
+              efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
             }
-          })
+            this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
+          if (value.typeRequest == 6) {
+            const EFCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: 6,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              subjectId: null,
+              efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
+            }
+            this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
+          if (value.typeRequest == 9) {
+            const EFCreateWithdrawalAndReentryRequestData = {
+              userRequest: value.idSolicitante,
+              description: value.comments,
+              requestVariousTypeId: value.typeRequest,
+              requestVariousApplicantUserTypeId: this.IdTypeUser,
+              subjectId: value.idSubjectOrActivity,
+              efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID,
+              destinationEFAcademicRecordId: this.DestinationEFRecordID
+            }
+            this.RequestVariousService.EFCreateWithdrawalAndReentryRequest(EFCreateWithdrawalAndReentryRequestData).subscribe({
+              next: (res) => {
+                console.log(res);
+                if (res.statusCode == 200) {
+                  this.ResponseMessage.CodError = 200;
+                  this.ResponseMessage.Message = 'Creado correctamente.';
+                  this.dialogRef.close(this.ResponseMessage);
+                }
+              }
+            })
+          }
 
         }
         else {
@@ -472,6 +521,15 @@ export class CreateSolicitudComponent {
     this._EnrolmentService.GetStudentsSubjects(this.careerSelected.toString(), this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
         this._SubjectMatriculas = res.subjectEnrollmentResult;
+        if (this.RequesttypeSelect == 9) {
+          this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, this.careerSelected).subscribe({
+            next: (res) => {
+              if (res.data) {
+                this.DestinationEFRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
       }
     })
   }

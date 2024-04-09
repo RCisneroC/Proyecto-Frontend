@@ -278,7 +278,8 @@
                             <br>
                             <hr>
                             <!-- *ngIf="_ActivityService._GetOneActivity.totalHours<=80" <mat-accordion> -->
-                            <mat-accordion>
+                            <mat-accordion
+                                *ngIf="_ActivityService._GetOneActivity.totalHours<=80 && _ActivityService._GetOneActivity.totalHours!=null">
                                 <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                                     <mat-expansion-panel-header style="background: #38366b;text-transform: uppercase;">
                                         <mat-panel-title style="color: white;">

@@ -94,6 +94,11 @@
                 <label for="">{{ asp?_ActivityService._DetailsResponseEF.email:_ActivityService._DetailsResponse.email
                   }}</label>
               </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                <h6>Egresado</h6>
+                <label for="">{{ egresado?"Si":"No"
+                  }}</label>
+              </div>
             </div>
 
           </div>
@@ -135,7 +140,7 @@
                     <button mat-mini-fab color="primary" (click)="goSubjects(element)" matTooltip="Ver Asignaturas">
                       <mat-icon>remove_red_eye</mat-icon>
                     </button>
-                    
+
                     <button mat-mini-fab color="primary" (click)="goTask(element)" matTooltip="Ver tareas">
                       <mat-icon>calendar_today</mat-icon>
                     </button>
