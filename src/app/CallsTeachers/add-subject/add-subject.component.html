@@ -35,18 +35,18 @@
                                     <th mat-header-cell *matHeaderCellDef>Nombre </th>
                                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                 </ng-container>
-                                
-                               
-                              
+
+
+
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
-                            <mat-paginator #paginatorPoster [pageSizeOptions]="[1, 10, 20]" showFirstLastButtons></mat-paginator>
+                            <mat-paginator #paginatorPoster [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
                         </div>
                     </div>
                 </div>
             </div>
-            <button mat-raised-button color="primary" [disabled]="!AsignarSubjectForm.valid" 
+            <button mat-raised-button color="primary" [disabled]="!AsignarSubjectForm.valid"
                 (click)="submit()">Guardar</button>
         </form>
     </div>

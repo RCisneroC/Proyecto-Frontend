@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { MatStepper } from '@angular/material/stepper';
 import { EncryptDescryptService } from 'app/CallsTeachers/services/encrypt-descrypt.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CallsTeachersService } from 'app/CallsTeachers/services/calls-teachers.service';
 
 
 
@@ -67,27 +69,27 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
   ];
 
 
-DataTeacher!:Teacher;
-DataRequiredDocuments:RequiredDocument[]= [];
-DataExperience:Experience[]= [];
-DataTraining:Training[]= [];
-fechaActual!: string;
-fechaA: string | undefined;
-header!: string;
-experience?: Experience;
-training?: Training;
-_Form_Data = new FormData();
-viewMessage?:boolean;
-FormsEFDocument!: UntypedFormGroup;
-public id:number = 0;
-public type: string | null = null;
+  DataTeacher!: Teacher;
+  DataRequiredDocuments: RequiredDocument[] = [];
+  DataExperience: Experience[] = [];
+  DataTraining: Training[] = [];
+  fechaActual!: string;
+  fechaA: string | undefined;
+  header!: string;
+  experience?: Experience;
+  training?: Training;
+  _Form_Data = new FormData();
+  viewMessage?: boolean;
+  FormsEFDocument!: UntypedFormGroup;
+  public id: number = 0;
+  public type: string | null = null;
 
 
 
-@ViewChild('stepper') stepper: MatStepper | undefined;
-  viewAlert: boolean=false;
-  viewAlert1: boolean=false;
-  load: boolean=true;
+  @ViewChild('stepper') stepper: MatStepper | undefined;
+  viewAlert: boolean = false;
+  viewAlert1: boolean = false;
+  load: boolean = true;
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -96,15 +98,16 @@ public type: string | null = null;
     private _nav: Router,
     private fb: UntypedFormBuilder,
     private serviceEncryptDescryptService: EncryptDescryptService,
-    private router: Router
+    private router: Router,
+    private serviceCallsTeachers: CallsTeachersService
   ) {
     super();
     this.activatedRoute.params.subscribe((params) => {
-      if(params['id'] != null && params['id'] !=undefined){
+      if (params['id'] != null && params['id'] != undefined) {
         this.id = parseInt(this.serviceEncryptDescryptService.decrypt(params['id']));
       }
 
-      if(params['type'] != null && params['type'] !=undefined){
+      if (params['type'] != null && params['type'] != undefined) {
         this.type = this.serviceEncryptDescryptService.decrypt(params['type']);
         console.log("Type " + this.type);
       }
@@ -123,18 +126,18 @@ public type: string | null = null;
     this.FormsEFDocument = this.fb.group({});
     this.getRequiredDocuments();
 
-    this.teacherForm=this.fb.group({
-      teacherId :new FormControl(0),
-      cedula:['',[Validators.required],[this.cedulaExist()]],
-      name:['',[Validators.required]],
-      lastName:['',[Validators.required]],
-      gender:['',[Validators.required]],
-      placeOfBirth:['',[Validators.required]],
-      dateOfBirth:['',[Validators.required]],
-      placeResidence:['',[Validators.required]],
-      email:['',[Validators.required]],
-      phoneNumber:['',[Validators.required]],
-      carreraId:[true,[Validators.required]],
+    this.teacherForm = this.fb.group({
+      teacherId: new FormControl(0),
+      cedula: ['', [Validators.required], [this.cedulaExist()]],
+      name: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      placeOfBirth: ['', [Validators.required]],
+      dateOfBirth: ['', [Validators.required]],
+      placeResidence: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
+      carreraId: [true, [Validators.required]],
       selected: new FormControl(false),
       listCourse: new FormControl([]),
       listTraining: new FormControl([]),
@@ -150,22 +153,53 @@ public type: string | null = null;
 
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
-       next: (res) => {
-
-         this.DataRequiredDocuments = res.filter(x=>x.statusId===1);
-
-        for (const property of this.DataRequiredDocuments) {
-
-          this.FormsEFDocument.addControl(
-            property.documentId.toString(),
-            this.fb.control([],property.typeEducationId==1? [Validators.required]:[])
+      next: (res) => {
+        if (this.type === "C") {
+          this.getProcess().then(
+            (processId) => {
+              this.DataRequiredDocuments = res.filter(x => x.statusId === 1 && x.typeEducationId === processId);
+              for (const property of this.DataRequiredDocuments) {
+                this.FormsEFDocument.addControl(
+                  property.documentId.toString(),
+                  this.fb.control([], property.typeEducationId == 1 ? [Validators.required] : [])
+                );
+              }
+            }
           );
         }
+        else {
+          this.DataRequiredDocuments = res.filter(x => x.statusId === 1);
+          for (const property of this.DataRequiredDocuments) {
+            this.FormsEFDocument.addControl(
+              property.documentId.toString(),
+              this.fb.control([], property.typeEducationId == 1 ? [Validators.required] : [])
+            );
+          }
+        }
 
+      }
+    })
+  }
 
-       }
-     })
-   }
+  getProcess(): Promise<number> {
+    let processId: number = 0;
+    this.serviceCallsTeachers.getCallsAvailableById(this.id).subscribe(
+      {
+        next: (request) => {
+          processId = request.proceso!;
+          return processId;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          return processId;
+        }
+      }
+    );
+    return new Promise((resolve) => {
+      resolve(processId);
+    });
+  }
+
   cedulaExist() {
     return (control: FormControl) => {
       const cedula = control.value;
@@ -207,23 +241,23 @@ public type: string | null = null;
     });
   }
 
-   viewMessag(tip:number){
-  if(tip==1){
-    if(this.DataTeacher.listTraining.length==0){
+  viewMessag(tip: number) {
+    if (tip == 1) {
+      if (this.DataTeacher.listTraining.length == 0) {
 
-    this.viewAlert=true;
-    }else{
-      this.viewAlert=false;
+        this.viewAlert = true;
+      } else {
+        this.viewAlert = false;
+      }
+
+    } else {
+      if (this.DataTeacher.listExperience.length == 0) {
+        this.viewAlert1 = true;
+      } else {
+        this.viewAlert1 = false;
+      }
+
     }
-
-  }else{
-    if(this.DataTeacher.listExperience.length==0){
-      this.viewAlert1=true;
-    }else{
-      this.viewAlert1=false;
-    }
-
-  }
 
   }
   AddTraining() {
@@ -266,25 +300,24 @@ public type: string | null = null;
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
 
-  valor(event:any)
-  {
-  console.log(event);
-  console.log(this.teacherForm.value);
+  valor(event: any) {
+    console.log(event);
+    console.log(this.teacherForm.value);
   }
 
-  createTeacherForm(): UntypedFormGroup{
+  createTeacherForm(): UntypedFormGroup {
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: [this.DataTeacher.cedula, [Validators.required],[this.cedulaExist()]],
+      cedula: [this.DataTeacher.cedula, [Validators.required], [this.cedulaExist()]],
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
       // selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
-      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
-      gender:new FormControl(this.DataTeacher?.gender),
-      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
-      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
+      phoneNumber: new FormControl(this.DataTeacher?.phoneNumber),
+      gender: new FormControl(this.DataTeacher?.gender),
+      placeOfBirth: new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth: new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),
@@ -298,86 +331,87 @@ public type: string | null = null;
   }
 
 
-  tmp_files :any[50] = [];
-  tmp_docType :any[50] = [];
-  onFileSelected(event: any,idx:number,docId:number) {
+  tmp_files: any[50] = [];
+  tmp_docType: any[50] = [];
+  onFileSelected(event: any, idx: number, docId: number) {
 
-        this.tmp_files[idx]=(event.target.files[0]);
-        this.tmp_docType[idx]=(docId);
-        const formdata=new FormData();
-        formdata.append('FileDetails', this.tmp_files[0]);
+    this.tmp_files[idx] = (event.target.files[0]);
+    this.tmp_docType[idx] = (docId);
+    const formdata = new FormData();
+    formdata.append('FileDetails', this.tmp_files[0]);
   }
 
   submit() {
 
-  this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
-  this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
-  this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
+    this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
+    this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
+    this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
 
-  if(this.teacherForm.valid){
-  this.load=true;
-  const tem=this.tmp_files.filter((element: undefined) => element !== undefined)
+    if (this.teacherForm.valid) {
+      this.load = true;
+      const tem = this.tmp_files.filter((element: undefined) => element !== undefined)
 
-  this.teacherForm?.get('process')?.setValue(4);
+      this.teacherForm?.get('process')?.setValue(4);
 
-  this._teacherService.addUpdateTeacher(this.teacherForm.value, this.id, this.type).subscribe({
-    next: (res) => {
-    const TeacherId=res.idRegistro
-    if(TeacherId>0){
+      this._teacherService.addUpdateTeacher(this.teacherForm.value, this.id, this.type).subscribe({
+        next: (res) => {
+          const TeacherId = res.idRegistro
+          if (TeacherId > 0) {
 
-     for (let i = 0; i < tem.length ; i++) {
+            for (let i = 0; i < tem.length; i++) {
 
-      if(tem[i]!=undefined){
-        const formdata=new FormData();
-        formdata.append('FileDetails',tem[i]);
-        formdata.append('TeacherId',TeacherId.toString());
-        formdata.append('DocTypeId',this.tmp_docType[i]);
-       this._teacherService.archivo(formdata).subscribe({
-         next: () => {
-          console.log("guardado");
-          if (i==tem.length-1){
-            this.load=false;
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Guardado correctamente.',
-              icon: "success"
-          }).then((result) => {
-            if (result.value) {
-              // Resetear el stepper
-              window.location.reload();
+              if (tem[i] != undefined) {
+                const formdata = new FormData();
+                formdata.append('FileDetails', tem[i]);
+                formdata.append('TeacherId', TeacherId.toString());
+                formdata.append('DocTypeId', this.tmp_docType[i]);
+                this._teacherService.archivo(formdata).subscribe({
+                  next: () => {
+                    console.log("guardado");
+                    if (i == tem.length - 1) {
+                      this.load = false;
+                      Swal.fire({
+                        title: "Escuela Judicial",
+                        text: 'Guardado correctamente.',
+                        icon: "success"
+                      }).then((result) => {
+                        if (result.value) {
+                          // Resetear el stepper
+                          window.location.reload();
+                        }
+                      });
+                    }
+
+                  },
+                  error: () => {
+
+                  }
+                })
+              }
+
             }
-          });
+
+
+
           }
-
-         },
-         error: () => {
-
-         }
-       })
-      }
-
-    }
-
-
-
-    } },
-    error: () => {
-      Swal.fire({
+        },
+        error: () => {
+          Swal.fire({
             title: "Escuela Judicial",
             text: 'Intente nuevamente.',
             icon: "warning"
           });
+        }
+      })
+
+
+      // emppty stuff
     }
-   })
-
-
-    // emppty stuff
   }
-}
-  removeTraining(row: Training){
-    this.DataTraining=[];
-    this.DataTraining=this.DataTeacher.listTraining.filter(x=>x.trainingId!=row.trainingId)
-    this.DataTeacher.listTraining=[...this.DataTraining]
+  removeTraining(row: Training) {
+    this.DataTraining = [];
+    this.DataTraining = this.DataTeacher.listTraining.filter(x => x.trainingId != row.trainingId)
+    this.DataTeacher.listTraining = [...this.DataTraining]
 
   }
 

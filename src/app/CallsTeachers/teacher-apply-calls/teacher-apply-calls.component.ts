@@ -1,14 +1,14 @@
-import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component,  OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Calls } from 'app/CallsTeachers/models/CallsModel';
 import { CallsTeachersService } from '../services/calls-teachers.service';
 import { HttpErrorResponse, HttpUrlEncodingCodec  } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { EncryptDescryptService } from '../services/encrypt-descrypt.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-apply-calls',
@@ -24,8 +24,13 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
   public type: string = this.encrypt("S");
   public IsLoading: boolean = false;
 
+  public titulo: string = "";
+  public fechaInicio: string = "";
+  public fechaFin: string = "";
+
  constructor(private  serviceCallsTeachers:CallsTeachersService,
-  private serviceEncryptDescrypt: EncryptDescryptService
+  private serviceEncryptDescrypt: EncryptDescryptService,
+  public dateFormat: DatePipe
   ){}
 
   ngOnDestroy(): void {
@@ -38,7 +43,10 @@ export class TeacherApplyCallsComponent implements OnInit, OnDestroy {
 
   getAll():void{
   this.IsLoading = true;
-  this.serviceCallsTeachers.getCallsAvailable().subscribe(
+
+  this.serviceCallsTeachers.getCallsAvailable(this.titulo,
+    (this.fechaInicio ===""?this.fechaInicio : this.dateFormat.transform(this.fechaInicio,'yyyy-MM-dd')),
+    (this.fechaFin ===""?this.fechaFin : this.dateFormat.transform(this.fechaFin,'yyyy-MM-dd'))).subscribe(
   {
     next : (request:Calls[])=>{
              this.lstResultados = request;

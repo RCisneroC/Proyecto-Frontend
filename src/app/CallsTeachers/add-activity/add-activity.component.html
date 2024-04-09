@@ -35,26 +35,26 @@
                                     <th mat-header-cell *matHeaderCellDef>Nombre </th>
                                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="activityModeName">
                                     <th mat-header-cell *matHeaderCellDef>Modalidad </th>
                                     <td mat-cell *matCellDef="let element"> {{element.activityModeName}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="activityTypeName">
                                     <th mat-header-cell *matHeaderCellDef>Tipo de actividad </th>
                                     <td mat-cell *matCellDef="let element"> {{element.activityTypeName}} </td>
                                 </ng-container>
-                              
+
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
-                            <mat-paginator #paginatorPoster [pageSizeOptions]="[1, 10, 20]" showFirstLastButtons></mat-paginator>
+                            <mat-paginator #paginatorPoster [pageSizeOptions]="[5,10,15]" showFirstLastButtons></mat-paginator>
                         </div>
                     </div>
                 </div>
             </div>
-            <button mat-raised-button color="primary" [disabled]="!AsignarActivitiesForm.valid" 
+            <button mat-raised-button color="primary" [disabled]="!AsignarActivitiesForm.valid"
                 (click)="submit()">Guardar</button>
         </form>
     </div>

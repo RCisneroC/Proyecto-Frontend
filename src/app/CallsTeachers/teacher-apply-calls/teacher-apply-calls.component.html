@@ -25,19 +25,19 @@
                                   <div style="display: flex;gap: 10px;">
                                     <mat-form-field class="col-3" appearance="outline">
                                       <mat-label>Buscar Vacante</mat-label>
-                                      <input #filter matInput/>
+                                      <input #filter [(ngModel)]="titulo" matInput/>
                                       <mat-icon (click)="getVacancy(filter.value)" class="material-icons-two-tone color-icon p-3"
                                         matSuffix>search</mat-icon>
                                     </mat-form-field>
                                     <mat-form-field class="col-2" appearance="outline">
                                       <mat-label>Fecha Desde</mat-label>
-                                      <input matInput [matDatepicker]="pickerStart1">
+                                      <input matInput [matDatepicker]="pickerStart1" [(ngModel)]="fechaInicio">
                                       <mat-datepicker-toggle matSuffix [for]="pickerStart1"></mat-datepicker-toggle>
                                       <mat-datepicker #pickerStart1></mat-datepicker>
                                     </mat-form-field>
                                     <mat-form-field class="col-2" appearance="outline">
                                       <mat-label>Fecha Hasta</mat-label>
-                                      <input matInput [matDatepicker]="pickerStart2">
+                                      <input matInput [matDatepicker]="pickerStart2" [(ngModel)]="fechaFin">
                                       <mat-datepicker-toggle matSuffix [for]="pickerStart2"></mat-datepicker-toggle>
                                       <mat-datepicker #pickerStart2></mat-datepicker>
                                     </mat-form-field>
@@ -90,10 +90,10 @@
                                </a>
                                </div>
                             <div class="d-flex justify-content-end">
-                             1-1 de 2 vacantes
+
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                  <button class="btn btn-light">1</button>
+
                              </div>
                            </div>
 

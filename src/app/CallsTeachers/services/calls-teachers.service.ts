@@ -5,8 +5,9 @@ import { environment } from 'environments/environment.development';
 import { Calls } from '../models/CallsModel';
 import { UntypedFormControl } from '@angular/forms';
 
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CallsTeachersService {
 
@@ -24,10 +25,21 @@ export class CallsTeachersService {
     return this.httpClient.post<any>(environment.ConsultaDocentes + 'Announcement/Aproved', data);
   }
 
-  getCallsAvailable(titulo: string | null = null) {
+  getCallsAvailable(titulo: string | null = null,
+    fechaInicio : string | null = null,
+    fechaFin: string | null = null
+  ) {
     let url: string = "";
-    if(titulo != null)
+    if(titulo !== null && titulo !== "")
        url = "titulo=" + titulo!;
+
+    if(fechaInicio != null && fechaInicio !== ""){
+     url = url + (url == "" ? "fechaInicio=" + fechaInicio : "&fechaInicio=" + fechaInicio);
+     }
+
+     if(fechaFin != null && fechaFin !== ""){
+      url = url + (url == "" ? "fechaFin=" + fechaFin : "&fechaFin=" + fechaFin);
+      }
 
     return this.httpClient.get<Calls[]>(environment.ConsultaDocentes + 'Announcement/GetAvailableAnnouncement?' + url);
   }
