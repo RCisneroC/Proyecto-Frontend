@@ -228,6 +228,37 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     })
  }
 
+  generateTeachingCertification(row: RequestVariousItem, id: number){
+    const DownloadTeachingCertificationData = {
+      requestVariousId: row.id
+    }
+    this._RequestServicesService.DownloadTeachingCertification(DownloadTeachingCertificationData).subscribe({
+      next:(res)=>{
+        console.log('Certificación',res.data.pdfContentInBase64);
+        if (res.data.pdfContentInBase64) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.data.pdfContentInBase64,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Ocurrio un error al generar la Certificación",
+            icon: "warning"
+          });
+        }
+      }
+    })
+  }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }

@@ -390,6 +390,7 @@ export class CreateSolicitudComponent {
           description: value.comments,
           requestVariousTypeId: value.typeRequest,
           requestVariousApplicantUserTypeId: this.IdTypeUser,
+          periodId: this._SubjectMatriculas[0].periodsId,
           subjectId: value.idSubjectOrActivity
         }
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
