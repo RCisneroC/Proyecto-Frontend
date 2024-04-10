@@ -138,6 +138,7 @@
                                                         <mat-icon>assignment_turned_in</mat-icon>
                                                       </button>
                                                       <button mat-mini-fab color="primary"
+                                                              *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 3"
                                                               matTooltip="Certificación de profesor"
                                                               (click)="$event.stopPropagation()"
                                                               (click)="generateTeachingCertification(row,i)" class="tbl-action-btn">
