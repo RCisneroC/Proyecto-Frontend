@@ -122,6 +122,7 @@ export class CreateSolicitudComponent {
   public RequesttypeSelect: number = 0;
   public typeActivityAcademySelected: number = 1;
   public careerSelected: number = 1;
+  public careerDestinySelected: number = 1;
   public idSubjectOrActivity: number = 1;
   public valueDesabled: boolean = false;
   public typeDesabled: boolean = false;
@@ -172,6 +173,7 @@ export class CreateSolicitudComponent {
       next: (rest) => {
         console.log(rest);
         this._Career = rest.studentInnfo;
+        console.log("_Carrer", this._Career);
         this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
         this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
           next: (result) => {
@@ -389,6 +391,7 @@ export class CreateSolicitudComponent {
           description: value.comments,
           requestVariousTypeId: value.typeRequest,
           requestVariousApplicantUserTypeId: this.IdTypeUser,
+          periodId: this._SubjectMatriculas[0].periodsId,
           subjectId: value.idSubjectOrActivity
         }
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
@@ -516,16 +519,35 @@ export class CreateSolicitudComponent {
 
   }
 
-  changecarrer() {
-    console.log('careerSelected:', this.careerSelected);
-    this._EnrolmentService.GetStudentsSubjects(this.careerSelected.toString(), this.authService.currentUserValue.cedula).subscribe({
+  changecarrer(event: any) {
+    console.log('careerSelected:', event);
+    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
         this._SubjectMatriculas = res.subjectEnrollmentResult;
         if (this.RequesttypeSelect == 9) {
-          this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, this.careerSelected).subscribe({
+          this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, event).subscribe({
+            next: (res) => {
+              if (res.data) {
+                this.ECRecordID = res.data[0].id;
+              }
+            }
+          })
+        }
+      }
+    })
+  }
+
+  changeDestinycarrer(event: any) {
+    console.log('careerdestinySelected:', event);
+    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
+        //this._SubjectMatriculas = res.subjectEnrollmentResult;
+        if (this.RequesttypeSelect == 9) {
+          this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, event).subscribe({
             next: (res) => {
               if (res.data) {
                 this.DestinationEFRecordID = res.data[0].id;
+                console.log("DestinationEFRecordID", this.DestinationEFRecordID);
               }
             }
           })

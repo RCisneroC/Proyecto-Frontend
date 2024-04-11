@@ -147,6 +147,12 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<any>(url + "DownloadRequestVariousResolution", DownloadRequestVariousResolutionData);
   }
 
+  DownloadTeachingCertification(DownloadTeachingCertificationData: any) {
+
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<any>(url + "DownloadTeachingCertification", DownloadTeachingCertificationData);
+  }
+
   UpdateRequestVarious(UpdateRequestVariousData: any) {
 
     const url = `${environment.apiEira}`;
