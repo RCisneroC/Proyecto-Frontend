@@ -18,6 +18,9 @@ import { GetDocResp, documentosIncripcion } from "../../../../../models/document
 import { AuthService } from "@core";
 import { el } from "@fullcalendar/core/internal-common";
 import { isArray } from 'chart.js/dist/helpers/helpers.core';
+import {
+  RequestServicesService
+} from "../../../../../../intranet-academic-registration/Services/request-services.service";
 
 @Component({
   selector: 'app-detalle-participante',
@@ -26,6 +29,8 @@ import { isArray } from 'chart.js/dist/helpers/helpers.core';
 })
 export class DetalleParticipanteComponent {
   public paramsId: any;
+  ActivityTriningType: string = '';
+  UserRole: string = '';
   DisplayNameDocument: string[] = [
     // 'Id',
     'nombre',
@@ -71,8 +76,11 @@ export class DetalleParticipanteComponent {
     public _verificarBS64: VerificarBS64Pipe,
     public elm: ElementRef,
     private _inscriptionService: InscriptionService,
-    private authService: AuthService
+    private authService: AuthService,
+    public _RequestService:RequestServicesService,
   ) {
+    this.ActivityTriningType = localStorage.getItem('Activity_Training_Type') || '';
+    this.UserRole =this._RequestService.getRoleFromToken(this.authService.currentUserValue.token);
     this.paramsId = Path.snapshot.params['id'];
     if (this.paramsId != null) {
       this.getDetails();
