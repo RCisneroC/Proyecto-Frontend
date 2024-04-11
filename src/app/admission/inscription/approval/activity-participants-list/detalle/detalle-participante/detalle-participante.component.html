@@ -23,76 +23,76 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Nombre / Apellido</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.firstName }} {{
-                                    _ActivityService._DetailsResponse.lastName }} {{
-                                    _ActivityService._DetailsResponse.secondsurname }}
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.firstName: '***' }} {{
+                                    ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.lastName: '***' }} {{
+                                    ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.secondsurname: '***' }}
                                 </label>
                             </div>
 
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Cédula</h6>
-                                <label for="">{{_ActivityService._DetailsResponse.cedula }}
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.cedula:'******' }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Género</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.gender }}</label>
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.gender:'***' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Correo Electrónico</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.email }}
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.email:'******' }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Institución</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.institution }}
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.institution:'******' }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Universidad</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.university }}
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.university:'******' }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Dependencia</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.dependency }}
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.dependency:'******' }}
                                 </label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Ubicación</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.position }}</label>
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.position:'******' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Provincia</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.province }}</label>
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.province: '****' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Distrito</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.judicialDistrict }}</label>
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.judicialDistrict:'******' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Fecha de Inscripción</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.startDate |
-                                    date:'dd/M/yyyy' }}</label>
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? (_ActivityService._DetailsResponse.startDate |
+                                    date:'dd/M/yyyy'):'****' }}</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Nombre de actividad</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.activityName }}</label>
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.activityName: '******' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Ubicación</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.activityLocation }}</label>
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.activityLocation: '*****' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Modalidad</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.activityMode }}</label>
+                                <label for="">{{ActivityTriningType !== '1' || UserRole === 'Certificador'? _ActivityService._DetailsResponse.activityMode: '******' }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h6>Tipo de actividad</h6>
-                                <label for="">{{ _ActivityService._DetailsResponse.activityType }}</label>
+                                <label for="">{{ ActivityTriningType !== '1' || UserRole === 'Certificador'?_ActivityService._DetailsResponse.activityType:'*******' }}</label>
                             </div>
                         </div>
                         <div class="row" *ngIf="Array_GetDocResp.length>0">
