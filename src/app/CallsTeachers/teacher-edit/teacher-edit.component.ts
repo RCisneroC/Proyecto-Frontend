@@ -9,28 +9,21 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Direction } from '@angular/cdk/bidi';
-import { TeacherDetailComponent } from '../teacher-detail/teacher-detail.component';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.component';
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
-import { EvalTeacherComponent } from '../eval-teacher/eval-teacher.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { CallsTeachersService } from '../services/calls-teachers.service';
 
 @Component({
-  selector: 'app-teacher-list',
-  templateUrl: './teacher-list.component.html',
-  styleUrls: ['./teacher-list.component.scss']
+  selector: 'app-teacher-edit',
+  templateUrl: './teacher-edit.component.html',
+  styleUrls: ['./teacher-edit.component.scss']
 })
-export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
-  implements OnInit {
-
+export class TeacherEditComponent extends UnsubscribeOnDestroyAdapter
+implements OnInit  {
   displayedColumns = [
     'cedula',
     'name',
@@ -67,10 +60,6 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
   ) {
     super();
   }
-
-
-
-
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild('filter', { static: true }) filter!: ElementRef;
@@ -86,116 +75,16 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
   refresh() {
     this.loadData();
   }
-  addNew() {
-    this._nav.navigate(['/teacher/teacher-admission-external/']);
 
-  }
-  editCall(row: Teacher) {
-    this.teacherId = row.teacherId;
-    let tempDirection: Direction;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(TeacherDetailComponent, {
-      data: {
-        user: row,
-        action: 'edit',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.loadData();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
   Detail(row: Teacher) {
-
-    this._nav.navigate(['/calls-teachers/teacher-detail/', row.cedula]);
+    this._nav.navigate(['/teaching-management/info-teacher/', row.cedula]);
   }
 
-  Aproved(row: Teacher) {
-
-    const dialogRef = this.dialog.open(AprovedTeacherComponent, {
-
-      data: {
-        teacher: row,
-        accion: 'add-course'
-      },
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.loadData();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-
-  }
-
-  Eval(row: Teacher) {
-
-    const dialogRef = this.dialog.open(EvalTeacherComponent, {
-      data: {
-        teacher: row,
-      },
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.loadData();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-  }
 
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
@@ -279,7 +168,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
     public paginator: MatPaginator,
     public _sort: MatSort,
     private _RequestService: RequestServicesService,
-    private authenticationService: AuthService
+    private authenticationService: AuthService,
   ) {
     super();
     // Reset to the first page when the user changes the filter.
@@ -344,7 +233,4 @@ export class ExampleDataSource extends DataSource<Teacher> {
       );
     });
   }
-
-
-
 }

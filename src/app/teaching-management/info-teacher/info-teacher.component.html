@@ -20,6 +20,14 @@
                             <h2><span>Fecha de aplicación:{{cedula==="-1"?fechaA:DataTeacher.applicationDate |
                                     date:'dd/M/yyyy'}}</span></h2>
                         </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-2" style="text-align: right;">
+                          <div class="d-flex justify-content-end align-items-right">
+                            <button  *ngIf="viewBack" matTooltip="Regresar" mat-raised-button color="accent"
+                            (click)="volverAtras()" class="msr-2">
+                            <mat-icon>keyboard_backspace</mat-icon> Regresar
+                          </button>
+                          </div>
+                        </div>
 
                     </div>
                     <div class="body">
@@ -41,11 +49,11 @@
                                         </mat-error>
 
                                     </mat-form-field> -->
-                              
+
                                         <h5>Cédula/Pasaporte:</h5>
                                         <h4>{{ DataTeacher.cedula }}:</h4>
                                         <!-- <label for="">{{ DataTeacher.cedula }}</label> -->
-                                 
+
                                 </div>
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
@@ -314,7 +322,7 @@
                                     <td mat-cell *matCellDef="let element"> <span class="text-uppercase">{{
                                             element.extension }}</span></td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="fileUpload">
                                     <th mat-header-cell *matHeaderCellDef> Cargar Archivo </th>
                                     <td mat-cell *matCellDef="let element">

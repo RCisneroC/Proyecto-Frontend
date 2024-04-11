@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Gestión Docente'" [items]="['Inicio','Gestión Docente']" [active_item]="'Docente'">
+      <app-breadcrumb [title]="'Expediente Docente'" [items]="['Inicio','Gestión Docente']" [active_item]="'Expediente Docente'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -201,15 +201,7 @@
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button *ngIf="row.statusId!==1" matTooltip="Aprobar docente" mat-mini-fab color="warn"
-                              (click)="$event.stopPropagation()" (click)="Aproved(row)">
-                              <app-feather-icons [icon]="'check-square'"></app-feather-icons>
-                            </button>
-                            <button *ngIf="row.evaluation === null" matTooltip="Evaluar docente" mat-mini-fab color="warn"
-                              (click)="$event.stopPropagation()" (click)="Eval(row)" >
-                              <app-feather-icons [icon]="'menu'"></app-feather-icons>
-                            </button>
-                            <button *ngIf="row.statusId>=0" mat-mini-fab color="primary" matTooltip="Ver Detalle"
+                            <button *ngIf="row.statusId>=0" mat-mini-fab color="primary"
                               (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
                               <mat-icon>remove_red_eye</mat-icon>
                             </button>
@@ -235,15 +227,6 @@
                     </div>
                     <mat-menu #contextMenu="matMenu">
                       <ng-template matMenuContent let-item="item">
-                        <button mat-menu-item (click)="addNew()">
-                          <mat-icon>add_box</mat-icon>
-                          <span>Add Record</span>
-                        </button>
-                        <button mat-menu-item (click)="editCall(item)">
-                          <mat-icon>create</mat-icon>
-                          <span>Edit Record</span>
-                        </button>
-
                         <button mat-menu-item (click)="refresh()">
                           <mat-icon>refresh</mat-icon>
                           <span>Refresh Record</span>
@@ -290,3 +273,4 @@
     </div>
   </div>
 </section>
+
