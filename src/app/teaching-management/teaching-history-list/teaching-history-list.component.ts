@@ -150,10 +150,12 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
     localStorage.setItem('cedula', this.cedula);
+    localStorage.setItem('DegreeCurriculumDesignId', this.idCareer.toString());
     this._nav.navigate(['/teaching-management/detail-asignatura/', row.subjectId]);
   }
 
   Detail(row: SubjectResponse) {
+    localStorage.setItem('DegreeCurriculumDesignId', this.idCareer.toString());
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
@@ -271,6 +273,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
 
   calificacionFinalSubject(row: SubjectResponse) {
+    localStorage.setItem('DegreeCurriculumDesignId', this.idCareer.toString());
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
@@ -289,6 +292,7 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
 
   sendEncuestaSubject(row: SubjectResponse) {
+    localStorage.setItem('DegreeCurriculumDesignId', this.idCareer.toString());
     console.log('====================================');
     console.log(row);
     console.log('====================================');

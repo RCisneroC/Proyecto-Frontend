@@ -42,10 +42,10 @@ export class ListStudentsComponent implements OnInit {
   }
 
   constructor(public _TeacherService: TeacherService,
-  public dialog: MatDialog, private _Router: Router,
-  private activatedRoute: ActivatedRoute,
-  public authenticationService: AuthService,
-  public _RequestService: RequestServicesService,
+    public dialog: MatDialog, private _Router: Router,
+    private activatedRoute: ActivatedRoute,
+    public authenticationService: AuthService,
+    public _RequestService: RequestServicesService,
 
   ) {
     //this.getOneStudents();
@@ -100,17 +100,17 @@ export class ListStudentsComponent implements OnInit {
   volverAtras() {
 
     const local = localStorage.getItem('tipoSolicitud')
-    if(local==="1"){
-      if(this.typeUser==="Administrador"){
-        this._Router.navigate(['/teaching-management/teacher-history-list/',localStorage.getItem('cedula')]);
-      }else{
+    if (local === "1") {
+      if (this.typeUser === "Administrador") {
+        this._Router.navigate(['/teaching-management/teacher-history-list/', localStorage.getItem('cedula')]);
+      } else {
         this._Router.navigate(['/teaching-management/teacher-history-list/']);
       }
-    }else{
-      if(this.typeUser==="Administrador"){
+    } else {
+      if (this.typeUser === "Administrador") {
 
-        this._Router.navigate(['/teaching-management/career-list/',localStorage.getItem('cedula')]);
-      }else{
+        this._Router.navigate(['/teaching-management/career-list/', localStorage.getItem('cedula')]);
+      } else {
         this._Router.navigate(['/teaching-management/career-list/']);
       }
     }

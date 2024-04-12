@@ -146,10 +146,12 @@ export class TeachingHistoryListComponent extends UnsubscribeOnDestroyAdapter
 
 
   calificacionesAasignatura(row: SubjectResponse) {
+
     localStorage.setItem('tipoSolicitud', "1");
     localStorage.setItem('actividadEscogida', row.subjectName);
     localStorage.setItem('id', row.subjectId.toString());
     localStorage.setItem('cedula', this.cedula);
+    localStorage.setItem('DegreeCurriculumDesignId', this.idCareer.toString());
     this._nav.navigate(['/calls-teachers/detail-asignatura/', row.subjectId]);
   }
 

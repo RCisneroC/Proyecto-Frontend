@@ -75,7 +75,7 @@ export class BackofficeEFComponent implements OnInit {
   tribunalReady: boolean = false;
   public cedulaParticipant: string = "";
   showTable: boolean = true;
-  degreeId: number=0;
+  degreeId: number = 0;
 
   Participant = {
     backOffice: 0,
@@ -175,7 +175,7 @@ export class BackofficeEFComponent implements OnInit {
     this.FormsEF.controls["cedula"].setValue(this.authService.currentUserValue.cedula);
     this.FormsEF.controls["cedula"].disable();
     this.cedula = this.authService.currentUserValue.cedula;
-    if(this.id != null)
+    if (this.id != null)
       this.degreeId = parseInt(this.id)
 
     if (this.id != null) {
@@ -192,7 +192,7 @@ export class BackofficeEFComponent implements OnInit {
       firstName: this.FormsEF.value.firstName,
       lastName: this.FormsEF.value.lastName,
       secondsurname: this.FormsEF.value.secondsurname,
-      cedula: this.FormsEF.value.cedula,
+      cedula: this.authService.currentUserValue.cedula,
       dateOfBirth: this.FormsEF.value.dateOfBirth,
       placeOfBirth: this.FormsEF.value.placeOfBirth,
       residentialAddress: this.FormsEF.value.residentialAddress,
@@ -214,10 +214,12 @@ export class BackofficeEFComponent implements OnInit {
       specific: this.FormsEF.value.specific,
       others: this.FormsEF.value.others,
       usesAwheelchair: this.FormsEF.value.usesAwheelchair == "True",
-      observation:"",
+      observation: "",
       createdBy: this.authService.currentUserValue.id
     }
-
+    console.log('====================================');
+    console.log(jsonRequest);
+    console.log('====================================');
     this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
       next: (data: ResponseInscripcionEF) => {
         this._inscriptionService._ResponseInscripcionEF = data;
@@ -314,7 +316,7 @@ export class BackofficeEFComponent implements OnInit {
 
     if (files.length > 0) {
       var formdata = new FormData();
-      formdata.append('cedula', this.FormsEF.value.cedula);
+      formdata.append('cedula', this.authService.currentUserValue.cedula);
       formdata.append('FileType', requerimentId.toString());
       formdata.append('InscriptionId', this.inscriptionId.toString());
       formdata.append('File', files[0]);
@@ -361,33 +363,33 @@ export class BackofficeEFComponent implements OnInit {
 
       this.cedulaParticipant = cedula;
 
-        //Validando con el tribunal electoral
-        this._inscriptionService.getDataPerson(cedula).subscribe(
-          {
-            next: (request: any) => {
-              if (request[0].datasetPersona.personaPublica ==  null) {
-                Swal.fire({
-                  title: "Escuela Judicial",
-                  text: 'Su cédula no está registrada en el Tribunal Electoral',
-                  icon: "warning"
-                }).then((result) => {
-                  this._nav.navigate(["dashboard/dashboard-student"]);
-                }
-                );
-              }
-            },
-            error : (err:HttpErrorResponse)=>{
-              console.log(err);
+      //Validando con el tribunal electoral
+      this._inscriptionService.getDataPerson(cedula).subscribe(
+        {
+          next: (request: any) => {
+            if (request[0].datasetPersona.personaPublica == null) {
               Swal.fire({
                 title: "Escuela Judicial",
-                text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+                text: 'Su cédula no está registrada en el Tribunal Electoral',
                 icon: "warning"
               }).then((result) => {
                 this._nav.navigate(["dashboard/dashboard-student"]);
               }
               );
             }
-          });
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+              icon: "warning"
+            }).then((result) => {
+              this._nav.navigate(["dashboard/dashboard-student"]);
+            }
+            );
+          }
+        });
 
       this.enrollmentService.getStudentData(cedula).subscribe(
         {
@@ -414,11 +416,11 @@ export class BackofficeEFComponent implements OnInit {
                   this.FormsEF.controls["numberofchildren"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].numberofchildren);
                   this.FormsEF.controls["caseOfemergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].caseOfemergency);
                   this.FormsEF.controls["telephoneNumberEmergency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].telephoneNumberEmergency);
-                  this.FormsEF.controls["specialCapacity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specialCapacity==true?"True":"False");
-                  this.FormsEF.controls["visual"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].visual==true?"True":"False");
-                  this.FormsEF.controls["auditory"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory==true?"True":"False");
-                  this.FormsEF.controls["cognitive"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].cognitive==true?"True":"False");
-                  this.FormsEF.controls["physical"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].physical==true?"True":"False");
+                  this.FormsEF.controls["specialCapacity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].specialCapacity == true ? "True" : "False");
+                  this.FormsEF.controls["visual"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].visual == true ? "True" : "False");
+                  this.FormsEF.controls["auditory"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory == true ? "True" : "False");
+                  this.FormsEF.controls["cognitive"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].cognitive == true ? "True" : "False");
+                  this.FormsEF.controls["physical"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].physical == true ? "True" : "False");
                 }
 
                 this.tribunalReady = true;

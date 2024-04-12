@@ -1,8 +1,8 @@
 
 export const environment = {
   production: false,
-  base: 'http://erp.organo-judicial.com/#/student/',
-  baseUrlTeacher: 'http://erp.organo-judicial.com',
+  base: 'http://localhost:3001/#/student/',
+  baseUrlTeacher: 'http://localhost:3001',
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Account/',
   apiUrlRol: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
