@@ -110,7 +110,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador' || this.userType == 'Estudiante') {
+          if (this.userType == 'Administrador' || this.userType == 'Estudiante' || this.userType == 'Certificador') {
             this.dataChange2.next(data);
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
@@ -171,7 +171,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador' || this.userType == 'Certificador') {
+          if (this.userType == 'Administrador') {
             this.dataChange2.next(data.filter(x => x.statusId == 5));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
