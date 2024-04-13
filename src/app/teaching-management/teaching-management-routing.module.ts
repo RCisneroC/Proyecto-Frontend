@@ -42,6 +42,10 @@ const routes: Routes = [
     component: InfoTeacherComponent,
   },
   {
+    path: "info-teacher/:cedula",
+    component: InfoTeacherComponent,
+  },
+  {
     path: "detail-subject/:id",
     component: DetailSubjectComponent,
   },

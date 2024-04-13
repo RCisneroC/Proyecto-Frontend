@@ -26,10 +26,12 @@ import { CareerListComponent } from './career-list/career-list.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { EvalTeacherComponent } from './eval-teacher/eval-teacher.component';
-
+import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
+import { TeacherDocumentStatusComponent } from './teacher-document-status/teacher-document-status.component';
+import { StatusTeacherPipe } from 'app/pipes/status-teacher.pipe';
 
 @NgModule({
-  providers: [VerificarBS64Pipe, DatePipe, StatusProcessPipe],
+  providers: [VerificarBS64Pipe, DatePipe, StatusProcessPipe, StatusTeacherPipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,
@@ -49,7 +51,9 @@ import { EvalTeacherComponent } from './eval-teacher/eval-teacher.component';
     CareerListComponent,
     DetailSubjectComponent,
     FinalGradeComponent,
-    EvalTeacherComponent
+    EvalTeacherComponent,
+    TeacherEditComponent,
+    TeacherDocumentStatusComponent
 
   ],
   imports: [

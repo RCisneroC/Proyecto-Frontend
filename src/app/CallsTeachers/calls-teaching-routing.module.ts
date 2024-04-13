@@ -12,6 +12,8 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { CareerListComponent } from './career-list/career-list.component';
 import { DetailSubjectComponent } from './detail-subject/detail-subject.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
+import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
+import { TeacherDocumentStatusComponent } from './teacher-document-status/teacher-document-status.component';
 
 const routes: Routes = [
   {
@@ -61,6 +63,14 @@ const routes: Routes = [
 {
     path: 'list-students/:id',
     component: FinalGradeComponent,
+  },
+  {
+    path: 'teacher-edit',
+    component: TeacherEditComponent,
+  },
+  {
+    path: 'teacher-document-status',
+    component: TeacherDocumentStatusComponent,
   },
 ];
 

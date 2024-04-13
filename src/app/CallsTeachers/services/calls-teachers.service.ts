@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { Calls } from '../models/CallsModel';
 import { UntypedFormControl } from '@angular/forms';
+import { TeacherDocumentsStatus } from '../models/TeacherDocumentsStatus';
 
 
 @Injectable({
@@ -56,6 +57,22 @@ export class CallsTeachersService {
   evalTeacher(data: UntypedFormControl): Observable<any> {
     const url = `${environment.ConsultaDocentes}`;
     return this.httpClient.post<any>(url + "Announcement/EvaluationTeacher", data);
+  }
+
+
+  getCV(cedula:string) {
+    return this.httpClient.get<string>(environment.ConsultaDocentes + 'Announcement/GetDetailTeacherPDF?cedula=' + cedula);
+  }
+
+
+  GetByDocumentsStatesTeachers(filters: string[]) {
+    const url = `${environment.ConsultaDocentes}`;
+    const data =
+    {
+      filters: filters
+    };
+
+    return this.httpClient.post<TeacherDocumentsStatus[]>(url + "Announcement/GetTeacherStatusDocumentByFilters", data);
   }
 
 }

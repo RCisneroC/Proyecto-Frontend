@@ -13,7 +13,7 @@ export class StatusTeacherPipe implements PipeTransform {
     } else if (value == 3) {
       return 'Pendiente';
     }
-    return 'Sin Status';
+    return 'Sin Asignar';
   }
 
 }
