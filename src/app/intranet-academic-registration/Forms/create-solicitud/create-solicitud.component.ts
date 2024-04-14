@@ -16,8 +16,8 @@ import { Subject } from 'app/admission/FormalEducations/Models/Subject';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { EnrollmentService } from "../../../enrollment/services/enrollment.service";
 import { pdfDefaultOptions } from "ngx-extended-pdf-viewer";
-import {subjectEnrollmentResult} from "../../../admission/models/AddEFacademicResponse";
-import {Career} from "../../../enrollment/models/Career";
+import { subjectEnrollmentResult } from "../../../admission/models/AddEFacademicResponse";
+import { Career } from "../../../enrollment/models/Career";
 export interface DialogData {
   id: string;
   action: string;
@@ -71,7 +71,6 @@ export class CreateSolicitudComponent {
     }
   ];
 
-
   public _Career: Career[] = [{
     aspirantId: 0,
     ejInscriptionId: 0,
@@ -92,7 +91,7 @@ export class CreateSolicitudComponent {
     degreeCurriculumDesignTarget: 0
   }]
 
-  public  _SubjectMatriculas: subjectEnrollmentResult[] = [{
+  public _SubjectMatriculas: subjectEnrollmentResult[] = [{
     studentId: 0,
     firstName: "",
     lastName: "",
@@ -109,7 +108,8 @@ export class CreateSolicitudComponent {
     degreeId: 0,
     nAmeDegree: "",
     teacherCedula: "",
-    years: 0
+    years: 0,
+    subjectStatusId: 0
 
   }]
 
@@ -175,8 +175,8 @@ export class CreateSolicitudComponent {
         this._Career = rest.studentInnfo;
         console.log("_Carrer", this._Career);
         this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
-        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula ).subscribe({
-          next: (result)=>{
+        this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
+          next: (result) => {
             this._SubjectMatriculas = result.subjectEnrollmentResult;
             if (rest.studentInnfo) {
               this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
@@ -355,6 +355,7 @@ export class CreateSolicitudComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   public confirmAdd(): void {
     let dataL = localStorage.getItem('solicitudes') || '';
     if (dataL != '') {
@@ -405,8 +406,8 @@ export class CreateSolicitudComponent {
         })
       }
       else {
-        if(value.typeRequest == 20 || value.typeRequest == 6 || value.typeRequest == 9 ){
-          if(value.typeRequest == 20){
+        if (value.typeRequest == 20 || value.typeRequest == 6 || value.typeRequest == 9) {
+          if (value.typeRequest == 20) {
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,
@@ -426,7 +427,7 @@ export class CreateSolicitudComponent {
               }
             })
           }
-          if(value.typeRequest == 6){
+          if (value.typeRequest == 6) {
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,
@@ -446,7 +447,7 @@ export class CreateSolicitudComponent {
               }
             })
           }
-          if(value.typeRequest == 9){
+          if (value.typeRequest == 9) {
             const EFCreateWithdrawalAndReentryRequestData = {
               userRequest: value.idSolicitante,
               description: value.comments,
@@ -518,10 +519,10 @@ export class CreateSolicitudComponent {
 
   }
 
-  changecarrer(event: any){
-    console.log('careerSelected:',event);
-    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula ).subscribe({
-      next:(res)=>{
+  changecarrer(event: any) {
+    console.log('careerSelected:', event);
+    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
         this._SubjectMatriculas = res.subjectEnrollmentResult;
         if (this.RequesttypeSelect == 9) {
           this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, event).subscribe({
@@ -536,10 +537,10 @@ export class CreateSolicitudComponent {
     })
   }
 
-  changeDestinycarrer(event: any){
-    console.log('careerdestinySelected:',event);
-    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula ).subscribe({
-      next:(res)=>{
+  changeDestinycarrer(event: any) {
+    console.log('careerdestinySelected:', event);
+    this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula).subscribe({
+      next: (res) => {
         //this._SubjectMatriculas = res.subjectEnrollmentResult;
         if (this.RequesttypeSelect == 9) {
           this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, event).subscribe({

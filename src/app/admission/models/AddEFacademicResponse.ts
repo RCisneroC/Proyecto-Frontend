@@ -51,6 +51,7 @@ export interface subjectEnrollmentResult {
   nAmeDegree: string;
   teacherCedula: string;
   years: number;
+  subjectStatusId: number;
 }
 
 
@@ -80,7 +81,7 @@ export interface getStudentsActivityResponse {
   degreeCurriculumDesignId: number;
 }
 
-export interface  CreateCertificateResponse {
+export interface CreateCertificateResponse {
   certificate: {
     fileContents: string,
     contentType: string,

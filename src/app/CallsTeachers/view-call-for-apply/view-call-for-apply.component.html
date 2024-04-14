@@ -1,0 +1,72 @@
+<section class="auth-container">
+  <div class="row auth-main">
+    <div class="col-sm-12 auth-form-section">
+      <div class="content-block">
+        <div class="row clearfix" style="margin-bottom: 20px;">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <div class="row" style="height: auto;">
+                <div class="col-12 " style="max-height:auto; text-align-last: center;">
+                  <img src="assets/images/ISJUP.png" style="height: 200px; margin-top: 10px;" />
+                  <br><br>
+                  <mat-divider style="border: inset;"></mat-divider>
+                  <h5><strong>{{calls?.titulo!}}</strong></h5>
+                </div>
+              </div>
+              <div class="body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-12">
+                    <div class="card">
+                      <div class="header">
+                        <h3>Descripción</h3>
+                      </div>
+                      <div class="body">
+                        <div style="text-align: justify;" [innerHTML]="SafeHtml(calls?.descripcion!)"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-12">
+                    <div class="card">
+                      <div class="header">
+                        <h3>Funciones</h3>
+                      </div>
+                      <div class="body">
+                        <div style="text-align: justify;" [innerHTML]="SafeHtml(calls?.funciones!)"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-12">
+                    <div class="card">
+                      <div class="header">
+                        <h3>Requisitos</h3>
+                      </div>
+                      <div class="body">
+                        <div style="text-align: justify;" [innerHTML]="SafeHtml(calls?.requisitos!)"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-12" style="display:flex; gap:10px;">
+                    <button matTooltip="Revisar otras vacantes" mat-raised-button color="accent"
+                      (click)="volverAtras()">
+                      <mat-icon>keyboard_backspace</mat-icon> Revisar otras vacantes
+                    </button>
+                    <button matTooltip="Postularse" mat-raised-button color="primary" (click)="Postularse()">
+                      Postularse
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

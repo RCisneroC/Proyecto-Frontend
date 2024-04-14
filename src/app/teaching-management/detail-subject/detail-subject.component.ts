@@ -103,6 +103,7 @@ export class DetailSubjectComponent implements OnInit {
   user: User;
   typeUser: string;
   cedula: string;
+  public IsActivity: boolean = false;
   //calendarOptions: any;
   @ViewChild('pagination')
   set paginator(value: MatPaginator) {
@@ -165,6 +166,7 @@ export class DetailSubjectComponent implements OnInit {
       } else {
         this.getAllTaskActivity();
         this.pantalla = 'de actividades';
+        this.IsActivity = true;
       }
 
     }

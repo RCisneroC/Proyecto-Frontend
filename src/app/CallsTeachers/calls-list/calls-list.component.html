@@ -1,0 +1,143 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Listado de Convocatorias'" [items]="['Inicio','Convocatorias Docentes']" [active_item]="'Listado de Convocatorias'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Listado de Convocatorias</strong></h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="materialTableHeader">
+                    <div class="left">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="tbl-title">
+                          <h2>Convocatorias</h2>
+                        </li>
+                        <li class="tbl-search-box">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" (keyup)="filtrar($event)"  #filter class="browser-default search-field"
+                            aria-label="Search box">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="right">
+                      <ul class="tbl-export-btn">
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="NUEVA CONVOCATORIA">
+                            <button matTooltip="AGREGAR CONVOCATORIA" mat-mini-fab
+                            color="primary" (click)="addNew()"
+                            class="tbl-action-btn">
+                            <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                        </button>
+                          </div>
+                        </li>
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="ACTUALIZAR">
+                            <button mat-mini-fab color="primary" (click)="refresh()">
+                              <mat-icon class="col-white">refresh</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="body overflow-auto">
+                    <div class="responsive_table">
+                      <table mat-table [dataSource]="dataSource" matSort matSort (matSortChange)="sortData($event)" class="mat-cell advance-table">
+                        <ng-container matColumnDef="titulo">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Título
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Título:</span>{{row.titulo}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="proceso">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+ <span *ngIf="row.proceso === 1">Entrenamiento</span>
+ <span *ngIf="row.proceso === 2">Formación especializada</span>
+ <span *ngIf="row.proceso === 3">Ambas</span>
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fechaInicio">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha Inicio:</span>{{ row.fechaInicio | date:'dd/M/yyyy' }}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fechaFin">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha Fin:</span>{{row.fechaFin |
+                            date:'dd/M/yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="statusId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <div *ngIf="row.statusId===1" class="badge badge-solid-red">
+                              Cerrada
+                            </div>
+                            <div *ngIf="row.statusId===2" class="badge badge-solid-green">
+                              Abierta
+                            </div>
+                            <div *ngIf="row.statusId===3" class="badge badge-solid-red">
+                              Pendiente
+                            </div>
+                          </mat-cell>
+                        </ng-container>
+                        <!-- actions -->
+                        <ng-container matColumnDef="actions">
+                          <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                          <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                            <button *ngIf="row.statusId===3" Tooltip="Aprobar Convocatoria" mat-mini-fab color="warn"
+                              (click)="$event.stopPropagation()" (click)="OpenCalls(row)">
+                              <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                            </button>
+                            <button  mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
+                              <mat-icon>remove_red_eye</mat-icon>
+                              <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
+                            </button>
+                          </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                        </mat-row>
+                      </table>
+                    </div>
+                    <!-- Loading spinner -->
+                    <div *ngIf="IsLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <mat-paginator #paginator
+                      [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

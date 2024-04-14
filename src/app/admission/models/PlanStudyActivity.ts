@@ -4,7 +4,7 @@ export interface PlanStudyActivity {
     activityId: number;
     name: string;
     description: string;
-    courseOutline: CourseOutline;
+    courseOutline: CourseOutline | any;
 }
 
 export interface CourseOutline {

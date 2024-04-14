@@ -35,6 +35,7 @@ import { CurriculumDesign } from '../models/CurriculumDesign';
 import { DegreeCurriculumDesignEnrollment } from '../models/DegreeCurriculumDesignEnrollment';
 import { StudentModel } from '../models/StudentModel';
 import { GraficasMatricula } from 'app/estadisticas/Models/GraficasMatricula';
+import { GraficasEntrenamiento } from 'app/estadisticas/Models/GraficasEntrenamiento';
 
 @Injectable({
   providedIn: 'root'
@@ -178,6 +179,13 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiEC}`;
     return this.httpClient.post<GraficasMatricula>(url + "EstadisticaMatricula/GetEstadistica", dataGraficas);
   }
+
+  searchGraficasMatriculadosParticipantes(dataGraficas: any) {
+
+    const url = `${environment.apiEC}`;
+    return this.httpClient.post<GraficasEntrenamiento>(url + "EstadisticaMatricula/GetStatisticalGraph", dataGraficas);
+  }
+
 
   AddSubjectStudent(createEnrollmentdSubjectDta: any) {
 

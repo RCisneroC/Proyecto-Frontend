@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -58,9 +59,9 @@ export class CreatePeriodComponent implements OnInit {
           this.ResponseMessage.Message = 'Cargado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
         },
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = "Intento Nuevamente.";
+          this.ResponseMessage.Message = err.error.Message;
           this.dialogRef.close(this.ResponseMessage);
         }
       });
@@ -71,9 +72,9 @@ export class CreatePeriodComponent implements OnInit {
           this.ResponseMessage.Message = 'Editado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
         },
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = "Intento Nuevamente.";
+          this.ResponseMessage.Message = err.error.Message;
           this.dialogRef.close(this.ResponseMessage);
         }
       });

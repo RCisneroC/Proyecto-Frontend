@@ -175,8 +175,11 @@ export class ScheduleActivityDetailFormComponent {
     if (this.scheduleForm.controls['activityModeId'].value != 3) {
       this.scheduleForm.controls['virtualRoom'].setValue(null);
     } else {
-      this.scheduleForm.controls['virtualRoom'].setValue(this.schedule.activityModeId.toString());
+      this.scheduleForm.controls['virtualRoom'].setValue(this.scheduleForm.controls['activityModeId'].value.toString());
     }
+    console.log('====================================');
+    console.log(this.action);
+    console.log('====================================');
     if (this.action === 'edit') {
       this.scheduleActivitiesService.updateActivityDetail(this.scheduleForm.getRawValue()).subscribe({
         next: () => {
@@ -191,6 +194,7 @@ export class ScheduleActivityDetailFormComponent {
         }
       });
     } else {
+      alert("...........");
       this.scheduleActivitiesService.addActivityDetail(this.scheduleForm.getRawValue()).subscribe({
         next: (res) => {
           this.ResponseMessage.CodError = 200;

@@ -55,7 +55,7 @@ export class BackofficeComponent implements OnInit {
   DependencyList: any;
   OrganismoCopList: any
   CargosList: any;
-  public participationProfile:number =0;
+  public participationProfile: number = 0;
 
   public DatosEstudianteResponse: StudentModel | undefined;
 
@@ -108,7 +108,7 @@ export class BackofficeComponent implements OnInit {
 
     this._inscriptionService.getActivity(this.idActivity.toString()).subscribe(
       {
-        next : (request)=>{
+        next: (request) => {
           this.participationProfile = request.participationProfile;
         }
       }
@@ -145,7 +145,7 @@ export class BackofficeComponent implements OnInit {
       this._inscriptionService.getDataPerson(cedula).subscribe(
         {
           next: (request: any) => {
-            if (request[0].datasetPersona.personaPublica==null) {
+            if (request[0].datasetPersona.personaPublica == null) {
               Swal.fire({
                 title: "Escuela Judicial",
                 text: 'Su cédula no está registrada en el Tribunal Electoral',
@@ -156,7 +156,7 @@ export class BackofficeComponent implements OnInit {
               );
             }
           },
-          error : (err:HttpErrorResponse)=>{
+          error: (err: HttpErrorResponse) => {
             console.log(err);
             Swal.fire({
               title: "Escuela Judicial",
@@ -169,7 +169,7 @@ export class BackofficeComponent implements OnInit {
           }
         });
 
-        this.enrollmentService.getStudentData(cedula).subscribe(
+      this.enrollmentService.getStudentData(cedula).subscribe(
         {
           next: (request) => {
             this.DatosEstudianteResponse = request as StudentModel;
@@ -178,14 +178,16 @@ export class BackofficeComponent implements OnInit {
                 this.loading = false;
                 this.disabled = true;
                 this.personData = this.DatosEstudianteResponse;
-                this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
-                this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
-                this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
-                this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
-                this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
-                this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
-                this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
-                this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+                if (this.DatosEstudianteResponse.verifyUsersResult[0].participant[0] != undefined) {
+                  this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
+                  this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
+                  this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
+                  this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
+                  this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
+                  this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
+                  this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
+                  this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+                }
               }
             }
           },

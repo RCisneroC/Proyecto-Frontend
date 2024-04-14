@@ -170,7 +170,7 @@ export class InscriptionFormsExternalComponent {
       this.planId = this.converId;
       this.loadMeshList(this.planId);
       const plan = localStorage.getItem("Plan-anual-detail");
-      if(plan){
+      if (plan) {
         this.planName = plan;
       }
     })
@@ -379,7 +379,11 @@ export class InscriptionFormsExternalComponent {
     }
     this._inscriptionService.AddEFAspirant(jsonRequest).subscribe({
       next: (data: ResponseInscripcionEF) => {
+        console.log(data);
         this._inscriptionService._ResponseInscripcionEF = data;
+        console.log('====================================');
+        console.log(this._inscriptionService._ResponseInscripcionEF);
+        console.log('====================================');
         if (!this._inscriptionService._ResponseInscripcionEF.isError) {
           this.inscriptionId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].inscriptionId.toString();
           this.aspirantId = this._inscriptionService._ResponseInscripcionEF.inscriptionResponse[0].aspirantId.toString();

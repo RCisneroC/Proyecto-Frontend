@@ -22,7 +22,8 @@ export class Teacher {
     placeOfBirth: string = "";
     gender: string = "";
     phoneNumber: string = "";
-
+    id?: number;
+    type?:string;
 }
 
 export interface Course {
@@ -59,12 +60,14 @@ export class Experience {
 
 
 export class Documents {
-    documentId: number = -1;
-    doc: string = "";
-    docResult!: Poster;
-    extension: string = "";
-    docType: number = -1;
-    description: string | null = "";
+  documentId: number = -1;
+  doc: string = "";
+  docResult!: Poster;
+  extension: string = "";
+  docType: number = -1;
+  description: string | null = "";
+  actualizar: string | null = "";
+  validate:boolean = false;
 }
 
 

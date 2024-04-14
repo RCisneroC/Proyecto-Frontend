@@ -17,9 +17,12 @@ import { RequestVariousStatusPipe } from "../pipes/request-various-status.pipe";
 import { RequestVariousActivityAcademicTypePipe } from "../pipes/request-various-activity-academic-type.pipe";
 import { RequestVariousTypePipe } from "../pipes/request-various-type.pipe";
 import { StatusTeacherPipe } from '../pipes/status-teacher.pipe';
+import { EntityTypePipe } from '../pipes/entity-type.pipe';
+import { StatusProcessPipe } from '../pipes/status-process.pipe';
+import { StatusMatriculaPipe } from '../pipes/status-matricula.pipe';
 
 @NgModule({
-  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe, RequestVariousApplicantUserTypeIdPipe, RequestVariousStatusPipe, RequestVariousActivityAcademicTypePipe, RequestVariousTypePipe,StatusTeacherPipe,],
+  declarations: [StatusPipePipe, VerificarBS64Pipe, RequestVariousTypeIdPipe, RequestVariousApplicantUserTypeIdPipe, RequestVariousStatusPipe, RequestVariousActivityAcademicTypePipe, RequestVariousTypePipe, StatusTeacherPipe, EntityTypePipe, StatusProcessPipe, StatusMatriculaPipe],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -41,6 +44,9 @@ import { StatusTeacherPipe } from '../pipes/status-teacher.pipe';
     RequestVariousActivityAcademicTypePipe,
     RequestVariousTypePipe,
     StatusTeacherPipe,
+    EntityTypePipe,
+    StatusProcessPipe,
+    StatusMatriculaPipe
   ],
 })
 export class SharedModule { }

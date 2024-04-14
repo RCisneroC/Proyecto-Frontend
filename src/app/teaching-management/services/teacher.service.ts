@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { RequestActivityTeacher, RequestSubjectTeacher, ResponseSaveTeacher, Subject, Teacher } from '../models/Teacher';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
@@ -51,7 +51,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data);
+          this.dataChange.next(data.filter(f=>f.type==null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -82,7 +82,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   searchSubjectTask(filter: any) {
     return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
-  addUpdateTeacher(teacher: Teacher) {
+  addUpdateTeacher(teacher: Teacher, id:number = 0, type: string | null = null) {
+    if(type!= null){
+      teacher.type = type;
+      teacher.id = id;
+    }
 
     return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'Save', teacher);
   }
@@ -240,7 +244,15 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post<any>(environment.apiIntranet + 'SearchActivityRecordScores', data);
   }
 
-
+  ValidateDocument(docId: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+    };
+    return this.httpClient
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId,httpOptions);
+  }
 
 
 

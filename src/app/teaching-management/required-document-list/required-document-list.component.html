@@ -70,13 +70,13 @@
                         </ng-container>
 
                         <ng-container matColumnDef="typeEducationId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Requerido
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <div>
-                              <span class="mobile-label ">Requerido:</span>{{row.typeEducationId
-                              ===
-                              0?'No':'Si'}}
+                              <span *ngIf="row.typeEducationId===1">Entrenamiento</span>
+                              <span *ngIf="row.typeEducationId===2">Formación especializada</span>
+                              <span *ngIf="row.typeEducationId===3">Ambas</span>
                             </div>
                           </mat-cell>
                         </ng-container>

@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Page404Component } from './authentication/page404/page404.component';
@@ -62,6 +63,17 @@ const routes: Routes = [
         loadChildren: () =>
           import('./estadisticas/estadisticas.module').then((m) => m.EstadisticasModule),
       },
+      {
+        path: 'calls-teachers',
+        loadChildren: () =>
+          import('./CallsTeachers/calls-teaching.module').then((m) => m.CallsTeachingModule),
+      },
+      {
+        path: 'jobs',
+        loadChildren: () =>
+          import('./Job/job-module.module').then((m) => m.JobModuleModule),
+      },
+
 
     ],
   },
@@ -89,6 +101,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./teaching-management/teaching-management.module').then(
         (m) => m.TeachingManagementModule
+      ),
+  },
+  {
+    path: 'calls',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./CallsTeachers/calls-teaching-routing.module').then(
+        (m) => m.CallsTeachingRoutingModule
       ),
   },
 
