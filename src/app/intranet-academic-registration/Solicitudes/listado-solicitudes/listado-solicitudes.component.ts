@@ -20,6 +20,7 @@ import { DetalleSolicitudComponent } from '../detalle-solicitud/detalle-solicitu
 import {
   ViewPosterPDFComponent
 } from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {HistorySolicitudComponent} from "../history-solicitud/history-solicitud.component";
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -46,6 +47,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   id?: number;
   requestVarious?: RequestVariousItem = {
     id: 0,
+    history: [],
     createdDate:new Date,
     createdBy: '',
     lastModifiedDate: new Date,
@@ -226,6 +228,37 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     })
  }
 
+  generateTeachingCertification(row: RequestVariousItem, id: number){
+    const DownloadTeachingCertificationData = {
+      requestVariousId: row.id
+    }
+    this._RequestServicesService.DownloadTeachingCertification(DownloadTeachingCertificationData).subscribe({
+      next:(res)=>{
+        console.log('Certificación',res.data.pdfContentInBase64);
+        if (res.data.pdfContentInBase64) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.data.pdfContentInBase64,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "Ocurrio un error al generar la Certificación",
+            icon: "warning"
+          });
+        }
+      }
+    })
+  }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
@@ -303,6 +336,8 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
 
   detalleSolicitud(row: RequestVariousItem, id: number) {
     console.log(row.id);
+    const completed = JSON.parse(row.history);
+    console.log("History Parse", completed);
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -310,6 +345,25 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
       tempDirection = 'ltr';
     }
     const dialogRef = this.dialog.open(DetalleSolicitudComponent, {
+      data: {
+        request: row,
+        action: 'detalle',
+        id: id
+      },
+      width: '900px',
+      direction: tempDirection,
+    });
+  }
+
+  historySolicitud(row: RequestVariousItem, id: number) {
+
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(HistorySolicitudComponent, {
       data: {
         request: row,
         action: 'detalle',

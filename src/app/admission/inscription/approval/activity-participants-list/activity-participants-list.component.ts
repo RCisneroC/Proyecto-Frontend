@@ -19,6 +19,8 @@ import Swal from 'sweetalert2';
 import { ViewPosterPDFComponent } from "../../../activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 import { VerificarBS64Pipe } from "../../../../pipes/verificar-bs64.pipe";
 import { el } from "@fullcalendar/core/internal-common";
+import {AuthService} from "@core";
+import {RequestServicesService} from "../../../../intranet-academic-registration/Services/request-services.service";
 @Component({
   selector: 'app-activity-participants-list',
   templateUrl: './activity-participants-list.component.html',
@@ -42,6 +44,8 @@ export class ActivityParticipantsListComponent extends UnsubscribeOnDestroyAdapt
   id?: any;
   schedule?: Participant;
   nameActivity: string = '';
+  ActivityTriningType: string = '';
+  UserRole: string = '';
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -49,6 +53,8 @@ export class ActivityParticipantsListComponent extends UnsubscribeOnDestroyAdapt
     private snackBar: MatSnackBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    public _RequestService:RequestServicesService,
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
     public _InscriptionService: InscriptionService,
@@ -65,6 +71,9 @@ export class ActivityParticipantsListComponent extends UnsubscribeOnDestroyAdapt
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.nameActivity = localStorage.getItem('name_actividad') || '';
+      this.ActivityTriningType = localStorage.getItem('Activity_Training_Type') || '';
+      this.UserRole =this._RequestService.getRoleFromToken(this.authService.currentUserValue.token);
+      console.log('UserRole', this.UserRole);
     })
     this.loadData();
   }

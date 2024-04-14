@@ -68,6 +68,7 @@ export class ListActivityComponent extends UnsubscribeOnDestroyAdapter
   ViewDetail(row: ScheduleActivityDetail) {
     localStorage.setItem('ruta_local', '/admission/activity-inscription/' + this.id);
     localStorage.setItem('name_actividad', row.name);
+    localStorage.setItem('Activity_Training_Type', row.activityTrainingType.toString());
     this.router.navigate(['/admission/listado-participans/' + row.id]);
     console.log('====================================');
     console.log(row);
