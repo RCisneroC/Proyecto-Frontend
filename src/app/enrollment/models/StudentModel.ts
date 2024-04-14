@@ -62,4 +62,5 @@ export interface Participant {
   province: string
   judicialDistrict: string
   invitationDate: string
+  participationProfile?:number
 }
