@@ -131,6 +131,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       inscriptionId: 0
     }
   ];
+  public participationProfile: number = 0;
 
   dataDocuments = new MatTableDataSource<GetDocResp>(this.dataSoruceActivityRequirements);
   @ViewChild(MatPaginator)
@@ -354,6 +355,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                   this.studentForm.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
                   this.studentForm.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
                   this.studentForm.controls["invitationDate"].patchValue(this.datePipe.transform(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].invitationDate, "dd/MM/yyyy"));
+                  this.participationProfile = this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].participationProfile!;
                 }
                 this.SetValidator();
                 this.cb.detectChanges();

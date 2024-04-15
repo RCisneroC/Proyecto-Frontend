@@ -272,10 +272,10 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                       <mat-label>Institución</mat-label>
-                      <mat-select formControlName="institution">
-                        <mat-option [value]=""></mat-option>
+                      <mat-select *ngIf="participationProfile===1" formControlName="institution">
                         <mat-option *ngFor="let row of InstitutionList" [value]="row.name">{{row.name}}</mat-option>
                       </mat-select>
+                      <input *ngIf="participationProfile!==1" formControlName="institution" matInput autocomplete="off" />
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('institution')?.hasError('required')">
                         Es Requisito
@@ -300,11 +300,10 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                       <mat-label>Dependencia</mat-label>
-                      <mat-select formControlName="dependency">
-                        <mat-option [value]=""></mat-option>
-                        <mat-option *ngFor="let row of DependencyList"
-                          [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
+                      <mat-select *ngIf="participationProfile===1" formControlName="dependency">
+                        <mat-option *ngFor="let row of DependencyList" [value]="row.nombre_dependencia">{{row.nombre_dependencia}}</mat-option>
                       </mat-select>
+                      <input *ngIf="participationProfile!==1" formControlName="dependency" matInput autocomplete="off" />
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('dependency')?.hasError('required')">
                         Es Requisito
@@ -314,10 +313,10 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                       <mat-label>Entidad Cooperadora</mat-label>
-                      <mat-select formControlName="cooperatingEntity">
-                        <mat-option [value]=""></mat-option>
+                      <mat-select *ngIf="participationProfile===1" formControlName="cooperatingEntity">
                         <mat-option *ngFor="let row of OrganismoCopList" [value]="row.name">{{row.name}}</mat-option>
                       </mat-select>
+                      <input *ngIf="participationProfile!==1" formControlName="cooperatingEntity" matInput autocomplete="off" />
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('cooperatingEntity')?.hasError('required')">
                         Es Requisito
@@ -327,11 +326,10 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                       <mat-label>Posición</mat-label>
-                      <mat-select formControlName="position">
-                        <mat-option [value]=""></mat-option>
-                        <mat-option *ngFor="let row of CargosList"
-                          [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
+                      <mat-select *ngIf="participationProfile===1" formControlName="position">
+                        <mat-option *ngFor="let row of CargosList" [value]="row.nombre_completo">{{row.nombre_completo}}</mat-option>
                       </mat-select>
+                      <input *ngIf="participationProfile!==1" formControlName="position" matInput autocomplete="off" />
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('position')?.hasError('required')">
                         Es Requisito
