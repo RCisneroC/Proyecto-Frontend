@@ -26,6 +26,7 @@ import { ViewSurveyComponent } from './Encuestas/view-survey/view-survey.compone
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { SubjectHistoryComponent } from './subject-history/subject-history.component';
 
 
 
@@ -51,6 +52,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     ViewSurveyComponent,
     InfoStudentComponent,
     MyTasksListComponent,
+    SubjectHistoryComponent,
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

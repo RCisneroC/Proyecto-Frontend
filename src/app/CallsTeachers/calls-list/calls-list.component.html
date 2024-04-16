@@ -67,9 +67,9 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
- <span *ngIf="row.proceso === 1">Entrenamiento</span>
- <span *ngIf="row.proceso === 2">Formación especializada</span>
- <span *ngIf="row.proceso === 3">Ambas</span>
+                            <span *ngIf="row.proceso === 1">Formación especializada</span>
+                            <span *ngIf="row.proceso === 2">Entrenamiento</span>
+                            <span *ngIf="row.proceso === 3">Ambas</span>
                           </mat-cell>
                         </ng-container>
 

@@ -127,6 +127,7 @@ export class AprovedTeacherComponent implements OnInit {
     const process1 = this.ApprovedForm.get("process")?.value;
     console.log(this.data);
 
+    /*
     if (this.data.teacher.listSubject.length > 0 && this.data.teacher.listActivity.length > 0) {
       process = "3";
     } else if (this.data.teacher.listSubject.length > 0) {
@@ -135,15 +136,15 @@ export class AprovedTeacherComponent implements OnInit {
       process = "2";
     } else {
       process = 0;
-    }
+    }*/
 
-    if (process != process1 && status == 1) {
+  /*  if (process != process1 && status == 1) {
       Swal.fire({
         title: "Escuela Judicial",
         text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
         icon: "warning"
-      });
-    } else {
+      });*/
+   // } else {
 
       this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
         (res) => {
@@ -181,7 +182,7 @@ export class AprovedTeacherComponent implements OnInit {
         }
       );
 
-    }
+   // }
   }
 }
 
