@@ -127,7 +127,7 @@ export class EnrollDetailsMeshComponent {
         this.part = res.verifyUsersResult[0].part;
         this.asp = res.verifyUsersResult[0].asp;
         this.egresado = res.verifyUsersResult[0].egresado;
-        
+
          if (this.asp) {
           this.IsStudents = true;
           this._ActivityService.GetDetailsEFCedula(this.authService.currentUserValue.cedula).subscribe({
@@ -195,6 +195,9 @@ export class EnrollDetailsMeshComponent {
 
   goTask(row: Career) {
     this._router.navigate(['/enrollment/my-tasks-list/' + row.degreeCurriculumDesignId]);
+  }
+  goAppTask(row: getStudentsActivityResponse) {
+    this._router.navigate(['/enrollment/my-tasks-apptivity-list/' + row.degreeCurriculumDesignId]);
   }
 
 

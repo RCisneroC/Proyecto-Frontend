@@ -13,6 +13,7 @@ import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcio
 import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
 import { InfoStudentComponent } from './info-student/info-student.component';
 import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
+import {MyTaskApptivityListComponent} from "./my-task-apptivity-list/my-task-apptivity-list.component";
 
 const routes: Routes = [
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
   {
     path:"my-tasks-list/:id",
     component: MyTasksListComponent
+  },
+  {
+    path:"my-tasks-apptivity-list/:id",
+    component: MyTaskApptivityListComponent
   }
 ];
 
