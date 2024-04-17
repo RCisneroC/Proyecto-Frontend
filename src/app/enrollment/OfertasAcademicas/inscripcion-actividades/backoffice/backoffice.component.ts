@@ -110,16 +110,17 @@ export class BackofficeComponent implements OnInit {
       {
         next: (request) => {
           this.participationProfile = request.participationProfile;
+          this.getPersonData(this.authService.currentUserValue.cedula);
+          this.loadUniversidades();
+          this.loadIntituciones();
+          this.loadDependencias();
+          this.loadOrganosCop();
+          this.loadCargos();
         }
       }
     );
 
-    this.getPersonData(this.authService.currentUserValue.cedula);
-    this.loadUniversidades();
-    this.loadIntituciones();
-    this.loadDependencias();
-    this.loadOrganosCop();
-    this.loadCargos();
+
     this.form.controls["email"].patchValue(this.authService.currentUserValue.email);
   }
   regresar() {
@@ -140,63 +141,135 @@ export class BackofficeComponent implements OnInit {
     } else {
       this.loading = true;
       this.cedulaParticipant = cedula;
+      if(this.participationProfile === 1){
+        this._inscriptionService.GetDataOrgano(cedula).subscribe({
+          next:(res)=>{
+            if(res.length > 0){
+              this._inscriptionService.getDataPerson(cedula).subscribe(
+                {
+                  next: (request: any) => {
+                    if (request[0].datasetPersona.personaPublica == null) {
+                      Swal.fire({
+                        title: "Escuela Judicial",
+                        text: 'Su cédula no está registrada en el Tribunal Electoral',
+                        icon: "warning"
+                      }).then((result) => {
+                          this._nav.navigate(["dashboard/dashboard-student"]);
+                        }
+                      );
+                    }
+                  },
+                  error: (err: HttpErrorResponse) => {
+                    console.log(err);
+                    Swal.fire({
+                      title: "Escuela Judicial",
+                      text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+                      icon: "warning"
+                    }).then((result) => {
+                        this._nav.navigate(["dashboard/dashboard-student"]);
+                      }
+                    );
+                  }
+                });
 
-      //Validando con el tribunal electoral
-      this._inscriptionService.getDataPerson(cedula).subscribe(
-        {
-          next: (request: any) => {
-            if (request[0].datasetPersona.personaPublica == null) {
-              Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Su cédula no está registrada en el Tribunal Electoral',
-                icon: "warning"
-              }).then((result) => {
-                this._nav.navigate(["dashboard/dashboard-student"]);
-              }
+              this.enrollmentService.getStudentData(cedula).subscribe(
+                {
+                  next: (request) => {
+                    this.DatosEstudianteResponse = request as StudentModel;
+                    if (this.DatosEstudianteResponse != undefined) {
+                      if (!this.DatosEstudianteResponse.isError) {
+                        this.loading = false;
+                        this.disabled = true;
+                        this.personData = this.DatosEstudianteResponse;
+                        if (this.DatosEstudianteResponse.verifyUsersResult[0].participant[0] != undefined) {
+                          this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
+                          this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
+                          this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
+                          this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
+                          this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
+                          this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
+                          this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
+                          this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+                        }
+                      }
+                    }
+                  },
+                  error: (err: HttpErrorResponse) => {
+                    this.loading = false
+                    console.log(err);
+                  }
+                }
               );
             }
-          },
-          error: (err: HttpErrorResponse) => {
-            console.log(err);
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
-              icon: "warning"
-            }).then((result) => {
-              this._nav.navigate(["dashboard/dashboard-student"]);
+            else {
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'Por favor, la persona que desea inscribir debe pertenecer al Órgano',
+                icon: "warning"
+              });
             }
-            );
           }
-        });
+        })
+      }
+      else {
+        this._inscriptionService.getDataPerson(cedula).subscribe(
+          {
+            next: (request: any) => {
+              if (request[0].datasetPersona.personaPublica == null) {
+                Swal.fire({
+                  title: "Escuela Judicial",
+                  text: 'Su cédula no está registrada en el Tribunal Electoral',
+                  icon: "warning"
+                }).then((result) => {
+                    this._nav.navigate(["dashboard/dashboard-student"]);
+                  }
+                );
+              }
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err);
+              Swal.fire({
+                title: "Escuela Judicial",
+                text: 'En estos momentos el  Tribunal Electoral no está disponible para verificar su identificación',
+                icon: "warning"
+              }).then((result) => {
+                  this._nav.navigate(["dashboard/dashboard-student"]);
+                }
+              );
+            }
+          });
 
-      this.enrollmentService.getStudentData(cedula).subscribe(
-        {
-          next: (request) => {
-            this.DatosEstudianteResponse = request as StudentModel;
-            if (this.DatosEstudianteResponse != undefined) {
-              if (!this.DatosEstudianteResponse.isError) {
-                this.loading = false;
-                this.disabled = true;
-                this.personData = this.DatosEstudianteResponse;
-                if (this.DatosEstudianteResponse.verifyUsersResult[0].participant[0] != undefined) {
-                  this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
-                  this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
-                  this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
-                  this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
-                  this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
-                  this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
-                  this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
-                  this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+        this.enrollmentService.getStudentData(cedula).subscribe(
+          {
+            next: (request) => {
+              this.DatosEstudianteResponse = request as StudentModel;
+              if (this.DatosEstudianteResponse != undefined) {
+                if (!this.DatosEstudianteResponse.isError) {
+                  this.loading = false;
+                  this.disabled = true;
+                  this.personData = this.DatosEstudianteResponse;
+                  if (this.DatosEstudianteResponse.verifyUsersResult[0].participant[0] != undefined) {
+                    this.form.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
+                    this.form.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
+                    this.form.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
+                    this.form.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
+                    this.form.controls["cooperatingEntity"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].cooperatingEntity);
+                    this.form.controls["position"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].position);
+                    this.form.controls["province"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province);
+                    this.form.controls["judicialDistrict"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].judicialDistrict);
+                  }
                 }
               }
+            },
+            error: (err: HttpErrorResponse) => {
+              this.loading = false
+              console.log(err);
             }
-          },
-          error: (err: HttpErrorResponse) => {
-            this.loading = false
-            console.log(err);
           }
-        }
-      );
+        );
+      }
+      //Validando con el tribunal electoral
+
 
       /*
             this._inscriptionService.getDataPerson(cedula).subscribe({

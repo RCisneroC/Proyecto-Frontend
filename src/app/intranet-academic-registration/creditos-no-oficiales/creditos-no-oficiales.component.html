@@ -25,13 +25,13 @@
                             <mat-select formControlName="formacionEspecializada">
                               <mat-option [value]="" selected></mat-option>
                               <!-- [disabled]="item.efAcademicRecordIsReentry" -->
-                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecordId">
-                                <ng-container *ngIf="item.efAcademicRecordIsReentry===false">
+                              <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecord">
+                                <ng-container>
                                   {{item.degree.name}}
                                 </ng-container>
-                                <ng-container *ngIf="item.efAcademicRecordIsReentry===true">
+                                <!-- <ng-container *ngIf="item.efAcademicRecordIsReentry===true">
                                   {{item.degree.name}} <span class='badge badge-solid-red'>Inactivo</span>
-                                </ng-container>
+                                </ng-container> -->
                               </mat-option>
                             </mat-select>
                             <mat-error

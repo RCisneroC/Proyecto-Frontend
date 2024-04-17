@@ -798,11 +798,11 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<PlanStudyActivity>(environment.apiUrlSchedule + 'ActivityStudyPlan/GetBy?Id=' + id);
   }
   GetModulesByPlanStudy(id: any) {
-    return this.httpClient.get<ActivityDetailModules[]>(environment.apiUrlSchedule + '/ActivityStudyPlan/GetActivityStudyPlanModulesBy?ActivityStudyPlanId=' + id);
+    return this.httpClient.get<ActivityDetailModules[]>(environment.apiUrlSchedule + 'ActivityStudyPlan/GetActivityStudyPlanModulesBy?ActivityStudyPlanId=' + id);
   }
 
   GetModulesByPlanStudyActivity(id: any) {
-    return this.httpClient.get<ActivityDetailModules[]>(environment.apiUrlSchedule + '/ActivityStudyPlan/GetActivityStudyPlanModulesBy?ActivityId=' + id);
+    return this.httpClient.get<ActivityDetailModules[]>(environment.apiUrlSchedule + 'ActivityStudyPlan/GetActivityStudyPlanModulesBy?ActivityId=' + id);
   }
 
   GetModulesByIdModules(id: any) {

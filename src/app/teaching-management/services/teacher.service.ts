@@ -51,7 +51,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data.filter(f=>f.type==null));
+          this.dataChange.next(data.filter(f => f.type == null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -82,8 +82,8 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   searchSubjectTask(filter: any) {
     return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);
   }
-  addUpdateTeacher(teacher: Teacher, id:number = 0, type: string | null = null) {
-    if(type!= null){
+  addUpdateTeacher(teacher: Teacher, id: number = 0, type: string | null = null) {
+    if (type != null) {
       teacher.type = type;
       teacher.id = id;
     }
@@ -166,7 +166,8 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
 
   getStudentSubject(SubjectId: number): Observable<any> {
-    return this.httpClient.get(environment.apiEC + "EJMatricula/GetDegreeSubject?SubjectId=" + SubjectId);
+    var carier = localStorage.getItem('DegreeCurriculumDesignId') || '';
+    return this.httpClient.get(environment.apiEC + "EJMatricula/GetDegreeSubject?SubjectId=" + SubjectId + "&DegreeCurriculumDesignId=" + carier);
   }
 
   getStudentSubjectAct(ActId: number): Observable<any> {
@@ -251,7 +252,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }),
     };
     return this.httpClient
-      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId,httpOptions);
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId=' + docId, httpOptions);
   }
 
 

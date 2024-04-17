@@ -14,6 +14,7 @@ import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades
 import { InfoStudentComponent } from './info-student/info-student.component';
 import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
 import { SubjectHistoryComponent } from './subject-history/subject-history.component';
+import {MyTaskApptivityListComponent} from "./my-task-apptivity-list/my-task-apptivity-list.component";
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
   {
     path:"subject-history/:id/:cedula",
     component: SubjectHistoryComponent
+  },
+  {
+    path:"my-tasks-apptivity-list/:id",
+    component: MyTaskApptivityListComponent
   }
 ];
 

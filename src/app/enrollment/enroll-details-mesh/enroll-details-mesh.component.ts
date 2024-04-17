@@ -127,21 +127,8 @@ export class EnrollDetailsMeshComponent {
         this.part = res.verifyUsersResult[0].part;
         this.asp = res.verifyUsersResult[0].asp;
         this.egresado = res.verifyUsersResult[0].egresado;
-        if (this.part) {
-          this._ActivityService.GetDetailsCedula(this.authService.currentUserValue.cedula).subscribe({
-            next: (res: DetailsParticipante) => {
-              this._ActivityService._DetailsParticipante = res;
-              if (res.detailsResponse.length > 0) {
-                this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
-              }
-              this._ActivityService.loading = false;
-              this.getInfo();
-              this.loadactivity();
-            }, error: (err) => {
-            }
-          })
-        }
-        else if (this.asp) {
+
+         if (this.asp) {
           this.IsStudents = true;
           this._ActivityService.GetDetailsEFCedula(this.authService.currentUserValue.cedula).subscribe({
             next: (res: DetailsParticipanteEF) => {
@@ -155,6 +142,21 @@ export class EnrollDetailsMeshComponent {
               this.loadactivity();
             },
             error: (err) => {
+            }
+          })
+
+        }
+         else if (this.part) {
+          this._ActivityService.GetDetailsCedula(this.authService.currentUserValue.cedula).subscribe({
+            next: (res: DetailsParticipante) => {
+              this._ActivityService._DetailsParticipante = res;
+              if (res.detailsResponse.length > 0) {
+                this._ActivityService._DetailsResponse = this._ActivityService._DetailsParticipante.detailsResponse[0];
+              }
+              this._ActivityService.loading = false;
+              this.getInfo();
+              this.loadactivity();
+            }, error: (err) => {
             }
           })
         }
@@ -193,6 +195,9 @@ export class EnrollDetailsMeshComponent {
 
   goTask(row: Career) {
     this._router.navigate(['/enrollment/my-tasks-list/' + row.degreeCurriculumDesignId]);
+  }
+  goAppTask(row: getStudentsActivityResponse) {
+    this._router.navigate(['/enrollment/my-tasks-apptivity-list/' + row.degreeCurriculumDesignId]);
   }
 
   goStorySubject(row: Career) {

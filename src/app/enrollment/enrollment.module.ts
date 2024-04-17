@@ -27,7 +27,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SubjectHistoryComponent } from './subject-history/subject-history.component';
-
+import { MyTaskApptivityListComponent } from './my-task-apptivity-list/my-task-apptivity-list.component';
 
 
 @NgModule({
@@ -53,6 +53,7 @@ import { SubjectHistoryComponent } from './subject-history/subject-history.compo
     InfoStudentComponent,
     MyTasksListComponent,
     SubjectHistoryComponent,
+    MyTaskApptivityListComponent,
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
