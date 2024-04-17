@@ -23,8 +23,8 @@ export class RequiredDocumentFormComponent implements OnInit {
 
   processList = [
     { id: "", name: '' },
-    { id: "1", name: 'Entrenamiento' },
-    { id: "2", name: 'Formación especializada' },
+    { id: "1", name: 'Formación especializada' },
+    { id: "2", name: 'Entrenamiento' },
     { id: "3", name: 'Ambos' }
   ];
   constructor(

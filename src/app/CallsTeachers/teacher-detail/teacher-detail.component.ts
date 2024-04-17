@@ -178,13 +178,25 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       this.serviceCallsTeachersService.getCallsAvailableById(this.DataTeacher.id!).subscribe(
         {
           next : (request)=>{
-           // this.ApprovedForm.controls["process"].patchValue(request.proceso!.toString());
-           // this.ApprovedForm.controls["process"].disable();
            if(this.DataTeacher.type=="C"){
             this.nombreConvocatoria = request.titulo!;
             this.viewAsig = true;
             this.viewAct = false;
+            console.log("request.proceso " + request.proceso)
             this.selectedOption = request.proceso!.toString();
+           if(request.proceso! === 1){
+            this.viewAsig = true;
+            this.viewAct = false;
+           }
+           if(request.proceso! === 2){
+            this.viewAsig = false;
+            this.viewAct = true;
+           }
+           if(request.proceso! === 3){
+            this.viewAsig = true;
+            this.viewAct = true;
+           }
+
           }
 
           this.cb.detectChanges();
@@ -214,8 +226,10 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     console.log('====================================');
     localStorage.setItem('tipoSolicitud', id.toString());
     if (id == 1) {
+
       this.viewAsig = true;
       this.viewAct = false;
+
     } else if (id == 2) {
 
       this.viewAct = true;
@@ -239,7 +253,6 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       next: (res) => {
 
         this.DataTeacher = res;
-
         this.fechaA = res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();

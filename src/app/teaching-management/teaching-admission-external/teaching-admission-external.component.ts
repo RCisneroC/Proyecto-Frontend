@@ -90,6 +90,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
   viewAlert: boolean = false;
   viewAlert1: boolean = false;
   load: boolean = true;
+  processId:number = 0;
 
   constructor(private activatedRoute: ActivatedRoute,
     public _ActivityService: ActivityDetailService,
@@ -124,6 +125,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     this.teacherForm = this.createTeacherForm();
 
     this.FormsEFDocument = this.fb.group({});
+    this.getProcess();
     this.getRequiredDocuments();
 
     this.teacherForm = this.fb.group({
@@ -149,15 +151,16 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
       process: new FormControl(4),
       createdBy: new FormControl("")
     })
+
+
   }
 
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
       next: (res) => {
         if (this.type === "C") {
-          this.getProcess().then(
-            (processId) => {
-              this.DataRequiredDocuments = res.filter(x => x.statusId === 1 && x.typeEducationId === processId);
+              console.log("processId " + this.processId);
+              this.DataRequiredDocuments = res.filter(x => x.statusId === 1 && x.typeEducationId === this.processId);
               for (const property of this.DataRequiredDocuments) {
                 this.FormsEFDocument.addControl(
                   property.documentId.toString(),
@@ -165,8 +168,6 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
                 );
               }
             }
-          );
-        }
         else {
           this.DataRequiredDocuments = res.filter(x => x.statusId === 1);
           for (const property of this.DataRequiredDocuments) {
@@ -181,23 +182,18 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     })
   }
 
-  getProcess(): Promise<number> {
-    let processId: number = 0;
+ getProcess() {
+
     this.serviceCallsTeachers.getCallsAvailableById(this.id).subscribe(
       {
         next: (request) => {
-          processId = request.proceso!;
-          return processId;
+          this.processId = request.proceso!;
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
-          return processId;
         }
       }
     );
-    return new Promise((resolve) => {
-      resolve(processId);
-    });
   }
 
   cedulaExist() {
