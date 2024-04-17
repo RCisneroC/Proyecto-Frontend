@@ -297,6 +297,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
                 this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].gender);
 
+                this.studentForm.controls["gender"].disable();
 
                 if (this.aspirante) {
                   this.aspirantId = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].aspirantId;
@@ -347,6 +348,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 }
 
                 if (this.participante) {
+                  this.studentForm.controls["gender"].enable();
                   this.studentForm.controls["institution"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].institution);
                   this.studentForm.controls["university"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].university);
                   this.studentForm.controls["dependency"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].dependency);
