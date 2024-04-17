@@ -13,6 +13,7 @@ import { ActivityListInscriptionComponent } from './OfertasAcademicas/inscripcio
 import { BackofficeComponent } from './OfertasAcademicas/inscripcion-actividades/backoffice/backoffice.component';
 import { InfoStudentComponent } from './info-student/info-student.component';
 import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
+import { SubjectHistoryComponent } from './subject-history/subject-history.component';
 
 const routes: Routes = [
   {
@@ -66,8 +67,13 @@ const routes: Routes = [
   {
     path:"my-tasks-list/:id",
     component: MyTasksListComponent
+  },
+  {
+    path:"subject-history/:id/:cedula",
+    component: SubjectHistoryComponent
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

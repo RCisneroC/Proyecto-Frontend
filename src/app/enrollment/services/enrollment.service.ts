@@ -36,6 +36,7 @@ import { DegreeCurriculumDesignEnrollment } from '../models/DegreeCurriculumDesi
 import { StudentModel } from '../models/StudentModel';
 import { GraficasMatricula } from 'app/estadisticas/Models/GraficasMatricula';
 import { GraficasEntrenamiento } from 'app/estadisticas/Models/GraficasEntrenamiento';
+import { subjectHistory } from '../models/subjectHistory';
 
 @Injectable({
   providedIn: 'root'
@@ -365,6 +366,11 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   getStudentData(cedula: string) {
     const url = `${environment.apiEC}`;
     return this.httpClient.get<StudentModel>(url + "GetData/GetVerifyStudent?cedula=" + cedula);
+  }
+
+  getSubjectsHitory(id: number, cedula: string) {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.get<subjectHistory>(url + "EJMatricula/GetallSubjectEnrollment?DegreeId=" + id + "&Cedula=" + cedula);
   }
 }
 
