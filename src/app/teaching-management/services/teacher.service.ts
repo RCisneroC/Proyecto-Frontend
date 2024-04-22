@@ -101,7 +101,19 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseSaveTeacher>(environment.apiUrlTeacher + 'SaveSubject', data);
   }
 
+  GetTeacherPoint() {
+    return this.httpClient.get<any>(environment.apiUrlTeacher + 'GetTeacherPoint');
+  }
 
+  SavePointTeacher(data: any) {
+
+    return this.httpClient.post<any>(environment.apiUrlTeacher + 'SavePointTeacher', data);
+  }
+
+  SaveUpdatePointTeacher(data: any) {
+
+    return this.httpClient.post<any>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', data);
+  }
 
 
 

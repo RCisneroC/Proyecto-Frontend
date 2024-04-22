@@ -11,6 +11,8 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import {TeacherScoreListComponent} from "./teacher-score-list/teacher-score-list.component";
+import {TeacherScoreDetailsComponent} from "./teacher-score-details/teacher-score-details.component";
 
 const routes: Routes = [
   {
@@ -36,6 +38,14 @@ const routes: Routes = [
   {
     path: "teacher-history-list",
     component: TeachingHistoryListComponent,
+  },
+  {
+    path: "teacher-score-list",
+    component: TeacherScoreListComponent,
+  },
+  {
+    path: "teacher-score-details/:cedula",
+    component: TeacherScoreDetailsComponent,
   },
   {
     path: "info-teacher",

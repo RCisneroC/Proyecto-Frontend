@@ -24,6 +24,7 @@ export class Teacher {
     phoneNumber: string = "";
     id?: number;
     type?:string;
+    points: number = 0;
 }
 
 export interface Course {
