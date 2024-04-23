@@ -16,6 +16,7 @@ import {TeacherScoreDetailsComponent} from "./teacher-score-details/teacher-scor
 import {
   EducationalLevelScoreListComponent
 } from "./educational-level-score-list/educational-level-score-list.component";
+import {ExperienceLevelScoreListComponent} from "./experience-level-score-list/experience-level-score-list.component";
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: "edu-level-points",
     component: EducationalLevelScoreListComponent,
+  },
+  {
+    path: "exp-level-points",
+    component: ExperienceLevelScoreListComponent,
   },
   {
     path: "info-teacher",
