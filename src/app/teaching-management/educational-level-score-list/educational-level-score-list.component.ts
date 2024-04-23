@@ -7,12 +7,12 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {FormsRoomsComponent} from "../../admission/FormalEducations/Maestros/Forms/forms-rooms/forms-rooms.component";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {ScoreListService} from "../services/score-list.service";
 import {TeacherPointsCat} from "../models/TeacherPoints";
+import {FormEduLevelComponent} from "../score-forms/form-edu-level/form-edu-level.component";
 
 @Component({
   selector: 'app-educational-level-score-list',
@@ -57,9 +57,9 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
   }
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormsRoomsComponent, {
+    const dialogRef = this.dialog.open(FormEduLevelComponent, {
       data: {
-        rooms: this._Service._Model,
+        teacherpointcat: this._Service._Model,
         action: 'add',
       }
     });
@@ -86,9 +86,9 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
   editCall(row: TeacherPointsCat) {
     this.id = row.id;
 
-    const dialogRef = this.dialog.open(FormsRoomsComponent, {
+    const dialogRef = this.dialog.open(FormEduLevelComponent, {
       data: {
-        rooms: row,
+        teacherpointcat: row,
         action: 'edit',
       }
     });
@@ -226,7 +226,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllRoom();
+    this.exampleDatabase.getAllPointsCat();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
@@ -235,7 +235,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
           .filter((_Model: TeacherPointsCat) => {
             const searchStr = (_Model.description).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          });
+          }).filter( x=> x.category == "nivel educativo");
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.

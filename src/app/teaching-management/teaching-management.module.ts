@@ -34,6 +34,7 @@ import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 import { TeacherScoreListComponent } from './teacher-score-list/teacher-score-list.component';
 import { TeacherScoreDetailsComponent } from './teacher-score-details/teacher-score-details.component';
 import { EducationalLevelScoreListComponent } from './educational-level-score-list/educational-level-score-list.component';
+import { FormEduLevelComponent } from './score-forms/form-edu-level/form-edu-level.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { EducationalLevelScoreListComponent } from './educational-level-score-li
     StatisticsListComponent,
     TeacherScoreListComponent,
     TeacherScoreDetailsComponent,
-    EducationalLevelScoreListComponent
+    EducationalLevelScoreListComponent,
+    FormEduLevelComponent
   ],
   imports: [
     CommonModule,

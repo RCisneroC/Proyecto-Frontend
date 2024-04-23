@@ -26,7 +26,7 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllRoom(): void {
+  getAllPointsCat(): void {
     this.subs.sink = this.httpClient
       .get<TeacherPointsCat[]>(environment.apiUrlTeacher + 'GetTeacherPoint')
       .subscribe({
@@ -40,28 +40,13 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  getAllRoom2() {
-    return this.httpClient
-      .get<TeacherPointsCat[]>(environment.apiEF + 'Room/GetAll');
+
+  add(Data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
   }
 
-  getAllRoom2Filter(id: any) {
-    return this.httpClient
-      .get<TeacherPointsCat[]>(environment.apiEF + 'v1/Room/GetAll?StatusId=' + id);
-  }
-
-
-  getAllRoomsFiltro(id: any) {
-    return this.httpClient
-      .get<TeacherPointsCat>(environment.apiEF + 'Room/GetAll?StatusId=' + id);
-  }
-
-  addRooms(TeacherPointsCat: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'Room/Create', TeacherPointsCat);
-  }
-
-  updateRooms(TeacherPointsCat: any) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiEF + 'Room/Update', TeacherPointsCat);
+  update(Data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
   }
 
   DeleteRooms(Id: number) {
