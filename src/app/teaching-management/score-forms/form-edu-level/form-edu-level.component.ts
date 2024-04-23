@@ -25,6 +25,7 @@ export class FormEduLevelComponent implements OnInit {
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
   public _Model!: TeacherPointsCat;
+  gradosInstruccion: { id: number; nombre: string; }[];
   constructor(
     public dialogRef: MatDialogRef<FormEduLevelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -41,6 +42,36 @@ export class FormEduLevelComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.teacherpointcat;
     }
+    this.gradosInstruccion = [
+      {
+        id: 1,
+        nombre: "Bachiller",
+      },
+      {
+        id: 2,
+        nombre: "Técnico",
+      },
+      {
+        id: 3,
+        nombre: "Licenciatura",
+      },
+      {
+        id: 4,
+        nombre: "Especialización",
+      },
+      {
+        id: 5,
+        nombre: "Maestría",
+      },
+      {
+        id: 6,
+        nombre: "Doctorado",
+      },
+      {
+        id: 7,
+        nombre: "Otros",
+      },
+    ];
     this._Forms = this.createContactForm();
   }
 
