@@ -48,9 +48,9 @@ export class CooperationgOrganizationService extends UnsubscribeOnDestroyAdapter
       .get<Cooperating[]>(environment.apiUrlSchedule + 'CooperatingOrganization/GetAll');
   }
 
-  getAllCooperatingFiltro(id:any) {
+  getAllCooperatingFiltro(id: any) {
     return this.httpClient
-      .get<Cooperating[]>(environment.apiUrlSchedule + 'CooperatingOrganization/GetAll?StatusId='+id);
+      .get<Cooperating[]>(environment.apiUrlSchedule + 'CooperatingOrganization/GetAll?StatusId=' + id);
   }
 
   addCooperating(cooperating: any) {
@@ -61,11 +61,11 @@ export class CooperationgOrganizationService extends UnsubscribeOnDestroyAdapter
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'CooperatingOrganization/Update', cooperating);
   }
 
-  getByIdLogo(id:any) {
-  return this.httpClient
-    .get<LogoCooperting>(environment.apiUrlSchedule + 'CooperatingOrganization/GetBy?Id='+id);
+  getByIdLogo(id: any) {
+    return this.httpClient
+      .get<LogoCooperting>(environment.apiUrlSchedule + 'CooperatingOrganization/GetBy?Id=' + id);
   }
-  
+
 
   DeleteCooperating(Id: number) {
     let data = {
@@ -77,7 +77,7 @@ export class CooperationgOrganizationService extends UnsubscribeOnDestroyAdapter
       }),
       body: data,
     };
-    
+
     return this.httpClient.delete<ResponseGenerica>(environment.apiUrlSchedule + 'CooperatingOrganization/Delete', options);
   }
 }

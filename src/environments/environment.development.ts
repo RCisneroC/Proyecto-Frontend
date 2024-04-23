@@ -24,4 +24,5 @@ export const environment = {
   apiDocument: 'https://documentservices-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo',
   apiSharedUrl: 'https://shared-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Shared/',
+  apiJobs: 'https://jobboard-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
 };
