@@ -33,6 +33,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 import { TeacherScoreListComponent } from './teacher-score-list/teacher-score-list.component';
 import { TeacherScoreDetailsComponent } from './teacher-score-details/teacher-score-details.component';
+import { EducationalLevelScoreListComponent } from './educational-level-score-list/educational-level-score-list.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { TeacherScoreDetailsComponent } from './teacher-score-details/teacher-sc
     CareerListComponent,
     StatisticsListComponent,
     TeacherScoreListComponent,
-    TeacherScoreDetailsComponent
+    TeacherScoreDetailsComponent,
+    EducationalLevelScoreListComponent
   ],
   imports: [
     CommonModule,

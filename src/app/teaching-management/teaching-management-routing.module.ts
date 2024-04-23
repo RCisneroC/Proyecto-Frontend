@@ -13,6 +13,9 @@ import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import {TeacherScoreListComponent} from "./teacher-score-list/teacher-score-list.component";
 import {TeacherScoreDetailsComponent} from "./teacher-score-details/teacher-score-details.component";
+import {
+  EducationalLevelScoreListComponent
+} from "./educational-level-score-list/educational-level-score-list.component";
 
 const routes: Routes = [
   {
@@ -46,6 +49,10 @@ const routes: Routes = [
   {
     path: "teacher-score-details/:cedula",
     component: TeacherScoreDetailsComponent,
+  },
+  {
+    path: "edu-level-points",
+    component: EducationalLevelScoreListComponent,
   },
   {
     path: "info-teacher",
