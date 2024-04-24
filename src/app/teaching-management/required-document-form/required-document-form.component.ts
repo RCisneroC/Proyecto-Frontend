@@ -58,6 +58,7 @@ export class RequiredDocumentFormComponent implements OnInit {
       documentId: [this.requiredDocument.documentId],
       name: [this.requiredDocument.name, [Validators.required]],
       description: [this.requiredDocument.description, [Validators.required]],
+      point: [this.requiredDocument.point, [Validators.required]],
       statusId: [this.requiredDocument.statusId, [Validators.required]],
       typeEducationId: [this.requiredDocument.typeEducationId.toString(), [Validators.required]],
       createdBy: [''],

@@ -69,6 +69,11 @@
                           <mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="point">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos</mat-header-cell>
+                          <mat-cell *matCellDef="let row">{{row.point}}</mat-cell>
+                        </ng-container>
+
                         <ng-container matColumnDef="typeEducationId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
                           </mat-header-cell>
