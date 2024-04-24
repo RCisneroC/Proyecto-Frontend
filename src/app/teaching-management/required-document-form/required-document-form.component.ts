@@ -59,6 +59,7 @@ export class RequiredDocumentFormComponent implements OnInit {
       name: [this.requiredDocument.name, [Validators.required]],
       description: [this.requiredDocument.description, [Validators.required]],
       point: [this.requiredDocument.point, [Validators.required]],
+      isRecord:[this.requiredDocument.isRecord, [Validators.required]],
       statusId: [this.requiredDocument.statusId, [Validators.required]],
       typeEducationId: [this.requiredDocument.typeEducationId.toString(), [Validators.required]],
       createdBy: [''],
@@ -72,7 +73,7 @@ export class RequiredDocumentFormComponent implements OnInit {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-
+      this.requiredDocumentForm.controls['isRecord'].setValue(this.requiredDocumentForm.getRawValue().isRecord == 'true')
       this.teacherService.updateRequiredDocument(this.requiredDocumentForm.getRawValue())
         .subscribe({
           next: () => {
