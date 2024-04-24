@@ -69,6 +69,11 @@
                           <mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="isRecord">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Record</mat-header-cell>
+                          <mat-cell *matCellDef="let row">{{row.isRecord?'Si':'No'}}</mat-cell>
+                        </ng-container>
+
                         <ng-container matColumnDef="point">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos</mat-header-cell>
                           <mat-cell *matCellDef="let row">{{row.point}}</mat-cell>
