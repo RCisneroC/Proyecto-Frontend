@@ -26,3 +26,13 @@ export interface LogoCompanyDetails {
     entityTag: string;
     enableRangeProcessing: boolean;
 }
+
+export interface UbicationsJobs {
+    statusId: number;
+    id: number;
+    name: string;
+    description: string;
+    provinceId: number;
+    companyId: number;
+}
+

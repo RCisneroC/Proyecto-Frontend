@@ -41,7 +41,7 @@ export class StatusFormsComponent {
     }
     this.FormsStatus = this.fb.group({
       statusId: [data.estados.statusId, [Validators.required]],
-      id: [data.estados.id, [Validators.required]],
+      id: [data.estados.id],
       name: [data.estados.name, [Validators.required]],
       description: [data.estados.description, [Validators.required]],
     });

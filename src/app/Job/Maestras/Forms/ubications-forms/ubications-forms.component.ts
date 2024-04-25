@@ -1,49 +1,55 @@
-import { Component, Inject } from '@angular/core';
-import { TypeContractJobs } from '../../../Interfaces/Type-contract-jobs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TypeContractJobServiceService } from 'app/Job/Services/type-contract-job-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { UbicationsJobs } from 'app/Job/Interfaces/Company-jobs';
+import { ProvinceJobs } from 'app/Job/Interfaces/Province-jobs';
+import { UbicationsServicesService } from 'app/Job/Services/ubications-services.service';
 export interface DialogData {
-  typeContract: TypeContractJobs;
+  ubications: UbicationsJobs;
   accion: string;
+  companyId: string;
+  province: ProvinceJobs[];
+
 }
 @Component({
-  selector: 'app-contract-type-forms',
-  templateUrl: './contract-type-forms.component.html',
-  styleUrls: ['./contract-type-forms.component.scss']
+  selector: 'app-ubications-forms',
+  templateUrl: './ubications-forms.component.html',
+  styleUrls: ['./ubications-forms.component.scss']
 })
-export class ContractTypeFormsComponent {
+export class UbicationsFormsComponent {
   action: string;
   dialogTitle: string = '';
-  FormsTypeContract: UntypedFormGroup;
+  FormsUbications: UntypedFormGroup;
   id_actividad: string = '';
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: ''
   }
   constructor(
-    public dialogRef: MatDialogRef<ContractTypeFormsComponent>,
+    public dialogRef: MatDialogRef<UbicationsFormsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
     public _dialog: MatDialog,
-    public _TypeContractJobServiceService: TypeContractJobServiceService
+    public _UbicationsServicesService: UbicationsServicesService
   ) {
     // Set the defaults
     this.action = data.accion;
     console.log(data);
 
-    if (this.action === 'add-type') {
-      this.dialogTitle = "Agregar Tipo de Contrato";
-    } else if (this.action === 'edit-type') {
-      this.dialogTitle = "Editar Tipo de Contrato";
+    if (this.action === 'add-ubications') {
+      this.dialogTitle = "Agregar Ubicación";
+    } else if (this.action === 'edit-ubications') {
+      this.dialogTitle = "Editar Ubicación";
     }
-    this.FormsTypeContract = this.fb.group({
-      statusId: [data.typeContract.statusId, [Validators.required]],
-      id: [data.typeContract.id],
-      name: [data.typeContract.name, [Validators.required]],
-      description: [data.typeContract.description, [Validators.required]],
+    this.FormsUbications = this.fb.group({
+      statusId: [data.ubications.statusId, [Validators.required]],
+      id: [data.ubications.id],
+      name: [data.ubications.name, [Validators.required]],
+      description: [data.ubications.description, [Validators.required]],
+      provinceId: [data.ubications.provinceId, [Validators.required]],
+      companyId: [data.companyId, [Validators.required]],
     });
   }
   submit() {
@@ -51,8 +57,8 @@ export class ContractTypeFormsComponent {
   }
   confirmAdd() {
 
-    if (this.action === 'add-type') {
-      this._TypeContractJobServiceService.addTypeContractJobs(this.FormsTypeContract.getRawValue()).subscribe({
+    if (this.action === 'add-ubications') {
+      this._UbicationsServicesService.addUbicationsJobs(this.FormsUbications.getRawValue()).subscribe({
         next: (res) => {
           this.ResponseMessage.CodError = 200;
           this.ResponseMessage.Message = res.message;
@@ -66,8 +72,8 @@ export class ContractTypeFormsComponent {
         complete: () => {
         }
       })
-    } else if (this.action === 'edit-type') {
-      this._TypeContractJobServiceService.updateTypeContractJobs(this.FormsTypeContract.getRawValue()).subscribe({
+    } else if (this.action === 'edit-ubications') {
+      this._UbicationsServicesService.updateUbicationsJobs(this.FormsUbications.getRawValue()).subscribe({
         next: (res) => {
           this.ResponseMessage.CodError = 200;
           this.ResponseMessage.Message = res.message;

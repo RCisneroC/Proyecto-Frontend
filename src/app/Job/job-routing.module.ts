@@ -7,6 +7,7 @@ import { ContractTypeComponent } from './Maestras/contract-type/contract-type.co
 import { JobsComponent } from './Maestras/jobs/jobs.component';
 import { ProvinceComponent } from './Maestras/province/province.component';
 import { StatusComponent } from './Maestras/status/status.component';
+import { UbicationsComponent } from './Maestras/ubications/ubications.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: "JobCompany",
     component: CompanyComponent
+  },
+  {
+    path: "JobCompany/Address/:IdCompany",
+    component: UbicationsComponent
   },
   {
     path: "JobContractType",

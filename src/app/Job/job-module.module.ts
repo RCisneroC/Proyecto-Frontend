@@ -21,6 +21,8 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ContractTypeFormsComponent } from './Maestras/Forms/contract-type-forms/contract-type-forms.component';
+import { UbicationsComponent } from './Maestras/ubications/ubications.component';
+import { UbicationsFormsComponent } from './Maestras/Forms/ubications-forms/ubications-forms.component';
 
 
 
@@ -41,7 +43,9 @@ import { ContractTypeFormsComponent } from './Maestras/Forms/contract-type-forms
     ViewJobsComponent,
     PostulationComponent,
     PostulationFormsComponent,
-    ContractTypeFormsComponent
+    ContractTypeFormsComponent,
+    UbicationsComponent,
+    UbicationsFormsComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

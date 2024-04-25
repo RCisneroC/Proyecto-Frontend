@@ -2,15 +2,23 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Compañia'" [items]="['Inicio','Bolsa de Trabajo']"
-                [active_item]="'Listado de Compañia'">
+            <app-breadcrumb [title]="'Provincias'" [items]="['Inicio','Bolsa de Trabajo']"
+                [active_item]="'Listado de Provincias'">
             </app-breadcrumb>
         </div>
+        <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+      <div class="">
+        <button matTooltip="Regresar" mat-raised-button color="accent"
+          [routerLink]="['/jobs/JobCompany']">
+          <mat-icon>keyboard_backspace</mat-icon> Regresar
+        </button>
+      </div>
+    </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2 class="text-uppercase">Listado de Compañia</h2>
+                        <h2 class="text-uppercase">Listado de Ubicaciones</h2>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -20,7 +28,7 @@
                                         <div class="left">
                                             <ul class="header-buttons-left ms-0">
                                                 <li class="tbl-title">
-                                                    <h2>Categoría</h2>
+                                                    <h2>Ubicaciones</h2>
                                                 </li>
                                                 <li class="tbl-search-box">
                                                     <label for="search-input"><i
@@ -61,14 +69,14 @@
                                             <table mat-table [dataSource]="dataSource" matSort
                                                 class="mat-cell advance-table">
 
-                                                <!-- nombre -->
+                                                <!-- ID Column -->
                                                 <ng-container matColumnDef="name">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
                                                 </ng-container>
-                                                <!-- descripcion -->
+
                                                 <ng-container matColumnDef="description">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                                                     </mat-header-cell>
@@ -77,47 +85,8 @@
                                                             class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
                                                 </ng-container>
 
-                                                <!-- emai -->
 
-                                                <ng-container matColumnDef="email">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Correo
-                                                        Electrónico
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Correo
-                                                            Electrónico:</span>{{row.email}}</mat-cell>
-                                                </ng-container>
-                                                <!-- telefonos -->
-                                                <ng-container matColumnDef="phone">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Telefóno
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        <span
-                                                            class="mobile-label">Telefóno:</span>{{row.phone}}</mat-cell>
-                                                </ng-container>
-                                                <!-- contactPersonFullName -->
-                                                <ng-container matColumnDef="contactPersonFullName">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Persona de
-                                                        Contacto
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Persona de
-                                                            Contacto:</span>{{row.contactPersonFullName}}</mat-cell>
-                                                </ng-container>
-
-                                                <!-- image -->
-                                                <ng-container matColumnDef="image">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Imagen
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        <span class="mobile-label">Imagen:</span>
-                                                        <button (click)="viewDocumento(row)" matTooltip="Ver Documento"
-                                                            mat-mini-fab color="primary">
-                                                            <mat-icon>remove_red_eye</mat-icon>
-                                                        </button></mat-cell>
-                                                </ng-container>
-                                                <!-- Estados -->
-                                                <ng-container matColumnDef="status">
+                                                <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
@@ -129,25 +98,23 @@
                                                         </div>
                                                     </mat-cell>
                                                 </ng-container>
+
+
+
                                                 <!-- actions -->
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell class="pr-0"
                                                         *matHeaderCellDef>Acciones</mat-header-cell>
                                                     <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                                                        <button mat-mini-fab color="accent" matTooltip="Editar"
+                                                        <button mat-mini-fab color="accent"
                                                             (click)="$event.stopPropagation()" (click)="editCall(row)"
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'edit'"></app-feather-icons>
                                                         </button>
-                                                        <button mat-mini-fab color="accent" matTooltip="Eliminar"
+                                                        <button mat-mini-fab color="accent"
                                                             (click)="$event.stopPropagation()" (click)="delete(row)"
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
-                                                        </button>
-                                                        <button mat-mini-fab color="primary"
-                                                            (click)="$event.stopPropagation()" matTooltip="Ubicaciones"
-                                                            (click)="Ubications(row)" class="tbl-action-btn">
-                                                            <app-feather-icons [icon]="'eye'"></app-feather-icons>
                                                         </button>
 
                                                     </mat-cell>

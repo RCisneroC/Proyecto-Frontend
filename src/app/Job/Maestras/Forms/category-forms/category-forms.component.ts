@@ -42,7 +42,7 @@ export class CategoryFormsComponent {
     }
     this.FormsCategory = this.fb.group({
       statusId: [data.categoria.statusId, [Validators.required]],
-      id: [data.categoria.id, [Validators.required]],
+      id: [data.categoria.id],
       name: [data.categoria.name, [Validators.required]],
       description: [data.categoria.description, [Validators.required]],
     });

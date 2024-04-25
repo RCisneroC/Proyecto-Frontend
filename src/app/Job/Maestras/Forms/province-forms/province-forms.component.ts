@@ -37,13 +37,13 @@ export class ProvinceFormsComponent {
     console.log(data);
 
     if (this.action === 'add-category') {
-      this.dialogTitle = "Agregar province";
+      this.dialogTitle = "Agregar Provincia";
     } else if (this.action === 'edit-category') {
-      this.dialogTitle = "Editar province";
+      this.dialogTitle = "Editar Provincia";
     }
     this.FormsProvincia = this.fb.group({
       statusId: [data.provincias.statusId, [Validators.required]],
-      id: [data.provincias.id, [Validators.required]],
+      id: [data.provincias.id],
       name: [data.provincias.name, [Validators.required]],
       description: [data.provincias.description, [Validators.required]],
     });

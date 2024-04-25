@@ -1,47 +1,51 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CompanyJobServiceService } from 'app/Job/Services/company-job-service.service';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
-import { CompanyFormsComponent } from '../Forms/company-forms/company-forms.component';
-import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import Swal from 'sweetalert2';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { CompanyJobs } from 'app/Job/Interfaces/Company-jobs';
+import { HttpClient } from '@angular/common/http';
+import { ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import { UbicationsJobs } from 'app/Job/Interfaces/Company-jobs';
+import { CompanyJobServiceService } from 'app/Job/Services/company-job-service.service';
+import { UbicationsServicesService } from 'app/Job/Services/ubications-services.service';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { UbicationsFormsComponent } from '../Forms/ubications-forms/ubications-forms.component';
+import Swal from 'sweetalert2';
+import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { BehaviorSubject, fromEvent, map, merge, Observable } from 'rxjs';
-import { ViewLogoComponent } from 'app/admission/activitydetail/forms/view-logo/view-logo.component';
+import { ProvinciaJobServiceService } from 'app/Job/Services/provincia-job-service.service';
+import { ProvinceJobs } from 'app/Job/Interfaces/Province-jobs';
 
 @Component({
-  selector: 'app-company',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.scss']
+  selector: 'app-ubications',
+  templateUrl: './ubications.component.html',
+  styleUrls: ['./ubications.component.scss']
 })
-export class CompanyComponent extends UnsubscribeOnDestroyAdapter
+export class UbicationsComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   displayedColumns = [
     'name',
     'description',
-    'email',
-    'phone',
-    'contactPersonFullName',
-    'image',
-    'status',
-    'actions'
+    'statusId',
+    'actions',
   ];
 
-  exampleDatabase?: CompanyJobServiceService;
+  exampleDatabase?: UbicationsServicesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<CompanyJobs>(true, []);
-  id?: number;
-  cooperating?: CompanyJobs;
-
+  selection = new SelectionModel<UbicationsJobs>(true, []);
+  id?: any;
+  cooperating?: UbicationsJobs;
+  _ProvinceJobs: ProvinceJobs[] = [{
+    description: '',
+    id: 0,
+    name: '',
+    statusId: 0
+  }];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -50,7 +54,8 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
     private activatedRoute: ActivatedRoute,
     public _dialog: MatDialog,
     public _verificarBS64: VerificarBS64Pipe,
-    public _CompanyJobServiceService: CompanyJobServiceService,
+    public _UbicationsServicesService: UbicationsServicesService,
+    public _ProvinciaJobServiceService: ProvinciaJobServiceService,
   ) {
     super();
   }
@@ -61,18 +66,34 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
-    this.loadData();
+
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['IdCompany'];
+      console.log(this.id);
+      this.loadData();
+      this.getprovincia();
+    })
   }
   refresh() {
     this.loadData();
   }
 
+  getprovincia() {
+    this._ProvinciaJobServiceService.getAllProvinciaActivity(1).subscribe({
+      next: (res) => {
+        this._ProvinceJobs = res;
+      }
+    })
+  }
+
   addNew() {
-    this._CompanyJobServiceService.init_CompanyJobs();
-    const dialogRef = this.dialog.open(CompanyFormsComponent, {
+    this._UbicationsServicesService.init_UbicationsJobs();
+    const dialogRef = this.dialog.open(UbicationsFormsComponent, {
       data: {
-        company: this._CompanyJobServiceService._CompanyJobs,
-        accion: 'add-company',
+        ubications: this._UbicationsServicesService._UbicationsJobs,
+        accion: 'add-ubications',
+        companyId: this.id,
+        province: this._ProvinceJobs
       },
       disableClose: true
     });
@@ -96,21 +117,20 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
         });
       }
     });
-  }
-  Ubications(row: CompanyJobs) {
-    this.router.navigate(['/jobs/JobCompany/Address/' + row.id])
   }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
-  editCall(row: CompanyJobs) {
-    this._CompanyJobServiceService.init_CompanyJobs();
-    const dialogRef = this.dialog.open(CompanyFormsComponent, {
+  editCall(row: UbicationsJobs) {
+    this._UbicationsServicesService.init_UbicationsJobs();
+    const dialogRef = this.dialog.open(UbicationsFormsComponent, {
       data: {
-        company: row,
-        accion: 'edit-company',
+        ubications: row,
+        accion: 'edit-ubications',
+        companyId: this.id,
+        province: this._ProvinceJobs
       },
       disableClose: true
     });
@@ -135,7 +155,7 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-  delete(row: CompanyJobs) {
+  delete(row: UbicationsJobs) {
     Swal.fire({
       title: "¿Estas seguro?",
       text: "Eliminara " + row.name,
@@ -146,7 +166,7 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this._CompanyJobServiceService.DeleteCompanyJobs(row.id).subscribe({
+        this._UbicationsServicesService.DeleteUbicationsJobs(row.id).subscribe({
           next: (res: ResponseGenerica) => {
             Swal.fire({
               title: "Eliminado!",
@@ -188,7 +208,7 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'nombre': x.name,
+        'Ubicación': x.name,
         'Descripción': x.description,
 
       }));
@@ -196,41 +216,14 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 
-  viewDocumento(row: CompanyJobs) {
-    this._CompanyJobServiceService.getByIdLogo(row.id).subscribe({
-      next: (logo) => {
-        if (logo.logo == null) {
-          Swal.fire({
-            title: "Escuela Judicial!",
-            text: "No mantiene logo cargado.",
-            icon: "warning"
-          });
-          return;
-        }
-
-        if (this._verificarBS64.transform(logo.logo.fileContents) != "pdf") {
-          const dialogRef = this.dialog.open(ViewLogoComponent, {
-            data: {
-              type: this._verificarBS64.transform(logo.logo.fileContents),
-              accion: 'view-logo',
-              logofile: logo.logo.fileContents,
-              logo: logo,
-            },
-            disableClose: true,
-          });
-        }
-      }, error: () => {
-
-      }
-    })
-  }
 
   public loadData() {
-    this.exampleDatabase = new CompanyJobServiceService(this.httpClient);
+    this.exampleDatabase = new UbicationsServicesService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
-      this.sort
+      this.sort,
+      this.id
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -244,7 +237,7 @@ export class CompanyComponent extends UnsubscribeOnDestroyAdapter
 
 }
 
-export class ExampleDataSource extends DataSource<CompanyJobs> {
+export class ExampleDataSource extends DataSource<UbicationsJobs> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -252,19 +245,20 @@ export class ExampleDataSource extends DataSource<CompanyJobs> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: CompanyJobs[] = [];
-  renderedData: CompanyJobs[] = [];
+  filteredData: UbicationsJobs[] = [];
+  renderedData: UbicationsJobs[] = [];
   constructor(
-    public exampleDatabase: CompanyJobServiceService,
+    public exampleDatabase: UbicationsServicesService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    public id: string
   ) {
     super();
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<CompanyJobs[]> {
+  connect(): Observable<UbicationsJobs[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -272,13 +266,13 @@ export class ExampleDataSource extends DataSource<CompanyJobs> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllCompanyJobs();
+    this.exampleDatabase.getAllUbicationsJobs(this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((cooperating: CompanyJobs) => {
+          .filter((cooperating: UbicationsJobs) => {
             const searchStr = (cooperating.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -298,7 +292,7 @@ export class ExampleDataSource extends DataSource<CompanyJobs> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: CompanyJobs[]): CompanyJobs[] {
+  sortData(data: UbicationsJobs[]): UbicationsJobs[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
