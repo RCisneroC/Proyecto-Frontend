@@ -4,9 +4,8 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {TeacherPointsCat} from "../../models/TeacherPoints";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ScoreListService} from "../../services/score-list.service";
-import {SubjectServiceService} from "../../../admission/FormalEducations/Services/subject-service.service";
 import {AuthService} from "@core";
-import {ExternalInscriptionService} from "../../../external/services/external-inscription.service";
+import {ActivityService} from "../../../admission/maestros/services/activity.service";
 
 export interface DialogData {
   action: string;
@@ -32,7 +31,7 @@ export class FormActivityComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
     private _Service: ScoreListService,
-    private _ActService: ExternalInscriptionService,
+    private _ActService: ActivityService,
     private authService: AuthService,
   ) {
     console.log(data);
@@ -44,7 +43,7 @@ export class FormActivityComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.teacherpointcat;
     }
-    this._ActService.getActivities('1004').subscribe({
+    this._ActService.getAllActivity2().subscribe({
       next:(res)=>{
         this.gradosInstruccion = res
       }
