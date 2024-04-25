@@ -37,6 +37,8 @@ import { EducationalLevelScoreListComponent } from './educational-level-score-li
 import { FormEduLevelComponent } from './score-forms/form-edu-level/form-edu-level.component';
 import { ExperienceLevelScoreListComponent } from './experience-level-score-list/experience-level-score-list.component';
 import { FormExpLevelComponent } from './score-forms/form-exp-level/form-exp-level.component';
+import { SubjectScoreListComponent } from './subject-score-list/subject-score-list.component';
+import { FormSubjComponent } from './score-forms/form-subj/form-subj.component';
 
 
 @NgModule({
@@ -70,7 +72,9 @@ import { FormExpLevelComponent } from './score-forms/form-exp-level/form-exp-lev
     EducationalLevelScoreListComponent,
     FormEduLevelComponent,
     ExperienceLevelScoreListComponent,
-    FormExpLevelComponent
+    FormExpLevelComponent,
+    SubjectScoreListComponent,
+    FormSubjComponent
   ],
   imports: [
     CommonModule,
