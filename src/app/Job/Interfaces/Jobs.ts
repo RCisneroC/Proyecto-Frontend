@@ -17,3 +17,15 @@ export interface Jobs {
     companyEmail: string;
     numOfYearsOfExperienceRequired: string;
 }
+
+export interface SaveJobs {
+    statusId: number;
+    id: number;
+    name: string;
+    description: string;
+    categoryId: number;
+    companyId: number;
+    companyAddressId: number;
+    contractTypeId: number;
+    numOfYearsOfExperienceRequired: string;
+}

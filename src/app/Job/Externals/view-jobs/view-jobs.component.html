@@ -1,1 +1,139 @@
-<p>view-jobs works!</p>
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Bolsa de Trabajo'" [items]="['Inicio','Bolsa de Trabajo']"
+                [active_item]="'Listado de Empleos'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="card">
+                    <div class="header">
+                        <p style="font-weight: 900;font-size: 15px;">Consulta de Actividades</p>
+                    </div>
+                    <div class="body">
+                        <!-- FILAS -->
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Filtros</mat-label>
+                                    <mat-select [(ngModel)]="lstFiltrosSelected" multiple
+                                        (selectionChange)="filtrosEstadisticas($event)">
+                                        <mat-option *ngFor="let row of lstFiltros"
+                                            [value]="row.codigo">{{row.texto}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <!-- <mat-button-toggle-group> -->
+                                <mat-button-toggle (click)="limpiarTodosFiltros()"><mat-icon>close</mat-icon>Deshacer
+                                    Filtros</mat-button-toggle>
+                                <mat-button-toggle (click)="seleccionarTodos()"><mat-icon>done</mat-icon>Seleccionar
+                                    Todos</mat-button-toggle>
+                                <!-- </mat-button-toggle-group> -->
+                            </div>
+                        </div>
+                        <fieldset>
+                            <form [formGroup]="FormsJobsFilter">
+                                <legend style="font-size: 15px;font-weight: bold;text-transform: uppercase;">Criterios
+                                    de Búsqueda</legend>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="CategoryId">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Categoría</mat-label>
+                                            <mat-select formControlName="CategoryId">
+                                                <mat-option *ngFor="let row of ListCategoria"
+                                                    [value]="row.id">{{row.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="CompanyId">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Empresa</mat-label>
+                                            <mat-select formControlName="CompanyId">
+                                                <mat-option *ngFor="let row of ListCompania"
+                                                    [value]="row.id">{{row.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="ContractTypeId">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Tipo de Contrato</mat-label>
+                                            <mat-select formControlName="ContractTypeId">
+                                                <mat-option *ngFor="let row of ListTypeContrat"
+                                                    [value]="row.id">{{row.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="ProvinceId">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Provincia</mat-label>
+                                            <mat-select formControlName="ProvinceId">
+                                                <mat-option *ngFor="let row of ListProvincia"
+                                                    [value]="row.id">{{row.name}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button mat-raised-button color="primary"
+                                                (click)="submit()"><mat-icon>search</mat-icon> Buscar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="card">
+                    <div class="header">
+                        <p style="font-weight: 900;font-size: 15px;">Bolsa de Trabajo</p>
+                    </div>
+                    <div class="body">
+
+                        <ng-container *ngFor="let item of ListJobs">
+                            <div (click)="detalles(item)" style="cursor: pointer;" *ngIf="item.id>0"
+                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cursos">
+                                <mat-card>
+                                    <mat-card-header>
+                                        <!-- <img mat-card-avatar src="assets/images/user/user2.jpg"> -->
+                                        <mat-card-title class="titulo">{{ item.name }}</mat-card-title>
+                                        <mat-card-subtitle class="empresa">{{ item.companyName }}</mat-card-subtitle>
+                                        <mat-card-subtitle class="">{{item.companyAddress}}</mat-card-subtitle>
+
+                                    </mat-card-header>
+                                    <!-- <img mat-card-image src="assets/images/image-gallery/2.jpg"> -->
+                                    <mat-card-content>
+                                        <br>
+                                        <p class="badge badge-solid-brown">{{item.categoryName}}</p>
+                                        <p class="badge badge-solid-blue">{{item.contractTypeName}}</p>
+                                        <p class="badge badge-solid-cyan">{{item.companyProvinceName}}</p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="card">
+                    <div class="header">
+                        <p style="font-weight: 900;font-size: 15px;">Detalle del Empleo</p>
+                    </div>
+                    <div class="body">
+                        <!-- {{  }} -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

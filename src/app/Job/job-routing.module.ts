@@ -8,6 +8,7 @@ import { JobsComponent } from './Maestras/jobs/jobs.component';
 import { ProvinceComponent } from './Maestras/province/province.component';
 import { StatusComponent } from './Maestras/status/status.component';
 import { UbicationsComponent } from './Maestras/ubications/ubications.component';
+import { ViewJobsComponent } from './Externals/view-jobs/view-jobs.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path: "JobStatus",
     component: StatusComponent
+  },
+  {
+    path: "Bolsa-Trabajo",
+    component: ViewJobsComponent
   }
 ];
 @NgModule({

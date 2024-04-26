@@ -23,6 +23,7 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { ContractTypeFormsComponent } from './Maestras/Forms/contract-type-forms/contract-type-forms.component';
 import { UbicationsComponent } from './Maestras/ubications/ubications.component';
 import { UbicationsFormsComponent } from './Maestras/Forms/ubications-forms/ubications-forms.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -54,7 +55,8 @@ import { UbicationsFormsComponent } from './Maestras/Forms/ubications-forms/ubic
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    SharedModule
+    SharedModule,
+    CKEditorModule
   ]
 })
 export class JobModuleModule { }

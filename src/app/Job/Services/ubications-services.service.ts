@@ -55,6 +55,10 @@ export class UbicationsServicesService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<UbicationsJobs[]>(environment.apiJobs + 'CompanyAddress/GetAll');
   }
+  getUbications(id: any) {
+    return this.httpClient
+      .get<UbicationsJobs[]>(environment.apiJobs + 'CompanyAddress/GetBy?CompanyId=' + id);
+  }
 
   getAllJobs(id: any) {
     return this.httpClient
