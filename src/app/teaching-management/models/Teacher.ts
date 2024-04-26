@@ -16,6 +16,7 @@ export class Teacher {
     listExperience: Experience[] = [];
     listDocument: Documents[] = [];
     listActivity: Activity[] = [];
+    listAccumulatedTeacherPoint: PointsListClass[] = [];
     listSubject: Subject[] = [];
     process: number = 0;
     dateOfBirth?: string;
@@ -80,6 +81,15 @@ export class Activity {
     activityModeId!: number;
     startDate!: string;
     plannedEndDate!: string;
+
+}
+
+export class PointsListClass {
+
+  points!: number;
+  description!: string;
+  category!: string;
+
 
 }
 

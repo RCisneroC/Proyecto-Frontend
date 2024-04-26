@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UnsubscribeOnDestroyAdapter} from "@shared";
 import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {Activity, Documents, Experience, Subject, Teacher, Training} from "../models/Teacher";
+import {Activity, Documents, Experience, PointsListClass, Subject, Teacher, Training} from "../models/Teacher";
 import {RequiredDocument} from "../models/RequiredDocument";
 import {AuthService, User} from "@core";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -83,8 +83,8 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
 
   displayedColumnsActivities: string[] = [
     'name',
-    // 'activityModeId',
-    // 'activityTypeId',
+    'activityModeId',
+    'activityTypeId',
     'actions',
   ];
 
@@ -97,6 +97,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
   DataExperience: Experience[] = [];
   DataDocument: RequiredDocument[] = [];
   DataTraining: Training[] = [];
+  listAccumulatedTeacherPoint: PointsListClass[] = [];
   cedula!: string;
   fechaActual!: string;
   fechaA: string | undefined;
@@ -166,6 +167,8 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
       FileType: new FormControl([]),
     });
 
+
+
   }
 
   async getRequiredDocuments() {
@@ -214,6 +217,8 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
         this.fechaA = res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
+        this.listAccumulatedTeacherPoint = this.DataTeacher.listAccumulatedTeacherPoint.filter(x=>x.points > 0);
+        console.log("Listado de puntos",this.listAccumulatedTeacherPoint);
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
