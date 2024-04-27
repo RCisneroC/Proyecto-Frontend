@@ -25,7 +25,7 @@ export class FormEduLevelComponent implements OnInit {
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
   public _Model!: TeacherPointsCat;
-  gradosInstruccion: { id: number; nombre: string; }[];
+  gradosInstruccion: any;
   constructor(
     public dialogRef: MatDialogRef<FormEduLevelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -42,36 +42,11 @@ export class FormEduLevelComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.teacherpointcat;
     }
-    this.gradosInstruccion = [
-      {
-        id: 1,
-        nombre: "Bachiller",
-      },
-      {
-        id: 2,
-        nombre: "Técnico",
-      },
-      {
-        id: 3,
-        nombre: "Licenciatura",
-      },
-      {
-        id: 4,
-        nombre: "Especialización",
-      },
-      {
-        id: 5,
-        nombre: "Maestría",
-      },
-      {
-        id: 6,
-        nombre: "Doctorado",
-      },
-      {
-        id: 7,
-        nombre: "Otros",
-      },
-    ];
+    this._Service.loadEdulevel().subscribe({
+      next:(res)=>{
+        this.gradosInstruccion = res
+      }
+    });
     this._Forms = this.createContactForm();
   }
 
@@ -91,6 +66,7 @@ export class FormEduLevelComponent implements OnInit {
 
   confirmAdd() {
     if (this.action == 'add') {
+      const temparr =  this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
       const objrequest = {
         description: this._Forms.getRawValue().description,
         category: "nivel educativo",
@@ -98,7 +74,8 @@ export class FormEduLevelComponent implements OnInit {
         createdDate: new Date,
         createdBy: this.authService.currentUserValue.firstName,
         lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName
+        lastModifiedBy: this.authService.currentUserValue.firstName,
+        idNivelEducativo:temparr[0].id
       }
       this._Service.add(objrequest)
         .subscribe({
@@ -114,6 +91,7 @@ export class FormEduLevelComponent implements OnInit {
           }
         });
     } else {
+      const temparr =  this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
       const objrequest = {
         id: this._Model.id,
         description: this._Forms.getRawValue().description,
@@ -122,7 +100,8 @@ export class FormEduLevelComponent implements OnInit {
         createdDate: new Date,
         createdBy: this.authService.currentUserValue.firstName,
         lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName
+        lastModifiedBy: this.authService.currentUserValue.firstName,
+        idNivelEducativo:temparr[0].id
       }
       this._Service.update(objrequest)
         .subscribe({

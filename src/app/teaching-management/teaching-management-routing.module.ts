@@ -19,6 +19,7 @@ import {
 import {ExperienceLevelScoreListComponent} from "./experience-level-score-list/experience-level-score-list.component";
 import {SubjectScoreListComponent} from "./subject-score-list/subject-score-list.component";
 import {ActivityScoreListComponent} from "./activity-score-list/activity-score-list.component";
+import {EvaluacionDesScoreListComponent} from "./evaluacion-des-score-list/evaluacion-des-score-list.component";
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
   {
     path: "exp-level-points",
     component: ExperienceLevelScoreListComponent,
+  },
+  {
+    path: "eva-des-points",
+    component: EvaluacionDesScoreListComponent,
   },
   {
     path: "subj-points",

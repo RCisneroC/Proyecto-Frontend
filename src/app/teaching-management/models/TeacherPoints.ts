@@ -7,4 +7,7 @@ export interface TeacherPointsCat{
   createdBy: string;
   lastModifiedDate: Date;
   lastModifiedBy: string;
+  idAsignatura: number;
+  idActivity: number;
+  idNivelEducativo: number;
 }

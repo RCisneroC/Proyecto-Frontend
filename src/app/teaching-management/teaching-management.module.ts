@@ -41,6 +41,8 @@ import { SubjectScoreListComponent } from './subject-score-list/subject-score-li
 import { FormSubjComponent } from './score-forms/form-subj/form-subj.component';
 import { ActivityScoreListComponent } from './activity-score-list/activity-score-list.component';
 import { FormActivityComponent } from './score-forms/form-activity/form-activity.component';
+import { FormEvaDesComponent } from './score-forms/form-eva-des/form-eva-des.component';
+import { EvaluacionDesScoreListComponent } from './evaluacion-des-score-list/evaluacion-des-score-list.component';
 
 
 @NgModule({
@@ -78,7 +80,9 @@ import { FormActivityComponent } from './score-forms/form-activity/form-activity
     SubjectScoreListComponent,
     FormSubjComponent,
     ActivityScoreListComponent,
-    FormActivityComponent
+    FormActivityComponent,
+    FormEvaDesComponent,
+    EvaluacionDesScoreListComponent
   ],
   imports: [
     CommonModule,

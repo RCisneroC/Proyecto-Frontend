@@ -49,6 +49,10 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
   }
 
+  loadEdulevel() {
+    return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
+  }
+
   DeleteRooms(Id: number) {
     let data = {
       id: Id
@@ -72,6 +76,9 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
       createdBy: "",
       lastModifiedDate: new Date,
       lastModifiedBy: "",
+      idActivity: 0,
+      idAsignatura:0,
+      idNivelEducativo:0
     }
   }
 }

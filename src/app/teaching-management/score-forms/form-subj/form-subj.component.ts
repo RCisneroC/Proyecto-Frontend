@@ -68,6 +68,7 @@ export class FormSubjComponent implements OnInit {
   }
 
   confirmAdd() {
+    const temparr =  this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
     if (this.action == 'add') {
       const objrequest = {
         description: this._Forms.getRawValue().description,
@@ -76,7 +77,8 @@ export class FormSubjComponent implements OnInit {
         createdDate: new Date,
         createdBy: this.authService.currentUserValue.firstName,
         lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName
+        lastModifiedBy: this.authService.currentUserValue.firstName,
+        idAsignatura: temparr[0].id
       }
       this._Service.add(objrequest)
         .subscribe({
@@ -92,6 +94,7 @@ export class FormSubjComponent implements OnInit {
           }
         });
     } else {
+      const temparr = this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
       const objrequest = {
         id: this._Model.id,
         description: this._Forms.getRawValue().description,
@@ -100,7 +103,8 @@ export class FormSubjComponent implements OnInit {
         createdDate: new Date,
         createdBy: this.authService.currentUserValue.firstName,
         lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName
+        lastModifiedBy: this.authService.currentUserValue.firstName,
+        idAsignatura: temparr[0].id
       }
       this._Service.update(objrequest)
         .subscribe({

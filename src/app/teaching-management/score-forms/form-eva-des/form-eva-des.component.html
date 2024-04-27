@@ -17,9 +17,9 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Descripción</mat-label>
+            <mat-label>Experiencia</mat-label>
             <mat-select formControlName="description" >
-              <mat-option *ngFor="let grado of gradosInstruccion"  [value]="grado.name">{{grado.name}}</mat-option>
+              <mat-option *ngFor="let grado of gradosInstruccion"  [value]="grado.nombre">{{grado.nombre}}</mat-option>
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('description')?.hasError('required')">
@@ -34,7 +34,7 @@
             <input matInput formControlName="points">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('points')?.hasError('required')">
-             Los Puntos son requeridos
+              Los Puntos son requeridos
             </mat-error>
           </mat-form-field>
         </div>
