@@ -20,6 +20,7 @@ import { RequestServicesService } from 'app/intranet-academic-registration/Servi
 import { AuthService, User } from '@core';
 import { CallsTeachersService } from 'app/CallsTeachers/services/calls-teachers.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import {AddDocumentsSelectedComponent} from "../add-documents-selected/add-documents-selected.component";
 
 
 
@@ -404,6 +405,37 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       data: {
         teacher: this.DataTeacher,
         accion: 'add-subjects'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getTeacherByCedula3();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+
+  }
+
+  AddDocuments() {
+    const dialogRef = this._dialog.open(AddDocumentsSelectedComponent, {
+      data: {
+        teacher: this.DataTeacher,
+        accion: 'add-documents'
       },
       disableClose: true,
     });
