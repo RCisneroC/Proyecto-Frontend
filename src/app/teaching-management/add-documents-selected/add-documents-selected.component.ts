@@ -105,11 +105,11 @@ export class AddDocumentsSelectedComponent {
   submit() {
     const tem = this.tmp_files.filter((element: undefined) => element !== undefined)
     // AddTeachers
-    for (let i = 0; i < tem.length; i++) {
+    for (let i = 0; i < this.tmp_files.length; i++) {
 
-      if (tem[i] != undefined) {
+      if (this.tmp_files[i] != undefined) {
         const formdata = new FormData();
-        formdata.append('FileDetails', tem[i]);
+        formdata.append('FileDetails', this.tmp_files[i]);
         formdata.append('TeacherId', this.data.teacher.teacherId.toString());
         formdata.append('DocTypeId', this.tmp_docType[i]);
         this._teacherService.archivo(formdata).subscribe({
