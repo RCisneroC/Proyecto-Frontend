@@ -19,6 +19,11 @@ import { ProvinciaJobServiceService } from 'app/Job/Services/provincia-job-servi
 import { TypeContractJobServiceService } from 'app/Job/Services/type-contract-job-service.service';
 import { Jobs } from '../../Interfaces/Jobs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PostulationFormsComponent } from '../postulation-forms/postulation-forms.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
+import { AuthService } from '@core';
 
 @Component({
   selector: 'app-view-jobs',
@@ -34,6 +39,7 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
   public ContractTypeId: boolean = false;
   public ProvinceId: boolean = false;
   public ShowTables: boolean = false;
+  public showJobs: boolean = false;
   public lstFiltros: Filtros[] = [
     {
       codigo: "CategoryId",
@@ -76,7 +82,9 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
     public _TypeContractJobServiceService: TypeContractJobServiceService,
     public _ProvinciaJobServiceService: ProvinciaJobServiceService,
     public _Jobs: JobServiceService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public dialog: MatDialog,
+    public _auth: AuthService
   ) {
     super();
     this.GetCategory();
@@ -96,6 +104,7 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
       ProvinceId: ['']
     });
   }
+
   ngOnInit(): void {
     this.submit();
   }
@@ -228,7 +237,42 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
 
   detalles(row: Jobs) {
     this.ListJobsDetails = row;
-    console.log(row);
+    console.log(this.ListJobsDetails);
+    this.showJobs = true;
+  }
 
+  cambiar() {
+    this.showJobs = false;
+  }
+  postularme(row: Jobs) {
+    this._CategoryJobServiceService.init_CategoryJobs();
+    const dialogRef = this.dialog.open(PostulationFormsComponent, {
+      data: {
+        Jobs: row,
+        userEmail: this._auth.currentUserValue.email,
+        userName: this._auth.currentUserValue.email,
+        accion: 'postularme',
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
   }
 }
