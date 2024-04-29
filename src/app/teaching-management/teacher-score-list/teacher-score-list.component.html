@@ -1,0 +1,284 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Gestión Docente'" [items]="['Inicio','Gestión Docente']" [active_item]="'Docente'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Listado de Puntuación Docente</strong></h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="materialTableHeader">
+                    <div class="left">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="tbl-title">
+                          <h2>Docentes</h2>
+                        </li>
+                        <li class="tbl-search-box">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
+                                 aria-label="Search box">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="right">
+                      <ul class="tbl-export-btn">
+
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="REFRESH">
+                            <button mat-mini-fab color="primary" (click)="refresh()">
+                              <mat-icon class="col-white">refresh</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="body overflow-auto">
+                    <div class="responsive_table">
+                      <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
+
+
+                        <ng-container matColumnDef="cedula">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Cédula/Pasaporte
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Cedula:</span>{{row.cedula}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="lastName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Apellido:</span>{{row.lastName}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="applicationDate">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Aplicación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha Aplicación:</span>{{row.applicationDate |
+                            date:'dd/M/yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="points">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Puntos:</span>{{row.points}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="statusId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <div *ngIf="row.statusId===1" class="badge badge-solid-green">
+                              Aprobado
+                            </div>
+                            <div *ngIf="row.statusId===2" class="badge badge-solid-red">
+                              Rechazado
+                            </div>
+                            <div *ngIf="row.statusId===0" class="badge badge-solid-blue">
+                              Pendiente
+
+                            </div>
+                          </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="createdDate">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de aplicación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha de aplicación:</span>{{row.createdDate |
+                            date:'dd/M/yyyy'}}</mat-cell>
+                        </ng-container>
+
+
+                        <!-- <ng-container matColumnDef="lastModifiedBy">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Modificado por
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Modificado por:</span>{{row.lastModifiedBy}}</mat-cell>
+                              </ng-container> -->
+
+
+                        <ng-container matColumnDef="dischargeDate">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de alta
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha de
+                              alta:</span>{{row.dischargeDate!==null?(row.dischargeDate |
+                            date:'dd/M/yyyy'):"N/A"}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="placeResidence">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de residencia
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Lugar de residencia:</span>{{row.placeResidence}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="jobTitle">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Titulo Profesional
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Titulo Profesional:</span>{{row.jobTitle}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="graduateDegree">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Titulo Postgrado
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Titulo Postgrado:</span>{{row.graduateDegree}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="professionalExperience">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Experiencia profesional
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Experiencia
+                              profesional:</span>{{row.professionalExperience}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="teachingExperience">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Experiencia docente
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Experiencia docente:</span>{{row.teachingExperience}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="process">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Proceso:</span>{{row.process|statusProcess}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="topics">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Temas/Materias
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Temas/Materias:</span>{{row.topics}}</mat-cell>
+                        </ng-container>
+
+
+
+
+                        <!-- actions -->
+                        <ng-container matColumnDef="actions">
+                          <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                          <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+
+                            <button *ngIf="true!==true" mat-icon-button color="accent"
+                                    (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                            </button>
+
+                            <!-- <button matTooltip="Ver Detalle" mat-mini-fab color="primary" (click)="ViewDetail(row)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                  </button>
+                                  <button matTooltip="Aprobar estudiante" mat-mini-fab color="warn" (click)="aprobar(row)">
+                                    <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                                  </button> -->
+                            <button *ngIf="row.statusId>=0" mat-mini-fab color="primary"
+                                    (click)="$event.stopPropagation()" (click)="Detail(row)" class="tbl-action-btn">
+                              <mat-icon>remove_red_eye</mat-icon>
+                              <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
+                            </button>
+
+
+                          </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                        </mat-row>
+                      </table>
+                    </div>
+                    <!-- Loading spinner -->
+                    <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <!-- context menu start -->
+                    <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+                         [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                    </div>
+                    <mat-menu #contextMenu="matMenu">
+                      <ng-template matMenuContent let-item="item">
+                        <button mat-menu-item (click)="addNew()">
+                          <mat-icon>add_box</mat-icon>
+                          <span>Add Record</span>
+                        </button>
+                        <button mat-menu-item (click)="editCall(item)">
+                          <mat-icon>create</mat-icon>
+                          <span>Edit Record</span>
+                        </button>
+
+                        <button mat-menu-item (click)="refresh()">
+                          <mat-icon>refresh</mat-icon>
+                          <span>Refresh Record</span>
+                        </button>
+                        <button mat-menu-item disabled>
+                          <mat-icon>no_encryption</mat-icon>
+                          <span>Disable</span>
+                        </button>
+                        <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
+                          <mat-icon>list_alt</mat-icon>
+                          <span> Nested Menu</span>
+                        </button>
+                      </ng-template>
+                    </mat-menu>
+                    <mat-menu #nestedmenu="matMenu">
+                      <button mat-menu-item>
+                        <mat-icon>mail_outline</mat-icon>
+                        <span>Item 1</span>
+                      </button>
+                      <button mat-menu-item>
+                        <mat-icon>call</mat-icon>
+                        <span>Item 2</span>
+                      </button>
+                      <button mat-menu-item>
+                        <mat-icon>chat</mat-icon>
+                        <span>Item 3</span>
+                      </button>
+                    </mat-menu>
+                    <!-- context menu end -->
+                    <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
+                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                      No se encontraron resultados
+                    </div>
+                    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
+                                   [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,36 +1,32 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
-import { Activity, Documents, Experience, Subject, Teacher, Training } from '../models/Teacher';
-import { TeacherService } from '../services/teacher.service';
-import Swal from 'sweetalert2';
-import { MatAccordion } from '@angular/material/expansion';
-import { MatDialog } from '@angular/material/dialog';
-import { AddExperienceComponent } from '../add-experience/add-experience.component';
-import { AddTrainingComponent } from '../add-training/add-training.component';
-import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
-import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
-import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
-import { RequiredDocument } from '../models/RequiredDocument';
-import { AddActivityComponent } from '../add-activity/add-activity.component';
-import { AddSubjectComponent } from '../add-subject/add-subject.component';
-import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
-import { AuthService, User } from '@core';
-import { CallsTeachersService } from 'app/CallsTeachers/services/calls-teachers.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import {AddDocumentsSelectedComponent} from "../add-documents-selected/add-documents-selected.component";
-
-
-
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UnsubscribeOnDestroyAdapter} from "@shared";
+import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {Activity, Documents, Experience, PointsListClass, Subject, Teacher, Training} from "../models/Teacher";
+import {RequiredDocument} from "../models/RequiredDocument";
+import {AuthService, User} from "@core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActivityDetailService} from "../../admission/services/activity-detail.service";
+import {TeacherService} from "../services/teacher.service";
+import {MatDialog} from "@angular/material/dialog";
+import {VerificarBS64Pipe} from "../../pipes/verificar-bs64.pipe";
+import {RequestServicesService} from "../../intranet-academic-registration/Services/request-services.service";
+import {CallsTeachersService} from "../../CallsTeachers/services/calls-teachers.service";
+import {MatAccordion} from "@angular/material/expansion";
+import {ViewPosterComponent} from "../../admission/activitydetail/forms/view-poster/view-poster.component";
+import {ViewPosterPDFComponent} from "../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {AddExperienceComponent} from "../add-experience/add-experience.component";
+import {AddActivityComponent} from "../add-activity/add-activity.component";
+import Swal from "sweetalert2";
+import {AddSubjectComponent} from "../add-subject/add-subject.component";
+import {AddTrainingComponent} from "../add-training/add-training.component";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-teacher-detail',
-  templateUrl: './teacher-detail.component.html',
-  styleUrls: ['./teacher-detail.component.scss']
+  selector: 'app-teacher-score-details',
+  templateUrl: './teacher-score-details.component.html',
+  styleUrls: ['./teacher-score-details.component.scss']
 })
-export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
+export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   teacherForm!: UntypedFormGroup;
@@ -87,8 +83,8 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   displayedColumnsActivities: string[] = [
     'name',
-    // 'activityModeId',
-    // 'activityTypeId',
+    'activityModeId',
+    'activityTypeId',
     'actions',
   ];
 
@@ -101,6 +97,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
   DataExperience: Experience[] = [];
   DataDocument: RequiredDocument[] = [];
   DataTraining: Training[] = [];
+  listAccumulatedTeacherPoint: PointsListClass[] = [];
   cedula!: string;
   fechaActual!: string;
   fechaA: string | undefined;
@@ -119,17 +116,17 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
   public loadingFile: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-    public _ActivityService: ActivityDetailService,
-    public _teacherService: TeacherService,
-    public _dialog: MatDialog,
-    private _nav: Router,
-    private fb: UntypedFormBuilder,
-    public _verificarBS64: VerificarBS64Pipe,
-    public _RequestService: RequestServicesService,
-    public authenticationService: AuthService,
-    private cb: ChangeDetectorRef,
-    private serviceCallsTeachersService: CallsTeachersService,
-    public elm: ElementRef,
+              public _ActivityService: ActivityDetailService,
+              public _teacherService: TeacherService,
+              public _dialog: MatDialog,
+              private _nav: Router,
+              private fb: UntypedFormBuilder,
+              public _verificarBS64: VerificarBS64Pipe,
+              public _RequestService: RequestServicesService,
+              public authenticationService: AuthService,
+              private cb: ChangeDetectorRef,
+              private serviceCallsTeachersService: CallsTeachersService,
+              public elm: ElementRef,
   ) {
     super();
 
@@ -169,6 +166,8 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       FileDetails: new FormControl([]),
       FileType: new FormControl([]),
     });
+
+
 
   }
 
@@ -218,10 +217,12 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
         this.fechaA = res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
+        this.listAccumulatedTeacherPoint = this.DataTeacher.listAccumulatedTeacherPoint.filter(x=>x.points > 0);
+        console.log("Listado de puntos",this.listAccumulatedTeacherPoint);
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
-           if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
+            if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
               this.selectedOption = "3";
             } else if (this.DataTeacher.listSubject.length > 0) {
               this.selectedOption = "1";
@@ -431,37 +432,6 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   }
 
-  AddDocuments() {
-    const dialogRef = this._dialog.open(AddDocumentsSelectedComponent, {
-      data: {
-        teacher: this.DataTeacher,
-        accion: 'add-documents'
-      },
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == undefined) {
-        return;
-      }
-      if (result.CodError == 200) {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "success"
-        });
-        this.getTeacherByCedula3();
-      } else {
-        Swal.fire({
-          title: "Escuela Judicial",
-          text: result.Message,
-          icon: "warning"
-        });
-      }
-    });
-
-
-  }
-
   deleteSubject(row: Subject) {
 
     const AsignarActivitiesForm = this.fb.group({
@@ -585,7 +555,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   }
   Regresar() {
-    this._nav.navigate(['/teaching-management/teacher-list/']);
+    this._nav.navigate(['/teaching-management/teacher-score-list/']);
   }
   Historial() {
 
