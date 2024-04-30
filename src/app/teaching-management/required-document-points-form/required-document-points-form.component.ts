@@ -1,20 +1,16 @@
-import { Component, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { RequiredDocument } from '../models/RequiredDocument';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TeacherService } from '../services/teacher.service';
+import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {RequiredDocument} from "../models/RequiredDocument";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {TeacherService} from "../services/teacher.service";
+import {DialogData} from "../required-document-form/required-document-form.component";
 
-export interface DialogData {
-  id: string;
-  action: string;
-  requiredDocument: RequiredDocument;
-}
 @Component({
-  selector: 'app-required-document-form',
-  templateUrl: './required-document-form.component.html',
-  styleUrls: ['./required-document-form.component.scss']
+  selector: 'app-required-document-points-form',
+  templateUrl: './required-document-points-form.component.html',
+  styleUrls: ['./required-document-points-form.component.scss']
 })
-export class RequiredDocumentFormComponent implements OnInit {
+export class RequiredDocumentPointsFormComponent implements OnInit {
 
   action: string;
   dialogTitle: string;
@@ -28,7 +24,7 @@ export class RequiredDocumentFormComponent implements OnInit {
     { id: "3", name: 'Ambos' }
   ];
   constructor(
-    public dialogRef: MatDialogRef<RequiredDocumentFormComponent>,
+    public dialogRef: MatDialogRef<RequiredDocumentPointsFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public teacherService: TeacherService,
     private fb: UntypedFormBuilder,
@@ -49,7 +45,7 @@ export class RequiredDocumentFormComponent implements OnInit {
     this.requiredDocumentForm = this.createContactForm();
     console.log("-----")
     console.log(this.requiredDocument)
-   // this.requiredDocumentForm.controls[""].patchValue();
+    // this.requiredDocumentForm.controls[""].patchValue();
     this.cb.detectChanges();
   }
 
@@ -58,8 +54,8 @@ export class RequiredDocumentFormComponent implements OnInit {
       documentId: [this.requiredDocument.documentId],
       name: [this.requiredDocument.name, [Validators.required]],
       description: [this.requiredDocument.description, [Validators.required]],
-      /*point: [this.requiredDocument.point, [Validators.required]],
-      isRecord:[this.requiredDocument.isRecord, [Validators.required]],*/
+      point: [this.requiredDocument.point, [Validators.required]],
+      isRecord:[this.requiredDocument.isRecord, [Validators.required]],
       statusId: [this.requiredDocument.statusId, [Validators.required]],
       typeEducationId: [this.requiredDocument.typeEducationId.toString(), [Validators.required]],
       createdBy: [''],
@@ -73,19 +69,21 @@ export class RequiredDocumentFormComponent implements OnInit {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-      this.teacherService.updateRequiredDocument(this.requiredDocumentForm.getRawValue())
-        .subscribe({
-          next: () => {
+    this.requiredDocumentForm.controls['isRecord'].setValue(this.requiredDocumentForm.getRawValue().isRecord == 'true')
+    this.teacherService.updateRequiredDocument(this.requiredDocumentForm.getRawValue())
+      .subscribe({
+        next: () => {
 
-           this.dialogRef.close(1);
-          },
-          error: () => {
+          this.dialogRef.close(1);
+        },
+        error: () => {
 
-            this.dialogRef.close(0);
-          }
+          this.dialogRef.close(0);
+        }
       });
 
 
   }
 
 }
+

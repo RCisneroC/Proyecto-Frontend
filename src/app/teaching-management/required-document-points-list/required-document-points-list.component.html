@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Documentos'" [items]="['Inicio','Admision']" [active_item]="'Documentos'">
+      <app-breadcrumb [title]="'Documentos'" [items]="['Inicio','Docente','Puntuaciones']" [active_item]="'Documentos'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -24,7 +24,7 @@
                         <li class="tbl-search-box">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
                           <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
-                            aria-label="Search box">
+                                 aria-label="Search box">
                         </li>
                       </ul>
                     </div>
@@ -69,7 +69,7 @@
                           <mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
                         </ng-container>
 
-                        <!--<ng-container matColumnDef="isRecord">
+                        <ng-container matColumnDef="isRecord">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Record</mat-header-cell>
                           <mat-cell *matCellDef="let row">{{row.isRecord?'Si':'No'}}</mat-cell>
                         </ng-container>
@@ -77,7 +77,7 @@
                         <ng-container matColumnDef="point">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos</mat-header-cell>
                           <mat-cell *matCellDef="let row">{{row.point}}</mat-cell>
-                        </ng-container>-->
+                        </ng-container>
 
                         <ng-container matColumnDef="typeEducationId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Proceso
@@ -98,8 +98,8 @@
                             <div
                               [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
                               <span class="mobile-label ">Estatus:</span>{{row.statusId
-                              ===
-                              1?'Activo':'Inactivo'}}
+                            ===
+                            1?'Activo':'Inactivo'}}
                             </div>
                           </mat-cell>
                         </ng-container>
@@ -116,7 +116,7 @@
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                             <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
-                              (click)="editCall(row)" class="tbl-action-btn">
+                                    (click)="editCall(row)" class="tbl-action-btn">
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
 
@@ -124,7 +124,7 @@
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
-                          [style.cursor]="'pointer'" matRipple>
+                                 [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
                     </div>
@@ -135,7 +135,7 @@
                     </div>
                     <!-- context menu start -->
                     <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                      [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                         [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
                     </div>
                     <mat-menu #contextMenu="matMenu">
                       <ng-template matMenuContent let-item="item">
@@ -178,11 +178,11 @@
                     </mat-menu>
                     <!-- context menu end -->
                     <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
-                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                       No results
                     </div>
                     <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
-                      [pageSizeOptions]="[5, 10, 25, 100]">
+                                   [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>
                 </div>

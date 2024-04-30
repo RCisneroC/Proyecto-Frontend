@@ -20,6 +20,9 @@ import {ExperienceLevelScoreListComponent} from "./experience-level-score-list/e
 import {SubjectScoreListComponent} from "./subject-score-list/subject-score-list.component";
 import {ActivityScoreListComponent} from "./activity-score-list/activity-score-list.component";
 import {EvaluacionDesScoreListComponent} from "./evaluacion-des-score-list/evaluacion-des-score-list.component";
+import {
+  RequiredDocumentPointsListComponent
+} from "./required-document-points-list/required-document-points-list.component";
 
 const routes: Routes = [
   {
@@ -73,6 +76,10 @@ const routes: Routes = [
   {
     path: "actv-points",
     component: ActivityScoreListComponent,
+  },
+  {
+    path: "docs-list-points",
+    component: RequiredDocumentPointsListComponent,
   },
   {
     path: "info-teacher",

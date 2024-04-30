@@ -1,33 +1,36 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { RequiredDocument } from '../models/RequiredDocument';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { Direction } from '@angular/cdk/bidi';
-import { RequiredDocumentFormComponent } from '../required-document-form/required-document-form.component';
-import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { TeacherService } from '../services/teacher.service';
-import Swal from 'sweetalert2';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
+import {TeacherService} from "../services/teacher.service";
+import {DataSource, SelectionModel} from "@angular/cdk/collections";
+import {RequiredDocument} from "../models/RequiredDocument";
+import {HttpClient} from "@angular/common/http";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {Direction} from "@angular/cdk/bidi";
+import {RequiredDocumentFormComponent} from "../required-document-form/required-document-form.component";
+import Swal from "sweetalert2";
+import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {
+  RequiredDocumentPointsFormComponent
+} from "../required-document-points-form/required-document-points-form.component";
 
 @Component({
-  selector: 'app-required-document-list',
-  templateUrl: './required-document-list.component.html',
-  styleUrls: ['./required-document-list.component.scss']
+  selector: 'app-required-document-points-list',
+  templateUrl: './required-document-points-list.component.html',
+  styleUrls: ['./required-document-points-list.component.scss']
 })
-export class RequiredDocumentListComponent extends UnsubscribeOnDestroyAdapter
+export class RequiredDocumentPointsListComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
   displayedColumns = [
     'name',
     'description',
     'typeEducationId',
-    //'point',
-    //'isRecord',
+    'point',
+    'isRecord',
     'statusId',
     'actions',
   ];
@@ -65,7 +68,7 @@ export class RequiredDocumentListComponent extends UnsubscribeOnDestroyAdapter
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(RequiredDocumentFormComponent, {
+    const dialogRef = this.dialog.open(RequiredDocumentPointsFormComponent, {
       data: {
         requiredDocument: this.requiredDocument,
         action: 'add',
@@ -106,7 +109,7 @@ export class RequiredDocumentListComponent extends UnsubscribeOnDestroyAdapter
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(RequiredDocumentFormComponent, {
+    const dialogRef = this.dialog.open(RequiredDocumentPointsFormComponent, {
       data: {
         requiredDocument: row,
         action: 'edit',
@@ -271,3 +274,4 @@ export class ExampleDataSource extends DataSource<RequiredDocument> {
     });
   }
 }
+
