@@ -43,6 +43,7 @@ export class Training {
     degreeDate: string = "";
     educationLevel: string = "";
     degreeObtained: string = "";
+    IdNivelEducativo: number = 0;
     statusId: number = 1;
 }
 
