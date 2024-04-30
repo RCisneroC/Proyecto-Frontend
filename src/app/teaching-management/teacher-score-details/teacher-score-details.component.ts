@@ -83,7 +83,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
 
   displayedColumnsActivities: string[] = [
     'name',
-    'activityModeId',
+    //'activityModeId',
     'activityTypeId',
     'actions',
   ];

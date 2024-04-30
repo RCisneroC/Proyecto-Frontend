@@ -18,6 +18,7 @@ import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { AddTrainingComponent } from '../add-training/add-training.component';
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
+import {AddDocumentsSelectedComponent} from "../add-documents-selected/add-documents-selected.component";
 
 @Component({
   selector: 'app-info-teacher',
@@ -26,7 +27,7 @@ import { User } from '@core/models/user';
 })
 export class InfoTeacherComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
-  
+
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
   processList = [
@@ -41,7 +42,7 @@ implements OnInit{
     'year',
     'actions'
   ];
-  
+
   displayedColumnsTraining = [
     'trainingId',
     'institution',
@@ -52,15 +53,15 @@ implements OnInit{
     'degreeObtained',
     'actions'
   ];
-  
 
-  
+
+
   displayedColumnsSpecialty = [
     'specialtyId',
     'name',
     'actions'
   ];
-  
+
   displayedColumnsExperience = [
     'experienceId',
     'description',
@@ -69,23 +70,23 @@ implements OnInit{
     'endDate',
     'actions'
   ];
-  
+
 
   displayedColumnsDoc = [
     'docType',
     'fileUpload',
     'extension',
     'docResult',
-    
+
   ];
-  
+
   displayedColumnsActivities: string[] = [
     'name',
     // 'activityModeId',
     // 'activityTypeId',
     'actions',
   ];
-  
+
   displayedColumnsSubject: string[] = [
     'name',
     'actions',
@@ -118,7 +119,7 @@ private fb: UntypedFormBuilder,
 public _verificarBS64: VerificarBS64Pipe,
 ){
   super();
-  
+
 }
 
 
@@ -132,36 +133,36 @@ public _verificarBS64: VerificarBS64Pipe,
     this.teacherForm = this.createTeacherForm();
     this.teacherForm.get('cedula')?.disable();
     //this.documentForm = this.createDocumentForm();
-   
-  
+
+
      this.header="Actualizar Datos";
      await this.getTeacherByCedula();
- 
 
-   
+
+
     this.docForm= this.fb.group({
       FileDetails:new FormControl([]),
       FileType:new FormControl([]),
     });
-   
+
   }
-  
+
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
        next: (res) => {
- 
+
          this.DataDocument = res;
-      
+
        }
      })
    }
-  
+
    GetName(type:number){
-   
+
   return this.DataDocument.find(x=>x.documentId===type)?.name
   }
   async getTeacherByCedula() {
-  
+
    this._teacherService.getTeacherByCedula(this.user.cedula).subscribe({
       next: (res) => {
 
@@ -173,9 +174,9 @@ public _verificarBS64: VerificarBS64Pipe,
       }
     })
   }
-  
+
   viewDocumento(row: Documents) {
-   
+
     if (this._verificarBS64.transform(row.docResult.fileContents) != "pdf") {
       const dialogRef = this._dialog.open(ViewPosterComponent, {
        data: {
@@ -203,7 +204,7 @@ public _verificarBS64: VerificarBS64Pipe,
 
   }
 
- 
+
   AddExperience(){
     const dialogRef = this._dialog.open(AddExperienceComponent, {
       data: {
@@ -217,7 +218,7 @@ public _verificarBS64: VerificarBS64Pipe,
         return;
         }
         this.DataExperience=[];
-        
+
         if(this.DataTeacher.listExperience.length>0){
           const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
             return current.experienceId > previous.experienceId ? current : previous;
@@ -226,14 +227,14 @@ public _verificarBS64: VerificarBS64Pipe,
         }else{
           result.experienceId=1;
         }
-      
+
         this.DataExperience.push(result);
-        
+
         this.DataTeacher.listExperience=[...this.DataTeacher.listExperience, ...this.DataExperience]
-        
+
     });
   }
-  
+
   AddActivity(){
     const dialogRef = this._dialog.open(AddActivityComponent, {
       data: {
@@ -261,10 +262,10 @@ public _verificarBS64: VerificarBS64Pipe,
             });
           }
     });
-  
+
 
   }
-  
+
   AddSubject(){
     const dialogRef = this._dialog.open(AddSubjectComponent, {
       data: {
@@ -292,12 +293,44 @@ public _verificarBS64: VerificarBS64Pipe,
             });
           }
     });
-  
+
 
   }
-  
+
+  AddDocuments() {
+    const dialogRef = this._dialog.open(AddDocumentsSelectedComponent, {
+      data: {
+        teacher: this.DataTeacher,
+        accion: 'add-documents'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getTeacherByCedula();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+
+  }
+
+
   deleteSubject(row: Subject) {
-  
+
     const AsignarActivitiesForm = this.fb.group({
       teacherId:[this.DataTeacher.teacherId,[Validators.required]],
       subjectList: this.fb.array([row.id]),
@@ -310,7 +343,7 @@ public _verificarBS64: VerificarBS64Pipe,
                 text: 'Eliminado correctamente.',
                 icon: "success"
             });
-          this.getTeacherByCedula(); 
+          this.getTeacherByCedula();
       },
       error: () => {
         Swal.fire({
@@ -320,11 +353,11 @@ public _verificarBS64: VerificarBS64Pipe,
             });
       }
      })
-  } 
-  
-  
+  }
+
+
   deleteAct(row: Activity) {
-  
+
     const AsignarActivitiesForm = this.fb.group({
       teacherId:[this.DataTeacher.teacherId,[Validators.required]],
       activityList: this.fb.array([row.id]),
@@ -337,7 +370,7 @@ public _verificarBS64: VerificarBS64Pipe,
                 text: 'Eliminado correctamente.',
                 icon: "success"
             });
-          this.getTeacherByCedula(); 
+          this.getTeacherByCedula();
       },
       error: () => {
         Swal.fire({
@@ -347,7 +380,7 @@ public _verificarBS64: VerificarBS64Pipe,
             });
       }
      })
-  }  
+  }
   AddTraining(){
     const dialogRef = this._dialog.open(AddTrainingComponent, {
       data: {
@@ -361,7 +394,7 @@ public _verificarBS64: VerificarBS64Pipe,
         return;
         }
         this.DataTraining=[];
-        
+
         if(this.DataTeacher.listTraining.length>0){
           const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
             return current.trainingId > previous.trainingId ? current : previous;
@@ -370,26 +403,26 @@ public _verificarBS64: VerificarBS64Pipe,
         }else{
           result.trainingId=1;
         }
-      
+
         this.DataTraining.push(result);
-        
+
         this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
-        
+
     });
   }
   RemoveExperience(row:Experience){
- 
+
         this.DataExperience=[];
         this.DataExperience=this.DataTeacher.listExperience.filter(x=>x.experienceId!=row.experienceId)
         this.DataTeacher.listExperience=[...this.DataExperience]
-        
+
   }
   Regresar(){
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
-  
 
-  
+
+
   createTeacherForm(): UntypedFormGroup{
     return this.fb.group({
       teacherId: new FormControl(this.DataTeacher.teacherId),
@@ -412,31 +445,31 @@ public _verificarBS64: VerificarBS64Pipe,
       listSubject: new FormControl(this.DataTeacher?.listSubject||[]),
       process: new FormControl(this.DataTeacher.process),
       createdBy: new FormControl(this.DataTeacher?.name)
-     
+
     });
   }
-  
+
   onFileSelected(event: any) {
 
-    
+
      const file = event.target.files[0];
     const formdata=new FormData();
 
    formdata.append('FileDetails', file);
- 
-   
-  
-    
+
+
+
+
  this._teacherService.archivo(formdata).subscribe({
   next: () => {
    console.log("guardado");
   },
   error: () => {
-  
+
   }
 })
   }
-  
+
   submit() {
 
   this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
@@ -453,8 +486,8 @@ public _verificarBS64: VerificarBS64Pipe,
               title: "Escuela Judicial",
               text: 'Guardado correctamente.',
               icon: "success"
-          }); 
-         
+          });
+
     },
     error: () => {
       Swal.fire({
@@ -464,19 +497,19 @@ public _verificarBS64: VerificarBS64Pipe,
           });
     }
    })
-   
+
   }
-  
-  
-  
+
+
+
   removeTraining(row: Training){
     this.DataTraining=[];
     this.DataTraining=this.DataTeacher.listTraining.filter(x=>x.trainingId!=row.trainingId)
     this.DataTeacher.listTraining=[...this.DataTraining]
-    
+
   }
-  
- 
+
+
 
 }
 

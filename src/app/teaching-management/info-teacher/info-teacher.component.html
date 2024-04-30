@@ -41,11 +41,11 @@
                                         </mat-error>
 
                                     </mat-form-field> -->
-                              
+
                                         <h5>Cédula/Pasaporte:</h5>
                                         <h4>{{ DataTeacher.cedula }}:</h4>
                                         <!-- <label for="">{{ DataTeacher.cedula }}</label> -->
-                                 
+
                                 </div>
 
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
@@ -290,8 +290,10 @@
                 <div class="card">
                     <div class="header">
                         <h2 class="text-uppercase"><strong>Documentos</strong>
-
-
+                          <button (click)="AddDocuments()" matTooltip="Agregar documentos"
+                                  style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                            <mat-icon>add</mat-icon>
+                          </button>
                         </h2>
                     </div>
                     <div class="body">
@@ -314,7 +316,7 @@
                                     <td mat-cell *matCellDef="let element"> <span class="text-uppercase">{{
                                             element.extension }}</span></td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="fileUpload">
                                     <th mat-header-cell *matHeaderCellDef> Cargar Archivo </th>
                                     <td mat-cell *matCellDef="let element">
