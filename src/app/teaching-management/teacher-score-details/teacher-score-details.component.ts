@@ -153,6 +153,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
     if (this.cedula != "-1") {
       this.header = "Detalle docente";
       await this.getTeacherByCedula();
+      await this.getteacherPointsByCedula();
     }
 
     this.documentForm = this.fb.group({
@@ -217,8 +218,8 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
         this.fechaA = res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         this.documentForm = this.createDocumentForm();
-        this.listAccumulatedTeacherPoint = this.DataTeacher.listAccumulatedTeacherPoint.filter(x=>x.points > 0);
-        console.log("Listado de puntos",this.listAccumulatedTeacherPoint);
+        /*this.listAccumulatedTeacherPoint = this.DataTeacher.listAccumulatedTeacherPoint.filter(x=>x.points > 0);
+        console.log("Listado de puntos",this.listAccumulatedTeacherPoint);*/
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
@@ -243,6 +244,14 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
           this.viewTable(this.DataTeacher.process);
         }
         this._teacherService.isTblLoading = false;
+      }
+    })
+  }
+
+  async getteacherPointsByCedula(){
+    this._teacherService.GetTeacherPointByCedula(this.cedula).subscribe({
+      next:(res)=>{
+        this.listAccumulatedTeacherPoint = res.listAccumulatedTeacherPoint.filter((x: { points: number; })=>x.points > 0);
       }
     })
   }

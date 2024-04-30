@@ -105,6 +105,10 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlTeacher + 'GetTeacherPoint');
   }
 
+  GetTeacherPointByCedula(id: string) {
+    return this.httpClient.get<any>(environment.apiUrlTeacher + 'GetTeacherByPoint?Cedula='+ id);
+  }
+
   SavePointTeacher(data: any) {
 
     return this.httpClient.post<any>(environment.apiUrlTeacher + 'SavePointTeacher', data);
