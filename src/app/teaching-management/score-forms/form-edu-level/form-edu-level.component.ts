@@ -66,9 +66,10 @@ export class FormEduLevelComponent implements OnInit {
 
   confirmAdd() {
     if (this.action == 'add') {
+      const points = + this._Forms.getRawValue().points;
       const objrequest = {
         name: this._Forms.getRawValue().description,
-        points: this._Forms.getRawValue().points,
+        points: points,
         createdBy: this.authService.currentUserValue.firstName,
         estatus: true
       }
@@ -86,10 +87,11 @@ export class FormEduLevelComponent implements OnInit {
           }
         });
     } else {
+      const points = + this._Forms.getRawValue().points;
       const objrequest = {
         id: this._Model.id,
         name: this._Forms.getRawValue().description,
-        points: this._Forms.getRawValue().points,
+        points: points,
         createdBy: this.authService.currentUserValue.firstName,
         estatus: true
       }
