@@ -11,3 +11,15 @@ export interface TeacherPointsCat{
   idActivity: number;
   idNivelEducativo: number;
 }
+
+
+export interface TeacherPointsEduLevel {
+  id:number;
+  name: string,
+  points: number;
+  estatus: boolean,
+  createdDate: Date;
+  createdBy: string;
+  lastModifiedDate: Date;
+  lastModifiedBy: string;
+}

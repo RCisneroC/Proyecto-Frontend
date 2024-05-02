@@ -10,9 +10,9 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {ScoreListService} from "../services/score-list.service";
-import {TeacherPointsCat} from "../models/TeacherPoints";
+import {TeacherPointsCat, TeacherPointsEduLevel} from "../models/TeacherPoints";
 import {FormEduLevelComponent} from "../score-forms/form-edu-level/form-edu-level.component";
+import {EduLevelScoreListService} from "../services/edu-level-score-list.service";
 
 @Component({
   selector: 'app-educational-level-score-list',
@@ -24,21 +24,21 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
 
   displayedColumns = [
     'name',
-    'description',
     'statusId',
+    'description',
     'actions',
   ];
 
-  exampleDatabase?: ScoreListService;
+  exampleDatabase?: EduLevelScoreListService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<TeacherPointsCat>(true, []);
+  selection = new SelectionModel<TeacherPointsEduLevel>(true, []);
   id?: number;
-  status?: TeacherPointsCat = this._Service._Model;
+  status?: TeacherPointsEduLevel = this._Service._Model;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _Service : ScoreListService,
+    public _Service : EduLevelScoreListService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -83,7 +83,7 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
       }
     });
   }
-  editCall(row: TeacherPointsCat) {
+  editCall(row: TeacherPointsEduLevel) {
     this.id = row.id;
 
     const dialogRef = this.dialog.open(FormEduLevelComponent, {
@@ -114,10 +114,10 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
     });
   }
 
-  delete(row:TeacherPointsCat) {
+  delete(row:TeacherPointsEduLevel) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.description,
+      text: "Eliminara "+row.name,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -129,7 +129,7 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
           next:(res:ResponseGenerica)=>{
             Swal.fire({
               title: "Eliminado!",
-              text: row.description+" fue eliminado.",
+              text: row.name+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
@@ -138,7 +138,7 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
             console.log(err);
             Swal.fire({
               title: "Intente nuevamente!",
-              text: row.description+" no se pudo eliminar.",
+              text: row.name+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -154,7 +154,7 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
   }
 
   public loadData() {
-    this.exampleDatabase = new ScoreListService(this.httpClient);
+    this.exampleDatabase = new EduLevelScoreListService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -188,8 +188,8 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre Salón': x.category,
-        'Descripción': x.description,
+        'Nombre Salón': x.name,
+        'Descripción': x.createdBy,
 
       }));
 
@@ -198,7 +198,7 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
 }
 
 
-export class ExampleDataSource extends DataSource<TeacherPointsCat> {
+export class ExampleDataSource extends DataSource<TeacherPointsEduLevel> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -206,10 +206,10 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: TeacherPointsCat[] = [];
-  renderedData: TeacherPointsCat[] = [];
+  filteredData: TeacherPointsEduLevel[] = [];
+  renderedData: TeacherPointsEduLevel[] = [];
   constructor(
-    public exampleDatabase: ScoreListService,
+    public exampleDatabase: EduLevelScoreListService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -218,7 +218,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<TeacherPointsCat[]> {
+  connect(): Observable<TeacherPointsEduLevel[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -232,10 +232,10 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((_Model: TeacherPointsCat) => {
-            const searchStr = (_Model.description).toLowerCase();
+          .filter((_Model: TeacherPointsEduLevel) => {
+            const searchStr = (_Model.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          }).filter( x=> x.category == "nivel educativo");
+          });
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.
@@ -252,7 +252,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: TeacherPointsCat[]): TeacherPointsCat[] {
+  sortData(data: TeacherPointsEduLevel[]): TeacherPointsEduLevel[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -264,7 +264,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.description, b.description];
+          [propertyA, propertyB] = [a.name, b.name];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
