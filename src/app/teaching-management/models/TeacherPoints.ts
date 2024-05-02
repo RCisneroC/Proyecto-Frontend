@@ -23,3 +23,14 @@ export interface TeacherPointsEduLevel {
   lastModifiedDate: Date;
   lastModifiedBy: string;
 }
+
+export interface TeacherPointsExp {
+  id:number;
+  experiencia: string,
+  points: number;
+  estatus: boolean,
+  createdDate: Date;
+  createdBy: string;
+  lastModifiedDate: Date;
+  lastModifiedBy: string;
+}

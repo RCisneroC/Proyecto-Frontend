@@ -59,19 +59,14 @@
                     <div class="responsive_table">
                       <table mat-table [dataSource]="dataSource" matSort
                              class="mat-cell advance-table">
-                        <ng-container matColumnDef="name">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Categoría:</span>{{row.category}}</mat-cell>
-                        </ng-container>
+
 
                         <ng-container matColumnDef="description">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Experiencia
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Experiencia:</span>{{row.description}}</mat-cell>
+                                                          class="mobile-label">Experiencia:</span>{{row.experiencia}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="statusId">
