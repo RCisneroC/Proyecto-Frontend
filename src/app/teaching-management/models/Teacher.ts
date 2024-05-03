@@ -94,6 +94,11 @@ export class PointsListClass {
 
 }
 
+export class ExpPreview {
+  points!: number;
+  experiencia!: string;
+}
+
 export class Subject {
     id!: number;
     name!: string;

@@ -59,7 +59,9 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
   loadEdulevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
   }
-
+  GenerateExpLevel(Data: any) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdateExperiencia', Data);
+  }
   loadExplevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetExperienciaConf');
   }

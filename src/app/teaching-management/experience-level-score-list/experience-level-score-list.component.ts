@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {FormExpLevelComponent} from "../score-forms/form-exp-level/form-exp-level.component";
 import {ExpScoreListService} from "../services/exp-score-list.service";
+import {FormGenExpConfComponent} from "../score-forms/form-gen-exp-conf/form-gen-exp-conf.component";
 
 @Component({
   selector: 'app-experience-level-score-list',
@@ -56,7 +57,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
   }
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormExpLevelComponent, {
+    const dialogRef = this.dialog.open(FormGenExpConfComponent, {
       data: {
         teacherpointcat: this._Service._Model,
         action: 'add',

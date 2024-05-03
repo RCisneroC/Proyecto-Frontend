@@ -34,3 +34,10 @@ export interface TeacherPointsExp {
   lastModifiedDate: Date;
   lastModifiedBy: string;
 }
+
+export interface TeacherGenPointsExp {
+  minExperiencia: number;
+  intervaloExp: number;
+  maxExperiencia: number;
+  createdBy: string;
+}
