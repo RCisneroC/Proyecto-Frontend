@@ -16,10 +16,15 @@
       <div class="row">
 
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Experiencia Mínima</mat-label>
-            <input matInput formControlName="minExperiencia">
+            <mat-select formControlName="minExperiencia">
+              <mat-option value="0">0</mat-option>
+              <mat-option value="1">1</mat-option>
+              <mat-option value="2">2</mat-option>
+              <mat-option value="3">3</mat-option>
+            </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('minExperiencia')?.hasError('required')">
               La Experiencia es requerida
@@ -27,10 +32,36 @@
           </mat-form-field>
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Experiencia Máxima</mat-label>
-            <input matInput formControlName="maxExperiencia">
+            <mat-select formControlName="maxExperiencia">
+              <mat-option value="1">1</mat-option>
+              <mat-option value="2">2</mat-option>
+              <mat-option value="3">3</mat-option>
+              <mat-option value="4">4</mat-option>
+              <mat-option value="5">5</mat-option>
+              <mat-option value="6">6</mat-option>
+              <mat-option value="7">7</mat-option>
+              <mat-option value="8">8</mat-option>
+              <mat-option value="9">9</mat-option>
+              <mat-option value="10">10</mat-option>
+              <mat-option value="11">11</mat-option>
+              <mat-option value="12">12</mat-option>
+              <mat-option value="13">13</mat-option>
+              <mat-option value="14">14</mat-option>
+              <mat-option value="15">15</mat-option>
+              <mat-option value="16">16</mat-option>
+              <mat-option value="17">17</mat-option>
+              <mat-option value="18">18</mat-option>
+              <mat-option value="19">19</mat-option>
+              <mat-option value="20">20</mat-option>
+              <mat-option value="21">21</mat-option>
+              <mat-option value="22">22</mat-option>
+              <mat-option value="23">23</mat-option>
+              <mat-option value="24">24</mat-option>
+              <mat-option value="25">25</mat-option>
+            </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('maxExperiencia')?.hasError('required')">
               La Experiencia es requerida
@@ -38,10 +69,16 @@
           </mat-form-field>
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Intervalo</mat-label>
-            <input matInput formControlName="intervaloExp">
+            <mat-select formControlName="intervaloExp">
+              <mat-option value="1">1</mat-option>
+              <mat-option value="2">2</mat-option>
+              <mat-option value="3">3</mat-option>
+              <mat-option value="4">4</mat-option>
+              <mat-option value="5">5</mat-option>
+            </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('intervaloExp')?.hasError('required')">
               La Experiencia es requerida
@@ -52,7 +89,8 @@
 
       </div>
       <div class="row">
-        <div class="card">
+        <div class="card" *ngIf="Preview">
+          <p style="color: red">* Después de guardar los cambios, será reiniciada la configuración de puntos </p>
           <div class="body table-responsive" *ngIf="Preview">
             <table mat-table [dataSource]="listPreviewgenerated" class="w-100">
               <!-- Id Column -->
@@ -83,7 +121,7 @@
           <div class="example-button-row">
             <button mat-raised-button color="primary" [disabled]="!_Forms.valid"
                     (click)="generatePreview()">Previsualizar</button>
-            <button mat-raised-button color="primary" [disabled]="!_Forms.valid"
+            <button  mat-raised-button color="primary" [disabled]="!Preview"
                     (click)="confirmAdd()">Guardar</button>
             <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
           </div>

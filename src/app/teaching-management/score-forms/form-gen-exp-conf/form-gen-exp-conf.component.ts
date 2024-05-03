@@ -96,18 +96,19 @@ export class FormGenExpConfComponent implements OnInit {
       MaxExperiencia: this._Forms.getRawValue().maxExperiencia,
       intervaloExp: this._Forms.getRawValue().intervaloExp,
     }
+
     const inter = + request.intervaloExp;
     let rangoMin = + request.MinExperiencia;
     const rangoMax = + request.MaxExperiencia;
     const yearExperience: ExpPreview[] = [];
 
-    for (let i = rangoMin; i < rangoMax; i += inter) {
+    for (let i = rangoMin; i <= rangoMax; i = rangoMin) {
       const valor = rangoMin + inter;
       yearExperience.push({
         experiencia: (rangoMin.toString() +'-' + valor.toString()),
         points: 0
       });
-      rangoMin = rangoMin + inter;
+      rangoMin = rangoMin + inter + 1;
     }
 
     this.listPreviewgenerated = yearExperience;
