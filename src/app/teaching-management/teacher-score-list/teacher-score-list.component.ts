@@ -237,7 +237,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.teacherService.getAllTeachers();
+    this.teacherService.getAllTeachersFilters({});
     return merge(...displayDataChanges).pipe(
       map(() => {
         this.filteredData =  this.teacherService.data.filter(x => x.statusId == 1)

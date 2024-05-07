@@ -61,6 +61,22 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+  getAllTeachersFilters(Data:any): void {
+    this.subs.sink = this.httpClient
+      .post<Teacher[]>(environment.apiUrlTeacher + 'GetAllTeacherFilter',Data)
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data.filter(f=>f.type==null));
+
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
 
   getAllRequiredDocument() {
     this.subs.sink = this.httpClient
