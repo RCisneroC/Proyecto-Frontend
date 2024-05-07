@@ -23,6 +23,7 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MatSelectChange} from "@angular/material/select";
 import {ScoreListService} from "../services/score-list.service";
 import {ActivityService} from "../../admission/maestros/services/activity.service";
+import {SubjectServiceService} from "../../admission/FormalEducations/Services/subject-service.service";
 
 @Component({
   selector: 'app-teacher-score-list',
@@ -83,6 +84,7 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
   idProcess!: number;
   edulevels: any;
   actlist: any;
+  subjlist: any;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -94,7 +96,8 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     private activatedRoute: ActivatedRoute,
     private fb: UntypedFormBuilder,
     private _Service: ScoreListService,
-    private _ActService: ActivityService
+    private _ActService: ActivityService,
+    private _SubsService: SubjectServiceService
 
   ) {
     super();
@@ -107,6 +110,11 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     this._ActService.getAllActivity2().subscribe({
       next:(res)=>{
         this.actlist = res
+      }
+    });
+    this._SubsService.getAllSubject2(1).subscribe({
+      next:(res)=>{
+        this.subjlist = res
       }
     });
   }
