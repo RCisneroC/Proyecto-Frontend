@@ -141,6 +141,12 @@ export class JobServiceService extends UnsubscribeOnDestroyAdapter {
       .get<Jobs[]>(environment.apiJobs + 'Job/GetBy?' + params);
   }
 
+  FiltrosJobApplication(params: string) {
+    return this.httpClient
+      .get<JobApplication[]>(environment.apiJobs + 'JobApplication/GetBy?' + params);
+  }
+
+
   DeleteJobs(Id: number) {
     let data = {
       id: Id

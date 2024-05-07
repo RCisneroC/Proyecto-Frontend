@@ -149,9 +149,13 @@
                                     <mat-button-toggle-group>
                                         <mat-button-toggle
                                             (click)="cambiar()"><mat-icon>close</mat-icon>Atras</mat-button-toggle>
-                                        <mat-button-toggle
+                                        <mat-button-toggle [disabled]="IsApplicate"
                                             (click)="postularme(ListJobsDetails)"><mat-icon>done</mat-icon>Postularse</mat-button-toggle>
                                     </mat-button-toggle-group>
+                                    <br><br>
+                                    <p *ngIf="IsApplicate" class="badge badge-solid-green"
+                                        style="text-transform: uppercase;font-weight: 900;"><mat-icon>done</mat-icon>Ya
+                                        estas postulado.</p>
                                 </div>
                             </div>
                         </div>

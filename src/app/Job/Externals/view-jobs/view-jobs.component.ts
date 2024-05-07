@@ -40,6 +40,7 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
   public ProvinceId: boolean = false;
   public ShowTables: boolean = false;
   public showJobs: boolean = false;
+  public IsApplicate: boolean = false;
   public lstFiltros: Filtros[] = [
     {
       codigo: "CategoryId",
@@ -237,12 +238,34 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
 
   detalles(row: Jobs) {
     this.ListJobsDetails = row;
+    console.log('====================================');
     console.log(this.ListJobsDetails);
+    console.log('====================================');
+    console.log(this.ListJobsDetails);
+    this.FiltrosJobApplication();
     this.showJobs = true;
   }
 
+  FiltrosJobApplication() {
+
+    let params = '';
+
+    params += `ApplicantEmail=${this._auth.currentUserValue.email}&`;
+    params += `JobId=${this.ListJobsDetails.id}&`;
+
+    this._Jobs.FiltrosJobApplication(params).subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.IsApplicate = true;
+        } else {
+          this.IsApplicate = false;
+        }
+      }
+    })
+  }
   cambiar() {
     this.showJobs = false;
+    this.IsApplicate = false;
   }
   postularme(row: Jobs) {
     this._CategoryJobServiceService.init_CategoryJobs();

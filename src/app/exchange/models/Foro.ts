@@ -12,5 +12,6 @@ export interface Foro {
   createdDate: Date,
   createdBy: string,
   statusId: number,
-  categoriesId: number
+  categoriesId: number,
+  categoriesName: string
 }

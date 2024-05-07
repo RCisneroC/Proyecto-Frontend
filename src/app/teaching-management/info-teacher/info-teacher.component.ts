@@ -164,19 +164,8 @@ export class InfoTeacherComponent extends UnsubscribeOnDestroyAdapter
   }
 
   async getTeacherByCedula() {
-    let cedula: string = "";
 
-    if (this.activatedRoute.snapshot.params["cedula"] != undefined
-      && this.activatedRoute.snapshot.params["cedula"] !== null
-      && this.activatedRoute.snapshot.params["cedula"] !== "") {
-      cedula = this.activatedRoute.snapshot.params["cedula"];
-      this.viewBack = true;
-    }
-    else {
-      cedula = this.user.cedula;
-    }
-
-    this._teacherService.getTeacherByCedula(cedula).subscribe({
+    this._teacherService.getTeacherByCedula(this.user.cedula).subscribe({
       next: (res) => {
 
         this.DataTeacher = res;
@@ -309,6 +298,38 @@ export class InfoTeacherComponent extends UnsubscribeOnDestroyAdapter
 
 
   }
+
+  AddDocuments() {
+    const dialogRef = this._dialog.open(AddDocumentsSelectedComponent, {
+      data: {
+        teacher: this.DataTeacher,
+        accion: 'add-documents'
+      },
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getTeacherByCedula();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+
+
+  }
+
 
   deleteSubject(row: Subject) {
 

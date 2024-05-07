@@ -6,12 +6,20 @@ import {SharedModule} from "@shared";
 import { ForoComponent } from './foro/foro.component';
 import {ForoRoutingModule} from "./exchange-routing.module";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import { CategoryForoComponent } from './category-foro/category-foro.component';
+import { ForoDetailsComponent } from './foro-details/foro-details.component';
+import { CategoryFormsForoComponent } from './Forms/category-forms-foro/category-forms-foro.component';
+import { FormsForoCreateComponent } from './Forms/forms-foro-create/forms-foro-create.component';
 
 
 
 @NgModule({
   declarations: [
-    ForoComponent
+    ForoComponent,
+    CategoryForoComponent,
+    ForoDetailsComponent,
+    CategoryFormsForoComponent,
+    FormsForoCreateComponent
   ],
   imports: [
     ForoRoutingModule,
