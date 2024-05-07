@@ -18,6 +18,11 @@ import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {AprovedTeacherComponent} from "../aproved-teacher/aproved-teacher.component";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {Filtros, FiltrosMatricula} from "../../estadisticas/PersonalDocente/model/Filtros";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {MatSelectChange} from "@angular/material/select";
+import {ScoreListService} from "../services/score-list.service";
+import {ActivityService} from "../../admission/maestros/services/activity.service";
 
 @Component({
   selector: 'app-teacher-score-list',
@@ -38,7 +43,36 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     'points',
     'actions'
   ];
+  public Educationlevel: boolean = false;
+  public points: boolean = false;
+  public year: boolean = false;
+  public activ: boolean = false;
+  public subjects: boolean = false;
 
+  public listFiltros: Filtros[] =[
+    {
+      codigo: "Educationlevel",
+      texto: "Por Nivel Educativo"
+    },
+    {
+      codigo: "points",
+      texto: "Por Puntos"
+    },
+    {
+      codigo: "year",
+      texto: "Por Años de Experiencia"
+    },
+    {
+      codigo: "activ",
+      texto: "Por Actividad"
+    },
+    {
+      codigo: "subjects",
+      texto: "Por Asignatura"
+    },
+
+  ];
+  FilterForm!: UntypedFormGroup;
   exampleDatabase?: TeacherService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Teacher>(true, []);
@@ -47,7 +81,8 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
   user!: User;
   typeUser!: string;
   idProcess!: number;
-
+  edulevels: any;
+  actlist: any;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -57,10 +92,36 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private fb: UntypedFormBuilder,
+    private _Service: ScoreListService,
+    private _ActService: ActivityService
 
   ) {
     super();
+    this.FilterForm = this.createFilterForm();
+    this._Service.loadEdulevel().subscribe({
+      next:(res)=>{
+        this.edulevels = res
+      }
+    });
+    this._ActService.getAllActivity2().subscribe({
+      next:(res)=>{
+        this.actlist = res
+      }
+    });
   }
+
+  createFilterForm(): UntypedFormGroup {
+
+    return this.fb.group({
+      Educationlevel: ['', [Validators.required]],
+      points: ['', [Validators.required]],
+      year: ['', [Validators.required]],
+      activ: ['', [Validators.required]],
+      subjects: ['', [Validators.required]]
+    });
+  }
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild('filter', { static: true }) filter!: ElementRef;
@@ -71,10 +132,73 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     this.user = this.authenticationService.currentUserValue;
     this.typeUser = this._RequestService.getRoleFromToken(this.user.token);
 
-    this.loadData();
+    this.loadData({});
+  }
+
+  filtrosChanges(event: MatSelectChange){
+    if (event.value.indexOf("Educationlevel") !== -1) {
+      this.Educationlevel = true;
+    } else {
+      this.Educationlevel = false;
+      this.FilterForm.controls["Educationlevel"].setValue('');
+    }
+    if (event.value.indexOf("points") !== -1) {
+      this.points = true;
+    } else {
+      this.points = false;
+      this.FilterForm.controls["points"].setValue('');
+    }
+    if (event.value.indexOf("year") !== -1) {
+      this.year = true;
+    } else {
+      this.year = false;
+      this.FilterForm.controls["year"].setValue('');
+    }
+    if (event.value.indexOf("activ") !== -1) {
+      this.activ = true;
+    } else {
+      this.activ = false;
+      this.FilterForm.controls["activ"].setValue('');
+    }
+    if (event.value.indexOf("subjects") !== -1) {
+      this.subjects = true;
+    } else {
+      this.subjects = false;
+      this.FilterForm.controls["subjects"].setValue('');
+    }
+  }
+
+  submit(){
+    let params = '';
+    if (this.FilterForm.controls["Educationlevel"].value != '') {
+      params += `"idEducationLevel":${this.FilterForm.controls['Educationlevel'].value},`;
+    }
+    if (this.FilterForm.controls["points"].value != '') {
+      params += `"puntos":${this.FilterForm.controls['points'].value},`;
+    }
+    if (this.FilterForm.controls["year"].value != '') {
+      params += `"year":${this.FilterForm.controls['year'].value},`;
+    }
+    if (this.FilterForm.controls["activ"].value != '') {
+      params += `"actIds":[${this.FilterForm.controls['activ'].value}],`;
+    }
+    if (this.FilterForm.controls["subjects"].value != '') {
+      params += `"subjecIds":[${this.FilterForm.controls['subjects'].value}],`;
+    }
+    const paramFix = this.removerUltimoCaracter(params);
+    const requestStr = `{${paramFix}}`;
+    const Request = JSON.parse(requestStr);
+    this.loadData(Request);
+  }
+
+  removerUltimoCaracter(cadena: string): string {
+    if (cadena.charAt(cadena.length - 1) === ',') {
+      return cadena.slice(0, -1);
+    }
+    return cadena;
   }
   refresh() {
-    this.loadData();
+    this.loadData({});
   }
   addNew() {
     this._nav.navigate(['/teacher/teacher-admission-external/']);
@@ -106,7 +230,7 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
           text: result.Message,
           icon: "success"
         });
-        this.loadData();
+        this.loadData({});
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -146,7 +270,7 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
           text: result.Message,
           icon: "success"
         });
-        this.loadData();
+        this.loadData({});
       } else {
         Swal.fire({
           title: "Escuela Judicial",
@@ -157,14 +281,15 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     });
 
   }
-  public loadData() {
+  public loadData(params: any = '') {
     this.exampleDatabase = new TeacherService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
       this.sort,
       this._RequestService,
-      this.authenticationService
+      this.authenticationService,
+      params
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -223,6 +348,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
     public _sort: MatSort,
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
+    public _params: any
   ) {
     super();
     // Reset to the first page when the user changes the filter.
@@ -237,7 +363,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.teacherService.getAllTeachersFilters({});
+    this.teacherService.getAllTeachersFilters(this._params);
     return merge(...displayDataChanges).pipe(
       map(() => {
         this.filteredData =  this.teacherService.data.filter(x => x.statusId == 1)
