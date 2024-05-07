@@ -11,4 +11,4 @@ import { TreasuryRoutingModule } from './treasury-routing.module';
     TreasuryRoutingModule
   ]
 })
-export class TreasuryModule { }
+export class TreasuryModule {  }
