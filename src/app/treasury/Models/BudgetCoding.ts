@@ -8,6 +8,7 @@ export interface BudgetCoding {
     createdBy: string;
     createdDate: string; 
     statusId: number;
+    modifiedBy:string;
     getCatalogoIngresos: CatalogoIngreso[];
 
   }

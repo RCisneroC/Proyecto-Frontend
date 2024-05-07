@@ -35,6 +35,7 @@ export class AddBudgetCodingComponent {
     code: '',
     createdBy: this.authService.currentUserValue.id,
     createdDate: '',
+    modifiedBy:this.authService.currentUserValue.id,
     getCatalogoIngresos: []
   }
   constructor(
@@ -57,7 +58,10 @@ export class AddBudgetCodingComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.budgetCoding.id],
-      descripcion: [this.budgetCoding.descripcion, [Validators.required]],
+      name: [this.budgetCoding.name, [Validators.required]],
+      descripcion: ['adad', [Validators.required]],
+      modifiedBy:[this.authService.currentUserValue.id,[Validators.required]],
+      createdBy:[this.authService.currentUserValue.id,[Validators.required]],
       statusId: [this.budgetCoding.statusId, [Validators.required]],
     });
   }
