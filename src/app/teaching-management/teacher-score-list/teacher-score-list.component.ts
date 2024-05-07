@@ -194,8 +194,10 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.name,
-
+        'Nombre': x.name,
+        'Apellido': x.lastName,
+        'Cédula': x.cedula,
+        'Puntos': x.points
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
