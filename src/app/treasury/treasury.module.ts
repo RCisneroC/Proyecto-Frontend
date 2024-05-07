@@ -7,12 +7,16 @@ import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-c
 import { ComponentsModule } from "../shared/components/components.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
+import { AddIncomeComponent } from './Components/Income/add-income/add-income.component';
+import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 
 
 @NgModule({
     declarations: [
         BudgetCodingListComponent,
-        AddBudgetCodingComponent
+        AddBudgetCodingComponent,
+        AddIncomeComponent,
+        IncomeListComponent
     ],
     imports: [
         CommonModule,
