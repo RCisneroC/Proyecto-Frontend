@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { CommonModule,DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from "@shared";
 import { TreasuryRoutingModule } from './treasury-routing.module';
-import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
-import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-coding/add-budget-coding.component';
+import { ListBudgetSubCodificationCatalogComponent } from './Components/list-budget-sub-codification-catalog/list-budget-sub-codification-catalog.component';
+import { FormBudgetSubCodificationCatalogComponent } from './Components/form-budget-sub-codification-catalog/form-budget-sub-codification-catalog.component';
 import { ComponentsModule } from "../shared/components/components.module";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
+    providers: [DatePipe],
     declarations: [
-        BudgetCodingListComponent,
-        AddBudgetCodingComponent
+        ListBudgetSubCodificationCatalogComponent,
+        FormBudgetSubCodificationCatalogComponent
     ],
     imports: [
         CommonModule,
-        TreasuryRoutingModule,
-        ComponentsModule,
         FormsModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        TreasuryRoutingModule,
+        ComponentsModule
     ]
 })
 export class TreasuryModule {  }

@@ -74,11 +74,10 @@ const routes: Routes = [
           import('./Job/job-module.module').then((m) => m.JobModuleModule),
       },
       {
-        path: 'treasury',
+        path: 'tesoreria',
         loadChildren: () =>
           import('./treasury/treasury.module').then((m) => m.TreasuryModule),
       },
-
 
     ],
   },

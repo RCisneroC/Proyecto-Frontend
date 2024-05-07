@@ -82,7 +82,7 @@
                                 (click)="editCall(row)" class="tbl-action-btn">
                                 <app-feather-icons [icon]="'edit'"></app-feather-icons>
                               </button>
-                              <button mat-mini-fab color="accent" (click)="$event.stopPropagation()" 
+                              <button mat-mini-fab color="accent" (click)="$event.stopPropagation()" (click)="delete(row)" 
                                 class="tbl-action-btn">
                                 <app-feather-icons [icon]="'trash'"></app-feather-icons>
                               </button>

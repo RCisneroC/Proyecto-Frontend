@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
+import { ListBudgetSubCodificationCatalogComponent } from './Components/list-budget-sub-codification-catalog/list-budget-sub-codification-catalog.component';
+
 
 const routes: Routes = [
-
   {
-    path: "budget-coding-list",
-    component: BudgetCodingListComponent,
+    path: "list-budget-sub-codification-catalog",
+    component: ListBudgetSubCodificationCatalogComponent,
   }
-
-
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

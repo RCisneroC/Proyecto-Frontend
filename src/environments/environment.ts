@@ -13,4 +13,6 @@ export const environment = {
   apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://isjupefcurriculummanagementservice.azurewebsites.net/api/v1/",
   apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
+  apiEducacionContinua : 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
+
 };
