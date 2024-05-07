@@ -56,13 +56,28 @@
                     <div class="body overflow-auto">
                       <div class="responsive_table">
                         <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                          <ng-container matColumnDef="name">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                            <ng-container matColumnDef="categoria_Id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Id
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Id:</span>{{row.categoria_Id}}</mat-cell>
+                              </ng-container>
+                          
+                          <ng-container matColumnDef="descripcion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                              <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                              <span class="mobile-label">Descripción:</span>{{row.descripcion}}</mat-cell>
+                          </ng-container>
+                     
+                          <ng-container matColumnDef="codigoCategoria">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Codigo
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                              <span class="mobile-label">Codigo:</span>{{row.codigoCategoria}}</mat-cell>
                           </ng-container>
   
+                          
                           <ng-container matColumnDef="statusId">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                             </mat-header-cell>

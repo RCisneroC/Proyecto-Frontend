@@ -28,11 +28,10 @@ export class AddBudgetCodingComponent {
   public dialogTitle: string;
   public budgetCodingForm: UntypedFormGroup;
   public budgetCoding: BudgetCoding = {
-    id: 0,
-    name: '',
+    categoria_Id: 0,
     statusId: 1,
     descripcion: '',
-    code: '',
+    codigoCategoria:0,
     createdBy: this.authService.currentUserValue.id,
     createdDate: '',
     modifiedBy:this.authService.currentUserValue.id,
@@ -57,9 +56,10 @@ export class AddBudgetCodingComponent {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      id: [this.budgetCoding.id],
-      name: [this.budgetCoding.name, [Validators.required]],
-      descripcion: ['adad', [Validators.required]],
+      categoria_Id: [this.budgetCoding.categoria_Id],
+      codigoCategoria:[this.budgetCoding.codigoCategoria, [Validators.required]],
+      //name: [this.budgetCoding.name, [Validators.required]],
+      descripcion: [this.budgetCoding.descripcion, [Validators.required]],
       modifiedBy:[this.authService.currentUserValue.id,[Validators.required]],
       createdBy:[this.authService.currentUserValue.id,[Validators.required]],
       statusId: [this.budgetCoding.statusId, [Validators.required]],

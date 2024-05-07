@@ -25,11 +25,20 @@ export class BudgetCodingListComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
-    'name',
+    'categoria_Id',
+    'codigoCategoria',
+    'descripcion',
     'statusId',
     'actions',
   ];
   
+  
+  // "categoria_Id": 1,
+  // "codigoCategoria": 120,
+  // "descripcion": "Impresión encuadernación y otros.",
+  // "statusId": 1,
+  // "createdDate": "2024-05-06T12:51:33.1252507",
+  // "createBy": "Admin Admin"
   exampleDatabase?: BudgetCodingService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<BudgetCoding>(true, []);
@@ -91,7 +100,7 @@ implements OnInit{
         }); 
   }
   editCall(row: BudgetCoding) {
-    this.id = row.id;
+    this.id = row.categoria_Id;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -129,7 +138,7 @@ implements OnInit{
   delete(row:BudgetCoding) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.name,
+      text: "Eliminara "+row.descripcion,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -137,20 +146,20 @@ implements OnInit{
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.budgetCodingService.DeleteBudgetCodingMode(row.id).subscribe({
+        this.budgetCodingService.DeleteBudgetCodingMode(row.categoria_Id).subscribe({
         next:()=>{
              Swal.fire({
               title: "Eliminado!",
-              text: row.name+" fue eliminado.",
+              text: row.descripcion+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
           },
-          error: (err:any) => {
-            console.log(err);
+          error: () => {
+        
              Swal.fire({
               title: "Intente nuevamente!",
-              text: row.name+" no se pudo eliminar.",
+              text: row.descripcion+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -203,7 +212,7 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.name,
+        'First Name': x.descripcion,
        
       }));
 
@@ -247,7 +256,7 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
         this.filteredData = this.exampleDatabase.data
           .slice()
           .filter((budgetCoding: BudgetCoding) => {
-            const searchStr = (budgetCoding.name).toLowerCase();
+            const searchStr = (budgetCoding.descripcion).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -275,10 +284,10 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'id':
-          [propertyA, propertyB] = [a.id, b.id];
+          [propertyA, propertyB] = [a.categoria_Id, b.categoria_Id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+          [propertyA, propertyB] = [a.descripcion, b.descripcion];
           break;
       
       }

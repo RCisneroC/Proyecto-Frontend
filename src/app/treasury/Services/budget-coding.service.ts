@@ -30,11 +30,11 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllBudgetCoding(): void {
     this.subs.sink = this.httpClient
-      .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
+      .get<any>(environment.apiUrlTreasury + 'Categoria/GetCategories?CategoriesId=0')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data['getCatalogoIngresos']);
+          this.dataChange.next(data['categorias']);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
