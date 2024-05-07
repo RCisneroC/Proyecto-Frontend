@@ -1,19 +1,19 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {ScoreListService} from "../services/score-list.service";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {TeacherPointsCat} from "../models/TeacherPoints";
+import { TeacherPointsExp} from "../models/TeacherPoints";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {FormEduLevelComponent} from "../score-forms/form-edu-level/form-edu-level.component";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {FormExpLevelComponent} from "../score-forms/form-exp-level/form-exp-level.component";
+import {ExpScoreListService} from "../services/exp-score-list.service";
+import {FormGenExpConfComponent} from "../score-forms/form-gen-exp-conf/form-gen-exp-conf.component";
 
 @Component({
   selector: 'app-experience-level-score-list',
@@ -24,22 +24,21 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
   implements OnInit{
 
   displayedColumns = [
-    'name',
     'description',
     'statusId',
     'actions',
   ];
 
-  exampleDatabase?: ScoreListService;
+  exampleDatabase?: ExpScoreListService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<TeacherPointsCat>(true, []);
+  selection = new SelectionModel<TeacherPointsExp>(true, []);
   id?: number;
-  status?: TeacherPointsCat = this._Service._Model;
+  status?: TeacherPointsExp = this._Service._Model;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _Service : ScoreListService,
+    public _Service : ExpScoreListService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -58,7 +57,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
   }
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormExpLevelComponent, {
+    const dialogRef = this.dialog.open(FormGenExpConfComponent, {
       data: {
         teacherpointcat: this._Service._Model,
         action: 'add',
@@ -84,7 +83,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
       }
     });
   }
-  editCall(row: TeacherPointsCat) {
+  editCall(row: TeacherPointsExp) {
     this.id = row.id;
 
     const dialogRef = this.dialog.open(FormExpLevelComponent, {
@@ -115,10 +114,10 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
     });
   }
 
-  delete(row:TeacherPointsCat) {
+  delete(row:TeacherPointsExp) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.description,
+      text: "Eliminara "+row.experiencia,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -130,7 +129,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
           next:(res:ResponseGenerica)=>{
             Swal.fire({
               title: "Eliminado!",
-              text: row.description+" fue eliminado.",
+              text: row.experiencia+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
@@ -139,7 +138,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
             console.log(err);
             Swal.fire({
               title: "Intente nuevamente!",
-              text: row.description+" no se pudo eliminar.",
+              text: row.experiencia+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -155,7 +154,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
   }
 
   public loadData() {
-    this.exampleDatabase = new ScoreListService(this.httpClient);
+    this.exampleDatabase = new ExpScoreListService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -189,9 +188,8 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre Salón': x.category,
-        'Descripción': x.description,
-
+        'Experiencia': x.experiencia,
+         'Puntos': x.points,
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -199,7 +197,7 @@ export class ExperienceLevelScoreListComponent extends UnsubscribeOnDestroyAdapt
 }
 
 
-export class ExampleDataSource extends DataSource<TeacherPointsCat> {
+export class ExampleDataSource extends DataSource<TeacherPointsExp> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -207,10 +205,10 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: TeacherPointsCat[] = [];
-  renderedData: TeacherPointsCat[] = [];
+  filteredData: TeacherPointsExp[] = [];
+  renderedData: TeacherPointsExp[] = [];
   constructor(
-    public exampleDatabase: ScoreListService,
+    public exampleDatabase: ExpScoreListService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -219,7 +217,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<TeacherPointsCat[]> {
+  connect(): Observable<TeacherPointsExp[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -233,10 +231,10 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((_Model: TeacherPointsCat) => {
-            const searchStr = (_Model.description).toLowerCase();
+          .filter((_Model: TeacherPointsExp) => {
+            const searchStr = (_Model.experiencia).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          }).filter( x=> x.category == "Experiencia");
+          });
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.
@@ -253,7 +251,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: TeacherPointsCat[]): TeacherPointsCat[] {
+  sortData(data: TeacherPointsExp[]): TeacherPointsExp[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -265,7 +263,7 @@ export class ExampleDataSource extends DataSource<TeacherPointsCat> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.description, b.description];
+          [propertyA, propertyB] = [a.experiencia, b.experiencia];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

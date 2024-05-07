@@ -60,19 +60,12 @@
                       <table mat-table [dataSource]="dataSource" matSort
                              class="mat-cell advance-table">
                         <ng-container matColumnDef="name">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Categoría:</span>{{row.category}}</mat-cell>
+                            <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="description">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                                                        <span
-                                                          class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
-                        </ng-container>
 
                         <ng-container matColumnDef="statusId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos
@@ -81,6 +74,14 @@
                             <span
                               class="mobile-label">Puntos:</span>{{row.points}}
                           </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="description">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Creador
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Creador:</span>{{row.createdBy}}</mat-cell>
                         </ng-container>
 
                         <!-- actions -->

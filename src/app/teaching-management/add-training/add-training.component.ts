@@ -24,8 +24,8 @@ export class AddTrainingComponent {
     training!: Training;
     years = Array(100).fill(null);
     gradosInstruccion: { id: number; nombre: string; }[];
-   
-   
+
+
     constructor(
       public dialogRef: MatDialogRef<AddTrainingComponent>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -37,17 +37,17 @@ export class AddTrainingComponent {
         this.dialogTitle ="Editar usuario";
         this.training = data.training;
       } else {
-        
+
         this.dialogTitle = 'Agregar formación academica';
         this.training = new Training();
-  
+
       }
       this.trainingForm = this.createContactForm();
-      
+
       for (let i = 0; i < this.years.length; i++) {
         this.years[i] = new Date().getFullYear() + i;
       }
-    
+
       this.gradosInstruccion = [
         {
           id: 1,
@@ -86,18 +86,19 @@ export class AddTrainingComponent {
 
     createContactForm(): UntypedFormGroup {
       return this.fb.group({
-      trainingId: [this.training.trainingId], 
+      trainingId: [this.training.trainingId],
       institution: [this.training.institution, Validators.required],
       completionDate: [this.training.completionDate, Validators.required],
       city: [this.training.city, Validators.required],
       degreeDate: [this.training.degreeDate, Validators.required],
       degreeObtained: [this.training.degreeObtained, Validators.required],
       educationLevel:[this.training.educationLevel, Validators.required],
+      IdNivelEducativo:[this.training.IdNivelEducativo],
       statusId: [this.training.statusId, Validators.required],
       });
     }
-    
-  
+
+
     submit() {
       // emppty stuff
     }
@@ -105,15 +106,16 @@ export class AddTrainingComponent {
       this.dialogRef.close();
     }
      public confirmAdd(): void {
-     
+       const idValue  =  this.gradosInstruccion.filter(x=> x.nombre === this.trainingForm.getRawValue().educationLevel);
+       this.trainingForm.controls['IdNivelEducativo'].setValue(idValue[0].id);
       this.dialogRef.close(this.trainingForm.value);
-    
-        
+
+
      }
-    
-  
-    
-  
+
+
+
+
   }
-  
+
 

@@ -702,7 +702,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   validarDocumentos(row: Documents) {
 
-    this._teacherService.ValidateDocument(row.documentId).subscribe(
+    this._teacherService.ValidateDocument(row.documentId, this.authenticationService.currentUserValue.firstName+ ' '+ this.authenticationService.currentUserValue.lastName).subscribe(
       {
         next: (request: any) => {
           Swal.fire({

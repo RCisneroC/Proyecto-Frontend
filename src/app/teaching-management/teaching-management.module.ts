@@ -44,6 +44,9 @@ import { FormActivityComponent } from './score-forms/form-activity/form-activity
 import { FormEvaDesComponent } from './score-forms/form-eva-des/form-eva-des.component';
 import { EvaluacionDesScoreListComponent } from './evaluacion-des-score-list/evaluacion-des-score-list.component';
 import { AddDocumentsSelectedComponent } from './add-documents-selected/add-documents-selected.component';
+import { RequiredDocumentPointsListComponent } from './required-document-points-list/required-document-points-list.component';
+import { RequiredDocumentPointsFormComponent } from './required-document-points-form/required-document-points-form.component';
+import { FormGenExpConfComponent } from './score-forms/form-gen-exp-conf/form-gen-exp-conf.component';
 
 
 @NgModule({
@@ -84,7 +87,10 @@ import { AddDocumentsSelectedComponent } from './add-documents-selected/add-docu
     FormActivityComponent,
     FormEvaDesComponent,
     EvaluacionDesScoreListComponent,
-    AddDocumentsSelectedComponent
+    AddDocumentsSelectedComponent,
+    RequiredDocumentPointsListComponent,
+    RequiredDocumentPointsFormComponent,
+    FormGenExpConfComponent
   ],
   imports: [
     CommonModule,

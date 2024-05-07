@@ -11,3 +11,33 @@ export interface TeacherPointsCat{
   idActivity: number;
   idNivelEducativo: number;
 }
+
+
+export interface TeacherPointsEduLevel {
+  id:number;
+  name: string,
+  points: number;
+  estatus: boolean,
+  createdDate: Date;
+  createdBy: string;
+  lastModifiedDate: Date;
+  lastModifiedBy: string;
+}
+
+export interface TeacherPointsExp {
+  id:number;
+  experiencia: string,
+  points: number;
+  estatus: boolean,
+  createdDate: Date;
+  createdBy: string;
+  lastModifiedDate: Date;
+  lastModifiedBy: string;
+}
+
+export interface TeacherGenPointsExp {
+  minExperiencia: number;
+  intervaloExp: number;
+  maxExperiencia: number;
+  createdBy: string;
+}

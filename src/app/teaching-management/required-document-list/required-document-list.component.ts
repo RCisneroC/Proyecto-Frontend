@@ -26,8 +26,8 @@ export class RequiredDocumentListComponent extends UnsubscribeOnDestroyAdapter
     'name',
     'description',
     'typeEducationId',
-    'point',
-    'isRecord',
+    //'point',
+    //'isRecord',
     'statusId',
     'actions',
   ];

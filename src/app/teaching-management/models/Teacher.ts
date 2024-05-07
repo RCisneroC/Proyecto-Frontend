@@ -43,6 +43,7 @@ export class Training {
     degreeDate: string = "";
     educationLevel: string = "";
     degreeObtained: string = "";
+    IdNivelEducativo: number = 0;
     statusId: number = 1;
 }
 
@@ -91,6 +92,11 @@ export class PointsListClass {
   category!: string;
 
 
+}
+
+export class ExpPreview {
+  points!: number;
+  experiencia!: string;
 }
 
 export class Subject {

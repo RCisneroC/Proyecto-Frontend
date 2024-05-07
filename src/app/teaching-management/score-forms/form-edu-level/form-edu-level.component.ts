@@ -4,12 +4,12 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Rooms} from "../../../admission/FormalEducations/Models/Rooms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ScoreListService} from "../../services/score-list.service";
-import {TeacherPointsCat} from "../../models/TeacherPoints";
+import {TeacherPointsCat, TeacherPointsEduLevel} from "../../models/TeacherPoints";
 import {AuthService} from "@core";
 
 export interface DialogData {
   action: string;
-  teacherpointcat: TeacherPointsCat;
+  teacherpointcat: TeacherPointsEduLevel;
 }
 @Component({
   selector: 'app-form-edu-level',
@@ -24,7 +24,7 @@ export class FormEduLevelComponent implements OnInit {
   public action: string;
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
-  public _Model!: TeacherPointsCat;
+  public _Model!: TeacherPointsEduLevel;
   gradosInstruccion: any;
   constructor(
     public dialogRef: MatDialogRef<FormEduLevelComponent>,
@@ -53,7 +53,7 @@ export class FormEduLevelComponent implements OnInit {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this._Model.id],
-      description: [this._Model.description],
+      description: [this._Model.name],
       points: [this._Model.points, [Validators.required]],
     });
   }
@@ -66,16 +66,12 @@ export class FormEduLevelComponent implements OnInit {
 
   confirmAdd() {
     if (this.action == 'add') {
-      const temparr =  this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
+      const points = + this._Forms.getRawValue().points;
       const objrequest = {
-        description: this._Forms.getRawValue().description,
-        category: "nivel educativo",
-        points: this._Forms.getRawValue().points,
-        createdDate: new Date,
+        name: this._Forms.getRawValue().description,
+        points: points,
         createdBy: this.authService.currentUserValue.firstName,
-        lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName,
-        idNivelEducativo:temparr[0].id
+        estatus: true
       }
       this._Service.add(objrequest)
         .subscribe({
@@ -91,19 +87,16 @@ export class FormEduLevelComponent implements OnInit {
           }
         });
     } else {
-      const temparr =  this.gradosInstruccion.filter((x: { name: string; })=>x.name == this._Forms.getRawValue().description);
+      const points = + this._Forms.getRawValue().points;
       const objrequest = {
         id: this._Model.id,
-        description: this._Forms.getRawValue().description,
-        category: "nivel educativo",
-        points: this._Forms.getRawValue().points,
-        createdDate: new Date,
+        name: this._Forms.getRawValue().description,
+        points: points,
         createdBy: this.authService.currentUserValue.firstName,
-        lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName,
-        idNivelEducativo:temparr[0].id
+        estatus: true
       }
-      this._Service.update(objrequest)
+
+      this._Service.updateEduLevel(objrequest)
         .subscribe({
           next: (res) => {
             this.ResponseMessage.CodError = 200;

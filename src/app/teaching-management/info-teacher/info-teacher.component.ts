@@ -18,6 +18,7 @@ import { AddSubjectComponent } from '../add-subject/add-subject.component';
 import { AddTrainingComponent } from '../add-training/add-training.component';
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
+import { AddDocumentsSelectedComponent } from "../add-documents-selected/add-documents-selected.component";
 
 @Component({
   selector: 'app-info-teacher',
@@ -25,7 +26,7 @@ import { User } from '@core/models/user';
   styleUrls: ['./info-teacher.component.scss']
 })
 export class InfoTeacherComponent extends UnsubscribeOnDestroyAdapter
-implements OnInit{
+  implements OnInit {
 
   teacherForm!: UntypedFormGroup;
   documentForm!: UntypedFormGroup;
@@ -91,95 +92,95 @@ implements OnInit{
     'actions',
   ];
 
-DataTeacher!:Teacher;
-DataExperience:Experience[]= [];
-DataDocument:RequiredDocument[]= [];
-DataTraining:Training[]= [];
-cedula!:string;
-fechaActual!: string;
-fechaA: string | undefined;
-header!: string;
-experience?: Experience;
-training?: Training;
-_Form_Data = new FormData();
-docForm!: UntypedFormGroup;
-viewAct!: boolean;
-viewAsig!: boolean;
-user!:User;
-viewBack:boolean = false;
+  DataTeacher!: Teacher;
+  DataExperience: Experience[] = [];
+  DataDocument: RequiredDocument[] = [];
+  DataTraining: Training[] = [];
+  cedula!: string;
+  fechaActual!: string;
+  fechaA: string | undefined;
+  header!: string;
+  experience?: Experience;
+  training?: Training;
+  _Form_Data = new FormData();
+  docForm!: UntypedFormGroup;
+  viewAct!: boolean;
+  viewAsig!: boolean;
+  user!: User;
+  viewBack: boolean = false;
 
 
-constructor( private activatedRoute: ActivatedRoute,
-public _ActivityService: ActivityDetailService,
-public _teacherService: TeacherService,
-private authenticationService: AuthService,
-public _dialog: MatDialog,
-private _nav:Router,
-private fb: UntypedFormBuilder,
-public _verificarBS64: VerificarBS64Pipe,
-){
-  super();
+  constructor(private activatedRoute: ActivatedRoute,
+    public _ActivityService: ActivityDetailService,
+    public _teacherService: TeacherService,
+    private authenticationService: AuthService,
+    public _dialog: MatDialog,
+    private _nav: Router,
+    private fb: UntypedFormBuilder,
+    public _verificarBS64: VerificarBS64Pipe,
+  ) {
+    super();
 
-}
+  }
 
 
-@ViewChild(MatAccordion) accordion?: MatAccordion;
+  @ViewChild(MatAccordion) accordion?: MatAccordion;
   async ngOnInit() {
-    this.user =this.authenticationService.currentUserValue;
-    this.DataTeacher=new Teacher();
+    this.user = this.authenticationService.currentUserValue;
+    this.DataTeacher = new Teacher();
     const fechaActual = new Date();
     this.getRequiredDocuments();
-    this.fechaA=fechaActual.toLocaleDateString('es-PA');
+    this.fechaA = fechaActual.toLocaleDateString('es-PA');
     this.teacherForm = this.createTeacherForm();
     this.teacherForm.get('cedula')?.disable();
     //this.documentForm = this.createDocumentForm();
 
 
-     this.header="Actualizar Datos";
-     await this.getTeacherByCedula();
+    this.header = "Actualizar Datos";
+    await this.getTeacherByCedula();
 
 
 
-    this.docForm= this.fb.group({
-      FileDetails:new FormControl([]),
-      FileType:new FormControl([]),
+    this.docForm = this.fb.group({
+      FileDetails: new FormControl([]),
+      FileType: new FormControl([]),
     });
 
   }
 
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
-       next: (res) => {
+      next: (res) => {
 
-         this.DataDocument = res;
+        this.DataDocument = res;
 
-       }
-     })
-   }
+      }
+    })
+  }
 
-   GetName(type:number){
+  GetName(type: number) {
 
-  return this.DataDocument.find(x=>x.documentId===type)?.name
+    return this.DataDocument.find(x => x.documentId === type)?.name
   }
 
   async getTeacherByCedula() {
-  let cedula: string = "";
+    let cedula: string = "";
 
-  if(this.activatedRoute.snapshot.params["cedula"] != undefined
+    if (this.activatedRoute.snapshot.params["cedula"] != undefined
       && this.activatedRoute.snapshot.params["cedula"] !== null
-      && this.activatedRoute.snapshot.params["cedula"] !==""){
-        cedula = this.activatedRoute.snapshot.params["cedula"];
-        this.viewBack = true;
-      }
-    else{
+      && this.activatedRoute.snapshot.params["cedula"] !== "") {
+      cedula = this.activatedRoute.snapshot.params["cedula"];
+      this.viewBack = true;
+    }
+    else {
       cedula = this.user.cedula;
     }
 
-   this._teacherService.getTeacherByCedula(cedula).subscribe({
+    this._teacherService.getTeacherByCedula(cedula).subscribe({
       next: (res) => {
 
         this.DataTeacher = res;
-        this.fechaA=res.applicationDate;
+        this.fechaA = res.applicationDate;
         this.teacherForm = this.createTeacherForm();
         //this.documentForm = this.createDocumentForm();
         this._teacherService.isTblLoading = false;
@@ -191,33 +192,33 @@ public _verificarBS64: VerificarBS64Pipe,
 
     if (this._verificarBS64.transform(row.docResult.fileContents) != "pdf") {
       const dialogRef = this._dialog.open(ViewPosterComponent, {
-       data: {
-         type: this._verificarBS64.transform(row.docResult.fileContents),
-         accion: 'view-poster',
-         posterFile: row.docResult.fileContents,
-         comment: "",
-         poster: row,
-       },
-       disableClose: true,
-     });
+        data: {
+          type: this._verificarBS64.transform(row.docResult.fileContents),
+          accion: 'view-poster',
+          posterFile: row.docResult.fileContents,
+          comment: "",
+          poster: row,
+        },
+        disableClose: true,
+      });
     } else {
       const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-       data: {
-         type: this._verificarBS64.transform(row.docResult.fileContents),
-         accion: 'view-poster',
-         posterFile: row.docResult.fileContents,
-         comment: "",
-         poster: row,
+        data: {
+          type: this._verificarBS64.transform(row.docResult.fileContents),
+          accion: 'view-poster',
+          posterFile: row.docResult.fileContents,
+          comment: "",
+          poster: row,
         },
-        width:'1000px',
-       disableClose: true,
-     });
+        width: '1000px',
+        disableClose: true,
+      });
     }
 
   }
 
 
-  AddExperience(){
+  AddExperience() {
     const dialogRef = this._dialog.open(AddExperienceComponent, {
       data: {
         experience: this.experience,
@@ -225,32 +226,32 @@ public _verificarBS64: VerificarBS64Pipe,
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result:Experience) => {
+    dialogRef.afterClosed().subscribe((result: Experience) => {
       if (result == undefined) {
         return;
-        }
-        this.DataExperience=[];
+      }
+      this.DataExperience = [];
 
-        if(this.DataTeacher.listExperience.length>0){
-          const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
-            return current.experienceId > previous.experienceId ? current : previous;
-          });
-          result.experienceId=IdMayor.experienceId+1;
-        }else{
-          result.experienceId=1;
-        }
+      if (this.DataTeacher.listExperience.length > 0) {
+        const IdMayor = this.DataTeacher.listExperience.reduce((previous, current) => {
+          return current.experienceId > previous.experienceId ? current : previous;
+        });
+        result.experienceId = IdMayor.experienceId + 1;
+      } else {
+        result.experienceId = 1;
+      }
 
-        this.DataExperience.push(result);
+      this.DataExperience.push(result);
 
-        this.DataTeacher.listExperience=[...this.DataTeacher.listExperience, ...this.DataExperience]
+      this.DataTeacher.listExperience = [...this.DataTeacher.listExperience, ...this.DataExperience]
 
     });
   }
 
-  AddActivity(){
+  AddActivity() {
     const dialogRef = this._dialog.open(AddActivityComponent, {
       data: {
-        teacher:this.DataTeacher,
+        teacher: this.DataTeacher,
         accion: 'add-Activities'
       },
       disableClose: true,
@@ -258,30 +259,30 @@ public _verificarBS64: VerificarBS64Pipe,
     dialogRef.afterClosed().subscribe((result) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getTeacherByCedula();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getTeacherByCedula();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
 
 
   }
 
-  AddSubject(){
+  AddSubject() {
     const dialogRef = this._dialog.open(AddSubjectComponent, {
       data: {
-        teacher:this.DataTeacher,
+        teacher: this.DataTeacher,
         accion: 'add-subjects'
       },
       disableClose: true,
@@ -289,21 +290,21 @@ public _verificarBS64: VerificarBS64Pipe,
     dialogRef.afterClosed().subscribe((result) => {
       if (result == undefined) {
         return;
-        }
-        if (result.CodError == 200) {
-            Swal.fire({
-                title: "Escuela Judicial",
-                text: result.Message,
-                icon: "success"
-            });
-          this.getTeacherByCedula();
-          } else {
-            Swal.fire({
-              title: "Escuela Judicial",
-              text: result.Message,
-              icon: "warning"
-            });
-          }
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.getTeacherByCedula();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
     });
 
 
@@ -312,56 +313,56 @@ public _verificarBS64: VerificarBS64Pipe,
   deleteSubject(row: Subject) {
 
     const AsignarActivitiesForm = this.fb.group({
-      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      teacherId: [this.DataTeacher.teacherId, [Validators.required]],
       subjectList: this.fb.array([row.id]),
-      Action:2
+      Action: 2
     });
     this._teacherService.addSubjectTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
       next: () => {
         Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Eliminado correctamente.',
-                icon: "success"
-            });
-          this.getTeacherByCedula();
+          title: "Escuela Judicial",
+          text: 'Eliminado correctamente.',
+          icon: "success"
+        });
+        this.getTeacherByCedula();
       },
       error: () => {
         Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Intente nuevamente.',
-              icon: "warning"
-            });
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
       }
-     })
+    })
   }
 
 
   deleteAct(row: Activity) {
 
     const AsignarActivitiesForm = this.fb.group({
-      teacherId:[this.DataTeacher.teacherId,[Validators.required]],
+      teacherId: [this.DataTeacher.teacherId, [Validators.required]],
       activityList: this.fb.array([row.id]),
-      Action:2
+      Action: 2
     });
     this._teacherService.addActivitiesTeacher(AsignarActivitiesForm.getRawValue()).subscribe({
       next: () => {
         Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Eliminado correctamente.',
-                icon: "success"
-            });
-          this.getTeacherByCedula();
+          title: "Escuela Judicial",
+          text: 'Eliminado correctamente.',
+          icon: "success"
+        });
+        this.getTeacherByCedula();
       },
       error: () => {
         Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Intente nuevamente.',
-              icon: "warning"
-            });
+          title: "Escuela Judicial",
+          text: 'Intente nuevamente.',
+          icon: "warning"
+        });
       }
-     })
+    })
   }
-  AddTraining(){
+  AddTraining() {
     const dialogRef = this._dialog.open(AddTrainingComponent, {
       data: {
         training: this.training,
@@ -369,60 +370,60 @@ public _verificarBS64: VerificarBS64Pipe,
       },
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe((result:Training) => {
+    dialogRef.afterClosed().subscribe((result: Training) => {
       if (result == undefined) {
         return;
-        }
-        this.DataTraining=[];
+      }
+      this.DataTraining = [];
 
-        if(this.DataTeacher.listTraining.length>0){
-          const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
-            return current.trainingId > previous.trainingId ? current : previous;
-          });
-          result.trainingId=IdMayor.trainingId+1;
-        }else{
-          result.trainingId=1;
-        }
+      if (this.DataTeacher.listTraining.length > 0) {
+        const IdMayor = this.DataTeacher.listTraining.reduce((previous, current) => {
+          return current.trainingId > previous.trainingId ? current : previous;
+        });
+        result.trainingId = IdMayor.trainingId + 1;
+      } else {
+        result.trainingId = 1;
+      }
 
-        this.DataTraining.push(result);
+      this.DataTraining.push(result);
 
-        this.DataTeacher.listTraining=[...this.DataTeacher.listTraining, ...this.DataTraining]
+      this.DataTeacher.listTraining = [...this.DataTeacher.listTraining, ...this.DataTraining]
 
     });
   }
-  RemoveExperience(row:Experience){
+  RemoveExperience(row: Experience) {
 
-        this.DataExperience=[];
-        this.DataExperience=this.DataTeacher.listExperience.filter(x=>x.experienceId!=row.experienceId)
-        this.DataTeacher.listExperience=[...this.DataExperience]
+    this.DataExperience = [];
+    this.DataExperience = this.DataTeacher.listExperience.filter(x => x.experienceId != row.experienceId)
+    this.DataTeacher.listExperience = [...this.DataExperience]
 
   }
-  Regresar(){
+  Regresar() {
     this._nav.navigate(['/teaching-management/teacher-list/']);
   }
 
 
 
-  createTeacherForm(): UntypedFormGroup{
+  createTeacherForm(): UntypedFormGroup {
     return this.fb.group({
       teacherId: new FormControl(this.DataTeacher.teacherId),
       cedula: new FormControl(this.DataTeacher?.cedula, [Validators.required]),
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
-      placeOfBirth:[this.DataTeacher?.placeOfBirth,[Validators.required]],
-      dateOfBirth:[this.DataTeacher?.dischargeDate],
-      email: new FormControl(this.DataTeacher?.email, [Validators.required,Validators.email]),
-      phoneNumber:[this.DataTeacher?.phoneNumber,[Validators.required]],
+      placeOfBirth: [this.DataTeacher?.placeOfBirth, [Validators.required]],
+      dateOfBirth: [this.DataTeacher?.dischargeDate],
+      email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
+      phoneNumber: [this.DataTeacher?.phoneNumber, [Validators.required]],
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
-      listCourse: new FormControl(this.DataTeacher?.listCourse||[]),
-      listTraining: new FormControl(this.DataTeacher?.listTraining||[]),
-      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty||[]),
-      listExperience: new FormControl(this.DataTeacher?.listExperience||[]),
-      listDocument: new FormControl(this.DataTeacher?.listDocument||[]),
-      listActivity: new FormControl(this.DataTeacher?.listActivity||[]),
-      listSubject: new FormControl(this.DataTeacher?.listSubject||[]),
+      listCourse: new FormControl(this.DataTeacher?.listCourse || []),
+      listTraining: new FormControl(this.DataTeacher?.listTraining || []),
+      listSpecialty: new FormControl(this.DataTeacher?.listSpecialty || []),
+      listExperience: new FormControl(this.DataTeacher?.listExperience || []),
+      listDocument: new FormControl(this.DataTeacher?.listDocument || []),
+      listActivity: new FormControl(this.DataTeacher?.listActivity || []),
+      listSubject: new FormControl(this.DataTeacher?.listSubject || []),
       process: new FormControl(this.DataTeacher.process),
       createdBy: new FormControl(this.DataTeacher?.name)
 
@@ -432,64 +433,64 @@ public _verificarBS64: VerificarBS64Pipe,
   onFileSelected(event: any) {
 
 
-     const file = event.target.files[0];
-    const formdata=new FormData();
+    const file = event.target.files[0];
+    const formdata = new FormData();
 
-   formdata.append('FileDetails', file);
-
-
+    formdata.append('FileDetails', file);
 
 
- this._teacherService.archivo(formdata).subscribe({
-  next: () => {
-   console.log("guardado");
-  },
-  error: () => {
 
-  }
-})
+
+    this._teacherService.archivo(formdata).subscribe({
+      next: () => {
+        console.log("guardado");
+      },
+      error: () => {
+
+      }
+    })
   }
 
   submit() {
 
-  this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
-  this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
-  this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
-  this.teacherForm?.get('listDocument')?.setValue([]);
-  this.teacherForm?.get('listSubject')?.setValue([]);
+    this.teacherForm?.get('listDocument')?.setValue(this.DataTeacher?.listDocument);
+    this.teacherForm?.get('listExperience')?.setValue(this.DataTeacher?.listExperience);
+    this.teacherForm?.get('listTraining')?.setValue(this.DataTeacher?.listTraining);
+    this.teacherForm?.get('listDocument')?.setValue([]);
+    this.teacherForm?.get('listSubject')?.setValue([]);
 
-  if(this.teacherForm.valid)
+    if (this.teacherForm.valid)
 
-  this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
-    next: () => {
-      Swal.fire({
-              title: "Escuela Judicial",
-              text: 'Guardado correctamente.',
-              icon: "success"
+      this._teacherService.addUpdateTeacher(this.teacherForm.value).subscribe({
+        next: () => {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Guardado correctamente.',
+            icon: "success"
           });
 
-    },
-    error: () => {
-      Swal.fire({
+        },
+        error: () => {
+          Swal.fire({
             title: "Escuela Judicial",
             text: 'Intente nuevamente.',
             icon: "warning"
           });
-    }
-   })
+        }
+      })
 
   }
 
 
 
-  removeTraining(row: Training){
-    this.DataTraining=[];
-    this.DataTraining=this.DataTeacher.listTraining.filter(x=>x.trainingId!=row.trainingId)
-    this.DataTeacher.listTraining=[...this.DataTraining]
+  removeTraining(row: Training) {
+    this.DataTraining = [];
+    this.DataTraining = this.DataTeacher.listTraining.filter(x => x.trainingId != row.trainingId)
+    this.DataTeacher.listTraining = [...this.DataTraining]
 
   }
 
-  volverAtras(){
+  volverAtras() {
     this._nav.navigate(['/calls-teachers/teacher-edit/']);
   }
 

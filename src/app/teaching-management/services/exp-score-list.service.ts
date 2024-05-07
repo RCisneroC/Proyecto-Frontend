@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import {UnsubscribeOnDestroyAdapter} from "@shared";
+import { TeacherPointsExp} from "../models/TeacherPoints";
 import {BehaviorSubject} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
 import {ResponseGenerica} from "../../admission/models/ResponseMessage";
-import {TeacherPointsCat} from "../models/TeacherPoints";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScoreListService extends UnsubscribeOnDestroyAdapter {
+export class ExpScoreListService extends UnsubscribeOnDestroyAdapter {
 
   isTblLoading = true;
-  public _Model!: TeacherPointsCat;
-  dataChange: BehaviorSubject<TeacherPointsCat[]> = new BehaviorSubject<TeacherPointsCat[]>([]);
+  public _Model!: TeacherPointsExp;
+  dataChange: BehaviorSubject<TeacherPointsExp[]> = new BehaviorSubject<TeacherPointsExp[]>([]);
   // Temporarily stores data from dialogs
-  dialogData!: TeacherPointsCat;
+  dialogData!: TeacherPointsExp;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): TeacherPointsCat[] {
+  get data(): TeacherPointsExp[] {
     return this.dataChange.value;
   }
   getDialogData() {
@@ -28,7 +28,7 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllPointsCat(): void {
     this.subs.sink = this.httpClient
-      .get<TeacherPointsCat[]>(environment.apiUrlTeacher + 'GetTeacherPoint')
+      .get<TeacherPointsExp[]>(environment.apiUrlTeacher + 'GetExperienciaConf')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -49,21 +49,8 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
   }
 
-  updateEduLevel(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdateEducationLevel', Data);
-  }
-
-  updateExpLevel(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'UpdatePointExperiencia', Data);
-  }
   loadEdulevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
-  }
-  GenerateExpLevel(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdateExperiencia', Data);
-  }
-  loadExplevel() {
-    return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetExperienciaConf');
   }
 
   DeleteRooms(Id: number) {
@@ -82,16 +69,15 @@ export class ScoreListService extends UnsubscribeOnDestroyAdapter {
   init_Model() {
     this._Model = {
       id:0,
-      description: "",
-      category: "",
+      experiencia: '',
       points: 0,
-      createdDate: new Date,
-      createdBy: "",
+      estatus: true,
+      createdDate: new Date(),
+      createdBy: '',
       lastModifiedDate: new Date,
-      lastModifiedBy: "",
-      idActivity: 0,
-      idAsignatura:0,
-      idNivelEducativo:0
+      lastModifiedBy: ''
     }
   }
 }
+
+

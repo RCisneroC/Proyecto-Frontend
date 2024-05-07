@@ -1,14 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {TeacherPointsCat} from "../../models/TeacherPoints";
+import {TeacherPointsCat, TeacherPointsExp} from "../../models/TeacherPoints";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ScoreListService} from "../../services/score-list.service";
 import {AuthService} from "@core";
 
 export interface DialogData {
   action: string;
-  teacherpointcat: TeacherPointsCat;
+  teacherpointcat: TeacherPointsExp;
 }
 @Component({
   selector: 'app-form-exp-level',
@@ -23,8 +23,9 @@ export class FormExpLevelComponent implements OnInit {
   public action: string;
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
-  public _Model!: TeacherPointsCat;
-  gradosInstruccion: { id: number; nombre: string; }[];
+  public _Model!: TeacherPointsExp;
+  gradosInstruccion: any;
+  disableselect: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<FormExpLevelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -41,27 +42,18 @@ export class FormExpLevelComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.teacherpointcat;
     }
-    this.gradosInstruccion = [
-      {
-        id: 1,
-        nombre: "1-3",
-      },
-      {
-        id: 2,
-        nombre: "4-9",
-      },
-      {
-        id: 3,
-        nombre: "10+",
+    this._Service.loadExplevel().subscribe({
+      next:(res)=>{
+        this.gradosInstruccion = res
       }
-    ];
+    });
     this._Forms = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this._Model.id],
-      description: [this._Model.description],
+      description: [this._Model.experiencia],
       points: [this._Model.points, [Validators.required]],
     });
   }
@@ -99,15 +91,12 @@ export class FormExpLevelComponent implements OnInit {
     } else {
       const objrequest = {
         id: this._Model.id,
-        description: this._Forms.getRawValue().description,
-        category: "Experiencia",
         points: this._Forms.getRawValue().points,
         createdDate: new Date,
         createdBy: this.authService.currentUserValue.firstName,
-        lastModifiedDate: new Date,
-        lastModifiedBy: this.authService.currentUserValue.firstName
+        estatus: true
       }
-      this._Service.update(objrequest)
+      this._Service.updateExpLevel(objrequest)
         .subscribe({
           next: (res) => {
             this.ResponseMessage.CodError = 200;
