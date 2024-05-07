@@ -1,5 +1,6 @@
 
 export const environment = {
+
   production: false,
   base: 'http://localhost:3001/#/student/',
   baseUrlTeacher: 'http://localhost:3001',
@@ -25,4 +26,6 @@ export const environment = {
   apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo',
   apiSharedUrl: 'https://shared-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Shared/',
   apiJobs: 'https://jobboard-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiUrlTreasury:'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
+
 };
