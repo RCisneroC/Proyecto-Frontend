@@ -54,11 +54,11 @@ export class IncomeService extends UnsubscribeOnDestroyAdapter {
 
   // }
   addIncomeMode(income: Income) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/AddCatalogo', income);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/AddCatalogoIngreso', income);
   }
 
   updateIncomeMode(income: Income) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'Catalogo/UpdateCatalogoIngreso', income);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/UpdateCatalogoIngreso', income);
   }
 
   DeleteIncomeMode(Id: number) {

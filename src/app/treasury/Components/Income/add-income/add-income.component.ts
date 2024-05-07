@@ -55,7 +55,7 @@ export class AddIncomeComponent {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-  id: [this.income.id,Validators.required], // Set initial value
+  catalogoIngresoId: [this.income.id,Validators.required], // Set initial value
   statusId: [this.income.statusId, Validators.required], // Set initial value and validation
   description: [this.income.description, Validators.required], // Empty string and validation
   createdBy: [this.authService.currentUserValue.id,Validators.required], // Dynamic value
