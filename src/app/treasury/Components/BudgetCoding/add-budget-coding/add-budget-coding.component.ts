@@ -57,6 +57,7 @@ export class AddBudgetCodingComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       categoria_Id: [this.budgetCoding.categoria_Id],
+      categoriesId: [this.budgetCoding.categoria_Id],
       codigoCategoria:[this.budgetCoding.codigoCategoria, [Validators.required]],
       //name: [this.budgetCoding.name, [Validators.required]],
       descripcion: [this.budgetCoding.descripcion, [Validators.required]],
