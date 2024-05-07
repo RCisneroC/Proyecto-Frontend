@@ -1,5 +1,5 @@
 import {Component, Inject, ViewChild} from '@angular/core';
-import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
+import {ResponseGenerica, ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Subject, Teacher} from "../models/Teacher";
 import {MatTableDataSource} from "@angular/material/table";
@@ -34,7 +34,7 @@ export class AddDocumentsSelectedComponent {
   dialogTitle: string = '';
   id_actividad: string = '';
   DataRequiredDocuments: RequiredDocument[] = [];
-  FormsEFDocument!: UntypedFormGroup;
+  FormsDocument: UntypedFormGroup;
   public id: number = 0;
   public type: string | null = null;
 
@@ -65,7 +65,12 @@ export class AddDocumentsSelectedComponent {
     if (this.action === 'add-documents') {
       this.dialogTitle = "Agregar Documentos";
     }
-    this.FormsEFDocument = this.fb.group({});
+
+    this.FormsDocument = this.fb.group({
+      FileDetails: ['', [Validators.required]],
+      TeacherId: [''],
+      DocTypeId: ['', [Validators.required]],
+    });
     this.getRequiredDocuments();
   }
   ngOnInit(): void {
@@ -78,66 +83,38 @@ export class AddDocumentsSelectedComponent {
   async getRequiredDocuments() {
     this._teacherService.getRequiredDocument().subscribe({
       next: (res) => {
-
           this.DataRequiredDocuments = res.filter(x => x.statusId === 1 && !x.isRecord);
-          for (const property of this.DataRequiredDocuments) {
-            this.FormsEFDocument.addControl(
-              property.documentId.toString(),
-              this.fb.control([], property.typeEducationId == 1 ? [Validators.required] : [])
-            );
-          }
         }
-
     })
   }
 
 
-  tmp_files: any[50] = [];
-  tmp_docType: any[50] = [];
-  onFileSelected(event: any, idx: number, docId: number) {
-
-    this.tmp_files[idx] = (event.target.files[0]);
-    this.tmp_docType[idx] = (docId);
-    const formdata = new FormData();
-    formdata.append('FileDetails', this.tmp_files[0]);
-  }
-
   submit() {
-    const tem = this.tmp_files.filter((element: undefined) => element !== undefined)
-    // AddTeachers
-    for (let i = 0; i < this.tmp_files.length; i++) {
-
-      if (this.tmp_files[i] != undefined) {
-        const formdata = new FormData();
-        formdata.append('FileDetails', this.tmp_files[i]);
-        formdata.append('TeacherId', this.data.teacher.teacherId.toString());
-        formdata.append('DocTypeId', this.tmp_docType[i]);
-        this._teacherService.archivo(formdata).subscribe({
-          next: () => {
-            console.log("guardado");
-            if (i == tem.length - 1) {
-              Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Guardado correctamente.',
-                icon: "success"
-              }).then((result) => {
-                if (result.value) {
-                  // Resetear el stepper
-                  window.location.reload();
-                }
-              });
+    console.log(this.FormsDocument.get('Poster')?.value);
+    const formdata = new FormData();
+    formdata.append('FileDetails', this.FormsDocument.get('FileDetails')?.value);
+    formdata.append('TeacherId', this.data.teacher.teacherId.toString());
+    formdata.append('DocTypeId', this.FormsDocument.get('DocTypeId')?.value);
+    this._teacherService.archivo(formdata).subscribe({
+      next: () => {
+        console.log("guardado");
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Guardado correctamente.',
+            icon: "success"
+          }).then((result) => {
+            if (result.value) {
+              // Resetear el stepper
+              window.location.reload();
             }
+          });
+      },
+      error: () => {
 
-          },
-          error: () => {
-
-          }
-        })
       }
-
-    }
-
+    })
   }
+
 
 
 }

@@ -18,8 +18,9 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Descripción</mat-label>
-            <mat-select formControlName="description" >
-              <mat-option *ngFor="let grado of gradosInstruccion"  [value]="grado.name">{{grado.name}}</mat-option>
+            <input *ngIf="action === 'add'" matInput formControlName="description">
+            <mat-select  *ngIf="action !== 'add'" formControlName="description" >
+              <mat-option [disabled] = "action !== 'add'" *ngFor="let grado of gradosInstruccion"  [value]="grado.name">{{grado.name}}</mat-option>
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('description')?.hasError('required')">

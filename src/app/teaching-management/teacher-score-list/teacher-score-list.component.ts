@@ -194,8 +194,10 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.name,
-
+        'Nombre': x.name,
+        'Apellido': x.lastName,
+        'Cédula': x.cedula,
+        'Puntos': x.points
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -235,7 +237,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.teacherService.getAllTeachers();
+    this.teacherService.getAllTeachersFilters({});
     return merge(...displayDataChanges).pipe(
       map(() => {
         this.filteredData =  this.teacherService.data.filter(x => x.statusId == 1)
