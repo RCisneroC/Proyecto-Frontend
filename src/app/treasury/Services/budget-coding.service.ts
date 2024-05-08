@@ -30,7 +30,7 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllBudgetCoding(): void {
     this.subs.sink = this.httpClient
-      .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
+      .get<any>(environment.apiEducacionContinua + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -54,11 +54,11 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
 
   // }
   addBudgetCodingMode(budgetCoding: BudgetCoding) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'Categoria/AddCategories', budgetCoding);
+    return this.httpClient.post<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/AddCategories', budgetCoding);
   }
 
   updateBudgetCodingMode(budgetCoding: BudgetCoding) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'Categoria/UpdateCategories', budgetCoding);
+    return this.httpClient.put<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/UpdateCategories', budgetCoding);
   }
 
   DeleteBudgetCodingMode(Id: number) {
@@ -72,7 +72,7 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'Categoria/DeleteCategories', options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/DeleteCategories', options);
   }
 
 }
