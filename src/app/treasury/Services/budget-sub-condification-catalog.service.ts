@@ -15,15 +15,15 @@ export class BudgetSubCondificationCatalogService {
 
 
   getAll(){
-    return this.httpClient.get<ListBudgetSubCodificationCatalog>(environment.apiEducacionContinua + 'Subcategoria/GetSubCategories');
+    return this.httpClient.get<ListBudgetSubCodificationCatalog>(environment.apiUrlTreasury + 'Subcategoria/GetSubCategories');
   }
 
   save(data:SaveSubCodificacion){
-    return this.httpClient.post<Result>(environment.apiEducacionContinua + 'Subcategoria/AddSubCategories',data);
+    return this.httpClient.post<Result>(environment.apiUrlTreasury + 'Subcategoria/AddSubCategories',data);
   }
 
   update(data:UpdteSubCodificacion){
-    return this.httpClient.put<Result>(environment.apiEducacionContinua + 'Subcategoria/UpdateSubCategories',data);
+    return this.httpClient.put<Result>(environment.apiUrlTreasury + 'Subcategoria/UpdateSubCategories',data);
   }
 
   delete(id:number){
@@ -35,12 +35,12 @@ export class BudgetSubCondificationCatalogService {
       }),
       body: data,
     };
-    return this.httpClient.delete<Result>(environment.apiEducacionContinua + 'Subcategoria/DeleteSubCategories',options);
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'Subcategoria/DeleteSubCategories',options);
   }
 
 
   getCategory(){
-    return this.httpClient.get<Categories>(environment.apiEducacionContinua + 'Categoria/GetCategories');
+    return this.httpClient.get<Categories>(environment.apiUrlTreasury + 'Categoria/GetCategories');
 
 
   }
