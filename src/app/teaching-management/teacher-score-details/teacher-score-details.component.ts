@@ -251,7 +251,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
   async getteacherPointsByCedula(){
     this._teacherService.GetTeacherPointByCedula(this.cedula).subscribe({
       next:(res)=>{
-        this.listAccumulatedTeacherPoint = res.listAccumulatedTeacherPoint.filter((x: { points: number; })=>x.points > 0);
+        this.listAccumulatedTeacherPoint = res.listAccumulatedTeacherPoint;
       }
     })
   }
@@ -565,6 +565,9 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
   }
   Regresar() {
     this._nav.navigate(['/teaching-management/teacher-score-list/']);
+  }
+  verDetallesTeach() {
+    this._nav.navigate(['/teaching-management/teacher-detail/'+ this.cedula]);
   }
   Historial() {
 
