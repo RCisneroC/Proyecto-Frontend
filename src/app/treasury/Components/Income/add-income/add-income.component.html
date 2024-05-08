@@ -12,19 +12,45 @@
         </button>
     </div>
     <div mat-dialog-content>
-        <form class="register-form m-4" [formGroup]="budgetCodingForm" (ngSubmit)="submit">
+        <form class="register-form m-4" [formGroup]="incomeForm" (ngSubmit)="submit">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Descripción</mat-label>
-                        <input matInput formControlName="descripcion">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name">
                         <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                        <mat-error *ngIf="budgetCodingForm.get('descripcion')?.hasError('required')">
-                        El Descripción es requerido
+                        <mat-error *ngIf="incomeForm.get('name')?.hasError('required')">
+                        El nombre es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="description">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="incomeForm.get('description')?.hasError('required')">
+                        la descripcion es requerido
                         </mat-error>
                     </mat-form-field>
                 </div>
 
+            
+            </div>
+            
+            <div class="row">
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Codigo</mat-label>
+                        <input matInput formControlName="code">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="incomeForm.get('code')?.hasError('required')">
+                        El codigo  es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                         <mat-label>Estado</mat-label>
@@ -37,32 +63,18 @@
                             </mat-option>
 
                         </mat-select>
-                        <mat-error *ngIf="budgetCodingForm.get('statusId')?.hasError('required')">
+                        <mat-error *ngIf="incomeForm.get('statusId')?.hasError('required')">
                             el estatus es requerido
                         </mat-error>
                     </mat-form-field>
                 </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Codigo</mat-label>
-                        <input matInput formControlName="codigoCategoria">
-                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                        <mat-error *ngIf="budgetCodingForm.get('codigoCategoria')?.hasError('required')">
-                        El codigo Categoria es requerido
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
            
             </div>
 
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <div class="example-button-row">
-                        <button mat-raised-button color="primary" [disabled]="!budgetCodingForm.valid"
+                        <button mat-raised-button color="primary" [disabled]="!incomeForm.valid"
                             (click)="confirmAdd()">Guardar</button>
                         <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
                     </div>
@@ -71,3 +83,4 @@
         </form>
     </div>
 </div>
+

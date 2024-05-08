@@ -8,6 +8,10 @@ import { FormBudgetSubCodificationCatalogComponent } from './Components/form-bud
 import { ComponentsModule } from "../shared/components/components.module";
 import { ListTicketComponent } from './Components/list-ticket/list-ticket.component';
 import { FormTicketComponent } from './Components/form-ticket/form-ticket.component';
+import { AddIncomeComponent } from './Components/Income/add-income/add-income.component';
+import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
+import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
+import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-coding/add-budget-coding.component';
 
 
 @NgModule({
@@ -16,7 +20,11 @@ import { FormTicketComponent } from './Components/form-ticket/form-ticket.compon
         ListBudgetSubCodificationCatalogComponent,
         FormBudgetSubCodificationCatalogComponent,
         ListTicketComponent,
-        FormTicketComponent
+        FormTicketComponent,
+        BudgetCodingListComponent,
+        AddBudgetCodingComponent,
+        AddIncomeComponent,
+        IncomeListComponent
     ],
     imports: [
         CommonModule,

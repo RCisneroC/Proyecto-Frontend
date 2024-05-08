@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { BehaviorSubject } from 'rxjs';
-import { BudgetCoding } from '../Models/BudgetCoding';
+import { Income } from '../Models/income';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
@@ -9,32 +9,32 @@ import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 @Injectable({
   providedIn: 'root'
 })
-export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
+export class IncomeService extends UnsubscribeOnDestroyAdapter {
 
-  private readonly API_URL = 'assets/data/activities.json';
+
   isTblLoading = true;
-  dataChange: BehaviorSubject<BudgetCoding[]> = new BehaviorSubject<
-  BudgetCoding[]
+  dataChange: BehaviorSubject<Income[]> = new BehaviorSubject<
+  Income[]
   >([]);
   // Temporarily stores data from dialogs
-  dialogData!: BudgetCoding;
+  dialogData!: Income;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): BudgetCoding[] {
+  get data(): Income[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllBudgetCoding(): void {
+  getAllIncome(): void {
     this.subs.sink = this.httpClient
-      .get<any>(environment.apiEducacionContinua + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
+      .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data['categorias']);
+          this.dataChange.next(data['getCatalogoIngresos']);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -53,17 +53,17 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
   //     .get<Modality[]>(environment.apiUrlSchedule + 'ActivityMode/GetAll?StatusId=' + id);
 
   // }
-  addBudgetCodingMode(budgetCoding: BudgetCoding) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/AddCategories', budgetCoding);
+  addIncomeMode(income: Income) {
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/AddCatalogoIngreso', income);
   }
 
-  updateBudgetCodingMode(budgetCoding: BudgetCoding) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/UpdateCategories', budgetCoding);
+  updateIncomeMode(income: Income) {
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/UpdateCatalogoIngreso', income);
   }
 
-  DeleteBudgetCodingMode(Id: number) {
+  DeleteIncomeMode(Id: number) {
     const data = {
-      categoriesId: Id
+      catalogoIngresoId: Id
     };
     const options = {
       headers: new HttpHeaders({
@@ -72,7 +72,7 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<ResponseGenerica>(environment.apiEducacionContinua + 'Categoria/DeleteCategories', options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/DeleteCatalogoIngreso', options);
   }
 
 }

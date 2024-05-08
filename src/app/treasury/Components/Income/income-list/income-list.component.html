@@ -2,14 +2,14 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Codificación Presupuestaria'" [items]="['Inicio','Tesorería','Maestros']" [active_item]="'Codificación Presupuestaria'">
+        <app-breadcrumb [title]="'Ingresos'" [items]="['Inicio','Tesorería','Maestros']" [active_item]="'Ingresos'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2 class="text-uppercase"><strong>Listado de Codificación Presupuestaria</strong></h2>
+              <h2 class="text-uppercase"><strong>Listado de Ingresos</strong></h2>
             </div>
             <div class="body">
               <div class="row">
@@ -19,7 +19,7 @@
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">
-                            <h2>Codificación Presupuestaria</h2>
+                            <h2>Ingresos</h2>
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -56,27 +56,33 @@
                     <div class="body overflow-auto">
                       <div class="responsive_table">
                         <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                            <ng-container matColumnDef="categoria_Id">
+                            <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Id
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Id:</span>{{row.categoria_Id}}</mat-cell>
+                                  <span class="mobile-label">Id:</span>{{row.id}}</mat-cell>
                               </ng-container>
-                          
-                          <ng-container matColumnDef="descripcion">
+                              <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
+                              </ng-container>
+                        
+                           <ng-container matColumnDef="description">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                              <span class="mobile-label">Descripción:</span>{{row.descripcion}}</mat-cell>
-                          </ng-container>
+                              <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
+                          </ng-container> 
                      
-                          <ng-container matColumnDef="codigoCategoria">
+                           <ng-container matColumnDef="code">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Codigo
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                              <span class="mobile-label">Codigo:</span>{{row.codigoCategoria}}</mat-cell>
+                              <span class="mobile-label">Codigo:</span>{{row.code}}</mat-cell>
                           </ng-container>
-  
+   -->
                           
                           <ng-container matColumnDef="statusId">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
@@ -175,3 +181,4 @@
       </div>
     </div>
   </section>
+
