@@ -1,24 +1,23 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from '@core/service/auth.service';
+import { AuthService } from '@core';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { BudgetCoding } from 'app/treasury/Models/BudgetCoding';
-import { BudgetCodingService } from 'app/treasury/Services/budget-coding.service';
+import { Income } from 'app/treasury/Models/income';
+import { IncomeService } from 'app/treasury/Services/income.service';
 
 export interface DialogData {
   id: string;
   action: string;
-  budgetCoding: BudgetCoding;
+  income: Income;
 }
 
-
 @Component({
-  selector: 'app-add-budget-coding',
-  templateUrl: './add-budget-coding.component.html',
-  styleUrls: ['./add-budget-coding.component.scss']
+  selector: 'app-add-income',
+  templateUrl: './add-income.component.html',
+  styleUrls: ['./add-income.component.scss']
 })
-export class AddBudgetCodingComponent {
+export class AddIncomeComponent {
 
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
@@ -26,44 +25,45 @@ export class AddBudgetCodingComponent {
   }
   public action: string;
   public dialogTitle: string;
-  public budgetCodingForm: UntypedFormGroup;
-  public budgetCoding: BudgetCoding = {
-    categoria_Id: 0,
+  public incomeForm: UntypedFormGroup;
+  public income: Income = {
+    id: 0,
     statusId: 1,
-    descripcion: '',
-    codigoCategoria:0,
+    description: '',
     createdBy: this.authService.currentUserValue.id,
     createdDate: '',
-    modifiedBy:this.authService.currentUserValue.id,
-   
+    modifiedBy: this.authService.currentUserValue.id,
+    name: '',
+    code: ''
   }
   constructor(
-    public dialogRef: MatDialogRef<AddBudgetCodingComponent>,
+    public dialogRef: MatDialogRef<AddIncomeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public budgetCodingService: BudgetCodingService,
+    public incomeService: IncomeService,
     private authService: AuthService,
     private fb: UntypedFormBuilder
   ) {
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle = "Editar Codificación Presupuestaria";
-      this.budgetCoding = data.budgetCoding;
+      this.dialogTitle = "Editar Ingresos";
+      this.income = data.income;
     } else {
-      this.dialogTitle = 'Nueva Codificación Presupuestaria';
+      this.dialogTitle = 'Nuevo Ingreso';
     }
-    this.budgetCodingForm = this.createContactForm();
+    this.incomeForm = this.createContactForm();
   }
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      categoria_Id: [this.budgetCoding.categoria_Id],
-      categoriesId: [this.budgetCoding.categoria_Id],
-      codigoCategoria:[this.budgetCoding.codigoCategoria, [Validators.required]],
-      //name: [this.budgetCoding.name, [Validators.required]],
-      descripcion: [this.budgetCoding.descripcion, [Validators.required]],
-      modifiedBy:[this.authService.currentUserValue.id,[Validators.required]],
-      createdBy:[this.authService.currentUserValue.id,[Validators.required]],
-      statusId: [this.budgetCoding.statusId, [Validators.required]],
+  catalogoIngresoId: [this.income.id,Validators.required], // Set initial value
+  statusId: [this.income.statusId, Validators.required], // Set initial value and validation
+  description: [this.income.description, Validators.required], // Empty string and validation
+  createdBy: [this.authService.currentUserValue.id,Validators.required], // Dynamic value
+  modifiedBy: [this.authService.currentUserValue.id,Validators.required], // Dynamic value
+  name: [this.income.name, Validators.required], // Empty string and validation
+  code: [this.income.code, Validators.required], // Empty string and validation
+
+      
     });
   }
   submit() {
@@ -75,7 +75,7 @@ export class AddBudgetCodingComponent {
 
   public confirmAdd(): void {
     if (this.action === 'edit') {
-      this.budgetCodingService.updateBudgetCodingMode(this.budgetCodingForm.getRawValue())
+      this.incomeService.updateIncomeMode(this.incomeForm.getRawValue())
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;
@@ -90,7 +90,7 @@ export class AddBudgetCodingComponent {
         });
 
     } else {
-      this.budgetCodingService.addBudgetCodingMode(this.budgetCodingForm.getRawValue())
+      this.incomeService.addIncomeMode(this.incomeForm.getRawValue())
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;

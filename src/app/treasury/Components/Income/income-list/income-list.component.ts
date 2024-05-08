@@ -7,48 +7,44 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
-import { UnsubscribeOnDestroyAdapter } from '@shared/UnsubscribeOnDestroyAdapter';
-import { BudgetCoding } from 'app/treasury/Models/BudgetCoding';
-import { BudgetCodingService } from 'app/treasury/Services/budget-coding.service';
-import { AddBudgetCodingComponent } from '../add-budget-coding/add-budget-coding.component';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
+import { Income } from 'app/treasury/Models/income';
+import { IncomeService } from 'app/treasury/Services/income.service';
+import { AddIncomeComponent } from '../add-income/add-income.component';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
-import { TableElement, TableExportUtil } from '@shared';
+
 
 @Component({
-  selector: 'app-budget-coding-list',
-  templateUrl: './budget-coding-list.component.html',
-  styleUrls: ['./budget-coding-list.component.scss']
+  selector: 'app-income-list',
+  templateUrl: './income-list.component.html',
+  styleUrls: ['./income-list.component.scss']
 })
-export class BudgetCodingListComponent extends UnsubscribeOnDestroyAdapter
+export class IncomeListComponent extends UnsubscribeOnDestroyAdapter
 implements OnInit{
 
   displayedColumns = [
-    'categoria_Id',
-    'codigoCategoria',
-    'descripcion',
+    'id',
+    'name',
+    'description',
+    'code',
     'statusId',
     'actions',
   ];
   
   
-  // "categoria_Id": 1,
-  // "codigoCategoria": 120,
-  // "descripcion": "Impresión encuadernación y otros.",
-  // "statusId": 1,
-  // "createdDate": "2024-05-06T12:51:33.1252507",
-  // "createBy": "Admin Admin"
-  exampleDatabase?: BudgetCodingService;
+
+  exampleDatabase?: IncomeService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<BudgetCoding>(true, []);
+  selection = new SelectionModel<Income>(true, []);
   id?: number;
-  budgetCoding?: BudgetCoding;
+  income?: Income;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public budgetCodingService: BudgetCodingService,
+    public incomeService: IncomeService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -72,9 +68,9 @@ implements OnInit{
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(AddBudgetCodingComponent, {
+    const dialogRef = this.dialog.open(AddIncomeComponent, {
       data: {
-        budgetCoding: this.budgetCoding,
+        income: this.income,
         action: 'add',
       },
       direction: tempDirection,
@@ -99,17 +95,17 @@ implements OnInit{
           }
         }); 
   }
-  editCall(row: BudgetCoding) {
-    this.id = row.categoria_Id;
+  editCall(row: Income) {
+    this.id = row.id;
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(AddBudgetCodingComponent, {
+    const dialogRef = this.dialog.open(AddIncomeComponent, {
       data: {
-        budgetCoding: row,
+        income: row,
         action: 'edit',
       },
       direction: tempDirection,
@@ -135,10 +131,10 @@ implements OnInit{
         });
   }
 
-  delete(row:BudgetCoding) {
+  delete(row:Income) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.descripcion,
+      text: "Eliminara "+row.name,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -146,11 +142,11 @@ implements OnInit{
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.budgetCodingService.DeleteBudgetCodingMode(row.categoria_Id).subscribe({
+        this.incomeService.DeleteIncomeMode(row.id).subscribe({
         next:()=>{
              Swal.fire({
               title: "Eliminado!",
-              text: row.descripcion+" fue eliminado.",
+              text: row.name+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
@@ -159,7 +155,7 @@ implements OnInit{
         
              Swal.fire({
               title: "Intente nuevamente!",
-              text: row.descripcion+" no se pudo eliminar.",
+              text: row.name+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -178,7 +174,7 @@ implements OnInit{
 
 
   public loadData() {
-    this.exampleDatabase = new BudgetCodingService(this.httpClient);
+    this.exampleDatabase = new IncomeService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -212,7 +208,7 @@ implements OnInit{
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.descripcion,
+        'First Name': x.name,
        
       }));
 
@@ -221,7 +217,7 @@ implements OnInit{
 
 
 }
-export class ExampleDataSource extends DataSource<BudgetCoding> {
+export class ExampleDataSource extends DataSource<Income> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -229,10 +225,10 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: BudgetCoding[] = [];
-  renderedData: BudgetCoding[] = [];
+  filteredData: Income[] = [];
+  renderedData: Income[] = [];
   constructor(
-    public exampleDatabase: BudgetCodingService,
+    public exampleDatabase: IncomeService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -241,7 +237,7 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<BudgetCoding[]> {
+  connect(): Observable<Income[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -249,14 +245,14 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllBudgetCoding();
+    this.exampleDatabase.getAllIncome();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((budgetCoding: BudgetCoding) => {
-            const searchStr = (budgetCoding.descripcion).toLowerCase();
+          .filter((income: Income) => {
+            const searchStr = (income.name).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -275,7 +271,7 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: BudgetCoding[]): BudgetCoding[] {
+  sortData(data: Income[]): Income[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -284,10 +280,10 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'id':
-          [propertyA, propertyB] = [a.categoria_Id, b.categoria_Id];
+          [propertyA, propertyB] = [a.id, b.id];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.descripcion, b.descripcion];
+          [propertyA, propertyB] = [a.name, b.name];
           break;
       
       }
@@ -299,4 +295,5 @@ export class ExampleDataSource extends DataSource<BudgetCoding> {
     });
   }
 }
+
 
