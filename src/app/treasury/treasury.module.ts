@@ -12,6 +12,8 @@ import { AddIncomeComponent } from './Components/Income/add-income/add-income.co
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
 import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-coding/add-budget-coding.component';
+import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
+import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-c
         BudgetCodingListComponent,
         AddBudgetCodingComponent,
         AddIncomeComponent,
-        IncomeListComponent
+        IncomeListComponent,
+        ListAccountPeriodComponent,
+        FormAccountPeriodComponent
     ],
     imports: [
         CommonModule,

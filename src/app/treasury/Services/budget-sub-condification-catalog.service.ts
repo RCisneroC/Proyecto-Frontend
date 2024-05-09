@@ -5,6 +5,7 @@ import { ListBudgetSubCodificationCatalog } from '../Models/ListBudgetSubCodific
 import { Categories } from '../Models/Categories';
 import { SaveSubCodificacion, UpdteSubCodificacion } from '../Models/SubCodificacionCatalogRequest';
 import { Result } from '../Models/BudgetSubCodificationCatalogResponse';
+import { GetCategoriesAndSubResponse } from '../Models/GetCategoriesAndSubResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,10 @@ export class BudgetSubCondificationCatalogService {
 
   getCategory(){
     return this.httpClient.get<Categories>(environment.apiUrlTreasury + 'Categoria/GetCategories');
-
-
   }
+
+  getCategoryAndSubCategoryById(id:number){
+    return this.httpClient.get<GetCategoriesAndSubResponse>(environment.apiUrlTreasury + 'Categoria/GetCategoriesAndSub?CategoriesId=' + id);
+  }
+
 }
