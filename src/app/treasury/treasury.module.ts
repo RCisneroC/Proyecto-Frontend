@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { AddIncomeComponent } from './Components/Income/add-income/add-income.component';
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
+import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
+import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { IncomeListComponent } from './Components/Income/income-list/income-list
         BudgetCodingListComponent,
         AddBudgetCodingComponent,
         AddIncomeComponent,
-        IncomeListComponent
+        IncomeListComponent,
+        PettyCashListComponent,
+        AddPettyCashComponent
     ],
     imports: [
         CommonModule,
