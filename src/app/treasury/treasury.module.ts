@@ -14,6 +14,8 @@ import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
+import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
+import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { FormAccountPeriodComponent } from './Components/form-account-period/for
         AddIncomeComponent,
         IncomeListComponent,
         ListAccountPeriodComponent,
-        FormAccountPeriodComponent
+        FormAccountPeriodComponent,
+        PettyCashListComponent,
+        AddPettyCashComponent
     ],
     imports: [
         CommonModule,

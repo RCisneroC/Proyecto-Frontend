@@ -2,14 +2,14 @@
     <div class="content-block">
       <div class="block-header">
         <!-- breadcrumb -->
-        <app-breadcrumb [title]="'Ingresos'" [items]="['Inicio','Tesorería','Maestros']" [active_item]="'Ingresos'">
+        <app-breadcrumb [title]="'Caja menuda'" [items]="['Inicio','Tesorería','Maestros']" [active_item]="'Caja menuda'">
         </app-breadcrumb>
       </div>
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="card">
             <div class="header">
-              <h2 class="text-uppercase"><strong>Listado de Ingresos</strong></h2>
+              <h2 class="text-uppercase"><strong>Listado de caja menuda</strong></h2>
             </div>
             <div class="body">
               <div class="row">
@@ -19,7 +19,7 @@
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">
-                            <h2>Ingresos</h2>
+                            <h2>Caja menuda</h2>
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -56,44 +56,49 @@
                     <div class="body overflow-auto">
                       <div class="responsive_table">
                         <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                            <ng-container matColumnDef="id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Id
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Id:</span>{{row.id}}</mat-cell>
-                              </ng-container>
-                              <ng-container matColumnDef="name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                  <span class="mobile-label">Nombre:</span>{{row.name}}</mat-cell>
-                              </ng-container>
-                        
-                           <ng-container matColumnDef="description">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                              <span class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
-                          </ng-container> 
                      
-                           <ng-container matColumnDef="code">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Codigo
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                              <span class="mobile-label">Codigo:</span>{{row.code}}</mat-cell>
-                          </ng-container>
-   
-                          
-                          <ng-container matColumnDef="statusId">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                              <div
-                                [ngClass]="{'badge badge-solid-green': row.statusId === 1,'badge badge-solid-red' : row.statusId === 2 }">
-                                <span class="mobile-label ">Estatus:</span>{{row.statusId === 1?'Activo':'Inactivo'}}
-                              </div>
-                            </mat-cell>
-                          </ng-container>
+                                <ng-container matColumnDef="cajaMenudaId">
+                                  <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.cajaMenudaId}} </mat-cell>
+                                </ng-container>
+                              
+                                <ng-container matColumnDef="periodoContableId">
+                                  <mat-header-cell *matHeaderCellDef> Periodo Contable </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.periodoContableId}} </mat-cell>
+                                </ng-container>
+                              
+                                <ng-container matColumnDef="concepto">
+                                  <mat-header-cell *matHeaderCellDef> Concepto </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.concepto}} </mat-cell>
+                                </ng-container>
+                              
+                                <ng-container matColumnDef="monto">
+                                  <mat-header-cell *matHeaderCellDef> Monto </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.monto}} </mat-cell>
+                                </ng-container>
+                              
+                                <ng-container matColumnDef="balance">
+                                  <mat-header-cell *matHeaderCellDef> Balance </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.balance}} </mat-cell>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="ultimoGasto">
+                                    <mat-header-cell *matHeaderCellDef> Último Gasto </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.ultimoGasto}} </mat-cell>
+                                  </ng-container>
+                              
+                                  <ng-container matColumnDef="ultimoIngreso">
+                                    <mat-header-cell *matHeaderCellDef> Último ingreso </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.ultimoIngreso}} </mat-cell>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="tipoTransaccion">
+                                    <mat-header-cell *matHeaderCellDef> Tipo de Transacción </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{row.tipoTransaccion}} </mat-cell>
+                                  </ng-container>
+                              
+                              
+                              
   
                           <!-- actions -->
                           <ng-container matColumnDef="actions">
