@@ -74,7 +74,7 @@ const routes: Routes = [
           import('./Job/job-module.module').then((m) => m.JobModuleModule),
       },
       {
-        path: 'tesoreria',
+        path: 'treasury',
         loadChildren: () =>
           import('./treasury/treasury.module').then((m) => m.TreasuryModule),
       },

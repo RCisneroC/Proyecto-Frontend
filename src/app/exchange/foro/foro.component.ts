@@ -1,10 +1,17 @@
-import {Component, ElementRef} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "@core";
-import {MatDialog} from "@angular/material/dialog";
-import {ForoService} from "../services/foro.service";
-import {Foro} from "../models/Foro";
+import { Component, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "@core";
+import { MatDialog } from "@angular/material/dialog";
+import { ForoService } from "../services/foro.service";
+import { Foro } from "../models/Foro";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { CategoryServiceForoService } from '../services/category-service-foro.service';
+import { FormsForoCreateComponent } from '../Forms/forms-foro-create/forms-foro-create.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Jobs } from 'app/Job/Interfaces/Jobs';
 
 @Component({
   selector: 'app-foro',
@@ -14,16 +21,30 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export class ForoComponent {
 
   public Editor: any = ClassicEditor;
+  FormsForoFilter!: UntypedFormGroup;
+  public IdCategory: number = 0;
   constructor(
     private Path: ActivatedRoute,
     public _router: Router,
     public elm: ElementRef,
     private authService: AuthService,
     public foroService: ForoService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private fb: UntypedFormBuilder,
+    public _CategortForos: CategoryServiceForoService,
+    private sanitizer: DomSanitizer
   ) {
 
     this.loadInit();
+    this.GetCategorias();
+    this.FormsForoFilter = this.createContactForm();
+  }
+
+  createContactForm(): UntypedFormGroup {
+
+    return this.fb.group({
+      categoriesId: ['']
+    });
   }
 
   public Foros: Foro[] = [{
@@ -33,22 +54,72 @@ export class ForoComponent {
     createdDate: new Date,
     createdBy: '',
     statusId: 0,
-    categoriesId: 0
+    categoriesId: 0,
+    categoriesName: ''
   }]
 
-  loadInit(){
-    this.foroService.GetCategory("1003").subscribe({
-      next:(res)=>{
-        console.log("Categorias",res.getCategoriesResponse);
-        if(res.statusCode == 200){
-          this.foroService.GetForos(0).subscribe({
-            next:(resp)=>{
-              console.log("Foros",resp.getForos);
-              this.Foros = resp.getForos;
-            }
-          })
-        }
+  loadInit() {
+    this.foroService.GetForos(this.IdCategory).subscribe({
+      next: (resp) => {
+        console.log("Foros", resp.getForos);
+        this.Foros = resp.getForos;
+      }
+    });
+  }
+
+  GetCategorias() {
+    this._CategortForos.getAllCategoryForo(0).subscribe({
+      next: (res) => {
+        this._CategortForos._Response = res;
       }
     })
+  }
+  submit() {
+    this.loadInit();
+  }
+
+  new() {
+    const dialogRef = this.dialog.open(FormsForoCreateComponent, {
+      data: {
+        categoria: this._CategortForos._Response.getCategoriesResponse,
+        accion: 'add-foro',
+        foro: this.foroService.GetCategory
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        this.loadInit();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
+  safeHtml(myHtmlString: string) {
+    if (myHtmlString == null) {
+      return '.';
+    } else {
+      return this.sanitizer.bypassSecurityTrustHtml(myHtmlString);
+    }
+  }
+  ir(_Foro: Foro) {
+    console.log('====================================');
+    console.log(_Foro);
+    console.log('====================================');
+    this._router.navigate(['/exchange/foro-detalle/' + _Foro.foroId]);
   }
 }

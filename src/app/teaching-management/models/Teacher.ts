@@ -16,6 +16,7 @@ export class Teacher {
     listExperience: Experience[] = [];
     listDocument: Documents[] = [];
     listActivity: Activity[] = [];
+    listAccumulatedTeacherPoint: PointsListClass[] = [];
     listSubject: Subject[] = [];
     process: number = 0;
     dateOfBirth?: string;
@@ -24,6 +25,7 @@ export class Teacher {
     phoneNumber: string = "";
     id?: number;
     type?:string;
+    points: number = 0;
 }
 
 export interface Course {
@@ -41,6 +43,7 @@ export class Training {
     degreeDate: string = "";
     educationLevel: string = "";
     degreeObtained: string = "";
+    IdNivelEducativo: number = 0;
     statusId: number = 1;
 }
 
@@ -80,6 +83,20 @@ export class Activity {
     startDate!: string;
     plannedEndDate!: string;
 
+}
+
+export class PointsListClass {
+
+  points!: number;
+  description!: string;
+  category!: string;
+
+
+}
+
+export class ExpPreview {
+  points!: number;
+  experiencia!: string;
 }
 
 export class Subject {

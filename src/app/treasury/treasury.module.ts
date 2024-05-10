@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule,DatePipe } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule, DatePipe } from '@angular/common';
 import { SharedModule } from "@shared";
 import { TreasuryRoutingModule } from './treasury-routing.module';
 import { ListBudgetSubCodificationCatalogComponent } from './Components/list-budget-sub-codification-catalog/list-budget-sub-codification-catalog.component';
@@ -12,8 +11,11 @@ import { AddIncomeComponent } from './Components/Income/add-income/add-income.co
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
 import { AddBudgetCodingComponent } from './Components/BudgetCoding/add-budget-coding/add-budget-coding.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
+import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
+import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { FormAccountPeriodComponent } from './Components/form-account-period/for
         AddIncomeComponent,
         IncomeListComponent,
         ListAccountPeriodComponent,
-        FormAccountPeriodComponent
+        FormAccountPeriodComponent,
+        PettyCashListComponent,
+        AddPettyCashComponent
     ],
     imports: [
         CommonModule,
@@ -39,4 +43,4 @@ import { FormAccountPeriodComponent } from './Components/form-account-period/for
         ComponentsModule
     ]
 })
-export class TreasuryModule {  }
+export class TreasuryModule { }

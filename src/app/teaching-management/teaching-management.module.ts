@@ -31,6 +31,22 @@ import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
+import { TeacherScoreListComponent } from './teacher-score-list/teacher-score-list.component';
+import { TeacherScoreDetailsComponent } from './teacher-score-details/teacher-score-details.component';
+import { EducationalLevelScoreListComponent } from './educational-level-score-list/educational-level-score-list.component';
+import { FormEduLevelComponent } from './score-forms/form-edu-level/form-edu-level.component';
+import { ExperienceLevelScoreListComponent } from './experience-level-score-list/experience-level-score-list.component';
+import { FormExpLevelComponent } from './score-forms/form-exp-level/form-exp-level.component';
+import { SubjectScoreListComponent } from './subject-score-list/subject-score-list.component';
+import { FormSubjComponent } from './score-forms/form-subj/form-subj.component';
+import { ActivityScoreListComponent } from './activity-score-list/activity-score-list.component';
+import { FormActivityComponent } from './score-forms/form-activity/form-activity.component';
+import { FormEvaDesComponent } from './score-forms/form-eva-des/form-eva-des.component';
+import { EvaluacionDesScoreListComponent } from './evaluacion-des-score-list/evaluacion-des-score-list.component';
+import { AddDocumentsSelectedComponent } from './add-documents-selected/add-documents-selected.component';
+import { RequiredDocumentPointsListComponent } from './required-document-points-list/required-document-points-list.component';
+import { RequiredDocumentPointsFormComponent } from './required-document-points-form/required-document-points-form.component';
+import { FormGenExpConfComponent } from './score-forms/form-gen-exp-conf/form-gen-exp-conf.component';
 
 
 @NgModule({
@@ -58,7 +74,23 @@ import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
     FinalGradeComponent,
     AddFinalGradeComponent,
     CareerListComponent,
-    StatisticsListComponent
+    StatisticsListComponent,
+    TeacherScoreListComponent,
+    TeacherScoreDetailsComponent,
+    EducationalLevelScoreListComponent,
+    FormEduLevelComponent,
+    ExperienceLevelScoreListComponent,
+    FormExpLevelComponent,
+    SubjectScoreListComponent,
+    FormSubjComponent,
+    ActivityScoreListComponent,
+    FormActivityComponent,
+    FormEvaDesComponent,
+    EvaluacionDesScoreListComponent,
+    AddDocumentsSelectedComponent,
+    RequiredDocumentPointsListComponent,
+    RequiredDocumentPointsFormComponent,
+    FormGenExpConfComponent
   ],
   imports: [
     CommonModule,

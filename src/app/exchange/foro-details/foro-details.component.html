@@ -1,0 +1,63 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            breadcrumb -
+            <app-breadcrumb [title]="'Detalle del Foro'" [items]="['Home','Apoyo']" [active_item]="'Foro Detalle'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <!-- Basic Examples -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Detalle del Foro</strong>
+                        </h2>
+                        <button (click)="atras()" style="position: absolute;right: 15px;"
+                            matTooltip="Agregar Nueva Conversación" mat-mini-fab color="primary">
+                            <mat-icon>keyboard_arrow_left</mat-icon>
+                        </button>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div tyle="cursor: pointer;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 cursos">
+                                        <mat-card>
+                                            <mat-card-header>
+                                                <!-- <img mat-card-avatar src="assets/images/user/user2.jpg"> -->
+                                                <mat-card-title class="titulo">{{ _Foro._ForoResponse.getForos[0].title
+                                                    }}</mat-card-title>
+
+                                            </mat-card-header>
+                                            <!-- <img mat-card-image src="assets/images/image-gallery/2.jpg"> -->
+                                            <mat-card-content>
+                                                <div style="text-align: justify;margin: 20px"
+                                                    [innerHTML]="safeHtml(_Foro._ForoResponse.getForos[0].description)">
+                                                </div>
+                                                <br>
+                                                <p class="badge badge-solid-brown">
+                                                    {{_Foro._ForoResponse.getForos[0].categoriesName}}</p>
+                                                <p class="badge badge-solid-blue">
+                                                    {{_Foro._ForoResponse.getForos[0].createdDate|
+                                                    date:'dd/M/yyyy'}}</p>
+                                            </mat-card-content>
+                                        </mat-card>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                    <mat-label><strong>Comentar</strong></mat-label>
+                                    <ckeditor [config]="config" [editor]="Editor"></ckeditor>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Basic Examples -->
+        </div>
+    </div>
+</section>

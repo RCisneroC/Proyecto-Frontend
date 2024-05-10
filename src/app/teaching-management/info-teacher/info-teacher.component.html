@@ -21,12 +21,12 @@
                                     date:'dd/M/yyyy'}}</span></h2>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-2" style="text-align: right;">
-                          <div class="d-flex justify-content-end align-items-right">
-                            <button  *ngIf="viewBack" matTooltip="Regresar" mat-raised-button color="accent"
-                            (click)="volverAtras()" class="msr-2">
-                            <mat-icon>keyboard_backspace</mat-icon> Regresar
-                          </button>
-                          </div>
+                            <div class="d-flex justify-content-end align-items-right">
+                                <button *ngIf="viewBack" matTooltip="Regresar" mat-raised-button color="accent"
+                                    (click)="volverAtras()" class="msr-2">
+                                    <mat-icon>keyboard_backspace</mat-icon> Regresar
+                                </button>
+                            </div>
                         </div>
 
                     </div>
@@ -50,9 +50,9 @@
 
                                     </mat-form-field> -->
 
-                                        <h5>Cédula/Pasaporte:</h5>
-                                        <h4>{{ DataTeacher.cedula }}:</h4>
-                                        <!-- <label for="">{{ DataTeacher.cedula }}</label> -->
+                                    <h5>Cédula/Pasaporte:</h5>
+                                    <h4>{{ DataTeacher.cedula }}:</h4>
+                                    <!-- <label for="">{{ DataTeacher.cedula }}</label> -->
 
                                 </div>
 
@@ -298,8 +298,10 @@
                 <div class="card">
                     <div class="header">
                         <h2 class="text-uppercase"><strong>Documentos</strong>
-
-
+                            <button (click)="AddDocuments()" matTooltip="Agregar documentos"
+                                style="position: absolute;right: 5px;top: 5px;" mat-mini-fab color="primary">
+                                <mat-icon>add</mat-icon>
+                            </button>
                         </h2>
                     </div>
                     <div class="body">
@@ -327,12 +329,13 @@
                                     <th mat-header-cell *matHeaderCellDef> Cargar Archivo </th>
                                     <td mat-cell *matCellDef="let element">
                                         <input id="archivo_{{ element.docResult }}" type="file" class="file-input"
-                                          (change)="onFileSelected($event)" />
+                                            (change)="onFileSelected($event)" />
                                         <br>
                                         <span style="font-size: 12px;color: brown;font-weight: bold;">PDF/JPG/PNG</span>
-                                        <p style="color: green;font-weight: bold;margin-top: 10px;" id="texto_{{ element.docResult }}"></p>
+                                        <p style="color: green;font-weight: bold;margin-top: 10px;"
+                                            id="texto_{{ element.docResult }}"></p>
                                         <!-- <mat-progress-bar mode="indeterminate" *ngIf="loadingFile"></mat-progress-bar> -->
-                                      </td>
+                                    </td>
                                 </ng-container>
 
                                 <!-- Documentos Column -->

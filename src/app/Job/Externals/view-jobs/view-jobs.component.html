@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" *ngIf="!showJobs">
                 <div class="card">
                     <div class="header">
                         <p style="font-weight: 900;font-size: 15px;">Bolsa de Trabajo</p>
@@ -124,13 +124,41 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" *ngIf="showJobs">
                 <div class="card">
                     <div class="header">
                         <p style="font-weight: 900;font-size: 15px;">Detalle del Empleo</p>
                     </div>
                     <div class="body">
-                        <!-- {{  }} -->
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-card-title class="titulo">{{ ListJobsDetails.name }}</mat-card-title>
+                                <mat-card-subtitle class="empresa">{{ ListJobsDetails.companyName }}</mat-card-subtitle>
+                                <mat-card-subtitle class="">{{ListJobsDetails.companyAddress}}</mat-card-subtitle>
+                            </div>
+                            <div class="col-12">
+                                <div style="text-align: justify;margin: 20px"
+                                    [innerHTML]="safeHtml(ListJobsDetails.description)">
+                                </div>
+                                <br>
+                                <p class="badge badge-solid-brown">{{ListJobsDetails.categoryName}}</p>
+                                <p class="badge badge-solid-blue">{{ListJobsDetails.contractTypeName}}</p>
+                                <p class="badge badge-solid-cyan">{{ListJobsDetails.companyProvinceName}}</p>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <mat-button-toggle-group>
+                                        <mat-button-toggle
+                                            (click)="cambiar()"><mat-icon>close</mat-icon>Atras</mat-button-toggle>
+                                        <mat-button-toggle [disabled]="IsApplicate"
+                                            (click)="postularme(ListJobsDetails)"><mat-icon>done</mat-icon>Postularse</mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                    <br><br>
+                                    <p *ngIf="IsApplicate" class="badge badge-solid-green"
+                                        style="text-transform: uppercase;font-weight: 900;"><mat-icon>done</mat-icon>Ya
+                                        estas postulado.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

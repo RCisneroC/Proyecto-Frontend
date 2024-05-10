@@ -255,14 +255,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  ValidateDocument(docId: number) {
+  ValidateDocument(docId: number, user: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
     };
     return this.httpClient
-      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId,httpOptions);
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId+'&LastModifiedBy='+user,httpOptions);
   }
 
 

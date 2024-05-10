@@ -14,7 +14,7 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/activities.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<BudgetCoding[]> = new BehaviorSubject<
-  BudgetCoding[]
+    BudgetCoding[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData!: BudgetCoding;
@@ -30,7 +30,7 @@ export class BudgetCodingService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllBudgetCoding(): void {
     this.subs.sink = this.httpClient
-      .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0')
+      .get<any>(environment.apiUrlTreasury + 'Categoria/GetCategories?CategoriesId=0')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;

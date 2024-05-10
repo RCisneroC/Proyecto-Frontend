@@ -4,6 +4,29 @@ export const environment = {
   production: false,
   base: 'http://localhost:3001/#/student/',
   baseUrlTeacher: 'http://localhost:3001',
+  // apiUrlTeacher: 'http:///192.168.254.174:5502/api/v1/Teacher/',
+  // apiUrl: 'http:///192.168.254.174:5500/api/v1/Account/',
+  // apiUrlRol: 'http:///192.168.254.174:5500/api/v1/',
+  // apiUrlSchedule: "http:///192.168.254.174:5505/api/v1/",
+  // ConsultaDocentes: 'http:///192.168.254.174:5502/api/v1/',
+  // consultaEstudiante: 'http:///192.168.254.174:5501/api/Cedula/DataqueryCedula/GetDataCedula/',
+  // consultaPlanesAprobados: 'http:///192.168.254.174:5504/api/v1/AnnualPlan/GetAll?StatusId=5',
+  // ConsultaMallaCurrcularByPlan: 'http:///192.168.254.174:5504/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
+  // apiEC: "http:///192.168.254.174:5501/api/v1/",
+  // apiForo: "http:///192.168.254.174:5503/api/v1/",
+  // apiCatalogs: 'http:///192.168.254.174:5501/api/',
+  // apiUrlEF: 'https://isjupefcurriculummanagementservice.azurites.net/api/v1/Subject/',
+  // apiUrlEC: 'http:///192.168.254.174:5505/api/v1/Activity/',
+  // apiEF: "http:///192.168.254.174:5504/api/v1/",
+  // apiUrlDocument: 'http:///192.168.254.174:5502/api/v1/RequiredDocument/',
+  // apiIntranet: 'http:///192.168.254.174:5507/',
+  // apiUrlSubjectTask: "http:///192.168.254.174:5507/SearchSubjectTask",
+  // apiEira: 'http:///192.168.254.174:5507/',
+  // apiDocument: 'http:///192.168.254.174:5508/api/v1/',
+  // apiExtUrlDependencies: 'http:///192.168.254.174:5501/api/Cedula/DataqueryCedula/getDepInfo',
+  // apiSharedUrl: 'http:///192.168.254.174:5509/api/v1/Shared/',
+  // apiJobs: 'http:///192.168.254.174:5506/api/v1/',
+
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Account/',
   apiUrlRol: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
@@ -26,6 +49,7 @@ export const environment = {
   apiExtUrlDependencies: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/getDepInfo',
   apiSharedUrl: 'https://shared-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Shared/',
   apiJobs: 'https://jobboard-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
-  apiUrlTreasury : 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
+  apiUrlTreasury: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiEducacionContinua: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
 
 };
