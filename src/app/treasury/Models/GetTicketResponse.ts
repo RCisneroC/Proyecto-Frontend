@@ -6,13 +6,14 @@ export interface GetTicketResponse {
 }
 
 export interface Tickets {
-  boletaId: number
-  numeroBoleta: number
-  descripcion: string
-  monto: number
-  file: string
-  createdBy: string
-  statusId: number
-  docFile: string
-  fileType: string
+  boletaId?: number
+  numeroBoleta?: number
+  descripcion?: string
+  monto?: number
+  file?: string
+  createdBy?: string
+  statusId?: number
+  docFile?: string
+  fileType?: string
+  actions?: string
 }
