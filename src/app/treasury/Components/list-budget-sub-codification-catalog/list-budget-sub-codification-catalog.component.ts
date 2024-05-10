@@ -74,6 +74,7 @@ OnDestroy {
 
 
   open(row:Subcategoria){
+    row.actions = "edit";
     const dialogRef = this.dialog.open(FormBudgetSubCodificationCatalogComponent, {
       data: {
         detail: row
@@ -164,7 +165,6 @@ OnDestroy {
   }
 
 
-
 sortData(sort: Sort) {
   const data = this.lstResultados.slice();
   if (!sort.active || sort.direction === '') {
@@ -197,6 +197,42 @@ sortData(sort: Sort) {
 
  compare(a: number | string, b: number | string, isAsc: boolean):number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
+delete(row:Subcategoria){
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Eliminará "+row.descripcion!,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Eliminar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.subscriptions.push(
+      this.serviceBudgetSubCondificationCatalog.delete(row.subCategoriaId!).subscribe({
+      next:()=>{
+           Swal.fire({
+            title: "Eliminado!",
+            text: row.descripcion! +" fue eliminado.",
+            icon: "success"
+          });
+          this.loadData();
+        },
+        error: (err:HttpErrorResponse) => {
+          console.log(err);
+           Swal.fire({
+            title: "Intente nuevamente!",
+            text: row.descripcion!+" no se pudo eliminar.",
+            icon: "warning"
+          });
+        }
+    })
+    );
+
+    }
+  });
 }
 
 }

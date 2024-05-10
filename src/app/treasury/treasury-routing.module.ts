@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListBudgetSubCodificationCatalogComponent } from './Components/list-budget-sub-codification-catalog/list-budget-sub-codification-catalog.component';
 
+import { ListTicketComponent } from './Components/list-ticket/list-ticket.component';
 import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 
@@ -11,6 +12,10 @@ const routes: Routes = [
     component: ListBudgetSubCodificationCatalogComponent,
   },
   {
+    path: "list-ticket",
+    component: ListTicketComponent,
+  },
+  {
     path: "budget-coding-list",
     component: BudgetCodingListComponent,
   },
@@ -18,9 +23,6 @@ const routes: Routes = [
     path: "income-list",
     component: IncomeListComponent,
   }
-
-
-
 ];
 
 @NgModule({

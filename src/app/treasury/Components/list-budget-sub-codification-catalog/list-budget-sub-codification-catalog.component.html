@@ -2,7 +2,8 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Catálogo de Subcodificación Presupuestaria'" [items]="['Inicio','Tesorería']" [active_item]="'Catálogo de Subcodificación Presupuestaria'">
+      <app-breadcrumb [title]="'Catálogo de Subcodificación Presupuestaria'" [items]="['Inicio','Tesorería']"
+        [active_item]="'Catálogo de Subcodificación Presupuestaria'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -23,8 +24,8 @@
                         </li>
                         <li class="tbl-search-box">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                          <input placeholder="Buscar" type="text" (keyup)="filtrar($event)"  #filter class="browser-default search-field"
-                            aria-label="Search box">
+                          <input placeholder="Buscar" type="text" (keyup)="filtrar($event)" #filter
+                            class="browser-default search-field" aria-label="Search box">
                         </li>
                       </ul>
                     </div>
@@ -32,11 +33,10 @@
                       <ul class="tbl-export-btn">
                         <li class="tbl-header-btn">
                           <div class="m-l-10" matTooltip="NUEVA SUBCODIFICACIÓN PRESUPUESTARIA">
-                            <button matTooltip="AGREGAR SUBCODIFICACIÓN PRESUPUESTARIA" mat-mini-fab
-                            color="primary" (click)="addNew()"
-                            class="tbl-action-btn">
-                            <app-feather-icons [icon]="'plus'"></app-feather-icons>
-                        </button>
+                            <button matTooltip="AGREGAR SUBCODIFICACIÓN PRESUPUESTARIA" mat-mini-fab color="primary"
+                              (click)="addNew()" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                            </button>
                           </div>
                         </li>
                         <li class="tbl-header-btn">
@@ -56,7 +56,8 @@
                   </div>
                   <div class="body overflow-auto">
                     <div class="responsive_table">
-                      <table mat-table [dataSource]="dataSource" matSort matSort (matSortChange)="sortData($event)" class="mat-cell advance-table">
+                      <table mat-table [dataSource]="dataSource" matSort matSort (matSortChange)="sortData($event)"
+                        class="mat-cell advance-table">
                         <ng-container matColumnDef="codigoSubcategoria">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Código Subcategoría
                           </mat-header-cell>
@@ -105,16 +106,20 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Creación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha de Creación:</span>{{ row.createdDate | date:'dd/M/yyyy' }}</mat-cell>
+                            <span class="mobile-label">Fecha de Creación:</span>{{ row.createdDate | date:'dd/M/yyyy'
+                            }}</mat-cell>
                         </ng-container>
 
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button  Tooltip="Editar" mat-mini-fab color="warn"
-                              (click)="$event.stopPropagation()" (click)="open(row)">
+                            <button Tooltip="Editar" mat-mini-fab color="warn" (click)="$event.stopPropagation()"
+                              (click)="open(row)">
                               <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                            </button>
+                            <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
+                              <mat-icon>delete</mat-icon>
                             </button>
                           </mat-cell>
                         </ng-container>
@@ -128,8 +133,7 @@
                       <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                       </mat-progress-spinner>
                     </div>
-                    <mat-paginator #paginator
-                      [pageSizeOptions]="[5, 10, 25, 100]">
+                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>
                 </div>
@@ -141,4 +145,3 @@
     </div>
   </div>
 </section>
-
