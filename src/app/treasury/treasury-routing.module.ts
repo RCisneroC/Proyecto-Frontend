@@ -5,6 +5,7 @@ import { ListBudgetSubCodificationCatalogComponent } from './Components/list-bud
 import { ListTicketComponent } from './Components/list-ticket/list-ticket.component';
 import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-coding-list/budget-coding-list.component';
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
+import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: "list-ticket",
     component: ListTicketComponent,
+  },
+  {
+    path: "list-account-period",
+    component: ListAccountPeriodComponent,
   },
   {
     path: "budget-coding-list",
