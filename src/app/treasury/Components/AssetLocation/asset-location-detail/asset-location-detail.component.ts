@@ -77,7 +77,7 @@ implements OnInit {
                 text: result.Message,
                 icon: "success"
             });
-            this.getDetailAsignacion();
+            this.getDetailAsignacion2();
           } else {
             Swal.fire({
               title: "Escuela Judicial",
@@ -89,6 +89,16 @@ implements OnInit {
   }
   async getDetailAsignacion() {
     this._assetLocationService.getDetailAsignacion(this.id).subscribe({
+      next: (res) => {
+
+        this.Data = res["getDEtailsAsignacionBiens"];
+
+      }
+    })
+  }
+  
+  async getDetailAsignacion2() {
+    this._assetLocationService.getAllAssetLocation2().subscribe({
       next: (res) => {
 
         this.Data = res["getDEtailsAsignacionBiens"];
@@ -126,7 +136,7 @@ implements OnInit {
                 text: result.Message,
                 icon: "success"
             });
-            this.getDetailAsignacion();
+            this.getDetailAsignacion2();
           } else {
             Swal.fire({
               title: "Escuela Judicial",
@@ -155,7 +165,7 @@ implements OnInit {
               text: row.descripcion+" fue eliminado.",
               icon: "success"
             });
-            this.getDetailAsignacion();
+            this.getDetailAsignacion2();
           },
           error: () => {
         

@@ -45,7 +45,7 @@ export class AssetLocationService extends UnsubscribeOnDestroyAdapter {
   
   getAllAssetLocation2() {
     return this.httpClient
-      .get<any>(environment.apiUrlTreasury + 'AsignacionBien/GetAsignacion')
+      .get<any>(environment.apiUrlTreasury + 'AsignacionBien/GetDetailAsignacion')
     
   }
 

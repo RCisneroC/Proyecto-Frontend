@@ -67,6 +67,7 @@ export class AddAssetLocationDetailComponent implements OnInit{
  
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
+    detailAsignacionId:[this.assetLocationDetail.id, Validators.required],
     numero: [this.assetLocationDetail.numero, Validators.required],
     placa: [this.assetLocationDetail.placa, Validators.required],
     descripcion: [this.assetLocationDetail.descripcion, Validators.required],
