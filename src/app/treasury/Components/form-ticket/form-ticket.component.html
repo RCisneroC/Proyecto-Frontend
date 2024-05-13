@@ -72,7 +72,7 @@
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>Categoría</mat-label>
             <mat-select formControlName="Code">
-              <mat-option [value]="row.categoria_Id" *ngFor="let row of this.codes"
+              <mat-option [value]="row.codigoCategoria" *ngFor="let row of this.codes"
                 (onSelectionChange)="this.loadSubcode(row.categoria_Id)">
                 {{row.descripcion}}
               </mat-option>

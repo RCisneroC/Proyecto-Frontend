@@ -1,0 +1,151 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Solicitud Compra Menor'" [items]="['Inicio','Tesorería']"
+        [active_item]="'Solicitud Compra Menor'">
+      </app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Solicitud Compra Menor</strong></h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="materialTableHeader">
+                    <div class="left">
+                      <ul class="header-buttons-left ms-0">
+                        <li class="tbl-title">
+                          <h2>Solicitud Compra Menor</h2>
+                        </li>
+                        <li class="tbl-search-box">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" (keyup)="filtrar($event)" #filter
+                            class="browser-default search-field" aria-label="Search box">
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="right">
+                      <ul class="tbl-export-btn">
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="NUEVA SOLICITUD COMPRA MENOR">
+                            <button matTooltip="AGREGAR SOLICITUD COMPRA MENOR" mat-mini-fab color="primary"
+                              (click)="addNew()" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                            </button>
+                          </div>
+                        </li>
+                        <li class="tbl-header-btn">
+                          <div class="m-l-10" matTooltip="ACTUALIZAR">
+                            <button mat-mini-fab color="primary" (click)="refresh()">
+                              <mat-icon class="col-white">refresh</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="export-button m-l-10" matTooltip="XLSX">
+                            <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="body overflow-auto">
+                    <div class="responsive_table">
+                      <table mat-table [dataSource]="dataSource" matSort matSort (matSortChange)="sortData($event)"
+                        class="mat-cell advance-table">
+                        <ng-container matColumnDef="unidadSolicitante">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Solicitante
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Unidad Solicitante:</span>{{row.unidadSolicitante}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="entregueseA">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Entréguese A
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Entréguese A:</span>{{row.entregueseA}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="conceptoDe">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>En concepto de
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">En concepto de:</span>{{row.conceptoDe}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="sumaDe">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Suma de
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">En concepto de:</span>{{row.sumaDe | currency}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="statusId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <div *ngIf="row.statusId===3" class="badge badge-solid-red">
+                              En Proceso
+                            </div>
+                            <div *ngIf="row.statusId===4" class="badge badge-solid-green">
+                              Aceptado
+                            </div>
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createDate">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Creación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Fecha de Creación:</span>{{ row.createDate | date:'dd/M/yyyy'
+                            }}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="createdBy">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Creado por
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Creado por:</span>{{row.createdBy}}
+                          </mat-cell>
+                        </ng-container>
+
+                        <!-- actions -->
+                        <ng-container matColumnDef="actions">
+                          <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                          <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                            <button Tooltip="Editar" mat-mini-fab color="warn" (click)="$event.stopPropagation()"
+                              (click)="open(row)">
+                              <app-feather-icons [icon]="'check-square'"></app-feather-icons>
+                            </button>
+                            <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                        </mat-row>
+                      </table>
+                    </div>
+                    <!-- Loading spinner -->
+                    <div *ngIf="IsLoading" class="tbl-spinner">
+                      <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                      </mat-progress-spinner>
+                    </div>
+                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

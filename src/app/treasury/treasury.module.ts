@@ -16,6 +16,11 @@ import { ListAccountPeriodComponent } from './Components/list-account-period/lis
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
+import { ListMinorPurchaseComponent } from './Components/list-minor-purchase/list-minor-purchase.component';
+import { FormMinorPurchaseComponent } from './Components/form-minor-purchase/form-minor-purchase.component';
+import { FormAddPurchaseComponent } from './Components/form-add-purchase/form-add-purchase.component';
+import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
+import { FormConfirmPurchaseComponent } from './Components/form-confirm-purchase/form-confirm-purchase.component';
 
 
 @NgModule({
@@ -32,7 +37,12 @@ import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add
         ListAccountPeriodComponent,
         FormAccountPeriodComponent,
         PettyCashListComponent,
-        AddPettyCashComponent
+        AddPettyCashComponent,
+        ListMinorPurchaseComponent,
+        FormMinorPurchaseComponent,
+        FormAddPurchaseComponent,
+        ListConfirmPurchaseComponent,
+        FormConfirmPurchaseComponent
     ],
     imports: [
         CommonModule,
