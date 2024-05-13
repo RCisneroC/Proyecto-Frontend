@@ -70,7 +70,7 @@ export class AddAssignmentPeriodComponent  implements OnInit{
   }
   
   ngOnInit() {
-    this.loadPeriodoContable();
+   // this.loadPeriodoContable();
     this.loadAssetLocation();
     this.assignmentPeriodForm = this.createContactForm();
   }
@@ -88,7 +88,7 @@ export class AddAssignmentPeriodComponent  implements OnInit{
   }
   
   loadAssetLocation() {
-    this.assetLocationService.getAllAssetLocation2().subscribe({
+    this.assetLocationService.getAllAssetLocation3().subscribe({
       next: (data) => {
         this.bienes = data["getAsignacionBiens"];
        
