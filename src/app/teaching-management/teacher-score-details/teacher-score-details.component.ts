@@ -1,25 +1,25 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UnsubscribeOnDestroyAdapter} from "@shared";
-import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {Activity, Documents, Experience, PointsListClass, Subject, Teacher, Training} from "../models/Teacher";
-import {RequiredDocument} from "../models/RequiredDocument";
-import {AuthService, User} from "@core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActivityDetailService} from "../../admission/services/activity-detail.service";
-import {TeacherService} from "../services/teacher.service";
-import {MatDialog} from "@angular/material/dialog";
-import {VerificarBS64Pipe} from "../../pipes/verificar-bs64.pipe";
-import {RequestServicesService} from "../../intranet-academic-registration/Services/request-services.service";
-import {CallsTeachersService} from "../../CallsTeachers/services/calls-teachers.service";
-import {MatAccordion} from "@angular/material/expansion";
-import {ViewPosterComponent} from "../../admission/activitydetail/forms/view-poster/view-poster.component";
-import {ViewPosterPDFComponent} from "../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
-import {AddExperienceComponent} from "../add-experience/add-experience.component";
-import {AddActivityComponent} from "../add-activity/add-activity.component";
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { UnsubscribeOnDestroyAdapter } from "@shared";
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { Activity, Documents, Experience, PointsListClass, Subject, Teacher, Training } from "../models/Teacher";
+import { RequiredDocument } from "../models/RequiredDocument";
+import { AuthService, User } from "@core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActivityDetailService } from "../../admission/services/activity-detail.service";
+import { TeacherService } from "../services/teacher.service";
+import { MatDialog } from "@angular/material/dialog";
+import { VerificarBS64Pipe } from "../../pipes/verificar-bs64.pipe";
+import { RequestServicesService } from "../../intranet-academic-registration/Services/request-services.service";
+import { CallsTeachersService } from "../../CallsTeachers/services/calls-teachers.service";
+import { MatAccordion } from "@angular/material/expansion";
+import { ViewPosterComponent } from "../../admission/activitydetail/forms/view-poster/view-poster.component";
+import { ViewPosterPDFComponent } from "../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import { AddExperienceComponent } from "../add-experience/add-experience.component";
+import { AddActivityComponent } from "../add-activity/add-activity.component";
 import Swal from "sweetalert2";
-import {AddSubjectComponent} from "../add-subject/add-subject.component";
-import {AddTrainingComponent} from "../add-training/add-training.component";
-import {HttpErrorResponse} from "@angular/common/http";
+import { AddSubjectComponent } from "../add-subject/add-subject.component";
+import { AddTrainingComponent } from "../add-training/add-training.component";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-teacher-score-details',
@@ -116,17 +116,17 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
   public loadingFile: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-              public _ActivityService: ActivityDetailService,
-              public _teacherService: TeacherService,
-              public _dialog: MatDialog,
-              private _nav: Router,
-              private fb: UntypedFormBuilder,
-              public _verificarBS64: VerificarBS64Pipe,
-              public _RequestService: RequestServicesService,
-              public authenticationService: AuthService,
-              private cb: ChangeDetectorRef,
-              private serviceCallsTeachersService: CallsTeachersService,
-              public elm: ElementRef,
+    public _ActivityService: ActivityDetailService,
+    public _teacherService: TeacherService,
+    public _dialog: MatDialog,
+    private _nav: Router,
+    private fb: UntypedFormBuilder,
+    public _verificarBS64: VerificarBS64Pipe,
+    public _RequestService: RequestServicesService,
+    public authenticationService: AuthService,
+    private cb: ChangeDetectorRef,
+    private serviceCallsTeachersService: CallsTeachersService,
+    public elm: ElementRef,
   ) {
     super();
 
@@ -248,9 +248,9 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
     })
   }
 
-  async getteacherPointsByCedula(){
+  async getteacherPointsByCedula() {
     this._teacherService.GetTeacherPointByCedula(this.cedula).subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.listAccumulatedTeacherPoint = res.listAccumulatedTeacherPoint;
       }
     })
@@ -567,7 +567,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
     this._nav.navigate(['/teaching-management/teacher-score-list/']);
   }
   verDetallesTeach() {
-    this._nav.navigate(['/teaching-management/teacher-detail/'+ this.cedula]);
+    this._nav.navigate(['/teaching-management/teacher-detail/' + this.cedula]);
   }
   Historial() {
 
@@ -588,10 +588,10 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
 
-      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
-      gender:new FormControl(this.DataTeacher?.gender),
-      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
-      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
+      phoneNumber: new FormControl(this.DataTeacher?.phoneNumber),
+      gender: new FormControl(this.DataTeacher?.gender),
+      placeOfBirth: new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth: new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),
@@ -677,7 +677,7 @@ export class TeacherScoreDetailsComponent extends UnsubscribeOnDestroyAdapter
 
   validarDocumentos(row: Documents) {
 
-    this._teacherService.ValidateDocument(row.documentId).subscribe(
+    this._teacherService.ValidateDocument(row.documentId, this.authenticationService.currentUserValue.firstName + ' ' + this.authenticationService.currentUserValue.lastName).subscribe(
       {
         next: (request: any) => {
           Swal.fire({
