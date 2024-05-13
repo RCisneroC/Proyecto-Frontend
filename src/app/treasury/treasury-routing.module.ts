@@ -7,6 +7,7 @@ import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-codi
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
+import {RequestEstateListComponent} from "./Components/request-estate-list/request-estate-list.component";
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: "petty-cash-list",
     component: PettyCashListComponent,
+  },
+  {
+    path: "request-estate-list",
+    component: RequestEstateListComponent,
   }
 ];
 

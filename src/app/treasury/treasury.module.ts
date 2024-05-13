@@ -16,6 +16,8 @@ import { ListAccountPeriodComponent } from './Components/list-account-period/lis
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
+import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
+import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add
         ListAccountPeriodComponent,
         FormAccountPeriodComponent,
         PettyCashListComponent,
-        AddPettyCashComponent
+        AddPettyCashComponent,
+        RequestEstateListComponent,
+        DetailsRequestEstateComponent
     ],
     imports: [
         CommonModule,
