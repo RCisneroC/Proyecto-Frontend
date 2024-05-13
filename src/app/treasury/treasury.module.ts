@@ -18,6 +18,7 @@ import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/p
 import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
+import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { DetailsRequestEstateComponent } from './Components/details-request-esta
         PettyCashListComponent,
         AddPettyCashComponent,
         RequestEstateListComponent,
-        DetailsRequestEstateComponent
+        DetailsRequestEstateComponent,
+        FormRequestEstateListComponent
     ],
     imports: [
         CommonModule,
