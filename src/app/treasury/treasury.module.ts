@@ -21,6 +21,12 @@ import { FormMinorPurchaseComponent } from './Components/form-minor-purchase/for
 import { FormAddPurchaseComponent } from './Components/form-add-purchase/form-add-purchase.component';
 import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
 import { FormConfirmPurchaseComponent } from './Components/form-confirm-purchase/form-confirm-purchase.component';
+import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
+import { AddAssetLocationComponent } from './Components/AssetLocation/add-asset-location/add-asset-location.component';
+import { AddAssignmentPeriodComponent } from './Components/AssignmentPeriod/add-assignment-period/add-assignment-period.component';
+import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
+import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
+import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-asset-location-detail/add-asset-location-detail.component';
 
 
 @NgModule({
@@ -42,7 +48,13 @@ import { FormConfirmPurchaseComponent } from './Components/form-confirm-purchase
         FormMinorPurchaseComponent,
         FormAddPurchaseComponent,
         ListConfirmPurchaseComponent,
-        FormConfirmPurchaseComponent
+        FormConfirmPurchaseComponent,
+        AssetLocationListComponent,
+        AddAssetLocationComponent,
+        AddAssignmentPeriodComponent,
+        AssignmentPeriodListComponent,
+        AssetLocationDetailComponent,
+        AddAssetLocationDetailComponent
     ],
     imports: [
         CommonModule,

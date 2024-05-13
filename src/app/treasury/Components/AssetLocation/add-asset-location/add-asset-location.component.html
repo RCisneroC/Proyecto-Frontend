@@ -1,0 +1,85 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="assetLocationForm" (ngSubmit)="submit">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Nro.formato emitido</mat-label>
+                        <input matInput formControlName="numeroFormatoEmitido">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationForm.get('numeroFormatoEmitido')?.hasError('required')">
+                        El Nro.formato emitido es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+ 
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Ubicación</mat-label>
+                        <input matInput formControlName="ubicacion">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationForm.get('ubicacion')?.hasError('required')">
+                        la ubicación es requerida
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            
+            </div>
+            
+            <div class="row">
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>A quien se le asigna</mat-label>
+                        <input matInput formControlName="a_QuienSeLeAsigna">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationForm.get('a_QuienSeLeAsigna')?.hasError('required')">
+                        El funcionario  es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <input matInput formControlName="tipo">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationForm.get('tipo')?.hasError('required')">
+                        El funcionario  es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            
+            
+           
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [disabled]="!assetLocationForm.valid"
+                            (click)="confirmAdd()">Guardar</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

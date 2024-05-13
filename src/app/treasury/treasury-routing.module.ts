@@ -9,6 +9,9 @@ import { ListAccountPeriodComponent } from './Components/list-account-period/lis
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import { ListMinorPurchaseComponent } from './Components/list-minor-purchase/list-minor-purchase.component';
 import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
+import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
+import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
+import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
 
 const routes: Routes = [
   {
@@ -42,7 +45,20 @@ const routes: Routes = [
   {
     path: "list-confirm-purchase",
     component: ListConfirmPurchaseComponent,
-  }
+  },
+  {
+    path: "asset-location-list",
+    component: AssetLocationListComponent,
+  },
+  {
+    path: "assignment-period-list",
+    component: AssignmentPeriodListComponent,
+  },
+  {
+    path: "asset-location-detail/:id",
+    component: AssetLocationDetailComponent,
+  },
+
 ];
 
 @NgModule({

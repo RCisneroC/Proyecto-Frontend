@@ -1,0 +1,135 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    {{dialogTitle}}
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="assetLocationDetailForm" (ngSubmit)="submit">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Número</mat-label>
+                        <input matInput formControlName="numero">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('numero')?.hasError('required')">
+                        El Número es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Placa</mat-label>
+                        <input matInput formControlName="placa">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('placa')?.hasError('required')">
+                        la placa es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            
+            </div>
+            
+            <div class="row">
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="descripcion">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('descripcion')?.hasError('required')">
+                        El descripcion  es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Marca</mat-label>
+                        <input matInput formControlName="marca">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('marca')?.hasError('required')">
+                        la marca es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+           
+            </div>
+            
+            <div class="row">
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>modelo</mat-label>
+                        <input matInput formControlName="modelo">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('modelo')?.hasError('required')">
+                        El modelo  es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Serie</mat-label>
+                        <input matInput formControlName="serie">
+                        <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                        <mat-error *ngIf="assetLocationDetailForm.get('serie')?.hasError('required')">
+                        la serie es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+           
+            </div>
+
+            
+        <div class="row">
+        
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Estado Fisico</mat-label>
+                    <input matInput formControlName="estadoFisico">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                    <mat-error *ngIf="assetLocationDetailForm.get('estadoFisico')?.hasError('required')">
+                    El estado Fisico  es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Observaciones</mat-label>
+                    <input matInput formControlName="observaciones">
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+                    <mat-error *ngIf="assetLocationDetailForm.get('observaciones')?.hasError('required')">
+                    las observaciones es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+       
+        </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [disabled]="!assetLocationDetailForm.valid"
+                            (click)="confirmAdd()">Guardar</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
