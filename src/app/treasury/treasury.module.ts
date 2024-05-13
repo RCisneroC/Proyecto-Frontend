@@ -16,6 +16,12 @@ import { ListAccountPeriodComponent } from './Components/list-account-period/lis
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
+import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
+import { AddAssetLocationComponent } from './Components/AssetLocation/add-asset-location/add-asset-location.component';
+import { AddAssignmentPeriodComponent } from './Components/AssignmentPeriod/add-assignment-period/add-assignment-period.component';
+import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
+import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
+import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-asset-location-detail/add-asset-location-detail.component';
 
 
 @NgModule({
@@ -32,7 +38,13 @@ import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add
         ListAccountPeriodComponent,
         FormAccountPeriodComponent,
         PettyCashListComponent,
-        AddPettyCashComponent
+        AddPettyCashComponent,
+        AssetLocationListComponent,
+        AddAssetLocationComponent,
+        AddAssignmentPeriodComponent,
+        AssignmentPeriodListComponent,
+        AssetLocationDetailComponent,
+        AddAssetLocationDetailComponent
     ],
     imports: [
         CommonModule,
