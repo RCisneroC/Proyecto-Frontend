@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/service/auth.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
@@ -67,13 +67,18 @@ export class AddAssetLocationDetailComponent implements OnInit{
  
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      // periodoContableId: [this.periodoId], 
-      // cajaMenudaId:[this.pettyCash.cajaMenudaId, Validators.required],
-      // concepto: [this.pettyCash.concepto, Validators.required],
-      // monto: [this.pettyCash.monto, Validators.required],
-      // tipoTransaccion: [this.pettyCash.tipoTransaccion, Validators.required],
-      // createdBy: [this.authService.currentUserValue.id, Validators.required],
-      // lastModifiedBy:[this.authService.currentUserValue.id, Validators.required],
+    numero: [this.assetLocationDetail.numero, Validators.required],
+    placa: [this.assetLocationDetail.placa, Validators.required],
+    descripcion: [this.assetLocationDetail.descripcion, Validators.required],
+    marca: [this.assetLocationDetail.marca, Validators.required],
+    modelo: [this.assetLocationDetail.modelo, Validators.required],
+    serie: [this.assetLocationDetail.serie, Validators.required],
+    estadoFisico: [this.assetLocationDetail.estadoFisico, Validators.required],
+    observaciones: [this.assetLocationDetail.observaciones],
+    modifiedBy: [this.authService.currentUserValue.id],
+    createdBy:[this.authService.currentUserValue.id],
+    asignacionBienActivosFijosId:[this.assetLocationDetail.asignacionBienActivosFijosId],
+    statusId: [4],
       
     });
   }
