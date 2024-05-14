@@ -125,6 +125,14 @@
                             <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
                               <mat-icon>delete</mat-icon>
                             </button>
+                            <button *ngIf="row.statusId===4"  mat-mini-fab color="primary" matTooltip="Ver Comprobante Caja Menuda"
+                            (click)="$event.stopPropagation()" (click)="ViewExpediente(row)" class="tbl-action-btn">
+                            <mat-icon>book</mat-icon>
+                           </button>
+                           <button *ngIf="row.statusId===3"  mat-mini-fab color="primary" matTooltip="Confirmar la Compra"
+                            (click)="$event.stopPropagation()" (click)="addConfirmacionCompra(row)" class="tbl-action-btn">
+                            <mat-icon>assignment</mat-icon>
+                           </button>
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

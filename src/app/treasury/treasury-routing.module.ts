@@ -43,7 +43,7 @@ const routes: Routes = [
     component: ListMinorPurchaseComponent,
   },
   {
-    path: "list-confirm-purchase",
+    path: "list-confirm-purchase/:id",
     component: ListConfirmPurchaseComponent,
   },
   {

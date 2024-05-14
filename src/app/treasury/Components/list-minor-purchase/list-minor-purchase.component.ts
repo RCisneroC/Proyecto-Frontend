@@ -12,6 +12,7 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
 import { ResponseCompraMenor } from 'app/treasury/Models/GetAprobacionResponse';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
 import { FormMinorPurchaseComponent } from '../form-minor-purchase/form-minor-purchase.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-minor-purchase',
@@ -42,7 +43,8 @@ OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private  serviceMinorPurchase:MinorPurchaseService){}
+    private  serviceMinorPurchase:MinorPurchaseService,
+    private router: Router){}
 
 
     ngOnInit(): void {
@@ -270,6 +272,10 @@ ViewExpediente(row: ResponseCompraMenor) {
 
 }
 
+
+addConfirmacionCompra(row:ResponseCompraMenor){
+this.router.navigate(['treasury/list-confirm-purchase/' + row.compraMenorId])
+}
 
 
 }

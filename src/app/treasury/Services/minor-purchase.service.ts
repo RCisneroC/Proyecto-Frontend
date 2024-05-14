@@ -20,12 +20,12 @@ export class MinorPurchaseService {
 
   getMinorPurchaseAll() {
     return this.httpClient
-      .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor');
+      .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor?CompraMenorId=0');
   }
 
   getMinorPurchaseById(id:number) {
     return this.httpClient
-      .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor?Id=' + id);
+      .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor?CompraMenorId=' + id);
   }
 
   addMinorPurchase(data:AddCompraMenorRequest) {
@@ -48,7 +48,7 @@ export class MinorPurchaseService {
       }),
       body: data,
     };
-    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudAprobacion/DeleteAprobacion',options);
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/DeleteCompraMenor',options);
   }
 
 
