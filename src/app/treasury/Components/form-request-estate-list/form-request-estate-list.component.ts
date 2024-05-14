@@ -23,10 +23,10 @@ export class FormRequestEstateListComponent implements OnInit {
   public action: string;
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
-  public _EditForms!: UntypedFormGroup;
 
   public _Model!: RequestEstateList;
-  gradosInstruccion: any;
+  category: any;
+  period: any;
   constructor(
     public dialogRef: MatDialogRef<FormRequestEstateListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -43,9 +43,14 @@ export class FormRequestEstateListComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.GenericModel;
     }
-    this._Service.loadEdulevel().subscribe({
+    this._Service.loadcategory().subscribe({
       next:(res)=>{
-        this.gradosInstruccion = res
+        this.category = res.categorias
+      }
+    });
+    this._Service.loadPeriodContable().subscribe({
+      next:(res)=>{
+        this.period = res.getPeriodContables
       }
     });
     this._Forms = this.createContactForm();
@@ -112,7 +117,7 @@ export class FormRequestEstateListComponent implements OnInit {
         estatus: true
       }
 
-      this._Service.add(this._EditForms)
+      this._Service.add(objrequest)
         .subscribe({
           next: (res) => {
             this.ResponseMessage.CodError = 200;

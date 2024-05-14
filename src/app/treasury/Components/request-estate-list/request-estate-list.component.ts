@@ -7,12 +7,12 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {FormEduLevelComponent} from "../../../teaching-management/score-forms/form-edu-level/form-edu-level.component";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {RequestEstateListService} from "../../Services/request-estate-list.service";
 import {RequestEstateList} from "../../Models/RequestEstate";
+import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
 
 @Component({
   selector: 'app-request-estate-list',
@@ -59,9 +59,9 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
   }
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormEduLevelComponent, {
+    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
       data: {
-        teacherpointcat: this._Service._Model,
+        GenericModel: this._Service._Model,
         action: 'add',
       }
     });
@@ -88,9 +88,9 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
   editCall(row: RequestEstateList) {
     this.id = row.requestId;
 
-    const dialogRef = this.dialog.open(FormEduLevelComponent, {
+    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
       data: {
-        teacherpointcat: row,
+        GenericModel: row,
         action: 'edit',
       }
     });

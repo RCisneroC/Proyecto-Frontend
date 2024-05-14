@@ -17,28 +17,74 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Descripción</mat-label>
-            <input *ngIf="action === 'add'" matInput formControlName="description">
-            <mat-select  *ngIf="action !== 'add'" formControlName="description" >
-              <mat-option [disabled] = "action !== 'add'" *ngFor="let grado of gradosInstruccion"  [value]="grado.name">{{grado.name}}</mat-option>
-            </mat-select>
+            <mat-label>Unidad</mat-label>
+            <input matInput formControlName="unitId">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            <mat-error *ngIf="_Forms.get('description')?.hasError('required')">
-              La Descripción es requerida
+            <mat-error *ngIf="_Forms.get('unitId')?.hasError('required')">
+              Campo requerido
             </mat-error>
           </mat-form-field>
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Puntos</mat-label>
-            <input matInput formControlName="points">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telephone">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-            <mat-error *ngIf="_Forms.get('points')?.hasError('required')">
-              Los Puntos son requeridos
+            <mat-error *ngIf="_Forms.get('telephone')?.hasError('required')">
+              Campo requerido
             </mat-error>
           </mat-form-field>
         </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <input matInput formControlName="descripcion">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('descripcion')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre de Solicitante</mat-label>
+            <input matInput formControlName="nombreSolicitante">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('nombreSolicitante')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select  formControlName="codigoId" >
+              <mat-option  *ngFor="let grado of category"  [value]="grado.codigoCategoria">{{grado.descripcion}}</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('codigoId')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Period</mat-label>
+            <mat-select  formControlName="periodoContableId" >
+              <mat-option  *ngFor="let obj of period"  [value]="obj.periodoId">{{obj.descripcion}}</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('periodoContableId')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
 
 
       </div>

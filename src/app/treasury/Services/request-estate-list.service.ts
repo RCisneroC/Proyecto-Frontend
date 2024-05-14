@@ -53,6 +53,14 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
   }
 
+  loadcategory() {
+    return this.httpClient.get<any>(environment.apiUrlTreasury + 'Categoria/GetCategories');
+  }
+
+  loadPeriodContable() {
+    return this.httpClient.get<any>(environment.apiUrlTreasury + 'PeriodoContable/GetPeriodo');
+  }
+
   DeleteRooms(Id: number) {
     let data = {
       id: Id
