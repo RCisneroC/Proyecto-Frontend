@@ -37,6 +37,7 @@ implements OnInit {
 
   Data: any;
   assetLocationDetail: any;
+  iddetail: number=0;
   constructor(private activatedRoute: ActivatedRoute,
     public _assetLocationService: AssetLocationService,
     public _dialog: MatDialog,
@@ -50,7 +51,7 @@ implements OnInit {
   }
   ngOnInit(): void {
   
-      this.id = this.activatedRoute.snapshot.params["id"];
+      this.iddetail = this.activatedRoute.snapshot.params["id"];
       this.getDetailAsignacion();
   }
   addNew() {
@@ -64,7 +65,7 @@ implements OnInit {
 
     const dialogRef = this._dialog.open(AddAssetLocationDetailComponent, {
       data: {
-        detaiilId:this.id,
+        detailId:this.iddetail,
         assetLocationDetail: this.assetLocationDetail,
         action: 'add',
       },
@@ -124,6 +125,7 @@ implements OnInit {
     }
     const dialogRef = this._dialog.open(AddAssetLocationDetailComponent, {
       data: {
+        detailId:this.iddetail,
         assetLocationDetail: row,
         action: 'edit',
       },

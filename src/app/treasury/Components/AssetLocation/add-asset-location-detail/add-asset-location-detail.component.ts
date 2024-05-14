@@ -8,7 +8,7 @@ import { AssetLocationService } from 'app/treasury/Services/asset-location.servi
 
 export interface DialogData {
   id: string;
-  detaiilId:number;
+  detailId:number;
   action: string;
   assetLocationDetail: AssetLocationDetail;
 }
@@ -68,7 +68,7 @@ export class AddAssetLocationDetailComponent implements OnInit{
  
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-    detailAsignacionId:[this.data.detaiilId, Validators.required],
+    detailAsignacionId:[this.data.detailId, Validators.required],
     numero: [this.assetLocationDetail.numero, Validators.required],
     placa: [this.assetLocationDetail.placa, Validators.required],
     descripcion: [this.assetLocationDetail.descripcion, Validators.required],
