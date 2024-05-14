@@ -7,6 +7,8 @@ import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-codi
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
+import { ListMinorPurchaseComponent } from './Components/list-minor-purchase/list-minor-purchase.component';
+import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
 import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
 import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
 import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
@@ -40,6 +42,14 @@ const routes: Routes = [
     component: PettyCashListComponent,
   },
   {
+    path: "list-minor-purchase",
+    component: ListMinorPurchaseComponent,
+  },
+  {
+    path: "list-confirm-purchase/:id",
+    component: ListConfirmPurchaseComponent,
+  },
+  {
     path: "asset-location-list",
     component: AssetLocationListComponent,
   },
@@ -60,6 +70,7 @@ const routes: Routes = [
     path: 'request-estate-detail/:id',
     component: DetailsRequestEstateComponent,
   },
+
 ];
 
 @NgModule({
