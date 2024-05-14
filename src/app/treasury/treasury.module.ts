@@ -30,6 +30,9 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
+import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
+import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
+import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
 
 
 @NgModule({
@@ -60,7 +63,10 @@ import { FormRequestEstateListComponent } from './Components/form-request-estate
         AddAssetLocationDetailComponent,
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
-        FormRequestEstateListComponent
+        FormRequestEstateListComponent,
+        AcceptanceRequestComponent,
+        FormAcceptanceRequestComponent,
+        FormDetailsRequestEstateComponent
     ],
     imports: [
         CommonModule,

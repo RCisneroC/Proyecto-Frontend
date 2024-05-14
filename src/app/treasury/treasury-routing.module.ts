@@ -15,6 +15,7 @@ import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-l
 import { RequestEstateListComponent } from "./Components/request-estate-list/request-estate-list.component";
 import { ListActivityComponent } from "../admission/inscription/approval/list-activity/list-activity.component";
 import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
+import {AcceptanceRequestComponent} from "./Components/acceptance-request/acceptance-request.component";
 
 const routes: Routes = [
   {
@@ -69,6 +70,10 @@ const routes: Routes = [
   {
     path: 'request-estate-detail/:id',
     component: DetailsRequestEstateComponent,
+  },
+  {
+    path: "acceptance-request",
+    component: AcceptanceRequestComponent,
   },
 
 ];

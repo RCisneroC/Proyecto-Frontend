@@ -1,47 +1,49 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
+import {RequestEstateList} from "../../Models/RequestEstate";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {RequestEstateListService} from "../../Services/request-estate-list.service";
-import {RequestEstateList} from "../../Models/RequestEstate";
-import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
-import {Router} from "@angular/router";
+import {AcceptanceRequestService} from "../../Services/acceptance-request.service";
+import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
 
 @Component({
-  selector: 'app-request-estate-list',
-  templateUrl: './request-estate-list.component.html',
-  styleUrls: ['./request-estate-list.component.scss']
+  selector: 'app-acceptance-request',
+  templateUrl: './acceptance-request.component.html',
+  styleUrls: ['./acceptance-request.component.scss']
 })
-export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
+export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit{
 
   displayedColumns = [
     'requestId',
-    'unitId',
-    'telephone',
-    'createdDate',
+    'solicitudSatatusId',
+    'createdSolicitud',
     'createdBy',
+    'acceptedBy',
+    'dateAcceptance',
     'actions',
   ];
 
-  exampleDatabase?: RequestEstateListService;
+  exampleDatabase?: AcceptanceRequestService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<RequestEstateList>(true, []);
+  selection = new SelectionModel<AcceptanceRequest>(true, []);
   id?: number;
-  status?: RequestEstateList = this._Service._Model;
+  status?: AcceptanceRequest = this._Service._Model;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _Service : RequestEstateListService,
+    public _Service : AcceptanceRequestService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {
@@ -60,7 +62,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  ViewDetail(row: RequestEstateList) {
+  ViewDetail(row: AcceptanceRequest) {
     this.router.navigate(['/treasury/request-estate-detail/' + row.requestId]);
   }
   addNew() {
@@ -91,7 +93,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-  editCall(row: RequestEstateList) {
+  editCall(row: AcceptanceRequest) {
     this.id = row.requestId;
 
     const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
@@ -122,7 +124,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  delete(row:RequestEstateList) {
+  delete(row:AcceptanceRequest) {
     Swal.fire({
       title: "¿Estas seguro?",
       text: "Eliminara "+row.requestId,
@@ -162,7 +164,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
   }
 
   public loadData() {
-    this.exampleDatabase = new RequestEstateListService(this.httpClient);
+    this.exampleDatabase = new AcceptanceRequestService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -206,7 +208,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
 }
 
 
-export class ExampleDataSource extends DataSource<RequestEstateList> {
+export class ExampleDataSource extends DataSource<AcceptanceRequest> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -214,10 +216,10 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: RequestEstateList[] = [];
-  renderedData: RequestEstateList[] = [];
+  filteredData: AcceptanceRequest[] = [];
+  renderedData: AcceptanceRequest[] = [];
   constructor(
-    public exampleDatabase: RequestEstateListService,
+    public exampleDatabase: AcceptanceRequestService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -226,7 +228,7 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<RequestEstateList[]> {
+  connect(): Observable<AcceptanceRequest[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -234,13 +236,13 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getRequestEstateList();
+    this.exampleDatabase.getAcceptanceRequest();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((_Model: RequestEstateList) => {
+          .filter((_Model: AcceptanceRequest) => {
             const searchStr = (_Model.requestId).toString().toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -260,7 +262,7 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: RequestEstateList[]): RequestEstateList[] {
+  sortData(data: AcceptanceRequest[]): AcceptanceRequest[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -272,7 +274,7 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
           [propertyA, propertyB] = [a.requestId, b.requestId];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.numeroRevision, b.numeroRevision];
+          [propertyA, propertyB] = [a.createdBy, b.createdBy];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
