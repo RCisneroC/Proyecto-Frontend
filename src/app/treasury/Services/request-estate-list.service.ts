@@ -42,11 +42,11 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
   }
 
   add(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/AddRequest', Data);
   }
 
   update(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/UpdateRequestService', Data);
   }
 
   loadEdulevel() {
@@ -61,7 +61,7 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlTreasury + 'PeriodoContable/GetPeriodo');
   }
 
-  DeleteRooms(Id: number) {
+  Delete(Id: number) {
     let data = {
       id: Id
     };
@@ -72,7 +72,7 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<ResponseGenerica>(environment.apiEF + 'Room/Delete', options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/DeleterRequestService', options);
   }
   init_Model() {
     this._Model = {

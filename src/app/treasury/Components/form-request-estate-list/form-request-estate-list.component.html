@@ -50,6 +50,39 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Número DAA</mat-label>
+            <input matInput formControlName="daa_Number">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('daa_Number')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Numero de Uso Solicitante</mat-label>
+            <input matInput formControlName="numeroUsoSolicitante">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('numeroUsoSolicitante')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Numero de Revisión</mat-label>
+            <input matInput formControlName="numeroRevision">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('numeroRevision')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Nombre de Solicitante</mat-label>
             <input matInput formControlName="nombreSolicitante">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
@@ -61,9 +94,51 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Bienes</mat-label>
+            <mat-select  formControlName="bienes" >
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="2">NO</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('bienes')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Servicios</mat-label>
+            <mat-select  formControlName="service" >
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="2">NO</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('service')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Obras</mat-label>
+            <mat-select  formControlName="obras" >
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="2">NO</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+            <mat-error *ngIf="_Forms.get('obras')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Categoria</mat-label>
             <mat-select  formControlName="codigoId" >
-              <mat-option  *ngFor="let grado of category"  [value]="grado.codigoCategoria">{{grado.descripcion}}</mat-option>
+              <mat-option  *ngFor="let grado of category"  [value]="grado.categoria_Id">{{grado.descripcion}}</mat-option>
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('codigoId')?.hasError('required')">

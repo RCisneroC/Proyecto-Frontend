@@ -55,11 +55,7 @@ export class FormRequestEstateListComponent implements OnInit {
         this.category = res.categorias
       }
     });
-    this._Service.loadPeriodContable().subscribe({
-      next:(res)=>{
-        this.period = res.getPeriodContables
-      }
-    });
+
     this._Forms = this.createContactForm();
   }
 
@@ -71,18 +67,18 @@ export class FormRequestEstateListComponent implements OnInit {
       numeroUsoSolicitante: [this._Model.numeroUsoSolicitante],
       daa_Number: [this._Model.daa_Number],
       descripcion: [this._Model.descripcion, [Validators.required]],
-      revisionDate: [this._Model.revisionDate, [Validators.required]],
+      revisionDate: [this._Model.revisionDate],
       numeroRevision: [this._Model.numeroRevision, [Validators.required]],
-      bienes: [this._Model.bienes],
-      service: [this._Model.service],
-      obras: [this._Model.obras, [Validators.required]],
+      bienes: [this._Model.bienes? "1": "2"],
+      service: [this._Model.service? "1": "2"],
+      obras: [this._Model.obras? "1": "2", [Validators.required]],
       nombreSolicitante: [this._Model.nombreSolicitante, [Validators.required]],
-      firmaSolicitante: [this._Model.firmaSolicitante, [Validators.required]],
-      firmaAprobacion: [this._Model.firmaAprobacion, [Validators.required]],
+      firmaSolicitante: [this._Model.firmaSolicitante],
+      firmaAprobacion: [this._Model.firmaAprobacion],
       codigoId: [this._Model.codigoId, [Validators.required]],
       periodoContableId: [this._Model.periodoContableId, [Validators.required]],
-      statusId: [this._Model.periodoContableId, [Validators.required]],
-      modifiedBy: [this.authService.currentUserValue.firstName, [Validators.required]],
+      statusId: [this._Model.statusId],
+      modifiedBy: [this.authService.currentUserValue.firstName],
     });
   }
 
@@ -124,12 +120,20 @@ export class FormRequestEstateListComponent implements OnInit {
 
   confirmAdd() {
     if (this.action == 'add') {
-      const points = + this._Forms.getRawValue().points;
       const objrequest = {
-        name: this._Forms.getRawValue().description,
-        points: points,
-        createdBy: this.authService.currentUserValue.firstName,
-        estatus: true
+        unitId: this._Forms.getRawValue().unitId,
+        telephone: this._Forms.getRawValue().telephone,
+        numeroUsoSolicitante: this._Forms.getRawValue().numeroUsoSolicitante,
+        daA_Number: this._Forms.getRawValue().daa_Number,
+        descripcion: this._Forms.getRawValue().descripcion,
+        revisionNumber: this._Forms.getRawValue().numeroRevision,
+        bienes: this._Forms.getRawValue().bienes == "1",
+        servicios: this._Forms.getRawValue().service == "1",
+        obras: this._Forms.getRawValue().obras == "1",
+        nombreSolicitante: this._Forms.getRawValue().nombreSolicitante,
+        createdBy: this.authService.currentUserValue.id,
+        codigoId: this._Forms.getRawValue().codigoId,
+        periodoContableId: this._Forms.getRawValue().periodoContableId,
       }
       this._Service.add(objrequest)
         .subscribe({
@@ -145,16 +149,27 @@ export class FormRequestEstateListComponent implements OnInit {
           }
         });
     } else {
-      const points = + this._Forms.getRawValue().points;
       const objrequest = {
-        id: this._Model.requestId,
-        name: this._Forms.getRawValue().description,
-        points: points,
-        createdBy: this.authService.currentUserValue.firstName,
-        estatus: true
+        requestId: this.data.GenericModel.requestId,
+        unitId: this._Forms.getRawValue().unitId,
+        telephone: this._Forms.getRawValue().telephone,
+        numeroUsoSolicitante: this._Forms.getRawValue().numeroUsoSolicitante,
+        daa_Number: this._Forms.getRawValue().daa_Number,
+        descripcion: this._Forms.getRawValue().descripcion,
+        revisionDate: new Date(),
+        numeroRevision: this._Forms.getRawValue().revisionNumber,
+        bienes: this._Forms.getRawValue().bienes == "1",
+        service: this._Forms.getRawValue().service == "1",
+        obras: this._Forms.getRawValue().obras == "1",
+        nombreSolicitante: this._Forms.getRawValue().nombreSolicitante,
+        firmaSolicitante: null,
+        firmaAprobacion: null,
+        codigoId: this._Forms.getRawValue().codigoId,
+        periodoContableId: this._Forms.getRawValue().periodoContableId,
+        modifiedBy: this.authService.currentUserValue.firstName
       }
 
-      this._Service.add(objrequest)
+      this._Service.update(objrequest)
         .subscribe({
           next: (res) => {
             this.ResponseMessage.CodError = 200;

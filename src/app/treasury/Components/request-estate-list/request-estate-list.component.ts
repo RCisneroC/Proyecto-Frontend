@@ -134,7 +134,7 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this._Service.DeleteRooms(row.requestId).subscribe({
+        this._Service.Delete(row.requestId).subscribe({
           next:(res:ResponseGenerica)=>{
             Swal.fire({
               title: "Eliminado!",
