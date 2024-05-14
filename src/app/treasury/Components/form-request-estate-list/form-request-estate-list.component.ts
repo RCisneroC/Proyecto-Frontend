@@ -1,9 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {TeacherPointsEduLevel} from "../../../teaching-management/models/TeacherPoints";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ScoreListService} from "../../../teaching-management/services/score-list.service";
 import {AuthService} from "@core";
 import {RequestEstateList} from "../../Models/RequestEstate";
 import {RequestEstateListService} from "../../Services/request-estate-list.service";
@@ -25,6 +23,8 @@ export class FormRequestEstateListComponent implements OnInit {
   public action: string;
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
+  public _EditForms!: UntypedFormGroup;
+
   public _Model!: RequestEstateList;
   gradosInstruccion: any;
   constructor(
@@ -53,9 +53,24 @@ export class FormRequestEstateListComponent implements OnInit {
 
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-      id: [this._Model.requestId],
-      description: [this._Model.unitId],
-      points: [this._Model.createdBy, [Validators.required]],
+      requestId: [this._Model.requestId],
+      unitId: [this._Model.unitId],
+      telephone: [this._Model.telephone, [Validators.required]],
+      numeroUsoSolicitante: [this._Model.numeroUsoSolicitante],
+      daa_Number: [this._Model.daa_Number],
+      descripcion: [this._Model.descripcion, [Validators.required]],
+      revisionDate: [this._Model.revisionDate, [Validators.required]],
+      numeroRevision: [this._Model.numeroRevision, [Validators.required]],
+      bienes: [this._Model.bienes],
+      service: [this._Model.service],
+      obras: [this._Model.obras, [Validators.required]],
+      nombreSolicitante: [this._Model.nombreSolicitante, [Validators.required]],
+      firmaSolicitante: [this._Model.firmaSolicitante, [Validators.required]],
+      firmaAprobacion: [this._Model.firmaAprobacion, [Validators.required]],
+      codigoId: [this._Model.codigoId, [Validators.required]],
+      periodoContableId: [this._Model.periodoContableId, [Validators.required]],
+      statusId: [this._Model.periodoContableId, [Validators.required]],
+      modifiedBy: [this.authService.currentUserValue.firstName, [Validators.required]],
     });
   }
 
@@ -97,7 +112,7 @@ export class FormRequestEstateListComponent implements OnInit {
         estatus: true
       }
 
-      this._Service.add(objrequest)
+      this._Service.add(this._EditForms)
         .subscribe({
           next: (res) => {
             this.ResponseMessage.CodError = 200;

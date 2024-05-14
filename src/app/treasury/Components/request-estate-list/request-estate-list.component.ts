@@ -266,7 +266,7 @@ export class ExampleDataSource extends DataSource<RequestEstateList> {
           [propertyA, propertyB] = [a.requestId, b.requestId];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.revisionNumber, b.revisionNumber];
+          [propertyA, propertyB] = [a.numeroRevision, b.numeroRevision];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

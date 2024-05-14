@@ -10,18 +10,23 @@ export interface RequestEstateList {
   requestId: number
   unitId: string
   telephone: string
-  requesterNumber: number
-  daA_Number: string
-  revisionDate: Date,
-  revisionNumber: number
-  goodsOrService: boolean
+  numeroUsoSolicitante: number
+  daa_Number: string
+  descripcion: string
+  revisionDate: Date
+  numeroRevision: number
+  bienes: boolean
   service: boolean
-  works: boolean
-  requesterSignature: boolean
-  approvalSignature: boolean
+  obras: boolean
+  nombreSolicitante: string
+  firmaSolicitante: boolean
+  firmaAprobacion: boolean
+  codigoId: number
   createdDate: Date
   createdBy: string
+  modifiedBy: string
   statusId: number
+  periodoContableId: number
   detailRequests: RequestEstateDetail[]
 }
 
