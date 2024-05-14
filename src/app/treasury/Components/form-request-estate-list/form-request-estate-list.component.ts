@@ -5,6 +5,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "@core";
 import {RequestEstateList} from "../../Models/RequestEstate";
 import {RequestEstateListService} from "../../Services/request-estate-list.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Subscription} from "rxjs";
+import {AccountPeriodService} from "../../Services/account-period.service";
+import {GetPeriodContable} from "../../Models/AccountPeriodResponse";
 
 export interface DialogData {
   action: string;
@@ -23,6 +27,8 @@ export class FormRequestEstateListComponent implements OnInit {
   public action: string;
   public dialogTitle: string;
   public _Forms!: UntypedFormGroup;
+  public subscriptions: Subscription[] = [];
+  public periodos: GetPeriodContable[] = [];
 
   public _Model!: RequestEstateList;
   category: any;
@@ -33,6 +39,7 @@ export class FormRequestEstateListComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private _Service: RequestEstateListService,
     private authService: AuthService,
+    private  serviceAccountPeriodService:AccountPeriodService
   ) {
     console.log(data);
     this.action = data.action;
@@ -80,9 +87,39 @@ export class FormRequestEstateListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadPeriods();
   }
   submit() {
 
+  }
+
+  loadPeriods():void{
+    this.periodos = [];
+    this.subscriptions.push(
+      this.serviceAccountPeriodService.getAll().subscribe({
+        next : (request)=>{
+          const  r = request.getPeriodContables;
+          r.forEach(
+            (p)=>{
+              this.periodos.push(
+                {
+                  periodoId: p.periodoId,
+                  fechaInicio: p.fechaInicio,
+                  fechaFin: p.fechaFin,
+                  descripcion: p.descripción,
+                  statusId: p.statusId,
+                  createdBy: p.createdBy,
+                  createdDate: p.createdDate
+                }
+              )
+            }
+          );
+        },
+        error : (err:HttpErrorResponse) =>{
+          console.log(err);
+        }
+      })
+    );
   }
 
   confirmAdd() {
