@@ -7,9 +7,14 @@ import { BudgetCodingListComponent } from './Components/BudgetCoding/budget-codi
 import { IncomeListComponent } from './Components/Income/income-list/income-list.component';
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
-import {RequestEstateListComponent} from "./Components/request-estate-list/request-estate-list.component";
-import {ListActivityComponent} from "../admission/inscription/approval/list-activity/list-activity.component";
-import {DetailsRequestEstateComponent} from "./Components/details-request-estate/details-request-estate.component";
+import { ListMinorPurchaseComponent } from './Components/list-minor-purchase/list-minor-purchase.component';
+import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
+import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
+import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
+import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
+import { RequestEstateListComponent } from "./Components/request-estate-list/request-estate-list.component";
+import { ListActivityComponent } from "../admission/inscription/approval/list-activity/list-activity.component";
+import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
 
 const routes: Routes = [
   {
@@ -37,6 +42,27 @@ const routes: Routes = [
     component: PettyCashListComponent,
   },
   {
+    path: "list-minor-purchase",
+    component: ListMinorPurchaseComponent,
+  },
+  {
+    path: "list-confirm-purchase/:id",
+    component: ListConfirmPurchaseComponent,
+  },
+  {
+    path: "asset-location-list",
+    component: AssetLocationListComponent,
+  },
+  {
+    path: "assignment-period-list",
+    component: AssignmentPeriodListComponent,
+  },
+  {
+
+    path: "asset-location-detail/:id",
+    component: AssetLocationDetailComponent,
+  },
+  {
     path: "request-estate-list",
     component: RequestEstateListComponent,
   },
@@ -44,6 +70,7 @@ const routes: Routes = [
     path: 'request-estate-detail/:id',
     component: DetailsRequestEstateComponent,
   },
+
 ];
 
 @NgModule({

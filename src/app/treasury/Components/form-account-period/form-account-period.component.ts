@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject , OnDestroy} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/service/auth.service';
@@ -17,7 +17,7 @@ export interface DialogData {
   templateUrl: './form-account-period.component.html',
   styleUrls: ['./form-account-period.component.scss']
 })
-export class FormAccountPeriodComponent {
+export class FormAccountPeriodComponent implements OnDestroy {
   public subscriptions: Subscription[] = [];
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
@@ -44,6 +44,10 @@ export class FormAccountPeriodComponent {
       this.dialogTitle = 'Nuevo Periodo Contable';
     }
     this.form = this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
   }
 
   createForm(): UntypedFormGroup {

@@ -16,6 +16,17 @@ import { ListAccountPeriodComponent } from './Components/list-account-period/lis
 import { FormAccountPeriodComponent } from './Components/form-account-period/form-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import { AddPettyCashComponent } from './Components/PettyCash/add-petty-cash/add-petty-cash.component';
+import { ListMinorPurchaseComponent } from './Components/list-minor-purchase/list-minor-purchase.component';
+import { FormMinorPurchaseComponent } from './Components/form-minor-purchase/form-minor-purchase.component';
+import { FormAddPurchaseComponent } from './Components/form-add-purchase/form-add-purchase.component';
+import { ListConfirmPurchaseComponent } from './Components/list-confirm-purchase/list-confirm-purchase.component';
+import { FormConfirmPurchaseComponent } from './Components/form-confirm-purchase/form-confirm-purchase.component';
+import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
+import { AddAssetLocationComponent } from './Components/AssetLocation/add-asset-location/add-asset-location.component';
+import { AddAssignmentPeriodComponent } from './Components/AssignmentPeriod/add-assignment-period/add-assignment-period.component';
+import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
+import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
+import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-asset-location-detail/add-asset-location-detail.component';
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
@@ -36,6 +47,17 @@ import { FormRequestEstateListComponent } from './Components/form-request-estate
         FormAccountPeriodComponent,
         PettyCashListComponent,
         AddPettyCashComponent,
+        ListMinorPurchaseComponent,
+        FormMinorPurchaseComponent,
+        FormAddPurchaseComponent,
+        ListConfirmPurchaseComponent,
+        FormConfirmPurchaseComponent,
+        AssetLocationListComponent,
+        AddAssetLocationComponent,
+        AddAssignmentPeriodComponent,
+        AssignmentPeriodListComponent,
+        AssetLocationDetailComponent,
+        AddAssetLocationDetailComponent,
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
         FormRequestEstateListComponent

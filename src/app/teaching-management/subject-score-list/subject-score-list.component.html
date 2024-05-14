@@ -2,7 +2,8 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Puntuaciones'" [items]="['Inicio','Docentes','Puntuaciones']" [active_item]="'Asignatura'">
+      <app-breadcrumb [title]="'Puntuaciones'" [items]="['Inicio','Docentes','Puntuaciones']"
+        [active_item]="'Asignatura'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -22,10 +23,9 @@
                           <h2>Descripción</h2>
                         </li>
                         <li class="tbl-search-box">
-                          <label for="search-input"><i
-                            class="material-icons search-icon">search</i></label>
-                          <input placeholder="Buscar" type="text" #filter
-                                 class="browser-default search-field" aria-label="Search box">
+                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
+                            aria-label="Search box">
                         </li>
                       </ul>
                     </div>
@@ -48,8 +48,7 @@
 
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
-                            <img src="assets/images/icons/xlsx.png" alt=""
-                                 (click)="exportExcel()" />
+                            <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
                           </div>
                         </li>
                       </ul>
@@ -57,8 +56,7 @@
                   </div>
                   <div class="body overflow-auto">
                     <div class="responsive_table">
-                      <table mat-table [dataSource]="dataSource" matSort
-                             class="mat-cell advance-table">
+                      <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
                         <ng-container matColumnDef="name">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría
                           </mat-header-cell>
@@ -70,27 +68,23 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                                                        <span
-                                                          class="mobile-label">Asignatura:</span>{{row.description}}</mat-cell>
+                            <span class="mobile-label">Asignatura:</span>{{row.description}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="statusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos x Horas
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span
-                              class="mobile-label">Puntos:</span>{{row.points}}
+                            <span class="mobile-label">Puntos:</span>{{row.points}}
                           </mat-cell>
                         </ng-container>
 
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
-                          <mat-header-cell class="pr-0"
-                                           *matHeaderCellDef>Acciones</mat-header-cell>
+                          <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button mat-mini-fab color="accent"
-                                    (click)="$event.stopPropagation()" (click)="editCall(row)"
-                                    class="tbl-action-btn">
+                            <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
+                              (click)="editCall(row)" class="tbl-action-btn">
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
                             <!-- <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> -->
@@ -102,8 +96,7 @@
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;"
-                                 [style.cursor]="'pointer'" matRipple>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
                     </div>
@@ -113,9 +106,8 @@
                       </mat-progress-spinner>
                     </div>
                     <!-- context menu start -->
-                    <div style="visibility: hidden; position: fixed"
-                         [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y"
-                         [matMenuTriggerFor]="contextMenu">
+                    <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
+                      [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
                     </div>
                     <mat-menu #contextMenu="matMenu">
                       <ng-template matMenuContent let-item="item">
@@ -158,11 +150,11 @@
                     </mat-menu>
                     <!-- context menu end -->
                     <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
-                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                       No results
                     </div>
-                    <mat-paginator #paginator [length]="dataSource.filteredData.length"
-                                   [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+                    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
+                      [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>
                 </div>

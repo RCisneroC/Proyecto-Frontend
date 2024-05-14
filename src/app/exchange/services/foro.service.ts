@@ -3,7 +3,7 @@ import { UnsubscribeOnDestroyAdapter } from "@shared";
 import { HttpClient } from "@angular/common/http";
 import { GetStudentsActivityResponse } from "../../admission/models/AddEFacademicResponse";
 import { environment } from "../../../environments/environment.development";
-import { ForoResponse, Foro } from '../models/Foro';
+import { ForoResponse, Foro, CommetForo } from '../models/Foro';
 import { CategoryResponse } from "../models/Category";
 
 @Injectable({
@@ -60,5 +60,15 @@ export class ForoService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
+  CreateComment(data: any) {
+    return this.httpClient.post<ForoResponse>(
+      environment.apiForo + 'Comment/AddComment', data
+    );
+  }
 
+  GetCommetForo(id: string) {
+    return this.httpClient.get<CommetForo>(
+      environment.apiForo + 'Comment/GetComment?CommentId=' + id
+    );
+  }
 }
