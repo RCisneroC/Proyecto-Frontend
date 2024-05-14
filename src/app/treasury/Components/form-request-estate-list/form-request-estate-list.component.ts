@@ -157,7 +157,7 @@ export class FormRequestEstateListComponent implements OnInit {
         daa_Number: this._Forms.getRawValue().daa_Number,
         descripcion: this._Forms.getRawValue().descripcion,
         revisionDate: new Date(),
-        numeroRevision: this._Forms.getRawValue().revisionNumber,
+        numeroRevision: this._Forms.getRawValue().numeroRevision,
         bienes: this._Forms.getRawValue().bienes == "1",
         service: this._Forms.getRawValue().service == "1",
         obras: this._Forms.getRawValue().obras == "1",
