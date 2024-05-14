@@ -47,7 +47,7 @@ import { FormRequestEstateListComponent } from './Components/form-request-estate
         AddAssignmentPeriodComponent,
         AssignmentPeriodListComponent,
         AssetLocationDetailComponent,
-        AddAssetLocationDetailComponent
+        AddAssetLocationDetailComponent,
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
         FormRequestEstateListComponent
