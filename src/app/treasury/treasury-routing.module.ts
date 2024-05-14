@@ -10,6 +10,9 @@ import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/p
 import { AssetLocationListComponent } from './Components/AssetLocation/asset-location-list/asset-location-list.component';
 import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
 import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
+import { RequestEstateListComponent } from "./Components/request-estate-list/request-estate-list.component";
+import { ListActivityComponent } from "../admission/inscription/approval/list-activity/list-activity.component";
+import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
 
 const routes: Routes = [
   {
@@ -45,10 +48,18 @@ const routes: Routes = [
     component: AssignmentPeriodListComponent,
   },
   {
+
     path: "asset-location-detail/:id",
     component: AssetLocationDetailComponent,
   },
-  
+  {
+    path: "request-estate-list",
+    component: RequestEstateListComponent,
+  },
+  {
+    path: 'request-estate-detail/:id',
+    component: DetailsRequestEstateComponent,
+  },
 ];
 
 @NgModule({
