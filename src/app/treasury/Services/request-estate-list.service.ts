@@ -63,7 +63,7 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
 
   Delete(Id: number) {
     let data = {
-      id: Id
+      requestId: Id
     };
     const options = {
       headers: new HttpHeaders({
@@ -72,7 +72,7 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/DeleterRequestService', options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/DeleteRequestService', options);
   }
   init_Model() {
     this._Model = {
