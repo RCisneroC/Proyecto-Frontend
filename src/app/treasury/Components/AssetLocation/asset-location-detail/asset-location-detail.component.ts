@@ -60,8 +60,11 @@ implements OnInit {
     } else {
       tempDirection = 'ltr';
     }
+  
+
     const dialogRef = this._dialog.open(AddAssetLocationDetailComponent, {
       data: {
+        detaiilId:this.id,
         assetLocationDetail: this.assetLocationDetail,
         action: 'add',
       },
