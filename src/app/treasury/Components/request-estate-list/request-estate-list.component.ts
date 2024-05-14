@@ -13,6 +13,8 @@ import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {RequestEstateListService} from "../../Services/request-estate-list.service";
 import {RequestEstateList} from "../../Models/RequestEstate";
 import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
+import {ScheduleActivityDetail} from "../../../admission/models/scheduleActivity";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-request-estate-list',
@@ -41,7 +43,8 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _Service : RequestEstateListService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     super();
   }
@@ -56,6 +59,10 @@ export class RequestEstateListComponent extends UnsubscribeOnDestroyAdapter
   }
   refresh() {
     this.loadData();
+  }
+
+  ViewDetail(row: RequestEstateList) {
+    this.router.navigate(['/treasury/request-estate-detail/' + row.requestId]);
   }
   addNew() {
     this._Service.init_Model();

@@ -111,6 +111,9 @@
                                     class="tbl-action-btn">
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
+                            <button  matTooltip="Detalles"
+                                    mat-mini-fab color="primary"
+                                    (click)="ViewDetail(row)"><mat-icon>remove_red_eye</mat-icon></button>
                             <!-- <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> -->
                             <!--<button mat-mini-fab color="accent"
                                     (click)="$event.stopPropagation()" (click)="delete(row)"

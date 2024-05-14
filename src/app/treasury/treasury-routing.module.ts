@@ -8,6 +8,8 @@ import { IncomeListComponent } from './Components/Income/income-list/income-list
 import { ListAccountPeriodComponent } from './Components/list-account-period/list-account-period.component';
 import { PettyCashListComponent } from './Components/PettyCash/petty-cash-list/petty-cash-list.component';
 import {RequestEstateListComponent} from "./Components/request-estate-list/request-estate-list.component";
+import {ListActivityComponent} from "../admission/inscription/approval/list-activity/list-activity.component";
+import {DetailsRequestEstateComponent} from "./Components/details-request-estate/details-request-estate.component";
 
 const routes: Routes = [
   {
@@ -37,7 +39,11 @@ const routes: Routes = [
   {
     path: "request-estate-list",
     component: RequestEstateListComponent,
-  }
+  },
+  {
+    path: 'request-estate-detail/:id',
+    component: DetailsRequestEstateComponent,
+  },
 ];
 
 @NgModule({
