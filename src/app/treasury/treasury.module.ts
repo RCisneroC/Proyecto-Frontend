@@ -30,6 +30,10 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
+import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
+import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
+import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
+import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
 
 
 @NgModule({
@@ -60,7 +64,11 @@ import { FormRequestEstateListComponent } from './Components/form-request-estate
         AddAssetLocationDetailComponent,
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
-        FormRequestEstateListComponent
+        FormRequestEstateListComponent,
+        PdfRefundComponent,
+        PdfRecapCashieComponent,
+        PdfExpenseReportComponent,
+        PdfIncomeReportComponent
     ],
     imports: [
         CommonModule,
