@@ -61,7 +61,7 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Numero de Uso Solicitante</mat-label>
+            <mat-label>Teléfono/Extensión</mat-label>
             <input matInput formControlName="numeroUsoSolicitante">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('numeroUsoSolicitante')?.hasError('required')">
@@ -72,7 +72,7 @@
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Numero de Revisión</mat-label>
+            <mat-label>Numero de Uso Solicitante</mat-label>
             <input matInput formControlName="numeroRevision">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('numeroRevision')?.hasError('required')">
@@ -134,7 +134,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+       <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Categoria</mat-label>
             <mat-select  formControlName="codigoId" >
@@ -145,9 +145,9 @@
               Campo requerido
             </mat-error>
           </mat-form-field>
-        </div>
+        </div>-->
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Period</mat-label>
             <mat-select  formControlName="periodoContableId" >

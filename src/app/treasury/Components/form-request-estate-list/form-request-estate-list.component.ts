@@ -50,11 +50,11 @@ export class FormRequestEstateListComponent implements OnInit {
       this.dialogTitle = "Editar";
       this._Model = data.GenericModel;
     }
-    this._Service.loadcategory().subscribe({
+   /* this._Service.loadcategory().subscribe({
       next:(res)=>{
         this.category = res.categorias
       }
-    });
+    });*/
 
     this._Forms = this.createContactForm();
   }
@@ -75,7 +75,7 @@ export class FormRequestEstateListComponent implements OnInit {
       nombreSolicitante: [this._Model.nombreSolicitante, [Validators.required]],
       firmaSolicitante: [this._Model.firmaSolicitante],
       firmaAprobacion: [this._Model.firmaAprobacion],
-      codigoId: [this._Model.codigoId, [Validators.required]],
+      codigoId: [this._Model.codigoId],
       periodoContableId: [this._Model.periodoContableId, [Validators.required]],
       statusId: [this._Model.statusId],
       modifiedBy: [this.authService.currentUserValue.firstName],
@@ -132,7 +132,7 @@ export class FormRequestEstateListComponent implements OnInit {
         obras: this._Forms.getRawValue().obras == "1",
         nombreSolicitante: this._Forms.getRawValue().nombreSolicitante,
         createdBy: this.authService.currentUserValue.id,
-        codigoId: this._Forms.getRawValue().codigoId,
+        //codigoId: this._Forms.getRawValue().codigoId,
         periodoContableId: this._Forms.getRawValue().periodoContableId,
       }
       this._Service.add(objrequest)
@@ -164,7 +164,7 @@ export class FormRequestEstateListComponent implements OnInit {
         nombreSolicitante: this._Forms.getRawValue().nombreSolicitante,
         firmaSolicitante: null,
         firmaAprobacion: null,
-        codigoId: this._Forms.getRawValue().codigoId,
+        //codigoId: this._Forms.getRawValue().codigoId,
         periodoContableId: this._Forms.getRawValue().periodoContableId,
         modifiedBy: this.authService.currentUserValue.firstName
       }
