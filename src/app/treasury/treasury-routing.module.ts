@@ -16,6 +16,7 @@ import { RequestEstateListComponent } from "./Components/request-estate-list/req
 import { ListActivityComponent } from "../admission/inscription/approval/list-activity/list-activity.component";
 import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
 import {AcceptanceRequestComponent} from "./Components/acceptance-request/acceptance-request.component";
+import {ExpensesComponent} from "./Components/expenses/expenses.component";
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
   {
     path: "acceptance-request",
     component: AcceptanceRequestComponent,
+  },
+  {
+    path: "expenses",
+    component: ExpensesComponent,
   },
 
 ];
