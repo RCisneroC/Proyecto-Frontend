@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {RequestEstateDetailsService} from "../../Services/request-estate-details.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormDetailsRequestEstateComponent} from "../form-details-request-estate/form-details-request-estate.component";
 
 @Component({
   selector: 'app-details-request-estate',
@@ -35,7 +36,7 @@ export class DetailsRequestEstateComponent extends UnsubscribeOnDestroyAdapter
   exampleDatabase?: RequestEstateDetailsService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<RequestEstateDetail>(true, []);
-  id?: number;
+  id?: string;
   status?: RequestEstateDetail = this._Service._Model;
 
   constructor(
@@ -66,9 +67,10 @@ export class DetailsRequestEstateComponent extends UnsubscribeOnDestroyAdapter
   }
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
+    const dialogRef = this.dialog.open(FormDetailsRequestEstateComponent, {
       data: {
         GenericModel: this._Service._Model,
+        request_id: this.id,
         action: 'add',
       }
     });
@@ -93,11 +95,11 @@ export class DetailsRequestEstateComponent extends UnsubscribeOnDestroyAdapter
     });
   }
   editCall(row: RequestEstateDetail) {
-    this.id = row.detailId;
 
-    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
+    const dialogRef = this.dialog.open(FormDetailsRequestEstateComponent, {
       data: {
         GenericModel: row,
+        request_id: this.id,
         action: 'edit',
       }
     });

@@ -105,7 +105,8 @@ export class RequestEstateListService extends UnsubscribeOnDestroyAdapter {
         code: 0,
         price: 0,
         quantityToSupply: 0,
-        goodsOrServiceDetail: ""
+        goodsOrServiceDetail: "",
+        unidadExistente: 0
       }]
     }
   }
