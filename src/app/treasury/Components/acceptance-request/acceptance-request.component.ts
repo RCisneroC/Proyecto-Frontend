@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {AcceptanceRequestService} from "../../Services/acceptance-request.service";
 import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
+import {FormAcceptanceRequestComponent} from "../form-acceptance-request/form-acceptance-request.component";
 
 @Component({
   selector: 'app-acceptance-request',
@@ -31,6 +32,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     'firmaAprobacion',
     'createdDate',
     'createdBy',
+    'statusId',
     'actions',
   ];
 
@@ -65,7 +67,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
 
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
+    const dialogRef = this.dialog.open(FormAcceptanceRequestComponent, {
       data: {
         GenericModel: this._Service._Model,
         action: 'add',
@@ -94,7 +96,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   editCall(row: AcceptanceRequest) {
     this.id = row.detalleId;
 
-    const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
+    const dialogRef = this.dialog.open(FormAcceptanceRequestComponent, {
       data: {
         GenericModel: row,
         action: 'edit',

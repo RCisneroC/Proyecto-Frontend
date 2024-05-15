@@ -112,6 +112,14 @@
                                                           class="mobile-label">Creado por:</span>{{row.createdBy}}</mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="statusId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Creado por:</span>{{row.statusId === 3 ?"Progreso" : "Aprobado"}}</mat-cell>
+                        </ng-container>
+
 
 
                         <!-- actions -->

@@ -42,19 +42,19 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
   }
 
   add(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/AddRequest', Data);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'SolicitudAprobacion/AddAprobacion', Data);
   }
 
   update(Data: any) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/UpdateRequestService', Data);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'SolicitudAprobacion/UpdateAprobacion', Data);
   }
 
   loadEdulevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
   }
 
-  loadcategory() {
-    return this.httpClient.get<any>(environment.apiUrlTreasury + 'Categoria/GetCategories');
+  loadSolicitudes() {
+    return this.httpClient.get<any>(environment.apiUrlTreasury + 'ServiceRequest/GetRequest');
   }
 
   loadPeriodContable() {
@@ -63,7 +63,7 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
 
   Delete(Id: number) {
     let data = {
-      requestId: Id
+      aprobacionId: Id
     };
     const options = {
       headers: new HttpHeaders({
@@ -72,7 +72,7 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
       body: data,
     };
 
-    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/DeleteRequestService', options);
+    return this.httpClient.delete<ResponseGenerica>(environment.apiUrlTreasury + 'SolicitudAprobacion/DeleteAprobacion', options);
   }
   init_Model() {
     this._Model = {
