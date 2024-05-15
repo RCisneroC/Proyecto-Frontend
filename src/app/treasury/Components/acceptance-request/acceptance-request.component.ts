@@ -25,12 +25,12 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit{
 
   displayedColumns = [
-    'requestId',
-    'solicitudSatatusId',
-    'createdSolicitud',
+    'detalleId',
+    'solicitudId',
+    'firmaSolicitante',
+    'firmaAprobacion',
+    'createdDate',
     'createdBy',
-    'acceptedBy',
-    'dateAcceptance',
     'actions',
   ];
 
@@ -62,9 +62,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     this.loadData();
   }
 
-  ViewDetail(row: AcceptanceRequest) {
-    this.router.navigate(['/treasury/request-estate-detail/' + row.requestId]);
-  }
+
   addNew() {
     this._Service.init_Model();
     const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
@@ -94,7 +92,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     });
   }
   editCall(row: AcceptanceRequest) {
-    this.id = row.requestId;
+    this.id = row.detalleId;
 
     const dialogRef = this.dialog.open(FormRequestEstateListComponent, {
       data: {
@@ -127,7 +125,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   delete(row:AcceptanceRequest) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.requestId,
+      text: "Eliminara "+row.detalleId,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -135,11 +133,11 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this._Service.Delete(row.requestId).subscribe({
+        this._Service.Delete(row.detalleId).subscribe({
           next:(res:ResponseGenerica)=>{
             Swal.fire({
               title: "Eliminado!",
-              text: row.requestId+" fue eliminado.",
+              text: row.detalleId+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
@@ -148,7 +146,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
             console.log(err);
             Swal.fire({
               title: "Intente nuevamente!",
-              text: row.requestId+" no se pudo eliminar.",
+              text: row.detalleId+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -198,7 +196,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'ID': x.requestId,
+        'ID': x.detalleId,
         'Creado por': x.createdBy,
 
       }));
@@ -243,7 +241,7 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
         this.filteredData = this.exampleDatabase.data
           .slice()
           .filter((_Model: AcceptanceRequest) => {
-            const searchStr = (_Model.requestId).toString().toLowerCase();
+            const searchStr = (_Model.detalleId).toString().toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -271,7 +269,7 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'id':
-          [propertyA, propertyB] = [a.requestId, b.requestId];
+          [propertyA, propertyB] = [a.detalleId, b.detalleId];
           break;
         case 'name':
           [propertyA, propertyB] = [a.createdBy, b.createdBy];

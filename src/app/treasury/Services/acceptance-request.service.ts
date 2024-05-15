@@ -76,12 +76,12 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
   }
   init_Model() {
     this._Model = {
-      requestId: 0,
-      solicitudSatatusId: 0,
-      createdSolicitud: new Date,
+      detalleId: 0,
+      solicitudId: 0,
+      firmaSolicitante: true,
+      firmaAprobacion: true,
+      createdDate: new Date,
       createdBy: "",
-      acceptedBy: "",
-      dateAcceptance: new Date,
       statusId: 0
     }
   }

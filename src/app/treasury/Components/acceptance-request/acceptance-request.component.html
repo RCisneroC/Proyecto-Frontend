@@ -59,29 +59,48 @@
                     <div class="responsive_table">
                       <table mat-table [dataSource]="dataSource" matSort
                              class="mat-cell advance-table">
-                        <ng-container matColumnDef="requestId">
+
+                        <ng-container matColumnDef="detalleId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>ID Aprobación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">ID Aprobación:</span>{{row.detalleId}}</mat-cell>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="solicitudId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>ID Solicitud
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">ID Solicitud:</span>{{row.requestId}}</mat-cell>
-                        </ng-container>
-
-
-                        <ng-container matColumnDef="solicitudSatatusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Solicitud de Estado
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
                             <span
-                              class="mobile-label">Solicitud de Estado:</span>{{row.solicitudSatatusId}}
+                              class="mobile-label">ID Solicitud:</span>{{row.solicitudId}}
                           </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="createdSolicitud">
+                        <ng-container matColumnDef="firmaSolicitante">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Firma Solicitante
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span
+                              class="mobile-label">Firma Solicitante:</span>{{row.firmaSolicitante === true ? 'SI': 'No'}}
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="firmaAprobacion">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Firma Aprobación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span
+                              class="mobile-label">Firma Aprobación:</span>{{row.firmaAprobacion === true ? 'SI': 'No'}}
+                          </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createdDate">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Creación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Fecha de Creación:</span>{{row.createdSolicitud |
+                                                          class="mobile-label">Fecha de Creación:</span>{{row.createdDate |
                             date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
 
@@ -93,30 +112,7 @@
                                                           class="mobile-label">Creado por:</span>{{row.createdBy}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="acceptedBy">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Aceptado por
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                                                        <span
-                                                          class="mobile-label">Aceptado por:</span>{{row.acceptedBy}}</mat-cell>
-                        </ng-container>
 
-                        <ng-container matColumnDef="dateAcceptance">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Aceptación
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                                                        <span
-                                                          class="mobile-label">Fecha de Aceptación:</span>{{row.dateAcceptance |
-                            date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container>
-
-                        <ng-container matColumnDef="statusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Status
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                                                        <span
-                                                          class="mobile-label">Status:</span>{{row.statusId}}</mat-cell>
-                        </ng-container>
 
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
