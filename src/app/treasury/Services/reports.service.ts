@@ -34,7 +34,7 @@ export class ReportsService  extends UnsubscribeOnDestroyAdapter {
  
 getPDFInformeGastos(data:any) {
   return this.httpClient
-      .post<any>(environment.apiUrlTreasury + 'GetPDF/PDFInformeGastos', data);
+      .post<any>(environment.apiUrlTreasury + 'GetPDF/PDFInformeIngresoGastos', data);
 
 }
 
