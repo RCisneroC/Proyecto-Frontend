@@ -32,7 +32,8 @@ export interface RequestEstateList {
 
 
 export interface RequestEstateDetail {
-  detailId: number
+  detailId: number,
+  unidadExistente: number
   requestForGoodsAndServicesId: number
   lineNumber: number
   quantity: number

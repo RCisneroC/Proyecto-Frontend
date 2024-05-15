@@ -42,11 +42,11 @@ export class RequestEstateDetailsService extends UnsubscribeOnDestroyAdapter {
   }
 
   add(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/AddDetail', Data);
   }
 
   update(Data: any) {
-    return this.httpClient.post<ResponseGenerica>(environment.apiUrlTeacher + 'SaveUpdatePointTeacher', Data);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'ServiceRequest/UpdateDetailService', Data);
   }
 
   loadEdulevel() {
@@ -84,7 +84,8 @@ export class RequestEstateDetailsService extends UnsubscribeOnDestroyAdapter {
       code: 0,
       price: 0,
       quantityToSupply: 0,
-      goodsOrServiceDetail: ""
+      goodsOrServiceDetail: "",
+      unidadExistente: 0
     }
   }
 }
