@@ -49,6 +49,10 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'SolicitudAprobacion/UpdateAprobacion', Data);
   }
 
+  solicitudPDF(id: string) {
+    return this.httpClient.get<any>(environment.apiUrlTreasury + "GetPDF/PDFRequest?ResquesId=" + id)
+  }
+
   loadEdulevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
   }

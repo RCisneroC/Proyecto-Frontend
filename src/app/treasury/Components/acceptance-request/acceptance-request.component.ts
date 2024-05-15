@@ -10,12 +10,15 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
-import {ResponseGenerica, ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
+import {ResponseGenerica, ResponseMessageMaestra, ResponsePDFEF} from "../../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {AcceptanceRequestService} from "../../Services/acceptance-request.service";
 import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
 import {FormAcceptanceRequestComponent} from "../form-acceptance-request/form-acceptance-request.component";
+import {
+  ViewPosterPDFComponent
+} from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 
 @Component({
   selector: 'app-acceptance-request',
@@ -47,6 +50,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     public dialog: MatDialog,
     public _Service : AcceptanceRequestService,
     private snackBar: MatSnackBar,
+    public _dialog: MatDialog,
     private router: Router
   ) {
     super();
@@ -153,9 +157,37 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
             });
           }
         })
-      } else {
       }
     });
+  }
+
+  viewRequestPDF(row: AcceptanceRequest) {
+
+    this._Service.solicitudPDF(row.solicitudId.toString()).subscribe({
+      next: (res: any) => {
+        if (res.isError === false) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.datapdf.docFile,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: res.message,
+            icon: "warning"
+          });
+        }
+
+      }
+    })
   }
 
 
