@@ -2,14 +2,14 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Solicitud de Aprobación'" [items]="['Inicio','Tesoreria']" [active_item]="'Solicitud de Bienes'">
+      <app-breadcrumb [title]="'Gastos'" [items]="['Inicio','Tesoreria']" [active_item]="'Gastos'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Solicitud de Aprobación de Bienes</strong></h2>
+            <h2 class="text-uppercase"><strong>Gastos / Reembolsos</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -19,7 +19,7 @@
                     <div class="left">
                       <ul class="header-buttons-left ms-0">
                         <li class="tbl-title">
-                          <h2>ID Solicitud</h2>
+                          <h2>ID Gastos</h2>
                         </li>
                         <li class="tbl-search-box">
                           <label for="search-input"><i
@@ -33,7 +33,7 @@
                       <ul class="tbl-export-btn">
                         <li class="tbl-header-btn">
                           <div class="m-l-10" matTooltip="Nuevo">
-                            <button mat-mini-fab color="primary" (click)="addNew()">
+                            <button disabled mat-mini-fab color="primary" (click)="addNew()">
                               <mat-icon class="col-white">add</mat-icon>
                             </button>
                           </div>
@@ -60,38 +60,38 @@
                       <table mat-table [dataSource]="dataSource" matSort
                              class="mat-cell advance-table">
 
-                        <ng-container matColumnDef="detalleId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>ID Aprobación
+                        <ng-container matColumnDef="gastoId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>ID Gastos
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">ID Aprobación:</span>{{row.detalleId}}</mat-cell>
+                            <span class="mobile-label">ID Gastos:</span>{{row.gastoId}}</mat-cell>
                         </ng-container>
 
 
-                        <ng-container matColumnDef="solicitudId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>ID Solicitud
+                        <ng-container matColumnDef="codigoGasto">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Código Gasto
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span
-                              class="mobile-label">ID Solicitud:</span>{{row.solicitudId}}
+                              class="mobile-label">Código Gasto:</span>{{row.codigoGasto}}
                           </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="firmaSolicitante">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Firma Solicitante
+                        <ng-container matColumnDef="descripcion">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span
-                              class="mobile-label">Firma Solicitante:</span>{{row.firmaSolicitante === true ? 'SI': 'No'}}
+                              class="mobile-label">Descripción:</span>{{row.descripcion}}
                           </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="firmaAprobacion">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Firma Aprobación
+                        <ng-container matColumnDef="statusDescripcion">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span
-                              class="mobile-label">Firma Aprobación:</span>{{row.firmaAprobacion === true ? 'SI': 'No'}}
+                              class="mobile-label">Estatus:</span>{{row.statusDescripcion }}
                           </mat-cell>
                         </ng-container>
 
@@ -104,20 +104,28 @@
                             date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="createdBy">
+                        <ng-container matColumnDef="createBy">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Creado por
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Creado por:</span>{{row.createdBy}}</mat-cell>
+                                                          class="mobile-label">Creado por:</span>{{row.createBy}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="statusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
+                        <ng-container matColumnDef="tipoGasto">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Gasto
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                                                         <span
-                                                          class="mobile-label">Creado por:</span>{{row.statusId === 3 ?"Progreso" : "Aprobado"}}</mat-cell>
+                                                          class="mobile-label">Tipo de Gasto:</span>{{row.tipoGasto}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="monto">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Monto
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Monto:</span>{{row.monto}}</mat-cell>
                         </ng-container>
 
 
@@ -127,20 +135,9 @@
                           <mat-header-cell class="pr-0"
                                            *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button mat-mini-fab color="accent"
-                                    (click)="$event.stopPropagation()" (click)="editCall(row)"
-                                    class="tbl-action-btn">
-                              <app-feather-icons [icon]="'edit'"></app-feather-icons>
-                            </button>
-                            <button  matTooltip="PDF Solicitud"
+                            <button   matTooltip="Ver Detalles"
                                      mat-mini-fab color="primary"
                                      (click)="viewRequestPDF(row)"><mat-icon>picture_as_pdf</mat-icon></button>
-                            <!-- <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> -->
-                            <button mat-mini-fab color="accent"
-                                    (click)="$event.stopPropagation()" (click)="delete(row)"
-                                    class="tbl-action-btn">
-                              <app-feather-icons [icon]="'trash'"></app-feather-icons>
-                            </button>
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

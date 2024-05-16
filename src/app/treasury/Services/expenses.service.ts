@@ -4,35 +4,35 @@ import {BehaviorSubject} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
 import {ResponseGenerica} from "../../admission/models/ResponseMessage";
-import {AcceptanceRequest, AcceptanceRequestResponse} from "../Models/AcceptanceRequest";
+import {Expenses, ExpensesResponse} from "../Models/Expenses";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
+export class ExpensesService extends UnsubscribeOnDestroyAdapter {
 
   isTblLoading = true;
-  public _Model!: AcceptanceRequest;
-  dataChange: BehaviorSubject<AcceptanceRequest[]> = new BehaviorSubject<AcceptanceRequest[]>([]);
+  public _Model!: Expenses;
+  dataChange: BehaviorSubject<Expenses[]> = new BehaviorSubject<Expenses[]>([]);
   // Temporarily stores data from dialogs
-  dialogData!: AcceptanceRequest;
+  dialogData!: Expenses;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): AcceptanceRequest[] {
+  get data(): Expenses[] {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAcceptanceRequest(): void {
+  getExpenses(): void {
     this.subs.sink = this.httpClient
-      .get<AcceptanceRequestResponse>(environment.apiUrlTreasury + 'SolicitudAprobacion/GetAprobacion')
+      .get<ExpensesResponse>(environment.apiUrlTreasury + 'Gastos/GetGastos')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data.getsolicitudAprobacions);
+          this.dataChange.next(data.gastos);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -51,6 +51,14 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
 
   solicitudPDF(id: string) {
     return this.httpClient.get<any>(environment.apiUrlTreasury + "GetPDF/PDFRequest?ResquesId=" + id)
+  }
+
+  solicitudPDFCompra(id: string) {
+
+    const data = {
+      solicitudCompraMenorId: id
+    }
+    return this.httpClient.post<any>(environment.apiUrlTreasury + "GetPDF/PDFComprobanteCajaMenuda",data)
   }
 
   loadEdulevel() {
@@ -80,15 +88,19 @@ export class AcceptanceRequestService extends UnsubscribeOnDestroyAdapter {
   }
   init_Model() {
     this._Model = {
-      detalleId: 0,
-      solicitudId: 0,
-      firmaSolicitante: true,
-      firmaAprobacion: true,
+      gastoId: 0,
+      codigoGasto: 0,
+      descripcion: "",
+      categoriaId: 0,
+      statusId: 0,
+      statusDescripcion: "",
       createdDate: new Date,
-      createdBy: "",
-      statusId: 0
+      createBy: "",
+      tipoGasto: "",
+      monto: 0
     }
   }
 }
+
 
 

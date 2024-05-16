@@ -19,6 +19,8 @@ import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.
 import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
 import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
 import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
+import { AcceptanceRequestComponent } from "./Components/acceptance-request/acceptance-request.component";
+import { ExpensesComponent } from "./Components/expenses/expenses.component";
 
 const routes: Routes = [
   {
@@ -95,9 +97,11 @@ const routes: Routes = [
   {
     path: 'pdf-income-report',
     component: PdfIncomeReportComponent,
-  }
-
-
+  },
+  {
+    path: "expenses",
+    component: ExpensesComponent,
+  },
 
 ];
 

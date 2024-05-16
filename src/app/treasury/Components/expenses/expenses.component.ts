@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {RequestEstateList} from "../../Models/RequestEstate";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
@@ -9,46 +8,47 @@ import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
-import {ResponseGenerica, ResponseMessageMaestra, ResponsePDFEF} from "../../../admission/models/ResponseMessage";
-import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {AcceptanceRequestService} from "../../Services/acceptance-request.service";
-import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
 import {FormAcceptanceRequestComponent} from "../form-acceptance-request/form-acceptance-request.component";
+import {ResponseGenerica, ResponseMessageMaestra} from "../../../admission/models/ResponseMessage";
+import Swal from "sweetalert2";
 import {
   ViewPosterPDFComponent
 } from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
+import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import {ExpensesService} from "../../Services/expenses.service";
+import {Expenses} from "../../Models/Expenses";
+import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
 
 @Component({
-  selector: 'app-acceptance-request',
-  templateUrl: './acceptance-request.component.html',
-  styleUrls: ['./acceptance-request.component.scss']
+  selector: 'app-expenses',
+  templateUrl: './expenses.component.html',
+  styleUrls: ['./expenses.component.scss']
 })
-export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
+export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit{
 
   displayedColumns = [
-    'detalleId',
-    'solicitudId',
-    'firmaSolicitante',
-    'firmaAprobacion',
+    'gastoId',
+    'codigoGasto',
+    'descripcion',
+    'statusDescripcion',
     'createdDate',
-    'createdBy',
-    'statusId',
+    'createBy',
+    'tipoGasto',
+    'monto',
     'actions',
   ];
 
-  exampleDatabase?: AcceptanceRequestService;
+  exampleDatabase?: ExpensesService;
   dataSource!: ExampleDataSource;
-  selection = new SelectionModel<AcceptanceRequest>(true, []);
+  selection = new SelectionModel<Expenses>(true, []);
   id?: number;
-  status?: AcceptanceRequest = this._Service._Model;
+  status?: Expenses = this._Service._Model;
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _Service : AcceptanceRequestService,
+    public _Service : ExpensesService,
     private snackBar: MatSnackBar,
     public _dialog: MatDialog,
     private router: Router
@@ -97,8 +97,8 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-  editCall(row: AcceptanceRequest) {
-    this.id = row.detalleId;
+  editCall(row: Expenses) {
+    this.id = row.gastoId;
 
     const dialogRef = this.dialog.open(FormAcceptanceRequestComponent, {
       data: {
@@ -128,10 +128,11 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  delete(row:AcceptanceRequest) {
+
+  delete(row:Expenses) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.detalleId,
+      text: "Eliminara "+row.gastoId,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -139,11 +140,11 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
       confirmButtonText: "Si, Eliminar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this._Service.Delete(row.detalleId).subscribe({
+        this._Service.Delete(row.gastoId).subscribe({
           next:(res:ResponseGenerica)=>{
             Swal.fire({
               title: "Eliminado!",
-              text: row.detalleId+" fue eliminado.",
+              text: row.gastoId+" fue eliminado.",
               icon: "success"
             });
             this.loadData();
@@ -152,7 +153,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
             console.log(err);
             Swal.fire({
               title: "Intente nuevamente!",
-              text: row.detalleId+" no se pudo eliminar.",
+              text: row.gastoId+" no se pudo eliminar.",
               icon: "warning"
             });
           }
@@ -161,33 +162,63 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  viewRequestPDF(row: AcceptanceRequest) {
+  viewRequestPDF(row: Expenses) {
 
-    this._Service.solicitudPDF(row.solicitudId.toString()).subscribe({
-      next: (res: any) => {
-        if (res.isError === false) {
-          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-            data: {
-              type: 'pdf',
-              accion: 'view-poster',
-              posterFile: res.datapdf.docFile,
-              comment: [],
-              poster: res,
-            },
-            width: '1200px',
-            disableClose: true,
-          });
-        }
-        else {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: res.message,
-            icon: "warning"
-          });
-        }
+    if(row.tipoGasto == "Servicio"){
+      this._Service.solicitudPDF(row.codigoGasto.toString()).subscribe({
+        next: (res: any) => {
+          if (res.isError === false) {
+            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+              data: {
+                type: 'pdf',
+                accion: 'view-poster',
+                posterFile: res.datapdf.docFile,
+                comment: [],
+                poster: res,
+              },
+              width: '1200px',
+              disableClose: true,
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: res.message,
+              icon: "warning"
+            });
+          }
 
-      }
-    })
+        }
+      })
+    }
+    else {
+      this._Service.solicitudPDFCompra(row.codigoGasto.toString()).subscribe({
+        next: (res: any) => {
+          if (res.isError === false) {
+            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+              data: {
+                type: 'pdf',
+                accion: 'view-poster',
+                posterFile: res.responseComprobanteCajaMenudas.docFile,
+                comment: [],
+                poster: res,
+              },
+              width: '1200px',
+              disableClose: true,
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: res.message,
+              icon: "warning"
+            });
+          }
+
+        }
+      })
+    }
+
   }
 
 
@@ -196,7 +227,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   }
 
   public loadData() {
-    this.exampleDatabase = new AcceptanceRequestService(this.httpClient);
+    this.exampleDatabase = new ExpensesService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -230,8 +261,8 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'ID': x.detalleId,
-        'Creado por': x.createdBy,
+        'ID': x.gastoId,
+        'Descripcion': x.descripcion,
 
       }));
 
@@ -240,7 +271,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
 }
 
 
-export class ExampleDataSource extends DataSource<AcceptanceRequest> {
+export class ExampleDataSource extends DataSource<Expenses> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -248,10 +279,10 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: AcceptanceRequest[] = [];
-  renderedData: AcceptanceRequest[] = [];
+  filteredData: Expenses[] = [];
+  renderedData: Expenses[] = [];
   constructor(
-    public exampleDatabase: AcceptanceRequestService,
+    public exampleDatabase: ExpensesService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -260,7 +291,7 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<AcceptanceRequest[]> {
+  connect(): Observable<Expenses[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -268,14 +299,14 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAcceptanceRequest();
+    this.exampleDatabase.getExpenses();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((_Model: AcceptanceRequest) => {
-            const searchStr = (_Model.detalleId).toString().toLowerCase();
+          .filter((_Model: Expenses) => {
+            const searchStr = (_Model.gastoId).toString().toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
         // Sort filtered data
@@ -294,7 +325,7 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: AcceptanceRequest[]): AcceptanceRequest[] {
+  sortData(data: Expenses[]): Expenses[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -303,10 +334,10 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'id':
-          [propertyA, propertyB] = [a.detalleId, b.detalleId];
+          [propertyA, propertyB] = [a.gastoId, b.gastoId];
           break;
         case 'name':
-          [propertyA, propertyB] = [a.createdBy, b.createdBy];
+          [propertyA, propertyB] = [a.descripcion, b.descripcion];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
@@ -317,5 +348,6 @@ export class ExampleDataSource extends DataSource<AcceptanceRequest> {
     });
   }
 }
+
 
 

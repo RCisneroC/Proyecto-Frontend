@@ -7,12 +7,12 @@ export interface AcceptanceRequestResponse {
 }
 
 export interface AcceptanceRequest {
-  requestId: number,
-  solicitudSatatusId: number,
-  createdSolicitud: Date,
-  createdBy: string,
-  acceptedBy: string,
-  dateAcceptance: Date,
+  detalleId: number,
+  solicitudId: number
+  firmaSolicitante: boolean
+  firmaAprobacion: boolean
+  createdDate: Date
+  createdBy: string
   statusId: number
 }
 
