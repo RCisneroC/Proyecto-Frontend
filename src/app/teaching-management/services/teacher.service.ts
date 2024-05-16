@@ -61,13 +61,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
-  getAllTeachersFilters(Data:any): void {
+  getAllTeachersFilters(Data: any): void {
     this.subs.sink = this.httpClient
-      .post<Teacher[]>(environment.apiUrlTeacher + 'GetAllTeacherFilter',Data)
+      .post<Teacher[]>(environment.apiUrlTeacher + 'GetAllTeacherFilter', Data)
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data.filter(f=>f.type==null));
+          this.dataChange.next(data.filter(f => f.type == null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -122,7 +122,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
 
   GetTeacherPointByCedula(id: string) {
-    return this.httpClient.get<any>(environment.apiUrlTeacher + 'GetTeacherByPoint?Cedula='+ id);
+    return this.httpClient.get<any>(environment.apiUrlTeacher + 'GetTeacherByPoint?Cedula=' + id);
   }
 
   SavePointTeacher(data: any) {
@@ -277,14 +277,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .post<any>(environment.apiIntranet + 'SearchActivityRecordScores', data);
   }
 
-  ValidateDocument(docId: number) {
+  ValidateDocument(docId: number, email: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
     };
     return this.httpClient
-      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId=' + docId, httpOptions);
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId=' + docId + '&LastModifiedBy=' + email, httpOptions);
   }
 
 

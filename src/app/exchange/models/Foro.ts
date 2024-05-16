@@ -15,3 +15,24 @@ export interface Foro {
   categoriesId: number,
   categoriesName: string
 }
+
+export interface GetComment {
+  foroId: number;
+  commentId: number;
+  firstName: string;
+  lastName: string;
+  tituloForo: string;
+  descripcionForo: string;
+  categories: string;
+  comment: string;
+  fechaInicioForo: Date;
+  fechaFinForo: Date;
+  fechaComent: Date;
+}
+
+export interface CommetForo {
+  getComment: GetComment[];
+  message: string;
+  isError: boolean;
+  statusCode: number;
+}

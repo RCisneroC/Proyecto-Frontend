@@ -27,6 +27,13 @@ import { AddAssignmentPeriodComponent } from './Components/AssignmentPeriod/add-
 import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
 import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
 import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-asset-location-detail/add-asset-location-detail.component';
+import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
+import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
+import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
+import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
+import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
+import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
+import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
 
 
 @NgModule({
@@ -54,7 +61,14 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
         AddAssignmentPeriodComponent,
         AssignmentPeriodListComponent,
         AssetLocationDetailComponent,
-        AddAssetLocationDetailComponent
+        AddAssetLocationDetailComponent,
+        RequestEstateListComponent,
+        DetailsRequestEstateComponent,
+        FormRequestEstateListComponent,
+        PdfRefundComponent,
+        PdfRecapCashieComponent,
+        PdfExpenseReportComponent,
+        PdfIncomeReportComponent
     ],
     imports: [
         CommonModule,

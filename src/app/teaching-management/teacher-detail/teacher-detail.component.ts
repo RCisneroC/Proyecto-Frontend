@@ -20,7 +20,7 @@ import { RequestServicesService } from 'app/intranet-academic-registration/Servi
 import { AuthService, User } from '@core';
 import { CallsTeachersService } from 'app/CallsTeachers/services/calls-teachers.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import {AddDocumentsSelectedComponent} from "../add-documents-selected/add-documents-selected.component";
+import { AddDocumentsSelectedComponent } from "../add-documents-selected/add-documents-selected.component";
 
 
 
@@ -221,7 +221,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
         if (this.typeUser == "Administrador") {
           if (this.DataTeacher.statusId != 1) {
-           if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
+            if (this.DataTeacher.listSubject.length > 0 && this.DataTeacher.listActivity.length > 0) {
               this.selectedOption = "3";
             } else if (this.DataTeacher.listSubject.length > 0) {
               this.selectedOption = "1";
@@ -606,10 +606,10 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
       selected: new FormControl(this.DataTeacher?.selected),
       //dischargeDate: new FormControl(this.DataTeacher?.dischargeDate),
 
-      phoneNumber:new FormControl(this.DataTeacher?.phoneNumber),
-      gender:new FormControl(this.DataTeacher?.gender),
-      placeOfBirth:new FormControl(this.DataTeacher?.placeOfBirth),
-      dateOfBirth:new FormControl(this.DataTeacher?.dateOfBirth),
+      phoneNumber: new FormControl(this.DataTeacher?.phoneNumber),
+      gender: new FormControl(this.DataTeacher?.gender),
+      placeOfBirth: new FormControl(this.DataTeacher?.placeOfBirth),
+      dateOfBirth: new FormControl(this.DataTeacher?.dateOfBirth),
       placeResidence: new FormControl(this.DataTeacher?.placeResidence),
       listCourse: new FormControl(this.DataTeacher?.listCourse || []),
       listTraining: new FormControl(this.DataTeacher?.listTraining || []),
@@ -695,7 +695,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
 
   validarDocumentos(row: Documents) {
 
-    this._teacherService.ValidateDocument(row.documentId).subscribe(
+    this._teacherService.ValidateDocument(row.documentId, this.authenticationService.currentUserValue.firstName + ' ' + this.authenticationService.currentUserValue.lastName).subscribe(
       {
         next: (request: any) => {
           Swal.fire({

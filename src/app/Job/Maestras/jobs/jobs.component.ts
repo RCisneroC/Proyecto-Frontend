@@ -94,7 +94,7 @@ export class JobsComponent extends UnsubscribeOnDestroyAdapter
   }
 
   GetContractType() {
-    this._CategoryJobServiceService.getAllCategoryActivity(1).subscribe({
+    this._TypeContractJobServiceService.getAllProvinciaActivity(1).subscribe({
       next: (res) => {
         this.ListContractType = res;
       }

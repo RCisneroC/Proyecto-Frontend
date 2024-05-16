@@ -2,15 +2,22 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Puntuaciones'" [items]="['Inicio','Docentes','Puntuaciones']"
-        [active_item]="'Asignatura'">
+      <app-breadcrumb [title]="'Solicitud de Bienes'" [items]="['Inicio','Tesoreria']" [active_item]="'Solicitud de Bienes'">
       </app-breadcrumb>
+    </div>
+    <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+      <div class="">
+        <button matTooltip="Regresar" mat-raised-button color="accent"
+                [routerLink]="['/treasury/request-estate-list']">
+          <mat-icon>keyboard_backspace</mat-icon> Regresar
+        </button>
+      </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Listado de Puntuaciones por Asignatura</strong></h2>
+            <h2 class="text-uppercase"><strong>Detalles de Solicitud de Bienes</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -20,12 +27,13 @@
                     <div class="left">
                       <ul class="header-buttons-left ms-0">
                         <li class="tbl-title">
-                          <h2>Descripción</h2>
+                          <h2>ID Detalle</h2>
                         </li>
                         <li class="tbl-search-box">
-                          <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                          <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
-                            aria-label="Search box">
+                          <label for="search-input"><i
+                            class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar" type="text" #filter
+                                 class="browser-default search-field" aria-label="Search box">
                         </li>
                       </ul>
                     </div>
@@ -48,7 +56,8 @@
 
                         <li>
                           <div class="export-button m-l-10" matTooltip="XLSX">
-                            <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                            <img src="assets/images/icons/xlsx.png" alt=""
+                                 (click)="exportExcel()" />
                           </div>
                         </li>
                       </ul>
@@ -56,35 +65,57 @@
                   </div>
                   <div class="body overflow-auto">
                     <div class="responsive_table">
-                      <table mat-table [dataSource]="dataSource" matSort class="mat-cell advance-table">
-                        <ng-container matColumnDef="name">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría
+                      <table mat-table [dataSource]="dataSource" matSort
+                             class="mat-cell advance-table">
+                        <ng-container matColumnDef="detailId">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>ID Detalle
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Categoría:</span>{{row.category}}</mat-cell>
+                            <span class="mobile-label">ID Detalle:</span>{{row.detailId}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="description">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Asignatura:</span>{{row.description}}</mat-cell>
-                        </ng-container>
 
-                        <ng-container matColumnDef="statusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos x Horas
+                        <ng-container matColumnDef="quantity">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Puntos:</span>{{row.points}}
+                            <span
+                              class="mobile-label">Cantidad:</span>{{row.quantity}}
                           </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="unit">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Unidad
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Unidad:</span>{{row.unit}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Precio
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Precio:</span>{{row.price }}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="goodsOrServiceDetail">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Detalles
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                                                        <span
+                                                          class="mobile-label">Detalles:</span>{{row.goodsOrServiceDetail}}</mat-cell>
                         </ng-container>
 
                         <!-- actions -->
                         <ng-container matColumnDef="actions">
-                          <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                          <mat-header-cell class="pr-0"
+                                           *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
-                              (click)="editCall(row)" class="tbl-action-btn">
+                            <button mat-mini-fab color="accent"
+                                    (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                    class="tbl-action-btn">
                               <app-feather-icons [icon]="'edit'"></app-feather-icons>
                             </button>
                             <!-- <button  mat-stroked-button color="primary" (click)="editCall(row)">Reservar</button> -->
@@ -96,7 +127,8 @@
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"
+                                 [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
                     </div>
@@ -106,8 +138,9 @@
                       </mat-progress-spinner>
                     </div>
                     <!-- context menu start -->
-                    <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                      [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
+                    <div style="visibility: hidden; position: fixed"
+                         [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y"
+                         [matMenuTriggerFor]="contextMenu">
                     </div>
                     <mat-menu #contextMenu="matMenu">
                       <ng-template matMenuContent let-item="item">
@@ -150,11 +183,11 @@
                     </mat-menu>
                     <!-- context menu end -->
                     <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
-                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
+                         [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
                       No results
                     </div>
-                    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
-                      [pageSizeOptions]="[5, 10, 25, 100]">
+                    <mat-paginator #paginator [length]="dataSource.filteredData.length"
+                                   [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
                     </mat-paginator>
                   </div>
                 </div>
