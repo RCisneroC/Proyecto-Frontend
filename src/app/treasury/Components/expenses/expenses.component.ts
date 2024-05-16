@@ -17,6 +17,7 @@ import {
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {ExpensesService} from "../../Services/expenses.service";
 import {Expenses} from "../../Models/Expenses";
+import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
 
 @Component({
   selector: 'app-expenses',
@@ -35,7 +36,7 @@ export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
     'createBy',
     'tipoGasto',
     'monto',
-    //'actions',
+    'actions',
   ];
 
   exampleDatabase?: ExpensesService;
@@ -127,6 +128,7 @@ export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+
   delete(row:Expenses) {
     Swal.fire({
       title: "¿Estas seguro?",
@@ -162,31 +164,61 @@ export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
 
   viewRequestPDF(row: Expenses) {
 
-    this._Service.solicitudPDF(row.gastoId.toString()).subscribe({
-      next: (res: any) => {
-        if (res.isError === false) {
-          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
-            data: {
-              type: 'pdf',
-              accion: 'view-poster',
-              posterFile: res.datapdf.docFile,
-              comment: [],
-              poster: res,
-            },
-            width: '1200px',
-            disableClose: true,
-          });
-        }
-        else {
-          Swal.fire({
-            title: "Escuela Judicial",
-            text: res.message,
-            icon: "warning"
-          });
-        }
+    if(row.tipoGasto == "Servicio"){
+      this._Service.solicitudPDF(row.codigoGasto.toString()).subscribe({
+        next: (res: any) => {
+          if (res.isError === false) {
+            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+              data: {
+                type: 'pdf',
+                accion: 'view-poster',
+                posterFile: res.datapdf.docFile,
+                comment: [],
+                poster: res,
+              },
+              width: '1200px',
+              disableClose: true,
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: res.message,
+              icon: "warning"
+            });
+          }
 
-      }
-    })
+        }
+      })
+    }
+    else {
+      this._Service.solicitudPDFCompra(row.codigoGasto.toString()).subscribe({
+        next: (res: any) => {
+          if (res.isError === false) {
+            const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+              data: {
+                type: 'pdf',
+                accion: 'view-poster',
+                posterFile: res.responseComprobanteCajaMenudas.docFile,
+                comment: [],
+                poster: res,
+              },
+              width: '1200px',
+              disableClose: true,
+            });
+          }
+          else {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: res.message,
+              icon: "warning"
+            });
+          }
+
+        }
+      })
+    }
+
   }
 
 

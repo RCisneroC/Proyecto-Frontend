@@ -53,6 +53,14 @@ export class ExpensesService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(environment.apiUrlTreasury + "GetPDF/PDFRequest?ResquesId=" + id)
   }
 
+  solicitudPDFCompra(id: string) {
+
+    const data = {
+      solicitudCompraMenorId: id
+    }
+    return this.httpClient.post<any>(environment.apiUrlTreasury + "GetPDF/PDFComprobanteCajaMenuda",data)
+  }
+
   loadEdulevel() {
     return this.httpClient.get<ResponseGenerica>(environment.apiUrlTeacher + 'GetEducationLvel');
   }
