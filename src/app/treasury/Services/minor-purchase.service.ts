@@ -10,6 +10,8 @@ import { PDFComprobandeCajaMenudaResponse } from '../Models/PDFComprobandeCajaMe
 import { AddPurchaseRequest } from '../Models/AddPurchaseRequest';
 import { AddPurchaseResponse } from '../Models/AddPurchaseResponse';
 import { GetPurchaseResponse } from '../Models/GetPurchaseResponse';
+import { AddHeadCustodiaCajaRequest } from '../Models/AddHeadCustodiaCajaRequest';
+import { AddHeadCustodiaCajaResponse } from '../Models/AddHeadCustodiaCajaResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +98,14 @@ export class MinorPurchaseService {
     return this.httpClient
       .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirma',data);
   }
+
+
+  addHeadCustodiaCajaRequest(data:AddHeadCustodiaCajaRequest) {
+    return this.httpClient
+      .post<AddHeadCustodiaCajaResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/AddHeadCustodioCaja',data);
+  }
+
+
 
 
 }

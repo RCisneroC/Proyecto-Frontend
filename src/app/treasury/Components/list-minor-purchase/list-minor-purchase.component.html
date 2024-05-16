@@ -129,7 +129,7 @@
                             (click)="$event.stopPropagation()" (click)="ViewExpediente(row)" class="tbl-action-btn">
                             <mat-icon>book</mat-icon>
                            </button>
-                           <button *ngIf="row.statusId===3"  mat-mini-fab color="primary" matTooltip="Confirmar la Compra"
+                           <button *ngIf="row.statusId===3 || row.statusId===4"  mat-mini-fab color="primary" matTooltip="Confirmar la Compra"
                             (click)="$event.stopPropagation()" (click)="addConfirmacionCompra(row)" class="tbl-action-btn">
                             <mat-icon>assignment</mat-icon>
                            </button>
