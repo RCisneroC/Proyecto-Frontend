@@ -1,0 +1,62 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <!-- breadcrumb -->
+            <app-breadcrumb [title]="'Gráficas Actividades'" [items]="['Inicio','Estadísticas']"
+                [active_item]="'Gráficas Actividades'">
+            </app-breadcrumb>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        Consulta de Gráfica de Actividades Entrenamiento
+                    </div>
+                    <div class="body">
+                        <!-- FILAS -->
+                        <form [formGroup]="form">
+                            <fieldset class="row">
+                                <legend>Criterios de Búsqueda</legend>
+                              
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Fecha de Inicio</mat-label>
+                                            <input matInput formControlName="startDate" [matDatepicker]="TstartDate">
+                                            <mat-datepicker-toggle matSuffix [for]="TstartDate"></mat-datepicker-toggle>
+                                            <mat-datepicker #TstartDate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Fecha de Fin</mat-label>
+                                            <input matInput formControlName="endDate"
+                                                [matDatepicker]="TplannedEndDate">
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="TplannedEndDate"></mat-datepicker-toggle>
+                                            <mat-datepicker #TplannedEndDate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                        </form>
+                        <br />
+                        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="consultar()">
+                            <mat-icon>search</mat-icon>Buscar
+                        </button>
+                        <br />
+                        <br />
+                        <hr />
+                        <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
+                     
+
+                    </div>
+                    <!-- FIN FILAS-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

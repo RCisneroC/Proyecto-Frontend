@@ -13,9 +13,12 @@ import { AssetLocationListComponent } from './Components/AssetLocation/asset-loc
 import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/assignment-period-list/assignment-period-list.component';
 import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
 import { RequestEstateListComponent } from "./Components/request-estate-list/request-estate-list.component";
-import { ListActivityComponent } from "../admission/inscription/approval/list-activity/list-activity.component";
 import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
-import {AcceptanceRequestComponent} from "./Components/acceptance-request/acceptance-request.component";
+import { AcceptanceRequestComponent } from "./Components/acceptance-request/acceptance-request.component";
+import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
+import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
+import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
+import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
 
 const routes: Routes = [
   {
@@ -75,6 +78,26 @@ const routes: Routes = [
     path: "acceptance-request",
     component: AcceptanceRequestComponent,
   },
+  {
+    path: 'pdf-refund',
+    component: PdfRefundComponent,
+  },
+
+  {
+    path: 'pdf-recap-cashie',
+    component: PdfRecapCashieComponent,
+  },
+
+  {
+    path: 'pdf-expense-report',
+    component: PdfExpenseReportComponent,
+  },
+  {
+    path: 'pdf-income-report',
+    component: PdfIncomeReportComponent,
+  }
+
+
 
 ];
 

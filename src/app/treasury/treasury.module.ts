@@ -30,9 +30,16 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
+<<<<<<< HEAD
 import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
 import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
+=======
+import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
+import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
+import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
+import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
+>>>>>>> d68680804a45f8fdfc64f5782fa9bedf4331652d
 
 
 @NgModule({
@@ -64,9 +71,16 @@ import { FormDetailsRequestEstateComponent } from './Components/form-details-req
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
         FormRequestEstateListComponent,
+<<<<<<< HEAD
         AcceptanceRequestComponent,
         FormAcceptanceRequestComponent,
         FormDetailsRequestEstateComponent
+=======
+        PdfRefundComponent,
+        PdfRecapCashieComponent,
+        PdfExpenseReportComponent,
+        PdfIncomeReportComponent
+>>>>>>> d68680804a45f8fdfc64f5782fa9bedf4331652d
     ],
     imports: [
         CommonModule,
