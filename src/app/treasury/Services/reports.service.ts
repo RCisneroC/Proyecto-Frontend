@@ -37,6 +37,7 @@ getPDFInformeGastos(data:any) {
       .post<any>(environment.apiUrlTreasury + 'GetPDF/PDFInformeIngresoGastos', data);
 
 }
+  
 
 getPDFInformeIngreso(data:any) {
   return this.httpClient
