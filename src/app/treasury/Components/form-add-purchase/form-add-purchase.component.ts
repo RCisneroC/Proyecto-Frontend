@@ -1,10 +1,109 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '@core/service/auth.service';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
+
+
+export interface DialogData {
+  solicituCompraMenorId : number
+}
+
 
 @Component({
   selector: 'app-form-add-purchase',
   templateUrl: './form-add-purchase.component.html',
   styleUrls: ['./form-add-purchase.component.scss']
 })
-export class FormAddPurchaseComponent {
+export class FormAddPurchaseComponent implements OnDestroy {
+
+  public subscriptions: Subscription[] = [];
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message: ''
+  }
+
+  public dialogTitle: string = "";
+  public form: UntypedFormGroup;
+  IsLoading: boolean = false;
+  solicituCompraMenorId : number;
+
+  constructor(
+    public dialogRef: MatDialogRef<FormAddPurchaseComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private serviceMinorPurchase: MinorPurchaseService,
+    private authService: AuthService,
+    private fb: UntypedFormBuilder,
+  ) {
+    this.dialogTitle = 'Nueva Compra';
+    this.solicituCompraMenorId = data.solicituCompraMenorId;
+    this.form = this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
+
+  createForm(): UntypedFormGroup {
+    return this.fb.group({
+      solicituCompraMenorId: [this.solicituCompraMenorId],
+      cedula: ['', [Validators.required]],
+      autorizadoPor: ['', [Validators.required]],
+      entregadoPor: ['', [Validators.required]],
+      nombreRecibe: ['', [Validators.required]],
+      firmaAnallistaPresupestaria: ['', [Validators.required]],
+      firma: ['', [Validators.required]],
+      creartedBy: this.authService.currentUserValue.id,
+      confirmaCompras: this.fb.array([],Validators.required)
+    });
+
+  }
+
+
+  confirmAdd() {
+    if (!this.form.valid) {
+      return;
+    }
+    this.IsLoading = true;
+
+    this.subscriptions.push(
+      this.serviceMinorPurchase.addPurchase(this.form.getRawValue()).subscribe(
+        {
+          next: (data) => {
+            if (data.statusCode == 200) {
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Guardado correctamente.';
+              this.IsLoading = false;
+              this.dialogRef.close(this.ResponseMessage);
+
+            }
+            else {
+              this.ResponseMessage.CodError = 400;
+              this.ResponseMessage.Message = 'Intente nuevamente.';
+              this.IsLoading = false;
+              this.dialogRef.close(this.ResponseMessage);
+            }
+
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+            this.ResponseMessage.CodError = 400;
+            this.ResponseMessage.Message = 'Intente nuevamente.';
+            this.IsLoading = false;
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        }
+      )
+    );
+  }
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
+
+
 
 }

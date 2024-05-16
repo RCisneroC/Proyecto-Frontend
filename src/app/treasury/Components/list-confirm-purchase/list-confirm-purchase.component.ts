@@ -8,11 +8,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
 import { GetConfirmaCompraResponse } from 'app/treasury/Models/GetPurchaseResponse';
 import { FormConfirmPurchaseComponent } from '../form-confirm-purchase/form-confirm-purchase.component';
+import { AddHeadCustodiaCajaRequest } from 'app/treasury/Models/AddHeadCustodiaCajaRequest';
 
 @Component({
   selector: 'app-list-confirm-purchase',
@@ -21,6 +21,12 @@ import { FormConfirmPurchaseComponent } from '../form-confirm-purchase/form-conf
 })
 export class ListConfirmPurchaseComponent implements OnInit,
   OnDestroy {
+
+  public addHeadCustodiaCajaRequest:AddHeadCustodiaCajaRequest = {
+    solicituCompraMenorId: 0,
+    adelanto: 0
+  };
+
   id: number = 0;
 
   public subscriptions: Subscription[] = [];
@@ -49,10 +55,13 @@ export class ListConfirmPurchaseComponent implements OnInit,
   constructor(private _nav: ActivatedRoute,
     private servicioMinorPurchase: MinorPurchaseService,
     public dialog: MatDialog,
+    private router: Router
   ) {
     if (_nav.snapshot.params["id"] != undefined) {
       this.id = parseInt(_nav.snapshot.params["id"]);
     }
+   const t =  this.router.getCurrentNavigation()?.extras.state;
+   this.addHeadCustodiaCajaRequest = t!['data'] as AddHeadCustodiaCajaRequest;
   }
 
   ngOnInit(): void {
@@ -141,13 +150,9 @@ export class ListConfirmPurchaseComponent implements OnInit,
 
   addNew() {
 
-    const row: GetConfirmaCompraResponse = {
-      actions: "new"
-    };
-
     const dialogRef = this.dialog.open(FormConfirmPurchaseComponent, {
       data: {
-        detail: row
+        detail: this.addHeadCustodiaCajaRequest
       },
       disableClose: true,
       width: '600px',

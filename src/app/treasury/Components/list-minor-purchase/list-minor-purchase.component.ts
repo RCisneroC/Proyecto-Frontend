@@ -13,6 +13,7 @@ import { ResponseCompraMenor } from 'app/treasury/Models/GetAprobacionResponse';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
 import { FormMinorPurchaseComponent } from '../form-minor-purchase/form-minor-purchase.component';
 import { Router } from '@angular/router';
+import { AddHeadCustodiaCajaRequest } from 'app/treasury/Models/AddHeadCustodiaCajaRequest';
 
 @Component({
   selector: 'app-list-minor-purchase',
@@ -274,7 +275,13 @@ ViewExpediente(row: ResponseCompraMenor) {
 
 
 addConfirmacionCompra(row:ResponseCompraMenor){
-this.router.navigate(['treasury/list-confirm-purchase/' + row.compraMenorId])
+
+const obj:AddHeadCustodiaCajaRequest = {
+  solicituCompraMenorId : row.compraMenorId!,
+  adelanto : row.sumaDe!
+}
+
+this.router.navigate(['treasury/list-confirm-purchase/' + row.compraMenorId], { state: { data: obj } })
 }
 
 
