@@ -34,6 +34,7 @@ import { AcceptanceRequestComponent } from './Components/acceptance-request/acce
 import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
 import { ExpensesComponent } from './Components/expenses/expenses.component';
+import { FormUpdateExpensesComponent } from './Components/form-update-expenses/form-update-expenses.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { ExpensesComponent } from './Components/expenses/expenses.component';
         AcceptanceRequestComponent,
         FormAcceptanceRequestComponent,
         FormDetailsRequestEstateComponent,
-        ExpensesComponent
+        ExpensesComponent,
+        FormUpdateExpensesComponent
     ],
     imports: [
         CommonModule,

@@ -46,7 +46,7 @@ export class ExpensesService extends UnsubscribeOnDestroyAdapter {
   }
 
   update(Data: any) {
-    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'SolicitudAprobacion/UpdateAprobacion', Data);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'Gastos/UpdateGastos', Data);
   }
 
   solicitudPDF(id: string) {
