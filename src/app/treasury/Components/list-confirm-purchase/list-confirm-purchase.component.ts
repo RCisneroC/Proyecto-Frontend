@@ -13,6 +13,7 @@ import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.servi
 import { GetConfirmaCompraResponse } from 'app/treasury/Models/GetPurchaseResponse';
 import { FormConfirmPurchaseComponent } from '../form-confirm-purchase/form-confirm-purchase.component';
 import { AddHeadCustodiaCajaRequest } from 'app/treasury/Models/AddHeadCustodiaCajaRequest';
+import { FormAddPurchaseComponent } from '../form-add-purchase/form-add-purchase.component';
 
 @Component({
   selector: 'app-list-confirm-purchase',
@@ -60,6 +61,7 @@ export class ListConfirmPurchaseComponent implements OnInit,
     if (_nav.snapshot.params["id"] != undefined) {
       this.id = parseInt(_nav.snapshot.params["id"]);
     }
+
    const t =  this.router.getCurrentNavigation()?.extras.state;
    this.addHeadCustodiaCajaRequest = t!['data'] as AddHeadCustodiaCajaRequest;
   }
@@ -295,5 +297,39 @@ export class ListConfirmPurchaseComponent implements OnInit,
       }
     });
   }
+
+
+addCompra() {
+
+    const dialogRef = this.dialog.open(FormAddPurchaseComponent, {
+      data: {
+        solicituCompraMenorId: this.addHeadCustodiaCajaRequest.solicituCompraMenorId
+      },
+      disableClose: true,
+      width: '600px',
+      height: '680px'
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+
+      if (result.CodError == 200) {
+        this.loadData();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+
 
 }

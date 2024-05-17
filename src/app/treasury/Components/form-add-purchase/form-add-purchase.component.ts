@@ -1,12 +1,12 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {  UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/service/auth.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
-
+import {ConfirmaCompra} from '../../Models/AddPurchaseRequest';
 
 export interface DialogData {
   solicituCompraMenorId : number
@@ -30,6 +30,10 @@ export class FormAddPurchaseComponent implements OnDestroy {
   public form: UntypedFormGroup;
   IsLoading: boolean = false;
   solicituCompraMenorId : number;
+  listaConfirmaCompra : ConfirmaCompra[] = [];
+  categoria: number = 0;
+  codigoFinanciero: string = '';
+  valor: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<FormAddPurchaseComponent>,
@@ -54,10 +58,10 @@ export class FormAddPurchaseComponent implements OnDestroy {
       autorizadoPor: ['', [Validators.required]],
       entregadoPor: ['', [Validators.required]],
       nombreRecibe: ['', [Validators.required]],
-      firmaAnallistaPresupestaria: ['', [Validators.required]],
-      firma: ['', [Validators.required]],
+      firmaAnallistaPresupestaria: [''],
+      firma: [''],
       creartedBy: this.authService.currentUserValue.id,
-      confirmaCompras: this.fb.array([],Validators.required)
+      confirmaCompras: [this.listaConfirmaCompra,Validators.required]
     });
 
   }
@@ -103,7 +107,6 @@ export class FormAddPurchaseComponent implements OnDestroy {
   onNoClick() {
     this.dialogRef.close();
   }
-
 
 
 }

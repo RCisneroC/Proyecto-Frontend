@@ -56,7 +56,7 @@ export class MinorPurchaseService {
 
   getPdfSmallCashReceipt(id:number) {
     return this.httpClient
-      .put<PDFComprobandeCajaMenudaResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/UpdateCompraMenor',
+      .post<PDFComprobandeCajaMenudaResponse>(environment.apiUrlTreasury + 'GetPDF/PDFComprobanteCajaMenuda',
       {
         solicitudCompraMenorId: id
       }
@@ -77,7 +77,7 @@ export class MinorPurchaseService {
 
   getConfirmPurchaseById(id:number) {
     return this.httpClient
-      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmaCompra?SolicituCompraMenorId=' + id);
+      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'GetConfirmaCompra?SolicituCompraMenorId=' + id);
   }
 
 

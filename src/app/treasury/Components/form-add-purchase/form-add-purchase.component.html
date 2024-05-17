@@ -59,77 +59,18 @@
         </div>
 
 
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-label>Firma Analista Presupuestaria</mat-label>
+          <mat-checkbox formControlName="firmaAnallistaPresupestaria"></mat-checkbox>
+        </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Autorizado Por</mat-label>
-            <input  matInput formControlName="autorizadoPor">
-            <mat-error *ngIf="form.get('autorizadoPor')?.hasError('required')">
-              Autorizado es requerido
-            </mat-error>
-          </mat-form-field>
+          <mat-label>Firma</mat-label>
+          <mat-checkbox formControlName="firma"></mat-checkbox>
         </div>
 
 
 
-
-
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Importe de Factura</mat-label>
-            <input type="number"  matInput formControlName="importeFactura">
-            <mat-error *ngIf="form.get('importeFactura')?.hasError('required')">
-              Importe de Factura  es requerido
-            </mat-error>
-            <mat-error *ngIf="form.get('importeFactura')?.hasError('pattern')">
-             Importe de Factura no tiene un formato válido
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Adelanto</mat-label>
-            <input type="number"  matInput formControlName="adelanto">
-            <mat-error *ngIf="form.get('adelanto')?.hasError('required')">
-              Adelanto  es requerido
-            </mat-error>
-            <mat-error *ngIf="form.get('adelanto')?.hasError('pattern')">
-             Adelanto no tiene un formato válido
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Ajuste</mat-label>
-            <input type="number"  matInput formControlName="ajuste">
-            <mat-error *ngIf="form.get('ajuste')?.hasError('required')">
-              Ajuste  es requerido
-            </mat-error>
-            <mat-error *ngIf="form.get('ajuste')?.hasError('pattern')">
-             Ajuste no tiene un formato válido
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-
-
-
-
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Proveedor</mat-label>
-            <input matInput formControlName="proveedor">
-            <mat-error *ngIf="form.get('proveedor')?.hasError('required')">
-              Proveedor es requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
       </div>
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -142,6 +83,3 @@
     </form>
   </div>
 </div>
-
-
-
