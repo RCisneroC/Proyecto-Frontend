@@ -30,74 +30,62 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
-<<<<<<< HEAD
 import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
 import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
-<<<<<<< HEAD
-=======
 import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
 import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
 import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
 import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
->>>>>>> d68680804a45f8fdfc64f5782fa9bedf4331652d
-=======
 import { ExpensesComponent } from './Components/expenses/expenses.component';
->>>>>>> aa43010619c091492e516b8b2fe5f930de3a463f
 
 
 @NgModule({
-    providers: [DatePipe],
-    declarations: [
-        ListBudgetSubCodificationCatalogComponent,
-        FormBudgetSubCodificationCatalogComponent,
-        ListTicketComponent,
-        FormTicketComponent,
-        BudgetCodingListComponent,
-        AddBudgetCodingComponent,
-        AddIncomeComponent,
-        IncomeListComponent,
-        ListAccountPeriodComponent,
-        FormAccountPeriodComponent,
-        PettyCashListComponent,
-        AddPettyCashComponent,
-        ListMinorPurchaseComponent,
-        FormMinorPurchaseComponent,
-        FormAddPurchaseComponent,
-        ListConfirmPurchaseComponent,
-        FormConfirmPurchaseComponent,
-        AssetLocationListComponent,
-        AddAssetLocationComponent,
-        AddAssignmentPeriodComponent,
-        AssignmentPeriodListComponent,
-        AssetLocationDetailComponent,
-        AddAssetLocationDetailComponent,
-        RequestEstateListComponent,
-        DetailsRequestEstateComponent,
-        FormRequestEstateListComponent,
-<<<<<<< HEAD
-        AcceptanceRequestComponent,
-        FormAcceptanceRequestComponent,
-<<<<<<< HEAD
-        FormDetailsRequestEstateComponent
-=======
-        PdfRefundComponent,
-        PdfRecapCashieComponent,
-        PdfExpenseReportComponent,
-        PdfIncomeReportComponent
->>>>>>> d68680804a45f8fdfc64f5782fa9bedf4331652d
-=======
-        FormDetailsRequestEstateComponent,
-        ExpensesComponent
->>>>>>> aa43010619c091492e516b8b2fe5f930de3a463f
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SharedModule,
-        TreasuryRoutingModule,
-        ComponentsModule
-    ]
+        providers: [DatePipe],
+        declarations: [
+                ListBudgetSubCodificationCatalogComponent,
+                FormBudgetSubCodificationCatalogComponent,
+                ListTicketComponent,
+                FormTicketComponent,
+                BudgetCodingListComponent,
+                AddBudgetCodingComponent,
+                AddIncomeComponent,
+                IncomeListComponent,
+                ListAccountPeriodComponent,
+                FormAccountPeriodComponent,
+                PettyCashListComponent,
+                AddPettyCashComponent,
+                ListMinorPurchaseComponent,
+                FormMinorPurchaseComponent,
+                FormAddPurchaseComponent,
+                ListConfirmPurchaseComponent,
+                FormConfirmPurchaseComponent,
+                AssetLocationListComponent,
+                AddAssetLocationComponent,
+                AddAssignmentPeriodComponent,
+                AssignmentPeriodListComponent,
+                AssetLocationDetailComponent,
+                AddAssetLocationDetailComponent,
+                RequestEstateListComponent,
+                DetailsRequestEstateComponent,
+                FormRequestEstateListComponent,
+                AcceptanceRequestComponent,
+                FormAcceptanceRequestComponent,
+                FormDetailsRequestEstateComponent,
+                PdfRefundComponent,
+                PdfRecapCashieComponent,
+                PdfExpenseReportComponent,
+                PdfIncomeReportComponent,
+                FormDetailsRequestEstateComponent,
+                ExpensesComponent
+        ],
+        imports: [
+                CommonModule,
+                FormsModule,
+                ReactiveFormsModule,
+                SharedModule,
+                TreasuryRoutingModule,
+                ComponentsModule
+        ]
 })
 export class TreasuryModule { }

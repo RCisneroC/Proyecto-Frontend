@@ -121,6 +121,7 @@ export class FormMinorPurchaseComponent implements OnInit, OnDestroy {
     this.IsLoading = true;
     if (this.action == "new") {
 
+
       this.subscriptions.push(
         this.serviceMinorPurchase.addMinorPurchase(this.form.getRawValue()).subscribe(
           {

@@ -25,24 +25,24 @@ export class MinorPurchaseService {
       .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor?CompraMenorId=0');
   }
 
-  getMinorPurchaseById(id:number) {
+  getMinorPurchaseById(id: number) {
     return this.httpClient
       .get<GetAprobacionResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/GetCompraMenor?CompraMenorId=' + id);
   }
 
-  addMinorPurchase(data:AddCompraMenorRequest) {
+  addMinorPurchase(data: AddCompraMenorRequest) {
     return this.httpClient
-      .post<AddCompraMenorResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/AddCompraMenor',data);
+      .post<AddCompraMenorResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/AddCompraMenor', data);
   }
 
-  updateMinorPurchase(data:UpdateMinorPurchaseRequest) {
+  updateMinorPurchase(data: UpdateMinorPurchaseRequest) {
     return this.httpClient
-      .put<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/UpdateCompraMenor',data);
+      .put<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/UpdateCompraMenor', data);
   }
 
 
-  deleteMinorPurchase(id:number){
-    const data = {solicitudCompraMenorId : id};
+  deleteMinorPurchase(id: number) {
+    const data = { solicitudCompraMenorId: id };
 
     const options = {
       headers: new HttpHeaders({
@@ -50,23 +50,23 @@ export class MinorPurchaseService {
       }),
       body: data,
     };
-    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/DeleteCompraMenor',options);
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/DeleteCompraMenor', options);
   }
 
 
-  getPdfSmallCashReceipt(id:number) {
+  getPdfSmallCashReceipt(id: number) {
     return this.httpClient
-      .put<PDFComprobandeCajaMenudaResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/UpdateCompraMenor',
-      {
-        solicitudCompraMenorId: id
-      }
-    );
+      .post<PDFComprobandeCajaMenudaResponse>(environment.apiUrlTreasury + 'GetPDF/PDFComprobanteCajaMenuda',
+        {
+          solicitudCompraMenorId: id
+        }
+      );
   }
 
 
-  addPurchase(data:AddPurchaseRequest) {
+  addPurchase(data: AddPurchaseRequest) {
     return this.httpClient
-      .post<AddPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/AddCompra',data);
+      .post<AddPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/AddCompra', data);
   }
 
 
@@ -75,14 +75,14 @@ export class MinorPurchaseService {
       .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmaCompra');
   }
 
-  getConfirmPurchaseById(id:number) {
+  getConfirmPurchaseById(id: number) {
     return this.httpClient
       .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmaCompra?SolicituCompraMenorId=' + id);
   }
 
 
-  deleteConfirmPurchase(id:number){
-    const data = {confirmaCompraId : id};
+  deleteConfirmPurchase(id: number) {
+    const data = { confirmaCompraId: id };
 
     const options = {
       headers: new HttpHeaders({
@@ -90,19 +90,19 @@ export class MinorPurchaseService {
       }),
       body: data,
     };
-    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/DeleteConfirma',options);
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/DeleteConfirma', options);
   }
 
 
-  updateConfirmPurchase(data:any) {
+  updateConfirmPurchase(data: any) {
     return this.httpClient
-      .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirma',data);
+      .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirma', data);
   }
 
 
-  addHeadCustodiaCajaRequest(data:AddHeadCustodiaCajaRequest) {
+  addHeadCustodiaCajaRequest(data: AddHeadCustodiaCajaRequest) {
     return this.httpClient
-      .post<AddHeadCustodiaCajaResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/AddHeadCustodioCaja',data);
+      .post<AddHeadCustodiaCajaResponse>(environment.apiUrlTreasury + 'SolicitudCompraMenor/AddHeadCustodioCaja', data);
   }
 
 
