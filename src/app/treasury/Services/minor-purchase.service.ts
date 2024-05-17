@@ -77,7 +77,7 @@ export class MinorPurchaseService {
 
   getConfirmPurchaseById(id: number) {
     return this.httpClient
-      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmaCompra?SolicituCompraMenorId=' + id);
+      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'GetConfirmaCompra?SolicituCompraMenorId=' + id);
   }
 
 

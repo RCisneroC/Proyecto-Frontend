@@ -34,7 +34,7 @@
                         <li class="tbl-header-btn">
                           <div class="m-l-10" matTooltip="NUEVA SOLICITUD COMPRA MENOR">
                             <button matTooltip="AGREGAR SOLICITUD COMPRA MENOR" mat-mini-fab color="primary"
-                              (click)="addNew()" class="tbl-action-btn">
+                              (click)="addCompra()" class="tbl-action-btn">
                               <app-feather-icons [icon]="'plus'"></app-feather-icons>
                             </button>
                           </div>
@@ -152,6 +152,9 @@
                             </button>
                             <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
                               <mat-icon>delete</mat-icon>
+                            </button>
+                            <button (click)="addNew()" matTooltip="Agregar Compra" mat-mini-fab color="primary">
+                              <mat-icon>save</mat-icon>
                             </button>
                           </mat-cell>
                         </ng-container>
