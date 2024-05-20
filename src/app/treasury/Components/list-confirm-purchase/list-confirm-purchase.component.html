@@ -5,6 +5,13 @@
       <app-breadcrumb [title]="'Solicitud Confirmación de Compra'" [items]="['Inicio','Tesorería']"
         [active_item]="'Solicitud Confirmación de Compra'">
       </app-breadcrumb>
+      <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+        <div class="">
+            <button matTooltip="Regresar" mat-raised-button color="accent" [routerLink]="['/treasury/list-minor-purchase']">
+                <mat-icon>keyboard_backspace</mat-icon> Regresar
+            </button>
+        </div>
+    </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -32,9 +39,12 @@
                     <div class="right">
                       <ul class="tbl-export-btn">
                         <li class="tbl-header-btn">
-                          <div class="m-l-10" matTooltip="NUEVA SOLICITUD COMPRA MENOR">
-                            <button matTooltip="AGREGAR SOLICITUD COMPRA MENOR" mat-mini-fab color="primary"
+                          <div class="m-l-10" matTooltip="COMPRA MENOR">
+                            <button *ngIf="!this.hideDetail" matTooltip="Confirmar Compra" mat-mini-fab color="primary"
                               (click)="addCompra()" class="tbl-action-btn">
+                              <app-feather-icons [icon]="'plus'"></app-feather-icons>
+                            </button>
+                            <button *ngIf="!this.hideHeader" (click)="addNew()" matTooltip="Agregar Compra" mat-mini-fab color="primary">
                               <app-feather-icons [icon]="'plus'"></app-feather-icons>
                             </button>
                           </div>
@@ -120,20 +130,6 @@
                             <span class="mobile-label">Nombre recibe:</span>{{row.nombreRecibe}}</mat-cell>
                         </ng-container>
 
-
-                        <ng-container matColumnDef="statusId">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                            <div *ngIf="row.statusId===3" class="badge badge-solid-red">
-                              En Proceso
-                            </div>
-                            <div *ngIf="row.statusId===4" class="badge badge-solid-green">
-                              Aceptado
-                            </div>
-                          </mat-cell>
-                        </ng-container>
-
                         <ng-container matColumnDef="createdDate">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Creación
                           </mat-header-cell>
@@ -146,15 +142,8 @@
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button Tooltip="Editar" mat-mini-fab color="warn" (click)="$event.stopPropagation()"
-                              (click)="open(row)">
-                              <app-feather-icons [icon]="'check-square'"></app-feather-icons>
-                            </button>
-                            <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
+                            <button *ngIf="row.confirmaCompraId !== null" (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
                               <mat-icon>delete</mat-icon>
-                            </button>
-                            <button (click)="addNew()" matTooltip="Agregar Compra" mat-mini-fab color="primary">
-                              <mat-icon>save</mat-icon>
                             </button>
                           </mat-cell>
                         </ng-container>

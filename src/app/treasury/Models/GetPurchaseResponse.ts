@@ -6,6 +6,7 @@ export interface GetPurchaseResponse {
 }
 
 export interface GetConfirmaCompraResponse {
+  confirmaCompraId?: number
   solicituCompraMenorId?: number
   adelanto?: number
   importeFactura?: number

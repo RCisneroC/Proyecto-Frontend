@@ -65,8 +65,10 @@ export class MinorPurchaseService {
 
 
   addPurchase(data: AddPurchaseRequest) {
+    // const url = "http://localhost:5032/api/v1/";
+    //environment.apiUrlTreasury
     return this.httpClient
-      .post<AddPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/AddCompra', data);
+      .post<AddPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/AddConfirmaCompra', data);
   }
 
 
@@ -76,13 +78,23 @@ export class MinorPurchaseService {
   }
 
   getConfirmPurchaseById(id: number) {
+    // const url = "http://localhost:5032/api/v1/";
+    //environment.apiUrlTreasury
     return this.httpClient
-      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'GetConfirmaCompra?SolicituCompraMenorId=' + id);
+      .get<GetPurchaseResponse>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmaCompra?SolicituCompraMenorId=' + id);
   }
 
 
-  deleteConfirmPurchase(id: number) {
-    const data = { confirmaCompraId: id };
+  deleteConfirmPurchase(
+    _solicitudCompraId: number,
+    _confirmaId: number,
+    _deletePurchaseConfirm: number) {
+
+    const data = {
+      confirmId: _confirmaId,
+      deletePurchaseConfirm: _deletePurchaseConfirm,
+      solicitudCompraMenorId: _solicitudCompraId
+    };
 
     const options = {
       headers: new HttpHeaders({
@@ -90,13 +102,15 @@ export class MinorPurchaseService {
       }),
       body: data,
     };
-    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/DeleteConfirma', options);
+    //environment.apiUrlTreasury
+    //const url = "http://localhost:5032/api/v1/";
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/DeleteCompraMenor', options);
   }
 
 
   updateConfirmPurchase(data: any) {
     return this.httpClient
-      .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirma', data);
+      .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirmaCompra', data);
   }
 
 

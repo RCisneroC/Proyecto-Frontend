@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { TableElement, TableExportUtil } from '@shared';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,7 +21,7 @@ import { FormAddPurchaseComponent } from '../form-add-purchase/form-add-purchase
   styleUrls: ['./list-confirm-purchase.component.scss']
 })
 export class ListConfirmPurchaseComponent implements OnInit,
-  OnDestroy {
+  OnDestroy, AfterViewInit {
 
   public addHeadCustodiaCajaRequest:AddHeadCustodiaCajaRequest = {
     solicituCompraMenorId: 0,
@@ -32,6 +32,8 @@ export class ListConfirmPurchaseComponent implements OnInit,
 
   public subscriptions: Subscription[] = [];
   public lstResultados: GetConfirmaCompraResponse[] = [];
+  public hideHeader:boolean = true;
+  public hideDetail:boolean = true;
 
   displayedColumns = [
     'numFactura',
@@ -44,7 +46,6 @@ export class ListConfirmPurchaseComponent implements OnInit,
     'entregadoPor',
     'nombreRecibe',
     'createdDate',
-    'statusId',
     'actions'
   ];
 
@@ -56,14 +57,37 @@ export class ListConfirmPurchaseComponent implements OnInit,
   constructor(private _nav: ActivatedRoute,
     private servicioMinorPurchase: MinorPurchaseService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private cb: ChangeDetectorRef
   ) {
     if (_nav.snapshot.params["id"] != undefined) {
       this.id = parseInt(_nav.snapshot.params["id"]);
     }
 
    const t =  this.router.getCurrentNavigation()?.extras.state;
-   this.addHeadCustodiaCajaRequest = t!['data'] as AddHeadCustodiaCajaRequest;
+   if(t != undefined){
+    this.addHeadCustodiaCajaRequest = t!['data'] as AddHeadCustodiaCajaRequest;
+   }
+   else{
+    this.router.navigate(['treasury/list-minor-purchase'])
+   }
+  }
+
+
+  ngAfterViewInit(): void {
+    setTimeout(
+      ()=>{
+        if(this.lstResultados.length>0){
+          this.hideHeader = true;
+          this.hideDetail = false;
+          this.cb.detectChanges();
+        }
+        else{
+          this.hideHeader = false;
+          this.cb.detectChanges();
+        }
+      },1000
+    )
   }
 
   ngOnInit(): void {
@@ -81,12 +105,17 @@ export class ListConfirmPurchaseComponent implements OnInit,
       this.subscriptions.push(
         this.servicioMinorPurchase.getConfirmPurchaseAll().subscribe({
           next: (request) => {
-            if (request.statusCode == 200) {
+            if (request.getConfirmaCompraResponses != null) {
               this.lstResultados = request.getConfirmaCompraResponses;
               this.dataSource = new MatTableDataSource<GetConfirmaCompraResponse>(this.lstResultados);
               this.dataSource.paginator = this.paginator;
             }
+            else{
+              this.lstResultados = [];
+            }
             this.IsLoading = false;
+            this.ngAfterViewInit();
+            this.cb.detectChanges();
           },
           error: (err: HttpErrorResponse) => {
             this.IsLoading = false;
@@ -100,12 +129,17 @@ export class ListConfirmPurchaseComponent implements OnInit,
       this.subscriptions.push(
         this.servicioMinorPurchase.getConfirmPurchaseById(this.id).subscribe({
           next: (request) => {
-            if (request.statusCode == 200) {
+            if (request.getConfirmaCompraResponses != null) {
               this.lstResultados = request.getConfirmaCompraResponses;
               this.dataSource = new MatTableDataSource<GetConfirmaCompraResponse>(this.lstResultados);
               this.dataSource.paginator = this.paginator;
             }
+            else{
+              this.lstResultados = [];
+            }
             this.IsLoading = false;
+            this.ngAfterViewInit();
+            this.cb.detectChanges();
           },
           error: (err: HttpErrorResponse) => {
             this.IsLoading = false;
@@ -158,7 +192,7 @@ export class ListConfirmPurchaseComponent implements OnInit,
       },
       disableClose: true,
       width: '600px',
-      height: '680px'
+      height: '690px'
     });
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
@@ -198,7 +232,6 @@ export class ListConfirmPurchaseComponent implements OnInit,
       this.dataSource.filteredData.map((x) => ({
         'solicituCompraMenorId': x.solicituCompraMenorId,
         'numFactura': x.numFactura,
-        'Estado': (x.statusId == 3 ? 'Proceso' : 'Aceptada'),
         'importeFactura': x.importeFactura,
         'adelanto': x.adelanto,
         'ajuste': x.ajuste,
@@ -234,8 +267,6 @@ export class ListConfirmPurchaseComponent implements OnInit,
           return this.compare(a.importeFactura!, b.importeFactura!, isAsc);
         case 'adelanto':
           return this.compare(a.adelanto!, b.adelanto!, isAsc);
-        case 'statusId':
-          return this.compare(a.statusId!, b.statusId!, isAsc);
         case 'ajuste':
           return this.compare(a.ajuste!, b.ajuste!, isAsc);
         case 'entreguescodigoFinacieroeA':
@@ -274,7 +305,7 @@ export class ListConfirmPurchaseComponent implements OnInit,
     }).then((result) => {
       if (result.isConfirmed) {
         this.subscriptions.push(
-          this.servicioMinorPurchase.deleteConfirmPurchase(row.solicituCompraMenorId!).subscribe({
+          this.servicioMinorPurchase.deleteConfirmPurchase(0,row.confirmaCompraId!,1).subscribe({
             next: () => {
               Swal.fire({
                 title: "Eliminado!",
@@ -306,8 +337,8 @@ addCompra() {
         solicituCompraMenorId: this.addHeadCustodiaCajaRequest.solicituCompraMenorId
       },
       disableClose: true,
-      width: '600px',
-      height: '680px'
+      width: '650px',
+      height: '700px'
     });
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
