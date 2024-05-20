@@ -11,15 +11,15 @@ import { ListStudentsComponent } from './list-students/list-students.component';
 import { FinalGradeComponent } from './final-grade/final-grade.component';
 import { CareerListComponent } from './career-list/career-list.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
-import {TeacherScoreListComponent} from "./teacher-score-list/teacher-score-list.component";
-import {TeacherScoreDetailsComponent} from "./teacher-score-details/teacher-score-details.component";
+import { TeacherScoreListComponent } from "./teacher-score-list/teacher-score-list.component";
+import { TeacherScoreDetailsComponent } from "./teacher-score-details/teacher-score-details.component";
 import {
   EducationalLevelScoreListComponent
 } from "./educational-level-score-list/educational-level-score-list.component";
-import {ExperienceLevelScoreListComponent} from "./experience-level-score-list/experience-level-score-list.component";
-import {SubjectScoreListComponent} from "./subject-score-list/subject-score-list.component";
-import {ActivityScoreListComponent} from "./activity-score-list/activity-score-list.component";
-import {EvaluacionDesScoreListComponent} from "./evaluacion-des-score-list/evaluacion-des-score-list.component";
+import { ExperienceLevelScoreListComponent } from "./experience-level-score-list/experience-level-score-list.component";
+import { SubjectScoreListComponent } from "./subject-score-list/subject-score-list.component";
+import { ActivityScoreListComponent } from "./activity-score-list/activity-score-list.component";
+import { EvaluacionDesScoreListComponent } from "./evaluacion-des-score-list/evaluacion-des-score-list.component";
 import {
   RequiredDocumentPointsListComponent
 } from "./required-document-points-list/required-document-points-list.component";
