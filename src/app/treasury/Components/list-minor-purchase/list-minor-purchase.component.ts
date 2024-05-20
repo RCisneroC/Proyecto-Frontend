@@ -1,4 +1,4 @@
-import { Component,  OnInit, ViewChild,OnDestroy } from '@angular/core';
+import { Component,  OnInit, ViewChild,OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { TableElement, TableExportUtil } from '@shared';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -45,7 +45,8 @@ OnDestroy {
   constructor(
     public dialog: MatDialog,
     private  serviceMinorPurchase:MinorPurchaseService,
-    private router: Router){}
+    private router: Router,
+    private cb: ChangeDetectorRef){}
 
 
     ngOnInit(): void {
@@ -58,20 +59,25 @@ OnDestroy {
 
     loadData():void{
       this.IsLoading = true;
-      this.lstResultados = [];
+
       this.subscriptions.push(
         this.serviceMinorPurchase.getMinorPurchaseAll().subscribe({
           next : (request)=>{
-              if(request.statusCode == 200){
-                this.lstResultados = request.responseCompraMenor;
+                if(request.responseCompraMenor != null){
+                  this.lstResultados = request.responseCompraMenor;
+                }
+                else{
+                  this.lstResultados  = [];
+                }
                 this.dataSource = new MatTableDataSource<ResponseCompraMenor>(this.lstResultados);
-                 this.dataSource.paginator = this.paginator;
-              }
+                this.dataSource.paginator = this.paginator;
                 this.IsLoading = false;
+                this.cb.detectChanges();
           },
           error : (err:HttpErrorResponse) =>{
             this.IsLoading = false;
             this.dataSource.paginator = this.paginator;
+            this.cb.detectChanges();
             console.log(err);
           }
          })
@@ -224,7 +230,7 @@ delete(row:ResponseCompraMenor){
   }).then((result) => {
     if (result.isConfirmed) {
       this.subscriptions.push(
-      this.serviceMinorPurchase.deleteMinorPurchase(row.compraMenorId!).subscribe({
+      this.serviceMinorPurchase.deleteConfirmPurchase(row.compraMenorId!,0,0).subscribe({
       next:()=>{
            Swal.fire({
             title: "Eliminado!",
@@ -232,6 +238,7 @@ delete(row:ResponseCompraMenor){
             icon: "success"
           });
           this.loadData();
+          this.cb.detectChanges();
         },
         error: (err:HttpErrorResponse) => {
           console.log(err);

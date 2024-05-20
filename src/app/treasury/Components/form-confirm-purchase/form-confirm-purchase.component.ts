@@ -40,7 +40,7 @@ export class FormConfirmPurchaseComponent implements OnDestroy {
     private authService: AuthService,
     private fb: UntypedFormBuilder,
   ) {
-    this.dialogTitle = 'Nueva Confirmación de Compra menor';
+    this.dialogTitle = 'Nueva Compra';
     this.parametros.solicituCompraMenorId = data.detail.solicituCompraMenorId;
     this.parametros.adelanto = data.detail.adelanto;
     this.form = this.createForm();

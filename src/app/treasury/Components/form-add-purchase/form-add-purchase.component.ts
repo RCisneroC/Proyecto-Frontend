@@ -1,15 +1,17 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
-import {  UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/service/auth.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
-import {ConfirmaCompra} from '../../Models/AddPurchaseRequest';
+import { ConfirmaCompra } from '../../Models/AddPurchaseRequest';
+import { ListCategory } from 'app/treasury/Models/Categories';
+import { BudgetSubCondificationCatalogService } from 'app/treasury/Services/budget-sub-condification-catalog.service';
 
 export interface DialogData {
-  solicituCompraMenorId : number
+  solicituCompraMenorId: number
 }
 
 
@@ -18,7 +20,7 @@ export interface DialogData {
   templateUrl: './form-add-purchase.component.html',
   styleUrls: ['./form-add-purchase.component.scss']
 })
-export class FormAddPurchaseComponent implements OnDestroy {
+export class FormAddPurchaseComponent implements OnDestroy, OnInit {
 
   public subscriptions: Subscription[] = [];
   public ResponseMessage: ResponseMessageMaestra = {
@@ -29,11 +31,13 @@ export class FormAddPurchaseComponent implements OnDestroy {
   public dialogTitle: string = "";
   public form: UntypedFormGroup;
   IsLoading: boolean = false;
-  solicituCompraMenorId : number;
-  listaConfirmaCompra : ConfirmaCompra[] = [];
+  solicituCompraMenorId: number;
+  listaConfirmaCompra: ConfirmaCompra[] = [];
   categoria: number = 0;
   codigoFinanciero: string = '';
   valor: number = 0;
+  public codes: ListCategory[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<FormAddPurchaseComponent>,
@@ -41,10 +45,15 @@ export class FormAddPurchaseComponent implements OnDestroy {
     private serviceMinorPurchase: MinorPurchaseService,
     private authService: AuthService,
     private fb: UntypedFormBuilder,
+    private serviceBudgetSubCondificationCatalogService:BudgetSubCondificationCatalogService
   ) {
-    this.dialogTitle = 'Nueva Compra';
+    this.dialogTitle = 'Nueva Confirmación de Compra';
     this.solicituCompraMenorId = data.solicituCompraMenorId;
     this.form = this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.loadCode();
   }
 
   ngOnDestroy(): void {
@@ -52,20 +61,33 @@ export class FormAddPurchaseComponent implements OnDestroy {
   }
 
   createForm(): UntypedFormGroup {
+
+    const confirmaForm = this.fb.group({
+      categoriaId: ['', [Validators.required]],
+     codigoFinaciero: ['', [Validators.required]],
+     valor: ['', [Validators.required,
+     Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]]
+    });
+
     return this.fb.group({
       solicituCompraMenorId: [this.solicituCompraMenorId],
       cedula: ['', [Validators.required]],
       autorizadoPor: ['', [Validators.required]],
       entregadoPor: ['', [Validators.required]],
       nombreRecibe: ['', [Validators.required]],
-      firmaAnallistaPresupestaria: [''],
-      firma: [''],
+      firmaAnallistaPresupestaria: ['', [Validators.required]],
+      firma: ['', [Validators.required]],
       creartedBy: this.authService.currentUserValue.id,
-      confirmaCompras: [this.listaConfirmaCompra,Validators.required]
+      confirmaCompras: this.fb.array([confirmaForm])
     });
+
+
 
   }
 
+  get pConformaForms() {
+    return this.form.controls["confirmaCompras"] as FormArray;
+  }
 
   confirmAdd() {
     if (!this.form.valid) {
@@ -108,5 +130,17 @@ export class FormAddPurchaseComponent implements OnDestroy {
     this.dialogRef.close();
   }
 
+  loadCode():void{
+    this.subscriptions.push(
+      this.serviceBudgetSubCondificationCatalogService.getCategory().subscribe({
+        next : (request)=>{
+                this.codes = request.categorias;
+        },
+        error : (err:HttpErrorResponse) =>{
+          console.log(err);
+        }
+       })
+    );
+  }
 
 }
