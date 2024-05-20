@@ -18,6 +18,7 @@ import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import {ExpensesService} from "../../Services/expenses.service";
 import {Expenses} from "../../Models/Expenses";
 import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
+import {FormUpdateExpensesComponent} from "../form-update-expenses/form-update-expenses.component";
 
 @Component({
   selector: 'app-expenses',
@@ -71,7 +72,7 @@ export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
 
   addNew() {
     this._Service.init_Model();
-    const dialogRef = this.dialog.open(FormAcceptanceRequestComponent, {
+    const dialogRef = this.dialog.open(FormUpdateExpensesComponent, {
       data: {
         GenericModel: this._Service._Model,
         action: 'add',
@@ -100,7 +101,7 @@ export class ExpensesComponent extends UnsubscribeOnDestroyAdapter
   editCall(row: Expenses) {
     this.id = row.gastoId;
 
-    const dialogRef = this.dialog.open(FormAcceptanceRequestComponent, {
+    const dialogRef = this.dialog.open(FormUpdateExpensesComponent, {
       data: {
         GenericModel: row,
         action: 'edit',

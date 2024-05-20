@@ -135,6 +135,11 @@
                           <mat-header-cell class="pr-0"
                                            *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                            <button mat-mini-fab color="accent"
+                                    (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                    class="tbl-action-btn">
+                              <app-feather-icons [icon]="'edit'"></app-feather-icons>
+                            </button>
                             <button   matTooltip="Ver Detalles"
                                      mat-mini-fab color="primary"
                                      (click)="viewRequestPDF(row)"><mat-icon>picture_as_pdf</mat-icon></button>
