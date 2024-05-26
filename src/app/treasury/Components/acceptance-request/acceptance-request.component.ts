@@ -1,21 +1,21 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter} from "@shared";
-import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {RequestEstateList} from "../../Models/RequestEstate";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {FormRequestEstateListComponent} from "../form-request-estate-list/form-request-estate-list.component";
-import {ResponseGenerica, ResponseMessageMaestra, ResponsePDFEF} from "../../../admission/models/ResponseMessage";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from "@shared";
+import { DataSource, SelectionModel } from "@angular/cdk/collections";
+import { RequestEstateList } from "../../Models/RequestEstate";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { FormRequestEstateListComponent } from "../form-request-estate-list/form-request-estate-list.component";
+import { ResponseGenerica, ResponseMessageMaestra, ResponsePDFEF } from "../../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {AcceptanceRequestService} from "../../Services/acceptance-request.service";
-import {AcceptanceRequest} from "../../Models/AcceptanceRequest";
-import {FormAcceptanceRequestComponent} from "../form-acceptance-request/form-acceptance-request.component";
+import { BehaviorSubject, fromEvent, map, merge, Observable } from "rxjs";
+import { AcceptanceRequestService } from "../../Services/acceptance-request.service";
+import { AcceptanceRequest } from "../../Models/AcceptanceRequest";
+import { FormAcceptanceRequestComponent } from "../form-acceptance-request/form-acceptance-request.component";
 import {
   ViewPosterPDFComponent
 } from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
@@ -26,7 +26,7 @@ import {
   styleUrls: ['./acceptance-request.component.scss']
 })
 export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
-  implements OnInit{
+  implements OnInit {
 
   displayedColumns = [
     'detalleId',
@@ -48,7 +48,7 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public _Service : AcceptanceRequestService,
+    public _Service: AcceptanceRequestService,
     private snackBar: MatSnackBar,
     public _dialog: MatDialog,
     private router: Router
@@ -128,10 +128,10 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
-  delete(row:AcceptanceRequest) {
+  delete(row: AcceptanceRequest) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.detalleId,
+      text: "Eliminara " + row.detalleId,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -140,19 +140,19 @@ export class AcceptanceRequestComponent extends UnsubscribeOnDestroyAdapter
     }).then((result) => {
       if (result.isConfirmed) {
         this._Service.Delete(row.detalleId).subscribe({
-          next:(res:ResponseGenerica)=>{
+          next: (res: ResponseGenerica) => {
             Swal.fire({
               title: "Eliminado!",
-              text: row.detalleId+" fue eliminado.",
+              text: row.detalleId + " fue eliminado.",
               icon: "success"
             });
             this.loadData();
           },
-          error: (err:any) => {
+          error: (err: any) => {
             console.log(err);
             Swal.fire({
               title: "Intente nuevamente!",
-              text: row.detalleId+" no se pudo eliminar.",
+              text: row.detalleId + " no se pudo eliminar.",
               icon: "warning"
             });
           }

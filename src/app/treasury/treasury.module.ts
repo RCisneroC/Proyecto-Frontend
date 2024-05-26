@@ -30,14 +30,14 @@ import { AddAssetLocationDetailComponent } from './Components/AssetLocation/add-
 import { RequestEstateListComponent } from './Components/request-estate-list/request-estate-list.component';
 import { DetailsRequestEstateComponent } from './Components/details-request-estate/details-request-estate.component';
 import { FormRequestEstateListComponent } from './Components/form-request-estate-list/form-request-estate-list.component';
-import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
-import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
-import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
 import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
 import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
 import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
 import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
+import { FormDetailsRequestEstateComponent } from './Components/form-details-request-estate/form-details-request-estate.component';
+import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
 import { ExpensesComponent } from './Components/expenses/expenses.component';
+import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormUpdateExpensesComponent } from './Components/form-update-expenses/form-update-expenses.component';
 
 
@@ -70,10 +70,14 @@ import { FormUpdateExpensesComponent } from './Components/form-update-expenses/f
         RequestEstateListComponent,
         DetailsRequestEstateComponent,
         FormRequestEstateListComponent,
-        AcceptanceRequestComponent,
-        FormAcceptanceRequestComponent,
+        PdfRefundComponent,
+        PdfRecapCashieComponent,
+        PdfExpenseReportComponent,
+        PdfIncomeReportComponent,
         FormDetailsRequestEstateComponent,
+        AcceptanceRequestComponent,
         ExpensesComponent,
+        FormAcceptanceRequestComponent,
         FormUpdateExpensesComponent
     ],
     imports: [

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { TableElement, TableExportUtil } from '@shared';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -44,203 +44,40 @@ export class ListMinorPurchaseComponent implements OnInit,
 
   constructor(
     public dialog: MatDialog,
-<<<<<<< HEAD
     private serviceMinorPurchase: MinorPurchaseService,
-    private router: Router) { }
+    private router: Router,
+    private cb: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
     this.loadData();
-=======
-    private  serviceMinorPurchase:MinorPurchaseService,
-    private router: Router,
-    private cb: ChangeDetectorRef){}
-
-
-    ngOnInit(): void {
-      this.loadData();
-    }
-
-     ngOnDestroy(): void {
-      this.subscriptions.forEach(s => s.unsubscribe())
-    }
-
-    loadData():void{
-      this.IsLoading = true;
-
-      this.subscriptions.push(
-        this.serviceMinorPurchase.getMinorPurchaseAll().subscribe({
-          next : (request)=>{
-                if(request.responseCompraMenor != null){
-                  this.lstResultados = request.responseCompraMenor;
-                }
-                else{
-                  this.lstResultados  = [];
-                }
-                this.dataSource = new MatTableDataSource<ResponseCompraMenor>(this.lstResultados);
-                this.dataSource.paginator = this.paginator;
-                this.IsLoading = false;
-                this.cb.detectChanges();
-          },
-          error : (err:HttpErrorResponse) =>{
-            this.IsLoading = false;
-            this.dataSource.paginator = this.paginator;
-            this.cb.detectChanges();
-            console.log(err);
-          }
-         })
-      );
-   }
-
-
-
-open(row:ResponseCompraMenor){
-  row.actions = "edit";
-  const dialogRef = this.dialog.open(FormMinorPurchaseComponent, {
-    data: {
-      detail: row
-    },
-    disableClose: true,
-    width: '600px',
-    height: '680px'
-  });
-  dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-    if (result == undefined) {
-      return;
-    }
-
-    if (result.CodError == 200) {
-      this.loadData();
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "success"
-      });
-    } else {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "warning"
-      });
-    }
-  });
-}
-
-
-addNew(){
-
-  const row: ResponseCompraMenor = {
-    actions: "new"
-  };
-
-  const dialogRef = this.dialog.open(FormMinorPurchaseComponent, {
-    data: {
-      detail: row
-    },
-    disableClose: true,
-    width: '600px',
-    height: '680px'
-  });
-  dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
-    if (result == undefined) {
-      return;
-    }
-
-    if (result.CodError == 200) {
-      this.loadData();
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "success"
-      });
-    } else {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "warning"
-      });
-    }
-  });
-}
-
-
-filtrar(event: Event) {
-  const filtro = (event.target as HTMLInputElement).value;
-  this.dataSource.filter = filtro.trim().toLowerCase();
-}
-
-refresh(): void {
-  this.loadData();
-}
-
-
-exportExcel(): void {
-  const exportData: Partial<TableElement>[] =
-  this.dataSource.filteredData.map((x) => ({
-    "Id": x.compraMenorId,
-    'Unidad Solicitante': x.unidadSolicitante,
-    'Entréguese A': x.entregueseA,
-    'Suma De': x.sumaDe,
-    'Estado': (x.statusId == 3 ? 'Proceso' : 'Aceptada'),
-    'Creado por': x.createdBy,
-    'Fecha de Creación': x.createDate,
-  }));
-TableExportUtil.exportToExcel(exportData, 'excel');
-}
-
-sortData(sort: Sort) {
-  const data = this.lstResultados.slice();
-  if (!sort.active || sort.direction === '') {
-    this.dataSource = new MatTableDataSource<ResponseCompraMenor>(data);
-    this.dataSource.paginator = this.paginator;
-    return;
->>>>>>> cd431f7c201af51ddc0cda43d05d5e2f8c1cc07d
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe())
   }
 
-<<<<<<< HEAD
   loadData(): void {
     this.IsLoading = true;
-    this.lstResultados = [];
+
     this.subscriptions.push(
       this.serviceMinorPurchase.getMinorPurchaseAll().subscribe({
         next: (request) => {
-          if (request.statusCode == 200) {
+          if (request.responseCompraMenor != null) {
             this.lstResultados = request.responseCompraMenor;
-            this.dataSource = new MatTableDataSource<ResponseCompraMenor>(this.lstResultados);
-            this.dataSource.paginator = this.paginator;
           }
+          else {
+            this.lstResultados = [];
+          }
+          this.dataSource = new MatTableDataSource<ResponseCompraMenor>(this.lstResultados);
+          this.dataSource.paginator = this.paginator;
           this.IsLoading = false;
-=======
-delete(row:ResponseCompraMenor){
-  Swal.fire({
-    title: "¿Estás seguro?",
-    text: "Eliminará Compra Menor #" + row.compraMenorId!,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, Eliminar"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.subscriptions.push(
-      this.serviceMinorPurchase.deleteConfirmPurchase(row.compraMenorId!,0,0).subscribe({
-      next:()=>{
-           Swal.fire({
-            title: "Eliminado!",
-            text: "Compra menor # "+ row.compraMenorId! +" fue eliminado.",
-            icon: "success"
-          });
-          this.loadData();
           this.cb.detectChanges();
->>>>>>> cd431f7c201af51ddc0cda43d05d5e2f8c1cc07d
         },
         error: (err: HttpErrorResponse) => {
           this.IsLoading = false;
           this.dataSource.paginator = this.paginator;
+          this.cb.detectChanges();
           console.log(err);
         }
       })
@@ -393,7 +230,7 @@ delete(row:ResponseCompraMenor){
     }).then((result) => {
       if (result.isConfirmed) {
         this.subscriptions.push(
-          this.serviceMinorPurchase.deleteMinorPurchase(row.compraMenorId!).subscribe({
+          this.serviceMinorPurchase.deleteConfirmPurchase(row.compraMenorId!, 0, 0).subscribe({
             next: () => {
               Swal.fire({
                 title: "Eliminado!",
@@ -401,6 +238,7 @@ delete(row:ResponseCompraMenor){
                 icon: "success"
               });
               this.loadData();
+              this.cb.detectChanges();
             },
             error: (err: HttpErrorResponse) => {
               console.log(err);

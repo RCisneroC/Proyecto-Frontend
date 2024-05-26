@@ -44,11 +44,11 @@ export class PdfRefundComponent {
       },
     });
   }
-  
+
   createForm(): UntypedFormGroup {
     return this.fb.group({
-      periodoContableId:[this.periodoId, Validators.required],
-      tipoConsulta:[0, Validators.required],
+      periodoContableId: [this.periodoId, Validators.required],
+      tipoConsulta: [0, Validators.required],
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required],
       unidad: ['']
@@ -60,12 +60,12 @@ export class PdfRefundComponent {
     console.log('====================================');
     console.log(this.form.getRawValue());
     console.log('====================================');
-     this.reportsService.getPDFReenbolso(this.form.getRawValue()).subscribe({
-       next: (res:any) => {
-      
-        const pdf=res["dataPDFReembolsos"].docFile;
-   
-       
+    this.reportsService.getPDFReenbolso(this.form.getRawValue()).subscribe({
+      next: (res: any) => {
+
+        const pdf = res["dataPDFReembolsos"].docFile;
+
+
         this._dialog.open(ViewPosterPDFComponent, {
           data: {
             type: 'pdf',
@@ -77,10 +77,10 @@ export class PdfRefundComponent {
           width: '1200px',
           disableClose: true,
         });
-        
-         this.IsLoading = false;
-         this.cb.detectChanges();
-        
+
+        this.IsLoading = false;
+        this.cb.detectChanges();
+
       },
       error: () => {
         this.IsLoading = false;
@@ -89,16 +89,16 @@ export class PdfRefundComponent {
       }
     })
   }
-  
+
   consultar1(): void {
     this.IsLoading = true;
     console.log('====================================');
     console.log(this.form.getRawValue());
     console.log('====================================');
-     this.reportsService.getPDFRecapitulacionCaja(this.form.getRawValue()).subscribe({
-       next: (res:any) => {
-      const pdf=res["dataRecapitulacionCajas"].docFile;
-   
+    this.reportsService.getPDFRecapitulacionCaja(this.form.getRawValue()).subscribe({
+      next: (res: any) => {
+        const pdf = res["dataRecapitulacionCajas"].docFile;
+
         this._dialog.open(ViewPosterPDFComponent, {
           data: {
             type: 'pdf',
@@ -110,8 +110,8 @@ export class PdfRefundComponent {
           width: '1200px',
           disableClose: true,
         });
-            this.IsLoading = false;
-         this.cb.detectChanges();
+        this.IsLoading = false;
+        this.cb.detectChanges();
       },
       error: () => {
         this.IsLoading = false;

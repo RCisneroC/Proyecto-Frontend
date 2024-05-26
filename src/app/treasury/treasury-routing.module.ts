@@ -14,12 +14,12 @@ import { AssignmentPeriodListComponent } from './Components/AssignmentPeriod/ass
 import { AssetLocationDetailComponent } from './Components/AssetLocation/asset-location-detail/asset-location-detail.component';
 import { RequestEstateListComponent } from "./Components/request-estate-list/request-estate-list.component";
 import { DetailsRequestEstateComponent } from "./Components/details-request-estate/details-request-estate.component";
-import { AcceptanceRequestComponent } from "./Components/acceptance-request/acceptance-request.component";
 import { PdfRefundComponent } from './Components/Reportes/pdf-refund/pdf-refund.component';
 import { PdfRecapCashieComponent } from './Components/Reportes/pdf-recap-cashie/pdf-recap-cashie.component';
 import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-report/pdf-expense-report.component';
 import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
-import { ExpensesComponent } from "./Components/expenses/expenses.component";
+import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
+import { ExpensesComponent } from './Components/expenses/expenses.component';
 
 const routes: Routes = [
   {
@@ -76,10 +76,6 @@ const routes: Routes = [
     component: DetailsRequestEstateComponent,
   },
   {
-    path: "acceptance-request",
-    component: AcceptanceRequestComponent,
-  },
-  {
     path: 'pdf-refund',
     component: PdfRefundComponent,
   },
@@ -98,9 +94,15 @@ const routes: Routes = [
     component: PdfIncomeReportComponent,
   },
   {
+    path: "acceptance-request",
+    component: AcceptanceRequestComponent,
+  },
+  {
     path: "expenses",
     component: ExpensesComponent,
   },
+
+
 
 ];
 

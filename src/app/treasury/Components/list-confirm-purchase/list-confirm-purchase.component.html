@@ -7,11 +7,12 @@
       </app-breadcrumb>
       <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
         <div class="">
-            <button matTooltip="Regresar" mat-raised-button color="accent" [routerLink]="['/treasury/list-minor-purchase']">
-                <mat-icon>keyboard_backspace</mat-icon> Regresar
-            </button>
+          <button matTooltip="Regresar" mat-raised-button color="accent"
+            [routerLink]="['/treasury/list-minor-purchase']">
+            <mat-icon>keyboard_backspace</mat-icon> Regresar
+          </button>
         </div>
-    </div>
+      </div>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -44,7 +45,8 @@
                               (click)="addCompra()" class="tbl-action-btn">
                               <app-feather-icons [icon]="'plus'"></app-feather-icons>
                             </button>
-                            <button *ngIf="!this.hideHeader" (click)="addNew()" matTooltip="Agregar Compra" mat-mini-fab color="primary">
+                            <button *ngIf="!this.hideHeader" (click)="addNew()" matTooltip="Agregar Compra" mat-mini-fab
+                              color="primary">
                               <app-feather-icons [icon]="'plus'"></app-feather-icons>
                             </button>
                           </div>
@@ -142,7 +144,8 @@
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button *ngIf="row.confirmaCompraId !== null" (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
+                            <button *ngIf="row.confirmaCompraId !== null" (click)="delete(row)" matTooltip="Eliminar"
+                              mat-mini-fab color="warn">
                               <mat-icon>delete</mat-icon>
                             </button>
                           </mat-cell>
