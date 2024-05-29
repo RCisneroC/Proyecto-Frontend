@@ -39,6 +39,7 @@ import { AcceptanceRequestComponent } from './Components/acceptance-request/acce
 import { ExpensesComponent } from './Components/expenses/expenses.component';
 import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormUpdateExpensesComponent } from './Components/form-update-expenses/form-update-expenses.component';
+import { LisBienesIsjupComponent } from './Components/lis-bienes-isjup/lis-bienes-isjup.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { FormUpdateExpensesComponent } from './Components/form-update-expenses/f
         AcceptanceRequestComponent,
         ExpensesComponent,
         FormAcceptanceRequestComponent,
-        FormUpdateExpensesComponent
+        FormUpdateExpensesComponent,
+        LisBienesIsjupComponent
     ],
     imports: [
         CommonModule,

@@ -68,19 +68,18 @@
         </div>
 
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="this.action==='new'">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2" *ngIf="this.action==='new'">
           <mat-form-field class="example-full-width " appearance="outline">
-            <mat-label>Categoría</mat-label>
+            <mat-label>Ingresos</mat-label>
             <mat-select formControlName="Code">
-              <mat-option [value]="row.codigoCategoria" *ngFor="let row of this.codes"
-                (onSelectionChange)="this.loadSubcode(row.categoria_Id)">
-                {{row.descripcion}}
+              <mat-option [value]="row.code" *ngFor="let row of this.codes">
+                {{row.code}} - {{row.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="this.action==='new'">
+        <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="this.action==='new'">
           <mat-form-field class="example-full-width " appearance="outline">
             <mat-label>SubCategoría</mat-label>
             <mat-select formControlName="SubCode">
@@ -89,7 +88,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="this.action==='edit'">
           <mat-form-field class="example-full-width " appearance="outline">

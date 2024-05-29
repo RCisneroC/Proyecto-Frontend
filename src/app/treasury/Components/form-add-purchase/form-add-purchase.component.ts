@@ -71,12 +71,12 @@ export class FormAddPurchaseComponent implements OnDestroy, OnInit {
 
     return this.fb.group({
       solicituCompraMenorId: [this.solicituCompraMenorId],
-      cedula: ['', [Validators.required]],
-      autorizadoPor: ['', [Validators.required]],
-      entregadoPor: ['', [Validators.required]],
-      nombreRecibe: ['', [Validators.required]],
-      firmaAnallistaPresupestaria: ['', [Validators.required]],
-      firma: ['', [Validators.required]],
+      cedula: [''],
+      autorizadoPor: [''],
+      entregadoPor: [''],
+      nombreRecibe: [''],
+      firmaAnallistaPresupestaria: [''],
+      firma: [''],
       creartedBy: this.authService.currentUserValue.id,
       confirmaCompras: this.fb.array([confirmaForm])
     });

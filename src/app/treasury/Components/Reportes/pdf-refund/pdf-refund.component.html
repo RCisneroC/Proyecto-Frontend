@@ -2,15 +2,15 @@
     <div class="content-block">
         <div class="block-header">
             <!-- breadcrumb -->
-            <app-breadcrumb [title]="'Gráficas Actividades'" [items]="['Inicio','Estadísticas']"
-                [active_item]="'Gráficas Actividades'">
+            <app-breadcrumb [title]="'Solicitud de Reembolso de Caja Menuda'" [items]="['Inicio','Estadísticas']"
+                [active_item]="'Solicitud de Reembolso de Caja Menuda'">
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        Consulta de Gráfica de Actividades Entrenamiento
+                        Solicitud de Reembolso de Caja Menuda
                     </div>
                     <div class="body">
                         <!-- FILAS -->
@@ -38,6 +38,13 @@
                                         </mat-form-field>
                                     </div>
 
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Unidad</mat-label>
+                                            <input matInput formControlName="unidad">
+                                        </mat-form-field>
+                                    </div>
+
                                 </div>
                             </fieldset>
                         </form>
@@ -45,11 +52,113 @@
                         <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="consultar()">
                             <mat-icon>search</mat-icon>Buscar
                         </button>
+
+                        <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="PagarRembolso()">
+                            <mat-icon>payment</mat-icon>Tramitar Rembolso
+                        </button>
+
                         <br />
                         <br />
                         <hr />
                         <mat-progress-bar mode="indeterminate" *ngIf="IsLoading"></mat-progress-bar>
-                     
+                        <div class="materialTableHeader">
+                            <div class="left">
+                              <ul class="header-buttons-left ms-0">
+                                <li class="tbl-title">
+                                  <h2>Confirmación de compra por caja menuda para enviarla a tramite del rembolso</h2>
+                                </li>
+                                <li class="tbl-search-box">
+                                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                                  <input placeholder="Buscar" type="text" (keyup)="filtrarCustodio($event)" #filter
+                                    class="browser-default search-field" aria-label="Search box">
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="right">
+                              <ul class="tbl-export-btn">
+                                
+                                <li class="tbl-header-btn">
+                                  <div class="m-l-10" matTooltip="ACTUALIZAR">
+                                    <button mat-mini-fab color="primary" (click)="refreshCustodio()">
+                                      <mat-icon class="col-white">refresh</mat-icon>
+                                    </button>
+                                  </div>
+                                </li> 
+                              </ul>
+                            </div>
+                          </div>
+                        <div class="body overflow-auto">
+                            <div class="responsive_table">
+                              <table mat-table [dataSource]="dataSource"
+                              class="mat-cell advance-table">
+        
+                              <ng-container matColumnDef="Codificacion_Presupuestaria">
+                                <mat-header-cell *matHeaderCellDef>Código Presupuestario
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Código Presupuestario:</span>{{row.codigoPresupuesto}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Codigo_Financiero">
+                                <mat-header-cell *matHeaderCellDef>Código Financiero
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Código Financiero:</span>{{row.codigoFinaciero}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="Valor">
+                                <mat-header-cell *matHeaderCellDef>Valor
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Valor:</span>{{row.valor}}</mat-cell>
+                              </ng-container> 
+                              <ng-container matColumnDef="createdDate">
+                                <mat-header-cell *matHeaderCellDef>Fecha Creación
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <span class="mobile-label">Fecha Creación:</span>{{row.fechaCreacion | date:'dd/M/yyyy'}}</mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="estado">
+                                <mat-header-cell *matHeaderCellDef>Estado
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                  <div *ngIf="row.statusIdCompraMenor===3" class="badge badge-solid-red">
+                                    No Confirmado
+                                  </div>
+                                  <div *ngIf="row.statusIdCompraMenor===4" class="badge badge-solid-green">
+                                    Pendiente Rembolso
+                                  </div>
+                                  <div *ngIf="row.statusIdCompraMenor===5" class="badge badge-solid-green">
+                                    En Tramite Rembolso
+                                  </div>
+        
+                                  <div *ngIf="row.statudId===6" class="badge badge-solid-green">
+                                    Rembolsado
+                                  </div>
+        
+                                </mat-cell>
+                              </ng-container>
+                              <!-- actions -->
+                              <ng-container matColumnDef="actions">
+                                <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
+                                <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                                  <button *ngIf="row.statusIdCompraMenor==4" (click)="checvalidacion(row)"  matTooltip="Confirmar para Presupuesto"
+                                      mat-mini-fab color="warn">
+                                      <mat-icon>check</mat-icon>
+                                    </button>
+                                </mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="displayedColumnsCustodios"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displayedColumnsCustodios;" [style.cursor]="'pointer'" matRipple>
+                              </mat-row>
+                            </table>
+                            </div>
+                            <!-- Loading spinner -->
+                            <div *ngIf="IsLoading" class="tbl-spinner">
+                              <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                              </mat-progress-spinner>
+                            </div>
+                            <mat-paginator #paginatorSegundo [pageSizeOptions]="[5, 10, 25, 100]">
+                            </mat-paginator>
+                          </div>
 
                     </div>
                     <!-- FIN FILAS-->

@@ -92,19 +92,10 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(environment.apiUrl + 'UpdateUser', user);
   }
 
-  changePassword(user: User): void {
+  changePassword(user: User) {
 
 
-    this.httpClient.put(environment.apiUrl + 'ChangePassword', user)
-      .subscribe({
-        next: () => {
-          this.dialogData = user;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.put(environment.apiUrl + 'ChangePassword', user);
   }
 
 }

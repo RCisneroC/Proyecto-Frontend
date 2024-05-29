@@ -17,6 +17,8 @@ export class User {
    isRegistered!: boolean;
    token!: string;
    roles!: string[];
+   role!: string;
+   roleId!: string;
    menus!: MenuResponse[];
 
 

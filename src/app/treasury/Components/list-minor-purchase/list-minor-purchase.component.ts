@@ -281,6 +281,45 @@ export class ListMinorPurchaseComponent implements OnInit,
   }
 
 
+  rembolsar(row: ResponseCompraMenor) {
+    console.log('====================================');
+    console.log(row);
+    console.log('====================================');
+
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "La compra se rembolsara a la caja menuda.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, Confirmar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //  SolicitudCompraId
+        this.serviceMinorPurchase.RembolsarSaldo(row.compraMenorId).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: "Confirmado Correctamente!",
+              text: res.message,
+              icon: "success"
+            });
+            this.router.navigate(['/treasury/list-minor-purchase'])
+            this.loadData();
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+            Swal.fire({
+              title: "Intente nuevamente!",
+              text: "Intente nuevamente!.",
+              icon: "warning"
+            });
+          }
+        })
+      }
+    });
+  }
+
   addConfirmacionCompra(row: ResponseCompraMenor) {
 
     const obj: AddHeadCustodiaCajaRequest = {

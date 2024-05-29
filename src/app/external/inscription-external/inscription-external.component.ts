@@ -85,7 +85,7 @@ export class InscriptionExternalComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       university: ['', Validators.required],
       dependency: ['', Validators.required],
-      cooperatingEntity: ['', Validators.required],
+      // cooperatingEntity: ['', Validators.required],
       position: ['', Validators.required],
       province: ['', Validators.required],
       judicialDistrict: ['', Validators.required],

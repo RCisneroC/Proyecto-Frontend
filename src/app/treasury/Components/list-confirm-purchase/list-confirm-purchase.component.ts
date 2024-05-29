@@ -14,6 +14,7 @@ import { GetConfirmaCompraResponse } from 'app/treasury/Models/GetPurchaseRespon
 import { FormConfirmPurchaseComponent } from '../form-confirm-purchase/form-confirm-purchase.component';
 import { AddHeadCustodiaCajaRequest } from 'app/treasury/Models/AddHeadCustodiaCajaRequest';
 import { FormAddPurchaseComponent } from '../form-add-purchase/form-add-purchase.component';
+import { GetConfirmacionCustodio } from '../../Models/getConfirmaCustodioCaja';
 
 @Component({
   selector: 'app-list-confirm-purchase',
@@ -32,28 +33,47 @@ export class ListConfirmPurchaseComponent implements OnInit,
 
   public subscriptions: Subscription[] = [];
   public lstResultados: GetConfirmaCompraResponse[] = [];
+  public lstResultadosCustodio: GetConfirmacionCustodio[] = [];
   public hideHeader:boolean = true;
   public hideDetail:boolean = true;
+  public HideButton:boolean = false;
 
   displayedColumns = [
     'numFactura',
-    'importeFactura',
     'adelanto',
+    'importeFactura',
     'ajuste',
-    'codigoFinaciero',
-    'valor',
+    // 'codigoFinaciero',
+    // 'valor',
     'proveedor',
-    'entregadoPor',
-    'nombreRecibe',
+    // 'entregadoPor',
+    // 'nombreRecibe',
     'createdDate',
+    'estado',
     'actions'
   ];
 
+  displayedColumnsCustodios = [
+    'Codificacion_Presupuestaria',
+    'Codigo_Financiero',
+    'Valor',
+    'Creado_Por',
+    'createdDate',
+    'estado',
+    'actions'
+  ];
+
+
   public IsLoading: boolean = false;
   dataSource = new MatTableDataSource<GetConfirmaCompraResponse>(this.lstResultados);
+  dataSourceCustodio = new MatTableDataSource<GetConfirmacionCustodio>(this.lstResultadosCustodio);
   @ViewChild('paginator', { static: true })
   paginator!: MatPaginator;
-
+ 
+  @ViewChild('#paginatorSegundo')
+  set paginatorSegundo(value: MatPaginator) {
+    this.dataSourceCustodio.paginator = value;
+  }
   constructor(private _nav: ActivatedRoute,
     private servicioMinorPurchase: MinorPurchaseService,
     public dialog: MatDialog,
@@ -80,18 +100,26 @@ export class ListConfirmPurchaseComponent implements OnInit,
         if(this.lstResultados.length>0){
           this.hideHeader = true;
           this.hideDetail = false;
+        
+          
           this.cb.detectChanges();
         }
         else{
           this.hideHeader = false;
+          this.hideDetail = true;
           this.cb.detectChanges();
         }
-      },1000
-    )
+        console.log(this.hideHeader, this.hideDetail, this.HideButton);
+        if(this.lstResultadosCustodio.length>0){
+          this.HideButton = true; 
+        }
+
+      },1000)
   }
 
   ngOnInit(): void {
     this.loadData();
+    this.loadDataCustodio();
   }
 
   ngOnDestroy(): void {
@@ -108,6 +136,10 @@ export class ListConfirmPurchaseComponent implements OnInit,
             if (request.getConfirmaCompraResponses != null) {
               this.lstResultados = request.getConfirmaCompraResponses;
               this.dataSource = new MatTableDataSource<GetConfirmaCompraResponse>(this.lstResultados);
+              if(this.lstResultados.length>0){
+                this.hideHeader = true;
+                this.hideDetail = false;
+              }
               this.dataSource.paginator = this.paginator;
             }
             else{
@@ -151,6 +183,38 @@ export class ListConfirmPurchaseComponent implements OnInit,
     }
   }
 
+  loadDataCustodio(): void {
+    this.IsLoading = true;
+    this.lstResultados = [];
+    if (this.id != 0) {
+      this.subscriptions.push(
+        this.servicioMinorPurchase.GetConfirmCustodioCaja(this.id).subscribe({
+          next: (request) => {
+            if (request.getConfirmacionCustodio != null) {
+              this.lstResultadosCustodio = request.getConfirmacionCustodio;
+              console.log(this.lstResultadosCustodio);
+              
+              this.dataSourceCustodio = new MatTableDataSource<GetConfirmacionCustodio>(this.lstResultadosCustodio);
+              this.dataSourceCustodio.paginator = this.paginatorSegundo;
+            }
+            else{
+              this.lstResultadosCustodio = [];
+            }
+            this.IsLoading = false;
+            this.ngAfterViewInit();
+            this.cb.detectChanges();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.IsLoading = false;
+            this.dataSource.paginator = this.paginatorSegundo;
+            console.log(err);
+          }
+        })
+      );
+    }
+  }
+
+
   open(row: GetConfirmaCompraResponse) {
     row.actions = "edit";
     const dialogRef = this.dialog.open(FormConfirmPurchaseComponent, {
@@ -183,7 +247,7 @@ export class ListConfirmPurchaseComponent implements OnInit,
     });
   }
 
-
+ 
   addNew() {
 
     const dialogRef = this.dialog.open(FormConfirmPurchaseComponent, {
@@ -191,8 +255,6 @@ export class ListConfirmPurchaseComponent implements OnInit,
         detail: this.addHeadCustodiaCajaRequest
       },
       disableClose: true,
-      width: '600px',
-      height: '690px'
     });
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
@@ -224,6 +286,15 @@ export class ListConfirmPurchaseComponent implements OnInit,
 
   refresh(): void {
     this.loadData();
+  }
+
+  filtrarCustodio(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSourceCustodio.filter = filtro.trim().toLowerCase();
+  }
+
+  refreshCustodio(): void {
+    this.loadDataCustodio();
   }
 
 
@@ -305,13 +376,14 @@ export class ListConfirmPurchaseComponent implements OnInit,
     }).then((result) => {
       if (result.isConfirmed) {
         this.subscriptions.push(
-          this.servicioMinorPurchase.deleteConfirmPurchase(0,row.confirmaCompraId!,1).subscribe({
+          this.servicioMinorPurchase.deleteConfirmPurchase(this.id,row.confirmaCompraId!,1).subscribe({
             next: () => {
               Swal.fire({
                 title: "Eliminado!",
                 text: "Compra menor # " + row.solicituCompraMenorId! + " fue eliminado.",
                 icon: "success"
               });
+              this.router.navigate(['/treasury/list-minor-purchase'])
               this.loadData();
             },
             error: (err: HttpErrorResponse) => {
@@ -337,8 +409,7 @@ addCompra() {
         solicituCompraMenorId: this.addHeadCustodiaCajaRequest.solicituCompraMenorId
       },
       disableClose: true,
-      width: '650px',
-      height: '700px'
+      width: '650px', 
     });
     dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
@@ -347,6 +418,7 @@ addCompra() {
 
       if (result.CodError == 200) {
         this.loadData();
+        this.loadDataCustodio();
         Swal.fire({
           title: "Escuela Judicial",
           text: result.Message,
@@ -358,6 +430,82 @@ addCompra() {
           text: result.Message,
           icon: "warning"
         });
+      }
+    });
+  }
+
+  deleteConfirmacion(row: GetConfirmacionCustodio) {
+    console.log(row);
+    
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Eliminará Compra Menor #" + row.solicitudCompraMenorId!,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.subscriptions.push(
+          this.servicioMinorPurchase.deleteConfirmPurchaseCustodio(row.idCompra!).subscribe({
+            next: () => {
+              Swal.fire({
+                title: "Eliminado!",
+                text: "Confirmación de Compra de custodio # " + row.solicitudCompraMenorId! + " fue eliminado.",
+                icon: "success"
+              });
+              this.router.navigate(['/treasury/list-confirm-purchase/'+this.id])
+              this.loadData();
+              this.loadDataCustodio();
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log(err);
+              Swal.fire({
+                title: "Intente nuevamente!",
+                text: "Compra menor # " + row.solicitudCompraMenorId! + " no se pudo eliminar.",
+                icon: "warning"
+              });
+            }
+          })
+        );
+
+      }
+    });
+  }
+
+  finConfirmacion(row: GetConfirmaCompraResponse) {
+   
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "La compra se confirmara, y no se podra agregar nuevos articulos dentro del mismo gasto, ajuste sera devuelto a la caja menuda.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, Confirmar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.servicioMinorPurchase.ConfirmCompraValid(row.solicituCompraMenorId).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: "Confirmado Correctamente!",
+              text: res.message,
+              icon: "success"
+            });
+            this.router.navigate(['/treasury/list-confirm-purchase/'+row.solicituCompraMenorId])
+            this.loadData();
+            this.loadDataCustodio();
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err);
+            Swal.fire({
+              title: "Intente nuevamente!",
+              text: "Intente nuevamente!.",
+              icon: "warning"
+            });
+          }
+        })
       }
     });
   }

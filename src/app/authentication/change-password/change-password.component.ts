@@ -1,12 +1,15 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core';
 import { User } from '@core/models/user';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 
 import { UserService } from 'app/security/user/service/user.service';
 import { DialogData } from 'app/security/user/user-form/user-form.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-change-password',
@@ -16,7 +19,10 @@ import { DialogData } from 'app/security/user/user-form/user-form.component';
 export class  ChangePasswordComponent   extends UnsubscribeOnDestroyAdapter
 implements OnInit {
 
-
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message: ''
+  }
   action?: string;
   dialogTitle?: string;
   userForm!: UntypedFormGroup;
@@ -71,12 +77,33 @@ implements OnInit {
   }
   public confirmAdd(): void {
    
-      this.userService.changePassword(
-        this.userForm.getRawValue()
-      ); 
+      this.userService.changePassword(this.userForm.getRawValue()).subscribe({
+        next: (res:any) => {
+          console.log(res);
+          if(res.message == 'Password actual incorrecto'){
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = res.message; 
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Password actual incorrecto.',
+              icon: "warning"
+            });
+          }else{
+            this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = res.message;
+          this.dialogRef.close(this.ResponseMessage);
+          }
+          
+        },
+        error: (error: HttpErrorResponse) => { 
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: error.error.Details,
+            icon: "warning"
+          }); 
+        },
+      });
       
   }
-  
 
-  
 }

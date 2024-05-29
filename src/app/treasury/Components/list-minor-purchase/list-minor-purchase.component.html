@@ -92,8 +92,16 @@
                               En Proceso
                             </div>
                             <div *ngIf="row.statusId===4" class="badge badge-solid-green">
-                              Aceptado
+                              Pendiente Rembolso
                             </div>
+
+                            <div *ngIf="row.statusId===5" class="badge badge-solid-green">
+                              En Tramite Rembolso
+                            </div>
+                            <div *ngIf="row.statusId===6" class="badge badge-solid-green">
+                              Rembolsado
+                            </div>
+
                           </mat-cell>
                         </ng-container>
 
@@ -118,33 +126,36 @@
                         <ng-container matColumnDef="actions">
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                            <button Tooltip="Editar" mat-mini-fab color="warn" (click)="$event.stopPropagation()"
+                            <button *ngIf="row.statusId===3" Tooltip="Editar" mat-mini-fab color="warn" (click)="$event.stopPropagation()"
                               (click)="open(row)">
                               <app-feather-icons [icon]="'check-square'"></app-feather-icons>
                             </button>
-                            <button (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
+                            <button *ngIf="row.statusId===3" (click)="delete(row)" matTooltip="Eliminar" mat-mini-fab color="warn">
                               <mat-icon>delete</mat-icon>
                             </button>
-                            <button *ngIf="row.statusId===4" mat-mini-fab color="primary"
-                              matTooltip="Ver Comprobante Caja Menuda" (click)="$event.stopPropagation()"
-                              (click)="ViewExpediente(row)" class="tbl-action-btn">
-                              <mat-icon>book</mat-icon>
-                            </button>
-                            <button *ngIf="row.statusId===3 || row.statusId===4" mat-mini-fab color="primary"
-                              matTooltip="Confirmar la Compra" (click)="$event.stopPropagation()"
+                           
+                            <button *ngIf="row.statusId===3 || row.statusId===4 || row.statusId===5 || row.statusId===6" mat-mini-fab color="primary"
+                              matTooltip="Confirmar la Compra / Custodio de Caja" (click)="$event.stopPropagation()"
                               (click)="addConfirmacionCompra(row)" class="tbl-action-btn">
                               <mat-icon>assignment</mat-icon>
                             </button>
-                            <button *ngIf="row.statusId===4" mat-mini-fab color="primary"
+                            <button *ngIf="row.statusId===4 || row.statusId===5 || row.statusId===6" mat-mini-fab color="primary"
                               matTooltip="Ver Comprobante Caja Menuda" (click)="$event.stopPropagation()"
                               (click)="ViewExpediente(row)" class="tbl-action-btn">
                               <mat-icon>printer</mat-icon>
                             </button>
-                            <button mat-mini-fab color="primary" matTooltip="Confirmar la Compra"
+
+                            <button *ngIf="row.statusId===5" mat-mini-fab color="primary"
+                            matTooltip="Realizar Rembolso" (click)="$event.stopPropagation()"
+                            (click)="rembolsar(row)" class="tbl-action-btn">
+                            <mat-icon>check</mat-icon>
+                          </button>
+
+                            <!-- <button mat-mini-fab color="primary" matTooltip="Confirmar la Compra"
                               (click)="$event.stopPropagation()" (click)="addConfirmacionCompra(row)"
                               class="tbl-action-btn">
                               <mat-icon>assignment</mat-icon>
-                            </button>
+                            </button> -->
                           </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

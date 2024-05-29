@@ -45,7 +45,7 @@ export class FormAcceptanceRequestComponent implements OnInit {
     console.log(data);
     this.action = data.action;
     if (this.action === 'add') {
-      this.dialogTitle = "Nuevo";
+      this.dialogTitle = "Nueva Solicitud";
       this._Model = data.GenericModel;
     } else {
       this.dialogTitle = "Editar";

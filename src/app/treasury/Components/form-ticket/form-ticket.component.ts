@@ -13,6 +13,8 @@ import { BudgetSubCondificationCatalogService } from 'app/treasury/Services/budg
 import { ListCategory } from 'app/treasury/Models/Categories';
 import { Subcategoria } from 'app/treasury/Models/GetCategoriesAndSubResponse';
 import Swal from 'sweetalert2';
+import { IncomeService } from 'app/treasury/Services/income.service';
+import { Income } from 'app/treasury/Models/income';
 
 export interface DialogData {
   detail: Tickets;
@@ -36,7 +38,7 @@ export class FormTicketComponent implements OnInit,OnDestroy {
   IsLoading: boolean = false;
   ticket : Tickets = {};
   public periodos: GetPeriodContable[] = [];
-  public codes: ListCategory[] = [];
+  public codes: Income[] = [];
   public subcodes: Subcategoria[] = [];
   public _File: File[] = [];
 
@@ -47,7 +49,7 @@ export class FormTicketComponent implements OnInit,OnDestroy {
     private authService: AuthService,
     private fb: UntypedFormBuilder,
     private  serviceAccountPeriodService:AccountPeriodService,
-    private serviceBudgetSubCondificationCatalogService:BudgetSubCondificationCatalogService
+    private _IncomeService:IncomeService
   ) {
     this.action = data.detail.actions!;
     if (this.action === 'edit') {
@@ -129,33 +131,31 @@ export class FormTicketComponent implements OnInit,OnDestroy {
 
 
 loadCode():void{
-    this.subscriptions.push(
-      this.serviceBudgetSubCondificationCatalogService.getCategory().subscribe({
+      this._IncomeService.getIngresos().subscribe({
         next : (request)=>{
-                this.codes = request.categorias;
+        this.codes = request.getCatalogoIngresos;
         },
         error : (err:HttpErrorResponse) =>{
           console.log(err);
         }
        })
-    );
   }
 
 
 
-loadSubcode(categoryId:number):void{
-  this.subcodes = [];
-  this.subscriptions.push(
-    this.serviceBudgetSubCondificationCatalogService.getCategoryAndSubCategoryById(categoryId).subscribe({
-      next : (request)=>{
-              this.subcodes = request.categoriasResult[0].subcategorias;
-      },
-      error : (err:HttpErrorResponse) =>{
-        console.log(err);
-      }
-     })
-  );
-}
+// loadSubcode(categoryId:number):void{
+//   this.subcodes = [];
+//   this.subscriptions.push(
+//     this.serviceBudgetSubCondificationCatalogService.getCategoryAndSubCategoryById(categoryId).subscribe({
+//       next : (request)=>{
+//               this.subcodes = request.categoriasResult[0].subcategorias;
+//       },
+//       error : (err:HttpErrorResponse) =>{
+//         console.log(err);
+//       }
+//      })
+//   );
+// }
 
 
 confirmAdd() {

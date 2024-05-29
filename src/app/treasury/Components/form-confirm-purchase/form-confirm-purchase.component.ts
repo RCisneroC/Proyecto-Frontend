@@ -40,7 +40,7 @@ export class FormConfirmPurchaseComponent implements OnDestroy {
     private authService: AuthService,
     private fb: UntypedFormBuilder,
   ) {
-    this.dialogTitle = 'Nueva Compra';
+    this.dialogTitle = 'Confirmación de custodio de Caja';
     this.parametros.solicituCompraMenorId = data.detail.solicituCompraMenorId;
     this.parametros.adelanto = data.detail.adelanto;
     this.form = this.createForm();
@@ -54,12 +54,12 @@ export class FormConfirmPurchaseComponent implements OnDestroy {
   createForm(): UntypedFormGroup {
     return this.fb.group({
       solicituCompraMenorId: [this.parametros.solicituCompraMenorId],
-      adelanto: [this.parametros.adelanto, [Validators.required,
-      Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
-      importeFactura: ['', [Validators.required,Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
+      // adelanto: [this.parametros.adelanto, [Validators.required,
+      // Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
+      // importeFactura: ['', [Validators.required,Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
       proveedor: ['', [Validators.required]],
-      ajuste: ['', [Validators.required,
-      Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
+      // ajuste: ['', [Validators.required,
+      // Validators.pattern(/^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$/)]],
       numFactura: ['', [Validators.required]],
       createdBy: this.authService.currentUserValue.id
     });

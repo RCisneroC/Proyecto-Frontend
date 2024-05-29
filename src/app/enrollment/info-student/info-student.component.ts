@@ -542,7 +542,8 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         }
       });
     }
-
+    console.log(this.studentForm.controls["invitationDate"].value);
+    // yyyy-MM-dd 
     if (this.participante) {
       const data: any = {
         cedula: this.studentForm.controls["cedula"].value,
@@ -554,8 +555,11 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         position: this.studentForm.controls["position"].value,
         province: this.studentForm.controls["province"].value,
         judicialDistrict: this.studentForm.controls["judicialDistrict"].value,
-        invitationDate: this.datePipe.transform(this.studentForm.controls["invitationDate"].value, "yyyy-MM-dd")
+        invitationDate: this.convertToDateFormat(this.studentForm.controls["invitationDate"].value)
       };
+      console.log('====================================');
+      console.log(data);
+      console.log('====================================');
       await (await this._studentService.updateParticipantEF(data)).subscribe({
         next: async (request: ResponseModifyStudent) => {
           console.log(request)
@@ -571,6 +575,15 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
     this.cb.detectChanges();
   }
+
+
+  convertToDateFormat(dateString: string): string {
+    const [day, month, year] = dateString.split('/');
+    const date = new Date(+year, +month - 1, +day); // Los meses en JavaScript son base 0
+    const formattedDate = date.toISOString().split('T')[0]; // yyyy-MM-dd
+    return formattedDate;
+  }
+
 
   async mensajeSubmit(error: boolean, mensaje: string) {
     if (error) {

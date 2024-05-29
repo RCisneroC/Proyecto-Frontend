@@ -42,11 +42,11 @@ export class IncomeService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
-  // getAllBudgetCoding2() {
-  //   return this.httpClient
-  //     .get<BudgetCoding[]>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0');
+  getIngresos() {
+    return this.httpClient
+      .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0');
 
-  // }
+  }
 
   // getAllModality2Filter(id: any) {
   //   return this.httpClient

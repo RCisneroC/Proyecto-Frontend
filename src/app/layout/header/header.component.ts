@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../../authentication/change-password/change-password.component';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment.development';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import Swal from 'sweetalert2';
 
 interface Notifications {
   message: string;
@@ -222,16 +224,22 @@ changePassword() {
     },
     direction: tempDirection,
   });
-  this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-    if (result === 1) {
-      // After dialog is closed we're doing frontend updates
-      // For add we're just pushing a new row inside DataService
-      this.showNotification(
-        'snackbar-success',
-        'Registro creado exitosamente...!!!',
-        'bottom',
-        'center'
-      );
+  this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
+    if (result == undefined) {
+      return;
+    }
+    if (result.CodError == 200) {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: result.Message,
+        icon: "success"
+      }); 
+    } else {
+      Swal.fire({
+        title: "Escuela Judicial",
+        text: result.Message,
+        icon: "warning"
+      });
     }
   });
 }

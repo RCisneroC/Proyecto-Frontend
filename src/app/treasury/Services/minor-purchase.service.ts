@@ -12,6 +12,7 @@ import { AddPurchaseResponse } from '../Models/AddPurchaseResponse';
 import { GetPurchaseResponse } from '../Models/GetPurchaseResponse';
 import { AddHeadCustodiaCajaRequest } from '../Models/AddHeadCustodiaCajaRequest';
 import { AddHeadCustodiaCajaResponse } from '../Models/AddHeadCustodiaCajaResponse';
+import { ResponseGetConfirmaCustodioCaja } from '../Models/getConfirmaCustodioCaja';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,17 @@ export class MinorPurchaseService {
   }
 
 
+  GetConfirmCustodioCaja(id: number) {
+    // const url = "http://localhost:5032/api/v1/";
+    //environment.apiUrlTreasury
+    return this.httpClient
+      .get<ResponseGetConfirmaCustodioCaja>(environment.apiUrlTreasury + 'ConfirmaCompra/GetConfirmacionCustodioCaja?SolicituCompraMenorId=' + id);
+  }
+
+
+ 
+
+
   deleteConfirmPurchase(
     _solicitudCompraId: number,
     _confirmaId: number,
@@ -107,10 +119,53 @@ export class MinorPurchaseService {
     return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'SolicitudCompraMenor/DeleteCompraMenor', options);
   }
 
+  deleteConfirmPurchaseCustodio(
+    _confirmaCompraId: number) {
+
+    const data = {
+      confirmaCompraId: _confirmaCompraId
+    };
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    console.log(options);
+    
+    //environment.apiUrlTreasury
+    //const url = "http://localhost:5032/api/v1/";
+    return this.httpClient.delete<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/DeleteConfirmaCompra', options);
+  }
+
+
 
   updateConfirmPurchase(data: any) {
     return this.httpClient
       .put<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/UpdateConfirmaCompra', data);
+  }
+
+  ConfirmCompraValid(nbr: any, IsConfirmacion=0) {
+    var data = {
+      SolicituCompraMenorId:nbr,
+      ConfirmacionIs:IsConfirmacion
+    }
+    console.log(data);
+    
+    return this.httpClient
+      .post<Result>(environment.apiUrlTreasury + 'ConfirmaCompra/ConfirmCompraValid', data);
+  }
+
+  RembolsarSaldo(nbr: any) {
+    var data = {
+      SolicitudCompraId:nbr,
+      rembolsar:2
+    }
+    console.log(data);
+    
+    return this.httpClient
+      .post<Result>(environment.apiUrlTreasury + 'GetPDF/PDFReembolso', data);
   }
 
 

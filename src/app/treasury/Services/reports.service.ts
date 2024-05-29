@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { environment } from 'environments/environment.development';
+import { ListadoCheckConfirmar } from '../Models/ListadoCheckConfirmar';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,12 @@ export class ReportsService  extends UnsubscribeOnDestroyAdapter {
        .post<any>(environment.apiUrlTreasury + 'GetPDF/PDFReembolso', data);
 
  }
+
+ getPDFReenbolsoListadoCheck(data:any) {
+  return this.httpClient
+      .post<ListadoCheckConfirmar>(environment.apiUrlTreasury + 'GetPDF/PDFReembolso', data);
+
+}
  
  getPDFRecapitulacionCaja(data:any) {
   return this.httpClient

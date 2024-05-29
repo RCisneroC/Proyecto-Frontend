@@ -21,7 +21,7 @@
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Número de Factura</mat-label>
+            <mat-label>Número de Factura Separado(,)</mat-label>
             <input  matInput formControlName="numFactura">
             <mat-error *ngIf="form.get('numFactura')?.hasError('required')">
              Número de Factura es requerido
@@ -29,7 +29,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Importe de Factura</mat-label>
             <input type="number"  matInput formControlName="importeFactura">
@@ -40,10 +40,10 @@
              Importe de Factura no tiene un formato válido
             </mat-error>
           </mat-form-field>
-        </div>
+        </div> -->
 
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Adelanto</mat-label>
             <input type="number"  matInput formControlName="adelanto">
@@ -54,10 +54,10 @@
              Adelanto no tiene un formato válido
             </mat-error>
           </mat-form-field>
-        </div>
+        </div> -->
 
 
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Ajuste</mat-label>
             <input type="number"  matInput formControlName="ajuste">
@@ -68,7 +68,7 @@
              Ajuste no tiene un formato válido
             </mat-error>
           </mat-form-field>
-        </div>
+        </div> -->
 
 
 
@@ -77,7 +77,7 @@
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Proveedor</mat-label>
+            <mat-label>Proveedor Separado por (,)</mat-label>
             <input matInput formControlName="proveedor">
             <mat-error *ngIf="form.get('proveedor')?.hasError('required')">
               Proveedor es requerido

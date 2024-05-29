@@ -20,7 +20,7 @@
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>ID Solicitud</mat-label>
             <mat-select  formControlName="solicitudId" >
-              <mat-option  *ngFor="let grado of solicitudes"  [value]="grado.requestId">{{grado.requestId}}</mat-option>
+              <mat-option  *ngFor="let grado of solicitudes"  [value]="grado.requestId">{{grado.requestId}} - {{grado.unitId}}</mat-option>
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
             <mat-error *ngIf="_Forms.get('solicitudId')?.hasError('required')">
