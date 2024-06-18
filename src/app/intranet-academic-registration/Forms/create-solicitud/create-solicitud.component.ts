@@ -171,10 +171,11 @@ export class CreateSolicitudComponent {
   loadNeededData() {
     this._EnrolmentService.GetStudentsmesh(this.authService.currentUserValue.cedula).subscribe({
       next: (rest) => {
-        console.log(rest);
-        this._Career = rest.studentInnfo;
-        console.log("_Carrer", this._Career);
-        this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
+        if(rest.studentInnfo){
+          this._Career = rest.studentInnfo;
+          this.careerSelected = rest.studentInnfo[0].degreeCurriculumDesignId;
+        }
+
         this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
           next: (result) => {
             this._SubjectMatriculas = result.subjectEnrollmentResult;
@@ -208,6 +209,7 @@ export class CreateSolicitudComponent {
         }
       }
     })
+
   }
 
   loadrequestType() {
@@ -232,7 +234,6 @@ export class CreateSolicitudComponent {
   }
 
   changeRequesttype() {
-    console.log(this.RequesttypeSelect);
     this.RequesttypeSelect = + this.RequesttypeSelect;
     switch (this.RequesttypeSelect) {
       case 1:
@@ -286,7 +287,7 @@ export class CreateSolicitudComponent {
         this.typeActivityAcademySelected = 2
         this.typeDesabled = true;
         break;
-      case 5:
+     /* case 5:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
         this.typeDesabled = true;
@@ -295,7 +296,7 @@ export class CreateSolicitudComponent {
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
         this.typeDesabled = true;
-        break;
+        break;*/
       case 9:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1

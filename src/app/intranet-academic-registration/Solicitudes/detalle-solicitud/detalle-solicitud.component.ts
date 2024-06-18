@@ -14,12 +14,15 @@ export interface DialogData {
 export class DetalleSolicitudComponent {
   action: string;
   dialogTitle: string;
+  item: RequestVariousItem;
 
   constructor(
     public dialogRef: MatDialogRef<DetalleSolicitudComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
     this.action = data.action;
+    this.item = data.request;
+    console.log(this.item)
     this.dialogTitle = "Detalle de la Solicitud";
   }
 }

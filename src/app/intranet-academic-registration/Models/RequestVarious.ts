@@ -1,26 +1,26 @@
-import {CalificacionesECModels} from "../../enrollment/models/calificacionEC";
-import {an} from "@fullcalendar/core/internal-common";
+import { CalificacionesECModels } from "../../enrollment/models/calificacionEC";
+import { an } from "@fullcalendar/core/internal-common";
 
 export interface RequestVarious {
-    id: number;
-    name: string;
-    lastname: string;
-    idSolicitante: string;
-    numberPhone: string;
-    email: string;
-    typeUser: number;
-    typeRequest: number;
-    nameTypeRequest: string;
-    typeActivityAcademy: number;
-    idSubjectOrActivity: number;
-    nameActivitySubject: string;
-    dateCreate: Date;
-    statusId: number;
-    comments: string;
+  id: number;
+  name: string;
+  lastname: string;
+  idSolicitante: string;
+  numberPhone: string;
+  email: string;
+  typeUser: number;
+  typeRequest: number;
+  nameTypeRequest: string;
+  typeActivityAcademy: number;
+  idSubjectOrActivity: number;
+  nameActivitySubject: string;
+  dateCreate: Date;
+  statusId: number;
+  comments: string;
 }
 
 
-export interface SearchRequestVariousResponse{
+export interface SearchRequestVariousResponse {
   statusCode: number;
   success: boolean;
   message: string;
@@ -30,7 +30,7 @@ export interface SearchRequestVariousResponse{
 
 export interface RequestVariousItem {
   id: number,
-  history: any,
+  comments: comments[],
   createdDate: Date,
   createdBy: string,
   lastModifiedDate: Date,
@@ -43,36 +43,48 @@ export interface RequestVariousItem {
   requestVariousApplicantUserTypeId: number,
   requestVariousStatusTypeId: number,
   requestDate: Date,
-  subjectId: number,
-  activityId: number,
+  subjectId?: number,
+  activityId?: number,
   efAcademicRecordId: number,
   ecAcademicRecordId: number,
   reentryAll: boolean,
   response: string,
   responseDate: Date
   infoUserRquest: infoUserRquestModel
-  subject: subjectModel,
-  activity: activityModel
+  subject?: subjectModel,
+  activity?: activityModel
 }
 
-export interface infoUserRquestModel{
+export interface infoUserRquestModel {
   firstName: string,
   lastName: string,
   email: string
 }
-export interface subjectModel{
+export interface subjectModel {
   name: string
 }
 
-export interface activityModel{
+export interface activityModel {
   name: string
 }
 
- export  interface RequestVariousType{
+export interface RequestVariousType {
   id: number,
-   name: string,
-   description: string
- }
+  name: string,
+  description: string
+}
+
+
+export interface comments {
+  description?: string
+  requestVariousId?: number
+  requestVarious?: any
+  id?: number
+  createdDate?: string
+  createdBy?: string
+  lastModifiedDate?: string
+  lastModifiedBy?: string
+}
 
 
 //tipo solicitante
