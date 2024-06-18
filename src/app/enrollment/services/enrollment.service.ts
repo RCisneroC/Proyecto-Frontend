@@ -370,7 +370,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
 
   getSubjectsHitory(id: number, cedula: string) {
     const url = `${environment.apiEC}`;
-    return this.httpClient.get<subjectHistory>(url + "EJMatricula/GetallSubjectEnrollment?DegreeId=" + id + "&Cedula=" + cedula);
+    return this.httpClient.get<subjectHistory>(url + "EJMatricula/GetallSubjectEnrollment?DegreeId=" + id + "&Cedula=" + cedula+ "&StausId=0" );
   }
 }
 

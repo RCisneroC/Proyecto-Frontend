@@ -398,27 +398,43 @@ export class ExampleDataSource extends DataSource<Teacher> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
+  // sortData(data: Teacher[]): Teacher[] {
+  //   if (!this._sort.active || this._sort.direction === '') {
+  //     return data;
+  //   }
+  //   return data.sort((a, b) => {
+  //     let propertyA: number | string = '';
+  //     let propertyB: number | string = '';
+  //     switch (this._sort.active) {
+  //       case 'points':
+  //         [propertyA, propertyB] = [a.points, b.points];
+  //         break;
+     
+  //     }
+  //     const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+  //     const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+  //     return (
+  //       (valueA < valueB ? -1 : 1) * (this._sort.direction === 'desc' ? 1 : -1)
+  //     );
+  //   });
+  // }
+  
   sortData(data: Teacher[]): Teacher[] {
-    if (!this._sort.active || this._sort.direction === '') {
-      return data;
-    }
-    return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
-      switch (this._sort.active) {
-        case 'teacherId':
-          [propertyA, propertyB] = [a.points, b.points];
-          break;
-        case 'Name':
-          [propertyA, propertyB] = [a.name, b.name];
-          break;
+  // if (!this._sort.active || this._sort.direction === '') {
+  //   return data;
+  // }
 
-      }
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-      return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
-      );
-    });
-  }
+  return data.sort((a, b) => {
+    const valueA = a.points;
+    const valueB = b.points;
+
+    if (valueA > valueB) {
+      return this._sort.direction === 'asc' ? 1 : -1;
+    } else if (valueA < valueB) {
+      return this._sort.direction === 'asc' ? -1 : 1;
+    } else {
+      return 0; // Equal points, sort by other criteria if needed
+    }
+  });
+}
 }

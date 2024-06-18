@@ -73,7 +73,7 @@ export class EditSolicitudComponent {
       this.IdTypeUser = 2;
     }
     if (this.userType == 'Profesor') {
-      this.IdTypeUser = 1;s
+      this.IdTypeUser = 1;
 
     }
 
