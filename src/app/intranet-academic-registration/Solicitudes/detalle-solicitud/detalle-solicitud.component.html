@@ -1,59 +1,59 @@
 <div class="addContainer">
-    <div class="modalHeader">
-        <div class="editRowModal">
-            <div class="modalHeader clearfix">
-                <div class="modal-about">
-                    {{dialogTitle}}
-                </div>
-            </div>
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          {{dialogTitle}}
         </div>
-        <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
-            <mat-icon>close</mat-icon>
-        </button>
+      </div>
     </div>
-    <div mat-dialog-content>
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Nombre</strong></p>
-                <label for="">{{ data.request.infoUserRquest.firstName }}</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Apellido</strong></p>
-                <label for="">{{ data.request.infoUserRquest.lastName }}</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Correo Electrónico</strong></p>
-                <label for="">{{ data.request.infoUserRquest.email }}</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Tipo de Actividad Académica</strong></p>
-                <label *ngIf="data.request.subject" for="">{{ 1 | requestVariousActivityAcademicTypePipe}}</label>
-              <label *ngIf="data.request.activity" for="">{{  2  | requestVariousActivityAcademicTypePipe}}</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Tipo de Solicitud</strong></p>
-                <label for="">{{ data.request.requestVariousTypeId | requestVariousTypePipe}}</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Asignatura o Actividad</strong></p>
-                <label for="">{{ data.request.subjectId ? data.request.subject.name : data.request.activity.name }}</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <p><strong>Estado</strong></p>
-                <label class="badge badge-solid-green" for="">{{ data.request.requestVariousStatusTypeId | requestVariousStatusPipe }}</label>
-            </div>
-            <div class="col-lg-8 col-md-8 col-sm-6 col-12">
-                <p><strong>Comentario</strong></p>
-                <label for="">{{ data.request.description }}</label>
-            </div>
-        </div>
-
-
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Nombre</strong></p>
+        <label for="">{{ data.request!.infoUserRquest!.firstName }}</label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Apellido</strong></p>
+        <label for="">{{ data.request!.infoUserRquest!.lastName }}</label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Correo Electrónico</strong></p>
+        <label for="">{{ data.request!.infoUserRquest!.email }}</label>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Tipo de Actividad Académica</strong></p>
+        <label *ngIf="data.request!.subject !== undefined" for="">{{ 1 | requestVariousActivityAcademicTypePipe}}</label>
+        <label *ngIf="data.request!.activity !== null && data.request!.activity !== undefined" for="">{{ 2 | requestVariousActivityAcademicTypePipe}}</label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Tipo de Solicitud</strong></p>
+        <label for="">{{ data.request!.requestVariousTypeId | requestVariousTypePipe}}</label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Asignatura o Actividad</strong></p>
+        <label *ngIf="data.request!.activity !== null && data.request!.activity !== undefined" for="">{{data.request!.activity!.name}}</label>
+        <label *ngIf="data.request!.subjectId !== null && data.request!.subjectId !== undefined" for="">{{data.request!.subject!.name}}</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <p><strong>Estado</strong></p>
+        <label class="badge badge-solid-green" for="">{{ data.request!.requestVariousStatusTypeId |
+          requestVariousStatusPipe }}</label>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-6 col-12">
+        <p><strong>Comentario</strong></p>
+        <label for="">{{ data.request!.description }}</label>
+      </div>
+    </div>
+  </div>
 </div>

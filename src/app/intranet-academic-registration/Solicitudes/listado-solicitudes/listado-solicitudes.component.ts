@@ -9,10 +9,10 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '@core';
 import { TableElement, TableExportUtil, UnsubscribeOnDestroyAdapter } from '@shared';
-import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import {  ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { ApprovedSolicitudComponent } from 'app/intranet-academic-registration/Forms/approved-solicitud/approved-solicitud.component';
 import { CreateSolicitudComponent } from 'app/intranet-academic-registration/Forms/create-solicitud/create-solicitud.component';
-import {RequestVarious, RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
+import { RequestVariousItem} from 'app/intranet-academic-registration/Models/RequestVarious';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -21,6 +21,7 @@ import {
   ViewPosterPDFComponent
 } from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 import {HistorySolicitudComponent} from "../history-solicitud/history-solicitud.component";
+import { EditSolicitudComponent } from 'app/intranet-academic-registration/Forms/edit-solicitud/edit-solicitud.component';
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -47,7 +48,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   id?: number;
   requestVarious?: RequestVariousItem = {
     id: 0,
-    history: [],
+    comments: [],
     createdDate:new Date,
     createdBy: '',
     lastModifiedDate: new Date,
@@ -138,13 +139,15 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(CreateSolicitudComponent, {
+    const dialogRef = this.dialog.open(EditSolicitudComponent, {
       data: {
         request: row,
         action: 'edit',
         id: id
       },
       direction: tempDirection,
+      width:"500px",
+      height:"500px"
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
       if (result == undefined) {
@@ -336,8 +339,8 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
 
   detalleSolicitud(row: RequestVariousItem, id: number) {
     console.log(row.id);
-    const completed = JSON.parse(row.history);
-    console.log("History Parse", completed);
+    //const completed = JSON.parse(row.history);
+    //console.log("History Parse", completed);
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -363,6 +366,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     } else {
       tempDirection = 'ltr';
     }
+
     const dialogRef = this.dialog.open(HistorySolicitudComponent, {
       data: {
         request: row,

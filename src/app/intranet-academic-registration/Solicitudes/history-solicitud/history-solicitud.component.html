@@ -20,14 +20,14 @@
       <div class="body">
         <div class="body table-responsive " *ngIf="loading===false">
           <table mat-table [dataSource]="dataHInfo" class="w-100">
-            <ng-container matColumnDef="CreateDate">
+            <ng-container matColumnDef="createdDate">
               <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
-              <td mat-cell *matCellDef="let element">{{ element.CreatedDate | date:'dd/M/yyyy'}} </td>
+              <td mat-cell *matCellDef="let element">{{ element.createdDate | date:'dd/M/yyyy'}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Description">
+            <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef> Comentario </th>
-              <td mat-cell *matCellDef="let element">{{ element.Description }} </td>
+              <td mat-cell *matCellDef="let element">{{ element.description }} </td>
             </ng-container>
 
 
@@ -37,7 +37,7 @@
           <mat-paginator #ListaHInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
-      <mat-progress-bar mode="indeterminate" *ngIf="loading==true"></mat-progress-bar>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading===true"></mat-progress-bar>
     </div>
 
   </div>

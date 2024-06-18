@@ -88,8 +88,11 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
   }
 
   getAllRequestVariousEIRA(): void {
+    //let url = "http://localhost:5265/";
+    const url = environment.apiEira;
+
     this.subs.sink = this.httpClient
-      .post<SearchRequestVariousResponse>(environment.apiEira + 'SearchRequestVarious', {  pageNumber: 1, pageSize: 1000})
+      .post<SearchRequestVariousResponse>(url + 'SearchRequestVarious', {  pageNumber: 1, pageSize: 1000})
       .subscribe({
         next: (res) => {
           let user = localStorage.getItem('currentUser') || '';
@@ -155,6 +158,7 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
 
   UpdateRequestVarious(UpdateRequestVariousData: any) {
 
+    //const url = "http://localhost:5265/"
     const url = `${environment.apiEira}`;
     return this.httpClient.put<any>(url + "UpdateRequestVarious", UpdateRequestVariousData);
   }
