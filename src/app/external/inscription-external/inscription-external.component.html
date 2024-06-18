@@ -50,9 +50,10 @@
                               <mat-option value="PAS">PAS</mat-option>
                             </mat-select>
                           </li>
+                          <!--[readonly]="typedoc ==='PAS'"-->
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                            <input [readonly]="typedoc ==='PAS'" placeholder="Ejemplo: 9-999-999" type="text" #filter
+                            <input  placeholder="Ejemplo: 9-999-999" type="text" #filter
                               class="browser-default search-field" aria-label="Search box" />
                             <button [disabled]="typedoc ==='PAS'" mat-mini-fab class="" color="primary" (click)="getPersonData(filter.value)">
                               <mat-icon>search</mat-icon>
@@ -107,12 +108,16 @@
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
-                        <mat-form-field class="mat-form-field" appearance="outline">
-                          <mat-label>Sexo</mat-label>
-                          <input formControlName="gender" matInput autocomplete="off" [readonly]="disabled" [ngModel]="
-                              personData?.sexo
-                            " />
-                        </mat-form-field>
+                        <mat-form-field class="example-full-width " appearance="outline">
+                        <mat-label>Sexo</mat-label>
+                        <mat-select formControlName="gender">
+                          <mat-option value="F">Femenino</mat-option>
+                          <mat-option value="M">Masculino</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('gender')?.hasError('required')">
+                          Es Requisito
+                        </mat-error>
+                      </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>
 
@@ -141,9 +146,18 @@
                       <mat-grid-tile>
                         <mat-form-field class="mat-form-field" appearance="outline">
                           <mat-label>Distrito</mat-label>
-                          <input formControlName="judicialDistrict" matInput autocomplete="off" [ngModel]="
+                          <!-- <input formControlName="judicialDistrict" matInput autocomplete="off" [ngModel]="
                               personData?.distrito
-                            " />
+                            " /> -->
+                            <mat-select formControlName="judicialDistrict" [ngModel]="personData?.distrito">
+                            <mat-option value="PRIMER DISTRITO JUDICIAL">PRIMER DISTRITO JUDICIAL</mat-option>
+                            <mat-option value="SEGUNDO DISTRITO JUDICIAL">SEGUNDO DISTRITO JUDICIAL</mat-option>
+                            <mat-option value="TERCER DISTRITO JUDICIAL">TERCER DISTRITO JUDICIAL</mat-option>
+                            <mat-option value="CUARTO DISTRITO JUDICIAL">CUARTO DISTRITO JUDICIAL</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="form.get('province')?.hasError('required')">
+                            Requerido
+                          </mat-error>
                         </mat-form-field>
                       </mat-grid-tile>
                       <mat-grid-tile>

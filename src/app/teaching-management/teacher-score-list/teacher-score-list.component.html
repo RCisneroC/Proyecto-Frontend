@@ -182,11 +182,12 @@
 
 
                         <ng-container matColumnDef="dischargeDate">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de alta
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de
+                            aprobación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Fecha de
-                              alta:</span>{{row.dischargeDate!==null?(row.dischargeDate |
+                              aprobación:</span>{{row.dischargeDate!==null?(row.dischargeDate |
                             date:'dd/M/yyyy'):"N/A"}}</mat-cell>
                         </ng-container>
 

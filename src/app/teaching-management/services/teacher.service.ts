@@ -221,6 +221,9 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
 
   GetAcademicActivity(data: any) {
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
     return this.httpClient
       .post<AcademicRecord>(environment.apiIntranet + 'SearchECAcademicRecord', data);
   }

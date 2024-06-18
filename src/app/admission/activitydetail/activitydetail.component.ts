@@ -889,7 +889,7 @@ export class ActivitydetailComponent implements OnInit {
           text: result.Message,
           icon: "success"
         });
-        // this.GetModulesByIdModules();
+        this.GetModulesByIdModules();
       } else {
         Swal.fire({
           title: "Escuela Judicial",

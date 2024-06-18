@@ -69,16 +69,18 @@ export class DetailTaskComponent implements OnInit {
         if (local == "1") {
           this.title = "Listado de Estudiantes";
           this.getOneStudents();
-          let localData = localStorage.getItem('details_task') || '';
-          console.log('====================================');
-          console.log(JSON.parse(localData));
-          console.log('====================================');
+          let localData = localStorage.getItem('details_task') || ''; 
           this.taskSubject = JSON.parse(localData);
           // this.getAllTaskSubject()
         } else {
           this.title = "Listado de Participantes";
           this.getOneStudentsAct();
           this.getAllTaskActivity();
+          let localData = localStorage.getItem('details_task') || ''; 
+          this.taskSubject = JSON.parse(localData);
+          console.log('====================================');
+          console.log(this.taskSubject);
+          console.log('====================================');
         }
       }
     });
@@ -128,11 +130,13 @@ export class DetailTaskComponent implements OnInit {
     }
     this._ActivityListService.GetTaskActivity(data).subscribe({
       next: (res) => {
-
-        this.taskSubject.Titulo = res.data[0].title;
-        this.taskSubject.observacion = res.data[0].observation;
-        this.taskSubject.fechaEntrega = res.data[0].finalDate;
-        this.taskSubject.tipoTarea = res.data[0].taskType.name;
+        console.log('====================================');
+        console.log(res);
+        console.log('====================================');
+        this.taskSubject.Titulo = this.taskSubject.Titulo;
+        this.taskSubject.observacion = this.taskSubject.observacion;
+        this.taskSubject.fechaEntrega = this.taskSubject.fechaEntrega;
+        this.taskSubject.tipoTarea = this.taskSubject.tipoTarea;
 
 
       }

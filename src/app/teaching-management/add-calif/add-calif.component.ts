@@ -7,6 +7,7 @@ import { AuthService, User } from '@core';
 import { AcademicRecord, CalificacionEstudiante, Student } from '../models/Asistencias';
 import { TeacherService } from '../services/teacher.service';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 export interface DialogData {
   id: string;
   accion: string;
@@ -263,9 +264,9 @@ export class AddCalifComponent {
             this.ResponseMessage.Message = 'calificacion correctamente.';
             this.dialogRef.close(this.ResponseMessage);
           },
-          (error) => {
+          (error:HttpErrorResponse) => { 
             this.ResponseMessage.CodError = 500;
-            this.ResponseMessage.Message = error;
+            this.ResponseMessage.Message = error.error.Message;
             this.dialogRef.close(this.ResponseMessage);
           })
       }

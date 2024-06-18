@@ -75,6 +75,7 @@ export class FormsSubjectComponent implements OnInit {
 
   }
   confirmAdd() {
+ 
     if (this._SubjectModalForms.controls['hasLaboratory'].value == "1") {
       this._SubjectModalForms.controls['hasLaboratory'].setValue(true);
     } else {
@@ -83,6 +84,8 @@ export class FormsSubjectComponent implements OnInit {
     if (this.action == 'add-asignaturas') {
       let valor = this._SubjectModalForms.controls['code'].value;
       this._SubjectModalForms.controls['code'].setValue(valor.toString())
+      console.log(this._SubjectModalForms);
+      
       this._SubjectService.addSubject(this._SubjectModalForms.getRawValue())
         .subscribe({
           next: (res) => {
@@ -97,6 +100,15 @@ export class FormsSubjectComponent implements OnInit {
           }
         });
     } else {
+      alert();
+      if (this._SubjectModalForms.controls['hasLaboratory'].value == "1") {
+        this._SubjectModalForms.controls['hasLaboratory'].setValue(true);
+      } else {
+        this._SubjectModalForms.controls['hasLaboratory'].setValue(false);
+      }
+    let valor = this._SubjectModalForms.controls['code'].value;
+        this._SubjectModalForms.controls['code'].setValue(valor.toString());
+        console.log(this._SubjectModalForms.getRawValue())
       this._SubjectService.updateSubject(this._SubjectModalForms.getRawValue())
         .subscribe({
           next: (res) => {

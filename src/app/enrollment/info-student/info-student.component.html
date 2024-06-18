@@ -366,7 +366,13 @@
                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
                       <mat-label>Distrito</mat-label>
-                      <input matInput formControlName="judicialDistrict">
+                      <mat-select formControlName="judicialDistrict"  >
+                        <mat-option value="PRIMER DISTRITO JUDICIAL">PRIMER DISTRITO JUDICIAL</mat-option>
+                        <mat-option value="SEGUNDO DISTRITO JUDICIAL">SEGUNDO DISTRITO JUDICIAL</mat-option>
+                        <mat-option value="TERCER DISTRITO JUDICIAL">TERCER DISTRITO JUDICIAL</mat-option>
+                        <mat-option value="CUARTO DISTRITO JUDICIAL">CUARTO DISTRITO JUDICIAL</mat-option>
+                      </mat-select>
+                      <!-- <input matInput formControlName="judicialDistrict"> -->
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('judicialDistrict')?.hasError('required')">
                         Es Requisito
