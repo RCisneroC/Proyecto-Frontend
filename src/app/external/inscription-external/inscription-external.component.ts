@@ -285,8 +285,10 @@ export class InscriptionExternalComponent implements OnInit {
   changeTypeDoc(){
     console.log(this.typedoc);
     if(this.typedoc == "PAS"){
-      this.getPersonData("999999");
+      // this.getPersonData("999999");
       this.disabled = false;
+      this.busquedaR = true;
+
     }
     if(this.typedoc == "CIP"){
       this.busquedaR = false;
@@ -454,6 +456,10 @@ export class InscriptionExternalComponent implements OnInit {
   addParticipant() {
     this.form.controls['activityId'].setValue(this.converId);
     this._inscriptionService.init_ResponseInscripcion();
+    console.log('====================================');
+    console.log(this.form);
+    console.log('====================================');
+    // return;
     this._ActivityDetailService.GetOneActivity(this.converId?.toString()).
       subscribe({
         next: (res: GetOneActivity) => {

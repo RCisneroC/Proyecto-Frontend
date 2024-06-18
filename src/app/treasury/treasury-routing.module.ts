@@ -20,6 +20,10 @@ import { PdfExpenseReportComponent } from './Components/Reportes/pdf-expense-rep
 import { PdfIncomeReportComponent } from './Components/Reportes/pdf-income-report/pdf-income-report.component';
 import { AcceptanceRequestComponent } from './Components/acceptance-request/acceptance-request.component';
 import { ExpensesComponent } from './Components/expenses/expenses.component';
+import { BudgetComponent } from './Components/budget/budget.component';
+import { BudgetDetailsComponent } from './Components/budget-details/budget-details.component';
+import { BudgetTermComponent } from './Components/budget-term/budget-term.component';
+import { BudgetTermMonthComponent } from './Components/budget-term-month/budget-term-month.component';
 
 const routes: Routes = [
   {
@@ -101,6 +105,23 @@ const routes: Routes = [
     path: "expenses",
     component: ExpensesComponent,
   },
+  {
+    path: "budget",
+    component: BudgetComponent,
+  },
+  {
+    path: "budget-details/:id",
+    component: BudgetDetailsComponent,
+  },
+  {
+    path: "budget-term",
+    component: BudgetTermComponent,
+  },
+  {
+    path: "budget-term-details/:id",
+    component: BudgetTermMonthComponent,
+  },
+
 
 
 

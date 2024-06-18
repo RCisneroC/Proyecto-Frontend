@@ -32,7 +32,8 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     { id: 2, name: 'Educación continua' },
     { id: 3, name: 'Ambos procesos' }
   ];
-
+  tmp_files: any[50] = [];
+  tmp_docType: any[50] = [];
   displayedColumnsCourse = [
     'courseId',
     'name',
@@ -127,10 +128,10 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     this.FormsEFDocument = this.fb.group({});
     this.getProcess();
     this.getRequiredDocuments();
-
+    // , [this.cedulaExist()]
     this.teacherForm = this.fb.group({
       teacherId: new FormControl(0),
-      cedula: ['', [Validators.required], [this.cedulaExist()]],
+      cedula: ['', [Validators.required]],
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       gender: ['', [Validators.required]],
@@ -164,7 +165,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
               for (const property of this.DataRequiredDocuments) {
                 this.FormsEFDocument.addControl(
                   property.documentId.toString(),
-                  this.fb.control([], property.typeEducationId == 1 ? [Validators.required] : [])
+                  this.fb.control([], property.typeEducationId == 1 ? [] : [])
                 );
               }
             }
@@ -173,7 +174,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
           for (const property of this.DataRequiredDocuments) {
             this.FormsEFDocument.addControl(
               property.documentId.toString(),
-              this.fb.control([], property.typeEducationId == 1 ? [Validators.required] : [])
+              this.fb.control([], property.typeEducationId == 1 ? [] : [])
             );
           }
         }
@@ -196,6 +197,21 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     );
   }
 
+  verificarCedula(event:any){
+  this._teacherService.getExisteCedula(event).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res!=null){
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'La Cédula ya esta registada en el sistema..',
+            icon: "error"
+          });
+          this.teacherForm.controls['cedula'].setValue('');
+        }
+      }
+    })
+  }
   cedulaExist() {
     return (control: FormControl) => {
       const cedula = control.value;
@@ -300,11 +316,11 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     console.log(event);
     console.log(this.teacherForm.value);
   }
-
+  // , [this.cedulaExist()]
   createTeacherForm(): UntypedFormGroup {
     return this.fb.group({
       teacherId: new FormControl(0),
-      cedula: [this.DataTeacher.cedula, [Validators.required], [this.cedulaExist()]],
+      cedula: [this.DataTeacher.cedula, [Validators.required]],
       name: new FormControl(this.DataTeacher?.name, [Validators.required]),
       lastName: new FormControl(this.DataTeacher?.lastName, [Validators.required]),
       email: new FormControl(this.DataTeacher?.email, [Validators.required, Validators.email]),
@@ -327,11 +343,14 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
   }
 
 
-  tmp_files: any[50] = [];
-  tmp_docType: any[50] = [];
-  onFileSelected(event: any, idx: number, docId: number) {
 
+  onFileSelected(event: any, idx: number, docId: number) {
+    // console.log(event, idx, docId);
+    
     this.tmp_files[idx] = (event.target.files[0]);
+    console.log('====================================');
+    console.log(this.tmp_files);
+    console.log('====================================');
     this.tmp_docType[idx] = (docId);
     const formdata = new FormData();
     formdata.append('FileDetails', this.tmp_files[0]);

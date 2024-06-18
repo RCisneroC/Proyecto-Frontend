@@ -14,7 +14,7 @@ export interface DialogData {
   id: string;
   action: string;
   student: Student;
-  participantId:number;
+  participantId:string;
   asistence: AttenderResponse[];
   details: DetailsResponseEF
 }
@@ -157,7 +157,7 @@ export class AddAttendanceFormsComponent implements OnInit {
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       activityId: idGeneral,
-      participantId: this.data.participantId,
+      participantId: this.data.student.participantId,
     }
 
 

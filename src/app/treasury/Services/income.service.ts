@@ -47,12 +47,6 @@ export class IncomeService extends UnsubscribeOnDestroyAdapter {
       .get<any>(environment.apiUrlTreasury + 'CatalogoIngreso/GetCatalogoIngreso?CatalogoId=0');
 
   }
-
-  // getAllModality2Filter(id: any) {
-  //   return this.httpClient
-  //     .get<Modality[]>(environment.apiUrlSchedule + 'ActivityMode/GetAll?StatusId=' + id);
-
-  // }
   addIncomeMode(income: Income) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'CatalogoIngreso/AddCatalogoIngreso', income);
   }

@@ -40,6 +40,15 @@ import { ExpensesComponent } from './Components/expenses/expenses.component';
 import { FormAcceptanceRequestComponent } from './Components/form-acceptance-request/form-acceptance-request.component';
 import { FormUpdateExpensesComponent } from './Components/form-update-expenses/form-update-expenses.component';
 import { LisBienesIsjupComponent } from './Components/lis-bienes-isjup/lis-bienes-isjup.component';
+import { BudgetComponent } from './Components/budget/budget.component';
+import { BudgetDetailsComponent } from './Components/budget-details/budget-details.component';
+import { BudgetTermComponent } from './Components/budget-term/budget-term.component';
+import { BudgetTermMonthComponent } from './Components/budget-term-month/budget-term-month.component';
+import { BudgetFormsComponent } from './Components/FormsBudget/budget-forms/budget-forms.component';
+import { BudgetDetailsFormsComponent } from './Components/FormsBudget/budget-details-forms/budget-details-forms.component';
+import { BudgetTermFormsComponent } from './Components/FormsBudget/budget-term-forms/budget-term-forms.component';
+import { BudgetTermMonthFormsComponent } from './Components/FormsBudget/budget-term-month-forms/budget-term-month-forms.component';
+import { BudgetDetailsMonthFormsComponent } from './Components/FormsBudget/budget-details-month-forms/budget-details-month-forms.component';
 
 
 @NgModule({
@@ -80,7 +89,16 @@ import { LisBienesIsjupComponent } from './Components/lis-bienes-isjup/lis-biene
         ExpensesComponent,
         FormAcceptanceRequestComponent,
         FormUpdateExpensesComponent,
-        LisBienesIsjupComponent
+        LisBienesIsjupComponent,
+        BudgetComponent,
+        BudgetDetailsComponent,
+        BudgetTermComponent,
+        BudgetTermMonthComponent,
+        BudgetFormsComponent,
+        BudgetDetailsFormsComponent,
+        BudgetTermFormsComponent,
+        BudgetTermMonthFormsComponent,
+        BudgetDetailsMonthFormsComponent
     ],
     imports: [
         CommonModule,

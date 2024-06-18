@@ -204,6 +204,8 @@ export class ExampleDataSource extends DataSource<Subject> {
       this.id = params['id'];
     });
     console.log(this.id);
+    // 1 =  tiene que ser igual al año que el estudiante esta cursando.
+
     this.exampleDatabase.GetSubjectsBy(1, this.id);
     return merge(...displayDataChanges).pipe(
       map(() => {
