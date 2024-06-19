@@ -10,9 +10,10 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {ResponseGenerica, ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {TeacherPointsCat, TeacherPointsEduLevel} from "../models/TeacherPoints";
+import { TeacherPointsEduLevel} from "../models/TeacherPoints";
 import {FormEduLevelComponent} from "../score-forms/form-edu-level/form-edu-level.component";
 import {EduLevelScoreListService} from "../services/edu-level-score-list.service";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-educational-level-score-list',
@@ -39,7 +40,8 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _Service : EduLevelScoreListService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private datePipe: DatePipe
   ) {
     super();
   }
@@ -188,9 +190,12 @@ export class EducationalLevelScoreListComponent extends UnsubscribeOnDestroyAdap
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre Salón': x.name,
-        'Descripción': x.createdBy,
-
+        'Nombre': x.name,
+        "Puntos" : x.points,
+        'Creado por': x.createdBy,
+        'Fecha creacion': x.createdDate.toString(),
+        'Modificado por': x.lastModifiedBy,
+        'Fecha Modifiacion' : x.lastModifiedDate!.toString(),
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

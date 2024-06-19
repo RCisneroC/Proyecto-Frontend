@@ -18,12 +18,13 @@ import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {AprovedTeacherComponent} from "../aproved-teacher/aproved-teacher.component";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {Filtros, FiltrosMatricula} from "../../estadisticas/PersonalDocente/model/Filtros";
+import {Filtros} from "../../estadisticas/PersonalDocente/model/Filtros";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MatSelectChange} from "@angular/material/select";
 import {ScoreListService} from "../services/score-list.service";
 import {ActivityService} from "../../admission/maestros/services/activity.service";
 import {SubjectServiceService} from "../../admission/FormalEducations/Services/subject-service.service";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-score-list',
@@ -97,8 +98,8 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     private fb: UntypedFormBuilder,
     private _Service: ScoreListService,
     private _ActService: ActivityService,
-    private _SubsService: SubjectServiceService
-
+    private _SubsService: SubjectServiceService,
+    private datePipe: DatePipe
   ) {
     super();
     this.FilterForm = this.createFilterForm();
@@ -327,9 +328,17 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.name,
-        'Apellido': x.lastName,
-        'Cédula': x.cedula,
+        "Nombre": x.name,
+        "Apellido": x.lastName,
+        "Cédula": x.cedula,
+        "Sexo": x.gender,
+        "Correo electronico" : x.email,
+        "Telefono": x.phoneNumber,
+        "Fecha de Nacimiento" : this.datePipe.transform(x.dateOfBirth!,"dd/MM/yyyy")!,
+        "Lugar de Nacimiento": x.placeOfBirth!,
+        "Lugar de Residencia" : x.placeResidence!,
+        "Fecha de Aplicacion" : this.datePipe.transform(x.applicationDate!,"dd/MM/yyyy")!,
+		    "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado",
         'Puntos': x.points
       }));
 
@@ -409,7 +418,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
   //       case 'points':
   //         [propertyA, propertyB] = [a.points, b.points];
   //         break;
-     
+
   //     }
   //     const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
   //     const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
@@ -418,7 +427,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
   //     );
   //   });
   // }
-  
+
   sortData(data: Teacher[]): Teacher[] {
   // if (!this._sort.active || this._sort.direction === '') {
   //   return data;
