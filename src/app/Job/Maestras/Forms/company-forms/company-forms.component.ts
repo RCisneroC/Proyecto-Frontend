@@ -42,9 +42,9 @@ export class CompanyFormsComponent {
     this.company = data.company;
     this.action = data.accion;
     if (this.action === 'edit-company') {
-      this.dialogTitle = "Editar Compañia";
+      this.dialogTitle = "Editar entidad";
     } else {
-      this.dialogTitle = 'Nueva Compañia';
+      this.dialogTitle = 'Nueva entidad';
     }
     this.CompanyForms = this.createContactForm();
   }
