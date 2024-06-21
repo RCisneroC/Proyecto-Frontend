@@ -9,6 +9,8 @@ export interface Degree{
     admissionProfile: string;
     generalGoals: string;
     durationInYears: number;
+    participationProfile:number;
+    degreeTarget:number;
     numOfCredits: number;
     assignedCoordinatorId: string;
     assignedCoordinatorName: string;

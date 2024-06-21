@@ -55,6 +55,7 @@ export interface Specialty {
 export class Experience {
     experienceId: number = -1;
     description: string = "";
+    workplace:string="";
     position: string = "";
     startDate: string = "";
     endDate: string = "";

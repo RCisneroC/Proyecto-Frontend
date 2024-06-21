@@ -30,6 +30,8 @@ export class DegreeComponent extends UnsubscribeOnDestroyAdapter
     'description',
     'durationInYears',
     'numOfCredits',
+    'participationProfile',
+    'degreeTarget',
     'studyModeId',
     'statusId',
     'actions',

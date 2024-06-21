@@ -96,6 +96,30 @@
                                                         <span class="mobile-label">Modalidad:</span>{{ row.studyModeName
                                                         }}</mat-cell>
                                                 </ng-container>
+                                                
+                                                <ng-container matColumnDef="participationProfile">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Dirigido a
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                        <span class="mobile-label">Dirigido a:</span>{{ 
+                                                        
+                                                         row.participationProfile === 1 ? 'Servidores Judiciales' :
+    row.participationProfile === 2 ? 'Público en General' : 'Ambos' 
+                                                        }}</mat-cell>
+                                                </ng-container>
+                                                
+
+                                                
+                                                <ng-container matColumnDef="degreeTarget">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Perfil del participante
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                        <span class="mobile-label">Perfil del participante:</span>{{ row.degreeTarget===1?"Administrativo":"judiciales"
+                                                        }}</mat-cell>
+                                                </ng-container>
+                                            
+                                            
+                                                
                                                 <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                                                     </mat-header-cell>
