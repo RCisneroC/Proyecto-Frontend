@@ -25,6 +25,7 @@ import {ScoreListService} from "../services/score-list.service";
 import {ActivityService} from "../../admission/maestros/services/activity.service";
 import {SubjectServiceService} from "../../admission/FormalEducations/Services/subject-service.service";
 import { DatePipe } from '@angular/common';
+import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 
 @Component({
   selector: 'app-teacher-score-list',
@@ -99,7 +100,8 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     private _Service: ScoreListService,
     private _ActService: ActivityService,
     private _SubsService: SubjectServiceService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private statusProcess: StatusProcessPipe
   ) {
     super();
     this.FilterForm = this.createFilterForm();
@@ -338,8 +340,10 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
         "Lugar de Nacimiento": x.placeOfBirth!,
         "Lugar de Residencia" : x.placeResidence!,
         "Fecha de Aplicacion" : this.datePipe.transform(x.applicationDate!,"dd/MM/yyyy")!,
-		    "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado",
-        'Puntos': x.points
+        "Proceso": this.statusProcess.transform(x.process),
+        "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado",
+        "Puntos": x.points,
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
