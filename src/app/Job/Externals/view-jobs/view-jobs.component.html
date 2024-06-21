@@ -109,6 +109,8 @@
                                         <mat-card-title class="titulo">{{ item.name }}</mat-card-title>
                                         <mat-card-subtitle class="empresa">{{ item.companyName }}</mat-card-subtitle>
                                         <mat-card-subtitle class="">{{item.companyAddress}}</mat-card-subtitle>
+                                        <mat-card-subtitle class="">Desde : {{item.startDate | date:'dd/M/yyyy'}} hasta {{item.endDate | date:'dd/M/yyyy'}} </mat-card-subtitle>
+                                        <!-- <mat-card-subtitle class="">Fecha fin:{{item.endDate | date:'dd/M/yyyy'}}</mat-card-subtitle> -->
 
                                     </mat-card-header>
                                     <!-- <img mat-card-image src="assets/images/image-gallery/2.jpg"> -->

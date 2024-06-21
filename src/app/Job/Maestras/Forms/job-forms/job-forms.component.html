@@ -88,15 +88,43 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
+                
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Fecha de inicio</mat-label>
+                      <input matInput [matDatepicker]="startDate" formControlName="startDate">
+                      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                      <mat-datepicker #startDate></mat-datepicker>
+                      <mat-error *ngIf="FormsJobs.get('startDate')?.hasError('required')">
+                        Es Requitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Fecha fin</mat-label>
+                      <input matInput [matDatepicker]="endDate" formControlName="endDate">
+                      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                      <mat-datepicker #endDate></mat-datepicker>
+                      <mat-error *ngIf="FormsJobs.get('endDate')?.hasError('required')">
+                        Es Requitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
 
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                     <mat-label><strong>Descripción del Empleo</strong></mat-label>
                     <ckeditor [config]="config" formControlName="description" [editor]="Editor">
                     </ckeditor>
                 </div>
+                
+               
 
             </div>
 
+
+         
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <div class="example-button-row">
