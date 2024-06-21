@@ -187,8 +187,12 @@ export class RequiredDocumentPointsListComponent extends UnsubscribeOnDestroyAda
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'First Name': x.name,
-
+        'Nombre': x.name,
+        'Descripcion': x.description,
+        'Proceso': x.typeEducationId == 1 ? "Entrenamiento " :  x.typeEducationId == 2 ? "Formación Especializada" : "Ambas",
+        'Puntos': x.point,
+        'Record': x.isRecord ? "Sí" : "No",
+        'Status': x.statusId == 1 ? "Activo" : "Inactivo",
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

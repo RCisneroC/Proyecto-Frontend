@@ -2,8 +2,8 @@
 export const environment = {
 
   production: false,
-  base: 'http://localhost:3001/#/student/',
-  baseUrlTeacher: 'http://localhost:3001',
+  base: 'http://localhost:4200/#/student/',
+  baseUrlTeacher: 'http://localhost:4200',
   // apiUrlTeacher: 'http:///192.168.254.174:5502/api/v1/Teacher/',
   // apiUrl: 'http:///192.168.254.174:5500/api/v1/Account/',
   // apiUrlRol: 'http:///192.168.254.174:5500/api/v1/',

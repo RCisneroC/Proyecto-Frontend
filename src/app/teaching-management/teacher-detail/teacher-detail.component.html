@@ -120,6 +120,11 @@
                                     <th mat-header-cell *matHeaderCellDef> Cargo </th>
                                     <td mat-cell *matCellDef="let element">{{ element.position }} </td>
                                 </ng-container>
+                                
+                                <ng-container matColumnDef="workplace">
+                                    <th mat-header-cell *matHeaderCellDef> Lugar de trabajo </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.workplace }} </td>
+                                </ng-container>
 
                                 <ng-container matColumnDef="startDate">
                                     <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>

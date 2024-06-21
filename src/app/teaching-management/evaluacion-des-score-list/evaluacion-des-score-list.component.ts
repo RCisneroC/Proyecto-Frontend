@@ -188,9 +188,9 @@ export class EvaluacionDesScoreListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre Salón': x.category,
-        'Descripción': x.description,
-
+        'Categoría': x.category,
+        'Actividad': x.description,
+        "Puntos": x.points
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

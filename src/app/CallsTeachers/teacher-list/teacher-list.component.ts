@@ -22,6 +22,7 @@ import { RequestServicesService } from 'app/intranet-academic-registration/Servi
 import { EvalTeacherComponent } from '../eval-teacher/eval-teacher.component';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { CallsTeachersService } from '../services/calls-teachers.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-list',
@@ -63,7 +64,8 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private servCallsTeachersService: CallsTeachersService
+    private servCallsTeachersService: CallsTeachersService,
+    private datePipe: DatePipe
   ) {
     super();
   }
@@ -234,8 +236,18 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.name,
-
+        "Nombre": x.name,
+        "Apellido": x.lastName,
+        "Cédula": x.cedula,
+        "Sexo": x.gender,
+        "Correo electronico" : x.email,
+        "Telefono": x.phoneNumber,
+        "Fecha de Nacimiento" : this.datePipe.transform(x.dateOfBirth!,"dd/MM/yyyy")!,
+        "Lugar de Nacimiento": x.placeOfBirth!,
+        "Lugar de Residencia" : x.placeResidence!,
+        "Fecha de Aplicacion" : this.datePipe.transform(x.applicationDate!,"dd/MM/yyyy")!,
+        "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado",
+        "Evaluación" : x.evaluation!,
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

@@ -64,6 +64,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     'experienceId',
     'description',
     'position',
+    'workplace',
     'startDate',
     'endDate',
     'actions'
@@ -354,6 +355,43 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     this.tmp_docType[idx] = (docId);
     const formdata = new FormData();
     formdata.append('FileDetails', this.tmp_files[0]);
+  }
+
+  // mostrarDialogo(): void {
+  //   this.dialogo
+  //     .open(DialogoConfirmacionComponent, {
+  //       data: `¿Te gusta programar en TypeScript?`
+  //     })
+  //     .afterClosed()
+  //     .subscribe((confirmado: Boolean) => {
+  //       if (confirmado) {
+  //         alert("¡A mí también!");
+  //       } else {
+  //         alert("Deberías probarlo, a mí me gusta :)");
+  //       }
+  //     });
+  // }
+  
+  confirmarIncripcion() {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "¿Está seguro de que desea enviar la solicitud? Revise bien la información antes de confirmar.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+      this.submit();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
+        });
+      }
+    });
   }
 
   submit() {

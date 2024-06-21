@@ -69,6 +69,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
     'experienceId',
     'description',
     'position',
+    'workplace',
     'startDate',
     'endDate',
     'actions'

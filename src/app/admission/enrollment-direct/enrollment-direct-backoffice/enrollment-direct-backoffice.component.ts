@@ -200,11 +200,13 @@ export class EnrollmentDirectBackofficeComponent implements OnInit {
                   {
                     this.disabled = false;
                   }
+                  
                   this.personData = data;
                   this.cargo = res[0].cargo;
                   this.dependencia = res[0].dependencia;
                   this.institucion = res[0].institucion;
                   this.email = res[0].correo_electronico;
+                  
                   console.log('Datos de la persona:', data[0]?.datasetPersona);
                 },
                 error: (e) => this.loading = false,

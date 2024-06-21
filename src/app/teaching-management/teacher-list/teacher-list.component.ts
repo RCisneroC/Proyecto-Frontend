@@ -19,6 +19,7 @@ import { AprovedTeacherComponent } from '../aproved-teacher/aproved-teacher.comp
 import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-list',
@@ -57,7 +58,7 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     private _RequestService: RequestServicesService,
     private authenticationService: AuthService,
     private activatedRoute: ActivatedRoute,
-
+    private datePipe: DatePipe
   ) {
     super();
   }
@@ -194,8 +195,17 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Username': x.name,
-
+        "Nombre": x.name,
+        "Apellido": x.lastName,
+        "Cédula": x.cedula,
+        "Sexo": x.gender,
+        "Correo electronico" : x.email,
+        "Telefono": x.phoneNumber,
+        "Fecha de Nacimiento" : this.datePipe.transform(x.dateOfBirth!,"dd/MM/yyyy")!,
+        "Lugar de Nacimiento": x.placeOfBirth!,
+        "Lugar de Residencia" : x.placeResidence!,
+        "Fecha de Aplicacion" : this.datePipe.transform(x.applicationDate!,"dd/MM/yyyy")!,
+        "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado"
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');

@@ -201,7 +201,7 @@ export class EnrollDetailsMeshComponent {
   }
 
   goStorySubject(row: Career) {
-    this._router.navigate(['/enrollment/subject-history/' + row.degreeId + "/" + row.cedula]);
+    this._router.navigate(['/enrollment/subject-history/' + row.degreeCurriculumDesignId + "/" + row.cedula]);
   }
 
   verAsistencia(row: getStudentsActivityResponse) {

@@ -63,7 +63,8 @@ export class ApprovedSolicitudComponent {
           description: this.data.request.description,
           assignedUser: this.authService.currentUserValue.id,
           requestVariousStatusTypeId: 3,
-          response: value.approvalMessage
+          response: value.approvalMessage,
+          statusId: 3
         }
         this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
           next:(res)=>{
@@ -81,7 +82,8 @@ export class ApprovedSolicitudComponent {
           description: this.data.request.description,
           assignedUser: this.authService.currentUserValue.id,
           requestVariousStatusTypeId: 4,
-          response: value.approvalMessage
+          response: value.approvalMessage,
+          statusId:4
         }
         this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
           next:(res)=>{

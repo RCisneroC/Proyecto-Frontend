@@ -18,12 +18,14 @@ import {ResponseMessageMaestra} from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import {AprovedTeacherComponent} from "../aproved-teacher/aproved-teacher.component";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
-import {Filtros, FiltrosMatricula} from "../../estadisticas/PersonalDocente/model/Filtros";
+import {Filtros} from "../../estadisticas/PersonalDocente/model/Filtros";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MatSelectChange} from "@angular/material/select";
 import {ScoreListService} from "../services/score-list.service";
 import {ActivityService} from "../../admission/maestros/services/activity.service";
 import {SubjectServiceService} from "../../admission/FormalEducations/Services/subject-service.service";
+import { DatePipe } from '@angular/common';
+import { StatusProcessPipe } from 'app/pipes/status-process.pipe';
 
 @Component({
   selector: 'app-teacher-score-list',
@@ -97,8 +99,9 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     private fb: UntypedFormBuilder,
     private _Service: ScoreListService,
     private _ActService: ActivityService,
-    private _SubsService: SubjectServiceService
-
+    private _SubsService: SubjectServiceService,
+    private datePipe: DatePipe,
+    private statusProcess: StatusProcessPipe
   ) {
     super();
     this.FilterForm = this.createFilterForm();
@@ -327,10 +330,20 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
     // key name with space add in brackets
     const exportData: Partial<TableElement>[] =
       this.dataSource.filteredData.map((x) => ({
-        'Nombre': x.name,
-        'Apellido': x.lastName,
-        'Cédula': x.cedula,
-        'Puntos': x.points
+        "Nombre": x.name,
+        "Apellido": x.lastName,
+        "Cédula": x.cedula,
+        "Sexo": x.gender,
+        "Correo electronico" : x.email,
+        "Telefono": x.phoneNumber,
+        "Fecha de Nacimiento" : this.datePipe.transform(x.dateOfBirth!,"dd/MM/yyyy")!,
+        "Lugar de Nacimiento": x.placeOfBirth!,
+        "Lugar de Residencia" : x.placeResidence!,
+        "Fecha de Aplicacion" : this.datePipe.transform(x.applicationDate!,"dd/MM/yyyy")!,
+        "Proceso": this.statusProcess.transform(x.process),
+        "Estado": x.statusId == 0 ? "Pendiente" : x.statusId == 1 ? "Aprobado" : "Rechazado",
+        "Puntos": x.points,
+
       }));
 
     TableExportUtil.exportToExcel(exportData, 'excel');
@@ -398,27 +411,43 @@ export class ExampleDataSource extends DataSource<Teacher> {
     //disconnect
   }
   /** Returns a sorted copy of the database data. */
-  sortData(data: Teacher[]): Teacher[] {
-    if (!this._sort.active || this._sort.direction === '') {
-      return data;
-    }
-    return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
-      switch (this._sort.active) {
-        case 'teacherId':
-          [propertyA, propertyB] = [a.points, b.points];
-          break;
-        case 'Name':
-          [propertyA, propertyB] = [a.name, b.name];
-          break;
+  // sortData(data: Teacher[]): Teacher[] {
+  //   if (!this._sort.active || this._sort.direction === '') {
+  //     return data;
+  //   }
+  //   return data.sort((a, b) => {
+  //     let propertyA: number | string = '';
+  //     let propertyB: number | string = '';
+  //     switch (this._sort.active) {
+  //       case 'points':
+  //         [propertyA, propertyB] = [a.points, b.points];
+  //         break;
 
-      }
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-      return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
-      );
-    });
-  }
+  //     }
+  //     const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+  //     const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+  //     return (
+  //       (valueA < valueB ? -1 : 1) * (this._sort.direction === 'desc' ? 1 : -1)
+  //     );
+  //   });
+  // }
+
+  sortData(data: Teacher[]): Teacher[] {
+  // if (!this._sort.active || this._sort.direction === '') {
+  //   return data;
+  // }
+
+  return data.sort((a, b) => {
+    const valueA = a.points;
+    const valueB = b.points;
+
+    if (valueA > valueB) {
+      return this._sort.direction === 'asc' ? 1 : -1;
+    } else if (valueA < valueB) {
+      return this._sort.direction === 'asc' ? -1 : 1;
+    } else {
+      return 0; // Equal points, sort by other criteria if needed
+    }
+  });
+}
 }

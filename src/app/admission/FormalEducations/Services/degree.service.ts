@@ -450,6 +450,8 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
       name: '',
       id: 0,
       description: '',
+      participationProfile:0,
+      degreeTarget:0,
       graduationProfile: '',
       admissionProfile: '',
       generalGoals: '',

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DatePipe } from '@angular/common';
 
 import { TeachingManagementRoutingModule } from './teaching-management-routing.module';
 import { TeacherListComponent } from './teacher-list/teacher-list.component';
@@ -50,7 +50,7 @@ import { FormGenExpConfComponent } from './score-forms/form-gen-exp-conf/form-ge
 
 
 @NgModule({
-  providers: [VerificarBS64Pipe, StatusProcessPipe],
+  providers: [VerificarBS64Pipe, StatusProcessPipe, DatePipe],
   declarations: [
     TeacherListComponent,
     TeacherDetailComponent,

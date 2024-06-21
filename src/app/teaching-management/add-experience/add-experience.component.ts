@@ -66,6 +66,7 @@ export class AddExperienceComponent {
       return this.fb.group({
         experienceId: [this.experience.experienceId],
         description: [this.experience.description, [Validators.required]],
+        workplace:[this.experience.workplace, [Validators.required]],
         position: [this.experience.position, [Validators.required]],
         startDate: [this.experience.startDate, [Validators.required]],
         endDate: [this.experience.endDate, [Validators.required]],
