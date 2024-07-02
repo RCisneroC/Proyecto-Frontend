@@ -40,19 +40,28 @@ export class ShowDocentesAsignadoComponent implements OnInit {
   public DocentesM: DocentesAsignados[] = [{
     statusId: 0,
     teacherCedula: '',
-    teacherFullName: ''
+    teacherFullName: '',
+    startDate:new Date(''),
+    endDate:new Date(''),
+    examDate:new Date('')
   }];
 
   public DocentesV: DocentesAsignados[] = [{
     statusId: 0,
     teacherCedula: '',
-    teacherFullName: ''
+    teacherFullName: '',
+    startDate:new Date(''),
+    endDate:new Date(''),
+    examDate:new Date('')
   }];
 
   public DocentesN: DocentesAsignados[] = [{
     statusId: 0,
     teacherCedula: '',
-    teacherFullName: ''
+    teacherFullName: '',
+    startDate:new Date(''),
+    endDate:new Date(''),
+    examDate:new Date('')
   }];
   constructor(
     public dialogRef: MatDialogRef<ShowDocentesAsignadoComponent>,

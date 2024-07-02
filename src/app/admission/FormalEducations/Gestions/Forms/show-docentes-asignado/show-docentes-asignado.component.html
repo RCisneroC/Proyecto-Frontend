@@ -13,18 +13,24 @@
     </div>
     <div mat-dialog-content>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <p class="text-uppercase"> <strong>Turno Matutino</strong></p>
                 <table class="table">
                     <thead>
                         <th>Cédula</th>
                         <th>Nombre</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Fecha examen</th>
                         <th>Acción</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of DocentesM">
                             <td>{{ item.teacherCedula }}</td>
                             <td>{{ item.teacherFullName }}</td>
+                            <td>{{ item.startDate | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.examDate | date: 'dd/MM/yyyy' }}</td>
                             <td>
                                 <button (click)="eliminarDocente(1,item.teacherCedula)" matTooltip="Eliminar Docente"
                                     mat-mini-fab color="accent"><mat-icon>delete</mat-icon></button>
@@ -33,18 +39,24 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <p class="text-uppercase"> <strong>Turno Vespertino</strong></p>
                 <table class="table">
                     <thead>
                         <th>Cédula</th>
                         <th>Nombre</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Fecha examen</th>
                         <th>Acción</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of DocentesV">
                             <td>{{ item.teacherCedula }}</td>
                             <td>{{ item.teacherFullName }}</td>
+                            <td>{{ item.startDate | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.endDate  | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{ item.examDate | date: 'dd/MM/yyyy' }}</td>
                             <td>
                                 <button (click)="eliminarDocente(2,item.teacherCedula)" matTooltip="Eliminar Docente"
                                     mat-mini-fab color="accent"><mat-icon>delete</mat-icon></button>
@@ -53,18 +65,24 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <p class="text-uppercase"> <strong>Turno Nocturno</strong></p>
                 <table class="table">
                     <thead>
                         <th>Cédula</th>
                         <th>Nombre</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Fecha examen</th>
                         <th>Acción</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of DocentesN">
                             <td>{{ item.teacherCedula }}</td>
                             <td>{{ item.teacherFullName }}</td>
+                            <td>{{ item.startDate | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.examDate | date: 'dd/MM/yyyy' }}</td>
                             <td>
                                 <button (click)="eliminarDocente(3,item.teacherCedula)" matTooltip="Eliminar Docente"
                                     mat-mini-fab color="accent"><mat-icon>delete</mat-icon></button>
