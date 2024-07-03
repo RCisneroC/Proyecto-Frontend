@@ -244,6 +244,7 @@ view(row:GetBudgetDetail){
   });
   dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
     if (result == undefined) {
+      //this.loadData();
       return;
     }
 

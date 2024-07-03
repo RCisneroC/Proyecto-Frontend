@@ -18,7 +18,7 @@ export interface GetBudgetDetail {
 }
 
 export interface BudgetTermDto {
-    id?:                              number;
+    id:                              number;
     name?:                            string;
     description?:                     string;
     subTotal?:                        number;
