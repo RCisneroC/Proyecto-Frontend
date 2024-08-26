@@ -59,10 +59,17 @@ export class ForoService extends UnsubscribeOnDestroyAdapter {
       environment.apiForo + 'Foro/GetForo?ForoId=' + id
     );
   }
+  
 
   CreateComment(data: any) {
     return this.httpClient.post<ForoResponse>(
       environment.apiForo + 'Comment/AddComment', data
+    );
+  }
+  
+  HiddenComment(data: any) {
+    return this.httpClient.put<ForoResponse>(
+      environment.apiForo + 'Comment/UpdateCommentState', data
     );
   }
 
@@ -71,4 +78,6 @@ export class ForoService extends UnsubscribeOnDestroyAdapter {
       environment.apiForo + 'Comment/GetComment?CommentId=' + id
     );
   }
+  
+  
 }

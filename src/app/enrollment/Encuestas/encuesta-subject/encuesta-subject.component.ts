@@ -316,9 +316,15 @@ export class EncuestaSubjectComponent {
 
       this._SubjectService.SaveEncuesta(this.dataSend).subscribe({
         next: (res) => {
-          if (row.id == 8 && this.SelectType == 1) {
+          // if (row.id == 8 && this.SelectType == 1) {
+          //   this.habilitarBoton = false;
+          // } else if (row.id == 17 && this.SelectType == 2) {
+          //   this.habilitarBoton = false;
+          // }
+          
+          if (row.id == 8) {
             this.habilitarBoton = false;
-          } else if (row.id == 17 && this.SelectType == 2) {
+          } else if (row.id == 17) {
             this.habilitarBoton = false;
           }
           button.disabled = true;

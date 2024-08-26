@@ -28,6 +28,8 @@ export class SubjectListService extends UnsubscribeOnDestroyAdapter {
     numOfClasses: 0,
     hasLaboratory: false,
     evaluationCriteria: '',
+    synchronousHours:0,
+    asynchronousHours:0,
   }
   public _TypeTaskInternal: TypeTaskInternal = {
     id: 0,
@@ -177,6 +179,8 @@ export class SubjectListService extends UnsubscribeOnDestroyAdapter {
       numOfClasses: 0,
       hasLaboratory: false,
       evaluationCriteria: '',
+      synchronousHours:0,
+      asynchronousHours:0,
     }
   }
 

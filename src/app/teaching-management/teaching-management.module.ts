@@ -47,6 +47,7 @@ import { AddDocumentsSelectedComponent } from './add-documents-selected/add-docu
 import { RequiredDocumentPointsListComponent } from './required-document-points-list/required-document-points-list.component';
 import { RequiredDocumentPointsFormComponent } from './required-document-points-form/required-document-points-form.component';
 import { FormGenExpConfComponent } from './score-forms/form-gen-exp-conf/form-gen-exp-conf.component';
+import { FormImportTeacherComponent } from './form-import-teacher/form-import-teacher.component';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { FormGenExpConfComponent } from './score-forms/form-gen-exp-conf/form-ge
     AddDocumentsSelectedComponent,
     RequiredDocumentPointsListComponent,
     RequiredDocumentPointsFormComponent,
-    FormGenExpConfComponent
+    FormGenExpConfComponent,
+    FormImportTeacherComponent
   ],
   imports: [
     CommonModule,

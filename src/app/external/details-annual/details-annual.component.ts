@@ -55,6 +55,8 @@ export class DetailsAnnualComponent {
               numOfClasses: 0,
               hasLaboratory: false,
               evaluationCriteria: '',
+              synchronousHours:0,
+              asynchronousHours:0,
             }
           ]
         }

@@ -78,6 +78,15 @@
                                                         <span
                                                             class="mobile-label">Descripción:</span>{{row.description}}</mat-cell>
                                                 </ng-container>
+                                                
+                                                <ng-container matColumnDef="amount">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                        <span
+                                                            class="mobile-label">Cantidad:</span>{{row.amount}}</mat-cell>
+                                                </ng-container>
+                                                
 
                                                 <ng-container matColumnDef="statusId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus

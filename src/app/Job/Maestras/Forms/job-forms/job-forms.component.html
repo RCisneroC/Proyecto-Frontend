@@ -38,13 +38,13 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
                     <mat-form-field class="example-full-width " appearance="outline">
-                        <mat-label>Tipo de Contrato</mat-label>
+                        <mat-label>Tipo de servicio</mat-label>
                         <mat-select formControlName="contractTypeId">
                             <mat-option [value]="item.id" *ngFor="let item of data.ContractType">{{ item.name
                                 }}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="FormsJobs.get('contractTypeId')?.hasError('required')">
-                            El tipo de contrato es requerido
+                            El tipo de servicio es requerido
                         </mat-error>
                     </mat-form-field>
                 </div>

@@ -90,7 +90,7 @@ export class FormsDegreeComponent implements OnInit {
       }
     })
   }
-  // buscar coordinador.
+  
   GetCoordinador() {
     let rol = 'b23d3a5d-571a-45b8-8d8b-22f2a0812cf1';
     this._user.getUserRoles(rol).subscribe({

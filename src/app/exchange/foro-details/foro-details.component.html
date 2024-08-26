@@ -40,6 +40,11 @@
                                                 <p class="badge badge-solid-blue">
                                                     {{_Foro._ForoResponse.getForos[0].createdDate|
                                                     date:'dd/M/yyyy'}}</p>
+                                                    
+                                                    <!-- <button (click)="submit()" mat-raised-button color="primary">
+                                                        <mat-icon>hidden</mat-icon>
+                                                        Ocultar
+                                                    </button> -->
                                             </mat-card-content>
                                         </mat-card>
                                     </div>
@@ -70,6 +75,19 @@
                                             <p class="badge badge-solid-blue">{{item.fechaComent|
                                                 date:'dd/M/yyyy h:mm:ss a'}}</p>
                                             <div style="text-align: justify;" [innerHTML]="safeHtml(item.comment)">
+                                            </div>
+                                            
+                                            <div *ngIf="rolId==='d2674562-193a-41e6-9a92-7f7cb04caf90'  || rolId=== '2b34afce-38b7-47cd-b0c4-fb589a97b138'">
+                                                <button *ngIf="item.hidden"(click)="Hidden(item.commentId,!item.hidden)" mat-raised-button color="warn">
+                                                    <mat-icon>visibility_off</mat-icon>
+                                                    <!-- {{item.statusId===1?'Ocultar':'Mostrar'}} -->
+                                                    <!-- Ocultar -->
+                                                </button>
+                                                <button *ngIf="!item.hidden"(click)="Hidden(item.commentId,!item.hidden)" mat-raised-button color="primary">
+                                                    <mat-icon>visibility</mat-icon>
+                                                    <!-- {{item.statusId===1?'Ocultar':'Mostrar'}} -->
+                                                    <!-- Mostrar -->
+                                                </button>
                                             </div>
                                         </mat-card-content>
                                     </mat-card>

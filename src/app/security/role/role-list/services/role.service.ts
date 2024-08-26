@@ -83,8 +83,8 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<MenuResponse[]>(environment.apiUrlRol + 'Menu/GetBy');
   }
 
-  MenuResponseFParentMenuId(id: number) {
-    return this.httpClient.get<MenuResponse[]>(environment.apiUrlRol + 'Menu/GetBy?ParentMenuId=' + id);
+  MenuResponseFParentMenuId(id: number,roleId?:string) {
+    return this.httpClient.get<MenuResponse[]>(environment.apiUrlRol + 'Menu/GetBy?ParentMenuId=' + id+'&RoleId='+ roleId);
   }
 
   addPermisseRol(data: any) {

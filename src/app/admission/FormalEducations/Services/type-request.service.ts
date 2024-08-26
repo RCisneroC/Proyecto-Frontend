@@ -41,6 +41,9 @@ export class TypeRequestService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+  getAllTypeRequest2() {
+    return this.httpClient.get<ResponseGenerica>(environment.apiEF + 'RequestTypeApprovalRole/GetAll');
+  }
 
   addTypeRequest(typeRequest: any) {
     return this.httpClient.post<ResponseGenerica>(environment.apiEF + 'RequestTypeApprovalRole/Create', typeRequest);

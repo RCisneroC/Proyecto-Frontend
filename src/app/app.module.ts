@@ -32,6 +32,8 @@ import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { NgScrollbarModule } from "ngx-scrollbar";
 import { InscriptionExternalComponent } from './external/inscription-external/inscription-external.component';
 
+//import { FormImportTeacherComponent } from './form-import-teacher/form-import-teacher.component';
+
 
 
 
@@ -49,7 +51,9 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    InscriptionExternalComponent,
+    InscriptionExternalComponent
+   
+    
 
     //TeacherDetailComponent
 

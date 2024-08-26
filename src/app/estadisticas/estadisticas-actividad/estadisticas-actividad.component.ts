@@ -123,7 +123,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
     },
     {
       codigo: "AssignedCoordinatorId",
-      texto: "Por Coordinador Asignado"
+      texto: "Por Tutor Asignado"
     },
     {
       codigo: "ActivityReasonId",
@@ -639,7 +639,7 @@ export class EstadisticasActividadComponent extends UnsubscribeOnDestroyAdapter
         'Tipo_de_actividad': x.activityTypeName,
         'Ubicacion': x.activityLocationName,
         'Motivo': x.activityFundsSourceName,
-        'Coordinador': x.assignedCoordinatorName,
+        'Tutor': x.assignedCoordinatorName,
         'Fecha_de_Planeacion': x.planningDate.toString(),
         'Inicio_de_Inscripcion': x.inscriptionStartDate.toString(),
         'Fin_de_Inscripcion': x.inscriptionEndDate.toString(),

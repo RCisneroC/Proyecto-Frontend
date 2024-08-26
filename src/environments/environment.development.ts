@@ -26,12 +26,15 @@ export const environment = {
   // apiExtUrlDependencies: 'http:///192.168.254.174:5501/api/Cedula/DataqueryCedula/getDepInfo',
   // apiSharedUrl: 'http:///192.168.254.174:5509/api/v1/Shared/',
   // apiJobs: 'http:///192.168.254.174:5506/api/v1/',
+  
+  
+  
 
-  apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
+  apiUrlTeacher: 'http://localhost:5059/api/v1/Teacher/',
   apiUrl: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Account/',
   apiUrlRol: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
-  apiUrlSchedule: "https://eccurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
-  ConsultaDocentes: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/",
+  ConsultaDocentes: 'http://localhost:5059/api/v1/',
   consultaEstudiante: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/GetDataCedula/',
   consultaPlanesAprobados: 'https://efcurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/AnnualPlan/GetAll?StatusId=5',
   ConsultaMallaCurrcularByPlan: 'https://efcurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/AnnualPlan/GetDegreeCurriculumDesignsBy?AnnualPlanId=',
@@ -39,9 +42,9 @@ export const environment = {
   apiForo: "https://foro-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   apiCatalogs: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurites.net/api/v1/Subject/',
-  apiUrlEC: 'https://eccurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Activity/',
+  apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
   apiEF: "https://efcurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
-  apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
+  apiUrlDocument: 'http://localhost:5059/api/v1/RequiredDocument/',
   apiIntranet: 'https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/',
   apiUrlSubjectTask: "https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/SearchSubjectTask",
   apiEira: 'https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/',

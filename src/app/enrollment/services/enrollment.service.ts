@@ -279,6 +279,31 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+  
+  GetSubjectsBy2(year: number, id: number,StudentId:number): void {
+    this.subs.sink = this.httpClient
+      .get<Subject[]>(environment.apiEF + 'Period/GetSubjectsBy?Year=' + year + '&DegreeCurriculumDesignId=' + id+'&StudentId='+StudentId)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.isTblLoading = false;
+          this.dataChangeSubject.next(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+  
+  getStudentId(IdInscription:number,DegreeId:string) {
+    const url = `${environment.apiEC}`;
+    return this.httpClient.get<any[]>(url + "EJMatricula/GetIdEstudnet?IdInscription="+IdInscription+"&DegreeId="+DegreeId);
+  }
+  
+  
+  
+  
 
   GetAssignedRoomsBy(classshift: number, periodid: number, year: number, subjectid: number): void {
     this.subs.sink = this.httpClient

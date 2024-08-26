@@ -57,9 +57,13 @@ implements OnInit{
   ngOnInit() {
     this.loadData();
   }
+  
+  
   refresh() {
     this.loadData();
   }
+  
+ 
   addNew() {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {

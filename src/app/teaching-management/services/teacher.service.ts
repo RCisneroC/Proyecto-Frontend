@@ -10,6 +10,7 @@ import { User } from '@core';
 import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
 import { RespuestaServicio } from '../add-calif/add-calif.component';
 import { AcademicRecord, Asist, StudenAsistence } from '../models/Asistencias';
+import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,14 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+
+  
+  importTeacher(file: any) {
+    return this.httpClient.post<ResponseGenerica>(
+      environment.apiUrlTeacher +'CreateFromExcel',
+      file
+    );
+  }
   getAllTeachersFilters(Data: any): void {
     this.subs.sink = this.httpClient
       .post<Teacher[]>(environment.apiUrlTeacher + 'GetAllTeacherFilter', Data)
@@ -177,6 +186,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   getAllSubject3() {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'Subject/GetAll');
+  }
+  
+  getAllTeacher3() {
+    return this.httpClient
+      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAll');
   }
   getExisteCedula(cedula: string) {
 

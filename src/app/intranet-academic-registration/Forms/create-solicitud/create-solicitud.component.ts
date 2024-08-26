@@ -68,6 +68,8 @@ export class CreateSolicitudComponent {
       numOfClasses: 0,
       hasLaboratory: false,
       evaluationCriteria: '',
+      synchronousHours:0,
+      asynchronousHours:0,
     }
   ];
 
@@ -237,40 +239,52 @@ export class CreateSolicitudComponent {
     this.RequesttypeSelect = + this.RequesttypeSelect;
     switch (this.RequesttypeSelect) {
       case 1:
-        this.valueDesabled = true;
-        this.typeDesabled = true;
+      //true
+        this.valueDesabled = false;
+        //true
+        this.typeDesabled = false;
         break;
       case 2:
-        this.valueDesabled = true;
-        this.typeDesabled = true;
+       //true
+        this.valueDesabled = false;
+        //true
+        this.typeDesabled = false;
         break;
       case 3:
-        this.valueDesabled = true;
-        this.typeDesabled = true;
+       //true
+        this.valueDesabled = false;
+        //true
+        this.typeDesabled = false;
         break;
       case 7:
-        this.valueDesabled = true;
-        this.typeDesabled = true;
+      //true
+        this.valueDesabled = false;
+        //true
+        this.typeDesabled = false;
         break;
       case 10:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
       case 11:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
       case 12:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
       case 13:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 2
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
       case 14:
         this.valueDesabled = false;
@@ -285,7 +299,8 @@ export class CreateSolicitudComponent {
       case 16:
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 2
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
      /* case 5:
         this.valueDesabled = false;
@@ -298,12 +313,15 @@ export class CreateSolicitudComponent {
         this.typeDesabled = true;
         break;*/
       case 9:
+      
         this.valueDesabled = false;
         this.typeActivityAcademySelected = 1
-        this.typeDesabled = true;
+        //true
+        this.typeDesabled = false;
         break;
       case 30:
-        this.valueDesabled = true
+      //true
+        this.valueDesabled = false
         break;
       default:
         this.valueDesabled = false;

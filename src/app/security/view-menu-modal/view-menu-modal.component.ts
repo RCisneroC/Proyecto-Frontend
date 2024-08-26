@@ -32,6 +32,7 @@ export class ViewMenuModalComponent {
     }
   ];
   _SubjectResponse: MenuResponse[] = [{
+    hasAccessPermission:false,
     statusId: 0,
     id: 0,
     path: '',
@@ -44,6 +45,7 @@ export class ViewMenuModalComponent {
     badgeClass: '',
     parentApplicationMenuId: 0,
     subMenus: [{
+      hasAccessPermission:false,
       statusId: 0,
       id: 0,
       path: '',

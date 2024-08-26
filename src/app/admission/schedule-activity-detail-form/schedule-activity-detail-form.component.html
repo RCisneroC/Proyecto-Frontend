@@ -15,8 +15,8 @@
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="scheduleForm" (ngSubmit)="submit">
       <div class="row">
-        <div class="col-12">
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+        <div class="col-6">
+          <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"> -->
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Certificación o Recertificación</mat-label>
               <mat-select formControlName="activityTrainingType">
@@ -28,7 +28,23 @@
                 Es requerido
               </mat-error>
             </mat-form-field>
-          </div>
+          <!-- </div> -->
+         
+          
+        </div>
+        <div class="col-6">
+          <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"> -->
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Categoria bolsa de trabajo</mat-label>
+              <mat-select formControlName="activityCategoryId">
+                <mat-option *ngFor="let cat of categoriesList" [value]="cat.id">{{ cat.name }}</mat-option>
+                  
+              </mat-select>
+              <mat-error *ngIf="scheduleForm.get('activityCategoryId')?.hasError('required')">
+                Es requerido
+              </mat-error>
+            </mat-form-field>
+          <!-- </div> -->
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
 
@@ -110,12 +126,12 @@
 
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Coordinador Asignado</mat-label>
+            <mat-label>Tutor Asignado</mat-label>
             <mat-select formControlName="assignedCoordinatorId">
               <mat-option *ngFor="let row of userList" [value]="row.id">{{row.firstName+" "+row.lastName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="scheduleForm.get('assignedCoordinatorId')?.hasError('required')">
-              el coordinador es requerido
+              el tutor es requerido
             </mat-error>
           </mat-form-field>
 
@@ -244,6 +260,23 @@
             </mat-error>
           </mat-form-field>
 
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Mínimo de calificación</mat-label>
+            <input matInput type="number" formControlName="minGradeRequired">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Mínimo de asistencia</mat-label>
+            <input matInput type="number" formControlName="minAttendanceRequired">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+          </mat-form-field>
         </div>
       </div>
       <div class="row">

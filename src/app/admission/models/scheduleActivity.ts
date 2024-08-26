@@ -22,6 +22,8 @@ export class ScheduleActivityDetail {
   effectiveEndDate!: string;
   isExecuted!: boolean;
   activityReasonId!: number;
+  minAttendanceRequired!:number;
+  minGradeRequired!:number;
   activityFundsSourceId!: number;
   numOfAssignedTeachers!: number;
   hasDataSheet!: boolean;
@@ -40,6 +42,7 @@ export class ScheduleActivityDetail {
   inscriptionEndDate!: string;
   activityTrainingType!: number;
   activityClass!: number;
+  activityCategoryId!:number;
   statusId!: number;
   hasDirectEnrollment!: boolean;
   moodleCourseId!: number;

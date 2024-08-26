@@ -22,6 +22,11 @@ import {
 } from "../../../admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component";
 import {HistorySolicitudComponent} from "../history-solicitud/history-solicitud.component";
 import { EditSolicitudComponent } from 'app/intranet-academic-registration/Forms/edit-solicitud/edit-solicitud.component';
+import { TypeRequestService } from 'app/admission/FormalEducations/Services/type-request.service';
+import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { Poster } from 'app/teaching-management/models/Teacher';
+
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -39,6 +44,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     'email',
     'estado',
     'fechacreacion',
+    'document',
     'accion',
   ];
   public _DataLocal: RequestVariousItem[] = [];
@@ -73,10 +79,13 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     subject:{name:''}
   };
   public _typeUser: string = '';
+  typeRequest: any;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public _RequestServicesService: RequestServicesService,
+    public _typeRequestService: TypeRequestService,
+    public _verificarBS64: VerificarBS64Pipe,
     private snackBar: MatSnackBar,
     public _dialog: MatDialog,
     public authService: AuthService
@@ -92,11 +101,50 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   ngOnInit() {
     this._typeUser = this._RequestServicesService.getRoleFromToken(this.authService.currentUserValue.token);
     console.log("Tipo de usuario", this._typeUser);
+    this.getMatch();
     this.loadData();
   }
   refresh() {
     this.loadData();
   }
+  
+  getMatch() {
+    this._typeRequestService.getAllTypeRequest2().subscribe({
+      next: (res:any) => {
+        const matchingTypeRequest = res.find((x: { approvalRole: string; }) => x.approvalRole === this.authService.currentUserValue.roleId);
+        if (matchingTypeRequest) 
+          this.typeRequest = matchingTypeRequest.requestType;
+        
+      }
+    })
+  }
+  viewDocument(doc:Poster){
+  console.log(doc.fileContents+"aadadadadada")
+  if (this._verificarBS64.transform(doc.fileContents) != "pdf") {
+    const dialogRef = this._dialog.open(ViewPosterComponent, {
+      data: {
+        type: this._verificarBS64.transform(doc.fileContents),
+        accion: 'view-poster',
+        posterFile: doc.fileContents,
+        comment: "",
+        poster: doc.fileContents,
+      },
+      disableClose: true,
+    });
+  } else {
+    const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+      data: {
+        type: this._verificarBS64.transform(doc.fileContents),
+        accion: 'view-poster',
+        posterFile: doc.fileContents,
+        comment: "",
+        poster: doc.fileContents,
+      },
+      width: '1000px',
+      disableClose: true,
+    });
+  }}
+  
   addNew() {
     let tempDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {

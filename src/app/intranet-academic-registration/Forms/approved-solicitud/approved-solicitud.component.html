@@ -27,6 +27,20 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
+                            
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                           
+                                    <mat-label>Documento</mat-label>
+                                    <app-file-upload 
+                                    formControlName="document" (change)="onFileSelected($event)"></app-file-upload>
+                                    <mat-error
+                                        *ngIf="RequestVariousApprovedForm.get('document')?.hasError('required')">
+                                        El documento es requerido
+                                    </mat-error>
+                             
+                            </div>
+                            
+                          
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Estado</mat-label>

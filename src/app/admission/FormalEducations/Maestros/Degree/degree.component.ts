@@ -16,6 +16,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
+import { FormImportComponent } from '../Forms/form-import/form-import.component';
 
 @Component({
   selector: 'app-degree',
@@ -92,6 +93,36 @@ export class DegreeComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
+  Importar() {
+    this._DegreeService.init_Degree();
+    const dialogRef = this.dialog.open(FormImportComponent, {
+      data: {
+        degree: this._DegreeService._Degree,
+        action: 'add',
+      }
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.loadData();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
+  
+  
   editCall(row: Degree) {
     this.id = row.id;
 

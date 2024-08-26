@@ -34,6 +34,7 @@ export class FormsAsignedRolesComponent {
     }
   ];
   _SubjectResponse: MenuResponse[] = [{
+    hasAccessPermission:false,
     statusId: 0,
     id: 0,
     path: '',
@@ -46,6 +47,7 @@ export class FormsAsignedRolesComponent {
     badgeClass: '',
     parentApplicationMenuId: 0,
     subMenus: [{
+      hasAccessPermission:false,
       statusId: 0,
       id: 0,
       path: '',
@@ -163,13 +165,14 @@ export class FormsAsignedRolesComponent {
   menuSelect(event: any) {
     this.roleForm = this.createContactForm();
     this.roleForm.controls['MenuId'].setValue(event);
-    this.roleService.MenuResponseFParentMenuId(event).subscribe({
+    const RoleId= this.roleForm.controls['RoleId'].value;
+    this.roleService.MenuResponseFParentMenuId(event,RoleId).subscribe({
       next: (res) => {
         this.ListadoSubMenu = new MatTableDataSource<MenuResponse>(res);
-        setTimeout(() => {
-          this.ListadoSubMenu.paginator = this.paginator;
-          this.IsLoading = false;
-        }, 3000);
+        // setTimeout(() => {
+        //   this.ListadoSubMenu.paginator = this.paginator;
+        //   this.IsLoading = false;
+        // }, 3000);
       },
       complete: () => {
       }

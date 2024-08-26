@@ -26,6 +26,7 @@ implements OnInit{
   displayedColumns = [
     'name',
     'description',
+    'amount',
     'statusId',
     'actions',
   ];

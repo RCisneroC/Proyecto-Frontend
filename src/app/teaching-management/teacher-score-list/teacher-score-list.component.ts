@@ -328,8 +328,19 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
   // export table data in excel file
   exportExcel() {
     // key name with space add in brackets
-    const exportData: Partial<TableElement>[] =
-      this.dataSource.filteredData.map((x) => ({
+    
+    
+    const sortByPointsDescending = (a: any, b: any): number => {
+      if (a.points < b.points) {
+        return 1; // b comes before a
+      } else if (a.points > b.points) {
+        return -1; // a comes before b
+      } else {
+        return 0; // Equal points, no change in order
+      }
+    };
+    let exportData: Partial<TableElement>[] =
+      this.dataSource.filteredData.sort(sortByPointsDescending).map((x) => ({
         "Nombre": x.name,
         "Apellido": x.lastName,
         "Cédula": x.cedula,
@@ -345,7 +356,9 @@ export class TeacherScoreListComponent extends UnsubscribeOnDestroyAdapter
         "Puntos": x.points,
 
       }));
+      
 
+    
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
 

@@ -62,7 +62,7 @@
 
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="ContractTypeId">
                                         <mat-form-field class="example-full-width" appearance="outline">
-                                            <mat-label>Tipo de Contrato</mat-label>
+                                            <mat-label>Tipo de servicio</mat-label>
                                             <mat-select formControlName="ContractTypeId">
                                                 <mat-option *ngFor="let row of ListTypeContrat"
                                                     [value]="row.id">{{row.name}}</mat-option>

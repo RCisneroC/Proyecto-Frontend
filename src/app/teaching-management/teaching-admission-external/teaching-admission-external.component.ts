@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Experience, Teacher, Training } from '../models/Teacher';
+import { Documents, Experience, Teacher, Training } from '../models/Teacher';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { TeacherService } from '../services/teacher.service';
@@ -14,6 +14,10 @@ import { MatStepper } from '@angular/material/stepper';
 import { EncryptDescryptService } from 'app/CallsTeachers/services/encrypt-descrypt.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CallsTeachersService } from 'app/CallsTeachers/services/calls-teachers.service';
+import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { tickStep } from 'd3';
 
 
 
@@ -100,6 +104,7 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     public _dialog: MatDialog,
     private _nav: Router,
     private fb: UntypedFormBuilder,
+    public _verificarBS64: VerificarBS64Pipe,
     private serviceEncryptDescryptService: EncryptDescryptService,
     private router: Router,
     private serviceCallsTeachers: CallsTeachersService
@@ -465,6 +470,48 @@ export class TeachingAdmissionExternalComponent extends UnsubscribeOnDestroyAdap
     this.DataTraining = [];
     this.DataTraining = this.DataTeacher.listTraining.filter(x => x.trainingId != row.trainingId)
     this.DataTeacher.listTraining = [...this.DataTraining]
+
+  }
+  base64String: string = '';
+  viewDocumento(idx:number) {
+  const file=this.tmp_files[idx];
+  
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const base64String = e.target?.result as string;
+    // Aquí puedes utilizar base64String, por ejemplo:
+    
+    this.base64String= base64String.toString();
+    // Enviar a un servidor, mostrar una vista previa, etc.
+  };
+  
+  reader.readAsDataURL(file);
+  this.base64String = this.base64String.split(",")[1];
+    if (this._verificarBS64.transform(this.base64String) != "pdf") {
+      const dialogRef = this._dialog.open(ViewPosterComponent, {
+        data: {
+          type: this._verificarBS64.transform(this.base64String),
+          accion: 'view-poster',
+          posterFile: this.base64String,
+          comment: "",
+          poster: this.base64String,
+        },
+        disableClose: true,
+      });
+    } else {
+      const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+        data: {
+          type: this._verificarBS64.transform(this.base64String),
+          accion: 'view-poster',
+          posterFile: this.base64String,
+          comment: "",
+          poster: this.base64String,
+        },
+        width: '1000px',
+        disableClose: true,
+      });
+    }
 
   }
 

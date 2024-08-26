@@ -28,6 +28,7 @@ import { MyTasksListComponent } from './my-tasks-list/my-tasks-list.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SubjectHistoryComponent } from './subject-history/subject-history.component';
 import { MyTaskApptivityListComponent } from './my-task-apptivity-list/my-task-apptivity-list.component';
+import { FormCategoriesComponent } from './Forms/form-categories/form-categories.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { MyTaskApptivityListComponent } from './my-task-apptivity-list/my-task-a
     MyTasksListComponent,
     SubjectHistoryComponent,
     MyTaskApptivityListComponent,
+    FormCategoriesComponent,
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
