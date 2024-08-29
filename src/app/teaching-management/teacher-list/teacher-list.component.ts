@@ -154,6 +154,12 @@ Importar(){
 
     this._nav.navigate(['/teaching-management/teacher-detail/', row.cedula]);
   }
+  
+  DetailEvolution(row: Teacher) {
+
+    this._nav.navigate(['/teaching-management/teacher-detail-evolution/', row.cedula]);
+  }
+  
 
   Aproved(row: Teacher) {
 

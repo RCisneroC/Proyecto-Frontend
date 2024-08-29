@@ -23,6 +23,7 @@ import { EvaluacionDesScoreListComponent } from "./evaluacion-des-score-list/eva
 import {
   RequiredDocumentPointsListComponent
 } from "./required-document-points-list/required-document-points-list.component";
+import { TeacherDetailEvolutionComponent } from './teacher-detail-evolution/teacher-detail-evolution.component';
 
 const routes: Routes = [
   {
@@ -117,6 +118,11 @@ const routes: Routes = [
     path: "statistics-list",
     component: StatisticsListComponent,
   },
+  {
+    path: "teacher-detail-evolution/:cedula",
+    component: TeacherDetailEvolutionComponent,
+  },
+  
 
 
 ];

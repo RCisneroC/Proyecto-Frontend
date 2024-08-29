@@ -210,6 +210,12 @@
                               <mat-icon>remove_red_eye</mat-icon>
                               <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
                             </button>
+                            
+                            <button *ngIf="row.statusId===1" mat-mini-fab color="primary"
+                              (click)="$event.stopPropagation()" matTooltip="Gráfica" (click)="DetailEvolution(row)" class="tbl-action-btn">
+                              <mat-icon>assessment</mat-icon>
+                              <!-- <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons> -->
+                            </button>
 
 
                           </mat-cell>

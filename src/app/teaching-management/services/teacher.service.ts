@@ -103,6 +103,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+  getDataGrafica(cedula: string) {
+  // const data={
+  // filter:cedula
+  // }
+    return this.httpClient.get(environment.apiUrlTeacher + "GetAllTeacherXtiempo?filter="+ cedula);
+  }
 
   searchSubjectTask(filter: any) {
     return this.httpClient.post(environment.apiIntranet + "SearchSubjectTask", filter);

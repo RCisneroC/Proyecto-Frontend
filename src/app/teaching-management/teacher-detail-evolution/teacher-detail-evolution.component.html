@@ -1,0 +1,41 @@
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+        <!-- breadcrumb -->
+        <app-breadcrumb [title]="'Gráfica'" [items]="['Inicio','Gestión Docente']" [active_item]="'Gráfica'">
+        </app-breadcrumb>
+    </div>
+    <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
+      <div class="">
+        <button matTooltip="Regresar" mat-raised-button color="accent" (click)="Regresar()">
+          <mat-icon>keyboard_backspace</mat-icon> Regresar
+        </button>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 class="text-uppercase"><strong>Gráfica de docentes(evolución por puntajes)</strong></h2>
+            
+         
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div *ngIf="isTblLoading" class="tbl-spinner">
+                    <mat-progress-spinner color="primary" [diameter]="80" mode="indeterminate">
+                    </mat-progress-spinner>
+                  </div>
+                  <canvas id="mychart" >{{chart}}</canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
