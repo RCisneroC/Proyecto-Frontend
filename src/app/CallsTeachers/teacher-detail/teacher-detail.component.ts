@@ -350,7 +350,7 @@ export class TeacherDetailComponent extends UnsubscribeOnDestroyAdapter
   }
 
   viewDocumento(row: Documents) {
-
+ 
     if (this._verificarBS64.transform(row.docResult.fileContents) != "pdf") {
       const dialogRef = this._dialog.open(ViewPosterComponent, {
         data: {

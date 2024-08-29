@@ -18,6 +18,8 @@ import { SourceFunds } from '../models/source -funds';
 import { SourceFundsService } from '../maestros/services/source-funds.service';
 import { ResponseMessageMaestra } from '../models/ResponseMessage';
 import { ActivityLocationService } from '../maestros/services/activity-location.service';
+import { CategoryJobs } from 'app/Job/Interfaces/CategoryJobs';
+import { CategoryJobServiceService } from 'app/Job/Services/category-job-service.service';
 
 
 export interface DialogData {
@@ -62,18 +64,24 @@ export class ScheduleActivityDetailFormComponent {
       name: 'Curso de Integración',
       statusId: 1,
     },
+    // {
+    //   id: 5,
+    //   name: 'Capacitación',
+    //   statusId: 1,
+    // },
+    // {
+    //   id: 1,
+    //   name: 'Nuevos Abogados',
+    //   statusId: 1,
+    // },
     {
-      id: 5,
-      name: 'Capacitación',
-      statusId: 1,
-    },
-    {
-      id: 1,
-      name: 'Nuevos Abogados',
+      id: 6,
+      name: 'Curso habilitante para Ascenso',
       statusId: 1,
     }
   ];
   id!: number;
+  categoriesList: CategoryJobs[]=[];
 
   constructor(
     private _activityService: ActivityService,
@@ -83,6 +91,7 @@ export class ScheduleActivityDetailFormComponent {
     private _userService: UserService,
     private _reasonService: ReasonService,
     private _sourceFundsService: SourceFundsService,
+    private _categoryJobServiceService:CategoryJobServiceService,
     public dialogRef: MatDialogRef<ScheduleActivityDetailFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public scheduleActivitiesService: ScheduleActivitiesService,
@@ -104,6 +113,7 @@ export class ScheduleActivityDetailFormComponent {
 
     }
     this.scheduleForm = this.createContactForm();
+    this.getCat();
     this.loadActivities();
     this.loadModality();
     this.loadTypeActivity();
@@ -111,6 +121,8 @@ export class ScheduleActivityDetailFormComponent {
     this.loadReason();
     this.loadSourceFunds();
     this.loadLocationActividad();
+    
+    
   }
 
 
@@ -125,11 +137,22 @@ export class ScheduleActivityDetailFormComponent {
         ? 'Not a valid email'
         : '';
   }
+  getCat() {
+
+    this._categoryJobServiceService.getAllCooperating2().subscribe({
+      next: (res: CategoryJobs[]) => {
+        
+        this.categoriesList=res
+      },
+      error: () => {
+      }
+    })
+  }
   createContactForm(): UntypedFormGroup {
     if (this.schedule.activityTrainingType == null) {
       this.schedule.activityTrainingType = 2;
     }
-
+   
     return this.fb.group({
       curriculumDesignId: new FormControl(this.action == "edit" ? this.schedule.curriculumDesignId : this.id, Validators.required),
       id: new FormControl(this.schedule.id),
@@ -145,6 +168,8 @@ export class ScheduleActivityDetailFormComponent {
       plannedEndDate: new FormControl(this.schedule.plannedEndDate, Validators.required),
       effectiveEndDate: new FormControl(this.schedule.effectiveEndDate, Validators.required),
       isExecuted: new FormControl(false),
+      minAttendanceRequired:new FormControl(this.schedule.minAttendanceRequired, Validators.required),
+      minGradeRequired:new FormControl(this.schedule.minGradeRequired, Validators.required),
       activityReasonId: new FormControl(this.schedule.activityReasonId, Validators.required),
       activityFundsSourceId: new FormControl(this.schedule.activityFundsSourceId, Validators.required),
       hasDataSheet: new FormControl(false),
@@ -152,6 +177,7 @@ export class ScheduleActivityDetailFormComponent {
       isEvaluation: new FormControl(false),
       activityTrainingType: new FormControl(this.schedule.activityTrainingType.toString(), Validators.required),
       activityClass: new FormControl(this.schedule.activityClass),
+      activityCategoryId:new FormControl(this.schedule.activityCategoryId),
       digitalReportDeliveryDate: new FormControl(this.schedule.digitalReportDeliveryDate),
       physicalReportDeliveryDate: new FormControl(this.schedule.physicalReportDeliveryDate),
       observations: new FormControl(this.schedule.observations),

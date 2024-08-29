@@ -81,7 +81,7 @@ implements OnInit {
                 text: result.Message,
                 icon: "success"
             });
-            this.getDetailAsignacion2();
+            this.getDetailAsignacion();
           } else {
             Swal.fire({
               title: "Escuela Judicial",
@@ -92,7 +92,7 @@ implements OnInit {
         }); 
   }
   async getDetailAsignacion() {
-    this._assetLocationService.getDetailAsignacion(this.id).subscribe({
+    this._assetLocationService.getDetailAsignacion(this.iddetail).subscribe({
       next: (res) => {
 
         this.Data = res["getDEtailsAsignacionBiens"];
@@ -141,7 +141,7 @@ implements OnInit {
                 text: result.Message,
                 icon: "success"
             });
-            this.getDetailAsignacion2();
+            this.getDetailAsignacion();
           } else {
             Swal.fire({
               title: "Escuela Judicial",

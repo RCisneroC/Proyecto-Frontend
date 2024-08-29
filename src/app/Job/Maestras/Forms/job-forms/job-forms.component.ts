@@ -69,6 +69,8 @@ export class JobFormsComponent {
       description: [data.Jobs.description, [Validators.required]],
       categoryId: [data.Jobs.categoryId, [Validators.required]],
       companyId: [data.Jobs.companyId, [Validators.required]],
+      startDate:[data.Jobs.startDate, [Validators.required]],
+      endDate:[data.Jobs.endDate, [Validators.required]],
       companyAddressId: [data.Jobs.companyAddressId, [Validators.required]],
       contractTypeId: [data.Jobs.contractTypeId, [Validators.required]],
       numOfYearsOfExperienceRequired: [data.Jobs.numOfYearsOfExperienceRequired],

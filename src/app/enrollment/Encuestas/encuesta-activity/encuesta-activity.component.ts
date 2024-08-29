@@ -191,11 +191,11 @@ export class EncuestaActivityComponent {
       ]
     },
     {
-      CapacitacionVirtual: 'Coordinador académico',
+      CapacitacionVirtual: 'Tutor académico',
       ListQuestins: [
         {
           id: 13,
-          name: 'El coordinador académico proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación oportunamente.',
+          name: 'El tutor académico proporcionó información sobre el programa de la capacitación virtual y su forma de evaluación oportunamente.',
         },
         {
           id: 14,

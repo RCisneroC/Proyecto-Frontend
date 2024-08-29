@@ -1,6 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '@core';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { BudgetDetailBudgetTermMonthDtClass, BudgetDetailBudgetTermMonthDto, BudgetTermDto, GetBudgetDetail } from 'app/treasury/Models/BudgetDetails';
@@ -10,6 +11,12 @@ import { BudgetTermMonthServicesService } from 'app/treasury/Services/budget-ter
 import { BudgetTermServicesService } from 'app/treasury/Services/budget-term-services.service';
 export interface DialogData {
   detail: GetBudgetDetail;
+}
+
+export interface Producto {
+
+ amount:number;
+  
 }
 @Component({
   selector: 'app-budget-details-month-forms',
@@ -22,12 +29,25 @@ export class BudgetDetailsMonthFormsComponent implements OnInit,OnDestroy {
     CodError: 0,
     Message: ''
   }
+  //readonly panelOpenState = signal(false);
+  panelOpenState = new Map<BudgetTermDto, boolean>();
   public _BudgetTermDtoArray:BudgetTermDto[]=[]
   public category: any;
   public action?: string;
   public dialogTitle: string = "";
   public Trimestres: GetBudgetTerm[] = [];
   public Meses: GetBudgetTermMonth[] = []; 
+  
+    // Definir datos de la tabla
+    productos: Producto[] = [
+      { amount: 0.00 },
+   
+    ];
+  
+    dataSource = new MatTableDataSource<Producto>(this.productos);
+  
+    // Columnas de la tabla
+    displayedColumns = ['mes1', 'mes2', 'mes3'];
   public _BudgetTermDto:BudgetTermDto = {
     id:0,
     description:'',
@@ -73,6 +93,8 @@ export class BudgetDetailsMonthFormsComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     if(this.action == "new"){ 
     }
+    
+   
   }
 
 confirmAdd() {
@@ -110,6 +132,31 @@ onNoClick() {
   this.dialogRef.close();
 }
 
+onPanelOpen(budgetTerm: BudgetTermDto) {
+  this.panelOpenState.set(budgetTerm, !this.panelOpenState.get(budgetTerm) || false);
+}
+
+onAmountChange(index: number,index2: number) {
+
+const id=this.data.detail.id;
+const budgetTermMonthId=this._BudgetTermDtoArray[index].budgetDetailBudgetTermMonthDtos[index2].budgetTermMonthId
+const amount = this._BudgetTermDtoArray[index].budgetDetailBudgetTermMonthDtos[index2].amount;
+
+console.log('Amount changed for index', index, 'to:', amount);
+
+ if(amount!=undefined && budgetTermMonthId !=undefined && id !=undefined)
+ this._BudgetTermMonthServicesService.updateBudgetAmount(id, budgetTermMonthId, amount)
+ .subscribe(response => {
+   // Handle successful update (optional)
+   console.log('Amount updated successfully:', response);
+ }, error => {
+   // Handle errors during update (optional)
+   console.error('Error updating amount:', error);
+   
+ });
+  
+  
+}
 render(){
   let render_var:GetBudgetTermMonth[]=[];
   let resp_var:BudgetDetailBudgetTermMonthDto[]=[];
@@ -145,6 +192,19 @@ render(){
         this._BudgetTermDto.budgetDetailBudgetTermMonthDtos.push(newBudgetDetailBudgetTermMonthDto);
       });
       this._BudgetTermDtoArray.push(this._BudgetTermDto);
+      // Función de comparación para ordenar por id
+const sortByID = (a: BudgetTermDto, b: BudgetTermDto): number => {
+  if (a.id < b.id) {
+    return -1;
+  } else if (a.id === b.id) {
+    return 0;
+  } else {
+    return 1;
+  }
+};
+
+// Ordenar la matriz por id
+this._BudgetTermDtoArray.sort(sortByID);
       this.initArray();
     // })
   })

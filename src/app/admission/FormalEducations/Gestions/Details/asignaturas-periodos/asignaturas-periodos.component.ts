@@ -53,6 +53,8 @@ export class AsignaturasPeriodosComponent extends UnsubscribeOnDestroyAdapter
               numOfClasses: 0,
               hasLaboratory: false,
               evaluationCriteria: '',
+              synchronousHours:0,
+              asynchronousHours:0,
             }
           ]
         }
@@ -100,6 +102,8 @@ export class AsignaturasPeriodosComponent extends UnsubscribeOnDestroyAdapter
       numOfClasses: 0,
       hasLaboratory: false,
       evaluationCriteria: '',
+      synchronousHours:0,
+      asynchronousHours:0,
     }
   ];
   dataSourcePeriod: Period[] = [

@@ -150,6 +150,10 @@ import { CertificateListActivityComponent } from './certificates/certificate-lis
 import { CertificateListPartakerComponent } from './certificates/certificate-list-partaker/certificate-list-partaker.component';
 import { AddPermissionsComponent } from './maestros/directory-list/add-permissions/add-permissions.component';
 import { UploadActivityAllComponent } from './Forms/upload-activity-all/upload-activity-all.component';
+import { TypeRequestListComponent } from './FormalEducations/Maestros/type-request/type-request-list/type-request-list.component';
+import { TypeRequestFormComponent } from './FormalEducations/Maestros/type-request/type-request-form/type-request-form.component';
+import { FormImportComponent } from './FormalEducations/Maestros/Forms/form-import/form-import.component';
+import { FormImportSubjectComponent } from './FormalEducations/Maestros/Forms/form-import-subject/form-import-subject.component';
 
 @NgModule({
   declarations: [
@@ -291,7 +295,11 @@ import { UploadActivityAllComponent } from './Forms/upload-activity-all/upload-a
     CertificateListActivityComponent,
     CertificateListPartakerComponent,
     AddPermissionsComponent,
-    UploadActivityAllComponent
+    UploadActivityAllComponent,
+    TypeRequestListComponent,
+    TypeRequestFormComponent,
+    FormImportComponent,
+    FormImportSubjectComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [

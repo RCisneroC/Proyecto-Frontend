@@ -64,6 +64,8 @@ export class FormsSubjectComponent implements OnInit {
       numOfClasses: [this.data.subject.numOfClasses, [Validators.required]],
       hasLaboratory: [this.data.subject.hasLaboratory, [Validators.required]],
       evaluationCriteria: [this.data.subject.evaluationCriteria],
+      synchronousHours:[this.data.subject.synchronousHours,[Validators.required]],
+      asynchronousHours:[this.data.subject.asynchronousHours,[Validators.required]],
       statusId: [this.data.subject.statusId],
 
     });

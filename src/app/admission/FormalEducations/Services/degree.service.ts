@@ -153,6 +153,13 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
       Degree
     );
   }
+  
+  importDegree(file: any) {
+    return this.httpClient.post<ResponseGenerica>(
+      environment.apiEF + 'Degree/CreateFromExcel',
+      file
+    );
+  }
 
   getAllMallasCurriculares(id: any) {
     return this.httpClient.get<DegreeCurriculumDesign[]>(

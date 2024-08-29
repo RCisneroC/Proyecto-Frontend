@@ -6,6 +6,8 @@ export interface Jobs {
     categoryId: number;
     categoryName: string;
     companyId: number;
+    endDate:Date;
+    startDate:Date;
     companyName: string;
     companyProvinceId: number;
     companyProvinceName: string;

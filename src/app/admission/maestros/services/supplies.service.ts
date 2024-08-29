@@ -18,6 +18,7 @@ export class SuppliesService extends UnsubscribeOnDestroyAdapter {
     description: '',
     id: 0,
     name: '',
+    amount:'',
     statusId:0
   }
   constructor(private httpClient: HttpClient) {

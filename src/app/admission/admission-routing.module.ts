@@ -83,6 +83,7 @@ import {
 import {
   CertificateListActivityComponent
 } from "./certificates/certificate-list-activity/certificate-list-activity.component";
+import { TypeRequestListComponent } from './FormalEducations/Maestros/type-request/type-request-list/type-request-list.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -357,6 +358,10 @@ const routes: Routes = [
   {
     path: 'audit-list',
     component: AuditListComponent,
+  },
+  {
+    path: 'type-request-list',
+    component: TypeRequestListComponent,
   }
 
 ];

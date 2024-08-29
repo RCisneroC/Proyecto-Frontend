@@ -27,6 +27,7 @@ export class ApprovedSolicitudComponent {
   public _DataLocal: RequestVarious[] = [];
   public userType: string = '';
   public IdTypeUser: number = 0;
+  tmp_files: any[50]=[];
   constructor(
     public dialogRef: MatDialogRef<ApprovedSolicitudComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -46,9 +47,15 @@ export class ApprovedSolicitudComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       idSolicitud: [this.data.request.id, [Validators.required]],
+      document:['', [Validators.required]],
       statusId: [this.data.request.requestVariousStatusTypeId, [Validators.required]],
       approvalMessage: ['']
     });
+
+  }
+  
+  onFileSelected(event: any) {
+  this.tmp_files[0] = (event.target.files[0]);
 
   }
   submit() {
@@ -58,15 +65,24 @@ export class ApprovedSolicitudComponent {
 
       const value = this.RequestVariousApprovedForm.getRawValue();
       if(value.statusId === '5'){
-        const UpdateRequestVariousData = {
-          id: this.data.request.id,
-          description: this.data.request.description,
-          assignedUser: this.authService.currentUserValue.id,
-          requestVariousStatusTypeId: 3,
-          response: value.approvalMessage,
-          statusId: 3
-        }
-        this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
+        // const UpdateRequestVariousData = {
+        //   id: this.data.request.id,
+        //   description: this.data.request.description,
+        //   assignedUser: this.authService.currentUserValue.id,
+        //   requestVariousStatusTypeId: 3,
+        //   response: value.approvalMessage,
+        //   statusId: 3
+        // }
+        
+        const formData=new FormData();
+        formData.append('id', this.data.request.id.toString());
+        formData.append('description', this.data.request.description);
+        formData.append('assignedUser', this.authService.currentUserValue.id.toString());
+        formData.append('requestVariousStatusTypeId', '3');
+        formData.append('response', value.approvalMessage.toString());
+        formData.append('statusId', '3');
+        formData.append('Document', this.tmp_files[0]);
+        this.RequestVariousService.UpdateRequestVarious(formData).subscribe({
           next:(res)=>{
             if(res.statusCode == 200){
               this.ResponseMessage.CodError = 200;
@@ -77,15 +93,24 @@ export class ApprovedSolicitudComponent {
         })
       }
       if(value.statusId === '4'){
-        const UpdateRequestVariousData = {
-          id: this.data.request.id,
-          description: this.data.request.description,
-          assignedUser: this.authService.currentUserValue.id,
-          requestVariousStatusTypeId: 4,
-          response: value.approvalMessage,
-          statusId:4
-        }
-        this.RequestVariousService.UpdateRequestVarious(UpdateRequestVariousData).subscribe({
+        // const UpdateRequestVariousData = {
+        //   id: this.data.request.id,
+        //   description: this.data.request.description,
+        //   assignedUser: this.authService.currentUserValue.id,
+        //   requestVariousStatusTypeId: 4,
+        //   response: value.approvalMessage,
+        //   statusId:4
+        // }
+        const formData=new FormData();
+        formData.append('id', this.data.request.id.toString());
+        formData.append('description', this.data.request.description);
+        formData.append('assignedUser', this.authService.currentUserValue.id.toString());
+        formData.append('requestVariousStatusTypeId', '4');
+        formData.append('response', value.approvalMessage.toString());
+        formData.append('statusId', '4');
+        formData.append('Document', this.tmp_files[0]);
+ 
+        this.RequestVariousService.UpdateRequestVarious(formData).subscribe({
           next:(res)=>{
             if(res.statusCode == 200){
               this.ResponseMessage.CodError = 200;

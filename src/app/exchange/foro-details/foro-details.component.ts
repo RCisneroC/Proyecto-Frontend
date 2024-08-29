@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AuthService } from '@core';
 import Swal from 'sweetalert2';
-import { CommetForo } from '../models/Foro';
+import { CommetForo, GetComment } from '../models/Foro';
 
 @Component({
   selector: 'app-foro-details',
@@ -28,6 +28,7 @@ export class ForoDetailsComponent {
   public _comment: CommetForo = {
     getComment: [
       {
+        hidden:false,
         foroId: 0,
         commentId: 0,
         firstName: '',
@@ -46,6 +47,8 @@ export class ForoDetailsComponent {
     statusCode: 0,
   }
   public Editor: any = ClassicEditor;
+  hidden: boolean=false;
+  rolId!: string;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -60,7 +63,7 @@ export class ForoDetailsComponent {
   }
 
   ngOnInit() {
-
+    this.rolId=this.authservice.currentUserValue.roleId
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       console.log(this.id);
@@ -75,6 +78,54 @@ export class ForoDetailsComponent {
     } else {
       return this.sanitizer.bypassSecurityTrustHtml(myHtmlString);
     }
+  }
+  
+  Hidden(id:number,hidden1:boolean){
+  
+   // this.hidden = !this.hidden;
+    const data={
+      commentId:id,
+      hidden:hidden1
+    }
+    
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "¿Está seguro de que desea ocultar este comentario? Revise bien la información antes de confirmar.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Enviar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._Foro.HiddenComment(data).subscribe({
+          next: (res) => {
+            this._Foro._ForoResponse = res;
+            
+            
+          },
+          complete: () => {
+            this.getComment();
+           
+            Swal.fire({
+              title: "Escuela Judicial!",
+              text: "Guardado con exito.",
+              icon: "success"
+            });
+            //this.router.navigate(['/exchange/foro-detalle/',this.id])
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial!",
+          text: "No fue enviado.",
+          icon: "warning"
+        });
+      }
+    });
+
+  //crear api
+  // logica para actualizar statusid de comentario
   }
   getForo() {
     this._Foro.GetForosParams(this.id).subscribe({
@@ -114,8 +165,15 @@ export class ForoDetailsComponent {
 
   getComment() {
     this._Foro.GetCommetForo(this.id).subscribe({
-      next: (res) => {
+      next: (res:CommetForo) => {
+       if(this.rolId=='d2674562-193a-41e6-9a92-7f7cb04caf90' || this.rolId== '2b34afce-38b7-47cd-b0c4-fb589a97b138'){
         this._comment = res;
+       }else{
+        res.getComment= res.getComment.filter(come => come.hidden==false);
+        this._comment = res;
+       }
+       
+      
         console.log(res);
       }
     })

@@ -18,6 +18,7 @@ export interface Foro {
 
 export interface GetComment {
   foroId: number;
+  hidden:boolean;
   commentId: number;
   firstName: string;
   lastName: string;

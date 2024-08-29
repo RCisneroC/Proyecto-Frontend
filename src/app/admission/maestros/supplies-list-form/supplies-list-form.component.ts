@@ -27,6 +27,7 @@ public ResponseMessage: ResponseMessageMaestra = {
     id: 0,
     description: '',
     name: '',
+    amount:'',
     statusId:1
   }
   constructor(
@@ -51,6 +52,7 @@ public ResponseMessage: ResponseMessageMaestra = {
       id: [this.supplies.id],
       name: [this.supplies.name, [Validators.required]],
       description: [this.supplies.description],
+      amount:[this.supplies.amount],
       statusId: [this.supplies.statusId, [Validators.required]],
     });
   }

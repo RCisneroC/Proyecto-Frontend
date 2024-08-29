@@ -73,14 +73,16 @@ export class AssetLocationService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  addAssetLocationDetailMode(assetLocation: AssetLocationDetail) {
+  addAssetLocationDetailMode(assetLocation: any) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'AsignacionBien/AddAsignacionDetail', assetLocation);
   }
   updateAssetLocationMode(assetLocation: AssetLocation) {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'AsignacionBien/UpdateAsignacion', assetLocation);
   }
   
-  updateAssetLocationDetailMode(assetLocation: AssetLocationDetail) {
+  updateAssetLocationDetailMode(assetLocation: any) {
+  
+ 
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'AsignacionBien/UpdateAsignacionDetail', assetLocation);
   }
 

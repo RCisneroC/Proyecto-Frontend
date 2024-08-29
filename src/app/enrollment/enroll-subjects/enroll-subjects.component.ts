@@ -41,6 +41,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   requirement?: Subject = this._SubjectService._Subject;
   enrollDummyList: EnrollDummy[] = [];
   subjectEnrollment: subjectEnrollmentResult[] = [];
+  studentId!: number;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -59,7 +60,7 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
-    this.loadData();
+    this.loadIdStudent();
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       if (this.id) {
@@ -69,8 +70,22 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
     })
   }
   refresh() {
-    this.loadData();
+    this.loadIdStudent();
   }
+
+  loadIdStudent() {
+    const cedula = this.authService.currentUserValue.cedula;
+    const data = JSON.parse(localStorage.getItem("enroll-career") || '');
+    const IdInscription=data['ejInscriptionId'] || '';
+    const DegreeId=localStorage.getItem('DegreeCurriculumDesignId') || '';
+    this._SubjectService.getStudentId(parseInt(IdInscription), DegreeId).subscribe({
+      next: (res:any) => {
+        this.studentId = res.studentId;
+        this.loadData();
+      }
+    })
+  }
+
 
   loadMatriculadas(id: string) {
     const cedula = this.authService.currentUserValue.cedula;
@@ -131,7 +146,8 @@ export class EnrollSubjectsComponent extends UnsubscribeOnDestroyAdapter
       this.exampleDatabase,
       this.paginator,
       this.activatedRoute,
-      this.sort
+      this.sort,
+      this.studentId
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -185,7 +201,8 @@ export class ExampleDataSource extends DataSource<Subject> {
     public exampleDatabase: EnrollmentService,
     public paginator: MatPaginator,
     public activatedRoute: ActivatedRoute,
-    public _sort: MatSort
+    public _sort: MatSort,
+    public studentId:number
   ) {
     super();
     // Reset to the first page when the user changes the filter.
@@ -205,8 +222,12 @@ export class ExampleDataSource extends DataSource<Subject> {
     });
     console.log(this.id);
     // 1 =  tiene que ser igual al año que el estudiante esta cursando.
-
+  if(this.studentId==null){
     this.exampleDatabase.GetSubjectsBy(1, this.id);
+  }else{
+    this.exampleDatabase.GetSubjectsBy2(1, this.id,this.studentId);
+  }
+      
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

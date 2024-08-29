@@ -156,6 +156,21 @@
                           <mat-cell *matCellDef="let row">
                             <span class="mobile-label">Motivo:</span>{{row.activityReasonName}}</mat-cell>
                         </ng-container>
+                        
+                        <ng-container matColumnDef="minAttendanceRequired">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Mínimo de asistencia
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+
+                            <span class="mobile-label">Mínimo de asistencia:</span>{{row.minAttendanceRequired}}</mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="minGradeRequired">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Mínimo de calificación
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <span class="mobile-label">Mínimo de calificación:</span>{{row.minGradeRequired}}</mat-cell>
+                        </ng-container>
 
                         <ng-container matColumnDef="activityFundsSourceName">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Origen de los fondos

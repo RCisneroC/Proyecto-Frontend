@@ -58,14 +58,14 @@
 
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Coordinador</mat-label>
+                        <mat-label>Tutor</mat-label>
                         <mat-select formControlName="assignedCoordinatorId">
                             <mat-option value="">--------------</mat-option>
                             <mat-option [value]="item.id" *ngFor="let item of _ListUser">{{item.firstName}}
                                 {{item.lastName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="_DegreeModalForms.get('assignedCoordinatorId')?.hasError('required')">
-                            Coordinadores requerida
+                            Tutor requerida
                         </mat-error>
                     </mat-form-field>
                 </div>

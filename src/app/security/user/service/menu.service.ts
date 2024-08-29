@@ -14,6 +14,7 @@ export class MenuService extends UnsubscribeOnDestroyAdapter {
   //private readonly API_URL = 'assets/data/dataUser.json';
   isTblLoading = true;
   _MenuJson: MenuResponse = {
+    hasAccessPermission:false,
     statusId: 0,
     id: 0,
     path: '',
@@ -26,6 +27,7 @@ export class MenuService extends UnsubscribeOnDestroyAdapter {
     badgeClass: '',
     parentApplicationMenuId: 0,
     subMenus: [{
+      hasAccessPermission:false,
       statusId: 0,
       id: 0,
       path: '',

@@ -11,7 +11,7 @@
                   <br><br>
                   <mat-divider style="border: inset;"></mat-divider>
                   <h5><strong>Formulario de Inscripción Docente</strong></h5>
-                  <h4 style="color:#3f51b5;">Le enviaremos una notificación por correo electrónico para informarle sobre el estado de su solicitud.</h4>
+                 
                 </div>
                 <div class="col-12" style="max-height:auto; text-align-last: center;">
                   <div class="d-flex justify-content-end align-items-right">
@@ -305,6 +305,7 @@
                     </form>
                   </mat-step>
                   <mat-step [stepControl]="FormsEFDocument!">
+                    <h5 style="color:#3f51b5;">Le enviaremos una notificación por correo electrónico para informarle sobre el estado de su solicitud.</h5>
                     <form [formGroup]="FormsEFDocument!">
                       <ng-template matStepLabel>Documentos</ng-template>
                       <div class="row">
@@ -314,6 +315,13 @@
                           <mat-label style="font-weight: bold;">{{ item.name }}</mat-label>
                           <app-file-upload (change)="onFileSelected($event,i,item.documentId)"
                             [formControlName]="item.documentId"></app-file-upload>
+                            <div  style="text-align:right;">
+                              <button (click)="viewDocumento(i)" [disabled]="tmp_files[i]===undefined" matTooltip="Ver Documento" mat-mini-fab
+                              color="primary">
+                              <mat-icon>remove_red_eye</mat-icon>
+                          </button>
+                            </div>
+                         
                           <mat-error *ngIf="FormsEFDocument.get(item.documentId.toString())?.hasError('required')">
                             es requerido
                           </mat-error>

@@ -37,6 +37,8 @@ export class ScheduleActivityDetailComponent extends UnsubscribeOnDestroyAdapter
     'effectiveEndDate',
     'activityReasonName',
     'activityFundsSourceName',
+    'minAttendanceRequired',
+    'minGradeRequired',
     'startTime',
     'endTime',
     'status',

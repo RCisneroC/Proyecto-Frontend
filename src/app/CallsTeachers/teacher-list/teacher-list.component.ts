@@ -129,6 +129,7 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }

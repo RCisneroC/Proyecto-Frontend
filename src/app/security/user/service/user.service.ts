@@ -91,6 +91,13 @@ export class UserService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put(environment.apiUrl + 'UpdateUser', user);
   }
+  
+  
+  updateCategoriaEstudiante(user: any) {
+  
+
+    return this.httpClient.put(environment.apiUrl + 'UpdateUserCategories', user);
+  }
 
   changePassword(user: User) {
 

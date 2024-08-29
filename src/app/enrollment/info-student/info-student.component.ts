@@ -31,8 +31,10 @@ import { DetalleExperiencia } from 'app/admission/models/DetalleExperiencia';
 import { ResponseAddEFlaboralInfo } from 'app/admission/models/AddEFlaboralResponse';
 import { DetailsParticipante, DetailsParticipanteEF, ExperienceInfoEF } from 'app/admission/models/participant';
 import { GetDocResp, documentosIncripcion } from 'app/admission/models/documentosIncripcion';
-import { ResponseEF } from 'app/admission/models/ResponseMessage';
+import { ResponseEF, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { Requirement } from 'app/admission/models/Requeriminet';
+import { Direction } from '@angular/cdk/bidi';
+import { FormCategoriesComponent } from '../Forms/form-categories/form-categories.component';
 
 
 @Component({
@@ -490,6 +492,43 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
 
       }
     })
+  }
+
+
+  selectCategorie() {
+    let tempDirection: Direction;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(FormCategoriesComponent, {
+      data: {
+        request: this.DataStudent,
+        action: 'add',
+      },
+      width: '900px',
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
   }
 
   public async submit() {

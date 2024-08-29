@@ -15,6 +15,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, fromEvent, map, merge } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { FormImportSubjectComponent } from '../Forms/form-import-subject/form-import-subject.component';
 
 @Component({
   selector: 'app-subject',
@@ -31,6 +32,8 @@ export class SubjectComponent extends UnsubscribeOnDestroyAdapter
     'numOfCredits',
     'numOfHours',
     'numOfClasses',
+    'asynchronousHours',
+    'synchronousHours',
     'status',
     'actions',
 
@@ -138,6 +141,35 @@ export class SubjectComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+
+  Importar() {
+    this._SubjectService.init_Subject();
+    const dialogRef = this._dialog.open(FormImportSubjectComponent, {
+      data: {
+        degree: this._SubjectService._Subject,
+        action: 'add',
+      }
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.loadData();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+  }
   editCall(row:Subject) {
     console.log(this._SubjectService.init_Subject());
     const dialogRef = this._dialog.open(FormsSubjectComponent, {

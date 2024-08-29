@@ -18,6 +18,7 @@ export interface SubMenu {
 
 export interface MenuResponse {
     statusId: number;
+    hasAccessPermission:boolean;
     id: number;
     path: string;
     title: string;

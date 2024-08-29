@@ -36,6 +36,17 @@ export class BudgetTermMonthServicesService {
     return this.httpClient
       .get<BudgetTermMonthRequest>(environment.apiUrlTreasury + 'BudgetTermMonth/GetBudgetTermMonth?BudgetTermId=' + id);
   }
+  
+  updateBudgetAmount(id:number, budgetTermMonthId:number, amount:number) {
+    const formdata={
+      budgetDetailId:id,
+      budgetTermMonthId:budgetTermMonthId,
+      amount
+    }
+    return this.httpClient
+      .put<Result>(environment.apiUrlTreasury + 'BudgetDetail/UpdateBudgetDetailBudgetTermMonth', formdata);
+  }
+  
 
 
   delete(id:number){

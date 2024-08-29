@@ -11,4 +11,6 @@ export interface Subject {
   numOfClasses: number;
   hasLaboratory: boolean | string;
   evaluationCriteria: string;
+  synchronousHours:number;
+  asynchronousHours:number;
 }

@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core/service/auth.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { AssetLocationDetail } from 'app/treasury/Models/AssetLocation';
+import { AssetLocation, AssetLocationDetail } from 'app/treasury/Models/AssetLocation';
 import { AssetLocationService } from 'app/treasury/Services/asset-location.service';
 
 export interface DialogData {
@@ -54,7 +54,7 @@ export class AddAssetLocationDetailComponent implements OnInit{
       this.dialogTitle = "Editar detalle";
       this.assetLocationDetail = data.assetLocationDetail;
     } else {
-      this.dialogTitle = 'Nueva detalle';
+      this.dialogTitle = 'Nuevo detalle';
     }
   
     
@@ -68,7 +68,7 @@ export class AddAssetLocationDetailComponent implements OnInit{
  
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
-    detailAsignacionId:[this.data.detailId, Validators.required],
+    detailAsignacionId:[ this.data.action=="add"?this.data.detailId:this.data.assetLocationDetail.id, Validators.required],
     numero: [this.assetLocationDetail.numero, Validators.required],
     placa: [this.assetLocationDetail.placa, Validators.required],
     descripcion: [this.assetLocationDetail.descripcion, Validators.required],
@@ -93,6 +93,8 @@ export class AddAssetLocationDetailComponent implements OnInit{
 
   public confirmAdd(): void {
     if (this.action === 'edit') {
+    
+ 
       this.assetLocationService.updateAssetLocationDetailMode(this.assetLocationDetailForm.getRawValue())
         .subscribe({
           next: () => {
@@ -101,14 +103,23 @@ export class AddAssetLocationDetailComponent implements OnInit{
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
         });
 
     } else {
-      this.assetLocationService.addAssetLocationDetailMode(this.assetLocationDetailForm.getRawValue())
+    
+    
+      let data :AssetLocationDetail[] = []
+      data.push(this.assetLocationDetailForm.getRawValue())
+      const asignacionData: any = {
+        AsignacionId: this.data.detailId,
+        DetailAsignacion: data,
+        CreatedBy: this.authService.currentUserValue.id
+      };
+      this.assetLocationService.addAssetLocationDetailMode(asignacionData)
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;
@@ -116,7 +127,7 @@ export class AddAssetLocationDetailComponent implements OnInit{
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }

@@ -92,6 +92,8 @@ export class CreateRoomsComponent extends UnsubscribeOnDestroyAdapter
       numOfClasses: 0,
       hasLaboratory: false,
       evaluationCriteria: '',
+      synchronousHours:0,
+      asynchronousHours:0,
     }
   ];
   dataSubjectList = new MatTableDataSource<Subject>(this.dataSorceSubject);

@@ -16,6 +16,8 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/cronograma.json';
   private readonly API_URL1 = 'assets/data/activityDetail.json';
   public userType: string = '';
+  public roleId: string = '';
+  
   public UserData!: User;
   public _ScheduleActivityDetail!: ScheduleActivityDetail[];
   isTblLoading = true;
@@ -104,17 +106,25 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           if (user != '') {
             this.UserData = JSON.parse(user);
-            this.userType = this.getRoleFromToken(this.UserData.token);
+            //this.userType = this.getRoleFromToken(this.UserData.token);
+            this.roleId = this.UserData.roleId;
             console.log(this.userType);
 
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador' || this.userType == 'Estudiante' || this.userType == 'Certificador') {
+          if (  this.roleId=="b23d3a5d-571a-45b8-8d8b-22f2a0812cf1" ||//tutor
+                this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
+                this.roleId=="7919f37c-4393-4252-b309-6ca112b5e89a" ||//estudiante
+                this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb" //certificador
+          ){
+          
             this.dataChange2.next(data);
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }
+          
+         
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -135,13 +145,16 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           if (user != '') {
             this.UserData = JSON.parse(user);
-            this.userType = this.getRoleFromToken(this.UserData.token);
+            //this.userType = this.getRoleFromToken(this.UserData.token);
+            this.roleId=this.UserData.roleId;
             console.log(this.userType);
 
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador' || this.userType == 'Estudiante') {
+          if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
+             this.roleId=="7919f37c-4393-4252-b309-6ca112b5e89a" //estudiante
+            ) {
             this.dataChange2.next(data.filter(x => x.activityTrainingType != 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3 && x.activityTrainingType != 1));
@@ -165,14 +178,17 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           if (user != '') {
             this.UserData = JSON.parse(user);
-            this.userType = this.getRoleFromToken(this.UserData.token);
+            //this.userType = this.getRoleFromToken(this.UserData.token);
+            
+            this.roleId=this.UserData.roleId;
             console.log(this.userType);
 
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador' || this.userType == 'Certificador') {
-
+          if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
+            this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb" //certificador
+            ) {
             this.dataChange2.next(data.filter(x => x.statusId == 5));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
@@ -195,12 +211,13 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           if (user != '') {
             this.UserData = JSON.parse(user);
             this.userType = this.getRoleFromToken(this.UserData.token);
+            this.roleId=this.UserData.roleId;
             console.log(this.userType);
 
           }
 
           this.isTblLoading = false;
-          if (this.userType == 'Administrador') {
+          if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ) {
             this.dataChange2.next(data.filter(x => x.statusId == 5 && x.activityTrainingType == 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));

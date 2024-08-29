@@ -52,7 +52,7 @@ export class ViewJobsComponent extends UnsubscribeOnDestroyAdapter
     },
     {
       codigo: "ContractTypeId",
-      texto: "Tipo de Contrato"
+      texto: "Tipo de servicio"
     },
     {
       codigo: "ProvinceId",

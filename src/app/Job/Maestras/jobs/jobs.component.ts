@@ -34,6 +34,8 @@ export class JobsComponent extends UnsubscribeOnDestroyAdapter
     'job',
     'company',
     'ubicacion',
+    'startDate',
+    'endDate',
     'status',
     'actions',
   ];

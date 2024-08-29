@@ -20,6 +20,7 @@ import { AuthService } from '@core/service/auth.service';
 import { User } from '@core/models/user';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
 import { DatePipe } from '@angular/common';
+import { FormImportTeacherComponent } from '../form-import-teacher/form-import-teacher.component';
 
 @Component({
   selector: 'app-teacher-list',
@@ -117,7 +118,34 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
       }
     });
   }
-
+Importar(){
+  //this._SubjectService.init_Subject();
+    const dialogRef = this.dialog.open(FormImportTeacherComponent, {
+      data: {
+        degree: '',
+        action: 'add',
+      }
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+      if (result.CodError == 200) {
+        this.loadData();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
+      }
+    });
+}
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
@@ -126,6 +154,12 @@ export class TeacherListComponent extends UnsubscribeOnDestroyAdapter
 
     this._nav.navigate(['/teaching-management/teacher-detail/', row.cedula]);
   }
+  
+  DetailEvolution(row: Teacher) {
+
+    this._nav.navigate(['/teaching-management/teacher-detail-evolution/', row.cedula]);
+  }
+  
 
   Aproved(row: Teacher) {
 

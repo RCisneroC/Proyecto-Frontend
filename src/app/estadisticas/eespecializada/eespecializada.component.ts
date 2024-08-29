@@ -59,7 +59,7 @@ export class EEspecializadaComponent extends UnsubscribeOnDestroyAdapter
     },
     {
       codigo: "AssignedCoordinatorId",
-      texto: "Por Coordinador Asignado"
+      texto: "Por Tutor Asignado"
     },
     {
       codigo: "StudyModeId",
@@ -248,7 +248,7 @@ export class EEspecializadaComponent extends UnsubscribeOnDestroyAdapter
         'Objectivos': x.generalGoals,
         'Perfil_Graduado': x.graduationProfile,
         'Descripcion': x.description,
-        'Coordinador': x.assignedCoordinatorName,
+        'Tutor': x.assignedCoordinatorName,
         'Duracion': x.durationInYears.toString(),
         'Creditos': x.numOfCredits.toString(),
         'Modo': x.studyModeName

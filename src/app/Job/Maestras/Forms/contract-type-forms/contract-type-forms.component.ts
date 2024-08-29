@@ -35,9 +35,9 @@ export class ContractTypeFormsComponent {
     console.log(data);
 
     if (this.action === 'add-type') {
-      this.dialogTitle = "Agregar Tipo de Contrato";
+      this.dialogTitle = "Agregar Tipo de servicio";
     } else if (this.action === 'edit-type') {
-      this.dialogTitle = "Editar Tipo de Contrato";
+      this.dialogTitle = "Editar Tipo de servicio";
     }
     this.FormsTypeContract = this.fb.group({
       statusId: [data.typeContract.statusId, [Validators.required]],

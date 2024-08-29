@@ -1,3 +1,4 @@
+import { Poster } from "app/teaching-management/models/Teacher";
 import { CalificacionesECModels } from "../../enrollment/models/calificacionEC";
 import { an } from "@fullcalendar/core/internal-common";
 
@@ -49,7 +50,8 @@ export interface RequestVariousItem {
   ecAcademicRecordId: number,
   reentryAll: boolean,
   response: string,
-  responseDate: Date
+  document?:Poster,
+  responseDate: Date,
   infoUserRquest: infoUserRquestModel
   subject?: subjectModel,
   activity?: activityModel

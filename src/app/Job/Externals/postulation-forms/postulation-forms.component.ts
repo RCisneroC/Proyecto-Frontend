@@ -29,6 +29,8 @@ export class PostulationFormsComponent {
     id: 0,
     name: '',
     description: '',
+    endDate:new Date,
+    startDate:new Date,
     categoryId: 0,
     categoryName: '',
     companyId: 0,

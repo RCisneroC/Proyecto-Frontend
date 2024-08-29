@@ -48,6 +48,21 @@ export class SubjectServiceService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient
       .get<Subject[]>(environment.apiEF + 'Subject/GetAll?StatusId=' + id);
   }
+  
+  
+  getAllSubject3() {
+    return this.httpClient
+      .get<Subject[]>(environment.apiEF + 'Subject/GetAll');
+  }
+  importSubject(file: any) {
+  
+ 
+    return this.httpClient.post<ResponseGenerica>(
+      environment.apiEF + 'Subject/CreateFromExcel',
+      file
+    );
+  }
+
 
 
   getAllSubjectNotPendingDegree(id: any) {
@@ -204,6 +219,8 @@ viewSurveyAct(actId:number,teacherCedula:string){
       numOfClasses: 0,
       hasLaboratory: false,
       evaluationCriteria: '',
+      synchronousHours:0,
+      asynchronousHours:0,
     }
   }
 }

@@ -98,6 +98,21 @@
                                                     <mat-cell *matCellDef="let row">{{ row.createdDate |
                                                         date:'dd/M/yyyy'}}</mat-cell>
                                                 </ng-container>
+                                                
+                                                <ng-container matColumnDef="document">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Resolución
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row"> 
+                                                    <p *ngIf="row.document===null">sin resolución</p>
+                                                    <button *ngIf="row.document!==null" mat-mini-fab color="primary"
+                                                    matTooltip="ver resolución"
+                                                    (click)="$event.stopPropagation()"
+                                                    (click)="viewDocument(row.document)" class="tbl-action-btn">
+                                                    <app-feather-icons [icon]="'eye'"></app-feather-icons>
+                                                </button>
+                                            </mat-cell>
+                                                </ng-container>
+                                              
                                                 <ng-container matColumnDef="estado">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus
                                                     </mat-header-cell>
@@ -152,7 +167,7 @@
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
 
-                                                        <button *ngIf="_typeUser ==='Administrador' && row.requestVariousStatusTypeId === 1"
+                                                        <button *ngIf="(_typeUser ==='Administrador' && row.requestVariousStatusTypeId === 1) ||(row.requestVariousTypeId===typeRequest) "
                                                             mat-mini-fab color="warn" matTooltip="Aprobar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="aprobar(row,i)"
                                                             class="tbl-action-btn">
