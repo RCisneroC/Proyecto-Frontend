@@ -49,7 +49,7 @@ export class TemplateFormComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.template.id],
-      name: [this.template.description, [Validators.required]],
+      description: [this.template.description, [Validators.required]],
       statusId: [this.template.statusId, [Validators.required]],
     });
   }
