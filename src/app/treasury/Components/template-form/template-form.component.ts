@@ -74,7 +74,7 @@ export class TemplateFormComponent {
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
@@ -89,7 +89,7 @@ export class TemplateFormComponent {
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
