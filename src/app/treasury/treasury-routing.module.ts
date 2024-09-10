@@ -24,6 +24,7 @@ import { BudgetComponent } from './Components/budget/budget.component';
 import { BudgetDetailsComponent } from './Components/budget-details/budget-details.component';
 import { BudgetTermComponent } from './Components/budget-term/budget-term.component';
 import { BudgetTermMonthComponent } from './Components/budget-term-month/budget-term-month.component';
+import { TemplateListComponent } from './Components/template-list/template-list.component';
 
 const routes: Routes = [
   {
@@ -121,6 +122,12 @@ const routes: Routes = [
     path: "budget-term-details/:id",
     component: BudgetTermMonthComponent,
   },
+  
+  {
+    path: "template-list",
+    component: TemplateListComponent,
+  },
+
 
 
 

@@ -6,6 +6,7 @@ import { ListTaskSubjectComponent } from './Task/Subject/list-task-subject/list-
 import { DetailsInfoTaskComponent } from './Task/Subject/details-info-task/details-info-task.component';
 import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-task-activity/details-info-task-activity.component';
 import { CreditosNoOficialesComponent } from './creditos-no-oficiales/creditos-no-oficiales.component';
+import { CreditosOficialesComponent } from './creditos-oficiales/creditos-oficiales.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'creditos-no-oficiales',
     component: CreditosNoOficialesComponent,
+  },
+  {
+    path: 'creditos-oficiales',
+    component: CreditosOficialesComponent,
   },
 ];
 
