@@ -27,7 +27,6 @@ export const environment = {
   // apiSharedUrl: 'http://192.168.254.174:5509/api/v1/Shared/',
   // apiJobs: 'http://192.168.254.174:5506/api/v1/',
   // apiUrlTreasury: 'http://192.168.254.174:5510/api/v1/',
-  // apiEducacionContinua: 'http://192.168.254.174:5510/api/v1/'
 
 
   apiUrlTeacher: 'http://192.168.254.175:5002/api/v1/Teacher/',
@@ -79,5 +78,4 @@ export const environment = {
   // apiSharedUrl: 'https://shared-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Shared/',
   // apiJobs: 'https://jobboard-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   // apiUrlTreasury: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
-  // apiEducacionContinua: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
 };
