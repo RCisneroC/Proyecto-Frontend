@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '@core/service/auth.service';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import { Template } from 'app/treasury/Models/Template';
 import { TemplateService } from 'app/treasury/Services/template.service';
@@ -34,6 +35,7 @@ export class TemplateFormComponent {
     public dialogRef: MatDialogRef<TemplateFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public templateService: TemplateService,
+    private authService: AuthService,
     private fb: UntypedFormBuilder
   ) {
     this.action = data.action;
@@ -49,8 +51,10 @@ export class TemplateFormComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.template.id],
-      name: [this.template.description, [Validators.required]],
+      description: [this.template.description, [Validators.required]],
       statusId: [this.template.statusId, [Validators.required]],
+      createdBy:this.authService.currentUserValue.id,
+      modifiedBy:this.authService.currentUserValue.id
     });
   }
   submit() {
@@ -70,7 +74,7 @@ export class TemplateFormComponent {
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }
@@ -85,7 +89,7 @@ export class TemplateFormComponent {
             this.dialogRef.close(this.ResponseMessage);
           },
           error: () => {
-            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.CodError = 400;
             this.ResponseMessage.Message = 'Intente nuevamente.';
             this.dialogRef.close(this.ResponseMessage);
           }

@@ -8,7 +8,7 @@ import { AuthService } from '@core/service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RequestServicesService } from '../Services/request-services.service';
 import { Subscription } from 'rxjs';
-import { environment } from 'environments/environment.development';
+
 
 @Component({
   selector: 'app-creditos-oficiales',
@@ -62,43 +62,43 @@ export class CreditosOficialesComponent {
 
   generarOficialCredit() {
 
-   //const id : string = this.creditosOficialesForm.controls["formacionEspecializada"]?.value;
+   const id : string = this.creditosOficialesForm.controls["formacionEspecializada"]?.value;
 
-  //  this._service.downloadCreditsOficial(id).subscribe({
-  //     next: (res) => {
+  this._service.downloadCreditsOficial(id).subscribe({
+     next: (res) => {
 
-  //       if (res.success) {
+       if (res.success) {
           this._dialog.open(ViewPosterPDFComponent, {
             data: {
               type: 'pdf',
               accion: 'view-poster',
-              //posterFile: res.data.pdfContentInBase64,
-                posterFile: environment.conradoprueba,
+              posterFile: res.data.pdfContentInBase64,
+                //posterFile: environment.conradoprueba,
               comment: [],
-              poster: environment.conradoprueba,
+              poster: res.data.pdfContentInBase64,
             },
             width: '1200px',
             disableClose: true,
           });
         }
-        // else {
-        //   Swal.fire({
-        //     title: "Escuela Judicial",
-        //     text: "No se pudieron generar los créditos no oficiales",
-        //     icon: "warning"
-        //   });
-        // }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: "No se pudieron generar los créditos oficiales",
+            icon: "warning"
+          });
+        }
 
-     // }
-      // error : () =>{
-      //   Swal.fire({
-      //     title: "Escuela Judicial",
-      //     text: "No se pudieron generar los créditos no oficiales",
-      //     icon: "warning"
-      //   });
-      // }
-    //})
- // }
+     },
+      error : () =>{
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudieron generar los créditos oficiales",
+          icon: "warning"
+        });
+      }
+    })
+ }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
