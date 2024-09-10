@@ -49,6 +49,8 @@ import { BudgetDetailsFormsComponent } from './Components/FormsBudget/budget-det
 import { BudgetTermFormsComponent } from './Components/FormsBudget/budget-term-forms/budget-term-forms.component';
 import { BudgetTermMonthFormsComponent } from './Components/FormsBudget/budget-term-month-forms/budget-term-month-forms.component';
 import { BudgetDetailsMonthFormsComponent } from './Components/FormsBudget/budget-details-month-forms/budget-details-month-forms.component';
+import { TemplateListComponent } from './Components/template-list/template-list.component';
+import { TemplateFormComponent } from './Components/template-form/template-form.component';
 
 
 @NgModule({
@@ -98,7 +100,9 @@ import { BudgetDetailsMonthFormsComponent } from './Components/FormsBudget/budge
         BudgetDetailsFormsComponent,
         BudgetTermFormsComponent,
         BudgetTermMonthFormsComponent,
-        BudgetDetailsMonthFormsComponent
+        BudgetDetailsMonthFormsComponent,
+        TemplateListComponent,
+        TemplateFormComponent
     ],
     imports: [
         CommonModule,

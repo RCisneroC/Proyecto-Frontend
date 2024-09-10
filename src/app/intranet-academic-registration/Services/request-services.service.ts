@@ -239,5 +239,13 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiEira}`;
     return this.httpClient.post<CreditsNoOficial>(url + "DownloadCreditsNoOficial", data);
   }
+  
+  downloadCreditsOficial(efAcademicRecordId: string) {
+    const data = {
+      efAcademicRecordId: efAcademicRecordId,
+    }
+    const url = `${environment.apiEira}`;
+    return this.httpClient.post<CreditsNoOficial>(url + "DownloadRequestVariousCredits", data);
+  }
 
 }

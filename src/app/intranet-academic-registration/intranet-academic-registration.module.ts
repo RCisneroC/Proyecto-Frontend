@@ -19,6 +19,7 @@ import { DetailsInfoTaskActivityComponent } from './Task/Activity/details-info-t
 import { CreditosNoOficialesComponent } from './creditos-no-oficiales/creditos-no-oficiales.component';
 import { HistorySolicitudComponent } from './Solicitudes/history-solicitud/history-solicitud.component';
 import { EditSolicitudComponent } from './Forms/edit-solicitud/edit-solicitud.component';
+import { CreditosOficialesComponent } from './creditos-oficiales/creditos-oficiales.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { EditSolicitudComponent } from './Forms/edit-solicitud/edit-solicitud.co
     CreditosNoOficialesComponent,
     HistorySolicitudComponent,
     EditSolicitudComponent,
+    CreditosOficialesComponent,
   ],
   providers: [VerificarBS64Pipe],
   imports: [
