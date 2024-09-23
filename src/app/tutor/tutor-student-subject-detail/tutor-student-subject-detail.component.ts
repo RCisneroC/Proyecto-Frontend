@@ -27,6 +27,8 @@ import { subjectEnrollmentResult } from "../../admission/models/AddEFacademicRes
 export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
 
+
+
   DisplayNameInfo: string[] = [
     'SubjectName',
     'DegreeName',
