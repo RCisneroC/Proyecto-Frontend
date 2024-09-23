@@ -58,6 +58,15 @@
                             </div>
                         </div>
                         <div class="row">
+                        
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Max número de Participantes</mat-label>
+                                    <input matInput type="number" formControlName="maxNumOfParticipants">
+                                    <!-- <input type="number"  formControlName="maxNumOfParticipants"> -->
+                                    <!-- <textarea matInput formControlName="maxNumOfParticipants"></textarea> -->
+                                </mat-form-field>
+                            </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2" *ngIf="data.accion!='add'">
                                 <mat-form-field class="example-full-width " appearance="outline">
                                     <mat-label>Estado</mat-label>
@@ -75,6 +84,8 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div> 
+                            
+                        
                         </div>
                     </div>
                 </div>

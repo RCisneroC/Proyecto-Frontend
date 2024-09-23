@@ -10,6 +10,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AuthService } from '@core';
 import Swal from 'sweetalert2';
 import { CommetForo, GetComment } from '../models/Foro';
+import { ForoRulesUseComponent } from '../foro-rules-use/foro-rules-use.component';
 
 @Component({
   selector: 'app-foro-details',
@@ -63,6 +64,7 @@ export class ForoDetailsComponent {
   }
 
   ngOnInit() {
+    this.openDialog();
     this.rolId=this.authservice.currentUserValue.roleId
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
@@ -71,6 +73,15 @@ export class ForoDetailsComponent {
     })
   }
   refresh() {
+  }
+  
+  
+  openDialog() {
+    const dialogRef = this.dialog.open(ForoRulesUseComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   safeHtml(myHtmlString: string) {
     if (myHtmlString == null) {

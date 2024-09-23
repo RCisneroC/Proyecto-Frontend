@@ -28,6 +28,7 @@ export class RequerimientoSalonesComponent implements OnInit {
     'id',
     'name',
     'description',
+    'amount'
   ];
 
   action: string = '';
@@ -59,7 +60,8 @@ export class RequerimientoSalonesComponent implements OnInit {
     console.log('====================================');
     this.requiremetForm = this.fb.group({
       roomRequirementsIds: this.fb.array([]),
-      roomRequestId: [this.data.requestRooms.id, Validators.required]
+      roomRequestId: [this.data.requestRooms.id, Validators.required],
+      amount: [0]
     });
     this.action = this.data.accion;
     if (this.action === 'add-requirement') {
@@ -72,6 +74,11 @@ export class RequerimientoSalonesComponent implements OnInit {
 
     this.ListadoSupplies.paginator = this.paginator;
 
+  }
+  
+  saveRow(element: any) {
+    element.amount = false;
+    // Perform any necessary updates to the data source
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

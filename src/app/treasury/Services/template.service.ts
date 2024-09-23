@@ -34,7 +34,7 @@ export class TemplateService  extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data);
+          this.dataChange.next(data['getTemplates']);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -44,19 +44,19 @@ export class TemplateService  extends UnsubscribeOnDestroyAdapter {
   }
   
  
-//  getDetailAsignacion(id:number) {
-//   return this.httpClient
-//       .get<any>(environment.apiUrlTreasury + 'Template/GetTemplate?Id='+id);
+ getAllTemplate2( id:number) {
+  return this.httpClient
+      .get<any>(environment.apiUrlTreasury + 'Template/GetTemplate?Id='+id);
 
-// }
+}
 
-  addTemplateMode(data: Template) {
+  addTemplateMode(data: any) {
     return this.httpClient.post<ResponseGenerica>(environment.apiUrlTreasury + 'Template/AddTemplate', data);
   }
 
 
 
-  updateTemplateMode(data: Template) {
+  updateTemplateMode(data: any) {
     return this.httpClient.put<ResponseGenerica>(environment.apiUrlTreasury + 'Template/UpdateTemplate', data);
    }
   

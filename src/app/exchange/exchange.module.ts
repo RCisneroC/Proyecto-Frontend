@@ -10,6 +10,7 @@ import { CategoryForoComponent } from './category-foro/category-foro.component';
 import { ForoDetailsComponent } from './foro-details/foro-details.component';
 import { CategoryFormsForoComponent } from './Forms/category-forms-foro/category-forms-foro.component';
 import { FormsForoCreateComponent } from './Forms/forms-foro-create/forms-foro-create.component';
+import { ForoRulesUseComponent } from './foro-rules-use/foro-rules-use.component';
 
 
 
@@ -19,7 +20,8 @@ import { FormsForoCreateComponent } from './Forms/forms-foro-create/forms-foro-c
     CategoryForoComponent,
     ForoDetailsComponent,
     CategoryFormsForoComponent,
-    FormsForoCreateComponent
+    FormsForoCreateComponent,
+    ForoRulesUseComponent
   ],
   imports: [
     ForoRoutingModule,
