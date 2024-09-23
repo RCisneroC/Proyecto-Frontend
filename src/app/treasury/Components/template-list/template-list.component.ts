@@ -1,6 +1,6 @@
 import { Direction } from '@angular/cdk/bidi';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -16,6 +16,11 @@ import Swal from 'sweetalert2';
 import { BehaviorSubject, fromEvent, map, merge, Observable } from 'rxjs';
 import { TableElement, TableExportUtil } from '@shared';
 
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
+import { ViewPosterComponent } from 'app/admission/activitydetail/forms/view-poster/view-poster.component';
+import { AuthService } from '@core/service/auth.service';
+
 @Component({
   selector: 'app-template-list',
   templateUrl: './template-list.component.html',
@@ -27,6 +32,8 @@ implements OnInit{
   displayedColumns = [
     'description',
     'statusId',
+    'actualizar',
+    'logo',
     'actions',
   ];
   
@@ -34,13 +41,18 @@ implements OnInit{
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Template>(true, []);
   id?: number;
-  template?: Template;
+  template!: Template;
+  loadingFile!: boolean;
+
 
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public templateService: TemplateService,
-    private snackBar: MatSnackBar
+    private authService: AuthService,
+    public _verificarBS64: VerificarBS64Pipe,
+    private snackBar: MatSnackBar,
+    public elm: ElementRef
   ) {
     super();
   }
@@ -100,7 +112,7 @@ implements OnInit{
     }
     const dialogRef = this.dialog.open(TemplateFormComponent, {
       data: {
-        modality: row,
+        template: row,
         action: 'edit',
       },
       direction: tempDirection,
@@ -126,6 +138,103 @@ implements OnInit{
         });
   }
 
+  viewLogo(row: Template) {
+
+    this.templateService.getAllTemplate2(row.id).subscribe({
+      next:(data:any)=>{
+      const res=data['getTemplates'][0].logo
+      console.log(data['getTemplates'][0].logo);
+        if (this._verificarBS64.transform(res) != "pdf") {
+          const dialogRef = this.dialog.open(ViewPosterComponent, {
+            data: {
+              type: this._verificarBS64.transform(res),
+              accion: 'view-poster',
+              posterFile: res,
+              comment: "",
+              poster: row,
+            },
+            disableClose: true,
+          });
+        } else {
+          const dialogRef = this.dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: this._verificarBS64.transform(res),
+              accion: 'view-poster',
+              posterFile: res,
+              comment: "",
+              poster: row,
+            },
+            width: '1000px',
+            disableClose: true,
+          });
+        }
+        },
+        error: (err:any) => {
+          console.log(err);
+           Swal.fire({
+            title: "Intente nuevamente!",
+            text: row.description+" no se pudo eliminar.",
+            icon: "warning"
+          });
+        }
+    })
+ 
+
+  }
+  
+  onChangeFile(event: any, docTypeId: number,element:Template) {
+    this.loadingFile = true;
+    const files: FileList = event.target.files;
+    const elementImg = this.elm.nativeElement.querySelector('#archivo_' + docTypeId);
+    const elementText = this.elm.nativeElement.querySelector('#texto_' + docTypeId);
+    if (files.length > 0) {
+      if ( files[0].type != 'image/png' && files[0].type != 'image/jpeg') {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: 'Solo se permite tipo de archivo JPG/PNG.',
+          icon: "warning"
+        });
+        this.loadingFile = false;
+        elementImg.value = '';
+        return;
+      }
+      const formData = new FormData();
+      formData.append('Id', element.id.toString());
+      formData.append('Description', element?.description);
+      formData.append('CreatedBy',this.authService.currentUserValue.id);
+      formData.append('ModifiedBy', this.authService.currentUserValue.id);
+      formData.append('Logo',files[0]);
+      formData.append('StatusId', element?.statusId.toString());
+     
+      this.templateService.updateTemplateMode(formData).subscribe(
+        {
+          next: () => {
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: ' Cargado Correctamente.',
+              icon: "success"
+            });
+            elementImg.value = '';
+            elementText.innerHTML =  'Cargado Correctamente.';
+            this.ngOnInit();
+            this.loadingFile = false;
+
+          }, error: (err: HttpErrorResponse) => {
+            console.log(err);
+
+            elementImg.value = '';
+            Swal.fire({
+              title: "Escuela Judicial",
+              text: 'Intente nuevamente..',
+              icon: "warning"
+            });
+            this.loadingFile = false;
+          }
+        }
+      );
+
+    }
+ }
   delete(row:Template) {
     Swal.fire({
       title: "¿Estas seguro?",

@@ -5,6 +5,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 import { ReportsService } from 'app/treasury/Services/reports.service';
+import { TemplateService } from 'app/treasury/Services/template.service';
 
 @Component({
   selector: 'app-pdf-expense-report',
@@ -16,14 +17,17 @@ export class PdfExpenseReportComponent {
   public IsLoading: boolean = false;
   form!: UntypedFormGroup;
   periodoId: any;
+  plantilla: any;
 
   constructor(
     private fb: UntypedFormBuilder,
     private datePipe: DatePipe,
     public reportsService: ReportsService,
+    public templateService:TemplateService,
     public _dialog: MatDialog,
     private cb: ChangeDetectorRef
   ) {
+  this.loadtemaplate();
     this.loadPeriodoContable();
     this.form = this.createForm();
   }
@@ -31,7 +35,17 @@ export class PdfExpenseReportComponent {
 
 
 
-
+  loadtemaplate() {
+    this.templateService.getAllTemplate2(0).subscribe({
+      next: (data) => {
+        this.plantilla = data["getTemplates"];
+       
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
 
   loadPeriodoContable() {
     this.reportsService.getPeriodo().subscribe({
@@ -49,6 +63,7 @@ export class PdfExpenseReportComponent {
     return this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
+      templateId:['', Validators.required],
      
     });
   }

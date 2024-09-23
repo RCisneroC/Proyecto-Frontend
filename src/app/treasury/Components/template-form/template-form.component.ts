@@ -28,6 +28,7 @@ export class TemplateFormComponent {
     id: 0,
     description: '',
     statusId: 1,
+    logo:'',
     modifiedBy: '',
     createdBy: ''
   }
@@ -65,8 +66,17 @@ export class TemplateFormComponent {
   }
 
   public confirmAdd(): void {
+    const formData = new FormData();
+    formData.append('Id', this.templateForm.controls['id'].value);
+    formData.append('Description', this.templateForm.controls['description'].value);
+    formData.append('CreatedBy', this.templateForm.controls['createdBy'].value);
+    formData.append('ModifiedBy', this.templateForm.controls['modifiedBy'].value);
+    formData.append('Logo','');
+    formData.append('StatusId', this.templateForm.controls['statusId'].value);
+    
+  
     if (this.action === 'edit') {
-      this.templateService.updateTemplateMode(this.templateForm.getRawValue())
+      this.templateService.updateTemplateMode(formData)
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;
@@ -81,7 +91,7 @@ export class TemplateFormComponent {
         });
 
     } else {
-      this.templateService.addTemplateMode(this.templateForm.getRawValue())
+      this.templateService.addTemplateMode(formData)
         .subscribe({
           next: () => {
             this.ResponseMessage.CodError = 200;

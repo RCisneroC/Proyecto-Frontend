@@ -3,6 +3,7 @@ export interface Template {
     description:string;
     statusId:number;
     modifiedBy:string;
+    logo:string;
     createdBy: string,
    
   }

@@ -10,6 +10,7 @@ import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-
 import { ResultadoConsultaConfirmar } from 'app/treasury/Models/ListadoCheckConfirmar';
 import { MinorPurchaseService } from 'app/treasury/Services/minor-purchase.service';
 import { ReportsService } from 'app/treasury/Services/reports.service';
+import { TemplateService } from 'app/treasury/Services/template.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -35,15 +36,18 @@ export class PdfRefundComponent {
 
   @ViewChild('paginator', { static: true })
   paginator!: MatPaginator;
+  plantilla: any;
   constructor(
     private fb: UntypedFormBuilder,
     private datePipe: DatePipe,
     public reportsService: ReportsService,
+    public templateService:TemplateService,
     public _dialog: MatDialog,
     private cb: ChangeDetectorRef,
     private router:Router,
     public servicioMinorPurchase:MinorPurchaseService
   ) {
+  this.loadtemaplate();
     this.loadPeriodoContable();
     this.form = this.createForm();
   }
@@ -52,7 +56,17 @@ export class PdfRefundComponent {
 
 
 
-
+  loadtemaplate() {
+    this.templateService.getAllTemplate2(0).subscribe({
+      next: (data) => {
+        this.plantilla = data["getTemplates"];
+       
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
   loadPeriodoContable() {
     this.reportsService.getPeriodo().subscribe({
       next: (data) => {
@@ -71,6 +85,7 @@ export class PdfRefundComponent {
       tipoConsulta: [0, Validators.required],
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required],
+      templateId:['', Validators.required],
       unidad: ['', Validators.required],
       rembolsar:[''],
       SolicitudCompraId:[0]

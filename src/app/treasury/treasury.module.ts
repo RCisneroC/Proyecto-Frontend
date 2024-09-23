@@ -51,10 +51,11 @@ import { BudgetTermMonthFormsComponent } from './Components/FormsBudget/budget-t
 import { BudgetDetailsMonthFormsComponent } from './Components/FormsBudget/budget-details-month-forms/budget-details-month-forms.component';
 import { TemplateListComponent } from './Components/template-list/template-list.component';
 import { TemplateFormComponent } from './Components/template-form/template-form.component';
+import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 
 
 @NgModule({
-    providers: [DatePipe],
+    providers: [VerificarBS64Pipe,DatePipe],
     declarations: [
         ListBudgetSubCodificationCatalogComponent,
         FormBudgetSubCodificationCatalogComponent,

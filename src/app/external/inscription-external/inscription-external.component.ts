@@ -51,7 +51,7 @@ export class InscriptionExternalComponent implements OnInit {
   filteredActivities: any[] = [];
   filteredSchedule: any[] = [];
   showMessage: boolean = false;
-  messageType: 'error' | 'info' = 'info';
+  messageType: 'error' | 'info' = 'info';                                                                                            
   errorMessage: string = '';
   infoMessage: string = '';
   selectedActivity: any;
@@ -140,6 +140,134 @@ export class InscriptionExternalComponent implements OnInit {
     console.log([localStorage.getItem('ruta_local_external')]);
     this._nav.navigate([localStorage.getItem('ruta_local_external')]);
   }
+  // getPersonData(cedula: string) {
+  //   this._inscriptionService.init_Persona();
+  //   this.loading = false;
+  //   this.disabled = true;
+
+  //   if (!cedula) {
+
+  //     Swal.fire({
+  //       title: "Escuela Judicial",
+  //       text: 'Por favor, ingrese una cédula',
+  //       icon: "warning"
+  //     });
+
+  //   } else {
+  //     if(this.participationProfile && this.typedoc == "CIP"){
+  //       this._inscriptionService.GetDataOrgano(cedula).subscribe({
+  //         next:(res)=>{
+  //           if(res.length > 0) {
+  //             this.loading = true;
+  //             this.cedulaParticipant = cedula;
+  //             this._inscriptionService.getDataPerson(cedula).subscribe({
+  //               next: (data: Persona[]) => {
+  //                 this._inscriptionService._Persona = data;
+  //                 console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
+  //                 if (data.length > 0) {
+  //                   this.busquedaR = true;
+  //                   if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
+  //                     this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+  //                     this.cargo = res[0].cargo;
+  //                     this.dependencia = res[0].dependencia;
+  //                     this.institucion = res[0].institucion;
+  //                     this.email = res[0].correo_electronico;
+  //                     if(this.typedoc == "CIP"){
+  //                       this.disabled = true;
+  //                     }
+  //                     else
+  //                     {
+  //                       this.disabled = false;
+  //                     }
+  //                   } else {
+  //                     if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
+  //                       this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
+  //                     } else {
+  //                       this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
+  //                     }
+  //                     this.busquedaR = true;
+  //                     this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+  //                     if(this.typedoc == "CIP"){
+  //                       this.disabled = true;
+  //                     }
+  //                     else
+  //                     {
+  //                       this.disabled = false;
+  //                     }
+  //                   }
+  //                 }
+
+  //                 // this.personData=data;
+  //                 // console.log('Datos de la persona:', data[0]?.datasetPersona);
+  //               },
+  //               error: (e) => this.loading = false,
+  //               complete: () => {
+  //                 this.loading = false;
+  //               }
+  //             })
+  //           }
+  //           else {
+  //             Swal.fire({
+  //               title: "Escuela Judicial",
+  //               text: 'Por favor, la persona que desea inscribir debe pertenecer al Órgano',
+  //               icon: "warning"
+  //             });
+  //           }
+  //         }
+  //       })
+  //     }else {
+  //       this.loading = true;
+  //       this.cedulaParticipant = cedula;
+  //       this._inscriptionService.getDataPerson(cedula).subscribe({
+  //         next: (data: Persona[]) => {
+  //           this._inscriptionService._Persona = data;
+  //           console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
+  //           if (data.length > 0) {
+  //             this.busquedaR = true;
+  //             if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
+  //               this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+  //               if(this.typedoc == "CIP"){
+  //                 this.disabled = true;
+  //               }
+  //               else
+  //               {
+  //                 this.disabled = false;
+  //               }
+  //             } else {
+  //               if (this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo == 'M') {
+  //                 this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Masculino';
+  //               } else {
+  //                 this._inscriptionService._Persona[0].datasetPersona.personaPublica.sexo = 'Femenino';
+  //               }
+  //               this.busquedaR = true;
+  //               this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;
+  //               if(this.typedoc == "CIP"){
+  //                 this.disabled = true;
+  //               }
+  //               else
+  //               {
+  //                 this.disabled = false;
+  //               }
+  //             }
+  //           }
+
+  //           // this.personData=data;
+  //           // console.log('Datos de la persona:', data[0]?.datasetPersona);
+  //         },
+  //         error: (e) => this.loading = false,
+  //         complete: () => {
+  //           this.loading = false;
+  //         }
+  //       })
+  //     }
+
+
+  //   }
+
+
+  // }
+  
+  
   getPersonData(cedula: string) {
     this._inscriptionService.init_Persona();
     this.loading = false;
