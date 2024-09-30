@@ -61,8 +61,8 @@ export class RequerimientoSalonesComponent implements OnInit {
     this.requiremetForm = this.fb.group({
       roomRequirementsIds: this.fb.array([]),
       roomRequestId: [this.data.requestRooms.id, Validators.required],
-      amount: this.fb.array([])
-      //amount: ''
+     // amount: this.fb.array([])
+      amount: [0]
     });
     this.action = this.data.accion;
     if (this.action === 'add-requirement') {

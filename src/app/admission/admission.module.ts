@@ -154,6 +154,7 @@ import { TypeRequestListComponent } from './FormalEducations/Maestros/type-reque
 import { TypeRequestFormComponent } from './FormalEducations/Maestros/type-request/type-request-form/type-request-form.component';
 import { FormImportComponent } from './FormalEducations/Maestros/Forms/form-import/form-import.component';
 import { FormImportSubjectComponent } from './FormalEducations/Maestros/Forms/form-import-subject/form-import-subject.component';
+import { FormSignatureComponent } from './maestros/form-signature/form-signature.component';
 
 @NgModule({
   declarations: [
@@ -299,7 +300,8 @@ import { FormImportSubjectComponent } from './FormalEducations/Maestros/Forms/fo
     TypeRequestListComponent,
     TypeRequestFormComponent,
     FormImportComponent,
-    FormImportSubjectComponent
+    FormImportSubjectComponent,
+    FormSignatureComponent
   ],
   providers: [VerificarBS64Pipe, DatePipe],
   imports: [
