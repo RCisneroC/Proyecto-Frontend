@@ -14,7 +14,7 @@
               <strong>Foro</strong>
               <small>Temas Abiertos por estudiantes o Egresados.</small>
             </h2>
-            <button *ngIf="rolId == rolIdEstudiante"  (click)="new()" style="position: absolute;right: 15px;" matTooltip="Agregar Nueva Conversación"
+            <button *ngIf="rolId == rolIdModerador"  (click)="new()" style="position: absolute;right: 15px;" matTooltip="Agregar Nueva Conversación"
               mat-mini-fab color="primary">
               <mat-icon>add</mat-icon>
             </button>

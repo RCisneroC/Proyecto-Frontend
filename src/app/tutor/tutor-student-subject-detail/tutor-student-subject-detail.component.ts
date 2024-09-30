@@ -18,6 +18,10 @@ import { EncuestaSubjectComponent } from "../../enrollment/Encuestas/encuesta-su
 import { ResponseMessageMaestra } from "../../admission/models/ResponseMessage";
 import Swal from "sweetalert2";
 import { subjectEnrollmentResult } from "../../admission/models/AddEFacademicResponse";
+import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import { InfoDegreeByIdentificationCard } from 'app/intranet-academic-registration/Models/InfoDegreeByIdentificationCard';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ViewPosterPDFComponent } from 'app/admission/activitydetail/forms/view-poster-pdf/view-poster-pdf.component';
 
 @Component({
   selector: 'app-tutor-student-subject-detail',
@@ -80,6 +84,8 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
 
   dataInfo = new MatTableDataSource<subjectEnrollmentResult>(this.dataSourceInfo);
   public _RecordIdEF: number = 0;
+  degreeSelected: string="";
+  iddegree: any;
   @ViewChild('ListaInfo')
   set paginatorInfo(value: MatPaginator) {
     this.dataInfo.paginator = value;
@@ -94,13 +100,18 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
     private _enrollservice: EnrollmentService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private _service:RequestServicesService,
     public dialog: MatDialog
   ) {
     super();
     this.getDetails();
-
+    this.activatedRoute.params.subscribe((params) => {
+      this.iddegree = params['id'];
+    
+    });
   }
   ngOnInit(): void {
+  this.loadDegrees();
   }
 
   GetRecordIdStuudent(id_estudiante: any, id_degree: any) {
@@ -144,7 +155,69 @@ export class TutorStudentSubjectDetailComponent extends UnsubscribeOnDestroyAdap
       }
     })
   }
+  
+  loadDegrees():void{
+    // "1-23-45";
+   
+    const cedula =  localStorage.getItem('tutor-student-selected')||'';
+    this._service.searchInfoDegreeByIdentificationCard(cedula).subscribe(
+      {
+        next : (request) =>{
+                  const result = request as InfoDegreeByIdentificationCard;
+                  if(result.success){
+                  const  record=result.data.filter(x=>x.degree.id==parseInt(this.iddegree));
+                  this.degreeSelected= record[0].efAcademicRecord.toString();
+                   
+                  }
+                 
+        },
+        error : (err: HttpErrorResponse) =>{
+                console.log(err);
+        }
+      }
+    );
 
+  }
+
+  generarOficialCredit() {
+
+  //   //const id : string = this.creditosOficialesForm.controls["formacionEspecializada"]?.value;
+ 
+   this._service.downloadCreditsOficial(this.degreeSelected).subscribe({
+      next: (res) => {
+ 
+        if (res.success) {
+           this.dialog.open(ViewPosterPDFComponent, {
+             data: {
+               type: 'pdf',
+               accion: 'view-poster',
+               posterFile: res.data.pdfContentInBase64,
+                 //posterFile: environment.conradoprueba,
+               comment: [],
+               poster: res.data.pdfContentInBase64,
+             },
+             width: '1200px',
+             disableClose: true,
+           });
+         }
+         else {
+           Swal.fire({
+             title: "Escuela Judicial",
+             text: "No se pudieron generar los créditos oficiales",
+             icon: "warning"
+           });
+         }
+ 
+      },
+       error : () =>{
+         Swal.fire({
+           title: "Escuela Judicial",
+           text: "No se pudieron generar los créditos oficiales",
+           icon: "warning"
+         });
+       }
+     })
+  }
   getInfo(id: string) {
     //tomar degree id del path de la ruta
     this._enrollservice.GetStudentsSubjects(id, this._ActivityService._DetailsResponseEF.cedula).subscribe({

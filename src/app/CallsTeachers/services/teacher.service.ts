@@ -45,7 +45,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllTeachers(): void {
     this.subs.sink = this.httpClient
-      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAll')
+      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAllBasicData')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
@@ -61,7 +61,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   getAllTeachersCalls(): void {
     this.subs.sink = this.httpClient
-      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAll')
+      .get<Teacher[]>(environment.apiUrlTeacher + 'GetAllBasicData')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;

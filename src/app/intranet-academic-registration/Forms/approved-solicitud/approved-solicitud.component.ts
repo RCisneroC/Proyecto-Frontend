@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -89,7 +90,13 @@ export class ApprovedSolicitudComponent {
               this.ResponseMessage.Message = 'Aprobado correctamente.';
               this.dialogRef.close(this.ResponseMessage);
             }
+          },
+          error: (error: any) => {
+            this.ResponseMessage.CodError = 400;
+            this.ResponseMessage.Message = error.error.Message;
+            this.dialogRef.close(this.ResponseMessage);
           }
+          
         })
       }
       if(value.statusId === '4'){

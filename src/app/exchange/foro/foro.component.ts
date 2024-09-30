@@ -23,7 +23,7 @@ export class ForoComponent {
   public Editor: any = ClassicEditor;
   FormsForoFilter!: UntypedFormGroup;
   public IdCategory: number = 0;
-  public rolIdEstudiante ="39f4987c-459b-438b-8c71-2f3af36c2951";
+  public rolIdModerador ="2b34afce-38b7-47cd-b0c4-fb589a97b138";
   public rolId ="";
   constructor(
     private Path: ActivatedRoute,
