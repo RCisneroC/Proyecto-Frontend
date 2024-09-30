@@ -61,7 +61,8 @@ export class RequerimientoSalonesComponent implements OnInit {
     this.requiremetForm = this.fb.group({
       roomRequirementsIds: this.fb.array([]),
       roomRequestId: [this.data.requestRooms.id, Validators.required],
-      amount: [0]
+      amount: this.fb.array([])
+      //amount: ''
     });
     this.action = this.data.accion;
     if (this.action === 'add-requirement') {
@@ -77,7 +78,7 @@ export class RequerimientoSalonesComponent implements OnInit {
   }
   
   saveRow(element: any) {
-    element.amount = false;
+    //element.amount = false;
     // Perform any necessary updates to the data source
   }
   applyFilter(event: Event) {
@@ -88,7 +89,7 @@ export class RequerimientoSalonesComponent implements OnInit {
   LoadDocumentRequirement() {
     this._RequirementService.getAllSuppli2Filter(1).subscribe({
       next: (res) => {
-        this.ListadoSupplies = new MatTableDataSource<Supplies>(res);
+        this.ListadoSupplies = new MatTableDataSource<Supplies>(res.filter(x=>parseInt(x.amount)>0));
         console.log(this.ListadoSupplies);
 
       }
@@ -111,14 +112,21 @@ export class RequerimientoSalonesComponent implements OnInit {
   get checkboxesFormArray(): UntypedFormArray {
     return this.requiremetForm.get('roomRequirementsIds') as UntypedFormArray;
   }
+  get checkboxesAmountFormArray(): UntypedFormArray {
+    return this.requiremetForm.get('amount') as UntypedFormArray;
+  }
 
-  checkboxChange(event: any, checkboxId: any): void {
+  checkboxChange(event: any, checkboxId: any,amount:number): void {
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
+      this.checkboxesAmountFormArray.push(this.fb.control(amount));
+      console.log(this.checkboxesFormArray);
+      console.log(this.checkboxesAmountFormArray);
     } else {
       const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
       if (index !== -1) {
         this.checkboxesFormArray.removeAt(index);
+        this.checkboxesAmountFormArray.removeAt(index);
       }
     }
   }
