@@ -64,6 +64,11 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
       });
   }
 
+  addCertificate(data: any) {
+    
+
+    return this.httpClient.post<ResponseGenerica>(environment.apiUrlSchedule + 'Certificate/uploadSignature', data);
+  }
   getAllScheduleId(id: string): void {
     this.subs.sink = this.httpClient
       .get<ScheduleActivity[]>(environment.apiUrlSchedule + 'CurriculumDesign/GetAll?StatusId=' + id)

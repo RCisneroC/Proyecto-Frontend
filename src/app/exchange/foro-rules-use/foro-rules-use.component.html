@@ -12,7 +12,7 @@
 
 <h2 mat-dialog-title>Normas de Uso y comportamiento</h2>
 <mat-dialog-content>
-  <p class="large-text">
+  <!-- <p class="large-text">
     Los foros tienen como propósito promover el debate de los temas propuestos y generar nuevos conocimientos a través de la interacción. Sin embargo, es importante tener en cuenta que los comentarios expresados en estos espacios son únicamente opiniones bajo la responsabilidad de sus emisores y no representan necesariamente la postura de esta entidad.
 
     Para asegurar un ambiente propicio para el intercambio de ideas, los usuarios deben adherirse a las siguientes normas básicas de participación: 
@@ -25,9 +25,21 @@
     
     Esta dependencia se reserva el derecho de suprimir aquellos comentarios que resulten contrarios a las normas de participación.
     
-  </p>
+  </p> -->
+  
+  <p class="large-text">Los foros tienen como propósito promover el debate de los temas propuestos y generar nuevos conocimientos a través de la interacción.</p>
+
+<p class="large-text">Para asegurar un ambiente propicio para el intercambio de ideas, los usuarios deben adherirse a las siguientes normas básicas de participación:</p>
+
+    <ul class="large-text">
+      <li> Respetar las leyes y normativas aplicables.</li>
+      <li> Respetar la dignidad humana y no discriminar.</li>
+      <li> Mantener relevancia en los comentarios.</li>
+    </ul>
+
+<p class="large-text">Esta dependencia se reserva el derecho de suprimir aquellos comentarios que resulten contrarios a las normas de participación.</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+    <button mat-raised-button [mat-dialog-close]="true" color="primary" cdkFocusInitial>Aceptar</button>
 </mat-dialog-actions>
 

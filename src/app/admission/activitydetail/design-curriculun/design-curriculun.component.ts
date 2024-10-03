@@ -8,7 +8,7 @@ import { GetOneActivity } from 'app/admission/models/GetOneActivity';
 import { ActivityDetailService } from 'app/admission/services/activity-detail.service';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
 import { CreateModulesComponent } from './Forms/create-modules/create-modules.component';
-import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 import { CreatePlanStudyFormsComponent } from './Forms/create-plan-study-forms/create-plan-study-forms.component';
 import { PlanStudyActivity } from 'app/admission/models/PlanStudyActivity';
