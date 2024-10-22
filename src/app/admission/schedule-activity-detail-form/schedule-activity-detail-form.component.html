@@ -17,33 +17,33 @@
       <div class="row">
         <div class="col-6">
           <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"> -->
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Certificación o Recertificación</mat-label>
-              <mat-select formControlName="activityTrainingType">
-                <mat-option value="">-----</mat-option>
-                <mat-option value="1">SI</mat-option>
-                <mat-option value="2">NO</mat-option>
-              </mat-select>
-              <mat-error *ngIf="scheduleForm.get('activityTrainingType')?.hasError('required')">
-                Es requerido
-              </mat-error>
-            </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Certificación o Recertificación</mat-label>
+            <mat-select formControlName="activityTrainingType">
+              <mat-option value="">-----</mat-option>
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="2">NO</mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityTrainingType')?.hasError('required')">
+              Es requerido
+            </mat-error>
+          </mat-form-field>
           <!-- </div> -->
-         
-          
+
+
         </div>
         <div class="col-6">
           <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"> -->
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Categoria</mat-label>
-              <mat-select formControlName="activityCategoryId">
-                <mat-option *ngFor="let cat of categoriesList" [value]="cat.id">{{ cat.name }}</mat-option>
-                  
-              </mat-select>
-              <mat-error *ngIf="scheduleForm.get('activityCategoryId')?.hasError('required')">
-                Es requerido
-              </mat-error>
-            </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="activityCategoryId">
+              <mat-option *ngFor="let cat of categoriesList" [value]="cat.id">{{ cat.name }}</mat-option>
+
+            </mat-select>
+            <mat-error *ngIf="scheduleForm.get('activityCategoryId')?.hasError('required')">
+              Es requerido
+            </mat-error>
+          </mat-form-field>
           <!-- </div> -->
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
@@ -225,8 +225,7 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha entrega ficha técnica</mat-label>
-            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker4"
-              formControlName="dataSheetDeliveryDate">
+            <input matInput [matDatepicker]="picker4" formControlName="dataSheetDeliveryDate">
             <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
             <mat-datepicker #picker4></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('dataSheetDeliveryDate')?.hasError('required')">
@@ -238,8 +237,7 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha entrega de informe digital</mat-label>
-            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker5"
-              formControlName="digitalReportDeliveryDate">
+            <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate">
             <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
             <mat-datepicker #picker5></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
@@ -251,8 +249,7 @@
 
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha entrega de informe físico</mat-label>
-            <input matInput [min]="scheduleForm.get('plannedEndDate')?.value" [matDatepicker]="picker6"
-              formControlName="physicalReportDeliveryDate">
+            <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate">
             <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
             <mat-datepicker #picker6></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
@@ -262,7 +259,7 @@
 
         </div>
       </div>
-      
+
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
