@@ -56,7 +56,7 @@ export class AprovedTeacherComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private fbUser: UntypedFormBuilder,
     private cb: ChangeDetectorRef,
-    private serviceCallsTeachersService:CallsTeachersService
+    private serviceCallsTeachersService: CallsTeachersService
   ) {
     // Set the defaults
     this.action = data.accion;
@@ -93,16 +93,16 @@ export class AprovedTeacherComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if(this.data.teacher.type != undefined){
-      if(this.data.teacher.type == "C"){
+    if (this.data.teacher.type != undefined) {
+      if (this.data.teacher.type == "C") {
 
         this.serviceCallsTeachersService.getCallsAvailableById(this.data.teacher.id!).subscribe(
           {
-            next : (request)=>{
+            next: (request) => {
               this.ApprovedForm.controls["process"].patchValue(request.proceso!.toString());
               this.ApprovedForm.controls["process"].disable();
             },
-            error :(err:HttpErrorResponse) =>{
+            error: (err: HttpErrorResponse) => {
               console.log(err)
             }
           }
@@ -138,51 +138,51 @@ export class AprovedTeacherComponent implements OnInit {
       process = 0;
     }*/
 
-  /*  if (process != process1 && status == 1) {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
-        icon: "warning"
-      });*/
-   // } else {
+    /*  if (process != process1 && status == 1) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
+          icon: "warning"
+        });*/
+    // } else {
 
-      this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
-        (res) => {
-          if (status == 1) {
+    this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
+      (res) => {
+        if (status == 1) {
 
 
-            this._userService.addUser(this.UserForm.value).subscribe(
-              (data) => {
-                console.log(data)
-                this.ResponseMessage.CodError = 200;
-                this.ResponseMessage.Message = 'Aprobado correctamente.';
-                this.dialogRef.close(this.ResponseMessage);
-              },
-              (error) => {
-                this.ResponseMessage.CodError = 500;
-                this.ResponseMessage.Message = error;
-                this.dialogRef.close(this.ResponseMessage);
-              })
-          } else {
-            this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Guardado correctamente.';
-            this.dialogRef.close(this.ResponseMessage);
-          }
-        },
-        (error) => {
-          this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = error;
+          this._userService.addUser(this.UserForm.value).subscribe(
+            (data) => {
+              console.log(data)
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Aprobado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+            },
+            (error) => {
+              this.ResponseMessage.CodError = 500;
+              this.ResponseMessage.Message = error;
+              this.dialogRef.close(this.ResponseMessage);
+            })
+        } else {
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Guardado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
-        },
-        () => {
-          // this.ResponseMessage.CodError = 200;
-          //    this.ResponseMessage.Message = 'Aprobado correctamente.';
-          //    this.dialogRef.close(this.ResponseMessage);
-          // La promesa se resolvió correctamente.
         }
-      );
+      },
+      (error) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = error;
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      () => {
+        // this.ResponseMessage.CodError = 200;
+        //    this.ResponseMessage.Message = 'Aprobado correctamente.';
+        //    this.dialogRef.close(this.ResponseMessage);
+        // La promesa se resolvió correctamente.
+      }
+    );
 
-   // }
+    // }
   }
 }
 

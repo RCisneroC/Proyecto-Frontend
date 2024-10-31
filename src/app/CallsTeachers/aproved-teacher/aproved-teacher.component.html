@@ -13,7 +13,7 @@
     </div>
     <div mat-dialog-content>
 
-        <form class="register-form m-4" [formGroup]="ApprovedForm" (ngSubmit)="submit">
+        <form class="register-form m-4" [formGroup]="ApprovedForm">
 
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -39,43 +39,44 @@
 
 
 
-                            <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <mat-form-field class="example-full-width" appearance="outline">
                                     <mat-label>Proceso</mat-label>
-                                    <mat-select  formControlName="process">
-                                        <mat-option  *ngFor="let grado of processList"  [value]="grado.id">{{grado.name}}</mat-option>
-                                      </mat-select>
+                                    <mat-select formControlName="process">
+                                        <mat-option *ngFor="let grado of processList"
+                                            [value]="grado.id">{{grado.name}}</mat-option>
+                                    </mat-select>
                                     <mat-error *ngIf="ApprovedForm.get('process')?.hasError('required')">
                                         El proceso es requerido
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div *ngIf="isCalls"  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                              <mat-form-field class="example-full-width" appearance="outline">
-                                  <mat-label>Tipo de Contratación</mat-label>
-                                  <mat-select  formControlName="contractType">
-                                      <mat-option  *ngFor="let row of contractTypeList"  [value]="row.id">{{row.name}}</mat-option>
+                            <div *ngIf="isCalls" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Tipo de Contratación</mat-label>
+                                    <mat-select formControlName="contractType">
+                                        <mat-option *ngFor="let row of contractTypeList"
+                                            [value]="row.id">{{row.name}}</mat-option>
                                     </mat-select>
-                                  <mat-error *ngIf="ApprovedForm.get('contractType')?.hasError('required')">
-                                      El Tipo de Contratación es requerido
-                                  </mat-error>
-                              </mat-form-field>
-                          </div>
-                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                            <mat-form-field class="example-full-width" appearance="fill">
-                                <mat-label>Comentario</mat-label>
-                                <textarea matInput formControlName="approvalMessage"></textarea>
-                                <mat-error *ngIf="ApprovedForm.get('approvalMessage')?.hasError('required')">
-                                    El comentario es requerido
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
+                                    <mat-error *ngIf="ApprovedForm.get('contractType')?.hasError('required')">
+                                        El Tipo de Contratación es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>Comentario</mat-label>
+                                    <textarea matInput formControlName="approvalMessage"></textarea>
+                                    <mat-error *ngIf="ApprovedForm.get('approvalMessage')?.hasError('required')">
+                                        El comentario es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
 
                         </div>
                     </div>
                 </div>
-                <button mat-raised-button color="primary" [disabled]="!ApprovedForm.valid"
-                    (click)="submit()">Guardar</button>
+                <button mat-raised-button color="primary" type="button" (click)="submit()">Guardar</button>
             </div>
         </form>
     </div>

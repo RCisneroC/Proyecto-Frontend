@@ -86,61 +86,61 @@ export class AprovedTeacherComponent {
     const process1 = this.ApprovedForm.get("process")?.value;
     console.log(this.data);
 
-    if (this.data.teacher.listSubject.length > 0 && this.data.teacher.listActivity.length > 0) {
-      process = "3";
-    } else if (this.data.teacher.listSubject.length > 0) {
-      process = "1";
-    } else if (this.data.teacher.listActivity.length > 0) {
-      process = "2";
-    } else {
-      process = 0;
-    }
+    // if (this.data.teacher.listSubject.length > 0 && this.data.teacher.listActivity.length > 0) {
+    //   process = "3";
+    // } else if (this.data.teacher.listSubject.length > 0) {
+    //   process = "1";
+    // } else if (this.data.teacher.listActivity.length > 0) {
+    //   process = "2";
+    // } else {
+    //   process = 0;
+    // }
 
-    if (process != process1 && status == 1) {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
-        icon: "warning"
-      });
-    } else {
+    // if (process != process1 && status == 1) {
+    //   Swal.fire({
+    //     title: "Escuela Judicial",
+    //     text: "Verifique en el detalle de este profesor si el proceso asignado es igual al seleccionado",
+    //     icon: "warning"
+    //   });
+    // } else {
 
-      this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
-        (res) => {
-          if (status == 1) {
+    this._teacherService.aprovedTeacher(this.ApprovedForm.getRawValue()).subscribe(
+      (res) => {
+        if (status == 1) {
 
 
-            this._userService.addUser(this.UserForm.value).subscribe(
-              (data) => {
-                console.log(data)
-                this.ResponseMessage.CodError = 200;
-                this.ResponseMessage.Message = 'Aprobado correctamente.';
-                this.dialogRef.close(this.ResponseMessage);
-              },
-              (error) => {
-                this.ResponseMessage.CodError = 500;
-                this.ResponseMessage.Message = error;
-                this.dialogRef.close(this.ResponseMessage);
-              })
-          } else {
-            this.ResponseMessage.CodError = 200;
-            this.ResponseMessage.Message = 'Guardado correctamente.';
-            this.dialogRef.close(this.ResponseMessage);
-          }
-        },
-        (error) => {
-          this.ResponseMessage.CodError = 500;
-          this.ResponseMessage.Message = error;
+          this._userService.addUser(this.UserForm.value).subscribe(
+            (data) => {
+              console.log(data)
+              this.ResponseMessage.CodError = 200;
+              this.ResponseMessage.Message = 'Aprobado correctamente.';
+              this.dialogRef.close(this.ResponseMessage);
+            },
+            (error) => {
+              this.ResponseMessage.CodError = 500;
+              this.ResponseMessage.Message = error;
+              this.dialogRef.close(this.ResponseMessage);
+            })
+        } else {
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = 'Guardado correctamente.';
           this.dialogRef.close(this.ResponseMessage);
-        },
-        () => {
-          // this.ResponseMessage.CodError = 200;
-          //    this.ResponseMessage.Message = 'Aprobado correctamente.';
-          //    this.dialogRef.close(this.ResponseMessage);
-          // La promesa se resolvió correctamente.
         }
-      );
+      },
+      (error) => {
+        this.ResponseMessage.CodError = 500;
+        this.ResponseMessage.Message = error;
+        this.dialogRef.close(this.ResponseMessage);
+      },
+      () => {
+        // this.ResponseMessage.CodError = 200;
+        //    this.ResponseMessage.Message = 'Aprobado correctamente.';
+        //    this.dialogRef.close(this.ResponseMessage);
+        // La promesa se resolvió correctamente.
+      }
+    );
 
-    }
+    // }
   }
 }
 

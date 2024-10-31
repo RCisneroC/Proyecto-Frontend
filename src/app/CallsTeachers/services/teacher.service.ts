@@ -49,7 +49,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data.filter(f=>f.type==null));
+          this.dataChange.next(data.filter(f => f.type == null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -65,8 +65,8 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          data = data.filter(f=>f.type!==null);
-          this.dataChange.next(data.filter(f=>f.type!=null));
+          data = data.filter(f => f.type !== null);
+          this.dataChange.next(data.filter(f => f.type != null));
 
         },
         error: (error: HttpErrorResponse) => {
@@ -128,7 +128,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
 
   aprovedTeacher(data: UntypedFormGroup) {
-
+    alert("entro");
     return this.httpClient.post<Teacher>(environment.apiUrlTeacher + 'Aproved', data);
   }
   getTeacherByCedula(cedula: string) {
@@ -262,7 +262,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }),
     };
     return this.httpClient
-      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId='+docId+'&LastModifiedBy='+user,httpOptions);
+      .post<any>(environment.apiUrlTeacher + 'ValidateDocumentTeacher?docId=' + docId + '&LastModifiedBy=' + user, httpOptions);
   }
 
 

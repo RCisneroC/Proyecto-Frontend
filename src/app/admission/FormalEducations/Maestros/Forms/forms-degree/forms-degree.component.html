@@ -105,7 +105,7 @@
                         <textarea matInput formControlName="generalGoals" cols="30" rows="2"></textarea>
                     </mat-form-field>
                 </div>
-                
+
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Dirigido a</mat-label>
@@ -117,22 +117,23 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-error *ngIf="_DegreeModalForms.get('participationProfile')?.hasError('required')">
-                    Dirigido a es requerido
+                        Dirigido a es requerido
                     </mat-error>
                 </div>
-                
-                <div *ngIf="_DegreeModalForms.controls['participationProfile'].value == '1' || _DegreeModalForms.controls['participationProfile'].value == '3'"
-                class="col-xl-3 col-lg-3 col-md-4 col-sm-4 mb-2">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Perfil del participante</mat-label>
-                    <mat-select formControlName="degreeTarget">
-                        <mat-option value="">-------------</mat-option>
-                        <mat-option value="1">Administrativo</mat-option>
-                        <mat-option value="2">servidores judiciales</mat-option>
-                    </mat-select>
-                </mat-form-field>
 
-            </div>
+                <div *ngIf="_DegreeModalForms.controls['participationProfile'].value == '1' || _DegreeModalForms.controls['participationProfile'].value == '3'"
+                    class="col-xl-3 col-lg-3 col-md-4 col-sm-4 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Perfil del participante</mat-label>
+                        <mat-select formControlName="degreeTarget">
+                            <mat-option value="">-------------</mat-option>
+                            <mat-option value="1">Judicial</mat-option>
+                            <mat-option value="2">Administrativo</mat-option>
+                            <mat-option value="3">Defensa</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
 
 
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2" *ngIf="data.action=='edit'">
