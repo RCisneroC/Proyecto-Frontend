@@ -188,6 +188,10 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   getCareer(cedula: string) {
     return this.httpClient.get(environment.apiEF + 'Period/GetDegreeCurriculumDesignsBy?TeacherCedula=' + cedula);
   }
+  
+  getDatabasic(teacherId: number) {
+    return this.httpClient.get<Teacher>(environment.apiUrlTeacher +'GetBasicData?id=' + teacherId);
+  }
 
   getAllSubject3() {
     return this.httpClient

@@ -54,7 +54,7 @@ export class AprovedTeacherComponent {
       statusId: ['', [Validators.required]],
       approvalMessage: ['', [Validators.required]]
     });
-
+    this.getDataBasic();
     this.UserForm = this.fbUser.group({
       id: [''],
       userName: ["Docente" + this.data.teacher.teacherId, [Validators.required]],
@@ -79,6 +79,21 @@ export class AprovedTeacherComponent {
     this.viewProcess = value == "1" ? true : false;
 
   }
+  
+  
+async getDataBasic() {
+
+  this._teacherService.getDatabasic(this.data.teacher.teacherId).subscribe({
+    next: (res) => {
+
+      this.data.teacher.listActivity  = res.listActivity;
+      this.data.teacher.listSubject  = res.listSubject;
+      this.data.teacher.phoneNumber=res.phoneNumber;
+     
+
+    }
+  })
+}
 
   submit() {
     let process;
