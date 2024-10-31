@@ -5,6 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { CategoryServiceForoService } from '../../services/category-service-foro.service';
 import { ResponseMessageMaestra } from '../../../admission/models/ResponseMessage';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '@core';
 
 export interface DialogData {
   categoria: Category;
@@ -31,7 +32,8 @@ export class CategoryFormsForoComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: UntypedFormBuilder,
     public _dialog: MatDialog,
-    public _servideCategoryJobs: CategoryServiceForoService
+    public _servideCategoryJobs: CategoryServiceForoService,
+    public aut: AuthService,
   ) {
     // Set the defaults
     this.action = data.accion;
@@ -44,9 +46,10 @@ export class CategoryFormsForoComponent {
     }
     this.FormsCategory = this.fb.group({
       categoryId: [data.categoria.categorieId, [Validators.required]],
-      categoryName: [data.categoria.name],
-      categoryDescription: [data.categoria.descripion, [Validators.required]],
-      modifiedBy: [data.categoria.createdBy, [Validators.required]],
+      Name: [data.categoria.name],
+      Description: [data.categoria.descripion, [Validators.required]],
+      modifiedBy: [this.aut.currentUserValue.id, [Validators.required]],
+      CreatedBy: [this.aut.currentUserValue.id, [Validators.required]],
     });
   }
   submit() {
