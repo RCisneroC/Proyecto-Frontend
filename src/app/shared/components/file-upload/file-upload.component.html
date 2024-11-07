@@ -1,5 +1,5 @@
 <div class="file-drop-area">
-  <button mat-raised-button color="primary">Elija el archivo</button>
+  <button mat-raised-button color="primary" (click)="fileInput.click()">Elija el archivo</button>
   <span>{{file ? file.name : ' o arrastre y suelte el archivo aquí' }}</span>
-  <input class="file-input" type="file">
+  <input class="file-input" type="file" #fileInput hidden>
 </div>

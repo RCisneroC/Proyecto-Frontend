@@ -49,34 +49,13 @@ export class RoleService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<Role[]>(`${environment.apiUrl + 'GetAllRoles'}`);
   }
 
-  addRole(role: Role): void {
+  addRole(role: Role) {
     this.dialogData = role;
-
-    this.httpClient.post(environment.apiUrl + 'CreateRole', role)
-      .subscribe({
-        next: () => {
-          location.reload();
-          this.dialogData = role;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+    return this.httpClient.post(environment.apiUrl + 'CreateRole', role);
   }
-  updateRole(role: Role): void {
-    this.dialogData = role;
-
-    this.httpClient.put(environment.apiUrl + 'UpdateRole', role)
-      .subscribe({
-        next: () => {
-          this.dialogData = role;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+  updateRole(role: Role) {
+   
+    return this.httpClient.put(environment.apiUrl + 'UpdateRole', role);
   }
   // SubjectResponse
   MenuResponseF() {

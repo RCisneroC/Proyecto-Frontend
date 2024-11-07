@@ -3,9 +3,11 @@ import { MenuResponse, SubMenu } from '../models/role';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ResponseGenerica, ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MenuService } from '../user/service/menu.service';
 import Swal from 'sweetalert2';
+import { FormsMenuComponent } from '../forms-menu/forms-menu.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 export interface DialogData {
   action: string;
   menu: MenuResponse
@@ -78,7 +80,9 @@ export class ViewMenuModalComponent {
   constructor(
     public dialogRef: MatDialogRef<ViewMenuModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public _MenuService: MenuService
+    public _MenuService: MenuService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.IsLoading = false;
     // Set the defaults
@@ -127,6 +131,36 @@ export class ViewMenuModalComponent {
           }
         })
       } else {
+      }
+    });
+  }
+
+  EditarMenu(row: MenuResponse){
+    const dialogRef = this.dialog.open(FormsMenuComponent, {
+      data: {
+        menu: row,
+        action: 'edit',
+        parent: null
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+
+      if (result.CodError == 200) {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "success"
+        });
+        window.location.reload();
+      } else {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: result.Message,
+          icon: "warning"
+        });
       }
     });
   }

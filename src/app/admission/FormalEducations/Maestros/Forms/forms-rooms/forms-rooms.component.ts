@@ -46,6 +46,7 @@ export class FormsRoomsComponent implements OnInit {
       name: [this._Rooms.name, [Validators.required]],
       description: [this._Rooms.description],
       statusId: [this._Rooms.statusId, [Validators.required]],
+      MaxNumOfStudents: [1],
     });
   }
 

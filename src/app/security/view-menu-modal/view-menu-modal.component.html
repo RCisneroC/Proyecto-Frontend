@@ -41,6 +41,11 @@
                                         (click)="eliminar(element)" class="tbl-action-btn">
                                         <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                     </button>
+
+                                    <button mat-mini-fab color="accent" (click)="$event.stopPropagation()"
+                                        (click)="EditarMenu(element)" class="tbl-action-btn">
+                                        <app-feather-icons [icon]="'edit'"></app-feather-icons>
+                                    </button>
                                 </td>
                             </ng-container>
 

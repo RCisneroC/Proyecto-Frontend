@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class FileUploadComponent implements ControlValueAccessor {
   onChange!: Function;
+  @Input() allowedFileTypes: string[] = ['application/pdf', 'image/png', 'image/jpeg', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
   public file: File | null = null;
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
@@ -24,10 +25,17 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.onChange(file);
     this.file = file;
     if (file != null) {
-      if (file.type != 'application/pdf' && file?.type != 'image/png' && file?.type != 'image/jpeg' && file?.type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+      if (!this.allowedFileTypes.includes(file.type)) {
+        const fileTypes = {
+          'application/pdf': 'PDF',
+          'image/png': 'PNG',
+          'image/jpeg': 'JPEG',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Excel'
+        };
+        const allowedFormats = Object.values(fileTypes).join(', ');
         Swal.fire({
           title: "Escuela Judicial",
-          text: 'Solo se permite tipo de archivo PDF/JPG/PNG.',
+          text: `Tipo de archivo no permitido. Los formatos permitidos son: ${allowedFormats}`,
           icon: "warning"
         });
         return;

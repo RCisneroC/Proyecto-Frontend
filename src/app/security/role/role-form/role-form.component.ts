@@ -5,6 +5,8 @@ import { Role } from 'app/security/models/role';
 import { RoleService } from '../role-list/services/role.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 export interface DialogData {
@@ -25,6 +27,10 @@ export class RoleFormComponent {
   dialogTitle: string;
   roleForm: UntypedFormGroup;
   role: Role;
+  public ResponseMessage: ResponseMessageMaestra = {
+    CodError: 0,
+    Message:''
+}
   constructor(
     public dialogRef: MatDialogRef<RoleFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -68,12 +74,39 @@ export class RoleFormComponent {
   }
   public confirmAdd(): void {
     if  (this.action==='edit'){
-    this.roleService.updateRole(
-      this.roleForm.getRawValue()
-    ); }else{
-      this.roleService.addRole(
-        this.roleForm.getRawValue()
-      );
+    this.roleService.updateRole(this.roleForm.getRawValue())
+    .subscribe({
+      next: (res:any) => {
+        if(res.statusCode == 200){
+          this.ResponseMessage.CodError = 200;
+          this.ResponseMessage.Message = res.message;
+          this.dialogRef.close(this.ResponseMessage);
+        }else{
+          this.ResponseMessage.CodError = 500;
+          this.ResponseMessage.Message = res.message
+          this.dialogRef.close(this.ResponseMessage);
+        }
+      },
+      error: (error: HttpErrorResponse) => { 
+      },
+    });
+    
+  }else{
+      this.roleService.addRole(this.roleForm.getRawValue()).subscribe({
+        next: (res:any) => {
+          if(res.statusCode == 200){
+            this.ResponseMessage.CodError = 200;
+            this.ResponseMessage.Message = res.message;
+            this.dialogRef.close(this.ResponseMessage);
+          }else{
+            this.ResponseMessage.CodError = 500;
+            this.ResponseMessage.Message = res.message
+            this.dialogRef.close(this.ResponseMessage);
+          }
+        },
+        error: (error: HttpErrorResponse) => { 
+        },
+      });
     }
     
     

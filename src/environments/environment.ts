@@ -1,8 +1,7 @@
 export const environment = {
   production: false,
-  base: 'http://192.168.254.175/#/student/',
-  baseUrlTeacher: 'http://192.168.254.175',
-
+  base: 'http://escuelajudicial-isjup.organojudicial.gob.pa/#/student/',
+  baseUrlTeacher: 'http://escuelajudicial-isjup.organojudicial.gob.pa',
 
   // apiUrlTeacher: 'http://192.168.254.174:5502/api/v1/Teacher/',
   // apiUrl: 'http://192.168.254.174:5500/api/v1/Account/',
@@ -26,7 +25,7 @@ export const environment = {
   // apiExtUrlDependencies: 'http://192.168.254.174:5501/api/Cedula/DataqueryCedula/getDepInfo',
   // apiSharedUrl: 'http://192.168.254.174:5509/api/v1/Shared/',
   // apiJobs: 'http://192.168.254.174:5506/api/v1/',
-  // apiUrlTreasury: 'http://192.168.254.174:5510/api/v1/',
+  // apiUrlTreasury: 'http://192.168.254.174:5510/api/v1/'
 
   // apiUrlTeacher: 'http://192.168.254.175:5002/api/v1/Teacher/',
   // apiUrl: 'http://192.168.254.175:5000/api/v1/Account/',
@@ -78,8 +77,8 @@ export const environment = {
 
 
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
-  apiUrl: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Account/',
-  apiUrlRol: 'https://identity-ej-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiUrl: 'http://localhost:7212/api/v1/Account/',
+  apiUrlRol: 'http://localhost:7212/api/v1/',
   apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/",
   ConsultaDocentes: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   consultaEstudiante: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/GetDataCedula/',
