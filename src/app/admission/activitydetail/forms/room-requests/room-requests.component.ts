@@ -78,6 +78,9 @@ export class RoomRequestsComponent {
 
   volverAtras() {
     let url = localStorage.getItem('url') || '';
+    let urlTmp = localStorage.getItem('urlTmp') || '';
+    localStorage.setItem('url', urlTmp);
+    console.log(urlTmp);
     this._router.navigate([url]);
   }
 

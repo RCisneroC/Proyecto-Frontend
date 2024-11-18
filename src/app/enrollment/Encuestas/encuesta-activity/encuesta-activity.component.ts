@@ -294,8 +294,8 @@ export class EncuestaActivityComponent {
           score: elementText.value,
           questionId: row.id,
           studentId: this.Id,
-          teacherCedula: '21324339',
-          activityId: this.data.activity.degreeCurriculumDesignId,
+          teacherCedula: this.data.activity.activityTeacher,
+          activityId: this.data.activity.acivityId,
           SurveyType: this.subjectSelect
         };
       }
@@ -335,7 +335,7 @@ export class EncuestaActivityComponent {
       comment: this.commetOne,
       studentId: this.Id,
       teacherCedula: '21324339',
-      activityId: this.data.activity.degreeCurriculumDesignId,
+      activityId: this.data.activity.acivityId,
     };
 
     this._ActivityService.SaveComment(data).subscribe({
@@ -348,7 +348,7 @@ export class EncuestaActivityComponent {
           comment: this.commetTwo,
           studentId: this.Id,
           teacherCedula: '21324339',
-          activityId: this.data.activity.degreeCurriculumDesignId,
+          activityId: this.data.activity.acivityId,
         };
         this._ActivityService.SaveComment(data).subscribe({
           next: (res) => {
@@ -387,10 +387,10 @@ export class EncuestaActivityComponent {
 
   getEncuesta(type: any) {
     let id_actividad: any = 0;
-    if (this.data.activity.degreeCurriculumDesignId == undefined) {
+    if (this.data.activity.acivityId == undefined) {
       id_actividad = this.data.id_actividad;
     } else {
-      id_actividad = this.data.activity.degreeCurriculumDesignId;
+      id_actividad = this.data.activity.acivityId;
     }
     this._ActivityService.GetEncuestaLista(this.Id, id_actividad, type, this.data.docente).subscribe({
       next: (res) => {

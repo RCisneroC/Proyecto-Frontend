@@ -282,7 +282,14 @@ export class ExampleDataSource extends DataSource<User> {
         case 'userName':
           [propertyA, propertyB] = [a.userName, b.userName];
           break;
-
+          case 'firstName':
+          [propertyA, propertyB] = [a.firstName, b.firstName];
+          break;
+          case 'lastName':
+          [propertyA, propertyB] = [a.lastName, b.lastName];
+          break;
+          
+          
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

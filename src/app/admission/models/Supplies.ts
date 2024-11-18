@@ -4,4 +4,5 @@ export interface Supplies {
     description: string;
     amount:string;
     statusId: number;
+    amountIn?:number;
   }

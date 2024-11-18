@@ -350,6 +350,11 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificate", CreateCertificateDta);
   }
 
+  CreateCertificateList(CreateCertificateDta: any) {
+    const url = `${environment.apiUrlSchedule}`;
+    return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificateList", CreateCertificateDta);
+  }
+
   init_ResponseSubjectRecord() {
     this._ResponseSubjectRecord = {
       statusCode: 0,

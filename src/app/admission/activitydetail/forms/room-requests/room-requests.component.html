@@ -120,12 +120,14 @@
                                         <thead>
                                             <th>Id</th>
                                             <th>Requerimiento</th>
+                                            <th>Cantidad</th>
                                             <th>Acción</th>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let itemRoms of item.roomRequestRoomRequirements">
                                                 <td>{{ itemRoms.roomRequirement.id }}</td>
                                                 <td>{{ itemRoms.roomRequirement.name }}</td>
+                                                <td>{{ itemRoms.amount }}</td>
                                                 <td>
                                                     <button *ngIf="item.statusId===3" (click)="deleteRequirement(itemRoms,item.id)"
                                                         matTooltip="Eliminar Requerimiento" mat-mini-fab

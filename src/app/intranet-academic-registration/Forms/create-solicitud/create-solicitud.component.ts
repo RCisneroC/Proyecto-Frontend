@@ -218,10 +218,10 @@ export class CreateSolicitudComponent {
     this.RequestVariousService.GetAllRequestVariousType().subscribe({
       next: (res) => {
         if (this.IdTypeUser == 1) {
-          this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15 || x.id == 16 || x.id == 3 || x.id == 2 || x.id == 3 || x.id == 1);
+          this.RequesttypeList = res.data.filter(x => x.id == 12 || x.id == 13 || x.id == 15  || x.id == 3 || x.id == 2 || x.id == 3 || x.id == 1);
         }
         if (this.IdTypeUser == 2) {
-          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1 || x.id == 20);
+          this.RequesttypeList = res.data.filter(x => x.id == 10 || x.id == 11 || x.id == 14 || x.id == 16 || x.id == 5 || x.id == 6 || x.id == 9 || x.id == 8 || x.id == 7 || x.id == 4 || x.id == 3 || x.id == 2 || x.id == 1 || x.id == 20);
         }
         if (this.IdTypeUser == 3) {
           this.RequesttypeList = res.data
@@ -368,7 +368,6 @@ export class CreateSolicitudComponent {
     }
   }
   submit() {
-
   }
 
   onNoClick(): void {
@@ -380,6 +379,9 @@ export class CreateSolicitudComponent {
     if (dataL != '') {
       this._DataLocal = JSON.parse(dataL);
     }
+
+    console.log(this.RequestVariousForm);
+    
     // emppty stuff
     if (this.action === 'edit') {
       console.log(this.data);
@@ -403,16 +405,18 @@ export class CreateSolicitudComponent {
 
     } else {
       const value = this.RequestVariousForm.getRawValue();
-      if (value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7) {
+      if (value.typeRequest == 1 || value.typeRequest == 2 || value.typeRequest == 3 || value.typeRequest == 7 || value.typeRequest == 12 || value.typeRequest == 13 || value.typeRequest == 15) {
 
         const generalrequest = {
           userRequest: value.idSolicitante,
           description: value.comments,
           requestVariousTypeId: value.typeRequest,
           requestVariousApplicantUserTypeId: this.IdTypeUser,
-          periodId: this._SubjectMatriculas[0].periodsId,
-          subjectId: value.idSubjectOrActivity
+          periodId: this.typeActivityAcademySelected === 2 ? 0 : (this._SubjectMatriculas[0]?.periodsId || 0),
+          subjectId: this.typeActivityAcademySelected === 1 ? value.idSubjectOrActivity :0 ,
+          ActivityId: this.typeActivityAcademySelected === 2 ? value.idSubjectOrActivity:0 ,
         }
+        
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
           next: (res) => {
             console.log(res);

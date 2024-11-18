@@ -122,9 +122,9 @@
                                 <mat-label>Cargar Afiche/Documentos/Imagenes</mat-label>
 
                                 <div class="file-drop-area">
-                                    <button mat-raised-button color="primary">Elija el archivo</button>
+                                    <button mat-raised-button color="primary" (click)="fileInput.click()">Elija el archivo</button>
                                     <span>Arrastre y suelte el archivo aquí</span>
-                                    <input class="file-input" formControlName="Content" (change)="onChangeFile($event)"
+                                    <input class="file-input" formControlName="Content" #fileInput (change)="onChangeFile($event)"
                                         multiple type="file">
                                 </div>
 

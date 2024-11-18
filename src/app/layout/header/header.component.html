@@ -49,47 +49,7 @@
           </button>
         </li>
         <!-- #START# Notifications-->
-        <li>
-          <button mat-icon-button [matMenuTriggerFor]="notificationMenu" class="nav-notification-icons">
-            <app-feather-icons [icon]="'bell'" [class]="'header-icon'"></app-feather-icons>
-          </button>
-          <mat-menu #notificationMenu="matMenu" class="nfc-menu">
-            <div class="nfc-header">
-              <h5 class="mb-0">Notitications</h5>
-              <a class="nfc-mark-as-read">Mark all as read</a>
-            </div>
-            <div class="nfc-dropdown">
-              <ng-scrollbar style="height: 350px" visibility="hover">
-                <div class="noti-list header-menu">
-                  <div class="menu">
-                    <div>
-                      <button mat-menu-item *ngFor="let notification of notifications" onClick="return false;"
-                        [ngClass]="[notification.status]">
-                        <span class="table-img msg-user ">
-                          <i class="material-icons-two-tone nfc-type-icon"
-                            [ngClass]="[notification.color]">{{notification.icon}}</i>
-                        </span>
-                        <span class="menu-info">
-                          <span class="menu-title">{{notification.message}}</span>
-                          <span class="menu-desc mt-2">
-                            <i class="material-icons">access_time</i> {{notification.time}}
-                          </span>
-                        </span>
-                        <span class="nfc-close">
-                          <app-feather-icons [icon]="'x'" [class]="'user-menu-icons'"></app-feather-icons>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </ng-scrollbar>
-            </div>
-            <div class="nfc-footer">
-              <a class="nfc-read-all">Read
-                All Notifications</a>
-            </div>
-          </mat-menu>
-        </li>
+       
         <!-- #END# Notifications-->
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">

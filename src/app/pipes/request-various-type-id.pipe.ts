@@ -24,6 +24,24 @@ export class RequestVariousTypeIdPipe implements PipeTransform {
     }
     else if (value == 8) {
       return 'Solicitudes de estudiantes y participantes';
+    }else if (value == 9) {
+      return 'Convalidación de asignaturas';
+    }else if (value == 10) {
+      return 'Solicitud de créditos oficiales';
+    }else if (value == 11) {
+      return 'Solicitud de créditos no oficiales';
+    }else if (value == 12) {
+      return 'Certificaciones para docentes';
+    }else if (value == 13) {
+      return 'Certificaciones para facilitadores';
+    }else if (value == 14) {
+      return 'Certificaciones de no aprobación';
+    }else if (value == 15) {
+      return 'Certificaciones de expositores';
+    }else if (value == 16) {
+      return 'Constancia de asistencia de participantes';
+    }else if (value == 20) {
+      return 'Retiro de las asignaturas del periodo actual';
     }
 
     return '';

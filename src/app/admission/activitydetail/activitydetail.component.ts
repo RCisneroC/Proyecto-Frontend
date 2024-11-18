@@ -710,6 +710,8 @@ export class ActivitydetailComponent implements OnInit {
     })
   }
   gestionarSalon() {
+    let url = localStorage.getItem('url') || '';
+    localStorage.setItem('urlTmp', url);
     localStorage.setItem('url', '/admission/activity-detail/' + this.paramsId);
     this._router.navigate(['/admission/reservar-salones/' + this.paramsId]);
   }

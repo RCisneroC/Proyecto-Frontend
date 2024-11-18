@@ -79,7 +79,7 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     subject:{name:''}
   };
   public _typeUser: string = '';
-  typeRequest: any;
+  typeRequest:number[]=[];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -111,12 +111,23 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
   getMatch() {
     this._typeRequestService.getAllTypeRequest2().subscribe({
       next: (res:any) => {
+        console.log('====================================');
+        console.log(res);
+        console.log('====================================');
         const matchingTypeRequest = res.find((x: { approvalRole: string; }) => x.approvalRole === this.authService.currentUserValue.roleId);
-        if (matchingTypeRequest) 
-          this.typeRequest = matchingTypeRequest.requestType;
-        
-      }
-    })
+        this.typeRequest = res.filter((x: { approvalRole: string; }) => x.approvalRole === this.authService.currentUserValue.roleId).map((x: { requestType: any; }) => x.requestType);
+        console.log('====================================');
+        console.log(this.typeRequest);
+        console.log('====================================');
+    }
+  });
+  }
+
+  isConditionMet(row: RequestVariousItem): boolean {
+    return (
+      (this._typeUser === 'Administrador' && row.requestVariousStatusTypeId == 1) ||
+      (this.typeRequest.includes(row.requestVariousTypeId )&& row.requestVariousStatusTypeId == 1)
+    );
   }
   viewDocument(doc:Poster){
   console.log(doc.fileContents+"aadadadadada")

@@ -93,6 +93,7 @@ export interface ActivityRequirement {
     id: number;
     name: string;
     description: string;
+    amount?:number;
 }
 
 export interface PosterRequest {
@@ -139,6 +140,7 @@ export interface RoomRequest {
 export interface RoomRequestRoomRequirement {
     statusId: number;
     id: number;
+    amount?:number;
     roomRequirement: ActivityRequirement;
 }
 

@@ -22,8 +22,6 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
     let file = event && event.item(0);
-    this.onChange(file);
-    this.file = file;
     if (file != null) {
       if (!this.allowedFileTypes.includes(file.type)) {
         const fileTypes = {
@@ -38,9 +36,12 @@ export class FileUploadComponent implements ControlValueAccessor {
           text: `Tipo de archivo no permitido. Los formatos permitidos son: ${allowedFormats}`,
           icon: "warning"
         });
+        this.host.nativeElement.value = ''; // Clear the input
         return;
       }
     }
+    this.onChange(file);
+    this.file = file;
   }
 
   constructor(private host: ElementRef<HTMLInputElement>) { }

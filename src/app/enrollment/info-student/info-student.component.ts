@@ -567,6 +567,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
         specific: this.studentForm.controls["specific"].value,
         others: this.studentForm.controls["others"].value,
         usesAwheelchair: this.studentForm.controls["usesAwheelchair"].value == "True" ? true : false
+
       };
 
       await (await this._studentService.updateAspirantEF(data)).subscribe({

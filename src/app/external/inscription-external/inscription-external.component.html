@@ -7,9 +7,6 @@
             <div class="row">
               <div class="col-lg-12 text-center">
                 <img src="assets/images/ISJUP.png" style="width: 20%;" />
-                <!-- <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
-                <p>Nodalidad: <strong>{{ _ActivityDetailService._GetOneActivity.activityModeName }}</strong></p>
-                <p>Ubicación: <strong>{{ _ActivityDetailService._GetOneActivity.activityLocationName }}</strong></p> -->
               </div>
             </div>
             <div class="row clearfix" style="margin-bottom: 20px;text-align: right;">
@@ -23,6 +20,12 @@
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="card">
+                    <div *ngIf="IsEnd" class="alert alert-danger" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
+                      La actividad ya no está disponible y la fecha de inscripción ha terminado.
+                    </div>
+                    <div *ngIf="!IsEnd" class="alert alert-success" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
+                      La actividad está disponible y los cupos máximos son {{ CountTotalParticipants }}.
+                    </div>
                     <div class="row" style="margin-top: 10px;">
                       <div class="col-lg-4">
                         <p>Nombre Actividad: <strong>{{ _ActivityDetailService._GetOneActivity.name }}</strong></p>
@@ -38,7 +41,7 @@
 
                       </div>
                     </div>
-                    <div class="materialTableHeader">
+                    <div *ngIf="!IsEnd" class="materialTableHeader">
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">
@@ -264,9 +267,9 @@
 
                         <div class="file-drop-area">
 
-                          <button mat-raised-button color="primary">Elija el archivo</button>
+                          <button mat-raised-button color="primary" (click)="fileInput.click()">Elija el archivo</button>
                           <span>arrastre y suelte el archivo aquí</span>
-                          <input class="file-input" id="archivo_{{ requerimiento.activityRequirement.id }}"
+                          <input #fileInput class="file-input" id="archivo_{{ requerimiento.activityRequirement.id }}"
                             (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"
                             type="file">
                           <span style="font-size: 12px;color: brown;font-weight: bold;">PDF/JPG/PNG</span>

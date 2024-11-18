@@ -26,6 +26,7 @@ import {
 } from 'app/admission/models/ParticipantesEF';
 import { Degree, Mesh } from "../../FormalEducations/Models/Degree";
 import { Period } from "../../FormalEducations/Models/AnnualPlan";
+import { ResponseValidDate } from 'app/external/Models/ResponseValidDate';
 @Injectable({
   providedIn: 'root'
 })
@@ -332,6 +333,10 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
 
   AssignParticipant(data: any) {
     return this.httpClient.post(environment.apiEC + 'EFInscription/Addassignment', data);
+  }
+
+  getValidateDate(idActivity:number) {
+    return this.httpClient.get<ResponseValidDate>(environment.apiEC + "GetData/GetValidateDate?ActivityId="+idActivity)
   }
 
   init_ResponseInscripcion() {

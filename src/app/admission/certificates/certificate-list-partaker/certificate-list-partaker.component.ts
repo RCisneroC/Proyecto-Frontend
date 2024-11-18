@@ -20,6 +20,7 @@ import {
   ApproveParticipantComponent
 } from "../../inscription/approval/activity-participants-list/detalle/approve-participant/approve-participant.component";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-certificate-list-partaker',
@@ -29,6 +30,7 @@ import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapter
   implements OnInit {
   displayedColumns = [
+    'id',
     'name',
     'lastName',
     'cedula',
@@ -37,7 +39,7 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     'fecha_inscrito',
     'actions',
   ];
-
+  CertificateList: UntypedFormGroup;
   exampleDatabase?: InscriptionService;
   dataSource!: ExampleDataSource;
   selection = new SelectionModel<Participant>(true, []);
@@ -55,8 +57,14 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     public _verificarBS64: VerificarBS64Pipe,
     private _enrollservice: EnrollmentService,
     public _InscriptionService: InscriptionService,
+    private fb: UntypedFormBuilder
   ) {
     super();
+    this.CertificateList = this.fb.group({
+      LStudentFullName: this.fb.array([]),
+      LStudentCedula: this.fb.array([]),
+      ActivityId:[0,[Validators.required]]
+    });
   }
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -65,9 +73,13 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
   ngOnInit() {
+
+  
+
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.nameActivity = localStorage.getItem('name_actividad') || '';
+      this.CertificateList.controls['ActivityId'].setValue(this.id);
     })
     this.loadData();
   }
@@ -122,7 +134,38 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
       }
     })
   }
+  get checkboxesNameStudensFormArray(): UntypedFormArray {
+    return this.CertificateList.get('LStudentFullName') as UntypedFormArray;
+  }
 
+  get checkboxesCedulaStudensFormArray(): UntypedFormArray {
+    return this.CertificateList.get('LStudentCedula') as UntypedFormArray;
+  }
+  checkboxChange(event: any, checkboxId:GetDataResultResponse): void {
+    if (event.checked) {
+      this.checkboxesNameStudensFormArray.push(this.fb.control(`${checkboxId.firstName} ${checkboxId.lastName}`));
+      this.checkboxesCedulaStudensFormArray.push(this.fb.control(checkboxId.cedula));
+    } else {
+      const index = this.checkboxesNameStudensFormArray.controls.findIndex(x => x.value === `${checkboxId.firstName} ${checkboxId.lastName}`);
+      const index01 = this.checkboxesCedulaStudensFormArray.controls.findIndex(x => x.value === checkboxId.cedula);
+      if (index !== -1) {
+        this.checkboxesNameStudensFormArray.removeAt(index);
+      }
+      if (index !== -1) {
+        this.checkboxesCedulaStudensFormArray.removeAt(index01);
+      }
+    }
+  }
+
+  enviarCertificadosAFirmar(){
+    console.log(this.CertificateList.getRawValue())
+
+    this._enrollservice.CreateCertificateList(this.CertificateList.getRawValue()).subscribe({
+      next: (res) => {
+        console.log('Certificado', res)
+    }
+  });
+  }
   aprobar(row: GetDataResultResponse) {
     const dialogRef = this.dialog.open(ApproveParticipantComponent, {
       data: {

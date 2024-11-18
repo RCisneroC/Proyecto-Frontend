@@ -78,6 +78,7 @@ export interface getStudentsActivityResponse {
   activityModeName: string,
   activityTypeName: string,
   activityLocationName: string
+  activityTeacher?:string;
   degreeCurriculumDesignId: number;
 }
 

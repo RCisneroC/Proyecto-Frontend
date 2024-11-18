@@ -127,6 +127,7 @@ export class DetalleParticipanteComponent {
             isReentry: false,
             enrollmentId: 1,
           }
+          // verificar este punto.
           this._inscriptionService.CreateECAcademicRecord(reqOBJ).subscribe({
             next: (res) => {
               console.log('CreateECAcademicRecord', res);

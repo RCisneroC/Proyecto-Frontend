@@ -258,7 +258,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
   updateActivityDetail(activityDetail: ScheduleActivityDetail) {
     this.dialogDataDetail = activityDetail;
 
-    return this.httpClient.put(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
+    return this.httpClient.put<ResponseGenerica>(environment.apiUrlSchedule + 'CurriculumDesign/UpdateActivity', activityDetail);
   }
 
   sendApproved(id: any) {

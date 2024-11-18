@@ -79,7 +79,7 @@ export const environment = {
   apiUrlTeacher: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Teacher/',
   apiUrl: 'http://localhost:7212/api/v1/Account/',
   apiUrlRol: 'http://localhost:7212/api/v1/',
-  apiUrlSchedule: "https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/",
+  apiUrlSchedule: "https://eccurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   ConsultaDocentes: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   consultaEstudiante: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/Cedula/DataqueryCedula/GetDataCedula/',
   consultaPlanesAprobados: 'https://efcurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/AnnualPlan/GetAll?StatusId=5',
@@ -88,7 +88,7 @@ export const environment = {
   apiForo: "https://foro-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   apiCatalogs: 'https://ecinscriptionservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/',
   apiUrlEF: 'https://isjupefcurriculummanagementservice.azurites.net/api/v1/Subject/',
-  apiUrlEC: 'https://isjupeccurriculummanagementservice.azurewebsites.net/api/v1/Activity/',
+  apiUrlEC: 'https://eccurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Activity/',
   apiEF: "https://efcurriculummanagement-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/",
   apiUrlDocument: 'https://ecmanagementteaching-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/RequiredDocument/',
   apiIntranet: 'https://eintranetregistroacademico-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/',
@@ -99,4 +99,5 @@ export const environment = {
   apiSharedUrl: 'https://shared-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/Shared/',
   apiJobs: 'https://jobboard-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
   apiUrlTreasury: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/',
+  apiEducacionContinua: 'https://treasuryservice-escuela-judicial.apps.revisados-attt.8ckj.p1.openshiftapps.com/api/v1/'
 };

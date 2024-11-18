@@ -62,6 +62,11 @@ export class InscriptionExternalComponent implements OnInit {
   IsError: boolean = false;
   public converId: any;
   busquedaR: boolean = false;
+
+  public IsEnd:boolean = false;
+  public CountParticipants:number = 0;
+  public CountTotalParticipants:number = 0;
+
   constructor(private fb:
     FormBuilder,
     private Path: ActivatedRoute,
@@ -110,6 +115,7 @@ export class InscriptionExternalComponent implements OnInit {
     if (this.idActivity != null) {
       this.converId = this._ActivityDetailService.decryptData(this.idActivity, 'Panama2019$');
       this.getOneActivityDetails();
+      this.ValidDate();
     } else {
       this._router.navigate(['/']);
     }
@@ -118,6 +124,19 @@ export class InscriptionExternalComponent implements OnInit {
     this.loadOrganosCop();
     this.loadUniversidades();
     this.loadIntituciones();
+  }
+
+  ValidDate(){
+    this._inscriptionService.getValidateDate(this.converId).subscribe({
+      next: (res) => {
+        if(res.validateDateResponse[0].status == 'Finalizado'){
+          this.IsEnd = true;
+        }
+
+        this.CountParticipants = res.validateDateResponse[0].participants;
+    
+      }
+    })
   }
 
   validar() {
@@ -401,6 +420,7 @@ export class InscriptionExternalComponent implements OnInit {
         next: (res: GetOneActivity) => {
           this._ActivityDetailService._GetOneActivity = res;
           this.participationProfile = res.participationProfile == 1;
+          this.CountTotalParticipants = this._ActivityDetailService._GetOneActivity.studentQuota;
         }, error: (err) => {
           console.log(err);
           this._router.navigate(['/']);

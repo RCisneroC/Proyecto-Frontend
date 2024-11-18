@@ -211,6 +211,8 @@ export class RequestServicesService extends UnsubscribeOnDestroyAdapter {
 
   public getRoleFromToken(token: string): string {
     const decodedToken = this.decodeToken(token);
+    console.log(decodedToken);
+    
     return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   }
 

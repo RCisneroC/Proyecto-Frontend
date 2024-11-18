@@ -15,6 +15,11 @@
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="scheduleForm" (ngSubmit)="submit">
       <div class="row">
+        <div class="col-12">
+          <p id="mensaje" style="color: red;">
+            *Si la Certificación y Recertificación es "Sí", la Clase de Actividad debe estar registrada. Si es "No", la Clase de Actividad debe dejarse vacía.
+          </p>
+        </div>
         <div class="col-6">
           <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2"> -->
           <mat-form-field class="example-full-width" appearance="outline">
@@ -285,13 +290,19 @@
           </mat-form-field>
         </div>
       </div>
-
-
+ 
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row">
-            <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid"
+            <ng-container *ngIf="!SaveLoading; else elseTemplate">
+              <button mat-raised-button color="primary" [disabled]="!scheduleForm.valid"
               (click)="confirmAdd()">Guardar</button>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <button mat-raised-button color="primary" [disabled]="true">Guardando...</button>
+            </ng-template>
+            
+            
             <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
           </div>
         </div>

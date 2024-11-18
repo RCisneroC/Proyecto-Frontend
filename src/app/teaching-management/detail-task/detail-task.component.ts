@@ -173,7 +173,18 @@ export class DetailTaskComponent implements OnInit {
           text: result.Message,
           icon: "success"
         });
-        this.getOneStudents();
+        const local = localStorage.getItem('tipoSolicitud') || '';
+        if (local == "1") {
+          
+          this.getOneStudents();
+          let localData = localStorage.getItem('details_task') || ''; 
+          this.taskSubject = JSON.parse(localData);
+        } else {
+          this.title = "Listado de Participantes";
+          this.getOneStudentsAct();
+          let localData = localStorage.getItem('details_task') || ''; 
+          this.taskSubject = JSON.parse(localData);
+        }
 
       } else {
         Swal.fire({

@@ -17,7 +17,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2" >
                     <mat-form-field class="example-full-width" appearance="outline" >
                         <mat-label>Tipo de Actividad Académica</mat-label>
-                        <mat-select formControlName="typeActivityAcademy" [(ngModel)]="typeActivityAcademySelected" [disabled] = typeDesabled>
+                        <mat-select formControlName="typeActivityAcademy" [(ngModel)]="typeActivityAcademySelected">
                             <mat-option *ngFor="let item of typeActivityAcademy" [value]="item.id">
                                 {{item.name}}</mat-option>
                         </mat-select>
@@ -48,7 +48,7 @@
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Actividad</mat-label>
-                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
+                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity">
                             <mat-option value="">-----------</mat-option>
                             <mat-option *ngFor="let item of _GetOneActivity" [value]="item.id"> {{ item.name
                                 }}</mat-option>
@@ -63,7 +63,7 @@
                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Carrera</mat-label>
-                  <mat-select [ngModel]="careerSelected" formControlName="career" (ngModelChange)="changecarrer($event)"  [disabled] = valueDesabled>
+                  <mat-select [ngModel]="careerSelected" formControlName="career" (ngModelChange)="changecarrer($event)" >
                     <mat-option value="">-----------</mat-option>
                     <mat-option *ngFor="let item of _Career" [value]="item.degreeCurriculumDesignId"> {{ item.mCurriculumName}}</mat-option>
                   </mat-select>
@@ -76,7 +76,7 @@
                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Carrera Destino</mat-label>
-                  <mat-select [ngModel]="careerDestinySelected" formControlName="career" (ngModelChange)="changeDestinycarrer($event)"  [disabled] = valueDesabled>
+                  <mat-select [ngModel]="careerDestinySelected" formControlName="career" (ngModelChange)="changeDestinycarrer($event)" >
                     <mat-option value="">-----------</mat-option>
                     <mat-option *ngFor="let item of _Career" [value]="item.degreeCurriculumDesignId"> {{ item.mCurriculumName}}</mat-option>
                   </mat-select>
@@ -90,7 +90,7 @@
                     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Asignaturas</mat-label>
-                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
+                        <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity">
                             <mat-option value="">-----------</mat-option>
                             <mat-option *ngFor="let item of  _SubjectMatriculas" [value]="item.asignaturaId"> {{ item.asignatura}}</mat-option>
                         </mat-select>
@@ -104,7 +104,7 @@
                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Asignaturas</mat-label>
-                  <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity" [disabled] = valueDesabled>
+                  <mat-select [ngModel]="idSubjectOrActivity" formControlName="idSubjectOrActivity">
                     <mat-option value="">-----------</mat-option>
                     <mat-option *ngFor="let item of _Subject " [value]="item.id"> {{ item.name}}</mat-option>
                   </mat-select>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -53,7 +53,8 @@ export class RequerimientoSalonesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public _RequirementService: SuppliesService,
     public _ActivityDetailService: ActivityDetailService,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     console.log('====================================');
     console.log(data);
@@ -61,8 +62,7 @@ export class RequerimientoSalonesComponent implements OnInit {
     this.requiremetForm = this.fb.group({
       roomRequirementsIds: this.fb.array([]),
       roomRequestId: [this.data.requestRooms.id, Validators.required],
-     // amount: this.fb.array([])
-      amount: [0]
+      amounts: this.fb.array([])
     });
     this.action = this.data.accion;
     if (this.action === 'add-requirement') {
@@ -90,7 +90,6 @@ export class RequerimientoSalonesComponent implements OnInit {
     this._RequirementService.getAllSuppli2Filter(1).subscribe({
       next: (res) => {
         this.ListadoSupplies = new MatTableDataSource<Supplies>(res.filter(x=>parseInt(x.amount)>0));
-        console.log(this.ListadoSupplies);
 
       }
     });
@@ -113,10 +112,12 @@ export class RequerimientoSalonesComponent implements OnInit {
     return this.requiremetForm.get('roomRequirementsIds') as UntypedFormArray;
   }
   get checkboxesAmountFormArray(): UntypedFormArray {
-    return this.requiremetForm.get('amount') as UntypedFormArray;
+    return this.requiremetForm.get('amounts') as UntypedFormArray;
   }
 
   checkboxChange(event: any, checkboxId: any,amount:number): void {
+    console.log(checkboxId,amount);
+    
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
       this.checkboxesAmountFormArray.push(this.fb.control(amount));
@@ -128,6 +129,22 @@ export class RequerimientoSalonesComponent implements OnInit {
         this.checkboxesFormArray.removeAt(index);
         this.checkboxesAmountFormArray.removeAt(index);
       }
+    }
+  }
+
+  updateAmountIn(id: number, newAmountIn: any): void {
+    console.log('====================================');
+    console.log(newAmountIn.target.value);
+    console.log('====================================');
+    const index = this.ListadoSupplies.data.findIndex(item => item.id === id);
+    if (index !== -1) {
+      this.ListadoSupplies.data[index].amountIn = newAmountIn.target.value;
+      
+      // Actualizar la referencia del data en MatTableDataSource
+      // this.ListadoSupplies.data = [...this.dataSourceSuppliesRequirement];
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+      console.log(this.ListadoSupplies);
     }
   }
 }

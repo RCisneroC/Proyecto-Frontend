@@ -83,6 +83,7 @@ export class AddCalifComponent {
       //this.getCalificacion();
       this.FormsCalificacion = this.createContactForm();
       let local = localStorage.getItem('tipoSolicitud') || '';
+    
       if (local != '') {
         if (local == "1") {
           this.getCalificacionSubj();
@@ -152,7 +153,7 @@ export class AddCalifComponent {
     )
   }
 
-  getCalificacionSubj() {
+  getCalificacionSubj() { 
     const idGeneral = Number(localStorage.getItem('id')) || 0;
     const data = {
       subjectId: idGeneral,
@@ -210,7 +211,7 @@ export class AddCalifComponent {
         }
 
         const datos = {
-          efAcademicRecordId: res["data"][0]?.id,
+          ecAcademicRecordId: res["data"][0]?.id,
           activityTaskId: this.data.taskSubject.id,
         }
 

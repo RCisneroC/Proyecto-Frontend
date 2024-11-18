@@ -152,13 +152,13 @@
                                                               matTooltip="Ver Resolución" class="tbl-action-btn">
                                                         <mat-icon>assignment_turned_in</mat-icon>
                                                       </button>
-                                                      <button mat-mini-fab color="primary"
+                                                      <!-- <button mat-mini-fab color="primary"
                                                               *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 3"
                                                               matTooltip="Certificación de profesor"
                                                               (click)="$event.stopPropagation()"
                                                               (click)="generateTeachingCertification(row,i)" class="tbl-action-btn">
                                                         <mat-icon>brightness_7</mat-icon>
-                                                      </button>
+                                                      </button> -->
                                                         <button
                                                             *ngIf="authService.currentUserValue.id == row.infoUserRquest.id && row.requestVariousStatusTypeId === 1"
                                                             mat-mini-fab color="primary" matTooltip="Eliminar solicitud"
@@ -166,8 +166,8 @@
                                                             class="tbl-action-btn">
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
-
-                                                        <button *ngIf="(_typeUser ==='Administrador' && row.requestVariousStatusTypeId === 1) ||(row.requestVariousTypeId===typeRequest) "
+                                                        <button *ngIf="isConditionMet(row)"
+                                                           
                                                             mat-mini-fab color="warn" matTooltip="Aprobar solicitud"
                                                             (click)="$event.stopPropagation()" (click)="aprobar(row,i)"
                                                             class="tbl-action-btn">

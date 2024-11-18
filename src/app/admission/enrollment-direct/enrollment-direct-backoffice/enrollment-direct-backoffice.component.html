@@ -237,9 +237,9 @@
                             requerimiento.activityRequirement.name }} <br></p>
                         <div class="file-drop-area">
 
-                          <button mat-raised-button color="primary">Elija el archivo</button>
+                          <button mat-raised-button color="primary" (click)="fileInput.click()" >Elija el archivo</button>
                           <span>arrastre y suelte el archivo aquí</span>
-                          <input class="file-input" id="archivo_{{ requerimiento.activityRequirement.id }}"
+                          <input class="file-input" id="archivo_{{ requerimiento.activityRequirement.id }}" #fileInput
                                  (change)="onChangeFile($event, requerimiento.activityRequirement.id,requerimiento.activityRequirement)"
                                  type="file">
                         </div>
