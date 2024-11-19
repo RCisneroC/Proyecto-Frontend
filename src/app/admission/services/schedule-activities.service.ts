@@ -194,7 +194,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
             this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb" //certificador
             ) {
-            this.dataChange2.next(data.filter(x => x.statusId == 5));
+            this.dataChange2.next(data.filter(x => x.statusId == 5 || x.statusId == 6));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));
           }

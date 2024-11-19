@@ -731,6 +731,10 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<ActivityRequirement>(environment.apiUrlSchedule + 'ActivityRequirement/GetBy?Id=' + id);
   }
 
+  getOneDocumentoEF(id: any) {
+    return this.httpClient.get<ActivityRequirement>(environment.apiEF + 'DegreeAdmissionRequirement/GetBy?Id=' + id);
+  }
+
 
   GetParticipanteCedula(cedula: any) {
     return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula=' + cedula);

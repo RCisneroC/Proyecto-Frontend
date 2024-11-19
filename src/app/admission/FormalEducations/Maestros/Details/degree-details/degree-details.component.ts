@@ -406,6 +406,7 @@ export class DegreeDetailsComponent {
         id_carrera: this.id,
         accion: 'add',
         malla: this._DegreeCurriculumDesign,
+        nameDregree: this._DegreeService._Degree.name,
       },
       disableClose: true,
     });

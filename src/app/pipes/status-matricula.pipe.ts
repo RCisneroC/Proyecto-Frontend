@@ -28,6 +28,10 @@ export class StatusMatriculaPipe implements PipeTransform {
       return 'Suspendido.';
     } else if (value == 11) { // borrador -
       return 'Retirado.';
+    } else if (value == 12) { // borrador -
+      return 'Reprobado.';
+    } else if (value == 13) { // borrador -
+      return 'Aprobado.';
     }
     return '';
   }

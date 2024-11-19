@@ -54,6 +54,8 @@ export class FormsDegreeComponent implements OnInit {
       this._DegreeModal = data.degree;
     }
     this._DegreeModalForms = this.createContactForm();
+    console.log(this._DegreeModalForms);
+    
   }
 
   createContactForm(): UntypedFormGroup {
@@ -67,8 +69,8 @@ export class FormsDegreeComponent implements OnInit {
       generalGoals: [this.data.degree.generalGoals, Validators.required],
       durationInYears: [this.data.degree.durationInYears, Validators.required],
       numOfCredits: [1, Validators.required],
-      participationProfile: [this.data.degree.participationProfile, Validators.required],
-      degreeTarget: [this.data.degree.degreeTarget, Validators.required],
+      participationProfile: [this.data.degree.participationProfile.toString(), Validators.required],
+      degreeTarget: [this.data.degree.degreeTarget.toString(), Validators.required],
       assignedCoordinatorId: [this.data.degree.assignedCoordinatorId, Validators.required],
       studyModeId: [this.data.degree.studyModeId, Validators.required],
     });

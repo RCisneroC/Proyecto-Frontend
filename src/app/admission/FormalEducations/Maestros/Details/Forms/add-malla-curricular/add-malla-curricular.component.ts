@@ -8,6 +8,7 @@ export interface DialogData {
   id_carrera: string;
   accion: string;
   malla: DegreeCurriculumDesign;
+  nameDregree:string;
 }
 @Component({
   selector: 'app-add-malla-curricular',

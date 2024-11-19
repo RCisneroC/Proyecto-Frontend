@@ -118,8 +118,11 @@
                                                         <button *ngIf="row.statusId == 5" matTooltip="participantes"
                                                             mat-mini-fab color="primary"
                                                             (click)="ViewDetail(row)"><mat-icon>remove_red_eye</mat-icon></button>
-                                                        <button *ngIf="row.statusId != 5" mat-raised-button
-                                                            color="accent"><mat-icon>close</mat-icon>Incompleto</button>
+                                                        <button *ngIf="row.statusId != 5 && row.statusId != 6" mat-raised-button
+                                                            color="accent"><mat-icon>close</mat-icon>Incompleto {{ row.statusId }}</button>
+                                                            <button *ngIf="row.statusId == 6" matTooltip="Participantes"
+                                                            mat-mini-fab color="primary"
+                                                            (click)="ViewDetail(row)"><mat-icon>remove_red_eye</mat-icon></button>
 
                                                     </mat-cell>
                                                 </ng-container>

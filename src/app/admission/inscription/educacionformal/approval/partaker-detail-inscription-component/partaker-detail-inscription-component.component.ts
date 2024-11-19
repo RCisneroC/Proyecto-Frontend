@@ -157,9 +157,11 @@ export class PartakerDetailInscriptionComponent {
     this.Array_GetDocResp = [];
     this._inscriptionService.GtedocumentoEC(this._ActivityService._DetailsResponseEF.inscriptionId).subscribe({
       next: (res) => {
+        console.log(res);
+        
         if (Array.isArray(res.getDocResp)) {
           res.getDocResp.forEach((element: GetDocResp) => {
-            this._ActivityService.getOneDocumento(element.fileType).subscribe({
+            this._ActivityService.getOneDocumentoEF(element.fileType).subscribe({
               next: (res) => {
                 element.name = res.name;
                 this.Array_GetDocResp.push(element);
@@ -251,6 +253,9 @@ export class PartakerDetailInscriptionComponent {
         console.log("Activity obj", res);
         if (res.getDetailsResponse.length > 0) {
           this._ActivityService._DetailsResponseEF = this._ActivityService._DetailsParticipanteEF.getDetailsResponse.filter(x=> x.inscriptionId == this.inscriptionID.toString())[0];
+          console.log('====================================');
+          console.log(this._ActivityService._DetailsResponseEF);
+          console.log('====================================');
           this.getDocumentosInscripcion();
         }
         this._ActivityService.loading = false;
@@ -345,6 +350,8 @@ export class PartakerDetailInscriptionComponent {
   // }
 
   verDocumento(row: GetDocResp) {
+    console.log(row);
+    
     this._inscriptionService.init_documentosIncripcion();
     this._inscriptionService.getDocumentos(row.inscriptionId.toString(), row.fileType.toString()).
       subscribe({

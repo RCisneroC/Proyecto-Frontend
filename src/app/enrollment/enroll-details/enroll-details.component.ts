@@ -146,7 +146,7 @@ export class EnrollDetailsComponent extends UnsubscribeOnDestroyAdapter
       next: (res) => {
         console.log(res.subjectEnrollmentResult);
         this.dataSourceInfo = res.subjectEnrollmentResult;
-        this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult);
+        this.dataInfo = new MatTableDataSource<subjectEnrollmentResult>(res.subjectEnrollmentResult.filter(x=>x.subjectStatusId==8));
         // this.EncuestForms();
       },
       complete: () => {

@@ -180,7 +180,7 @@ export class CreateSolicitudComponent {
 
         this._EnrolmentService.GetStudentsSubjects(rest.studentInnfo[0].degreeCurriculumDesignId.toString(), this.authService.currentUserValue.cedula).subscribe({
           next: (result) => {
-            this._SubjectMatriculas = result.subjectEnrollmentResult;
+            this._SubjectMatriculas = result.subjectEnrollmentResult.filter(x=>x.subjectStatusId ==8);
             if (rest.studentInnfo) {
               this._EnrolmentService.SearchEFAcademicRecordMethod(result.subjectEnrollmentResult[0].studentId, rest.studentInnfo[0].degreeCurriculumDesignId).subscribe({
                 next: (res) => {
@@ -413,8 +413,9 @@ export class CreateSolicitudComponent {
           requestVariousTypeId: value.typeRequest,
           requestVariousApplicantUserTypeId: this.IdTypeUser,
           periodId: this.typeActivityAcademySelected === 2 ? 0 : (this._SubjectMatriculas[0]?.periodsId || 0),
-          subjectId: this.typeActivityAcademySelected === 1 ? value.idSubjectOrActivity :0 ,
-          ActivityId: this.typeActivityAcademySelected === 2 ? value.idSubjectOrActivity:0 ,
+          subjectId: this.typeActivityAcademySelected === 1 ? value.idSubjectOrActivity :0,
+          ActivityId: this.typeActivityAcademySelected === 2 ? value.idSubjectOrActivity:0,
+          efAcademicRecordId: this.EFRecordID == 0 ? null : this.EFRecordID
         }
         
         this.RequestVariousService.CreateGeneralRequestVarious(generalrequest).subscribe({
@@ -546,7 +547,7 @@ export class CreateSolicitudComponent {
     console.log('careerSelected:', event);
     this._EnrolmentService.GetStudentsSubjects(event.toString(), this.authService.currentUserValue.cedula).subscribe({
       next: (res) => {
-        this._SubjectMatriculas = res.subjectEnrollmentResult;
+        this._SubjectMatriculas = res.subjectEnrollmentResult.filter(x=>x.subjectStatusId ==8);
         if (this.RequesttypeSelect == 9) {
           this._EnrolmentService.SearchEFAcademicRecordMethod(res.subjectEnrollmentResult[0].studentId, event).subscribe({
             next: (res) => {

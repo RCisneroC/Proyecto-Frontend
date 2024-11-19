@@ -396,6 +396,44 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
     });
   }
 
+  generarCreditosOficiales(row:RequestVariousItem){
+       this._RequestServicesService.downloadCreditsOficial(row.id.toString()).subscribe({
+          next: (res) => {
+     
+            if (res.success) {
+               this.dialog.open(ViewPosterPDFComponent, {
+                 data: {
+                   type: 'pdf',
+                   accion: 'view-poster',
+                   posterFile: res.data.pdfContentInBase64,
+                     //posterFile: environment.conradoprueba,
+                   comment: [],
+                   poster: res.data.pdfContentInBase64,
+                 },
+                 width: '1200px',
+                 disableClose: true,
+               });
+             }
+             else {
+               Swal.fire({
+                 title: "Escuela Judicial",
+                 text: "No se pudieron generar los créditos oficiales",
+                 icon: "warning"
+               });
+             }
+     
+          },
+           error : () =>{
+             Swal.fire({
+               title: "Escuela Judicial",
+               text: "No se pudieron generar los créditos oficiales",
+               icon: "warning"
+             });
+           }
+         })
+  }
+
+  
   detalleSolicitud(row: RequestVariousItem, id: number) {
     console.log(row.id);
     //const completed = JSON.parse(row.history);
@@ -448,9 +486,10 @@ export class ListadoSolicitudesComponent extends UnsubscribeOnDestroyAdapter
 
     TableExportUtil.exportToExcel(exportData, 'excel');
   }
-
-
 }
+
+
+
 export class ExampleDataSource extends DataSource<RequestVariousItem> {
   filterChange = new BehaviorSubject('');
   get filter(): string {

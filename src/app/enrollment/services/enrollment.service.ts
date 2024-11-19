@@ -147,6 +147,7 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       .subscribe({
         next: (data) => {
           console.log(data.studentInnfo);
+          localStorage.setItem('DegreeCurriculumDesignId',data.studentInnfo[0].degreeId.toString());
           this.isTblLoading = false;
           this.dataChangeCareer.next(data.studentInnfo);
         },

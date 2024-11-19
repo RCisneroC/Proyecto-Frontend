@@ -17,21 +17,18 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="card">
                     <div class="body overflow-auto">
-                      <form class="register-form m-4" [formGroup]="creditosOficialesForm">
+                      <p style="font-weight: bold;text-transform: uppercase;">Los créditos oficiales se hacen por solicitud. Por favor, complete el formulario a continuación para solicitar sus créditos oficiales.</p>
+                      <!-- <form class="register-form m-4" [formGroup]="creditosOficialesForm">
                         <div class="row">
                           <div class="col-xl-4 col-lg-4 col-md-4 row-cols-sm-4  mb-2">
                             <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Formación Especializada</mat-label>
                               <mat-select formControlName="formacionEspecializada">
                                 <mat-option [value]="" selected></mat-option>
-                                <!-- [disabled]="item.efAcademicRecordIsReentry" -->
                                 <mat-option *ngFor="let item of lstDegree" [value]="item.efAcademicRecord">
                                   <ng-container>
                                     {{item.degree.name}}
                                   </ng-container>
-                                  <!-- <ng-container *ngIf="item.efAcademicRecordIsReentry===true">
-                                    {{item.degree.name}} <span class='badge badge-solid-red'>Inactivo</span>
-                                  </ng-container> -->
                                 </mat-option>
                               </mat-select>
                               <mat-error
@@ -51,7 +48,7 @@
                             </div>
                           </div>
                         </div>
-                      </form>
+                      </form> -->
                     </div>
                   </div>
                 </div>

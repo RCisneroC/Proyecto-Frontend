@@ -24,7 +24,7 @@
                 </ng-container>
                 <ng-container matColumnDef="subjectStatusId">
                   <th mat-header-cell *matHeaderCellDef> Estado </th>
-                  <td mat-cell *matCellDef="let element">{{ element.subjectStatusId | statusMatricula }} </td>
+                  <td mat-cell *matCellDef="let element"><span class="badge badge-solid-blue">{{ element.subjectStatusId | statusMatricula }}</span> </td>
                 </ng-container>
                 <ng-container matColumnDef="mallaName">
                   <th mat-header-cell *matHeaderCellDef> Malla </th>
