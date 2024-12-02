@@ -394,6 +394,8 @@ export class BackofficeEFComponent implements OnInit {
       this.enrollmentService.getStudentData(cedula).subscribe(
         {
           next: (request) => {
+            console.log(request);
+            
             this.DatosEstudianteResponse = request as StudentModel;
             if (this.DatosEstudianteResponse != undefined) {
               if (!this.DatosEstudianteResponse.isError) {
@@ -421,6 +423,10 @@ export class BackofficeEFComponent implements OnInit {
                   this.FormsEF.controls["auditory"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].auditory == true ? "True" : "False");
                   this.FormsEF.controls["cognitive"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].cognitive == true ? "True" : "False");
                   this.FormsEF.controls["physical"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].physical == true ? "True" : "False");
+                }else{
+                  this.Participant.residentialAddress = this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].province;
+                  this.Participant.email = this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].email;
+                  this.FormsEF.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].participant[0].gender);
                 }
 
                 this.tribunalReady = true;

@@ -131,7 +131,9 @@ export class DirectoryListComponent  implements OnInit   {
       next: (res:any) => {
       console.log(res);
         this.dataSource.data = res["dataResult"]==null?[]:res["dataResult"];
-        
+        console.log('====================================');
+        console.log(this.dataSource.data);
+        console.log('====================================');
 
       }
      

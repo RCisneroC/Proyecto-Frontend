@@ -202,7 +202,7 @@ export class SubjectCurriculumComponent {
       error: (err) => {
         Swal.fire({
           title: "Escuela Judicial",
-          text: err,
+          text: 'No se pudo eliminar la Asignatura.',
           icon: "warning"
         });
       }

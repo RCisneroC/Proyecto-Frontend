@@ -21,6 +21,7 @@ import {
 } from "../../inscription/approval/activity-participants-list/detalle/approve-participant/approve-participant.component";
 import {BehaviorSubject, fromEvent, map, merge, Observable} from "rxjs";
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { CreateCertificateResponseSimple } from 'app/admission/models/AddEFacademicResponse';
 
 @Component({
   selector: 'app-certificate-list-partaker',
@@ -31,11 +32,12 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
   implements OnInit {
   displayedColumns = [
     'id',
-    'name',
-    'lastName',
+    'nombre',
     'cedula',
     'activdad',
     'estado',
+    'estadofirma',
+    'calificacion',
     'fecha_inscrito',
     'actions',
   ];
@@ -60,6 +62,7 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     private fb: UntypedFormBuilder
   ) {
     super();
+     
     this.CertificateList = this.fb.group({
       LStudentFullName: this.fb.array([]),
       LStudentCedula: this.fb.array([]),
@@ -161,8 +164,13 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     console.log(this.CertificateList.getRawValue())
 
     this._enrollservice.CreateCertificateList(this.CertificateList.getRawValue()).subscribe({
-      next: (res) => {
-        console.log('Certificado', res)
+      next: (res:CreateCertificateResponseSimple) => {
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: res.message,
+          icon: "success"
+        });
+        this.loadData();
     }
   });
   }
@@ -236,6 +244,17 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     });
   }
   generarcertificado(row: GetDataResultResponse) {
+
+
+    Swal.fire({
+      title: 'Generando certificado de'+' '+row.firstName + ' ' + row.lastName,
+      text: 'Por favor, espere.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     const CreateCertificateData = {
       activityId: this.id,
       studentFullName: row.firstName + ' ' + row.lastName,
@@ -243,7 +262,7 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
     }
     this._enrollservice.CreateCertificate(CreateCertificateData).subscribe({
       next: (res) => {
-        console.log('Certificado', res)
+        Swal.close();
         if (res.certificate) {
           const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
             data: {
@@ -261,6 +280,51 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
           Swal.fire({
             title: "Escuela Judicial",
             text: "La actividad tiene que estar finalizada para generar el certificado",
+            icon: "warning"
+          });
+        }
+
+      }
+    })
+  }
+
+  vercertificadofirmado(row: GetDataResultResponse) {
+
+    console.log(row);
+    Swal.fire({
+      title: 'Obteniendo Certificado de'+' '+row.firstName + ' ' + row.lastName,
+      text: 'Por favor, espere.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    const CreateCertificateData = {
+      name: `${row.activityId}-${row.cedula}.pdf`
+    }
+   
+    console.log(CreateCertificateData)
+    this._enrollservice.GetCertificateSignature(CreateCertificateData.name).subscribe({
+      next: (res) => {
+        Swal.close();
+        if (!res.isError) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.documentContent,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: res.message,
             icon: "warning"
           });
         }

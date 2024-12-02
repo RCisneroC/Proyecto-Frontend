@@ -396,7 +396,7 @@ export class DegreeService extends UnsubscribeOnDestroyAdapter {
     };
 
     return this.httpClient.delete<ResponseGenerica>(
-      environment.apiEF + '/Period/DeleteTeacher',
+      environment.apiEF + 'Period/DeleteTeacher',
       options
     );
   }

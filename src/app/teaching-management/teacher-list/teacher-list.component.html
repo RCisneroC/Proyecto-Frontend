@@ -33,7 +33,7 @@
                         <li class="tbl-header-btn">
                           <div class="m-l-10" matTooltip="Importar">
                               <button mat-mini-fab color="primary" (click)="Importar()">
-                                  <mat-icon class="col-white">import_export</mat-icon>
+                                <mat-icon class="col-white">upload</mat-icon>
                               </button>
                           </div>
                       </li>
@@ -83,8 +83,7 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Aplicación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha Aplicación:</span>{{row.applicationDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
+                            <span class="mobile-label">Fecha Aplicación:</span>{{row.applicationDate}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="statusId">
@@ -107,7 +106,7 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de aplicación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha de aplicación:</span>{{row.createdDate |
+                            <span class="mobile-label">Fecha de aplicación:</span>{{row.applicationDate |
                             date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
 
@@ -190,7 +189,7 @@
                           <mat-header-cell class="pr-0" *matHeaderCellDef>Acciones</mat-header-cell>
                           <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
-                            <button *ngIf="row.statusId>=0" Tooltip="Aprobar docente" mat-mini-fab color="warn"
+                            <button *ngIf="row.statusId!=1" Tooltip="Aprobar docente" mat-mini-fab color="warn"
                               (click)="$event.stopPropagation()" (click)="Aproved(row)">
                               <app-feather-icons [icon]="'check-square'"></app-feather-icons>
                             </button>

@@ -15,7 +15,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { environment } from "../../../environments/environment.development";
 import {
   CreateCertificateResponse,
-  CreateEnrollmentResult, GetStudentsActivityResponse,
+  CreateCertificateResponseSimple,
+  CreateEnrollmentResult, DocumentResponseSignature, GetStudentsActivityResponse,
   GetSubjectEnrollmentResult,
   ResponseAddEFcademicInfo
 } from "../../admission/models/AddEFacademicResponse";
@@ -37,6 +38,7 @@ import { StudentModel } from '../models/StudentModel';
 import { GraficasMatricula } from 'app/estadisticas/Models/GraficasMatricula';
 import { GraficasEntrenamiento } from 'app/estadisticas/Models/GraficasEntrenamiento';
 import { subjectHistory } from '../models/subjectHistory';
+import { CertificateSignature, ListCertificateSignatureResponse } from 'app/admission/models/ListCertificateSignature';
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +96,8 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
   dataChangeParticipant: BehaviorSubject<GetDataResultResponse[]> = new BehaviorSubject<GetDataResultResponse[]>([]);
   dataChangeParticipantEF: BehaviorSubject<InscriptionResponse[]> = new BehaviorSubject<InscriptionResponse[]>([]);
 
+  dataChangeCertificated: BehaviorSubject<CertificateSignature[]> = new BehaviorSubject<CertificateSignature[]>([]);
+
 
   public _documentosIncripcion!: documentosIncripcion;
   get data(): Participant[] {
@@ -123,6 +127,10 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.dataChangeParticipantEF.value || [];
   }
 
+  get dataCertificated(): CertificateSignature[] {
+    return this.dataChangeCertificated.value || [];
+  }
+
   constructor(private httpClient: HttpClient) { super(); }
 
   getMeshCurriculumdesingByPlan(id: number): void {
@@ -146,10 +154,15 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
       .post<CareerResponse>(environment.apiEC + 'EJMatricula/GetSubjectDegree', { cedula: id })
       .subscribe({
         next: (data) => {
-          console.log(data.studentInnfo);
-          localStorage.setItem('DegreeCurriculumDesignId',data.studentInnfo[0].degreeId.toString());
+          console.log(data);
+            if (data.studentInnfo && data.studentInnfo.length > 0) {
+            localStorage.setItem('DegreeCurriculumDesignId', data.studentInnfo[0].degreeId.toString());
+            this.dataChangeCareer.next(data.studentInnfo);
+            }else{
+              localStorage.setItem('DegreeCurriculumDesignId', '0');
+            this.dataChangeCareer.next([]);
+            }
           this.isTblLoading = false;
-          this.dataChangeCareer.next(data.studentInnfo);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -351,9 +364,27 @@ export class EnrollmentService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificate", CreateCertificateDta);
   }
 
+  GetCertificateSignature(name: any) {
+    const url = `${environment.apisignature}`;
+    return this.httpClient.get<DocumentResponseSignature>(url + "Document/GetByFileName?FileName="+name);
+  }
+
+  GetListCertificate(email: any) :void{
+    const url = `${environment.apisignature}`;
+    this.httpClient.get<ListCertificateSignatureResponse>(url + "Envelope/ByEmail?Email="+email).subscribe({
+      next: (data) => {
+        this.isTblLoading = false;
+        this.dataChangeCertificated.next(data.data);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      },
+    });
+  }
   CreateCertificateList(CreateCertificateDta: any) {
     const url = `${environment.apiUrlSchedule}`;
-    return this.httpClient.post<CreateCertificateResponse>(url + "Certificate/CreateCertificateList", CreateCertificateDta);
+    return this.httpClient.post<CreateCertificateResponseSimple>(url + "Certificate/CreateCertificateList", CreateCertificateDta);
   }
 
   init_ResponseSubjectRecord() {

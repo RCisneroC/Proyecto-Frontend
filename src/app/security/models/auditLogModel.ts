@@ -15,6 +15,7 @@ export interface AuditLog {
   userId: string
   entityName: string
   timestamp: string
+  requestUrl:string;
   message: any
   oldData: any
   newData: string

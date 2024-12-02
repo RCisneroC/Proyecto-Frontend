@@ -85,6 +85,7 @@ import {
 } from "./certificates/certificate-list-activity/certificate-list-activity.component";
 import { TypeRequestListComponent } from './FormalEducations/Maestros/type-request/type-request-list/type-request-list.component';
 import { FormSignatureComponent } from './maestros/form-signature/form-signature.component';
+import { ListCertificateComponent } from './certificates/Signature/list-certificate/list-certificate.component';
 const routes: Routes = [
   {
     path: 'schedule-activities-list',
@@ -367,6 +368,10 @@ const routes: Routes = [
   {
     path: 'form-signature',
     component: FormSignatureComponent,
+  },
+  {
+    path: 'signature',
+    component: ListCertificateComponent,
   }
 
 ];

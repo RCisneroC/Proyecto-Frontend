@@ -11,6 +11,11 @@ import { AuditLog, AuditLogModel } from '../models/auditLogModel';
 import { Sort } from '@angular/material/sort';
 import { AuditLogSearchService } from '../services/audit-log-search.service';
 import { EntityTypePipe } from 'app/pipes/entity-type.pipe';
+import { UserService } from '../user/service/user.service';
+import { User } from '@core';
+import { ViewLogComponent } from './Forms/view-log/view-log.component';
+import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-audit-log-search',
@@ -30,11 +35,11 @@ export class AuditLogSearchComponent implements AfterViewInit, OnDestroy, OnInit
   @ViewChild('paginator', { static: true })
   paginator!: MatPaginator;
   displayedColumns = [
-    'id',
+    // 'id',
     'userId',
     'message',
-    'oldData',
-    'newData',
+    // 'oldData',
+    // 'newData',
     'eventType',
     'entityName',
     'timestamp'
@@ -74,9 +79,13 @@ export class AuditLogSearchComponent implements AfterViewInit, OnDestroy, OnInit
     }
   ];
 
+    UserList:User[] = []; 
+
   constructor(private cb: ChangeDetectorRef,
     private fb: UntypedFormBuilder,
     private auditLogSearchService : AuditLogSearchService,
+    private _userservice: UserService,
+    public dialog: MatDialog,
     private entityTypePipe: EntityTypePipe) {
     this.form = this.createForm();
   }
@@ -119,7 +128,8 @@ export class AuditLogSearchComponent implements AfterViewInit, OnDestroy, OnInit
   }
 
   ngOnInit(): void {
-   console.log("iniciar")
+   console.log("iniciar");
+   this.getListUser();
   }
 
   ngOnDestroy(): void {
@@ -209,6 +219,30 @@ export class AuditLogSearchComponent implements AfterViewInit, OnDestroy, OnInit
   filtrar(event: Event) {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
+  getListUser(){
+    this._userservice.getAllUsers2().subscribe({
+      next:(res)=>{
+        this.UserList = res;
+      } 
+    });
+  }
+ 
+
+  detalleLog(row:AuditLog){
+    const dialogRef = this.dialog.open(ViewLogComponent, {
+      data: {
+        audit: row,
+        action: 'view',
+      }
+    });
+
+      dialogRef.afterClosed().subscribe((result: ResponseMessageMaestra) => {
+      if (result == undefined) {
+        return;
+      }
+    });
   }
 
   exportExcel() {

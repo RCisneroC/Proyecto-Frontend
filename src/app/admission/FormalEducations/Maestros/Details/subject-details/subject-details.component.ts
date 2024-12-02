@@ -130,7 +130,7 @@ export class SubjectDetailsComponent {
       error: (err) => {
          Swal.fire({
               title: "Escuela Judicial",
-              text: err,
+              text: 'Intente Nuevamente',
               icon: "warning"
             });
       }
@@ -145,7 +145,7 @@ export class SubjectDetailsComponent {
       error: (err) => {
          Swal.fire({
               title: "Escuela Judicial",
-              text: err,
+              text: 'Intente Nuevamente',
               icon: "warning"
             });
       }

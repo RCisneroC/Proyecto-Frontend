@@ -97,10 +97,11 @@
                   </div>
                   <div *ngIf="verificarExistenciaFiltro('UserId')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Usuario</mat-label>
-                      <input matInput formControlName="UserId" type="text" placeholder="Usuario"
-                        aria-label="Usuario">
-                      <mat-error *ngIf="form.get('UserId')?.hasError">Usuario</mat-error>
+                      <mat-label>Lista de Usuarios</mat-label>
+                      <mat-select formControlName="UserId">
+                        <mat-option *ngFor="let user of UserList" [value]="user.id">{{user.userName}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="form.get('UserList')?.hasError">Lista de Usuarios</mat-error>
                     </mat-form-field>
                   </div>
                   <div *ngIf="verificarExistenciaFiltro('EntityName')" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
@@ -212,13 +213,15 @@
                         date:'dd/MM/yyyy HH:mm:ss'}}</mat-cell>
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                    <mat-row  (click)="detalleLog(row)" *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                     </mat-row>
-                  </table>
-                  <div *ngIf="!IsLoading" class="no-results"
-                    [style.display]="auditLogModel.length === 0 ? '' : 'none'">
-                    No results
-                  </div>
+                  </table> 
+                  <div *ngIf="!IsLoading" class="no-results text-center my-4"
+                  [style.display]="auditLogModel.length === 0 ? '' : 'none'"
+                  style="color: rgba(0, 0, 0, 0.301); font-size: 1.2em;">
+              <mat-icon class="no-results-icon">info</mat-icon>
+              <p>No hay datos disponibles</p>
+              </div>
                   <mat-paginator #paginator  [pageSize]="10" [pageSizeOptions]="[10, 25, 50,100]" [length]="totalR" (page)="onPaginateChange($event)">
                   </mat-paginator>
                 </div>

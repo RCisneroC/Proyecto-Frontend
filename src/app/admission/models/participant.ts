@@ -38,6 +38,7 @@ export interface GetDataResultResponse {
     lastName:      string;
     cedula:        string;
     statusName:    string;
+    activityId?:    number;
     fechaInscrito: Date;
 }
 

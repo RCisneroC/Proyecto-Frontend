@@ -174,7 +174,7 @@ export class ExampleDataSource extends DataSource<AnnualPlan> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllAnnualPlanFiltroEstado(5);
+    this.exampleDatabase.GetanualPlanParticipants();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data

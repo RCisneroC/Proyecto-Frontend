@@ -84,7 +84,7 @@ public ResponseMessage: ResponseMessageMaestra = {
       lastName: [this.user.lastName, [Validators.required]],
       email: [this.user.email, [Validators.required]],
       phoneNumber: [this.user.phoneNumber, [Validators.required]],
-      userStatusId:[this.user.statusId, [Validators.required]],
+      statusId:[this.user.statusId, [Validators.required]],
       gender:["M", [Validators.required]],
       roles:[rol, [Validators.required]],
       isRegistered:[true, [Validators.required]],

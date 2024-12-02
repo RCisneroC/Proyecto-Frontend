@@ -20,10 +20,10 @@
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="card">
-                    <div *ngIf="IsEnd" class="alert alert-danger" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
+                    <div *ngIf="!IsEnd" class="alert alert-danger" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
                       La actividad ya no está disponible y la fecha de inscripción ha terminado.
                     </div>
-                    <div *ngIf="!IsEnd" class="alert alert-success" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
+                    <div *ngIf="IsEnd" class="alert alert-success" style="width: 50%; margin-top: 10px;font-weight: 500;" role="alert">
                       La actividad está disponible y los cupos máximos son {{ CountTotalParticipants }}.
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -41,7 +41,7 @@
 
                       </div>
                     </div>
-                    <div *ngIf="!IsEnd" class="materialTableHeader">
+                    <div *ngIf="IsEnd" class="materialTableHeader">
                       <div class="left">
                         <ul class="header-buttons-left ms-0">
                           <li class="tbl-title">

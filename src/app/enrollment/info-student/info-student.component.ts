@@ -298,8 +298,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
                 this.studentForm.controls["lastName"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].lastName);
                 this.studentForm.controls["email"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].email);
                 this.studentForm.controls["gender"].patchValue(this.DatosEstudianteResponse.verifyUsersResult[0].gender);
-
-                this.studentForm.controls["gender"].disable();
+ 
 
                 if (this.aspirante) {
                   this.aspirantId = this.DatosEstudianteResponse.verifyUsersResult[0].aspirant[0].aspirantId;
@@ -921,7 +920,7 @@ export class InfoStudentComponent extends UnsubscribeOnDestroyAdapter implements
       next: (res) => {
         if (Array.isArray(res.getDocResp)) {
           res.getDocResp.forEach((element: GetDocResp) => {
-            this._ActivityService1.getOneDocumento(element.fileType).subscribe({
+            this._ActivityService1.getOneDocumentoEF(element.fileType).subscribe({
               next: (res) => {
                 element.name = res.name;
                 this.Array_GetDocResp.push(element);

@@ -15,6 +15,7 @@ import { FormsMenuComponent } from './forms-menu/forms-menu.component';
 import { ViewMenuModalComponent } from './view-menu-modal/view-menu-modal.component';
 import { AuditLogSearchComponent } from './audit-log-search/audit-log-search.component';
 import { EntityTypePipe } from 'app/pipes/entity-type.pipe';
+import { ViewLogComponent } from './audit-log-search/Forms/view-log/view-log.component';
 @NgModule({
   providers: [EntityTypePipe],
   declarations: [
@@ -27,6 +28,7 @@ import { EntityTypePipe } from 'app/pipes/entity-type.pipe';
     FormsMenuComponent,
     ViewMenuModalComponent,
     AuditLogSearchComponent,
+    ViewLogComponent,
   ],
   imports: [
     CommonModule,

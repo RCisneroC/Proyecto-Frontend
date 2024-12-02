@@ -366,67 +366,76 @@ export class InscriptionFormsExternalComponent {
       // this.loading = true;
       // this.cedulaParticipant = cedula;
       
-  //     if(true && this.typedoc == "CIP"){
-  //       this._inscriptionService.GetDataOrgano(cedula).subscribe({
-  //         next:(res)=>{
-  //           if(res.length > 0){
-  //             this.loading = true;
-  //             this.cedulaParticipant = cedula;
-  //     this._inscriptionService.getDataPerson(cedula).subscribe({
-  //       next: (data) => {
-  //         // <mat-option value="1">Servidores Judiciales</mat-option>
-  //         // <mat-option value="2">Público en General</mat-option>
-  //         // <mat-option value="3">Ambos</mat-option>
-        
-         
-  //         this.loading = false;
-  //         this.disabled = true;
-  //         this.personData = data;
-  //         // if(this.personData[0]?.datasetPersona?.personaConfidencial!=null){
-  //         //   this.perfil.push(1)
-  //         //   }
-            
-  //         //   if(this.personData[0]?.datasetPersona?.personaConfidencial!=null){
-  //         //     this.perfil.push(2)
-  //         //     }
-  //         this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.primer_nombre;
-  //         this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.apellido_paterno;
-  //         this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.apellido_materno;
-  //         this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.lugarDeNacimiento;
-  //         this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.fecha_nacimiento;
-  //         this.Participant.gender = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.sexo;
-  //         this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
-  //           ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
-  //             ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
-  //             ?.barrio_residencia;
-  //         console.log('Datos de la persona:', data[0]?.datasetPersona);
-  //         this.tribunalReady = true;
-  //       },
-  //       error: (e) => this.loading = false,
-  //       complete: () => 
-  //       console.info('Complete')
-       
-  //       //this.meshList = this.meshList.filter((carrera: { participationProfile: number; }) => this.perfil.includes(carrera.participationProfile))
-        
-     
-  //     })
-  //   }
-  //   else {
-  //                 Swal.fire({
-  //                   title: "Escuela Judicial",
-  //                   text: 'Por favor, la persona que desea inscribir debe pertenecer al Órgano',
-  //                   icon: "warning"
-  //                 });
-  //               }
-  //   }
-  // })
-  // }else{
+      if(true && this.typedoc == "CIP"){
+        this._inscriptionService.GetDataOrgano(cedula).subscribe({
+          next:(res)=>{
+        if(res.length > 0){
+          this.loading = true;
+          this.cedulaParticipant = cedula;
+          this._inscriptionService.getDataPerson(cedula).subscribe({
+            next: (data) => {
+
+              this.loading = false;
+              this.disabled = true;
+              this.personData = data;
+              this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
+                ?.primer_nombre;
+              this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
+                ?.apellido_paterno;
+              this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
+                ?.apellido_materno;
+              this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+                ?.lugarDeNacimiento;
+              this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+                ?.fecha_nacimiento;
+              this.Participant.gender = this.personData[0]?.datasetPersona?.personaPublica
+                ?.sexo;
+              this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
+                ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
+                  ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
+                  ?.barrio_residencia;
+              console.log('Datos de la persona:', data[0]?.datasetPersona);
+              this.tribunalReady = true;
+            },
+            error: (e) => this.loading = false,
+            complete: () => 
+            console.info('Complete')
+          })
+          }
+          else {
+            this._inscriptionService.getDataPerson(cedula).subscribe({
+              next: (data) => {
+  
+                this.loading = false;
+                this.disabled = true;
+                this.personData = data;
+                this.Participant.firstName = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.primer_nombre;
+                this.Participant.lastName = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.apellido_paterno;
+                this.Participant.secondsurname = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.apellido_materno;
+                this.Participant.placeOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.lugarDeNacimiento;
+                this.Participant.dateOfBirth = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.fecha_nacimiento;
+                this.Participant.gender = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.sexo;
+                this.Participant.residentialAddress = this.personData[0]?.datasetPersona?.personaPublica
+                  ?.edificio_casa + " ," + this.personData[0]?.datasetPersona?.personaPublica
+                    ?.calle_residencia + " ," + this.personData[0]?.datasetPersona?.personaPublica
+                    ?.barrio_residencia;
+                console.log('Datos de la persona:', data[0]?.datasetPersona);
+                this.tribunalReady = true;
+              },
+              error: (e) => this.loading = false,
+              complete: () => 
+              console.info('Complete')
+            })
+          }
+  }});
+  }
+  // else{
     this.loading = true;
     this.cedulaParticipant = cedula;
     this._inscriptionService.getDataPerson(cedula).subscribe({
@@ -434,6 +443,7 @@ export class InscriptionFormsExternalComponent {
         this._inscriptionService._Persona = data;
         console.log(this._inscriptionService._Persona[0].datasetPersona.personaPublica);
         if (data.length > 0) {
+          this.tribunalReady = true;
           this.busquedaR = true;
           if (this._inscriptionService._Persona[0].datasetPersona.personaPublica == null) {
             this.personData = this._inscriptionService._Persona[0]?.datasetPersona?.personaPublica;

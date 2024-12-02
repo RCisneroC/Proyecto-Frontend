@@ -3,14 +3,14 @@
     <div class="block-header">
         <!-- breadcrumb -->
         <app-breadcrumb [title]="'Formación Especializada'" [items]="['Inicio','Ofertas Académicas','Formación Especializada']"
-        [active_item]="'Listado de Planes Anuales Aprobados'">
+        [active_item]="'Listado de Carreras Disponibles'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Listado de Planes Anuales Aprobados</strong></h2>
+            <h2 class="text-uppercase"><strong>Listado de Carreras Disponibles</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -53,19 +53,18 @@
                             <span class="mobile-label">Descripción:</span>{{row.description }}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="startDate">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio Inscripción
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha Inicio:</span>{{row.startDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container>
-						<ng-container matColumnDef="endDate">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha Fin:</span>{{row.endDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
-                        </ng-container>
+                            <span class="mobile-label">Fecha Inicio / Fin:</span>{{row.startDate | date:'dd/M/yyyy'}} </mat-cell>
+                          </ng-container>
+                          
+                          <ng-container matColumnDef="endDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin Inscripción
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                              <span class="mobile-label">Inscripción Inicio / Fin:</span> {{row.endDate | date:'dd/M/yyyy'}}</mat-cell>
+                          </ng-container>
                         <ng-container matColumnDef="statusId">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
                           </mat-header-cell>
@@ -86,9 +85,12 @@
                           [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
-                      <div *ngIf="!IsLoading" class="no-results"
-                      [style.display]="lstCarreras.length === 0 ? '' : 'none'">
-                      No results
+                      
+                    <div *ngIf="!IsLoading" class="no-results text-center my-4"
+                      [style.display]="dataSource.filteredData.length === 0 ? '' : 'none'"
+                      style="color: #00000085; font-size: 1.2em;">
+                      <mat-icon class="no-results-icon">info</mat-icon>
+                      <p>No hay datos disponibles</p>
                     </div>
                     <mat-paginator #paginator [pageIndex]="0" [pageSize]="5"
                       [pageSizeOptions]="[5, 10, 25, 100]">

@@ -90,3 +90,24 @@ export interface CreateCertificateResponse {
     enableRangeProcessing: boolean
   }
 }
+
+export interface CreateCertificateResponseSimple {
+  message: string;
+  status: number;
+}
+
+
+ 
+export interface DocumentResponseSignature {
+  message: string;
+  isError: boolean;
+  statusCode: number;
+  documentId: string;
+  documentName: string;
+  documentFormat: string;
+  documentContent: string;
+  urlToPost: string;
+  isDocumentSigned: boolean;
+  createdOn: string;
+  updateOn: string;
+}

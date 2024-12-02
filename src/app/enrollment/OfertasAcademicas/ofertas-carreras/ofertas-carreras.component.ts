@@ -47,8 +47,14 @@ export class OfertasCarrerasComponent implements OnInit, OnDestroy, AfterViewIni
       this.enrollmentService.getDegreeCurriculumDesign().subscribe(
         {
           next: (request) => {
+            const today = new Date().toISOString().split('T')[0];
+            console.log(today);
+            
             this.lstCarreras = request as DegreeCurriculumDesignEnrollment[];
-            this.dataSource = new MatTableDataSource<DegreeCurriculumDesignEnrollment>(this.lstCarreras);
+            this.dataSource = new MatTableDataSource<DegreeCurriculumDesignEnrollment>(this.lstCarreras.filter(x => x.startDate <= today && x.endDate >= today));
+            console.log('====================================');
+            console.log(this.dataSource);
+            console.log('====================================');
             this.IsLoading = false;
           },
           error: (err: HttpErrorResponse) => {

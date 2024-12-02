@@ -78,6 +78,22 @@ export class AnnualPlanService extends UnsubscribeOnDestroyAdapter {
         },
       });
   }
+  GetanualPlanParticipants(): void {
+    this.subs.sink = this.httpClient
+      .get<AnnualPlan[]>(environment.apiEF + 'AnnualPlan/GetAll')
+      .subscribe({
+        next: (data) => {
+          this.isTblLoading = false;
+          this.dataChange.next(data);
+          console.log(data);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isTblLoading = false;
+          console.log(error.name + ' ' + error.message);
+        },
+      });
+  }
+
 
   getAllAnnualPlan2() {
     return this.httpClient.get<AnnualPlan[]>(

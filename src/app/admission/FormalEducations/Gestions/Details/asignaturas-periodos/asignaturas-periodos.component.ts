@@ -262,7 +262,7 @@ export class AsignaturasPeriodosComponent extends UnsubscribeOnDestroyAdapter
       error: (err) => {
         Swal.fire({
           title: 'Escuela Judicial',
-          text: err,
+          text: 'Intente Nuevamente',
           icon: 'warning',
         });
       }

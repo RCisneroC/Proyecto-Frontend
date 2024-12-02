@@ -120,6 +120,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           this.isTblLoading = false;
           if (  this.roleId=="b23d3a5d-571a-45b8-8d8b-22f2a0812cf1" ||//tutor
                 this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
+                this.roleId=="159c9aaf-0c0a-41f4-ae2f-14daced37ebe" ||//directora
                 this.roleId=="7919f37c-4393-4252-b309-6ca112b5e89a" ||//estudiante
                 this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb" //certificador
           ){
@@ -155,12 +156,17 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
             console.log(this.userType);
 
           }
-
+          const today = new Date().toISOString().split('T')[0];
           this.isTblLoading = false;
           if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
+            this.roleId=="159c9aaf-0c0a-41f4-ae2f-14daced37ebe" ||//Directora
              this.roleId=="7919f37c-4393-4252-b309-6ca112b5e89a" //estudiante
             ) {
-            this.dataChange2.next(data.filter(x => x.activityTrainingType != 1));
+              if(this.roleId=="7919f37c-4393-4252-b309-6ca112b5e89a"){
+                this.dataChange2.next(data.filter(x => x.inscriptionStartDate <= today && x.inscriptionEndDate >= today && x.activityTrainingType != 1));
+              }else{
+                this.dataChange2.next(data.filter(x => x.activityTrainingType != 1));
+              }
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3 && x.activityTrainingType != 1));
           }
@@ -192,7 +198,8 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           this.isTblLoading = false;
           if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
-            this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb" //certificador
+            this.roleId=="f86dd3e0-4efc-4a7a-b59c-16c192ca6fcb"|| //certificador
+            this.roleId == "159c9aaf-0c0a-41f4-ae2f-14daced37ebe"
             ) {
             this.dataChange2.next(data.filter(x => x.statusId == 5 || x.statusId == 6));
           } else {
@@ -222,7 +229,7 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
           }
 
           this.isTblLoading = false;
-          if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ) {
+          if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" || this.roleId=="159c9aaf-0c0a-41f4-ae2f-14daced37ebe" ) {
             this.dataChange2.next(data.filter(x => x.statusId == 5 && x.activityTrainingType == 1));
           } else {
             this.dataChange2.next(data.filter(x => x.statusId == 3));

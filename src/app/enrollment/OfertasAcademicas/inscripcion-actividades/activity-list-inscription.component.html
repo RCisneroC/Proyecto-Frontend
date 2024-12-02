@@ -3,14 +3,14 @@
     <div class="block-header">
       <!-- breadcrumb -->
       <app-breadcrumb [title]="'Entrenamiento'" [items]="['Inicio','Ofertas Académicas','Entrenamiento']"
-        [active_item]="'Listado de Planes Anuales Aprobados'">
+        [active_item]="'Listado de Acitividades Disponibles'">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2 class="text-uppercase"><strong>Listado de Planes Anuales Aprobados</strong></h2>
+            <h2 class="text-uppercase"><strong>Listado de Acitividades Disponibles</strong></h2>
           </div>
           <div class="body">
             <div class="row">
@@ -49,8 +49,9 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de planificación
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha de planificación:</span>{{row.planningDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
+                            <span class="mobile-label">Inscripción Inicio / Fin:</span>{{row.inscriptionStartDate |
+                            date:'dd/M/yyyy'}} - {{row.inscriptionEndDate |
+                              date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="activityModeName">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Modalidad
@@ -83,8 +84,9 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
-                            <span class="mobile-label">Fecha inicio:</span>{{row.startDate |
-                            date:'dd/M/yyyy'}}</mat-cell>
+                            <span class="mobile-label">Fecha inicio/Fin:</span>{{row.startDate |
+                            date:'dd/M/yyyy'}} - {{row.plannedEndDate |
+                              date:'dd/M/yyyy'}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="status">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Estado
@@ -155,9 +157,11 @@
                       </button>
                     </mat-menu>
                     <!-- context menu end -->
-                    <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
-                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'">
-                      No results
+                    <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results text-center my-4"
+                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'"
+                      style="color: #00000085; font-size: 1.2em;">
+                      <mat-icon class="no-results-icon">info</mat-icon>
+                      <p>No hay datos disponibles</p>
                     </div>
                     <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
                       [pageSizeOptions]="[5, 10, 25, 100]">
