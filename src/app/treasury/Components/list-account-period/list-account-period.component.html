@@ -20,7 +20,7 @@
                     <div class="left">
                       <ul class="header-buttons-left ms-0">
                         <li class="tbl-title">
-                          <h2>Periodos Contables</h2>
+                          <h2>Periodos Contables {{ IsLoading }} </h2>
                         </li>
                         <li class="tbl-search-box">
                           <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -135,6 +135,13 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                         </mat-row>
                       </table>
+                    </div>
+
+                    <div *ngIf="!IsLoading" class="no-results text-center my-4"
+                    [style.display]="dataSource.data.length === 0 ? '' : 'none'"
+                    style="color: rgba(0, 0, 0, 0.301); font-size: 1.2em;">
+                    <mat-icon class="no-results-icon">info</mat-icon>
+                    <p>No hay datos disponibles</p>
                     </div>
                     <!-- Loading spinner -->
                     <div *ngIf="IsLoading" class="tbl-spinner">
