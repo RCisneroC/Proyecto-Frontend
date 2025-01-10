@@ -247,7 +247,20 @@ export class InscriptionService extends UnsubscribeOnDestroyAdapter {
     const url = `${environment.apiEC}`;
     return this.httpClient.get<VerificarDocumentacion>(url + "GetData/GetValidateFile?EJInscriptionId=" + id)
   }
-
+  getValidateCedula(email: any, cedula: any) {
+    
+    let url = environment.apiUrl + 'GetUsersBy?';
+    if (email) {
+      url += `Email=${email}`;
+    }
+    if (cedula) {
+      if (email) {
+      url += '&';
+      }
+      url += `Cedula=${cedula}`;
+    }
+    return this.httpClient.get<any>(url);
+  }
 
   // getParticipants(): Observable<any>{
   //   return this.httpClient.get<any>(environment.apiEC+"ContinuingEducation/GetParticipants")

@@ -284,6 +284,9 @@ export class CertificateListPartakerComponent extends UnsubscribeOnDestroyAdapte
           });
         }
 
+      },
+      error:()=>{
+        Swal.close();
       }
     })
   }

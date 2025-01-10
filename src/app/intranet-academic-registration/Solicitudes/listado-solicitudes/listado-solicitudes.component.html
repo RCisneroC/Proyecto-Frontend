@@ -167,7 +167,7 @@
                                                             <app-feather-icons [icon]="'trash'"></app-feather-icons>
                                                         </button>
 
-                                                        <button *ngIf="row.requestVariousTypeId ==10"
+                                                        <button *ngIf="row.requestVariousTypeId ==10 && row.requestVariousStatusTypeId != 3"
                                                         mat-mini-fab color="warn" matTooltip="Generar Creditos Oficiales"
                                                         (click)="$event.stopPropagation()" (click)="generarCreditosOficiales(row)"
                                                         class="tbl-action-btn">

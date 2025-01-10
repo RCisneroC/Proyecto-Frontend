@@ -285,9 +285,12 @@ export class InscriptionExternalComponent implements OnInit {
 
 
   // }
-  
-  
+
   getPersonData(cedula: string) {
+
+    // this.getCedulaExist(cedula);
+    // (ngModelChange)="getEamilExist(emailFilter.value)" #emailFilter
+
     this._inscriptionService.init_Persona();
     this.loading = false;
     this.disabled = true;
@@ -412,6 +415,44 @@ export class InscriptionExternalComponent implements OnInit {
     }
 
 
+  }
+
+  getCedulaExist(cedula:any){
+    this._inscriptionService.getValidateCedula('',cedula).subscribe({
+      next: (res)=>{
+         console.log(res.length>0);
+         if(res.length>0){
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Ya está registrada, por favor ingrese como estudiante e inscríbase en la oferta académica.',
+            icon: "warning"
+          });
+          setTimeout(() => {
+            // location.reload();
+          }, 4000
+        );
+         }
+         
+      }
+    })
+  }
+
+  getEamilExist(email:any){
+    this._inscriptionService.getValidateCedula(email,'').subscribe({
+      next: (res)=>{
+        if(res.length>0){
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Ya está registrada, por favor ingrese como estudiante e inscríbase en la oferta académica.',
+            icon: "warning"
+          });
+          setTimeout(() => {
+            // location.reload();
+          }, 4000
+        );
+         }
+      }
+    })
   }
 
   getOneActivityDetails() {

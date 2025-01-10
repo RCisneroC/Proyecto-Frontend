@@ -157,6 +157,8 @@ export class ScheduleActivitiesService extends UnsubscribeOnDestroyAdapter {
 
           }
           const today = new Date().toISOString().split('T')[0];
+          console.log(today);
+          
           this.isTblLoading = false;
           if (this.roleId=="d2674562-193a-41e6-9a92-7f7cb04caf90" ||//admin
             this.roleId=="159c9aaf-0c0a-41f4-ae2f-14daced37ebe" ||//Directora

@@ -62,14 +62,33 @@
                   <mat-label>Telefono</mat-label>
                   <input matInput formControlName="phoneNumber">
                   <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                  <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
-                    El telefono es requerido
-                  </mat-error>
                 </mat-form-field>
               </div>
 
            
            
+          </div>
+          <div  class="row">
+            <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+              <mat-form-field class="example-full-width " appearance="outline">
+                <mat-label>Genero</mat-label>
+                <mat-select formControlName="gender" >
+                  <mat-option value="Masculino">
+                      Masculino
+                  </mat-option>
+                  <mat-option value="Femenino">
+                      Femenino
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+              <mat-form-field class="example-full-width " appearance="outline">
+                <mat-label>Cédula</mat-label>
+                <input matInput formControlName="Cedula">
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+              </mat-form-field>
+            </div>
           </div>
           <div  class="row">
             <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
@@ -102,6 +121,7 @@
               </mat-form-field>
             </div>
           </div>
+          
        
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

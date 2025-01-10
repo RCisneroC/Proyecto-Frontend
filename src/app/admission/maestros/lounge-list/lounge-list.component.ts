@@ -133,19 +133,19 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
     delete(row:Lounge) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.name,
+      text: "Inactivar "+row.name,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar"
+      confirmButtonText: "Si, Inactivar"
     }).then((result) => {
       if (result.isConfirmed) {
         this.masterService.DeleteLounge(row.id).subscribe({
         next:(res:ResponseGenerica)=>{
              Swal.fire({
-              title: "Eliminado!",
-              text: row.name+" fue eliminado.",
+              title: "Escuela Judicial",
+              text: row.name+" fue Inactivado.",
               icon: "success"
             });
             this.loadData();
@@ -155,7 +155,7 @@ export class LoungeListComponent extends UnsubscribeOnDestroyAdapter implements 
             console.log(err);
              Swal.fire({
               title: "Intente nuevamente!",
-              text: row.name+" no se pudo eliminar.",
+              text: row.name+" no se pudo ianctivar.",
               icon: "warning"
             });
           }

@@ -26,9 +26,18 @@
                       <input matInput #inputUrl placeholder="URL para importar" [value]="this.baseUrl" />
                       <mat-hint>Link Inscripción docente</mat-hint>
                     </mat-form-field>
-                    <button mat-button color="primary" (click)="copy(inputUrl)" >Copy</button>
+                    <button mat-button color="primary" (click)="copy(inputUrl)" >Copiar</button>
                   </div>
                   
+                  <div class="col-12" class="app-icons">
+                    <mat-form-field>
+                      <input matInput #inputUrl01 placeholder="URL para importar" [value]="this.baseUrlConvocatoria" />
+                      <mat-hint>Link Convocatoria Docente</mat-hint>
+                    </mat-form-field>
+                    <button mat-button color="primary" (click)="copy(inputUrl01)" >Copiar</button>
+                  </div>
+                  
+
                   </div>
                   <div class="row g-0 p-1">
                    

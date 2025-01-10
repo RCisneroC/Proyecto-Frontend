@@ -29,6 +29,7 @@ import {
 })
 export class DetalleParticipanteComponent {
   public paramsId: any;
+  public activity:any;
   ActivityTriningType: string = '';
   UserRole: string = '';
   DisplayNameDocument: string[] = [
@@ -82,6 +83,8 @@ export class DetalleParticipanteComponent {
     this.ActivityTriningType = localStorage.getItem('Activity_Training_Type') || '';
     this.UserRole =this._RequestService.getRoleFromToken(this.authService.currentUserValue.token);
     this.paramsId = Path.snapshot.params['id'];
+    this.activity = localStorage.getItem('id_activida') || '';
+    
     if (this.paramsId != null) {
       this.getDetails();
       this.getOneActivity();
@@ -96,7 +99,7 @@ export class DetalleParticipanteComponent {
 
   getDetails() {
     this._ActivityService.loading = true;
-    this._ActivityService.GetDetailsCedula(this.paramsId).subscribe({
+    this._ActivityService.GetDetailsCedulaDetalleInfoStudenst(this.paramsId,this.activity).subscribe({
       next: (res: DetailsParticipante) => {
         this._ActivityService._DetailsParticipante = res;
         if (res.detailsResponse.length > 0) {

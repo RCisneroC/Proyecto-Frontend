@@ -117,19 +117,19 @@ implements OnInit{
     delete(row:StudyMode) {
     Swal.fire({
       title: "¿Estas seguro?",
-      text: "Eliminara "+row.name,
+      text: "Inactivar "+row.name,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar"
+      confirmButtonText: "Si, Inactivar"
     }).then((result) => {
       if (result.isConfirmed) {
         this._StudyModeService.DeleteStudyMode(row.id).subscribe({
         next:(res:ResponseGenerica)=>{
              Swal.fire({
-              title: "Eliminado!",
-              text: row.name+" fue eliminado.",
+              title: "Escuela Judicial",
+              text: row.name+" fue Inactivado.",
               icon: "success"
             });
             this.loadData();
@@ -138,7 +138,7 @@ implements OnInit{
             console.log(err);
              Swal.fire({
               title: "Intente nuevamente!",
-              text: row.name+" no se pudo eliminar.",
+              text: row.name+" no se pudo Inactivar.",
               icon: "warning"
             });
           }

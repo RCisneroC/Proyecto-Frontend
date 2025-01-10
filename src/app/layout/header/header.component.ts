@@ -54,6 +54,7 @@ export class HeaderComponent
   isFullScreen = false;
   formPassword?: ChangePassword;
   username?: string;
+  baseUrlConvocatoria: any;
   baseUrl: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -135,6 +136,7 @@ export class HeaderComponent
     this.config = this.configService.configData;
     
     this.baseUrl=environment.baseUrlTeacher+"/#/teacher/teacher-admission-external";
+    this.baseUrlConvocatoria=environment.baseUrlTeacher+"/#/calls/teacher-apply-calls";
     this.username = this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName;
     this.userImg = "https://ui-avatars.com/api/?name="+this.authService.currentUserValue.firstName+"+"+this.authService.currentUserValue.lastName+"&background=0D8ABC&color=fff&size=128";
     this.docElement = document.documentElement;

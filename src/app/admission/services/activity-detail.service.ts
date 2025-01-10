@@ -736,8 +736,8 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  GetParticipanteCedula(cedula: any) {
-    return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula=' + cedula);
+  GetParticipanteCedula(cedula: any,activityid:any) {
+    return this.httpClient.get<ApiResponse>(environment.apiEC + 'GetData/GetParticipants?Cedula=' + cedula+'&activityid='+activityid);
   }
 
   ApproveParticipant(data: any) {
@@ -745,7 +745,13 @@ export class ActivityDetailService extends UnsubscribeOnDestroyAdapter {
   }
 
   GetDetailsCedula(cedula: any) {
+    // alert("...");
+    // return;
     return this.httpClient.get<DetailsParticipante>(environment.apiEC + 'GetData/GetDetail?cedula=' + cedula);
+  }
+  // nuevo...
+  GetDetailsCedulaDetalleInfoStudenst(cedula: any,activityId:any) {
+    return this.httpClient.get<DetailsParticipante>(environment.apiEC + 'GetData/GetDetail?cedula=' + cedula+'&activityId='+activityId);
   }
 
   GetDetailsEFCedula(cedula: any) {

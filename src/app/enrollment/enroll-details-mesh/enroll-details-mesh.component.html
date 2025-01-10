@@ -204,6 +204,10 @@
                     <button mat-mini-fab color="accent" (click)="VerNotaFinal(element)" matTooltip="Nota Final">
                       <mat-icon>receipt</mat-icon>
                     </button>
+                    <button  mat-mini-fab color="accent" (click)="vercertificadofirmado(element)"
+                    matTooltip="Certificado Firmado {{ element.firstName }} {{ element.lastName }}">
+              <mat-icon>school</mat-icon>
+            </button>
                     <!-- <button mat-mini-fab color="accent" (click)="generarcertificado(element)"
                       matTooltip="Generar Certificado">
                       <mat-icon>school</mat-icon>

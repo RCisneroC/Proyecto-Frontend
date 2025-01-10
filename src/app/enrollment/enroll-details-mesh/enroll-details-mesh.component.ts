@@ -236,6 +236,60 @@ export class EnrollDetailsMeshComponent {
     })
   }
 
+  vercertificadofirmado(row: getStudentsActivityResponse) {
+
+    console.log(row);
+    Swal.fire({
+      title: 'Obteniendo Certificado de'+' '+row.firstName + ' ' + row.lastName,
+      text: 'Por favor, espere.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    const CreateCertificateData = {
+      name: `${row.acivityId}-${row.cedula}.pdf`
+    }
+   
+    console.log(CreateCertificateData)
+    this._enrollservice.GetCertificateSignature(CreateCertificateData.name).subscribe({
+      next: (res) => {
+        Swal.close();
+        if (!res.isError) {
+          const dialogRef = this._dialog.open(ViewPosterPDFComponent, {
+            data: {
+              type: 'pdf',
+              accion: 'view-poster',
+              posterFile: res.documentContent,
+              comment: [],
+              poster: res,
+            },
+            width: '1200px',
+            disableClose: true,
+          });
+        }
+        else {
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: res.message,
+            icon: "warning"
+          });
+        }
+
+      },
+      error:()=>{
+        Swal.close();
+        Swal.fire({
+          title: "Escuela Judicial",
+          text: "No se pudo obtener el certificado / Firma no disponible en el certificado, intente mas tarde o consulte con el ISJUP",
+      });
+      }
+  })
+  
+  }
+  
+
   verCalificaciones(row: getStudentsActivityResponse) {
     this._enrollservice.SearchECAcademicRecordMethod(row.acivityId, false, row.participantId).subscribe({
       next: (res) => {

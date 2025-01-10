@@ -21,7 +21,27 @@ export class User {
    roleId!: string;
    menus!: MenuResponse[];
 
-
+   constructor() {
+    this.id = '';
+    this.img = '';
+    this.cedula = '';
+    this.userName = '';
+    this.password = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.emailConfirm = false;
+    this.email = '';
+    this.statusId = 0;
+    this.gender = '';
+    this.phoneNumber = '';
+    this.createdDate = new Date().toISOString(); // Fecha actual como predeterminada
+    this.isRegistered = false;
+    this.token = '';
+    this.roles = [];
+    this.role = '';
+    this.roleId = '';
+    this.menus = [];
+ }
 }
 
 

@@ -368,14 +368,14 @@ export class BackofficeEFComponent implements OnInit {
         {
           next: (request: any) => {
             if (request[0].datasetPersona.personaPublica == null) {
-              Swal.fire({
-                title: "Escuela Judicial",
-                text: 'Su cédula no está registrada en el Tribunal Electoral',
-                icon: "warning"
-              }).then((result) => {
-                this._nav.navigate(["dashboard/dashboard-student"]);
-              }
-              );
+              // Swal.fire({
+              //   title: "Escuela Judicial",
+              //   text: 'Su cédula no está registrada en el Tribunal Electoral',
+              //   icon: "warning"
+              // }).then((result) => {
+              //   this._nav.navigate(["dashboard/dashboard-student"]);
+              // }
+              // );
             }
           },
           error: (err: HttpErrorResponse) => {

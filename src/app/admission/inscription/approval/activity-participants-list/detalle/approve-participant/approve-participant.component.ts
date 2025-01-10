@@ -32,6 +32,7 @@ export class ApproveParticipantComponent {
   id_participant: number = 0;
   useJson: any;
   localUser: any;
+  activity: any;
 
   constructor(
     public dialogRef: MatDialogRef<ApproveParticipantComponent>,
@@ -39,6 +40,7 @@ export class ApproveParticipantComponent {
     public _ActivityService: ActivityDetailService,
     private fb: UntypedFormBuilder
   ) {
+     this.activity = localStorage.getItem('id_activida') || '';
     // Set the defaults
     this.localUser = localStorage.getItem('currentUser') || null;
 
@@ -59,7 +61,7 @@ export class ApproveParticipantComponent {
 
     });
 
-    _ActivityService.GetParticipanteCedula(data.participant.cedula).subscribe({
+    _ActivityService.GetParticipanteCedula(data.participant.cedula,this.activity).subscribe({
       next: (res: ApiResponse) => {
         console.log(res);
         if (res.participants.length > 0) {

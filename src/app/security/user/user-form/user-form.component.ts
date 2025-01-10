@@ -77,15 +77,17 @@ public ResponseMessage: ResponseMessageMaestra = {
       
       rol = this.user.roles[0];
     }
+    const newUser = new User();
     return this.fb.group({
       id: [this.user.id],
       userName: [this.user.userName, [Validators.required]],
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName, [Validators.required]],
       email: [this.user.email, [Validators.required]],
-      phoneNumber: [this.user.phoneNumber, [Validators.required]],
+      phoneNumber: [this.user.phoneNumber],
       statusId:[this.user.statusId, [Validators.required]],
-      gender:["M", [Validators.required]],
+      gender:[this.user.gender],
+      Cedula:[this.user.cedula],
       roles:[rol, [Validators.required]],
       isRegistered:[true, [Validators.required]],
     });

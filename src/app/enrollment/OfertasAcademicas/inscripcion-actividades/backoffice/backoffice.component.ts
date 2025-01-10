@@ -91,7 +91,6 @@ export class BackofficeComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
     this._inscriptionService.getShedule().subscribe({
       next: (data) => {
         this.schedule = data;
@@ -111,6 +110,7 @@ export class BackofficeComponent implements OnInit {
         next: (request) => {
           this.participationProfile = request.participationProfile;
           this.getPersonData(this.authService.currentUserValue.cedula);
+          this.getParticipantExist();
           this.loadUniversidades();
           this.loadIntituciones();
           this.loadDependencias();
@@ -125,6 +125,20 @@ export class BackofficeComponent implements OnInit {
   }
   regresar() {
     this._nav.navigate([localStorage.getItem('ruta_local')]);
+  }
+  getParticipantExist(){
+    this._ActivityDetailService.GetDetailsCedulaDetalleInfoStudenst(this.authService.currentUserValue.cedula,this.idActivity).subscribe({
+      next: (res) => {
+        if(res.statusCode == 200){
+          Swal.fire({
+            title: "Escuela Judicial",
+            text: 'Ya esta Inscrito en la actividad.',
+            icon: "warning"
+          });
+          this._nav.navigate(["/enrollment/ofertasacademicas/inscripcion-actividades"]);
+        }
+      }
+    });
   }
 
   getPersonData(cedula: string) {
@@ -148,16 +162,16 @@ export class BackofficeComponent implements OnInit {
               this._inscriptionService.getDataPerson(cedula).subscribe(
                 {
                   next: (request: any) => {
-                    if (request[0].datasetPersona.personaPublica == null) {
-                      Swal.fire({
-                        title: "Escuela Judicial",
-                        text: 'Su cédula no está registrada en el Tribunal Electoral',
-                        icon: "warning"
-                      }).then((result) => {
-                          this._nav.navigate(["dashboard/dashboard-student"]);
-                        }
-                      );
-                    }
+                      // if (request[0].datasetPersona.personaPublica == null) {
+                      //   Swal.fire({
+                      //     title: "Escuela Judicial",
+                      //     text: 'Su cédula no está registrada en el Tribunal Electoral',
+                      //     icon: "warning"
+                      //   }).then((result) => {
+                      //       this._nav.navigate(["dashboard/dashboard-student"]);
+                      //     }
+                      //   );
+                      // }
                   },
                   error: (err: HttpErrorResponse) => {
                     console.log(err);
@@ -215,16 +229,16 @@ export class BackofficeComponent implements OnInit {
         this._inscriptionService.getDataPerson(cedula).subscribe(
           {
             next: (request: any) => {
-              if (request[0].datasetPersona.personaPublica == null) {
-                Swal.fire({
-                  title: "Escuela Judicial",
-                  text: 'Su cédula no está registrada en el Tribunal Electoral',
-                  icon: "warning"
-                }).then((result) => {
-                    this._nav.navigate(["dashboard/dashboard-student"]);
-                  }
-                );
-              }
+              // if (request[0].datasetPersona.personaPublica == null) {
+              //   Swal.fire({
+              //     title: "Escuela Judicial",
+              //     text: 'Su cédula no está registrada en el Tribunal Electoral',
+              //     icon: "warning"
+              //   }).then((result) => {
+              //       this._nav.navigate(["dashboard/dashboard-student"]);
+              //     }
+              //   );
+              // }
             },
             error: (err: HttpErrorResponse) => {
               console.log(err);
