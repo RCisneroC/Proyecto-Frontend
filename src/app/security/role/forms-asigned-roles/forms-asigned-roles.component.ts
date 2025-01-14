@@ -102,6 +102,7 @@ export class FormsAsignedRolesComponent {
       RoleId: [this.data.role.id],
       MenuId: [0, [Validators.required]],
       SubMenuIds: this.fb.array([]),
+      SubMenuIdsNoCheck: this.fb.array([]),
     });
   }
   buscarMenu() {
@@ -150,14 +151,27 @@ export class FormsAsignedRolesComponent {
   get checkboxesFormArray(): UntypedFormArray {
     return this.roleForm.get('SubMenuIds') as UntypedFormArray;
   }
+  
+  get checkboxesFormArrayNoCheck(): UntypedFormArray {
+    return this.roleForm.get('SubMenuIdsNoCheck') as UntypedFormArray;
+  }
 
   checkboxChange(event: any, checkboxId: any): void {
     if (event.checked) {
       this.checkboxesFormArray.push(this.fb.control(checkboxId));
+      const index2 = this.ListadoSubMenu.filteredData.findIndex(x => x.id === checkboxId);
+
+     
+      this.checkboxesFormArrayNoCheck.removeAt(index2);
     } else {
-      const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
+      //const index = this.checkboxesFormArray.controls.findIndex(x => x.value === checkboxId);
+      
+      const index = this.ListadoSubMenu.filteredData.findIndex(x => x.id === checkboxId);
+
       if (index !== -1) {
         this.checkboxesFormArray.removeAt(index);
+        this.checkboxesFormArrayNoCheck.push(this.fb.control(checkboxId));
+        
       }
     }
   }
