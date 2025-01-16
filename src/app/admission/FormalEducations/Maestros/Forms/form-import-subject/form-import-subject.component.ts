@@ -172,7 +172,7 @@ export class FormImportSubjectComponent {
         }
         
         if( typeof element["Acrónimo"] !== 'string' || !element["Acrónimo"]){
-          const newData = { Nombre: element.Nombre, Error: 'La columna "Acrónimo" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
+          const newData = { Nombre: element.Nombre, Error: 'La columna "abreviatura" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
           this.dataSource = [...this.dataSource,newData];
          } 
          

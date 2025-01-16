@@ -31,9 +31,9 @@ export class EditAddFormsComponent implements OnInit {
     this.action = data.accion;
     console.log(data);
     if (this.action === 'add') {
-      this.dialogTitle = "Nuevo Plan Anual";
+      this.dialogTitle = "Nueva carrera";
     } else {
-      this.dialogTitle = "Editar Plan Anual";
+      this.dialogTitle = "Editar carrera";
     }
     this.AnnualPlamForm = this.fb.group({
       name: [data.AnnualPlan.name, [Validators.required]],
