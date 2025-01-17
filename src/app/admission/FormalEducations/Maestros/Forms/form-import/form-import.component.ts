@@ -7,11 +7,35 @@ import { DegreeService } from 'app/admission/FormalEducations/Services/degree.se
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
 import Swal from 'sweetalert2';
 
+
 import * as XLSX from 'xlsx';
 export interface DialogData {
    action: string;
   // degree: Degree;
 }
+
+interface TableElement {
+  Nombre: string;
+  descripcion:string;
+  modoEstudio: string;
+  perfilGraduacion: string;
+  perfilAdmision: string;
+  objetivosGenerales: string;
+  duracionAnio: number;
+  numeroCreditos: number;
+}
+
+const fakeData: TableElement[] = [{
+  Nombre: 'Ingeniería Informática',
+  descripcion :'Ingeniería Informática',
+  modoEstudio: 'Presencial',
+  perfilGraduacion: 'Especialista en Desarrollo de Software',
+  perfilAdmision: 'Conocimientos Básicos de Programación',
+  objetivosGenerales: 'Desarrollar habilidades en el área de tecnología de la información',
+  duracionAnio: 5,
+  numeroCreditos: 180
+}];
+
 @Component({
   selector: 'app-form-import',
   templateUrl: './form-import.component.html',
@@ -100,18 +124,85 @@ export class FormImportComponent {
     });
   }
   
-  FormatoExcel(){
-    
-      // // key name with space add in brackets
-      // const exportData: Partial<TableElement>[] =
-      //   this.dataSource.filteredData.map((x) => ({
-      //     'First Name': x.name,
-         
-      //   }));
+
+
+
   
-      // TableExportUtil.exportToExcel(exportData, 'excel');
-   
+
+  
+   FormatoExcel() {
+    const exportData: Partial<TableElement>[] = 
+    fakeData.map((x) => ({
+      'Nombre': x.Nombre,
+      'Descripción': x.descripcion,
+      'Modo de estudio': x.modoEstudio,
+      'Perfil de graduación': x.perfilGraduacion == null ? "" : x.perfilGraduacion,
+      'Perfil de admisión': x.perfilAdmision == null ? "" : x.perfilAdmision,
+      'Objetivos generales': x.objetivosGenerales == null ? "" : x.objetivosGenerales,
+      'Duración en años': x.duracionAnio == null ? "" : x.duracionAnio,
+      'Número de créditos': x.numeroCreditos == null ? "" : x.numeroCreditos,
+    }));
+  
+    const ws = XLSX.utils.json_to_sheet(exportData);
+  
+    // Obtener cabeceras
+    const headers = Object.keys(exportData[0]) as (keyof TableElement)[];
+  
+    // Calcular el ancho de las columnas incluyendo las cabeceras
+    const colWidths = headers.map((header) => (
+      Math.max(
+        header.length,
+        ...exportData.map(row => row[header]?.toString().length ?? 0)
+      )
+    ));
+  
+    ws['!cols'] = colWidths.map(width => ({ width: width + 2 }));
+  
+    // Aplicar estilos a las cabeceras
+    headers.forEach((header, i) => {
+      const address = XLSX.utils.encode_col(i) + '1'; // Primera fila para cada columna
+      if (ws[address]) {
+        ws[address].s = {
+          fill: {
+            patternType: 'solid',
+            fgColor: { rgb: 'CCFFCC' } // Color de fondo verde claro
+          },
+          font: {
+            bold: true,
+            color: { rgb: '000000' }, // Color de fuente negro
+            sz: 12,
+            name: 'Arial'
+          },
+          alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+          }
+        };
+      }
+    });
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `Carreras.xlsx`);
   }
+  
+
+  
+  
+  
+
+
+
+  
+  
+ 
+  
+  
+  
+
+
+  
+  
   readExcel(file: any) {
        const reader = new FileReader();
        
@@ -164,7 +255,7 @@ export class FormImportComponent {
         
         
 
-        const hasIntersection = this._degreeList.find(degree => degree.name === element.Nombre)
+        const hasIntersection = this._degreeList?.find(degree => degree.name === element.Nombre)
         if(hasIntersection){
         
           const newData = { Nombre: element.Nombre, Error: 'Ya existe', Linea:'linea '+ (index+1) };
@@ -246,5 +337,9 @@ export class FormImportComponent {
   onNoClick() {
     this.dialogRef.close();
   }
+}
+
+function exportExcel() {
+  throw new Error('Function not implemented.');
 }
 

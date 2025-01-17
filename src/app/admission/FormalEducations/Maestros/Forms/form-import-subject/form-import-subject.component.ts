@@ -12,6 +12,32 @@ export interface DialogData {
    action: string;
   // degree: Degree;
 }
+
+interface TableElement {
+  Nombre: string;
+  Abreviatura: string;
+  Codigo: string;
+  NumeroCreditos: number;
+  NumeroHoras: number;
+  NumeroClases: number;
+  synchronousHours:number;
+  asynchronousHours:number;
+  TieneLaboratorio: string;
+  CriteriosEvaluacion: string;
+}
+
+const fakeData: TableElement[] = [{
+  Nombre: 'Subject3',
+  Abreviatura: 'SUB1',
+  Codigo: '9903t246',
+  NumeroCreditos: 21,
+  NumeroHoras: 265,
+  NumeroClases: 1,
+  synchronousHours:10,
+  asynchronousHours:20,
+  TieneLaboratorio: 'SI',
+  CriteriosEvaluacion: 'Criterios de evaluación 1'
+}];
 @Component({
   selector: 'app-form-import-subject',
   templateUrl: './form-import-subject.component.html',
@@ -99,18 +125,69 @@ export class FormImportSubjectComponent {
     });
   }
   
-  FormatoExcel(){
-    
-      // // key name with space add in brackets
-      // const exportData: Partial<TableElement>[] =
-      //   this.dataSource.filteredData.map((x) => ({
-      //     'First Name': x.name,
-         
-      //   }));
+
+ FormatoExcel() {
+  const exportData: Partial<TableElement>[] = 
+  fakeData.map((x) => ({
+    'Nombre': x.Nombre,
+    'Abreviatura': x.Abreviatura,
+    'Código': x.Codigo,
+    'Número de créditos': x.NumeroCreditos,
+    'Número de horas': x.NumeroHoras,
+    'Número de clases': x.NumeroClases,
+    'Horas asyncronas':x.asynchronousHours,
+    'Horas syncronas':x.synchronousHours,
+    '¿Tiene laboratorio?': x.TieneLaboratorio,
+    'Criterios de evaluación': x.CriteriosEvaluacion,
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(exportData);
+
+  // Obtener cabeceras
+  const headers = Object.keys(exportData[0]) as (keyof TableElement)[];
+
+  // Calcular el ancho de las columnas incluyendo las cabeceras
+  const colWidths = headers.map((header) => (
+    Math.max(
+      header.length,
+      ...exportData.map(row => row[header]?.toString().length ?? 0)
+    )
+  ));
+
+  ws['!cols'] = colWidths.map(width => ({ width: width + 2 }));
+
+  // Aplicar estilos a las cabeceras
+  headers.forEach((header, i) => {
+    const address = XLSX.utils.encode_col(i) + '1'; // Primera fila para cada columna
+    if (ws[address]) {
+      ws[address].s = {
+        fill: {
+          patternType: 'solid',
+          fgColor: { rgb: 'CCFFCC' } // Color de fondo verde claro
+        },
+        font: {
+          bold: true,
+          color: { rgb: '000000' }, // Color de fuente negro
+          sz: 12,
+          name: 'Arial'
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'center'
+        }
+      };
+    }
+  });
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, `Asignaturas.xlsx`);
+}
+
+
+
   
-      // TableExportUtil.exportToExcel(exportData, 'excel');
-   
-  }
+  
   readExcel(file: any) {
        const reader = new FileReader();
        
@@ -163,7 +240,7 @@ export class FormImportSubjectComponent {
         
         
 
-        const hasIntersection = this._subjectList.find(subject => subject.name === element.Nombre)
+        const hasIntersection = this._subjectList?.find(subject => subject.name === element.Nombre)
         if(hasIntersection){
         
           const newData = { Nombre: element.Nombre, Error: 'Ya existe', Linea:'linea '+ (index+1) };
@@ -171,8 +248,8 @@ export class FormImportSubjectComponent {
           yes=true;
         }
         
-        if( typeof element["Acrónimo"] !== 'string' || !element["Acrónimo"]){
-          const newData = { Nombre: element.Nombre, Error: 'La columna "abreviatura" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
+        if( typeof element["Abreviatura"] !== 'string' || !element["Abreviatura"]){
+          const newData = { Nombre: element.Nombre, Error: 'La columna "Abreviatura" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
           this.dataSource = [...this.dataSource,newData];
          } 
          
@@ -194,6 +271,15 @@ export class FormImportSubjectComponent {
        
        if( typeof element["Número de clases"] !== 'number' || !Number.isInteger(element["Número de clases"])){
         const newData = { Nombre: element.Nombre, Error: 'El Número de clases  debe ser un número entero', Linea:'linea '+ (index+1) };
+        this.dataSource = [...this.dataSource,newData];
+       }
+       if( typeof element["Horas syncronas"] !== 'number' || !Number.isInteger(element["Horas syncronas"])){
+        const newData = { synchronousHours: element.synchronousHours, Error: 'Las Horas syncronas  debe ser un número entero', Linea:'linea '+ (index+1) };
+        this.dataSource = [...this.dataSource,newData];
+       }
+       
+       if( typeof element["Horas asyncronas"] !== 'number' || !Number.isInteger(element["Horas asyncronas"])){
+        const newData = { asynchronousHours: element.asynchronousHours, Error: 'Las Horas asyncronas  debe ser un número entero', Linea:'linea '+ (index+1) };
         this.dataSource = [...this.dataSource,newData];
        }
        

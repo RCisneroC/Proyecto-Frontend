@@ -12,6 +12,31 @@ export interface DialogData {
    action: string;
    teacher: Teacher;
 }
+
+interface TableElement {
+  Cedula: string;
+  Nombre: string;
+  Apellido: string;
+  LugarNacimiento: string;
+  FechaNacimiento: string;
+  LugarResidencia: string;
+  CorreoElectronico: string;
+  Telefono: string;
+  Sexo: string;
+}
+
+const fakeData: TableElement[] = [{
+  Cedula: '21-324-359',
+  Nombre: 'Prueba Presentacion 4',
+  Apellido: 'prueba 4 excel',
+  LugarNacimiento: 'panama',
+  FechaNacimiento: '10/01/1993',
+  LugarResidencia: 'panama',
+  CorreoElectronico: 'Prueba359@yopmail.com',
+  Telefono: '4248772488',
+  Sexo: 'Masculino'
+}];
+
 @Component({
   selector: 'app-form-import-teacher',
   templateUrl: './form-import-teacher.component.html',
@@ -101,18 +126,66 @@ export class FormImportTeacherComponent {
     });
   }
   
-  FormatoExcel(){
-    
-      // // key name with space add in brackets
-      // const exportData: Partial<TableElement>[] =
-      //   this.dataSource.filteredData.map((x) => ({
-      //     'First Name': x.name,
-         
-      //   }));
+
+ 
+   FormatoExcel() {
+    const exportData: Partial<TableElement>[] = 
+    fakeData.map((x) => ({
+      'Cedula': x.Cedula,
+      'Nombre': x.Nombre,
+      'Apellido': x.Apellido,
+      'Lugar de nacimiento': x.LugarNacimiento,
+      'Fecha de nacimiento': x.FechaNacimiento,
+      'Lugar de residencia': x.LugarResidencia,
+      'Correo electrónico': x.CorreoElectronico,
+      'Teléfono': x.Telefono,
+      'Sexo': x.Sexo,
+    }));
   
-      // TableExportUtil.exportToExcel(exportData, 'excel');
-   
+    const ws = XLSX.utils.json_to_sheet(exportData);
+  
+    // Obtener cabeceras
+    const headers = Object.keys(exportData[0]) as (keyof TableElement)[];
+  
+    // Calcular el ancho de las columnas incluyendo las cabeceras
+    const colWidths = headers.map((header) => (
+      Math.max(
+        header.length,
+        ...exportData.map(row => row[header]?.toString().length ?? 0)
+      )
+    ));
+  
+    ws['!cols'] = colWidths.map(width => ({ width: width + 2 }));
+  
+    // Aplicar estilos a las cabeceras
+    headers.forEach((header, i) => {
+      const address = XLSX.utils.encode_col(i) + '1'; // Primera fila para cada columna
+      if (ws[address]) {
+        ws[address].s = {
+          fill: {
+            patternType: 'solid',
+            fgColor: { rgb: 'CCFFCC' } // Color de fondo verde claro
+          },
+          font: {
+            bold: true,
+            color: { rgb: '000000' }, // Color de fuente negro
+            sz: 12,
+            name: 'Arial'
+          },
+          alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+          }
+        };
+      }
+    });
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `Docentes.xlsx`);
   }
+  
+
   readExcel(file: any) {
        const reader = new FileReader();
        
