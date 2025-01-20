@@ -248,15 +248,15 @@ export class FormImportSubjectComponent {
           yes=true;
         }
         
-        if( typeof element["Abreviatura"] !== 'string' || !element["Abreviatura"]){
-          const newData = { Nombre: element.Nombre, Error: 'La columna "Abreviatura" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
-          this.dataSource = [...this.dataSource,newData];
-         } 
+        // if( typeof element["Abreviatura"] !== 'string' || !element["Abreviatura"]){
+        //   const newData = { Nombre: element.Nombre, Error: 'La columna "Abreviatura" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
+        //   this.dataSource = [...this.dataSource,newData];
+        //  } 
          
-         if( typeof element["Código"] !== 'string' || !element["Código"]){
-          const newData = { Nombre: element.Nombre, Error: 'La columna "Código" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
-          this.dataSource = [...this.dataSource,newData];
-         } 
+        //  if( typeof element["Código"] !== 'string' || !element["Código"]){
+        //   const newData = { Nombre: element.Nombre, Error: 'La columna "Código" está vacía o no es un texto.', Linea:'linea '+ (index+1) };
+        //   this.dataSource = [...this.dataSource,newData];
+        //  } 
         
         
        if( typeof element["Número de créditos"] !== 'number' || !Number.isInteger(element["Número de créditos"])){
