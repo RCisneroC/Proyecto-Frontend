@@ -94,8 +94,8 @@ export class FormsDegreeComponent implements OnInit {
   }
   
   GetCoordinador() {
-    let rol = 'b23d3a5d-571a-45b8-8d8b-22f2a0812cf1';
-    this._user.getUserRoles(rol).subscribe({
+    //let rol = 'b23d3a5d-571a-45b8-8d8b-22f2a0812cf1';
+    this._user.getUserByTutor().subscribe({
       next: (res) => {
         this._ListUser = res;
         console.log(this._ListUser);
