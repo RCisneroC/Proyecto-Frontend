@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {  UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '@core';
 import { User } from '@core/models/user';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
+import { PasswordValidator } from 'app/CallsTeachers/models/PasswordValidator';
 
 import { UserService } from 'app/security/user/service/user.service';
 import { DialogData } from 'app/security/user/user-form/user-form.component';
@@ -27,28 +28,46 @@ implements OnInit {
   dialogTitle?: string;
   userForm!: UntypedFormGroup;
   user!: User;
+  showPasswordCriteria=false;
+  passwordValidations: any = {};
+constructor(
+  public dialogRef: MatDialogRef<ChangePasswordComponent>,
+  @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  public userService: UserService,
+  private authenticationService: AuthService,
+  private fb: UntypedFormBuilder
+) {
+  super();
+  
   
  
-  constructor(
+}
 
-    public dialogRef: MatDialogRef<ChangePasswordComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    public userService: UserService,
-    private authenticationService: AuthService,
-    private fb: UntypedFormBuilder
-  ) {
-    super();
-  }
+
   ngOnInit() {
-       // Set the defaults
-     
-         this.dialogTitle ="Cambiar contraseña";
-         
-         this.user =this.authenticationService.currentUserValue;
-      
-        this.userForm = this.createContactForm();
-       
+    this.dialogTitle = "Cambiar contraseña";
+    this.user = this.authenticationService.currentUserValue;
+    this.userForm = this.createContactForm();
+
+    const newPasswordControl = this.userForm.get('newPassword');
+    newPasswordControl?.valueChanges.subscribe((value: string) => {
+      const validationResult = PasswordValidator.strongPasswordValidator()(newPasswordControl);
+      this.passwordValidations = validationResult ? validationResult['passwordStrength'] : {
+        hasUpperCase: /[A-Z]/.test(value),
+        hasLowerCase: /[a-z]/.test(value),
+        hasNumeric: /[0-9]/.test(value),
+        hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+        isValidLength: value.length >= 8
+      };
+    });
   }
+
+
+
+
+
+
+
 
   formControl = new UntypedFormControl('', [
     Validators.required,
@@ -61,11 +80,19 @@ implements OnInit {
       ? 'Not a valid email'
       : '';
   }
+  
+
+
+
+  hasInvalidCriteria(): boolean {
+    return !this.passwordValidations.hasUpperCase || !this.passwordValidations.hasLowerCase || !this.passwordValidations.hasNumeric || !this.passwordValidations.hasSpecial || !this.passwordValidations.isValidLength;
+  }
+
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id:[this.user.id, [Validators.required]],
       currentPassword:["", [Validators.required]],
-      newPassword: ["", [Validators.required]],
+      newPassword: ['', [Validators.required,PasswordValidator.strongPasswordValidator()]],
       confirmPassword:["", [Validators.required]],
     });
   }
