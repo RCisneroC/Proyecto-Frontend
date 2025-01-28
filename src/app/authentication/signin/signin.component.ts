@@ -8,6 +8,7 @@ import {
 import { AuthService } from '@core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { RequestServicesService } from 'app/intranet-academic-registration/Services/request-services.service';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -37,6 +38,19 @@ export class SigninComponent
       password: ['', Validators.required],
     });
   }
+  
+  encryptPassword(password: string): string {
+    const secretKey = CryptoJS.enc.Utf8.parse('1234567890123456'); // Clave de 16 bytes
+    const iv = CryptoJS.enc.Utf8.parse('1234567890123456'); // IV de 16 bytes
+  
+    const encrypted = CryptoJS.AES.encrypt(password, secretKey, {
+      iv: iv,
+      padding: CryptoJS.pad.Pkcs7,
+      mode: CryptoJS.mode.CBC
+    });
+  
+    return encrypted.toString();
+  }
   get f() {
     return this.authForm.controls;
   }
@@ -48,8 +62,13 @@ export class SigninComponent
       this.error = 'Username and Password not valid !';
       return;
     } else {
+  
+
+
+  const email = this.encryptPassword(this.authForm.get('email')?.value);
+  const password = this.encryptPassword(this.authForm.get('password')?.value);
       this.authService
-        .login(this.f['email'].value, this.f['password'].value)
+        .login(email, password)
         .subscribe({
           next: (res) => {
             if (res) {
@@ -57,7 +76,7 @@ export class SigninComponent
                 const token = this.authService.currentUserValue.token
                 localStorage.setItem('menu', JSON.stringify(res.menus));
                 if (token) {
-                  let type = this._RequestServicesService.getRoleFromToken(token);
+                  const type = this._RequestServicesService.getRoleFromToken(token);
                   console.log(type);
 
                   switch (type) {
