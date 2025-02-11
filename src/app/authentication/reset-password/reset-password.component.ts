@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "@core";
+import { PasswordValidator } from 'app/CallsTeachers/models/PasswordValidator';
 import Swal from "sweetalert2";
 
 @Component({
@@ -15,6 +16,8 @@ export class ResetPasswordComponent implements OnInit {
   returnUrl!: string;
   token: string = "";
   email:string = "";
+  passwordValidations: any = {};
+  showPasswordCriteria=false;
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
@@ -25,11 +28,11 @@ export class ResetPasswordComponent implements OnInit {
     this.authForm = this.formBuilder.group({
       password: [
         '',
-        [Validators.required,Validators.minLength(6)],
+        [Validators.required,PasswordValidator.strongPasswordValidator()],
       ],
       rppassword: [
         '',
-        [Validators.required,Validators.minLength(6)],
+        [Validators.required,Validators.minLength(8)],
       ],
     });
 
@@ -39,9 +42,27 @@ export class ResetPasswordComponent implements OnInit {
     })
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    
+     
+    
+        const newPasswordControl = this.authForm.get('password');
+        newPasswordControl?.valueChanges.subscribe((value: string) => {
+          const validationResult = PasswordValidator.strongPasswordValidator()(newPasswordControl);
+          this.passwordValidations = validationResult ? validationResult['passwordStrength'] : {
+            hasUpperCase: /[A-Z]/.test(value),
+            hasLowerCase: /[a-z]/.test(value),
+            hasNumeric: /[0-9]/.test(value),
+            hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+            isValidLength: value.length >= 8
+          };
+        });
   }
   get f() {
     return this.authForm.controls;
+  }
+  
+  hasInvalidCriteria(): boolean {
+    return !this.passwordValidations.hasUpperCase || !this.passwordValidations.hasLowerCase || !this.passwordValidations.hasNumeric || !this.passwordValidations.hasSpecial || !this.passwordValidations.isValidLength;
   }
   onSubmit() {
     this.submitted = true;
