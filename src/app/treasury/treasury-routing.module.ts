@@ -25,6 +25,7 @@ import { BudgetDetailsComponent } from './Components/budget-details/budget-detai
 import { BudgetTermComponent } from './Components/budget-term/budget-term.component';
 import { BudgetTermMonthComponent } from './Components/budget-term-month/budget-term-month.component';
 import { TemplateListComponent } from './Components/template-list/template-list.component';
+import { ProductListComponent } from './Components/product-list/product-list.component';
 
 const routes: Routes = [
   {
@@ -126,6 +127,10 @@ const routes: Routes = [
   {
     path: "template-list",
     component: TemplateListComponent,
+  },
+  {
+    path: "product-list",
+    component: ProductListComponent,
   },
 
 

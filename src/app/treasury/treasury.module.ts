@@ -52,6 +52,8 @@ import { BudgetDetailsMonthFormsComponent } from './Components/FormsBudget/budge
 import { TemplateListComponent } from './Components/template-list/template-list.component';
 import { TemplateFormComponent } from './Components/template-form/template-form.component';
 import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
+import { ProductListComponent } from './Components/product-list/product-list.component';
+import { ProductFormComponent } from './Components/product-form/product-form.component';
 
 
 @NgModule({
@@ -103,7 +105,9 @@ import { VerificarBS64Pipe } from 'app/pipes/verificar-bs64.pipe';
         BudgetTermMonthFormsComponent,
         BudgetDetailsMonthFormsComponent,
         TemplateListComponent,
-        TemplateFormComponent
+        TemplateFormComponent,
+        ProductListComponent,
+        ProductFormComponent
     ],
     imports: [
         CommonModule,

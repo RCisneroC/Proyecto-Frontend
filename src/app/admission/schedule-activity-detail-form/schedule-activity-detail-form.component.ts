@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ScheduleActivityDetail } from '../models/scheduleActivity';
 import { ScheduleActivitiesService } from '../services/schedule-activities.service';
@@ -32,7 +32,7 @@ export interface DialogData {
   templateUrl: './schedule-activity-detail-form.component.html',
   styleUrls: ['./schedule-activity-detail-form.component.scss']
 })
-export class ScheduleActivityDetailFormComponent {
+export class ScheduleActivityDetailFormComponent implements OnInit {
   public ResponseMessage: ResponseMessageMaestra = {
     CodError: 0,
     Message: ''
@@ -123,10 +123,19 @@ export class ScheduleActivityDetailFormComponent {
     this.loadSourceFunds();
     this.loadLocationActividad();
     
-    
+ 
   }
 
-
+  ngOnInit(): void {
+    this.scheduleForm = this.createContactForm();
+    this.scheduleForm.get('effectiveEndDate')!.valueChanges.subscribe(date => {
+      if (date) {
+        const newDate = this.sumarDiasHabiles(date, 15);
+        this.scheduleForm.get('digitalReportDeliveryDate')!.setValue(newDate);
+        this.scheduleForm.get('physicalReportDeliveryDate')!.setValue(newDate);
+      }
+    });
+  }
   formControl = new UntypedFormControl('', [
     Validators.required,
     // Validators.email,
@@ -169,8 +178,8 @@ export class ScheduleActivityDetailFormComponent {
       plannedEndDate: new FormControl(this.schedule.plannedEndDate, Validators.required),
       effectiveEndDate: new FormControl(this.schedule.effectiveEndDate, Validators.required),
       isExecuted: new FormControl(false),
-      minAttendanceRequired:new FormControl(this.schedule.minAttendanceRequired, Validators.required),
-      minGradeRequired:new FormControl(this.schedule.minGradeRequired, Validators.required),
+      minAttendanceRequired:[this.schedule.minAttendanceRequired, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
+      minGradeRequired:[this.schedule.minGradeRequired, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
       activityReasonId: new FormControl(this.schedule.activityReasonId, Validators.required),
       activityFundsSourceId: new FormControl(this.schedule.activityFundsSourceId, Validators.required),
       hasDataSheet: new FormControl(false),
@@ -186,6 +195,35 @@ export class ScheduleActivityDetailFormComponent {
 
     });
   }
+
+
+// Función para verificar si un día es hábil
+ esDiaHabil(fecha: Date): boolean {
+  const diaSemana = fecha.getDay();
+  // Consideramos días hábiles de lunes (1) a viernes (5)
+  return diaSemana >= 1 && diaSemana <= 5;
+}
+
+// Función para sumar días hábiles a una fecha
+sumarDiasHabiles(fecha: Date, diasHabiles: number): Date {
+  let contadorDias = 0;
+  const fechaResultado = new Date(fecha);
+
+  while (contadorDias < diasHabiles) {
+      fechaResultado.setDate(fechaResultado.getDate() + 1);
+      if (this.esDiaHabil(fechaResultado)) {
+          contadorDias++;
+      }
+  }
+
+  return fechaResultado;
+}
+
+// Ejemplo de uso
+// const fechaInicial = new Date('2025-02-19');
+// const fechaFinal = sumarDiasHabiles(fechaInicial, 15);
+
+
 
   submit() {
     // emppty stuff

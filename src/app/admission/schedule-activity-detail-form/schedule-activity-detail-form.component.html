@@ -242,8 +242,8 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha entrega de informe digital</mat-label>
-            <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate">
-            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <input matInput [matDatepicker]="picker5" formControlName="digitalReportDeliveryDate" [disabled]="true">
+            <mat-datepicker-toggle matSuffix [for]="picker5" disabled></mat-datepicker-toggle>
             <mat-datepicker #picker5></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('digitalReportDeliveryDate')?.hasError('required')">
               Selecciones una fecha
@@ -254,8 +254,8 @@
 
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha entrega de informe físico</mat-label>
-            <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate">
-            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <input matInput [matDatepicker]="picker6" formControlName="physicalReportDeliveryDate" [disabled]="true">
+            <mat-datepicker-toggle matSuffix [for]="picker6" disabled></mat-datepicker-toggle>
             <mat-datepicker #picker6></mat-datepicker>
             <mat-error *ngIf="scheduleForm.get('physicalReportDeliveryDate')?.hasError('required')">
               Selecciones una fecha
@@ -269,14 +269,14 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Mínimo de calificación</mat-label>
-            <input matInput type="number" formControlName="minGradeRequired">
+            <input matInput  formControlName="minGradeRequired" min="0">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Mínimo de asistencia</mat-label>
-            <input matInput type="number" formControlName="minAttendanceRequired">
+            <input matInput type="text" formControlName="minAttendanceRequired" inputmode="numeric" pattern="[0-9]*" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
           </mat-form-field>
         </div>
