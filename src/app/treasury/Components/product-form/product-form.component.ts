@@ -71,6 +71,16 @@ export class ProductFormComponent implements OnInit {
     this.dialogRef.close();
   }
   
+   filterInput(event: KeyboardEvent): void {
+    const inputChar = String.fromCharCode(event.charCode);
+    
+    // Permitir solo dígitos (0-9)
+    if (!/[\d]/.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+  
+  
   public confirmAdd(): void {
     if (this.action != 'edit') {
       this.productService.SaveProduct(this.productForm.getRawValue())

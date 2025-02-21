@@ -125,7 +125,18 @@ export class ScheduleActivityDetailFormComponent implements OnInit {
     
  
   }
-
+   filterInput(event: KeyboardEvent): void {
+    const inputChar = String.fromCharCode(event.charCode);
+    const inputElement = event.target as HTMLInputElement;
+    const currentValue = inputElement.value;
+    
+    // Permitir solo dígitos y un solo punto decimal
+    if (!/[\d]/.test(inputChar) && (inputChar !== '.' || currentValue.includes('.'))) {
+      event.preventDefault();
+    }
+  }
+  
+  
   ngOnInit(): void {
     this.scheduleForm = this.createContactForm();
     this.scheduleForm.get('effectiveEndDate')!.valueChanges.subscribe(date => {

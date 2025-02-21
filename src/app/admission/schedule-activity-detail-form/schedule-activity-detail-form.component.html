@@ -269,14 +269,14 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Mínimo de calificación</mat-label>
-            <input matInput  formControlName="minGradeRequired" min="0">
+            <input matInput  formControlName="minGradeRequired"  type="text" (keypress)="filterInput($event)">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Mínimo de asistencia</mat-label>
-            <input matInput type="text" formControlName="minAttendanceRequired" inputmode="numeric" pattern="[0-9]*" >
+            <input matInput formControlName="minAttendanceRequired"  type="text" (keypress)="filterInput($event)" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
           </mat-form-field>
         </div>

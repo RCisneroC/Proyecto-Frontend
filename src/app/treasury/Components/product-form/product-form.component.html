@@ -45,7 +45,7 @@
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-4">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Cantidad</mat-label>
-                  <input matInput formControlName="Cantidad" type="number">
+                  <input matInput formControlName="Cantidad"  type="text" (keypress)="filterInput($event)">
                   <mat-error *ngIf="productForm.get('Cantidad')?.hasError('required')">
                     La cantidad es requerida
                   </mat-error>
