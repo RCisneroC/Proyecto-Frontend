@@ -37,7 +37,7 @@
                             <input (ngModelChange)="verificarCedula($event)"  matInput formControlName="cedula">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('cedula')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                             <mat-error *ngIf="teacherForm.get('cedula')?.hasError('cedulaExists')">
                               Cédula/Pasaporte ya existe
@@ -52,7 +52,7 @@
                             <input matInput formControlName="name">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('name')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -62,7 +62,7 @@
                             <input matInput formControlName="lastName">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('lastName')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -75,7 +75,7 @@
                             <input matInput formControlName="placeOfBirth">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('placeOfBirth')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -87,7 +87,7 @@
                             <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
                             <mat-datepicker #fechaNacimiento></mat-datepicker>
                             <mat-error *ngIf="teacherForm.get('fechaNacimiento')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -98,7 +98,7 @@
                             <input matInput formControlName="placeResidence">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('placeResidence')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -111,7 +111,7 @@
                             <input matInput formControlName="email">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('email')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -122,7 +122,7 @@
                             <input matInput formControlName="phoneNumber">
                             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                             <mat-error *ngIf="teacherForm.get('phoneNumber')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>
@@ -136,7 +136,7 @@
                               <mat-option value="Femenino">Femenino</mat-option>
                             </mat-select>
                             <mat-error *ngIf="teacherForm.get('gender')?.hasError('required')">
-                              Es Requitos
+                              Es Requisito
                             </mat-error>
                           </mat-form-field>
                         </div>

@@ -37,7 +37,7 @@
                     <mat-label>Nombre</mat-label>
                     <input matInput formControlName="name" [readonly]="true">
                     <mat-error *ngIf="studentForm.get('name')?.hasError('required')">
-                      Es Requitos
+                      Es Requisito
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -46,7 +46,7 @@
                     <mat-label>Apellido</mat-label>
                     <input matInput formControlName="lastName" [readonly]="true">
                     <mat-error *ngIf="studentForm.get('lastName')?.hasError('required')">
-                      Es Requitos
+                      Es Requisito
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -55,7 +55,7 @@
                     <mat-label>Correo electrónico</mat-label>
                     <input matInput formControlName="email" [readonly]="true">
                     <mat-error *ngIf="studentForm.get('email')?.hasError('required')">
-                      Es Requitos
+                      Es Requisito
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -82,7 +82,7 @@
                       <input matInput formControlName="placeOfBirth">
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('placeOfBirth')?.hasError('required')">
-                        Es Requitos
+                        Es Requisito
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -94,7 +94,7 @@
                       <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
                       <mat-datepicker #fechaNacimiento></mat-datepicker>
                       <mat-error *ngIf="studentForm.get('dateOfBirth')?.hasError('required')">
-                        Es Requitos
+                        Es Requisito
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -105,7 +105,7 @@
                       <input [readonly]="participante && !aspirante" matInput formControlName="placeResidence">
                       <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>edit</mat-icon>
                       <mat-error *ngIf="studentForm.get('placeResidence')?.hasError('required')">
-                        Es Requitos
+                        Es Requisito
                       </mat-error>
                     </mat-form-field>
                   </div>

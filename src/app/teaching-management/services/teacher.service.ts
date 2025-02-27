@@ -7,9 +7,8 @@ import { environment } from 'environments/environment.development';
 import { UntypedFormGroup } from '@angular/forms';
 import { RequiredDocument } from '../models/RequiredDocument';
 import { User } from '@core';
-import { ApiResponseInternalData } from 'app/intranet-academic-registration/Models/ResponseListTaskSubject';
-import { RespuestaServicio } from '../add-calif/add-calif.component';
-import { AcademicRecord, Asist, StudenAsistence } from '../models/Asistencias';
+
+import { AcademicRecord, Asist,  } from '../models/Asistencias';
 import { ResponseGenerica } from 'app/admission/models/ResponseMessage';
 
 @Injectable({
