@@ -30,9 +30,7 @@ export class TutorECAttendenceFormComponent implements OnInit {
   }
   public Asistencia: StudenAsistence[] = [];
   displayedColumns: string[] = [
-    // 'cedula',
-    // 'name',
-    // 'lastname',
+
     'fecha',
     'asistio',
   ]
