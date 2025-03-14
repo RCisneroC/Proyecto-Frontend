@@ -10,13 +10,11 @@ import { Router } from '@angular/router';
 import { ConfigService } from '@config';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { InConfiguration, AuthService, LanguageService } from '@core';
-import { Direction } from '@angular/cdk/bidi';
+
 import { MatDialog } from '@angular/material/dialog';
-import { ChangePasswordComponent } from '../../authentication/change-password/change-password.component';
+
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { environment } from 'environments/environment.development';
-import { ResponseMessageMaestra } from 'app/admission/models/ResponseMessage';
-import Swal from 'sweetalert2';
+
 
 interface Notifications {
   message: string;
@@ -61,7 +59,6 @@ export class HeaderComponent
     private renderer: Renderer2,
     public elementRef: ElementRef,
     private configService: ConfigService,
-    private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -135,10 +132,7 @@ export class HeaderComponent
   ngOnInit() {
     this.config = this.configService.configData;
     
-    this.baseUrl=environment.baseUrlTeacher+"/#/teacher/teacher-admission-external";
-    this.baseUrlConvocatoria=environment.baseUrlTeacher+"/#/calls/teacher-apply-calls";
-    this.username = this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName;
-    this.userImg = "https://ui-avatars.com/api/?name="+this.authService.currentUserValue.firstName+"+"+this.authService.currentUserValue.lastName+"&background=0D8ABC&color=fff&size=128";
+  
     this.docElement = document.documentElement;
 
     this.homePage = 'dashboard/dashboard1';
@@ -204,47 +198,9 @@ export class HeaderComponent
       localStorage.setItem('collapsed_menu', 'true');
     }
   }
-  logout() {
-    this.subs.sink = this.authService.logout().subscribe((res) => {
-      if (!res.success) {
-        this.router.navigate(['/authentication/signin']);
-      }
-    });
-  }
 
-changePassword() {
-  let tempDirection: Direction;
-  if (localStorage.getItem('isRtl') === 'true') {
-    tempDirection = 'rtl';
-  } else {
-    tempDirection = 'ltr';
-  }
-  const dialogRef = this.dialog.open(ChangePasswordComponent, {
-    data: {
-      formPassword: this.formPassword,
-      action: 'change',
-    },
-    direction: tempDirection,
-  });
-  this.subs.sink = dialogRef.afterClosed().subscribe((result:ResponseMessageMaestra) => {
-    if (result == undefined) {
-      return;
-    }
-    if (result.CodError == 200) {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "success"
-      }); 
-    } else {
-      Swal.fire({
-        title: "Escuela Judicial",
-        text: result.Message,
-        icon: "warning"
-      });
-    }
-  });
-}
+
+
 
 showNotification(
   colorName: string,

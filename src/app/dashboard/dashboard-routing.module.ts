@@ -1,9 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { Page404Component } from "../authentication/page404/page404.component";
 import { Dashboard1Component } from "./dashboard1/dashboard1.component";
-import {DashboardEstudianteComponent} from "./dashboard-estudiante/dashboard-estudiante.component";
-import {DashboardTutorComponent} from "./dashboard-tutor/dashboard-tutor.component";
 
 const routes: Routes = [
   {
@@ -15,15 +12,7 @@ const routes: Routes = [
     path: "dashboard1",
     component: Dashboard1Component,
   },
-  {
-    path: "dashboard-student",
-    component: DashboardEstudianteComponent,
-  },
-  {
-    path: "dashboard-tutor",
-    component: DashboardTutorComponent,
-  },
-  { path: "**", component: Page404Component },
+
 ];
 
 @NgModule({

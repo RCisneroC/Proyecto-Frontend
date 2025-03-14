@@ -15,11 +15,11 @@ export class AuthGuard {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let activo = localStorage.getItem('currentUser');
+    const activo = localStorage.getItem('currentUser');
     if (activo != null) {
       return true;
     } else {
-      this.router.navigate(['/authentication/signin']);
+     
       return false;
     }
   }

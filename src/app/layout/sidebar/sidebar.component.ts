@@ -12,14 +12,17 @@ import {
 } from '@angular/core';
 // import { ROUTES } from './sidebar-items';
 import { AuthService } from '@core';
-import { MenuResponse } from 'app/security/models/role';
+
+import { RouteInfo } from './sidebar.metadata';
+import { ROUTES } from './sidebar-items';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  public sidebarItems!: MenuResponse[];
+  sidebarItems: RouteInfo[]= [] ;
+
   public innerHeight?: number;
   public bodyTag!: HTMLElement;
   listMaxHeight?: string;
@@ -70,27 +73,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    console.log(this.authService.currentUserValue);
 
-    if (this.authService.currentUserValue) {
-      this.userType = this.getRoleFromToken(this.authService.currentUserValue.token);
-      this.userFullName =
-        this.authService.currentUserValue.firstName +
-        ' ' +
-        this.authService.currentUserValue.lastName;
-      this.userImg = this.authService.currentUserValue.img;
-      // this.userType = 'Admin';
-      let menuLocal = localStorage.getItem('menu');
-      if (menuLocal != null) {
-        this.sidebarItems = JSON.parse(menuLocal);
-        console.log(this.sidebarItems);
-
-      } else {
-        this.logout();
-      }
-    }
-
-    // this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
+     this.sidebarItems = ROUTES;
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
   }
@@ -162,13 +146,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.renderer.removeClass(this.document.body, 'side-closed-hover');
     }
   }
-  logout() {
-    this.authService.logout().subscribe((res) => {
-      if (!res.success) {
-        this.router.navigate(['/authentication/signin']);
-      }
-    });
-  }
+
 
   public decodeToken(token: string): any {
     const payload = token.split('.')[1];

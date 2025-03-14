@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "spire": {
+    "AppTaskManager": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,13 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/spire",
+            "outputPath": "dist/AppTaskManager",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+            "baseHref": "/AppTaskManager/",
             "allowedCommonJsDependencies": [
               "svg-gauge",
               "echarts",
@@ -100,10 +101,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "spire:build:production"
+              "browserTarget": "AppTaskManager:build:production"
             },
             "development": {
-              "browserTarget": "spire:build:development"         
+              "browserTarget": "AppTaskManager:build:development"         
             }
           },
           "defaultConfiguration": "development"
@@ -111,7 +112,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "spire:build"
+            "browserTarget": "AppTaskManager:build"
           }
         },
         "test": {

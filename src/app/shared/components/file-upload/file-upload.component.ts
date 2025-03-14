@@ -32,7 +32,7 @@ export class FileUploadComponent implements ControlValueAccessor {
         };
         const allowedFormats = Object.values(fileTypes).join(', ');
         Swal.fire({
-          title: "Escuela Judicial",
+          title: "Gestion de tareas",
           text: `Tipo de archivo no permitido. Los formatos permitidos son: ${allowedFormats}`,
           icon: "warning"
         });

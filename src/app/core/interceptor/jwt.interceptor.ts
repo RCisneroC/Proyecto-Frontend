@@ -7,7 +7,6 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AuthService } from "../service/auth.service";
-import { environment } from "environments/environment.development";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -18,18 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // add authorization header with jwt token if available
-    const currentUser = this.authenticationService.currentUserValue;
-    if (currentUser && currentUser.token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${currentUser.token}`,
-          'ECM-Api-Key': environment.Key
-        },
-      });
-      console.log('====================================');
-      console.log(request);
-      console.log('====================================');
-    }
+    //const currentUser = this.authenticationService.currentUserValue;
 
     return next.handle(request);
   }

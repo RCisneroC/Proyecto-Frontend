@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         console.log(err);
         console.log('====================================');
         if (err.status === 401) {
-          this.authenticationService.logout();
+         
           location.reload();
         }
         //fix no capturaban errores
