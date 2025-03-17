@@ -16,7 +16,7 @@ Este proyecto es un frontend desarrollado con Angular para gestionar una lista d
     
     git clone https://github.com/RCisneroC/Proyecto-Frontend.git
   
-
+     tomar en cuenta que la rama task-manger-branch tiene todas las actualizaciones
 2.  Navega al directorio del proyecto:
 
   
