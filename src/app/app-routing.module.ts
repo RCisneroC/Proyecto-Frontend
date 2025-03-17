@@ -11,12 +11,6 @@ const routes: Routes = [
     canActivate: [],
     children: [
       { path: '', redirectTo: '/task-manager/task-list', pathMatch: 'full' },
-      {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-      },
-  
 
       {
         path: 'task-manager',
@@ -32,7 +26,7 @@ const routes: Routes = [
 
 
 
-  { path: '**', redirectTo: '/treasury/product-list' },
+  { path: '**', redirectTo: '/task-manager/task-list' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {})],

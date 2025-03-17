@@ -18,12 +18,13 @@
                     <div class="filter-container">
                         <mat-form-field appearance="outline">
                           <mat-label>Filtrar tareas</mat-label>
-                          <mat-select [(value)]="filterValue" (selectionChange)="applyFilter()">
+                          <mat-select  [(ngModel)]="filterValue" (change)="applyFilter()">
                             <mat-option value="all">Todas</mat-option>
                             <mat-option value="completed">Completadas</mat-option>
                             <mat-option value="pending">Pendientes</mat-option>
                           </mat-select>
                         </mat-form-field>
+                        
                       </div>
                     <div class="materialTableHeader">
                       <div class="left">
@@ -88,6 +89,7 @@
                                   </div>
                                 </mat-cell>
                               </ng-container>
+                            
   
                           <!-- actions -->
                           <ng-container matColumnDef="actions">
@@ -162,7 +164,7 @@
                       </mat-menu>
                       <!-- context menu end -->
                       <div *ngIf="!taskDatabase?.isTblLoading" class="no-results text-center my-4"
-                      [style.display]="dataSource.renderedData.length === 0 ? '' : 'none'"
+                      [style.display]="dataSource.filteredData.length === 0 ? '' : 'none'"
                       style="color: rgba(0, 0, 0, 0.301); font-size: 1.2em;">
                       <mat-icon class="no-results-icon">info</mat-icon>
                       <p>No hay datos disponibles</p>

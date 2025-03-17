@@ -1,7 +1,7 @@
 import { Direction } from '@angular/cdk/bidi';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatPaginator } from '@angular/material/paginator';
@@ -12,7 +12,7 @@ import { TaskManager } from 'app/task-manager/Models/taskModel';
 import { TaskManagerService } from 'app/task-manager/Services/task-manager.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import Swal from 'sweetalert2';
-import { BehaviorSubject, fromEvent, map, merge, Observable } from 'rxjs';
+import { BehaviorSubject, map, merge, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -31,18 +31,19 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   ];
 
   taskDatabase?: TaskManagerService;
-  dataSource!: TaskDataSource;
+  dataSource = new MatTableDataSource<any>();
   selection = new SelectionModel<TaskManager>(true, []);
   id?: number;
   task?: TaskManager;
   filteredTasks: TaskManager[] = [];
-  filterValue: 'all' | 'completed' | 'pending' = 'all';
+  filterValue: string = "all"; // Filtro inicial
   tasks: TaskManager[] = [];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public taskManagerService: TaskManagerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef
   ) {
     super();
   }
@@ -52,32 +53,47 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   @ViewChild(MatMenuTrigger)
   contextMenu?: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
-  ngOnInit() {
-    this.loadTasks();
-  }
+
   refresh() {
-    this.loadTasks();
+  this.loadTasks();
+   // this.getFilteredTasks('all');
+   this.cdRef.detectChanges();
   }
 
+
+  ngOnInit(): void {
+    this.loadTasks();
+  }
 
   loadTasks(): void {
-    this.loadData();
-    this.taskManagerService.getTasks().subscribe(data => {
-      this.tasks = data;
-      this.applyFilter();
+    this.taskManagerService.getTasks().subscribe({
+      next: (data) => {
+        this.dataSource.data = data["data"]; // Asigna los datos al dataSource
+        this.applyFilter();
+      },
+      error: (err) => {
+        console.error('Error al cargar las tareas:', err); // Manejo de errores
+      },
     });
   }
-
+  
+  
+ 
   applyFilter(): void {
-    if (this.filterValue === 'all') {
-      this.filteredTasks = this.tasks;
-    } else if (this.filterValue === 'completed') {
-      this.filteredTasks = this.tasks.filter(task => task.completed);
-    } else if (this.filterValue === 'pending') {
-      this.filteredTasks = this.tasks.filter(task => !task.completed);
-    }
-    this.taskDatabase?.dataChange.next(this.filteredTasks);
-   
+    const originalData = this.dataSource.data; // Mantén los datos originales para filtrar
+
+  const filteredData = originalData.filter((task: any) => {
+      if (this.filterValue === 'all') {
+        return true; // Sin filtrar, retorna todas las tareas
+      } else if (this.filterValue === 'completed') {
+        return task.completed === true; // Solo tareas completadas
+      } else if (this.filterValue === 'pending') {
+        return task.completed === false; // Solo tareas pendientes
+      }
+      return true; // Caso por defecto
+    });
+
+    this.dataSource.data = filteredData; // Asignar los datos filtrados
   }
   
   
@@ -111,7 +127,8 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
           text: "Guardado exitosamente",
           icon: "success"
         });
-        this.loadData();
+       // this.loadData();
+           this.loadTasks();
       } else {
         Swal.fire({
           title: "Gestión de tareas",
@@ -152,7 +169,8 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
           text: "Guardado exitosamente",
           icon: "success"
         });
-        this.loadData();
+        this.loadTasks();
+       // this.loadData();
       } else {
         Swal.fire({
           title: "Gestión de tareas",
@@ -193,7 +211,8 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
       text: `${row.title} fue eliminado.`,
       icon: 'success'
     });
-    this.loadData();
+   // this.loadData();
+   this.loadTasks();
   }
   
    mostrarMensajeError(row: TaskManager) {
@@ -214,22 +233,22 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   /** Selects all rows if they are not all selected; otherwise clear selection. */
 
 
-  public loadData() {
-    this.taskDatabase = new TaskManagerService(this.httpClient);
-    this.dataSource = new TaskDataSource(
-      this.taskDatabase,
-      this.paginator,
-      this.sort
-    );
-    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
-      () => {
-        if (!this.dataSource) {
-          return;
-        }
-        this.dataSource.filter = this.filter.nativeElement.value;
-      }
-    );
-  }
+  // public loadData() {
+  //   this.taskDatabase = new TaskManagerService(this.httpClient);
+  //   this.dataSource = new TaskDataSource(
+  //     this.taskDatabase,
+  //     this.paginator,
+  //     this.sort
+  //   );
+  //   this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
+  //     () => {
+  //       if (!this.dataSource) {
+  //         return;
+  //       }
+  //       this.dataSource.filter = this.filter.nativeElement.value;
+  //     }
+  //   );
+  // }
   showNotification(
     colorName: string,
     text: string,
@@ -260,6 +279,7 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
 }
 export class TaskDataSource extends DataSource<TaskManager> {
   filterChange = new BehaviorSubject('');
+  filterValue: string='all';
   get filter(): string {
     return this.filterChange.value;
   }
@@ -290,12 +310,19 @@ export class TaskDataSource extends DataSource<TaskManager> {
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
-        this.filteredData = this.taskDatabase.data
-          .slice()
-          .filter((taskManager: TaskManager) => {
-            const searchStr = (taskManager.title).toLowerCase();
-            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          });
+     // Aplicar el filtro por booleano (completado o no)
+     this.filteredData = this.taskDatabase.data
+     .slice()
+     .filter((taskManager: TaskManager) => {
+       if (this.filterValue === 'all') {
+         return true; // Sin filtrar, muestra todo
+       } else if (this.filterValue === 'completed') {
+         return taskManager.completed === true; // Filtra completados
+       } else if (this.filterValue === 'pending') {
+         return taskManager.completed === false; // Filtra pendientes
+       }
+       return true; // Por defecto, muestra todos
+     });
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
         // Grab the page's slice of the filtered sorted data.
@@ -323,7 +350,7 @@ export class TaskDataSource extends DataSource<TaskManager> {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'name':
+        case 'title':
           [propertyA, propertyB] = [a.title, b.title];
           break;
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared/UnsubscribeOnDestroyAdapter';
 import { TaskManager } from '../Models/taskModel';
-import { BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 
 @Injectable({
@@ -29,12 +29,12 @@ export class TaskManagerService extends  UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllTask(): void {
     this.subs.sink = this.httpClient
-      //.get<TaskManager[]>(environment.apiUrlTaskManager + 'TaskManager/GetAllTask')
-      .get<TaskManager[]>(environment.apiUrlTaskManager + 'TaskManager')
+
+      .get<any>(environment.apiUrlTaskManager + 'Task/GetTasks')
       .subscribe({
         next: (data) => {
           this.isTblLoading = false;
-          this.dataChange.next(data);
+          this.dataChange.next(data["data"]);
         },
         error: (error: HttpErrorResponse) => {
           this.isTblLoading = false;
@@ -43,35 +43,25 @@ export class TaskManagerService extends  UnsubscribeOnDestroyAdapter {
       });
   }
   
-  getTasks() {
-    return this.httpClient.get<TaskManager[]>(environment.apiUrlTaskManager + 'TaskManager');
-    //return this.httpClient.post(environment.apiUrlTaskManager + 'TaskManager/AddTask', task);
+  getTasks(): Observable<any> {
+    return this.httpClient.get<any>(environment.apiUrlTaskManager + 'Task/GetTasks');
+   
   }
     
       saveTask(task: TaskManager) {
-        return this.httpClient.post(environment.apiUrlTaskManager + 'TaskManager', task);
-        //return this.httpClient.post(environment.apiUrlTaskManager + 'TaskManager/AddTask', task);
+        return this.httpClient.post(environment.apiUrlTaskManager + 'Task/CreateTask', task);
+        
       }
       
     
         updateTask(task: TaskManager) {
-          return this.httpClient.put<TaskManager>(environment.apiUrlTaskManager + `TaskManager/${task.id}`, task);
-         // return this.httpClient.put(environment.apiUrlTaskManager + 'TaskManager/UpdateTask', task);
+        
+          return this.httpClient.put(environment.apiUrlTaskManager + 'Task/UpdateTask', task);
         }
       
         DeleteTask(id: number) {
-          // const data = {
-          //   Id: id
-          // };
-          // const options = {
-          //   headers: new HttpHeaders({
-          //     'Content-Type': 'application/json',
-          //   }),
-          //   body: data,
-          // };
           
-           return this.httpClient.delete(environment.apiUrlTaskManager + `TaskManager/${id}`);
-          //return this.httpClient.delete(environment.apiUrlTaskManager + 'TaskManager/DeleteTask', options);
+          return this.httpClient.delete(environment.apiUrlTaskManager + 'Task/DeleteTask?Id='+id );
         }
   
 }
