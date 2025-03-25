@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
  
   apiUrlTaskManager: 'http://localhost:5175/api/v1/',
 

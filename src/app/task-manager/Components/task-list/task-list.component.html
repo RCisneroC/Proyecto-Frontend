@@ -18,7 +18,7 @@
                     <div class="filter-container">
                         <mat-form-field appearance="outline">
                           <mat-label>Filtrar tareas</mat-label>
-                          <mat-select  [(ngModel)]="filterValue" (change)="applyFilter()">
+                          <mat-select  [(ngModel)]="filterValue" (selectionChange)="refresh()">
                             <mat-option value="all">Todas</mat-option>
                             <mat-option value="completed">Completadas</mat-option>
                             <mat-option value="pending">Pendientes</mat-option>

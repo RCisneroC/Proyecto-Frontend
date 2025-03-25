@@ -55,9 +55,9 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   contextMenuPosition = { x: '0px', y: '0px' };
 
   refresh() {
+  console.log("refresh");
   this.loadTasks();
-   // this.getFilteredTasks('all');
-   this.cdRef.detectChanges();
+
   }
 
 
@@ -233,22 +233,7 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   /** Selects all rows if they are not all selected; otherwise clear selection. */
 
 
-  // public loadData() {
-  //   this.taskDatabase = new TaskManagerService(this.httpClient);
-  //   this.dataSource = new TaskDataSource(
-  //     this.taskDatabase,
-  //     this.paginator,
-  //     this.sort
-  //   );
-  //   this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
-  //     () => {
-  //       if (!this.dataSource) {
-  //         return;
-  //       }
-  //       this.dataSource.filter = this.filter.nativeElement.value;
-  //     }
-  //   );
-  // }
+  
   showNotification(
     colorName: string,
     text: string,
@@ -276,91 +261,5 @@ export class TaskListComponent extends UnsubscribeOnDestroyAdapter
   }
 
 
-}
-export class TaskDataSource extends DataSource<TaskManager> {
-  filterChange = new BehaviorSubject('');
-  filterValue: string='all';
-  get filter(): string {
-    return this.filterChange.value;
-  }
-  set filter(filter: string) {
-    this.filterChange.next(filter);
-  }
-  filteredData: TaskManager[] = [];
-  renderedData: TaskManager[] = [];
-  constructor(
-    public taskDatabase: TaskManagerService,
-    public paginator: MatPaginator,
-    public _sort: MatSort
-  ) {
-    super();
-    // Reset to the first page when the user changes the filter.
-    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
-  }
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<TaskManager[]> {
-    // Listen for any changes in the base data, sorting, filtering, or pagination
-    const displayDataChanges = [
-      this.taskDatabase.dataChange,
-      this._sort.sortChange,
-      this.filterChange,
-      this.paginator.page,
-    ];
-    this.taskDatabase.getAllTask();
-    return merge(...displayDataChanges).pipe(
-      map(() => {
-        // Filter data
-     // Aplicar el filtro por booleano (completado o no)
-     this.filteredData = this.taskDatabase.data
-     .slice()
-     .filter((taskManager: TaskManager) => {
-       if (this.filterValue === 'all') {
-         return true; // Sin filtrar, muestra todo
-       } else if (this.filterValue === 'completed') {
-         return taskManager.completed === true; // Filtra completados
-       } else if (this.filterValue === 'pending') {
-         return taskManager.completed === false; // Filtra pendientes
-       }
-       return true; // Por defecto, muestra todos
-     });
-        // Sort filtered data
-        const sortedData = this.sortData(this.filteredData.slice());
-        // Grab the page's slice of the filtered sorted data.
-        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-        this.renderedData = sortedData.splice(
-          startIndex,
-          this.paginator.pageSize
-        );
-        return this.renderedData;
-      })
-    );
-  }
-  disconnect() {
-    //disconnect
-  }
-  /** Returns a sorted copy of the database data. */
-  sortData(data: TaskManager[]): TaskManager[] {
-    if (!this._sort.active || this._sort.direction === '') {
-      return data;
-    }
-    return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
-      switch (this._sort.active) {
-        case 'id':
-          [propertyA, propertyB] = [a.id, b.id];
-          break;
-        case 'title':
-          [propertyA, propertyB] = [a.title, b.title];
-          break;
-
-      }
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-      return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
-      );
-    });
-  }
 }
 

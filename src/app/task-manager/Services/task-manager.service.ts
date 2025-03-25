@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UnsubscribeOnDestroyAdapter } from '@shared/UnsubscribeOnDestroyAdapter';
 import { TaskManager } from '../Models/taskModel';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
 
 @Injectable({
@@ -26,23 +26,7 @@ export class TaskManagerService extends  UnsubscribeOnDestroyAdapter {
   getDialogData() {
     return this.dialogData;
   }
-  /** CRUD METHODS */
-  getAllTask(): void {
-    this.subs.sink = this.httpClient
-
-      .get<any>(environment.apiUrlTaskManager + 'Task/GetTasks')
-      .subscribe({
-        next: (data) => {
-          this.isTblLoading = false;
-          this.dataChange.next(data["data"]);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
-  }
-  
+ 
   getTasks(): Observable<any> {
     return this.httpClient.get<any>(environment.apiUrlTaskManager + 'Task/GetTasks');
    
